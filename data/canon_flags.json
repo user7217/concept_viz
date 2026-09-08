@@ -1,0 +1,325 @@
+{
+  "_note": "Unresolved issues raised during edge authoring: vocabulary gaps, merge candidates, and nodes whose scope is mis-specified. Input to the next curation pass; not yet acted on.",
+  "flags": [
+    {
+      "cluster": "calculus_and_optimization",
+      "node": "composite_function",
+      "issue": "effectively a floor node: the vocabulary has no plain `function`/`mapping` concept, so its only available prerequisite is the floor node function_of_several_variables. Consider promoting composite_function to FLOOR or adding a `function` node."
+    },
+    {
+      "cluster": "calculus_and_optimization",
+      "node": "residual",
+      "issue": "missing a generic `model_prediction` / `measurement` concept. Residual = measurement minus prediction holds for nonlinear models too, but linear_model is the only prediction-rule node in the vocabulary, so the edge is narrower than the concept."
+    },
+    {
+      "cluster": "calculus_and_optimization",
+      "node": "taylor_expansion",
+      "issue": "conflates the univariate expansion (derivative + summation) with the multivariate one (gradient, Hessian) that linearization, Newton steps and Levenberg-Marquardt actually consume. Consider splitting, or accept the gradient edge as the multivariate hook."
+    },
+    {
+      "cluster": "calculus_and_optimization",
+      "node": "step_size",
+      "issue": "no `line_search` or `sufficient_decrease` node exists, so the derivation of how a step size is actually chosen bottoms out at the 1-D directional derivative. Left as-is rather than importing convergence-rate material, per the ceiling."
+    },
+    {
+      "cluster": "calculus_and_optimization",
+      "node": "convexity",
+      "issue": "restricted deliberately to the gradient/Hessian characterisation needed to justify downhill steps. No edges to inequality_bounding or global-optimality material, which would be convex analysis and above the ceiling."
+    },
+    {
+      "cluster": "calculus_and_optimization",
+      "node": "differential_equation",
+      "issue": "very broad node with no solution-technique prerequisites available (no separation_of_variables / integrating_factor in the vocabulary); edges point only at the derivative-integral-exponential core."
+    },
+    {
+      "cluster": "control_and_signals",
+      "node": "error_signal",
+      "issue": "no non-floor prerequisite exists - e = r - y is a subtraction of two signals, so no edges are proposed out of it; it functions as a floor node inside this cluster"
+    },
+    {
+      "cluster": "control_and_signals",
+      "node": "sensor_bias",
+      "issue": "missing prerequisite from vocabulary: there is no measurement_model / observation_model node (z = h(x) + b + v). Both sensor_bias and sensor_noise are defined as terms in it; edges were routed to expectation and gaussian_distribution as the nearest available anchors"
+    },
+    {
+      "cluster": "control_and_signals",
+      "node": "controllability",
+      "issue": "missing prerequisite from vocabulary: matrix_rank. The rank condition is stated via column_space + linear_independence here, which is a proxy rather than the actual object used"
+    },
+    {
+      "cluster": "control_and_signals",
+      "node": "stability",
+      "issue": "missing prerequisite from vocabulary: inverse_laplace_transform. Getting from pole locations to the time response needs the inverse transform; partial_fractions is proposed as the closest available mechanical step"
+    },
+    {
+      "cluster": "control_and_signals",
+      "node": "frequency_response",
+      "issue": "missing prerequisite from vocabulary: complex numbers / Euler's formula. Substituting s = jw and extracting magnitude and phase needs complex arithmetic; exponential_function is the nearest available anchor"
+    },
+    {
+      "cluster": "control_and_signals",
+      "node": "riccati_equation",
+      "issue": "missing prerequisite from vocabulary: a quadratic cost functional (LQR cost) node. loss_function exists but is ML-flavoured and reads wrong here; the edge was omitted rather than mis-targeted"
+    },
+    {
+      "cluster": "geometry_and_robotics",
+      "node": "lie_algebra",
+      "issue": "missing prerequisite from vocabulary: skew_symmetric_matrix (with the hat/vee operator). so(3) IS the skew-symmetric matrices, and every derivation here (angular velocity, exponential map, retraction Jacobians) is written with the hat operator. There is symmetric_matrix in the vocabulary but no skew-symmetric counterpart, so the central object of this cluster has no id to point at."
+    },
+    {
+      "cluster": "geometry_and_robotics",
+      "node": "quaternion",
+      "issue": "missing prerequisite from vocabulary: cross_product. The vector part of the Hamilton product is a cross product, and Rodrigues' formula, omega^ x, and the sandwich-product expansion all use it. dot_product is in the floor but its partner is absent."
+    },
+    {
+      "cluster": "geometry_and_robotics",
+      "node": "gimbal_lock",
+      "issue": "missing prerequisite from vocabulary: euler_angles (or a general 'minimal rotation parameterisation' node). Gimbal lock is a property of a specific three-angle chart, not of rotation in general; without that node the derivation has no subject and I had to route it through rotation_matrix and jacobian_matrix indirectly."
+    },
+    {
+      "cluster": "geometry_and_robotics",
+      "node": "rigid_transformation",
+      "issue": "missing prerequisite from vocabulary: homogeneous_coordinates. The 4x4 block form that makes composition a single matrix product (and that SE(3) is normally written in) cannot be derived without it; I fell back to matrix_multiplication."
+    },
+    {
+      "cluster": "geometry_and_robotics",
+      "node": "translation_vector",
+      "issue": "arguably belongs in FLOOR. It is definitional rather than derived (an element of R^3 plus a frame convention); the two edges I gave it are the weakest in this cluster."
+    },
+    {
+      "cluster": "graphs_and_planning",
+      "node": "graph",
+      "issue": "no prerequisites proposed: a graph is a primitive (vertex set plus edge set) with nothing more elementary in the vocabulary. Recommend promoting it to FLOOR."
+    },
+    {
+      "cluster": "graphs_and_planning",
+      "node": "priority_queue",
+      "issue": "no prerequisites proposed: it is a data structure whose derivation (heap ordering / sift operations) uses nothing in this mathematical vocabulary. Its only link to the cluster is that its key happens to be a path cost, which is usage, not prerequisite. Recommend promoting to FLOOR or moving out of the mathematics canon."
+    },
+    {
+      "cluster": "graphs_and_planning",
+      "node": "path_cost",
+      "issue": "missing prerequisite from vocabulary: there is no 'path' / 'walk' node. path_cost and shortest_path both need the notion of an edge sequence in a graph, which 'graph' (vertices and edges) does not supply on its own."
+    },
+    {
+      "cluster": "graphs_and_planning",
+      "node": "heuristic_function",
+      "issue": "missing node from vocabulary: no concept represents the evaluation function f = g + h (nor any search-algorithm node such as best_first_search). The in-scope mechanics of 'why f = g + h' therefore has no node to attach to; heuristic_function and admissibility currently carry it implicitly."
+    },
+    {
+      "cluster": "graphs_and_planning",
+      "node": "value_function",
+      "issue": "missing prerequisites from vocabulary: no 'discount_factor', 'reward', or 'transition_model' node. The discounted-sum definition of V is only partially expressible with summation and expectation."
+    },
+    {
+      "cluster": "graphs_and_planning",
+      "node": "weighted_graph",
+      "issue": "near co-definition with edge_weight. Direction chosen as weighted_graph REQUIRES edge_weight (the scalar first, then the augmented structure); the reverse reading is equally defensible and only edge_weight -> graph was kept to stay acyclic."
+    },
+    {
+      "cluster": "graphs_and_planning",
+      "node": "greedy_choice",
+      "issue": "deliberately omitted an edge to edge_weight. The nonnegative-weight condition is what makes a greedy commit safe, but stating it belongs to Dijkstra's optimality argument, which the ceiling excludes."
+    },
+    {
+      "cluster": "linear_algebra",
+      "node": "eigenvalue",
+      "issue": "eigenvalue and eigenvector genuinely co-define each other via Av = lambda v; I broke the cycle along the route a learner actually computes (characteristic polynomial gives lambda, then substitution gives v), so eigenvalue -> determinant and eigenvector -> eigenvalue. If the canon prefers the definitional route, this pair must be reversed, not doubled."
+    },
+    {
+      "cluster": "linear_algebra",
+      "node": "eigenvalue",
+      "issue": "missing prerequisite from vocabulary: characteristic_polynomial (and root-finding of a polynomial). det(A - lambda*I) = 0 is the actual mechanism and currently bottoms out only in determinant."
+    },
+    {
+      "cluster": "linear_algebra",
+      "node": "eigenvector",
+      "issue": "missing prerequisite from vocabulary: null_space / span. Solving (A - lambda*I)v = 0 is a null-space computation; column_space is the only subspace concept present and it is the wrong one here."
+    },
+    {
+      "cluster": "linear_algebra",
+      "node": "column_space",
+      "issue": "missing prerequisite from vocabulary: rank (and span). Column space, pseudoinverse, and the invertibility of the Gram matrix all depend on rank, which has no id."
+    },
+    {
+      "cluster": "linear_algebra",
+      "node": "information_matrix",
+      "issue": "mis-specified / should be split: the id conflates the precision matrix (Sigma^-1, estimation/information-filter usage) with the Fisher information matrix (expected negative Hessian of the log-likelihood). These have different derivations; I gave edges covering both routes, which inflates the prerequisite set for either reading alone."
+    },
+    {
+      "cluster": "linear_algebra",
+      "node": "sparse_matrix",
+      "issue": "weakly derivable: sparsity is a storage/computation representation rather than an object with a paper derivation, so its prerequisite set is thin and somewhat arbitrary. Consider whether it belongs in a mechanics-only canon."
+    },
+    {
+      "cluster": "linear_algebra",
+      "node": "singular_value_decomposition",
+      "issue": "possible duplication with the technique svd_factorization; I did not propose an edge between them to avoid a near-cycle. Whichever agent owns techniques should point svd_factorization -> singular_value_decomposition, not the reverse."
+    },
+    {
+      "cluster": "linear_algebra",
+      "node": "projection_matrix",
+      "issue": "coupling with normal_equations (another cluster): the same orthogonality argument derives both. I treated projection as the earlier object and did not link them; if normal_equations is derived geometrically rather than by calculus, it should point here, and this node must not point back."
+    },
+    {
+      "cluster": "machine_learning_concepts",
+      "node": "anchor_box",
+      "issue": "engineering convention, not a derivation. Its only honest prerequisite is knowing what a box encoding is; there is no mathematical result behind choosing anchor scales/aspect ratios (they are clustered from dataset statistics). Deliberately left with one edge rather than padded."
+    },
+    {
+      "cluster": "machine_learning_concepts",
+      "node": "bounding_box_parameterization",
+      "issue": "convention. The only real mathematical content is the log-scale width/height encoding; the (cx, cy, w, h) choice itself is arbitrary. I declined to add residual or rigid_transformation as prerequisites - the encoding is axis-aligned bookkeeping, not a transformation derivation."
+    },
+    {
+      "cluster": "machine_learning_concepts",
+      "node": "non_max_suppression",
+      "issue": "a heuristic post-processing loop with no derivation and no optimality property. Only the two edges given are real; priority_queue was rejected as an implementation detail, not something needed to follow the procedure."
+    },
+    {
+      "cluster": "machine_learning_concepts",
+      "node": "objectness",
+      "issue": "convention. The Bernoulli/logit edges are genuine, but the IoU-threshold label assignment rule is a design choice, not a derived criterion."
+    },
+    {
+      "cluster": "machine_learning_concepts",
+      "node": "iou",
+      "issue": "no prerequisite beyond the box encoding. It is elementary rectangle area arithmetic; the underlying notion (area / set measure) has no vocabulary node and is below the floor anyway. One edge is the honest count."
+    },
+    {
+      "cluster": "machine_learning_concepts",
+      "node": "inlier_ratio",
+      "issue": "the content that actually makes this node derivable - the RANSAC iteration-count formula N = log(1-p)/log(1-w^s) - has no vocabulary node. Its prerequisites (independent_trials, logarithm_solve) would attach there, not to the ratio itself."
+    },
+    {
+      "cluster": "machine_learning_concepts",
+      "node": "classification_loss",
+      "issue": "missing prerequisite from vocabulary: there is no sigmoid / logistic_function node. Binary classification loss and objectness both need the inverse-of-logit link explicitly; softmax_function only covers the multiclass case. Also no cross_entropy node - entropy is the nearest available target."
+    },
+    {
+      "cluster": "machine_learning_concepts",
+      "node": "loss_function",
+      "issue": "very generic node. maximum_likelihood_estimation is a genuine prerequisite for the specific losses (Gaussian -> squared error, categorical -> cross-entropy) but not for the abstract empirical-risk definition, so I attached log_likelihood to the two children instead of MLE to the parent. If the canon prefers the principle over the object, loss_function -> maximum_likelihood_estimation should replace those."
+    },
+    {
+      "cluster": "probability_and_estimation",
+      "node": "binomial_distribution",
+      "issue": "missing prerequisite: combinatorics / binomial coefficient (counting the orderings with k successes) has no id in the vocabulary; summation is a weak stand-in"
+    },
+    {
+      "cluster": "probability_and_estimation",
+      "node": "law_of_large_numbers",
+      "issue": "missing prerequisite: Chebyshev/Markov inequality and convergence in probability are absent; inequality_bounding is the nearest available technique, and the convergence statement itself brushes the excluded-theory ceiling"
+    },
+    {
+      "cluster": "probability_and_estimation",
+      "node": "gaussian_distribution",
+      "issue": "missing prerequisite: the Gaussian integral (integral of exp(-x^2)) that produces the normalising constant has no id; normalization is used as a proxy"
+    },
+    {
+      "cluster": "probability_and_estimation",
+      "node": "inverse_sensor_model",
+      "issue": "presumes a map/occupancy-grid representation (a cell whose state is being inferred), which has no id in the vocabulary; only the binary-probability half is expressible"
+    },
+    {
+      "cluster": "probability_and_estimation",
+      "node": "monte_carlo_integration",
+      "issue": "missing prerequisite: drawing samples from a distribution (sampling / pseudo-random generation) has no id, so the mechanical step of obtaining the x_i is unrepresented"
+    },
+    {
+      "cluster": "probability_and_estimation",
+      "node": "markov_assumption",
+      "issue": "co-definition with state_space_model: the assumption is usually introduced through a state model and the state model is only well posed under the assumption; direction chosen as state_space_model -> markov_assumption because a learner meets the conditional-independence statement first"
+    },
+    {
+      "cluster": "probability_and_estimation",
+      "node": "independent_trials",
+      "issue": "overlaps conditional_independence: plain independence is the degenerate case, but pointing independent_trials -> conditional_independence would invert the learning order, so both bottom out in conditional_probability instead"
+    },
+    {
+      "cluster": "probability_and_estimation",
+      "node": "importance_sampling",
+      "issue": "self-normalised importance sampling additionally needs weight_normalization; omitted to stay inside the branching cap, so the unnormalised form is what the listed edges support"
+    },
+    {
+      "cluster": "techniques",
+      "node": "algebraic_rearrangement",
+      "issue": "proposed with ZERO prerequisites deliberately: nothing in the vocabulary is genuinely required to move a term across an equals sign. It is a floor-level skill and should be promoted to FLOOR; as a technique node it is a universal sink that adds no information."
+    },
+    {
+      "cluster": "techniques",
+      "node": "index_notation",
+      "issue": "borderline floor node \u2014 it is a notation/language rather than a manipulation move. I kept it (it earns its place as the common ancestor of trace_identities, transpose_identities, matrix_calculus_gradient, cholesky_factorization), but if the canon prefers only genuine 'moves', it belongs in FLOOR."
+    },
+    {
+      "cluster": "techniques",
+      "node": "log_odds_transformation",
+      "issue": "near-duplicate of the CONCEPT nodes logit and log_odds. logit(p) = log(p/(1-p)) IS the log-odds and IS the transformation; three ids for one object. Merge candidate: keep log_odds as the object and log_odds_transformation as the move, and drop logit (or vice versa). I avoided edges to log_odds/logit to keep the direction free for the concepts agent."
+    },
+    {
+      "cluster": "techniques",
+      "node": "svd_factorization",
+      "issue": "duplicate-by-role with the CONCEPT singular_value_decomposition (procedure vs object). Defensible to keep both only if the concept node is the factorization's *properties/uses* and the technique is the A^T A eigen-route construction; otherwise merge."
+    },
+    {
+      "cluster": "techniques",
+      "node": "weight_normalization",
+      "issue": "special case of normalization restricted to a finite particle/sample weight set. Merge candidate unless the particle-filter-specific step (resampling threshold, effective sample size) is meant to live here."
+    },
+    {
+      "cluster": "techniques",
+      "node": "inequality_bounding",
+      "issue": "too coarse \u2014 it currently bundles at least three unrelated moves (triangle-inequality/norm bounds, Jensen/convexity bounds, admissible-heuristic dominance bounds). Either split, or scope it to one. Its prerequisite set is unavoidably vague as a result."
+    },
+    {
+      "cluster": "techniques",
+      "node": "schur_complement",
+      "issue": "schur_complement / block_matrix_inversion / matrix_inversion_lemma are three faces of one identity chain. I picked the learner direction schur_complement -> block_matrix_inversion -> matrix_inversion_lemma (complement is the primitive, block inverse expresses it, Woodbury is the two-ways-of-inverting corollary). Not a merge, but the trio should be reviewed together so the direction is not reversed elsewhere."
+    },
+    {
+      "cluster": "techniques",
+      "node": "importance_weight_derivation",
+      "issue": "genuine direction ambiguity with the CONCEPT importance_sampling: each can be argued to require the other. I deliberately omitted the edge to importance_sampling to avoid a cross-cluster cycle; if the concepts agent does NOT propose importance_sampling -> importance_weight_derivation, add the reverse edge here."
+    },
+    {
+      "cluster": "techniques",
+      "node": "recursive_substitution",
+      "issue": "overlaps backward_recursion but is not the same move (forward unrolling to a closed form vs backward stage-wise sweep from a terminal condition). Keep both; noting so the merge pass does not collapse them by name similarity."
+    },
+    {
+      "cluster": "techniques",
+      "node": "quadratic_form_differentiation",
+      "issue": "strict special case of matrix_calculus_gradient. Worth keeping only because it is the single highest-frequency instance (normal equations, Kalman gain, LQR); flagging in case the canon prefers one node."
+    },
+    {
+      "cluster": "techniques",
+      "node": "quaternion_multiplication",
+      "issue": "missing prerequisite from vocabulary: cross_product. The vector part of the Hamilton product is w1*v2 + w2*v1 + v1 x v2 and cannot be derived without it; I pointed at `vector` as a weak stand-in."
+    },
+    {
+      "cluster": "techniques",
+      "node": "laplace_transform_of_derivative",
+      "issue": "missing prerequisite from vocabulary: integration_by_parts. The s F(s) - f(0) identity is exactly one integration by parts; without it the step is unfollowable."
+    },
+    {
+      "cluster": "techniques",
+      "node": "schur_complement",
+      "issue": "missing prerequisite from vocabulary: block matrix partitioning / gaussian_elimination. The whole derivation is block elimination on a partitioned matrix and there is no vocabulary node for either."
+    },
+    {
+      "cluster": "techniques",
+      "node": "softmax_differentiation",
+      "issue": "missing prerequisite from vocabulary: quotient_rule (and kronecker_delta for stating the i=j vs i!=j result compactly). I routed through chain_rule as the closest available."
+    },
+    {
+      "cluster": "techniques",
+      "node": "partial_fractions",
+      "issue": "only 2 prerequisites and both are weak \u2014 the real prerequisite is polynomial factorisation/root finding, which is not in the vocabulary. pole_location is the closest available proxy and is control-theory-flavoured, which mis-scopes a purely algebraic move."
+    },
+    {
+      "cluster": "techniques",
+      "node": "normalization",
+      "issue": "ambiguous scope: probability normalisation (divide by the partition function) vs vector normalisation to unit norm are different moves. I scoped it to probability; if unit-vector normalisation is intended, the prerequisite is `norm`, not total_probability."
+    }
+  ]
+}

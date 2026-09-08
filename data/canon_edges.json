@@ -1,0 +1,3789 @@
+{
+  "_note": "Internal prerequisite edges within the canon. Authored per cluster by independent passes, merged under a single writer. 'demoted' marks an edge that would have closed a REQUIRES cycle and was kept as related_to instead.",
+  "edges": [
+    {
+      "from": "chain_rule",
+      "to": "composite_function",
+      "rel": "requires",
+      "why": "the rule states the derivative of a composition, so the composition must be defined first",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "chain_rule",
+      "to": "derivative",
+      "rel": "requires",
+      "why": "the derivation multiplies the outer and inner derivatives obtained from the limit definition",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "composite_function",
+      "to": "function_of_several_variables",
+      "rel": "requires",
+      "why": "composition is formed by feeding the output of one map into the arguments of the next",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "computational_graph",
+      "to": "chain_rule",
+      "rel": "requires",
+      "why": "derivatives are propagated along edges by multiplying local derivatives",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "computational_graph",
+      "to": "composite_function",
+      "rel": "requires",
+      "why": "the graph is a decomposition of a deeply composed function into elementary stages",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "computational_graph",
+      "to": "graph",
+      "rel": "requires",
+      "why": "the bookkeeping is a directed acyclic graph of nodes and edges traversed in topological order",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "computational_graph",
+      "to": "multivariate_chain_rule",
+      "rel": "requires",
+      "why": "a node feeding several successors requires summing contributions over all paths",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "convexity",
+      "to": "gradient",
+      "rel": "requires",
+      "why": "the first-order test states the function lies above its gradient-based tangent plane",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "convexity",
+      "to": "hessian_matrix",
+      "rel": "requires",
+      "why": "the working test for convexity is a condition on the matrix of second partials",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "convexity",
+      "to": "positive_semidefinite_matrix",
+      "rel": "requires",
+      "why": "the Hessian condition is precisely positive semidefiniteness of that matrix",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "descent_direction",
+      "to": "directional_derivative",
+      "rel": "requires",
+      "why": "descent means the derivative along that direction is negative",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "descent_direction",
+      "to": "gradient",
+      "rel": "requires",
+      "why": "the defining test is a negative inner product with the gradient",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "descent_direction",
+      "to": "taylor_expansion",
+      "rel": "requires",
+      "why": "the first-order expansion is what shows a small step along such a direction lowers f",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "differential_equation",
+      "to": "derivative",
+      "rel": "requires",
+      "why": "the equation is a relation between an unknown function and its derivatives",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "differential_equation",
+      "to": "exponential_function",
+      "rel": "requires",
+      "why": "the solution of the basic linear equation is an exponential, the building block for the rest",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "differential_equation",
+      "to": "integral",
+      "rel": "requires",
+      "why": "solving means undoing the derivative by integration",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "directional_derivative",
+      "to": "dot_product",
+      "rel": "requires",
+      "why": "D_u f = grad f . u is exactly an inner product of gradient and unit direction",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "directional_derivative",
+      "to": "gradient",
+      "rel": "requires",
+      "why": "the derivation reduces the directional rate of change to the gradient contracted with the direction",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "directional_derivative",
+      "to": "multivariate_chain_rule",
+      "rel": "requires",
+      "why": "differentiating f(x + t u) with respect to t is a chain-rule expansion over all coordinates",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "gradient",
+      "to": "function_of_several_variables",
+      "rel": "requires",
+      "why": "a gradient only exists for a scalar function of a vector argument",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "gradient",
+      "to": "partial_derivative",
+      "rel": "requires",
+      "why": "the gradient is assembled entry-by-entry from the partial derivatives of the function",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "gradient",
+      "to": "vector",
+      "rel": "requires",
+      "why": "the collected partials are stacked into a vector for the gradient to be an object you can add and scale",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "hessian_matrix",
+      "to": "gradient",
+      "rel": "requires",
+      "why": "the Hessian is built by differentiating each entry of the gradient again",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "hessian_matrix",
+      "to": "matrix",
+      "rel": "requires",
+      "why": "the second partials are arranged as a square array indexed by the two differentiation variables",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "hessian_matrix",
+      "to": "partial_derivative",
+      "rel": "requires",
+      "why": "its entries are second-order mixed partial derivatives",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "jacobian_matrix",
+      "to": "function_of_several_variables",
+      "rel": "requires",
+      "why": "the Jacobian is defined for a vector-valued map of several variables",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "jacobian_matrix",
+      "to": "gradient",
+      "rel": "requires",
+      "why": "row i of the Jacobian is the gradient of the i-th component function",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "jacobian_matrix",
+      "to": "matrix",
+      "rel": "requires",
+      "why": "the partials are laid out in a rectangular array with a fixed row/column convention",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "jacobian_matrix",
+      "to": "partial_derivative",
+      "rel": "requires",
+      "why": "each entry J_ij is the partial derivative of output component i with respect to input j",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "least_squares_objective",
+      "to": "norm",
+      "rel": "requires",
+      "why": "that sum is written compactly as the squared Euclidean norm of the residual vector",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "least_squares_objective",
+      "to": "residual",
+      "rel": "requires",
+      "why": "the objective is built by squaring and accumulating the individual residuals",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "least_squares_objective",
+      "to": "summation",
+      "rel": "requires",
+      "why": "the cost is the sum of squared residuals over all data points",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "levenberg_marquardt_damping",
+      "to": "descent_direction",
+      "rel": "requires",
+      "why": "the large-lambda limit reduces the step to a scaled negative gradient, the interpolation that justifies the damping",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "levenberg_marquardt_damping",
+      "to": "jacobian_matrix",
+      "rel": "requires",
+      "why": "the system matrix J^T J and right-hand side J^T r are built from the residual Jacobian",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "levenberg_marquardt_damping",
+      "to": "nonlinear_least_squares",
+      "rel": "requires",
+      "why": "the damping modifies the Gauss-Newton step of a nonlinear least-squares iteration",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "levenberg_marquardt_damping",
+      "to": "normal_equations",
+      "rel": "requires",
+      "why": "the damped step is the normal-equation system with lambda I added to the left-hand side",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "levenberg_marquardt_damping",
+      "to": "positive_semidefinite_matrix",
+      "rel": "requires",
+      "why": "J^T J is only semidefinite and may be singular, which is what adding lambda I repairs",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "linear_model",
+      "to": "dot_product",
+      "rel": "requires",
+      "why": "a single prediction is the inner product of a parameter vector with a feature vector",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "linear_model",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "stacking all predictions gives the matrix-vector product X theta",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "local_minimum",
+      "to": "hessian_matrix",
+      "rel": "requires",
+      "why": "the quadratic term of that expansion is governed by the Hessian",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "local_minimum",
+      "to": "positive_semidefinite_matrix",
+      "rel": "requires",
+      "why": "the minimum condition is that the quadratic term is non-negative in every direction",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "local_minimum",
+      "to": "stationary_point",
+      "rel": "requires",
+      "why": "the first-order necessary condition for a local minimum is stationarity",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "local_minimum",
+      "to": "taylor_expansion",
+      "rel": "requires",
+      "why": "the second-order test comes from expanding f to quadratic order about the candidate point",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "nonlinear_least_squares",
+      "to": "jacobian_matrix",
+      "rel": "requires",
+      "why": "that linearisation is r(theta + d) = r + J d, with J the residual Jacobian",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "nonlinear_least_squares",
+      "to": "least_squares_objective",
+      "rel": "requires",
+      "why": "it minimises the same sum-of-squares cost, now with a nonlinear residual",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "nonlinear_least_squares",
+      "to": "linearization",
+      "rel": "requires",
+      "why": "each iteration replaces the nonlinear residual by its first-order approximation about the current estimate",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "nonlinear_least_squares",
+      "to": "normal_equations",
+      "rel": "requires",
+      "why": "the resulting linear subproblem is solved by the normal equations J^T J d = -J^T r",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "normal_equations",
+      "to": "least_squares_objective",
+      "rel": "requires",
+      "why": "the equations are obtained by minimising the sum of squared residuals",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "normal_equations",
+      "to": "linear_model",
+      "rel": "requires",
+      "why": "the derivation depends on the residual being affine in the parameters, r = A theta - b",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "normal_equations",
+      "to": "matrix_transpose",
+      "rel": "requires",
+      "why": "the A^T A and A^T b terms arise from transposing during the expansion",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "normal_equations",
+      "to": "quadratic_form_differentiation",
+      "rel": "requires",
+      "why": "expanding the objective into a quadratic form and differentiating it produces the 2A^T A theta - 2A^T b expression",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "normal_equations",
+      "to": "stationary_point",
+      "rel": "requires",
+      "why": "the equations are the statement that this gradient is zero at the optimum",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "residual",
+      "to": "linear_model",
+      "rel": "requires",
+      "why": "the residual is measurement minus model prediction, so the prediction rule must be specified",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "stationary_point",
+      "to": "directional_derivative",
+      "rel": "requires",
+      "why": "the condition is derived by requiring the rate of change to vanish in every direction",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "stationary_point",
+      "to": "gradient",
+      "rel": "requires",
+      "why": "a stationary point is defined by the gradient vanishing there",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "step_size",
+      "to": "descent_direction",
+      "rel": "requires",
+      "why": "the step size scales an already-chosen direction, so the direction must come first",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "step_size",
+      "to": "directional_derivative",
+      "rel": "requires",
+      "why": "the one-dimensional function phi(a) = f(x + a d) whose slope sets a good step is the directional derivative",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "step_size",
+      "to": "taylor_expansion",
+      "rel": "requires",
+      "why": "candidate step lengths are read off a local polynomial model of f along the direction",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "taylor_expansion",
+      "to": "derivative",
+      "rel": "requires",
+      "why": "the coefficients of the expansion are successive derivatives evaluated at the base point",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "taylor_expansion",
+      "to": "gradient",
+      "rel": "requires",
+      "why": "the multivariate first-order term is the gradient contracted with the displacement",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "taylor_expansion",
+      "to": "summation",
+      "rel": "requires",
+      "why": "the expansion is written as a finite or infinite sum of power terms",
+      "cluster": "calculus_and_optimization",
+      "demoted": false
+    },
+    {
+      "from": "controllability",
+      "to": "column_space",
+      "rel": "requires",
+      "why": "reachable states are exactly the column space of [B AB ... A^{n-1}B]",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "controllability",
+      "to": "linear_independence",
+      "rel": "requires",
+      "why": "the rank condition asks how many of those columns are independent",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "controllability",
+      "to": "recursive_substitution",
+      "rel": "requires",
+      "why": "the controllability matrix appears by unrolling x_n = A^n x_0 + sum A^k B u",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "controllability",
+      "to": "state_space_model",
+      "rel": "requires",
+      "why": "the test is built from the A and B matrices of the state-space model",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "feedback_loop",
+      "to": "algebraic_rearrangement",
+      "rel": "requires",
+      "why": "the closed-loop relation is obtained by solving y = G(r-y) for y/r",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "feedback_loop",
+      "to": "error_signal",
+      "rel": "requires",
+      "why": "the loop equation is written by feeding the error r-y into the controller",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "feedback_loop",
+      "to": "transfer_function",
+      "rel": "requires",
+      "why": "blocks in the loop are composed by multiplying their transfer functions",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "final_value_theorem",
+      "to": "laplace_transform",
+      "rel": "requires",
+      "why": "the theorem is derived by taking s to 0 inside the defining integral",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "final_value_theorem",
+      "to": "laplace_transform_of_derivative",
+      "rel": "requires",
+      "why": "the derivation starts from L{f'} = sF(s) - f(0) and lets s go to 0",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "frequency_response",
+      "to": "exponential_function",
+      "rel": "requires",
+      "why": "the sinusoidal input is written as a complex exponential e^{jwt} to get gain and phase",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "frequency_response",
+      "to": "transfer_function",
+      "rel": "requires",
+      "why": "the response is obtained by evaluating G(s) on the imaginary axis",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "high_pass_filter",
+      "to": "frequency_response",
+      "rel": "requires",
+      "why": "the rejection of low frequencies is derived from the magnitude of G(jw)",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "high_pass_filter",
+      "to": "time_constant",
+      "rel": "requires",
+      "why": "the corner frequency is set by the same tau as the complementary lag",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "high_pass_filter",
+      "to": "transfer_function",
+      "rel": "requires",
+      "why": "the filter is defined by the form tau s/(tau s + 1)",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "laplace_transform",
+      "to": "exponential_function",
+      "rel": "requires",
+      "why": "the integrand is the signal weighted by the kernel e^{-st}",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "laplace_transform",
+      "to": "integral",
+      "rel": "requires",
+      "why": "the transform is defined as an improper integral over t from 0 to infinity",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "low_pass_filter",
+      "to": "frequency_response",
+      "rel": "requires",
+      "why": "the pass/stop behaviour is derived from the magnitude of G(jw)",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "low_pass_filter",
+      "to": "time_constant",
+      "rel": "requires",
+      "why": "the cutoff frequency is 1/tau, the filter's time constant",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "low_pass_filter",
+      "to": "transfer_function",
+      "rel": "requires",
+      "why": "the filter is defined by the first-order form 1/(tau s + 1)",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "optimal_feedback_gain",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "the closed form contains (R + B^T P B)^{-1}",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "optimal_feedback_gain",
+      "to": "quadratic_form_differentiation",
+      "rel": "requires",
+      "why": "K falls out of setting the derivative of the quadratic cost in u to zero",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "optimal_feedback_gain",
+      "to": "riccati_equation",
+      "rel": "requires",
+      "why": "the gain is assembled from the P that solves the Riccati equation",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "optimal_feedback_gain",
+      "to": "state_space_model",
+      "rel": "requires",
+      "why": "the gain multiplies the state of the modelled dynamics, u = -Kx",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "pole_location",
+      "to": "eigenvalue",
+      "rel": "requires",
+      "why": "via the state-space route the same poles are the eigenvalues of the A matrix",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "pole_location",
+      "to": "transfer_function",
+      "rel": "requires",
+      "why": "poles are the roots of the transfer function's denominator polynomial",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "riccati_equation",
+      "to": "backward_recursion",
+      "rel": "requires",
+      "why": "P is propagated backwards from the terminal cost step by step",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "riccati_equation",
+      "to": "bellman_equation",
+      "rel": "requires",
+      "why": "the recursion is the Bellman equation specialised to linear dynamics and quadratic cost",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "riccati_equation",
+      "to": "quadratic_form",
+      "rel": "requires",
+      "why": "the derivation substitutes the ansatz V(x) = x^T P x into the recursion",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "riccati_equation",
+      "to": "quadratic_form_differentiation",
+      "rel": "requires",
+      "why": "minimising the quadratic in u by setting its gradient to zero produces the P update",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "riccati_equation",
+      "to": "state_space_model",
+      "rel": "requires",
+      "why": "the dynamics x' = Ax + Bu are substituted into the cost-to-go",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "sensor_bias",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "the bias is defined as the expected value of the measurement error",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "sensor_noise",
+      "to": "covariance_matrix",
+      "rel": "requires",
+      "why": "a vector measurement's noise is characterised by its covariance R",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "sensor_noise",
+      "to": "gaussian_distribution",
+      "rel": "requires",
+      "why": "the noise is given a zero-mean Gaussian density to make it usable in estimators",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "sensor_noise",
+      "to": "random_variable",
+      "rel": "requires",
+      "why": "the noise term is modelled as a random variable added to the true value",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "stability",
+      "to": "exponential_function",
+      "rel": "requires",
+      "why": "each mode is e^{pt}, so the sign of Re(p) decides decay or growth",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "stability",
+      "to": "partial_fractions",
+      "rel": "requires",
+      "why": "the response is split into one term per pole to expose each mode",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "stability",
+      "to": "pole_location",
+      "rel": "requires",
+      "why": "the stability verdict is read off the real parts of the pole locations",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "steady_state_error",
+      "to": "error_signal",
+      "rel": "requires",
+      "why": "the quantity taken to its limit is the loop's error signal",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "steady_state_error",
+      "to": "feedback_loop",
+      "rel": "requires",
+      "why": "E(s) = R(s)/(1+GC) comes from the closed-loop algebra",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "steady_state_error",
+      "to": "final_value_theorem",
+      "rel": "requires",
+      "why": "the t-to-infinity limit is evaluated as lim s->0 of sE(s)",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "time_constant",
+      "to": "differential_equation",
+      "rel": "requires",
+      "why": "tau is the coefficient in the first-order ODE tau*xdot + x = u",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "time_constant",
+      "to": "exponential_function",
+      "rel": "requires",
+      "why": "tau is read off the decay e^{-t/tau} of the solution",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "transfer_function",
+      "to": "algebraic_rearrangement",
+      "rel": "requires",
+      "why": "the transformed equation is rearranged into the ratio Y(s)/U(s)",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "transfer_function",
+      "to": "differential_equation",
+      "rel": "requires",
+      "why": "the object being transformed is the system's linear constant-coefficient ODE",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "transfer_function",
+      "to": "laplace_transform",
+      "rel": "requires",
+      "why": "G(s) is the ratio of the transformed output to the transformed input",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "transfer_function",
+      "to": "laplace_transform_of_derivative",
+      "rel": "requires",
+      "why": "each derivative term of the ODE becomes a power of s via this rule",
+      "cluster": "control_and_signals",
+      "demoted": false
+    },
+    {
+      "from": "angular_velocity",
+      "to": "derivative",
+      "rel": "requires",
+      "why": "the defining relation is obtained by differentiating R(t) with respect to time",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "angular_velocity",
+      "to": "lie_algebra",
+      "rel": "requires",
+      "why": "R^T Rdot is skew-symmetric, and omega is its three-parameter coordinate",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "angular_velocity",
+      "to": "rotation_matrix",
+      "rel": "requires",
+      "why": "omega is defined through the time derivative of a rotation matrix",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "axis_angle",
+      "to": "eigenvector",
+      "rel": "requires",
+      "why": "the rotation axis is the eigenvector of R with eigenvalue 1",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "axis_angle",
+      "to": "rotation_matrix",
+      "rel": "requires",
+      "why": "Rodrigues' formula is derived by decomposing the rotated vector into components along and across the axis of R",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "axis_angle",
+      "to": "trace",
+      "rel": "requires",
+      "why": "the angle is recovered from tr R = 1 + 2 cos theta",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "centroid",
+      "to": "summation",
+      "rel": "requires",
+      "why": "the centroid is the sum of the point coordinates divided by their count",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "centroid",
+      "to": "vector",
+      "rel": "requires",
+      "why": "points are averaged componentwise as position vectors",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "exponential_map",
+      "to": "axis_angle",
+      "rel": "requires",
+      "why": "collecting the series into sin/cos terms gives the closed-form Rodrigues expression in axis and angle",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "exponential_map",
+      "to": "lie_algebra",
+      "rel": "requires",
+      "why": "the map exponentiates a skew-symmetric generator, which is the object it takes as input",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "exponential_map",
+      "to": "so3",
+      "rel": "requires",
+      "why": "the derivation must show the series lands back in the rotation group",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "exponential_map",
+      "to": "taylor_expansion",
+      "rel": "requires",
+      "why": "the matrix exponential is defined and summed as a power series",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "gimbal_lock",
+      "to": "angular_velocity",
+      "rel": "requires",
+      "why": "the singularity is exhibited as angle rates that can no longer produce an arbitrary omega",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "gimbal_lock",
+      "to": "jacobian_matrix",
+      "rel": "requires",
+      "why": "lock is derived as the Jacobian of the angle-to-rotation map dropping rank",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "gimbal_lock",
+      "to": "rotation_matrix",
+      "rel": "requires",
+      "why": "the failure is shown on the three-angle product decomposition of R",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "lie_algebra",
+      "to": "basis",
+      "rel": "requires",
+      "why": "the three generators form a basis, giving the vee/hat coordinate map used in pose optimisation",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "lie_algebra",
+      "to": "derivative",
+      "rel": "requires",
+      "why": "the generators come from differentiating a curve of rotations at t = 0",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "lie_algebra",
+      "to": "matrix_transpose",
+      "rel": "requires",
+      "why": "differentiating R^T R = I is the step that forces the generator to be skew-symmetric",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "lie_algebra",
+      "to": "so3",
+      "rel": "requires",
+      "why": "so(3) is derived as the set of velocities through the identity of SO(3)",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "manifold_retraction",
+      "to": "exponential_map",
+      "rel": "requires",
+      "why": "the retraction is defined as x . exp(delta^), so the update is an exponential of the increment",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "manifold_retraction",
+      "to": "jacobian_matrix",
+      "rel": "requires",
+      "why": "the local parameterisation is only usable once residual Jacobians are taken with respect to delta",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "manifold_retraction",
+      "to": "lie_algebra",
+      "rel": "requires",
+      "why": "the increment delta is a minimal tangent-space coordinate, not a free matrix",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "manifold_retraction",
+      "to": "se3",
+      "rel": "requires",
+      "why": "the object being updated is a pose, and the retraction must return a valid one",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "quaternion",
+      "to": "dot_product",
+      "rel": "requires",
+      "why": "the scalar term of the Hamilton product comes out of the inner product of the vector parts",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "quaternion",
+      "to": "vector",
+      "rel": "requires",
+      "why": "a quaternion is built as a scalar plus a 3-vector part with basis elements i, j, k",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "rigid_transformation",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "composing two rigid transforms is derived by multiplying out (R2(R1x+t1)+t2)",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "rigid_transformation",
+      "to": "rotation_matrix",
+      "rel": "requires",
+      "why": "the rotational part of the map x -> Rx + t is a rotation matrix",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "rigid_transformation",
+      "to": "translation_vector",
+      "rel": "requires",
+      "why": "the offset added after rotation is the translation vector",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "rotation_matrix",
+      "to": "basis",
+      "rel": "requires",
+      "why": "the columns of R are the rotated frame's basis vectors expressed in the original frame",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "rotation_matrix",
+      "to": "determinant",
+      "rel": "requires",
+      "why": "det R = +1 is what separates a rotation from a reflection",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "rotation_matrix",
+      "to": "orthogonal_matrix",
+      "rel": "requires",
+      "why": "the defining constraint R^T R = I is the orthogonality condition",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "se3",
+      "to": "rigid_transformation",
+      "rel": "requires",
+      "why": "SE(3) is the group of rigid transformations, so its composition law is derived from theirs",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "se3",
+      "to": "so3",
+      "rel": "requires",
+      "why": "the rotational block of a pose is an element of SO(3)",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "se3",
+      "to": "translation_vector",
+      "rel": "requires",
+      "why": "the pose is the rotation paired with a translation vector",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "so3",
+      "to": "determinant",
+      "rel": "requires",
+      "why": "the 'special' in SO(3) is the det = +1 restriction",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "so3",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "the group operation, closure and inverse are all shown via matrix products",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "so3",
+      "to": "orthogonal_matrix",
+      "rel": "requires",
+      "why": "the group is carved out of the orthogonal matrices by adding the determinant condition",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "so3",
+      "to": "rotation_matrix",
+      "rel": "requires",
+      "why": "SO(3) is the set whose elements are rotation matrices",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "translation_vector",
+      "to": "basis",
+      "rel": "requires",
+      "why": "its components are only meaningful relative to a chosen coordinate frame",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "translation_vector",
+      "to": "vector",
+      "rel": "requires",
+      "why": "a translation is an element of R^3 added to a point's coordinates",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "unit_quaternion",
+      "to": "axis_angle",
+      "rel": "requires",
+      "why": "the half-angle form q = (cos(theta/2), u sin(theta/2)) is read straight off the axis-angle pair",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "unit_quaternion",
+      "to": "norm",
+      "rel": "requires",
+      "why": "the unit-norm constraint |q| = 1 is what makes the conjugation length-preserving",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "unit_quaternion",
+      "to": "quaternion",
+      "rel": "requires",
+      "why": "it is a quaternion restricted to the unit sphere, so the algebra is inherited",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "unit_quaternion",
+      "to": "quaternion_multiplication",
+      "rel": "requires",
+      "why": "rotation is derived by expanding the sandwich product q v q*",
+      "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "admissibility",
+      "to": "heuristic_function",
+      "rel": "requires",
+      "why": "admissibility is a condition imposed on an already-defined h",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "admissibility",
+      "to": "inequality_bounding",
+      "rel": "requires",
+      "why": "showing a candidate heuristic never overestimates is done by bounding it against the true cost",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "admissibility",
+      "to": "shortest_path",
+      "rel": "requires",
+      "why": "the condition compares h(n) against the true shortest-path cost h*(n) it must never exceed",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "bellman_equation",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "the successor term is an expectation over stochastic transitions",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "bellman_equation",
+      "to": "optimal_substructure",
+      "rel": "requires",
+      "why": "the one-step decomposition V(s) = min over actions of (immediate cost + V(s')) is optimal substructure written as an equation",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "bellman_equation",
+      "to": "value_function",
+      "rel": "requires",
+      "why": "the equation is a self-consistency relation on V, so V must be defined first",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "consistency_heuristic",
+      "to": "admissibility",
+      "rel": "requires",
+      "why": "consistency is derived as the per-edge strengthening of the global never-overestimate condition",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "consistency_heuristic",
+      "to": "edge_weight",
+      "rel": "requires",
+      "why": "the condition h(n) <= c(n,n') + h(n') is stated in terms of the connecting edge's weight",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "consistency_heuristic",
+      "to": "heuristic_function",
+      "rel": "requires",
+      "why": "consistency is a local condition relating h at two adjacent nodes",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "dynamic_programming",
+      "to": "backward_recursion",
+      "rel": "requires",
+      "why": "the table is filled by evaluating the recurrence from base cases backward",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "dynamic_programming",
+      "to": "optimal_substructure",
+      "rel": "requires",
+      "why": "the recurrence is only writable because an optimal solution decomposes into optimal subsolutions",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "edge_weight",
+      "to": "graph",
+      "rel": "requires",
+      "why": "an edge weight is a number attached to an edge of a graph, so the vertex/edge structure must exist first",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "greedy_choice",
+      "to": "optimal_substructure",
+      "rel": "requires",
+      "why": "committing to a local choice is only well-founded because the remaining subproblem is itself an instance of the same optimization",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "greedy_choice",
+      "to": "path_cost",
+      "rel": "requires",
+      "why": "the locally best option is selected by comparing tentative path costs",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "heuristic_function",
+      "to": "path_cost",
+      "rel": "requires",
+      "why": "h(n) is an estimate expressed in the same units as path cost, so it can be added to g(n)",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "heuristic_function",
+      "to": "shortest_path",
+      "rel": "requires",
+      "why": "the quantity h estimates is the true remaining shortest-path cost to the goal",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "optimal_substructure",
+      "to": "path_cost",
+      "rel": "requires",
+      "why": "the cut-and-paste argument works because path cost splits additively at an intermediate vertex",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "optimal_substructure",
+      "to": "shortest_path",
+      "rel": "requires",
+      "why": "the property is derived on the canonical instance: any subpath of a shortest path is itself shortest",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "path_cost",
+      "to": "summation",
+      "rel": "requires",
+      "why": "the cost of a path is literally the sum of its edge weights",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "path_cost",
+      "to": "weighted_graph",
+      "rel": "requires",
+      "why": "path cost is defined over a sequence of edges carrying weights",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "relaxation",
+      "to": "edge_weight",
+      "rel": "requires",
+      "why": "the update d[v] <- d[u] + w(u,v) is written directly in terms of the edge weight",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "relaxation",
+      "to": "optimal_substructure",
+      "rel": "requires",
+      "why": "relaxation converges because the shortest path to v ends in an edge from some u whose own distance is already shortest",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "relaxation",
+      "to": "path_cost",
+      "rel": "requires",
+      "why": "the quantity being relaxed is a tentative path cost to each vertex",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "shortest_path",
+      "to": "path_cost",
+      "rel": "requires",
+      "why": "the shortest path is the argmin of path cost over the set of paths, so the cost functional must be defined first",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "value_function",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "V(s) is defined as the expected accumulated cost/reward from state s",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "value_function",
+      "to": "markov_assumption",
+      "rel": "requires",
+      "why": "V being a function of the current state alone requires that the future depend on nothing earlier",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "value_function",
+      "to": "path_cost",
+      "rel": "requires",
+      "why": "V(s) is the cost-to-go, the planning generalisation of accumulated path cost from a state",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "value_function",
+      "to": "summation",
+      "rel": "requires",
+      "why": "the accumulated return is a (discounted) sum over future steps",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "weighted_graph",
+      "to": "edge_weight",
+      "rel": "requires",
+      "why": "the augmentation is exactly the assignment of a weight to each edge",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "weighted_graph",
+      "to": "graph",
+      "rel": "requires",
+      "why": "a weighted graph is built by augmenting the plain vertex/edge structure",
+      "cluster": "graphs_and_planning",
+      "demoted": false
+    },
+    {
+      "from": "column_space",
+      "to": "basis",
+      "rel": "requires",
+      "why": "the dimension of the column space is the size of a basis extracted from the columns",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "column_space",
+      "to": "linear_independence",
+      "rel": "requires",
+      "why": "reducing the spanning columns to an independent set is what makes the space computable",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "column_space",
+      "to": "matrix",
+      "rel": "requires",
+      "why": "the space is generated by the columns of a given matrix",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "column_space",
+      "to": "vector_space",
+      "rel": "requires",
+      "why": "the set of all column combinations must be recognized as a subspace",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "cross_covariance_matrix",
+      "to": "covariance_matrix",
+      "rel": "requires",
+      "why": "the cross-covariance is the same outer-product expectation with a second variable in the right factor",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "cross_covariance_matrix",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "each entry is an expectation of a product of centered components",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "cross_covariance_matrix",
+      "to": "joint_distribution",
+      "rel": "requires",
+      "why": "the expectation is taken over the joint distribution of the two vectors",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "cross_covariance_matrix",
+      "to": "matrix_transpose",
+      "rel": "requires",
+      "why": "the block E[(x-mx)(y-my)^T] is an outer product formed with a transpose",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "eigendecomposition",
+      "to": "basis",
+      "rel": "requires",
+      "why": "A = V Lambda V^-1 only follows once the eigenvectors are treated as a basis in which A acts diagonally",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "eigendecomposition",
+      "to": "eigenvalue",
+      "rel": "requires",
+      "why": "the diagonal factor Lambda is the list of eigenvalues",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "eigendecomposition",
+      "to": "eigenvector",
+      "rel": "requires",
+      "why": "the columns of V are the eigenvectors stacked side by side",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "eigendecomposition",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "the factorization is closed by right-multiplying with V^-1",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "eigenvalue",
+      "to": "determinant",
+      "rel": "requires",
+      "why": "eigenvalues are obtained by solving det(A - lambda*I) = 0",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "eigenvalue",
+      "to": "matrix",
+      "rel": "requires",
+      "why": "eigenvalues are scalars attached to a square matrix acting on itself",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "eigenvector",
+      "to": "eigenvalue",
+      "rel": "requires",
+      "why": "the eigenvector is found by substituting an already-solved lambda into (A - lambda*I)v = 0",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "eigenvector",
+      "to": "linear_independence",
+      "rel": "requires",
+      "why": "the nontrivial solutions of the singular homogeneous system are read off as an independent set",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "eigenvector",
+      "to": "vector",
+      "rel": "requires",
+      "why": "the eigenvector is the vector held fixed in direction by A",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "gram_matrix",
+      "to": "dot_product",
+      "rel": "requires",
+      "why": "each entry G_ij is the dot product of vectors i and j",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "gram_matrix",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "assembling all pairwise inner products at once is one matrix product",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "gram_matrix",
+      "to": "matrix_transpose",
+      "rel": "requires",
+      "why": "the compact form is G = A^T A",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "information_matrix",
+      "to": "covariance_matrix",
+      "rel": "requires",
+      "why": "the information matrix is the covariance seen in inverse (precision) form",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "information_matrix",
+      "to": "hessian_matrix",
+      "rel": "requires",
+      "why": "that curvature is the negative (expected) Hessian of the log-likelihood",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "information_matrix",
+      "to": "log_likelihood",
+      "rel": "requires",
+      "why": "the Fisher route defines it as curvature of the log-likelihood",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "information_matrix",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "Lambda = Sigma^-1 is obtained by inverting the covariance",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "orthogonal_matrix",
+      "to": "dot_product",
+      "rel": "requires",
+      "why": "Q^T Q = I is the statement that column pairs have zero dot product and unit self-product",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "orthogonal_matrix",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "the working property Q^-1 = Q^T is what makes the matrix useful in a factorization",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "orthogonal_matrix",
+      "to": "matrix_transpose",
+      "rel": "requires",
+      "why": "the defining identity is Q^T Q = I",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "positive_semidefinite_matrix",
+      "to": "quadratic_form",
+      "rel": "requires",
+      "why": "the definition is the sign condition x^T A x >= 0 on the quadratic form",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "positive_semidefinite_matrix",
+      "to": "symmetric_matrix",
+      "rel": "requires",
+      "why": "definiteness is only defined for symmetric A, so the symmetry constraint comes first",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "projection_matrix",
+      "to": "column_space",
+      "rel": "requires",
+      "why": "P projects a vector onto the column space of A, which is the target subspace",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "projection_matrix",
+      "to": "dot_product",
+      "rel": "requires",
+      "why": "the derivation sets the residual orthogonal to every column, i.e. A^T(b - Ax) = 0",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "projection_matrix",
+      "to": "gram_matrix",
+      "rel": "requires",
+      "why": "the orthogonality condition produces the Gram matrix A^T A that must be inverted",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "projection_matrix",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "P = A(A^T A)^-1 A^T requires inverting that Gram matrix",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "pseudoinverse",
+      "to": "column_space",
+      "rel": "requires",
+      "why": "which components are invertible versus annihilated is decided by the column space and its complement",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "pseudoinverse",
+      "to": "gram_matrix",
+      "rel": "requires",
+      "why": "the full-rank case A^+ = (A^T A)^-1 A^T is built on the Gram matrix",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "pseudoinverse",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "the pseudoinverse is defined by relaxing the ordinary inverse to non-square or singular A",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "pseudoinverse",
+      "to": "singular_value_decomposition",
+      "rel": "requires",
+      "why": "the general A^+ = V Sigma^+ U^T is read directly off the SVD",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "quadratic_form",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "x^T A x is evaluated by chaining two matrix-vector products",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "quadratic_form",
+      "to": "matrix_transpose",
+      "rel": "requires",
+      "why": "the row-vector factor x^T is the transpose of x",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "quadratic_form",
+      "to": "symmetric_matrix",
+      "rel": "requires",
+      "why": "the standard form assumes A symmetric, since only the symmetric part of A contributes",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "rayleigh_quotient",
+      "to": "eigenvalue",
+      "rel": "requires",
+      "why": "the stationary values of the quotient are the eigenvalues, which is the whole content of the object",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "rayleigh_quotient",
+      "to": "eigenvector",
+      "rel": "requires",
+      "why": "the maximizing and minimizing directions are the extreme eigenvectors",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "rayleigh_quotient",
+      "to": "norm",
+      "rel": "requires",
+      "why": "the denominator x^T x normalizes by the squared norm to make the ratio scale-invariant",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "rayleigh_quotient",
+      "to": "quadratic_form",
+      "rel": "requires",
+      "why": "the numerator x^T A x is a quadratic form",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "singular_value_decomposition",
+      "to": "eigendecomposition",
+      "rel": "requires",
+      "why": "the usual derivation diagonalizes A^T A and reads U, Sigma, V off that eigendecomposition",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "singular_value_decomposition",
+      "to": "orthogonal_matrix",
+      "rel": "requires",
+      "why": "U and V are constructed as orthonormal bases, i.e. orthogonal factors",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "singular_value_decomposition",
+      "to": "positive_semidefinite_matrix",
+      "rel": "requires",
+      "why": "A^T A is PSD, which is why its eigenvalues are nonnegative and admit real square roots as singular values",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "singular_value_decomposition",
+      "to": "symmetric_matrix",
+      "rel": "requires",
+      "why": "the derivation hinges on A^T A being symmetric so it is orthogonally diagonalizable",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "sparse_matrix",
+      "to": "index_notation",
+      "rel": "requires",
+      "why": "sparse storage is defined by keeping (i, j, value) index triples rather than a dense array",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "sparse_matrix",
+      "to": "matrix",
+      "rel": "requires",
+      "why": "sparsity is a statement about how many entries of a matrix are zero",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "sparse_matrix",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "the payoff of sparsity is a matrix-vector product whose cost is the nonzero count",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "symmetric_matrix",
+      "to": "matrix",
+      "rel": "requires",
+      "why": "symmetry is a condition stated on the entries of a square matrix",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "symmetric_matrix",
+      "to": "matrix_transpose",
+      "rel": "requires",
+      "why": "the defining equation is literally A = A^T",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "trace",
+      "to": "matrix",
+      "rel": "requires",
+      "why": "the trace sums the diagonal entries of a square matrix",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "trace",
+      "to": "summation",
+      "rel": "requires",
+      "why": "the definition is the sum over the diagonal index",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "anchor_box",
+      "to": "bounding_box_parameterization",
+      "rel": "requires",
+      "why": "an anchor is a fixed reference box stated in the same coordinate encoding",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "bounding_box_parameterization",
+      "to": "logarithm",
+      "rel": "requires",
+      "why": "width and height are encoded in log scale so the offsets are unconstrained in sign",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "classification_loss",
+      "to": "categorical_distribution",
+      "rel": "requires",
+      "why": "the model output is a categorical distribution over labels",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "classification_loss",
+      "to": "entropy",
+      "rel": "requires",
+      "why": "the general soft-target form -sum p log q is read off the cross-entropy expression",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "classification_loss",
+      "to": "log_likelihood",
+      "rel": "requires",
+      "why": "the loss is the negative log-likelihood of the observed label under that distribution",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "classification_loss",
+      "to": "loss_function",
+      "rel": "requires",
+      "why": "it is the empirical-risk template specialised to a discrete label",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "classification_loss",
+      "to": "softmax_function",
+      "rel": "requires",
+      "why": "the predicted class probabilities enter the loss as softmax of the scores",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "consensus_set",
+      "to": "residual",
+      "rel": "requires",
+      "why": "membership is decided by thresholding each datum's residual under the hypothesised model",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "consensus_set",
+      "to": "sensor_noise",
+      "rel": "requires",
+      "why": "the inlier threshold is set from the assumed measurement noise scale",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "inlier_ratio",
+      "to": "consensus_set",
+      "rel": "requires",
+      "why": "the ratio is the size of the consensus set divided by the number of data points",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "inlier_ratio",
+      "to": "independent_trials",
+      "rel": "requires",
+      "why": "it is used as the per-draw inlier probability under independent minimal-sample draws",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "iou",
+      "to": "bounding_box_parameterization",
+      "rel": "requires",
+      "why": "intersection and union areas are computed from the box coordinate encoding",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "logit",
+      "to": "bernoulli_distribution",
+      "rel": "requires",
+      "why": "the probability being mapped to the real line is a Bernoulli success parameter",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "logit",
+      "to": "log_odds",
+      "rel": "requires",
+      "why": "the logit of a probability is by definition its log-odds",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "loss_function",
+      "to": "empirical_distribution",
+      "rel": "requires",
+      "why": "the trainable objective replaces that expectation by an average over the empirical data distribution",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "loss_function",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "risk is defined as the expectation of a per-example penalty",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "non_max_suppression",
+      "to": "greedy_choice",
+      "rel": "requires",
+      "why": "the procedure is a greedy take-the-highest-score-then-suppress loop",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "non_max_suppression",
+      "to": "iou",
+      "rel": "requires",
+      "why": "the suppression test is an IoU threshold between the kept box and each candidate",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "objectness",
+      "to": "bernoulli_distribution",
+      "rel": "requires",
+      "why": "objectness is the success parameter of a Bernoulli object/no-object indicator",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "objectness",
+      "to": "iou",
+      "rel": "requires",
+      "why": "the positive/negative target for the indicator is assigned by IoU overlap with ground truth",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "objectness",
+      "to": "logit",
+      "rel": "requires",
+      "why": "the network emits a log-odds score that is mapped back to that probability",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "regression_loss",
+      "to": "gaussian_distribution",
+      "rel": "requires",
+      "why": "squared error is obtained by assuming additive Gaussian noise on the target",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "regression_loss",
+      "to": "log_likelihood",
+      "rel": "requires",
+      "why": "taking the log of the Gaussian likelihood and dropping constants is what leaves the squared residual",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "regression_loss",
+      "to": "loss_function",
+      "rel": "requires",
+      "why": "it is the empirical-risk template specialised to a continuous target",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "regression_loss",
+      "to": "residual",
+      "rel": "requires",
+      "why": "the penalty is a function of the prediction-minus-target residual",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "softmax_function",
+      "to": "categorical_distribution",
+      "rel": "requires",
+      "why": "the output being constructed is the parameter vector of a categorical distribution",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "softmax_function",
+      "to": "exponential_function",
+      "rel": "requires",
+      "why": "scores are exponentiated to make them positive before normalising",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "softmax_function",
+      "to": "normalization",
+      "rel": "requires",
+      "why": "the denominator is the normalising sum that forces the outputs to sum to one",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "weighted_average",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "the result is the expectation under the discrete distribution defined by the normalised weights",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "weighted_average",
+      "to": "normalization",
+      "rel": "requires",
+      "why": "the weights are divided by their sum so the coefficients form a valid convex combination",
+      "cluster": "machine_learning_concepts",
+      "demoted": false
+    },
+    {
+      "from": "bayes_rule",
+      "to": "conditional_probability",
+      "rel": "requires",
+      "why": "the posterior is obtained by rearranging the definition of a conditional",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "bayes_rule",
+      "to": "joint_distribution",
+      "rel": "requires",
+      "why": "equating the two factorisations of the same joint gives the identity",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "bayes_rule",
+      "to": "total_probability",
+      "rel": "requires",
+      "why": "the denominator (evidence) is built by summing the joint over hypotheses",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "belief_distribution",
+      "to": "conditional_probability",
+      "rel": "requires",
+      "why": "the belief is the state posterior conditioned on all past data",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "belief_distribution",
+      "to": "normalization",
+      "rel": "requires",
+      "why": "the belief is only a distribution after dividing by the evidence constant",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "belief_distribution",
+      "to": "probability_density_function",
+      "rel": "requires",
+      "why": "the belief over a continuous state is carried as a density",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "belief_distribution",
+      "to": "state_space_model",
+      "rel": "requires",
+      "why": "defining the belief requires the state and measurement variables the model supplies",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "bernoulli_distribution",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "the mean p is derived by evaluating the expectation over two outcomes",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "bernoulli_distribution",
+      "to": "random_variable",
+      "rel": "requires",
+      "why": "it is the distribution of a single binary random variable",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "bernoulli_distribution",
+      "to": "variance",
+      "rel": "requires",
+      "why": "the p(1-p) result comes from the variance definition applied to the two outcomes",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "binomial_distribution",
+      "to": "bernoulli_distribution",
+      "rel": "requires",
+      "why": "the count is a sum of Bernoulli indicators",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "binomial_distribution",
+      "to": "independent_trials",
+      "rel": "requires",
+      "why": "the p^k(1-p)^(n-k) factor requires the trials to multiply independently",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "binomial_distribution",
+      "to": "summation",
+      "rel": "requires",
+      "why": "the pmf is assembled by summing probabilities over all orderings with k successes",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "categorical_distribution",
+      "to": "bernoulli_distribution",
+      "rel": "requires",
+      "why": "it is the K-outcome generalisation of the two-outcome case",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "categorical_distribution",
+      "to": "normalization",
+      "rel": "requires",
+      "why": "the parameter vector must be rescaled to sum to one",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "categorical_distribution",
+      "to": "summation",
+      "rel": "requires",
+      "why": "probabilities are indexed and summed over the outcome set",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "conditional_independence",
+      "to": "conditional_probability",
+      "rel": "requires",
+      "why": "defined by p(a|b,c)=p(a|c), an equality of conditionals",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "conditional_independence",
+      "to": "joint_distribution",
+      "rel": "requires",
+      "why": "equivalently the conditioned joint factorises into a product",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "covariance_matrix",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "each entry is an expectation of a product of centred deviations",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "covariance_matrix",
+      "to": "joint_distribution",
+      "rel": "requires",
+      "why": "off-diagonal terms are expectations under the joint of two components",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "covariance_matrix",
+      "to": "matrix_transpose",
+      "rel": "requires",
+      "why": "built as the expected outer product E[(x-mu)(x-mu)^T]",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "covariance_matrix",
+      "to": "variance",
+      "rel": "requires",
+      "why": "the diagonal entries are the per-component variances being generalised",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "empirical_distribution",
+      "to": "independent_trials",
+      "rel": "requires",
+      "why": "the equal 1/N weights presume i.i.d. draws",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "empirical_distribution",
+      "to": "random_variable",
+      "rel": "requires",
+      "why": "it is built from realised draws of a random variable",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "empirical_distribution",
+      "to": "summation",
+      "rel": "requires",
+      "why": "the distribution is a normalised sum of point masses at the samples",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "entropy",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "entropy is the expected value of the negative log probability",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "entropy",
+      "to": "logarithm",
+      "rel": "requires",
+      "why": "the information content of an outcome is -log p",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "entropy",
+      "to": "summation",
+      "rel": "requires",
+      "why": "the discrete definition sums -p log p over outcomes",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "estimator_variance",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "the derivation expands E[(theta_hat - E[theta_hat])^2]",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "estimator_variance",
+      "to": "independent_trials",
+      "rel": "requires",
+      "why": "cross terms vanish only because the samples are independent",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "estimator_variance",
+      "to": "variance",
+      "rel": "requires",
+      "why": "it is the variance definition applied to the estimator as a random variable",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_conditioning",
+      "to": "completing_the_square",
+      "rel": "requires",
+      "why": "the exponent is regrouped into a square in x to read off the conditional mean",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_conditioning",
+      "to": "conditional_probability",
+      "rel": "requires",
+      "why": "the derivation starts from p(x|y)=p(x,y)/p(y)",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_conditioning",
+      "to": "joint_gaussian",
+      "rel": "requires",
+      "why": "conditioning is derived by partitioning a joint Gaussian into blocks",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_conditioning",
+      "to": "schur_complement",
+      "rel": "requires",
+      "why": "the conditional covariance is the Schur complement of the observed block",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_distribution",
+      "to": "exponential_function",
+      "rel": "requires",
+      "why": "the kernel is exp of a negative squared deviation",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_distribution",
+      "to": "normalization",
+      "rel": "requires",
+      "why": "the 1/sqrt(2*pi*sigma^2) factor comes from forcing the density to integrate to one",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_distribution",
+      "to": "probability_density_function",
+      "rel": "requires",
+      "why": "the Gaussian is written down as a density over the real line",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_distribution",
+      "to": "variance",
+      "rel": "requires",
+      "why": "the width parameter in the exponent is the variance",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_marginalization",
+      "to": "completing_the_square",
+      "rel": "requires",
+      "why": "the integrand is split into a term free of the nuisance variable and a Gaussian in it",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_marginalization",
+      "to": "integral",
+      "rel": "requires",
+      "why": "the nuisance block is removed by an explicit integration",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_marginalization",
+      "to": "joint_gaussian",
+      "rel": "requires",
+      "why": "the block-partitioned joint is what gets integrated",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_marginalization",
+      "to": "marginalization",
+      "rel": "requires",
+      "why": "the marginal is defined by integrating the nuisance block out",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "importance_sampling",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "the identity multiplies and divides inside an expectation to swap the sampling density",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "importance_sampling",
+      "to": "importance_weight_derivation",
+      "rel": "requires",
+      "why": "the p/q ratio that corrects the mismatch is the core algebraic step",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "importance_sampling",
+      "to": "monte_carlo_integration",
+      "rel": "requires",
+      "why": "it is a reweighting of the plain sample-average estimator",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "importance_sampling",
+      "to": "proposal_distribution",
+      "rel": "requires",
+      "why": "samples are drawn from the proposal rather than the target",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "independent_trials",
+      "to": "conditional_probability",
+      "rel": "requires",
+      "why": "independence is stated as p(a|b)=p(a)",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "independent_trials",
+      "to": "joint_distribution",
+      "rel": "requires",
+      "why": "the working form is the joint factoring into a product over trials",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "independent_trials",
+      "to": "random_variable",
+      "rel": "requires",
+      "why": "the trials are identically distributed random variables being repeated",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "inverse_sensor_model",
+      "to": "bayes_rule",
+      "rel": "requires",
+      "why": "p(state|measurement) is obtained by inverting the forward sensor model",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "inverse_sensor_model",
+      "to": "bernoulli_distribution",
+      "rel": "requires",
+      "why": "the inverted quantity is a binary occupancy probability",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "inverse_sensor_model",
+      "to": "likelihood",
+      "rel": "requires",
+      "why": "the forward model p(z|x) being inverted is the likelihood",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "inverse_sensor_model",
+      "to": "log_odds",
+      "rel": "requires",
+      "why": "the recursive update is written additively in log-odds so the prior cancels",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "joint_gaussian",
+      "to": "covariance_matrix",
+      "rel": "requires",
+      "why": "the inverse covariance is the matrix appearing in the exponent",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "joint_gaussian",
+      "to": "determinant",
+      "rel": "requires",
+      "why": "det(Sigma) enters the normalising constant",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "joint_gaussian",
+      "to": "gaussian_distribution",
+      "rel": "requires",
+      "why": "the multivariate form generalises the scalar density",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "joint_gaussian",
+      "to": "joint_distribution",
+      "rel": "requires",
+      "why": "it is a density over a stacked vector of several variables at once",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "joint_gaussian",
+      "to": "quadratic_form",
+      "rel": "requires",
+      "why": "the exponent is the quadratic form (x-mu)^T Sigma^-1 (x-mu)",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "kl_divergence",
+      "to": "entropy",
+      "rel": "requires",
+      "why": "KL is derived as cross-entropy minus entropy",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "kl_divergence",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "it is the expectation of the log ratio taken under p",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "kl_divergence",
+      "to": "log_of_product_to_sum",
+      "rel": "requires",
+      "why": "log(p/q) is split into log p minus log q to reach the entropy form",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "kl_divergence",
+      "to": "logarithm",
+      "rel": "requires",
+      "why": "the integrand is the log of the density ratio",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "law_of_large_numbers",
+      "to": "estimator_variance",
+      "rel": "requires",
+      "why": "the derivation rests on the sample-mean variance shrinking like 1/N",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "law_of_large_numbers",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "the statement is about the sample mean approaching the expectation",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "law_of_large_numbers",
+      "to": "independent_trials",
+      "rel": "requires",
+      "why": "the argument needs the samples to be independent and identically distributed",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "law_of_large_numbers",
+      "to": "inequality_bounding",
+      "rel": "requires",
+      "why": "the deviation probability is bounded by a Chebyshev-style inequality",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "likelihood",
+      "to": "conditional_probability",
+      "rel": "requires",
+      "why": "it is p(data|parameter) read as a function of the parameter",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "likelihood",
+      "to": "probability_density_function",
+      "rel": "requires",
+      "why": "for continuous data the likelihood value is a density evaluation",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "linear_transformation_of_gaussian",
+      "to": "change_of_variables",
+      "rel": "requires",
+      "why": "the transformed density is obtained by substituting y=Ax+b into the density",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "linear_transformation_of_gaussian",
+      "to": "covariance_matrix",
+      "rel": "requires",
+      "why": "the result is stated as the transformed covariance A*Sigma*A^T",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "linear_transformation_of_gaussian",
+      "to": "determinant",
+      "rel": "requires",
+      "why": "the Jacobian determinant |det A| rescales the density",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "linear_transformation_of_gaussian",
+      "to": "gaussian_distribution",
+      "rel": "requires",
+      "why": "the object being pushed through the map is a Gaussian density",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "linear_transformation_of_gaussian",
+      "to": "matrix_transpose",
+      "rel": "requires",
+      "why": "the A*Sigma*A^T sandwich comes out of the quadratic form under substitution",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "log_likelihood",
+      "to": "independent_trials",
+      "rel": "requires",
+      "why": "there is a product to break up only because the samples factorise",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "log_likelihood",
+      "to": "likelihood",
+      "rel": "requires",
+      "why": "it is the logarithm of the likelihood function",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "log_likelihood",
+      "to": "log_of_product_to_sum",
+      "rel": "requires",
+      "why": "the product over data points becomes a sum of log terms",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "log_likelihood",
+      "to": "logarithm",
+      "rel": "requires",
+      "why": "the transform is the log, monotone so the argmax is unchanged",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "log_odds",
+      "to": "log_odds_transformation",
+      "rel": "requires",
+      "why": "recovering p from the log-odds requires inverting the transform",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "log_odds",
+      "to": "logarithm",
+      "rel": "requires",
+      "why": "the transform is the log itself, turning ratios into differences",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "log_odds",
+      "to": "odds_ratio",
+      "rel": "requires",
+      "why": "log-odds is the logarithm of the odds ratio",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "markov_assumption",
+      "to": "conditional_independence",
+      "rel": "requires",
+      "why": "the assumption is stated as conditional independence of the future from the past given the present",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "markov_assumption",
+      "to": "conditional_probability",
+      "rel": "requires",
+      "why": "it asserts an equality between two conditionals with different conditioning sets",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "markov_assumption",
+      "to": "joint_distribution",
+      "rel": "requires",
+      "why": "its payoff is collapsing the full joint into a chain of one-step factors",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "maximum_likelihood_estimation",
+      "to": "algebraic_rearrangement",
+      "rel": "requires",
+      "why": "the score equations must be solved for the parameter in closed form",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "maximum_likelihood_estimation",
+      "to": "log_likelihood",
+      "rel": "requires",
+      "why": "the objective actually differentiated is the log-likelihood",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "maximum_likelihood_estimation",
+      "to": "partial_derivative",
+      "rel": "requires",
+      "why": "each parameter is differentiated out of the log-likelihood separately",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "maximum_likelihood_estimation",
+      "to": "stationary_point",
+      "rel": "requires",
+      "why": "the estimator is found by setting the score to zero",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "monte_carlo_integration",
+      "to": "empirical_distribution",
+      "rel": "requires",
+      "why": "the sample average is the expectation taken under the empirical measure",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "monte_carlo_integration",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "the integral is first rewritten as an expectation under a density",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "monte_carlo_integration",
+      "to": "integral",
+      "rel": "requires",
+      "why": "the quantity being approximated is an integral",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "monte_carlo_integration",
+      "to": "law_of_large_numbers",
+      "rel": "requires",
+      "why": "replacing the expectation by a sample average is justified by the LLN",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "odds_ratio",
+      "to": "bernoulli_distribution",
+      "rel": "requires",
+      "why": "odds are formed from the two outcome probabilities of a binary event",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "odds_ratio",
+      "to": "conditional_probability",
+      "rel": "requires",
+      "why": "the useful form is a ratio of conditionals sharing the same evidence",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "proposal_distribution",
+      "to": "monte_carlo_integration",
+      "rel": "requires",
+      "why": "the notion only has content as the density the sample-average draws from",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "proposal_distribution",
+      "to": "probability_density_function",
+      "rel": "requires",
+      "why": "the proposal is a density that must be evaluable and sampleable",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "recursive_estimation",
+      "to": "bayes_rule",
+      "rel": "requires",
+      "why": "the update step is Bayes' rule applied to the incoming measurement",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "recursive_estimation",
+      "to": "belief_distribution",
+      "rel": "requires",
+      "why": "the recursion propagates the belief from one time step to the next",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "recursive_estimation",
+      "to": "markov_assumption",
+      "rel": "requires",
+      "why": "dropping the full history from the conditionals is what makes the filter recursive",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "recursive_estimation",
+      "to": "recursive_substitution",
+      "rel": "requires",
+      "why": "the previous posterior is substituted in as the current prior to close the loop",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "recursive_estimation",
+      "to": "total_probability",
+      "rel": "requires",
+      "why": "the prediction step integrates the transition model against the prior belief",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "state_space_model",
+      "to": "conditional_independence",
+      "rel": "requires",
+      "why": "measurements are assumed independent of everything else given the current state",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "state_space_model",
+      "to": "joint_distribution",
+      "rel": "requires",
+      "why": "the model is the factorisation of the joint over states and measurements",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "state_space_model",
+      "to": "markov_assumption",
+      "rel": "requires",
+      "why": "the one-step transition model is only valid under the Markov property of the state",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "total_probability",
+      "to": "conditional_probability",
+      "rel": "requires",
+      "why": "each term of the sum is a conditional times a prior",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "total_probability",
+      "to": "joint_distribution",
+      "rel": "requires",
+      "why": "the sum is over the joint before it is factored",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "total_probability",
+      "to": "marginalization",
+      "rel": "requires",
+      "why": "the law is exactly marginalising the joint over the conditioning variable",
+      "cluster": "probability_and_estimation",
+      "demoted": false
+    },
+    {
+      "from": "backward_recursion",
+      "to": "bellman_equation",
+      "rel": "requires",
+      "why": "the backward sweep is literally repeated application of the Bellman recursion",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "backward_recursion",
+      "to": "dynamic_programming",
+      "rel": "related_to",
+      "why": "backward recursion is the table-filling order dynamic programming prescribes",
+      "cluster": "techniques",
+      "demoted": true
+    },
+    {
+      "from": "backward_recursion",
+      "to": "optimal_substructure",
+      "rel": "requires",
+      "why": "without optimal substructure the stage-wise backward decomposition is not valid",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "backward_recursion",
+      "to": "value_function",
+      "rel": "requires",
+      "why": "the quantity being propagated backwards from the terminal stage is the value function",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "block_matrix_inversion",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "the derivation solves a block system for the inverse blocks",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "block_matrix_inversion",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "verifying the block product equals identity is done blockwise",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "block_matrix_inversion",
+      "to": "schur_complement",
+      "rel": "requires",
+      "why": "each block of the inverse is written in terms of a Schur complement",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "change_of_variables",
+      "to": "determinant",
+      "rel": "requires",
+      "why": "the density is scaled by the absolute determinant of the Jacobian",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "change_of_variables",
+      "to": "integral",
+      "rel": "requires",
+      "why": "the rule is derived by equating integrals over corresponding regions",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "change_of_variables",
+      "to": "jacobian_matrix",
+      "rel": "requires",
+      "why": "the volume-scaling factor of the substitution is the Jacobian",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "change_of_variables",
+      "to": "probability_density_function",
+      "rel": "requires",
+      "why": "the object being transformed is a density, not a probability",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "cholesky_factorization",
+      "to": "index_notation",
+      "rel": "requires",
+      "why": "the elimination recursion is derived at the level of individual entries l_ij",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "cholesky_factorization",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "the recursion comes from expanding the product L L^T entry by entry",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "cholesky_factorization",
+      "to": "positive_semidefinite_matrix",
+      "rel": "requires",
+      "why": "the factorization only exists for positive (semi)definite matrices and definiteness supplies the square roots",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "cholesky_factorization",
+      "to": "symmetric_matrix",
+      "rel": "requires",
+      "why": "the A = L L^T form presupposes symmetry",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "completing_the_square",
+      "to": "algebraic_rearrangement",
+      "rel": "requires",
+      "why": "the step is adding and subtracting a term and regrouping",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "completing_the_square",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "the completed centre is A^{-1} b and the constant is b^T A^{-1} b",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "completing_the_square",
+      "to": "quadratic_form",
+      "rel": "requires",
+      "why": "the expression being rewritten is a quadratic form x^T A x - 2 b^T x",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "completing_the_square",
+      "to": "symmetric_matrix",
+      "rel": "requires",
+      "why": "the cross terms combine into 2 b^T x only when the form's matrix is symmetric",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "importance_weight_derivation",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "the weight falls out of rewriting an expectation under a different density",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "importance_weight_derivation",
+      "to": "monte_carlo_integration",
+      "rel": "requires",
+      "why": "the weighted sum only means anything as a sample estimate of the rewritten integral",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "importance_weight_derivation",
+      "to": "probability_density_function",
+      "rel": "requires",
+      "why": "the ratio multiplies and divides by densities pointwise",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "importance_weight_derivation",
+      "to": "proposal_distribution",
+      "rel": "requires",
+      "why": "the weight is the ratio of target to proposal density",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "index_notation",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "the canonical use is writing (AB)_ij as a sum over k",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "index_notation",
+      "to": "summation",
+      "rel": "requires",
+      "why": "index notation exists to make repeated sums over indices explicit",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "index_notation",
+      "to": "vector",
+      "rel": "requires",
+      "why": "components are indexed entries of vectors and matrices",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "inequality_bounding",
+      "to": "algebraic_rearrangement",
+      "rel": "requires",
+      "why": "bounds are produced by dropping or replacing terms and regrouping",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "inequality_bounding",
+      "to": "convexity",
+      "rel": "requires",
+      "why": "the standard bounding step (Jensen, tangent-line bound) is justified by convexity",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "inequality_bounding",
+      "to": "norm",
+      "rel": "requires",
+      "why": "triangle-inequality style bounds are stated in terms of a norm",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "jacobian_vector_product",
+      "to": "computational_graph",
+      "rel": "requires",
+      "why": "the matrix-free evaluation is a forward sweep over the graph of operations",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "jacobian_vector_product",
+      "to": "directional_derivative",
+      "rel": "requires",
+      "why": "Jv is the directional derivative of the map along v",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "jacobian_vector_product",
+      "to": "jacobian_matrix",
+      "rel": "requires",
+      "why": "the product being computed is J times a vector without forming J",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "jacobian_vector_product",
+      "to": "multivariate_chain_rule",
+      "rel": "requires",
+      "why": "the product is propagated through composed maps by the chain rule",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "lagrange_multipliers",
+      "to": "function_of_several_variables",
+      "rel": "requires",
+      "why": "objective and constraint are scalar functions of a vector argument",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "lagrange_multipliers",
+      "to": "gradient",
+      "rel": "requires",
+      "why": "stationarity is expressed as the objective gradient being a combination of constraint gradients",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "lagrange_multipliers",
+      "to": "partial_derivative",
+      "rel": "requires",
+      "why": "the conditions are obtained by differentiating the Lagrangian in each variable and the multiplier",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "lagrange_multipliers",
+      "to": "stationary_point",
+      "rel": "requires",
+      "why": "the method sets the Lagrangian's stationarity conditions to zero",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "laplace_transform_of_derivative",
+      "to": "derivative",
+      "rel": "requires",
+      "why": "the object transformed is the time derivative of the signal",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "laplace_transform_of_derivative",
+      "to": "integral",
+      "rel": "requires",
+      "why": "the s F(s) - f(0) result comes from evaluating the defining integral",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "laplace_transform_of_derivative",
+      "to": "laplace_transform",
+      "rel": "requires",
+      "why": "the identity is the transform integral applied to f'",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "linearization",
+      "to": "jacobian_matrix",
+      "rel": "requires",
+      "why": "the linear coefficient of a vector-valued map is its Jacobian at the operating point",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "linearization",
+      "to": "partial_derivative",
+      "rel": "requires",
+      "why": "the Jacobian entries are partial derivatives evaluated at the nominal point",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "linearization",
+      "to": "taylor_expansion",
+      "rel": "requires",
+      "why": "linearization is the first-order Taylor expansion with the remainder dropped",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "log_odds_transformation",
+      "to": "algebraic_rearrangement",
+      "rel": "requires",
+      "why": "recovering p from the log-odds requires inverting the expression",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "log_odds_transformation",
+      "to": "logarithm",
+      "rel": "requires",
+      "why": "the transform is the logarithm applied to the odds, turning products into sums",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "log_odds_transformation",
+      "to": "odds_ratio",
+      "rel": "requires",
+      "why": "the transform takes the log of the odds p/(1-p)",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "log_of_product_to_sum",
+      "to": "logarithm",
+      "rel": "requires",
+      "why": "the identity is the defining additive property of the logarithm",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "log_of_product_to_sum",
+      "to": "summation",
+      "rel": "requires",
+      "why": "a product over terms becomes a sum over the same index",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "logarithm_solve",
+      "to": "algebraic_rearrangement",
+      "rel": "requires",
+      "why": "after taking logs the remaining step is isolating the unknown",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "logarithm_solve",
+      "to": "exponential_function",
+      "rel": "requires",
+      "why": "log and exp are used as inverse operations to strip the exponential",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "logarithm_solve",
+      "to": "logarithm",
+      "rel": "requires",
+      "why": "the unknown in an exponent is isolated by taking logs of both sides",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "marginalization",
+      "to": "integral",
+      "rel": "requires",
+      "why": "the continuous case eliminates the variable by integrating over its range",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "marginalization",
+      "to": "joint_distribution",
+      "rel": "requires",
+      "why": "the variable is summed or integrated out of a joint distribution",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "marginalization",
+      "to": "total_probability",
+      "rel": "related_to",
+      "why": "marginalization is the law of total probability applied to a variable",
+      "cluster": "techniques",
+      "demoted": true
+    },
+    {
+      "from": "matrix_calculus_gradient",
+      "to": "gradient",
+      "rel": "requires",
+      "why": "the derivative of a scalar with respect to a matrix or vector is assembled as a gradient",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "matrix_calculus_gradient",
+      "to": "index_notation",
+      "rel": "requires",
+      "why": "matrix derivative identities are derived entrywise and reassembled",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "matrix_calculus_gradient",
+      "to": "partial_derivative",
+      "rel": "requires",
+      "why": "each entry of the result is a partial derivative with respect to one entry of the argument",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "matrix_calculus_gradient",
+      "to": "trace_identities",
+      "rel": "requires",
+      "why": "scalar expressions are put in trace form and cycled to expose the derivative",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "matrix_calculus_gradient",
+      "to": "transpose_identities",
+      "rel": "requires",
+      "why": "reassembling the entrywise result into matrix form requires transpose rules",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "matrix_inversion_lemma",
+      "to": "block_matrix_inversion",
+      "rel": "requires",
+      "why": "Woodbury is obtained by inverting one bordered block matrix two different ways",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "matrix_inversion_lemma",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "the identity relates the inverse of a low-rank update to the inverse of the base matrix",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "matrix_inversion_lemma",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "the lemma is verified by multiplying the claimed inverse out",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "multivariate_chain_rule",
+      "to": "chain_rule",
+      "rel": "requires",
+      "why": "it is the several-variable generalisation of the single-variable rule",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "multivariate_chain_rule",
+      "to": "composite_function",
+      "rel": "requires",
+      "why": "the rule differentiates a composition of maps",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "multivariate_chain_rule",
+      "to": "jacobian_matrix",
+      "rel": "requires",
+      "why": "the composed derivative is the product of Jacobians",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "multivariate_chain_rule",
+      "to": "partial_derivative",
+      "rel": "requires",
+      "why": "each path contribution is a product of partial derivatives summed over intermediate variables",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "normalization",
+      "to": "integral",
+      "rel": "requires",
+      "why": "the normalising constant is the integral of the unnormalised function",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "normalization",
+      "to": "probability_density_function",
+      "rel": "requires",
+      "why": "the object being scaled is an unnormalised density",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "normalization",
+      "to": "total_probability",
+      "rel": "requires",
+      "why": "the normaliser is the sum or integral that forces total probability to one",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "partial_fractions",
+      "to": "algebraic_rearrangement",
+      "rel": "requires",
+      "why": "the coefficients are found by clearing denominators and matching terms",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "partial_fractions",
+      "to": "pole_location",
+      "rel": "requires",
+      "why": "the decomposition is indexed by the roots of the denominator",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "quadratic_form_differentiation",
+      "to": "gradient",
+      "rel": "requires",
+      "why": "the answer is the gradient vector of a scalar function of a vector",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "quadratic_form_differentiation",
+      "to": "matrix_calculus_gradient",
+      "rel": "requires",
+      "why": "the result is a special case of the matrix-derivative machinery",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "quadratic_form_differentiation",
+      "to": "quadratic_form",
+      "rel": "requires",
+      "why": "the expression being differentiated is x^T A x",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "quadratic_form_differentiation",
+      "to": "symmetric_matrix",
+      "rel": "requires",
+      "why": "the clean 2Ax result holds only when A is symmetric, otherwise (A + A^T)x",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "quaternion_multiplication",
+      "to": "dot_product",
+      "rel": "requires",
+      "why": "the scalar part of the product is w1w2 minus the dot product of the vector parts",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "quaternion_multiplication",
+      "to": "quaternion",
+      "rel": "requires",
+      "why": "the Hamilton product is defined on the scalar-vector parts of a quaternion",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "quaternion_multiplication",
+      "to": "vector",
+      "rel": "requires",
+      "why": "the vector part combines scaled vector parts and their cross product",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "recursive_substitution",
+      "to": "algebraic_rearrangement",
+      "rel": "requires",
+      "why": "unrolling means substituting the relation into itself and regrouping terms",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "recursive_substitution",
+      "to": "summation",
+      "rel": "requires",
+      "why": "the unrolled recurrence collapses into a sum over the substituted steps",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "schur_complement",
+      "to": "algebraic_rearrangement",
+      "rel": "requires",
+      "why": "the complement is produced by solving one block equation and substituting it into the other",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "schur_complement",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "the complement is A - B D^{-1} C, requiring the inverse of one block",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "schur_complement",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "it arises from block-eliminating one variable via block products",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "softmax_differentiation",
+      "to": "chain_rule",
+      "rel": "requires",
+      "why": "differentiating the normalising denominator requires the quotient/chain rule",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "softmax_differentiation",
+      "to": "exponential_function",
+      "rel": "requires",
+      "why": "the derivative reuses the fact that exp differentiates to itself",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "softmax_differentiation",
+      "to": "partial_derivative",
+      "rel": "requires",
+      "why": "the Jacobian entry ds_i/dz_j is a partial derivative, split into i=j and i!=j cases",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "softmax_differentiation",
+      "to": "softmax_function",
+      "rel": "requires",
+      "why": "the derivative being computed is that of the softmax map itself",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "svd_factorization",
+      "to": "eigendecomposition",
+      "rel": "requires",
+      "why": "U and V are obtained as eigenvectors of A A^T and A^T A",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "svd_factorization",
+      "to": "gram_matrix",
+      "rel": "requires",
+      "why": "the derivation goes through A^T A, whose eigenvalues are the squared singular values",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "svd_factorization",
+      "to": "orthogonal_matrix",
+      "rel": "requires",
+      "why": "the outer factors are orthonormal, which is what makes the factorization invertible by transpose",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "svd_factorization",
+      "to": "singular_value_decomposition",
+      "rel": "requires",
+      "why": "the procedure constructs the U, Sigma, V factors of the SVD",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "trace_identities",
+      "to": "index_notation",
+      "rel": "requires",
+      "why": "tr(AB) = tr(BA) is proved by swapping the order of the double sum over indices",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "trace_identities",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "the cyclic property concerns traces of matrix products",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "trace_identities",
+      "to": "trace",
+      "rel": "requires",
+      "why": "the identities are statements about the trace operator",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "transpose_identities",
+      "to": "index_notation",
+      "rel": "requires",
+      "why": "the reversal rule is shown by comparing entries of both sides",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "transpose_identities",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "(AB)^T = B^T A^T is a statement about products",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "transpose_identities",
+      "to": "matrix_transpose",
+      "rel": "requires",
+      "why": "the identities are the algebraic rules of the transpose operator",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "weight_normalization",
+      "to": "importance_weight_derivation",
+      "rel": "requires",
+      "why": "the raw weights being normalised are the importance weights",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "weight_normalization",
+      "to": "normalization",
+      "rel": "requires",
+      "why": "it is normalisation applied to a finite set of weights",
+      "cluster": "techniques",
+      "demoted": false
+    },
+    {
+      "from": "weight_normalization",
+      "to": "summation",
+      "rel": "requires",
+      "why": "the normaliser is the sum of the raw weights over samples",
+      "cluster": "techniques",
+      "demoted": false
+    }
+  ]
+}
