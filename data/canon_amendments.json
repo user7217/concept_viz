@@ -1,0 +1,344 @@
+{
+  "_note": "Adjudication of the 64 flags raised while authoring canon internal edges. Node ids are never reassigned: a node that loses a merge becomes an alias of the survivor and stays resolvable. Edges for the added nodes live in canon_edges.json.",
+  "add_floor": [
+    {
+      "id": "function",
+      "why": "composite_function had no plain mapping concept to point at"
+    },
+    {
+      "id": "span",
+      "why": "column_space and null_space both bottom out here"
+    },
+    {
+      "id": "complex_number",
+      "why": "frequency_response substitutes s = jw and extracts magnitude and phase"
+    },
+    {
+      "id": "quotient_rule",
+      "why": "softmax_differentiation is a quotient rule application"
+    },
+    {
+      "id": "kronecker_delta",
+      "why": "states the i=j vs i!=j softmax derivative compactly"
+    }
+  ],
+  "add_concepts": [
+    {
+      "id": "measurement_model",
+      "why": "z = h(x) + b + v. Flagged independently by control and probability; sensor_bias, sensor_noise, residual and inverse_sensor_model all need it"
+    },
+    {
+      "id": "rank",
+      "why": "flagged independently by linear algebra and control; controllability was using column_space + linear_independence as a proxy"
+    },
+    {
+      "id": "null_space",
+      "why": "solving (A - lambda I)v = 0 is a null-space computation"
+    },
+    {
+      "id": "characteristic_polynomial",
+      "why": "det(A - lambda I) = 0 is how eigenvalues are actually computed"
+    },
+    {
+      "id": "skew_symmetric_matrix",
+      "why": "so(3) IS the set of skew-symmetric matrices; the geometry cluster was written in an object the canon lacked"
+    },
+    {
+      "id": "cross_product",
+      "why": "flagged by geometry and techniques; the vector part of the Hamilton product is a cross product"
+    },
+    {
+      "id": "euler_angles",
+      "why": "gimbal_lock has no subject without a minimal rotation parameterisation"
+    },
+    {
+      "id": "homogeneous_coordinates",
+      "why": "the 4x4 block form that makes SE(3) composition a single matrix multiply"
+    },
+    {
+      "id": "path",
+      "why": "path_cost and shortest_path both need the notion of an edge sequence, which graph alone does not supply"
+    },
+    {
+      "id": "binomial_coefficient",
+      "why": "counting orderings with k successes, needed by binomial_distribution"
+    },
+    {
+      "id": "gaussian_integral",
+      "why": "produces the normalising constant of the Gaussian density"
+    },
+    {
+      "id": "sampling",
+      "why": "monte_carlo_integration and particle resampling depend on drawing from a distribution"
+    },
+    {
+      "id": "sigmoid",
+      "why": "binary classification_loss and objectness both need the logistic function"
+    },
+    {
+      "id": "cross_entropy",
+      "why": "classification_loss needs it; entropy and kl_divergence alone do not supply it"
+    },
+    {
+      "id": "inverse_laplace_transform",
+      "why": "the actual step from pole locations to time response; partial_fractions was standing in"
+    },
+    {
+      "id": "quadratic_cost",
+      "why": "riccati_equation had nothing to point at; loss_function is ML-flavoured"
+    },
+    {
+      "id": "multivariate_taylor_expansion",
+      "why": "SPLIT from taylor_expansion, which conflated the univariate expansion with the multivariate form linearization and Gauss-Newton actually use"
+    },
+    {
+      "id": "taylor_expansion",
+      "why": "after the multivariate split, no seed invokes the univariate expansion directly, but step_size and exponential_map still require it. It becomes an explicit canon node rather than one materialised by a seed invocation."
+    },
+    {
+      "id": "normalization",
+      "why": "quaternion_kinematics was the only seed invoking it, so retargeting that to unit_norm_normalization deleted the node while belief_distribution, gaussian_distribution and softmax_function still required it. Made explicit, in the probability sense."
+    }
+  ],
+  "add_techniques": [
+    {
+      "id": "integration_by_parts",
+      "why": "the sF(s) - f(0) identity is exactly one integration by parts"
+    },
+    {
+      "id": "gaussian_elimination",
+      "why": "the schur_complement derivation is block elimination"
+    },
+    {
+      "id": "polynomial_root_finding",
+      "why": "characteristic_polynomial and partial_fractions both need factorisation"
+    },
+    {
+      "id": "unit_norm_normalization",
+      "why": "SPLIT from normalization, which conflated probability normalisation with dividing a vector by its norm"
+    }
+  ],
+  "merge": [
+    {
+      "from": "logit",
+      "into": "log_odds",
+      "why": "logit(p) = log(p/(1-p)) IS the log-odds; two ids for one object"
+    },
+    {
+      "from": "weight_normalization",
+      "into": "normalization",
+      "why": "self-normalised importance weights are probability normalisation"
+    }
+  ],
+  "retier": [
+    {
+      "id": "law_of_large_numbers",
+      "tier": "claim",
+      "why": "keeping it at derivation level would import Chebyshev and convergence in probability, which the ceiling excludes. Know that it holds and when; never prove it"
+    },
+    {
+      "id": "iou",
+      "tier": "claim",
+      "why": "rectangle area arithmetic; a convention, not a derivation"
+    },
+    {
+      "id": "anchor_box",
+      "tier": "claim",
+      "why": "engineering convention with no mathematical derivation"
+    },
+    {
+      "id": "bounding_box_parameterization",
+      "tier": "claim",
+      "why": "the (cx, cy, w, h) choice is a design decision, not a result"
+    },
+    {
+      "id": "non_max_suppression",
+      "tier": "claim",
+      "why": "heuristic post-processing loop with no optimality property"
+    },
+    {
+      "id": "objectness",
+      "tier": "claim",
+      "why": "the IoU-threshold assignment rule is a design choice"
+    },
+    {
+      "id": "algebraic_rearrangement",
+      "tier": "assumed",
+      "why": "nothing is genuinely required to move a term across an equals sign"
+    },
+    {
+      "id": "translation_vector",
+      "tier": "assumed",
+      "why": "definitional (an element of R^3 plus a frame convention), not derived"
+    },
+    {
+      "id": "error_signal",
+      "tier": "assumed",
+      "why": "e = r - y is a subtraction of two signals"
+    },
+    {
+      "id": "graph",
+      "tier": "assumed",
+      "why": "a primitive: vertex set plus edge set"
+    },
+    {
+      "id": "priority_queue",
+      "tier": "assumed",
+      "why": "a data structure; its heap operations use nothing in a mathematics canon"
+    },
+    {
+      "id": "sparse_matrix",
+      "tier": "assumed",
+      "why": "a storage representation, not an object with a paper derivation"
+    }
+  ],
+  "kept_deliberately": [
+    {
+      "id": "svd_factorization",
+      "why": "procedure/object pairs are kept distinct throughout, since technique is a first-class node type by design. Same reasoning keeps log_odds_transformation separate from log_odds"
+    },
+    {
+      "id": "quadratic_form_differentiation",
+      "why": "a strict special case of matrix_calculus_gradient, but the single highest-frequency instance in this ontology and worth its own sheet"
+    },
+    {
+      "id": "recursive_substitution",
+      "why": "forward unrolling to a closed form is not the same move as backward_recursion's stage-wise sweep"
+    },
+    {
+      "id": "information_matrix",
+      "why": "narrowed to the precision matrix (Sigma^-1) rather than split. Fisher information is not needed by any seeded algorithm; the id is kept with precision_matrix as an alias"
+    },
+    {
+      "id": "inequality_bounding",
+      "why": "acknowledged as coarse: it bundles norm bounds, Jensen bounds and heuristic admissibility bounds. Splitting it would create three nodes with no derivation between them, so it stays until a seed algorithm forces the distinction"
+    }
+  ],
+  "rejected_flags": [
+    {
+      "flag": "heuristic_function needs an f = g + h node",
+      "reason": "algorithm-level mechanics belong on the a_star algorithm node, which exists. Artifact of round 1's brief omitting the algorithm layer"
+    },
+    {
+      "flag": "inlier_ratio needs the RANSAC iteration-count formula",
+      "reason": "same: that content belongs on the ransac algorithm node"
+    },
+    {
+      "flag": "inverse_sensor_model needs an occupancy-grid node",
+      "reason": "same: occupancy_grid_mapping is a seed algorithm node"
+    },
+    {
+      "flag": "law_of_large_numbers needs Chebyshev/Markov inequality",
+      "reason": "proof machinery for a convergence theorem. Excluded by the ceiling; resolved by retiering LLN to claim instead"
+    },
+    {
+      "flag": "step_size needs line_search / sufficient_decrease",
+      "reason": "no seeded algorithm chooses a step size adaptively; gradient_descent as seeded uses a fixed step"
+    },
+    {
+      "flag": "value_function needs discount_factor / reward / transition_model",
+      "reason": "LQR is finite-horizon and undiscounted; no seeded algorithm is an RL method. Revisit when one is added"
+    },
+    {
+      "flag": "differential_equation needs separation_of_variables / integrating_factor",
+      "reason": "the seeds' use of ODEs (PID, quaternion kinematics) does not require solving general ODEs"
+    },
+    {
+      "flag": "iou needs an area / set-measure node",
+      "reason": "elementary rectangle arithmetic; adding a node would not make any derivation followable"
+    }
+  ],
+  "drop_edges": [
+    {
+      "from": "controllability",
+      "to": "linear_independence",
+      "why": "superseded by the direct controllability -> rank edge; the rank condition is the actual test"
+    },
+    {
+      "from": "eigenvalue",
+      "to": "determinant",
+      "why": "reached through characteristic_polynomial, which is where the determinant is actually taken"
+    },
+    {
+      "from": "eigenvector",
+      "to": "linear_independence",
+      "why": "subsumed by null_space: the independent set is read off the singular system"
+    },
+    {
+      "from": "lie_algebra",
+      "to": "matrix_transpose",
+      "why": "cap pressure after adding skew_symmetric_matrix, which carries the transpose condition R^T R = I"
+    },
+    {
+      "from": "partial_fractions",
+      "to": "pole_location",
+      "why": "round 1 flagged this as a control-theory-flavoured proxy; polynomial_root_finding is the real prerequisite"
+    },
+    {
+      "from": "riccati_equation",
+      "to": "quadratic_form",
+      "why": "cap pressure after adding quadratic_cost, through which quadratic_form stays reachable"
+    },
+    {
+      "from": "stability",
+      "to": "partial_fractions",
+      "why": "round 1 stand-in for the missing inverse transform; superseded by inverse_laplace_transform"
+    },
+    {
+      "from": "classification_loss",
+      "to": "entropy",
+      "why": "cap pressure after adding cross_entropy and sigmoid; entropy is reached through cross_entropy"
+    },
+    {
+      "from": "classification_loss",
+      "to": "categorical_distribution",
+      "why": "cap pressure after adding cross_entropy and sigmoid; reached through softmax_function"
+    }
+  ],
+  "retarget_edges": [
+    {
+      "from": "linearization",
+      "old_to": "taylor_expansion",
+      "new_to": "multivariate_taylor_expansion",
+      "why": "linearising a vector-valued f(x) is the first-order multivariate expansion; the Jacobian only appears in that form"
+    },
+    {
+      "from": "local_minimum",
+      "old_to": "taylor_expansion",
+      "new_to": "multivariate_taylor_expansion",
+      "why": "the second-order test is stated on the Hessian, which the univariate expansion does not produce"
+    },
+    {
+      "from": "descent_direction",
+      "old_to": "taylor_expansion",
+      "new_to": "multivariate_taylor_expansion",
+      "why": "the descent condition is a statement about the gradient inner product"
+    }
+  ],
+  "seed_retargets": [
+    {
+      "seed": "extended_kalman_filter",
+      "old": "taylor_expansion",
+      "new": "multivariate_taylor_expansion",
+      "why": "the EKF linearises a vector-valued process model; its Jacobian is a multivariate first-order term"
+    },
+    {
+      "seed": "gauss_newton",
+      "old": "taylor_expansion",
+      "new": "multivariate_taylor_expansion",
+      "why": "the normal equations come from expanding a vector residual to first order"
+    },
+    {
+      "seed": "gradient_descent",
+      "old": "taylor_expansion",
+      "new": "multivariate_taylor_expansion",
+      "why": "the descent argument is the multivariate first-order bound"
+    },
+    {
+      "seed": "quaternion_kinematics",
+      "old": "normalization",
+      "new": "unit_norm_normalization",
+      "why": "quaternion renormalisation is division by the norm, not probability normalisation"
+    }
+  ]
+}

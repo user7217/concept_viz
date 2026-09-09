@@ -2,108 +2,514 @@
   "_note": "Canon bootstrap seeds. For each algorithm, the concepts and techniques its derivation actually invokes (design doc section 5, step 1-2). Extracted by hand; ids are shared across seeds so reuse is detectable.",
   "seeds": [
     {
-      "id": "bayes_filter", "name": "Recursive Bayes Filter", "domain": "estimation",
-      "concepts": ["bayes_rule", "conditional_probability", "joint_distribution", "total_probability", "markov_assumption", "conditional_independence", "belief_distribution", "random_variable", "probability_density_function", "state_space_model", "recursive_estimation"],
-      "techniques": ["marginalization", "recursive_substitution"]
+      "id": "bayes_filter",
+      "name": "Recursive Bayes Filter",
+      "domain": "estimation",
+      "concepts": [
+        "bayes_rule",
+        "conditional_probability",
+        "joint_distribution",
+        "total_probability",
+        "markov_assumption",
+        "conditional_independence",
+        "belief_distribution",
+        "random_variable",
+        "probability_density_function",
+        "state_space_model",
+        "recursive_estimation"
+      ],
+      "techniques": [
+        "marginalization",
+        "recursive_substitution"
+      ]
     },
     {
-      "id": "linear_kalman_filter", "name": "Linear Kalman Filter", "domain": "estimation",
-      "concepts": ["bayes_rule", "gaussian_distribution", "joint_gaussian", "gaussian_conditioning", "gaussian_marginalization", "linear_transformation_of_gaussian", "covariance_matrix", "expectation", "variance", "state_space_model", "markov_assumption", "belief_distribution", "matrix", "vector", "matrix_inverse", "matrix_transpose", "positive_semidefinite_matrix", "symmetric_matrix"],
-      "techniques": ["completing_the_square", "matrix_inversion_lemma", "block_matrix_inversion", "schur_complement", "transpose_identities", "marginalization"]
+      "id": "linear_kalman_filter",
+      "name": "Linear Kalman Filter",
+      "domain": "estimation",
+      "concepts": [
+        "bayes_rule",
+        "gaussian_distribution",
+        "joint_gaussian",
+        "gaussian_conditioning",
+        "gaussian_marginalization",
+        "linear_transformation_of_gaussian",
+        "covariance_matrix",
+        "expectation",
+        "variance",
+        "state_space_model",
+        "markov_assumption",
+        "belief_distribution",
+        "matrix",
+        "vector",
+        "matrix_inverse",
+        "matrix_transpose",
+        "positive_semidefinite_matrix",
+        "symmetric_matrix"
+      ],
+      "techniques": [
+        "completing_the_square",
+        "matrix_inversion_lemma",
+        "block_matrix_inversion",
+        "schur_complement",
+        "transpose_identities",
+        "marginalization"
+      ]
     },
     {
-      "id": "extended_kalman_filter", "name": "Extended Kalman Filter", "domain": "estimation",
-      "concepts": ["bayes_rule", "gaussian_distribution", "gaussian_conditioning", "linear_transformation_of_gaussian", "covariance_matrix", "state_space_model", "taylor_expansion", "jacobian_matrix", "partial_derivative", "function_of_several_variables", "matrix", "matrix_inverse", "matrix_transpose", "positive_semidefinite_matrix"],
-      "techniques": ["completing_the_square", "linearization", "multivariate_chain_rule", "matrix_inversion_lemma", "transpose_identities"]
+      "id": "extended_kalman_filter",
+      "name": "Extended Kalman Filter",
+      "domain": "estimation",
+      "concepts": [
+        "bayes_rule",
+        "gaussian_distribution",
+        "gaussian_conditioning",
+        "linear_transformation_of_gaussian",
+        "covariance_matrix",
+        "state_space_model",
+        "multivariate_taylor_expansion",
+        "jacobian_matrix",
+        "partial_derivative",
+        "function_of_several_variables",
+        "matrix",
+        "matrix_inverse",
+        "matrix_transpose",
+        "positive_semidefinite_matrix"
+      ],
+      "techniques": [
+        "completing_the_square",
+        "linearization",
+        "multivariate_chain_rule",
+        "matrix_inversion_lemma",
+        "transpose_identities"
+      ]
     },
     {
-      "id": "particle_filter", "name": "Particle Filter", "domain": "estimation",
-      "concepts": ["bayes_rule", "belief_distribution", "probability_density_function", "importance_sampling", "proposal_distribution", "monte_carlo_integration", "law_of_large_numbers", "empirical_distribution", "estimator_variance", "expectation", "conditional_independence", "markov_assumption"],
-      "techniques": ["importance_weight_derivation", "weight_normalization", "recursive_substitution", "marginalization"]
+      "id": "particle_filter",
+      "name": "Particle Filter",
+      "domain": "estimation",
+      "concepts": [
+        "bayes_rule",
+        "belief_distribution",
+        "probability_density_function",
+        "importance_sampling",
+        "proposal_distribution",
+        "monte_carlo_integration",
+        "law_of_large_numbers",
+        "empirical_distribution",
+        "estimator_variance",
+        "expectation",
+        "conditional_independence",
+        "markov_assumption"
+      ],
+      "techniques": [
+        "importance_weight_derivation",
+        "weight_normalization",
+        "recursive_substitution",
+        "marginalization"
+      ]
     },
     {
-      "id": "occupancy_grid_mapping", "name": "Occupancy Grid Mapping", "domain": "mapping",
-      "concepts": ["bayes_rule", "conditional_independence", "bernoulli_distribution", "odds_ratio", "log_odds", "inverse_sensor_model", "random_variable", "recursive_estimation", "logarithm"],
-      "techniques": ["log_odds_transformation", "recursive_substitution"]
+      "id": "occupancy_grid_mapping",
+      "name": "Occupancy Grid Mapping",
+      "domain": "mapping",
+      "concepts": [
+        "bayes_rule",
+        "conditional_independence",
+        "bernoulli_distribution",
+        "odds_ratio",
+        "log_odds",
+        "inverse_sensor_model",
+        "random_variable",
+        "recursive_estimation",
+        "logarithm"
+      ],
+      "techniques": [
+        "log_odds_transformation",
+        "recursive_substitution"
+      ]
     },
     {
-      "id": "a_star", "name": "A* Search", "domain": "planning",
-      "concepts": ["graph", "weighted_graph", "edge_weight", "path_cost", "shortest_path", "optimal_substructure", "heuristic_function", "admissibility", "consistency_heuristic", "priority_queue", "relaxation"],
-      "techniques": ["inequality_bounding"]
+      "id": "a_star",
+      "name": "A* Search",
+      "domain": "planning",
+      "concepts": [
+        "graph",
+        "weighted_graph",
+        "edge_weight",
+        "path_cost",
+        "shortest_path",
+        "optimal_substructure",
+        "heuristic_function",
+        "admissibility",
+        "consistency_heuristic",
+        "priority_queue",
+        "relaxation"
+      ],
+      "techniques": [
+        "inequality_bounding"
+      ]
     },
     {
-      "id": "dijkstra", "name": "Dijkstra's Algorithm", "domain": "planning",
-      "concepts": ["graph", "weighted_graph", "edge_weight", "path_cost", "shortest_path", "optimal_substructure", "priority_queue", "relaxation", "greedy_choice"],
-      "techniques": ["inequality_bounding"]
+      "id": "dijkstra",
+      "name": "Dijkstra's Algorithm",
+      "domain": "planning",
+      "concepts": [
+        "graph",
+        "weighted_graph",
+        "edge_weight",
+        "path_cost",
+        "shortest_path",
+        "optimal_substructure",
+        "priority_queue",
+        "relaxation",
+        "greedy_choice"
+      ],
+      "techniques": [
+        "inequality_bounding"
+      ]
     },
     {
-      "id": "icp", "name": "Iterative Closest Point", "domain": "geometry",
-      "concepts": ["rigid_transformation", "rotation_matrix", "so3", "translation_vector", "centroid", "cross_covariance_matrix", "singular_value_decomposition", "orthogonal_matrix", "determinant", "least_squares_objective", "norm", "dot_product", "trace", "matrix", "vector"],
-      "techniques": ["svd_factorization", "trace_identities", "lagrange_multipliers", "matrix_calculus_gradient"]
+      "id": "icp",
+      "name": "Iterative Closest Point",
+      "domain": "geometry",
+      "concepts": [
+        "rigid_transformation",
+        "rotation_matrix",
+        "so3",
+        "translation_vector",
+        "centroid",
+        "cross_covariance_matrix",
+        "singular_value_decomposition",
+        "orthogonal_matrix",
+        "determinant",
+        "least_squares_objective",
+        "norm",
+        "dot_product",
+        "trace",
+        "matrix",
+        "vector"
+      ],
+      "techniques": [
+        "svd_factorization",
+        "trace_identities",
+        "lagrange_multipliers",
+        "matrix_calculus_gradient"
+      ]
     },
     {
-      "id": "quaternion_kinematics", "name": "Quaternion Kinematics", "domain": "geometry",
-      "concepts": ["quaternion", "unit_quaternion", "rotation_matrix", "so3", "axis_angle", "angular_velocity", "exponential_map", "gimbal_lock", "norm", "derivative", "differential_equation"],
-      "techniques": ["quaternion_multiplication", "normalization", "change_of_variables"]
+      "id": "quaternion_kinematics",
+      "name": "Quaternion Kinematics",
+      "domain": "geometry",
+      "concepts": [
+        "quaternion",
+        "unit_quaternion",
+        "rotation_matrix",
+        "so3",
+        "axis_angle",
+        "angular_velocity",
+        "exponential_map",
+        "gimbal_lock",
+        "norm",
+        "derivative",
+        "differential_equation"
+      ],
+      "techniques": [
+        "quaternion_multiplication",
+        "unit_norm_normalization",
+        "change_of_variables"
+      ]
     },
     {
-      "id": "ordinary_least_squares", "name": "Ordinary Least Squares", "domain": "optimization",
-      "concepts": ["linear_model", "residual", "least_squares_objective", "normal_equations", "pseudoinverse", "projection_matrix", "column_space", "gram_matrix", "quadratic_form", "matrix", "matrix_transpose", "matrix_inverse", "vector", "dot_product", "norm"],
-      "techniques": ["quadratic_form_differentiation", "matrix_calculus_gradient", "transpose_identities", "completing_the_square"]
+      "id": "ordinary_least_squares",
+      "name": "Ordinary Least Squares",
+      "domain": "optimization",
+      "concepts": [
+        "linear_model",
+        "residual",
+        "least_squares_objective",
+        "normal_equations",
+        "pseudoinverse",
+        "projection_matrix",
+        "column_space",
+        "gram_matrix",
+        "quadratic_form",
+        "matrix",
+        "matrix_transpose",
+        "matrix_inverse",
+        "vector",
+        "dot_product",
+        "norm"
+      ],
+      "techniques": [
+        "quadratic_form_differentiation",
+        "matrix_calculus_gradient",
+        "transpose_identities",
+        "completing_the_square"
+      ]
     },
     {
-      "id": "gauss_newton", "name": "Gauss-Newton / Pose-Graph Optimization", "domain": "optimization",
-      "concepts": ["nonlinear_least_squares", "residual", "jacobian_matrix", "hessian_matrix", "normal_equations", "taylor_expansion", "information_matrix", "sparse_matrix", "se3", "lie_algebra", "manifold_retraction", "levenberg_marquardt_damping", "matrix", "matrix_transpose", "partial_derivative"],
-      "techniques": ["linearization", "cholesky_factorization", "matrix_calculus_gradient", "quadratic_form_differentiation", "transpose_identities"]
+      "id": "gauss_newton",
+      "name": "Gauss-Newton / Pose-Graph Optimization",
+      "domain": "optimization",
+      "concepts": [
+        "nonlinear_least_squares",
+        "residual",
+        "jacobian_matrix",
+        "hessian_matrix",
+        "normal_equations",
+        "multivariate_taylor_expansion",
+        "information_matrix",
+        "sparse_matrix",
+        "se3",
+        "lie_algebra",
+        "manifold_retraction",
+        "levenberg_marquardt_damping",
+        "matrix",
+        "matrix_transpose",
+        "partial_derivative"
+      ],
+      "techniques": [
+        "linearization",
+        "cholesky_factorization",
+        "matrix_calculus_gradient",
+        "quadratic_form_differentiation",
+        "transpose_identities"
+      ]
     },
     {
-      "id": "gradient_descent", "name": "Gradient Descent", "domain": "optimization",
-      "concepts": ["gradient", "directional_derivative", "taylor_expansion", "partial_derivative", "convexity", "local_minimum", "stationary_point", "step_size", "descent_direction", "function_of_several_variables", "norm"],
-      "techniques": ["inequality_bounding", "matrix_calculus_gradient"]
+      "id": "gradient_descent",
+      "name": "Gradient Descent",
+      "domain": "optimization",
+      "concepts": [
+        "gradient",
+        "directional_derivative",
+        "multivariate_taylor_expansion",
+        "partial_derivative",
+        "convexity",
+        "local_minimum",
+        "stationary_point",
+        "step_size",
+        "descent_direction",
+        "function_of_several_variables",
+        "norm"
+      ],
+      "techniques": [
+        "inequality_bounding",
+        "matrix_calculus_gradient"
+      ]
     },
     {
-      "id": "lqr", "name": "Linear Quadratic Regulator", "domain": "control",
-      "concepts": ["state_space_model", "quadratic_form", "dynamic_programming", "bellman_equation", "value_function", "riccati_equation", "controllability", "optimal_feedback_gain", "matrix", "matrix_inverse", "positive_semidefinite_matrix", "symmetric_matrix"],
-      "techniques": ["completing_the_square", "quadratic_form_differentiation", "backward_recursion", "matrix_inversion_lemma"]
+      "id": "lqr",
+      "name": "Linear Quadratic Regulator",
+      "domain": "control",
+      "concepts": [
+        "state_space_model",
+        "quadratic_form",
+        "dynamic_programming",
+        "bellman_equation",
+        "value_function",
+        "riccati_equation",
+        "controllability",
+        "optimal_feedback_gain",
+        "matrix",
+        "matrix_inverse",
+        "positive_semidefinite_matrix",
+        "symmetric_matrix"
+      ],
+      "techniques": [
+        "completing_the_square",
+        "quadratic_form_differentiation",
+        "backward_recursion",
+        "matrix_inversion_lemma"
+      ]
     },
     {
-      "id": "pid", "name": "PID Control", "domain": "control",
-      "concepts": ["error_signal", "feedback_loop", "differential_equation", "integral", "derivative", "laplace_transform", "transfer_function", "stability", "pole_location", "steady_state_error", "final_value_theorem"],
-      "techniques": ["laplace_transform_of_derivative", "partial_fractions"]
+      "id": "pid",
+      "name": "PID Control",
+      "domain": "control",
+      "concepts": [
+        "error_signal",
+        "feedback_loop",
+        "differential_equation",
+        "integral",
+        "derivative",
+        "laplace_transform",
+        "transfer_function",
+        "stability",
+        "pole_location",
+        "steady_state_error",
+        "final_value_theorem"
+      ],
+      "techniques": [
+        "laplace_transform_of_derivative",
+        "partial_fractions"
+      ]
     },
     {
-      "id": "complementary_filter", "name": "Complementary Filter", "domain": "control",
-      "concepts": ["low_pass_filter", "high_pass_filter", "frequency_response", "transfer_function", "laplace_transform", "time_constant", "sensor_bias", "sensor_noise", "weighted_average"],
-      "techniques": ["laplace_transform_of_derivative", "algebraic_rearrangement"]
+      "id": "complementary_filter",
+      "name": "Complementary Filter",
+      "domain": "control",
+      "concepts": [
+        "low_pass_filter",
+        "high_pass_filter",
+        "frequency_response",
+        "transfer_function",
+        "laplace_transform",
+        "time_constant",
+        "sensor_bias",
+        "sensor_noise",
+        "weighted_average"
+      ],
+      "techniques": [
+        "laplace_transform_of_derivative",
+        "algebraic_rearrangement"
+      ]
     },
     {
-      "id": "pca", "name": "Principal Component Analysis", "domain": "ml",
-      "concepts": ["covariance_matrix", "eigenvalue", "eigenvector", "eigendecomposition", "symmetric_matrix", "positive_semidefinite_matrix", "variance", "expectation", "quadratic_form", "rayleigh_quotient", "orthogonal_matrix", "projection_matrix", "singular_value_decomposition", "basis", "linear_independence"],
-      "techniques": ["lagrange_multipliers", "quadratic_form_differentiation", "svd_factorization"]
+      "id": "pca",
+      "name": "Principal Component Analysis",
+      "domain": "ml",
+      "concepts": [
+        "covariance_matrix",
+        "eigenvalue",
+        "eigenvector",
+        "eigendecomposition",
+        "symmetric_matrix",
+        "positive_semidefinite_matrix",
+        "variance",
+        "expectation",
+        "quadratic_form",
+        "rayleigh_quotient",
+        "orthogonal_matrix",
+        "projection_matrix",
+        "singular_value_decomposition",
+        "basis",
+        "linear_independence"
+      ],
+      "techniques": [
+        "lagrange_multipliers",
+        "quadratic_form_differentiation",
+        "svd_factorization"
+      ]
     },
     {
-      "id": "ransac", "name": "RANSAC", "domain": "ml",
-      "concepts": ["random_variable", "independent_trials", "bernoulli_distribution", "binomial_distribution", "inlier_ratio", "consensus_set", "expectation", "logarithm", "least_squares_objective"],
-      "techniques": ["logarithm_solve", "algebraic_rearrangement"]
+      "id": "ransac",
+      "name": "RANSAC",
+      "domain": "ml",
+      "concepts": [
+        "random_variable",
+        "independent_trials",
+        "bernoulli_distribution",
+        "binomial_distribution",
+        "inlier_ratio",
+        "consensus_set",
+        "expectation",
+        "logarithm",
+        "least_squares_objective"
+      ],
+      "techniques": [
+        "logarithm_solve",
+        "algebraic_rearrangement"
+      ]
     },
     {
-      "id": "backpropagation", "name": "Backpropagation", "domain": "ml",
-      "concepts": ["composite_function", "chain_rule", "partial_derivative", "gradient", "jacobian_matrix", "loss_function", "computational_graph", "function_of_several_variables", "directional_derivative", "matrix_transpose"],
-      "techniques": ["multivariate_chain_rule", "jacobian_vector_product", "index_notation", "transpose_identities"]
+      "id": "backpropagation",
+      "name": "Backpropagation",
+      "domain": "ml",
+      "concepts": [
+        "composite_function",
+        "chain_rule",
+        "partial_derivative",
+        "gradient",
+        "jacobian_matrix",
+        "loss_function",
+        "computational_graph",
+        "function_of_several_variables",
+        "directional_derivative",
+        "matrix_transpose"
+      ],
+      "techniques": [
+        "multivariate_chain_rule",
+        "jacobian_vector_product",
+        "index_notation",
+        "transpose_identities"
+      ]
     },
     {
-      "id": "cross_entropy_loss", "name": "Softmax + Cross-Entropy Loss", "domain": "ml",
-      "concepts": ["categorical_distribution", "likelihood", "log_likelihood", "maximum_likelihood_estimation", "entropy", "kl_divergence", "softmax_function", "logit", "logarithm", "exponential_function", "loss_function", "gradient"],
-      "techniques": ["log_of_product_to_sum", "softmax_differentiation", "multivariate_chain_rule"]
+      "id": "cross_entropy_loss",
+      "name": "Softmax + Cross-Entropy Loss",
+      "domain": "ml",
+      "concepts": [
+        "categorical_distribution",
+        "likelihood",
+        "log_likelihood",
+        "maximum_likelihood_estimation",
+        "entropy",
+        "kl_divergence",
+        "softmax_function",
+        "logit",
+        "logarithm",
+        "exponential_function",
+        "loss_function",
+        "gradient"
+      ],
+      "techniques": [
+        "log_of_product_to_sum",
+        "softmax_differentiation",
+        "multivariate_chain_rule"
+      ]
     },
     {
-      "id": "yolo_detection_loss", "name": "YOLO Detection Loss", "domain": "ml",
-      "concepts": ["loss_function", "regression_loss", "classification_loss", "iou", "bounding_box_parameterization", "anchor_box", "objectness", "non_max_suppression", "categorical_distribution", "gradient", "weighted_average"],
-      "techniques": ["multivariate_chain_rule", "algebraic_rearrangement"]
+      "id": "yolo_detection_loss",
+      "name": "YOLO Detection Loss",
+      "domain": "ml",
+      "concepts": [
+        "loss_function",
+        "regression_loss",
+        "classification_loss",
+        "iou",
+        "bounding_box_parameterization",
+        "anchor_box",
+        "objectness",
+        "non_max_suppression",
+        "categorical_distribution",
+        "gradient",
+        "weighted_average"
+      ],
+      "techniques": [
+        "multivariate_chain_rule",
+        "algebraic_rearrangement"
+      ]
     }
   ],
   "base": {
     "_note": "Floor concepts. Present in the canon so expansion can terminate against them, but assumed for most readers.",
-    "concepts": ["matrix", "vector", "matrix_multiplication", "matrix_transpose", "matrix_inverse", "determinant", "dot_product", "norm", "vector_space", "basis", "linear_independence", "derivative", "partial_derivative", "integral", "function_of_several_variables", "logarithm", "exponential_function", "random_variable", "expectation", "variance", "probability_density_function", "conditional_probability", "joint_distribution", "summation"]
+    "concepts": [
+      "matrix",
+      "vector",
+      "matrix_multiplication",
+      "matrix_transpose",
+      "matrix_inverse",
+      "determinant",
+      "dot_product",
+      "norm",
+      "vector_space",
+      "basis",
+      "linear_independence",
+      "derivative",
+      "partial_derivative",
+      "integral",
+      "function_of_several_variables",
+      "logarithm",
+      "exponential_function",
+      "random_variable",
+      "expectation",
+      "variance",
+      "probability_density_function",
+      "conditional_probability",
+      "joint_distribution",
+      "summation"
+    ]
   }
 }

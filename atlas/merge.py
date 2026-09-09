@@ -15,7 +15,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .bootstrap import build_graph, load
+from .bootstrap import build_graph, load, load_amendments
 from .graph import Graph
 from .schema import NodeType, Relation
 
@@ -53,7 +53,9 @@ def read_proposals(directory: Path) -> list[Proposal]:
         proposals.append(
             Proposal(
                 cluster=payload.get("cluster", path.stem),
-                edges=payload.get("edges", []),
+                # "inbound" edges point from existing nodes at newly added ones;
+                # they are ordinary edges, just authored from the other end.
+                edges=payload.get("edges", []) + payload.get("inbound", []),
                 flags=payload.get("flags", []),
                 source=path,
             )
@@ -74,6 +76,12 @@ def merge(proposals: list[Proposal]) -> tuple[Graph, MergeReport]:
     floor = set(payload["base"]["concepts"])
     report = MergeReport()
 
+    # Amendment drops are applied here, not only after loading, so that an edge
+    # removed to free branching-cap space actually frees it.
+    dropped = {
+        (e["from"], e["to"]) for e in load_amendments().get("drop_edges", [])
+    }
+
     seen: set[tuple[str, str]] = set()
     out_degree: dict[str, int] = defaultdict(int)
 
@@ -84,6 +92,13 @@ def merge(proposals: list[Proposal]) -> tuple[Graph, MergeReport]:
         for edge in proposal.edges:
             src, dst = edge.get("from"), edge.get("to")
             label = f"{src} -> {dst} [{proposal.cluster}]"
+
+            # Resolve merged ids before validating membership, so a proposal
+            # naming a historical id is retargeted rather than rejected.
+            if src is not None:
+                src = graph.resolve(src)
+            if dst is not None:
+                dst = graph.resolve(dst)
 
             if src not in graph.nodes:
                 report.reject("unknown source id", label)
@@ -99,6 +114,9 @@ def merge(proposals: list[Proposal]) -> tuple[Graph, MergeReport]:
                 continue
             if graph.nodes[src].type is NodeType.ALGORITHM:
                 report.reject("edge out of a seed algorithm", label)
+                continue
+            if (src, dst) in dropped:
+                report.reject("dropped by amendment", label)
                 continue
             if (src, dst) in seen:
                 report.reject("duplicate", label)

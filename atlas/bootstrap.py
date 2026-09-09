@@ -16,6 +16,7 @@ from .schema import Node, NodeType, Relation, Tier
 
 DATA = Path(__file__).resolve().parent.parent / "data" / "seeds.json"
 CANON_EDGES = Path(__file__).resolve().parent.parent / "data" / "canon_edges.json"
+AMENDMENTS = Path(__file__).resolve().parent.parent / "data" / "canon_amendments.json"
 
 
 @dataclass
@@ -41,6 +42,14 @@ def load_canon_edges(path: Path = CANON_EDGES) -> list[dict]:
         return []
     with path.open() as fh:
         return json.load(fh)["edges"]
+
+
+def load_amendments(path: Path = AMENDMENTS) -> dict:
+    """Adjudicated flags: added nodes, merges, tier corrections."""
+    if not path.exists():
+        return {}
+    with path.open() as fh:
+        return json.load(fh)
 
 
 def build_graph(payload: dict, with_canon_edges: bool = True) -> Graph:
@@ -71,10 +80,59 @@ def build_graph(payload: dict, with_canon_edges: bool = True) -> Graph:
                 graph.add_node(Node(item, node_type, _title(item), tier))
                 graph.add_edge(seed["id"], item, Relation.REQUIRES)
 
+    amendments = load_amendments()
+
+    # Added nodes must exist before edges referencing them are loaded.
+    for entry in amendments.get("add_floor", []):
+        graph.add_node(
+            Node(entry["id"], NodeType.CONCEPT, _title(entry["id"]), Tier.ASSUMED)
+        )
+    for entry in amendments.get("add_concepts", []):
+        graph.add_node(
+            Node(entry["id"], NodeType.CONCEPT, _title(entry["id"]), Tier.STATEMENT)
+        )
+    for entry in amendments.get("add_techniques", []):
+        graph.add_node(
+            Node(entry["id"], NodeType.TECHNIQUE, _title(entry["id"]), Tier.STATEMENT)
+        )
+
     if with_canon_edges:
         for edge in load_canon_edges():
             if edge["from"] in graph.nodes and edge["to"] in graph.nodes:
                 graph.add_edge(edge["from"], edge["to"], Relation(edge["rel"]))
+
+    # Retargets before drops: a split moves a consumer onto the narrower node.
+    for entry in amendments.get("retarget_edges", []):
+        if graph.drop_edge(entry["from"], entry["old_to"]):
+            graph.add_edge(entry["from"], entry["new_to"], Relation.REQUIRES)
+
+    for entry in amendments.get("drop_edges", []):
+        graph.drop_edge(entry["from"], entry["to"])
+
+    unapplied: list[str] = []
+
+    for entry in amendments.get("retier", []):
+        if entry["id"] in graph.nodes:
+            graph.retier(entry["id"], Tier(entry["tier"]))
+        else:
+            unapplied.append(f"retier: no node {entry['id']}")
+
+    # Merges last: merge_node rewrites existing edges onto the survivor.
+    for entry in amendments.get("merge", []):
+        if entry["from"] in graph.nodes and entry["into"] in graph.nodes:
+            graph.merge_node(entry["from"], entry["into"])
+        elif entry["from"] in graph.nodes:
+            unapplied.append(
+                f"merge: {entry['from']} -> {entry['into']}, survivor missing"
+            )
+
+    # An amendment that cannot be applied is a curation error, not a no-op.
+    # Skipping silently is how a merge quietly fails to happen.
+    if unapplied:
+        raise ValueError(
+            "unapplicable amendments:\n  " + "\n  ".join(unapplied)
+        )
+
     return graph
 
 

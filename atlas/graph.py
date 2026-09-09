@@ -8,7 +8,7 @@ survives, the DAG survives, and topological sort stays valid.
 from __future__ import annotations
 
 from collections import deque
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 from .schema import (
     GLOBAL_TYPES,
@@ -31,6 +31,41 @@ class AddEdgeResult:
 class Graph:
     nodes: dict[str, Node] = field(default_factory=dict)
     edges: dict[tuple[str, str, Relation], Edge] = field(default_factory=dict)
+    aliases: dict[str, str] = field(default_factory=dict)
+
+    # ---------- identity ----------
+
+    def resolve(self, node_id: str) -> str:
+        """Map a merged or historical id onto its surviving canonical node.
+
+        Node ids are never reassigned, so an id that loses a merge stays
+        resolvable forever rather than dangling.
+        """
+        seen: set[str] = set()
+        while node_id in self.aliases and node_id not in seen:
+            seen.add(node_id)
+            node_id = self.aliases[node_id]
+        return node_id
+
+    def merge_node(self, losing_id: str, surviving_id: str) -> None:
+        """Fold one node into another, rewriting its edges onto the survivor."""
+        if surviving_id not in self.nodes:
+            raise KeyError(f"unknown surviving node: {surviving_id}")
+        if losing_id == surviving_id:
+            raise ValueError(f"cannot merge {losing_id} into itself")
+
+        self.aliases[losing_id] = surviving_id
+        self.nodes.pop(losing_id, None)
+
+        for key, edge in list(self.edges.items()):
+            if losing_id not in (edge.src, edge.dst):
+                continue
+            del self.edges[key]
+            src = surviving_id if edge.src == losing_id else edge.src
+            dst = surviving_id if edge.dst == losing_id else edge.dst
+            if src == dst:
+                continue  # the merge collapsed this edge into a self-edge
+            self.add_edge(src, dst, edge.rel, edge.invoked_at)
 
     # ---------- construction ----------
 
@@ -39,7 +74,22 @@ class Graph:
         if existing is not None:
             return existing
         self.nodes[node.id] = node
+        for alias in node.aliases:
+            self.aliases[alias] = node.id
         return node
+
+    def retier(self, node_id: str, tier: Tier) -> None:
+        node = self.nodes[self.resolve(node_id)]
+        self.nodes[node.id] = replace(node, tier=tier)
+
+    def drop_edge(self, src: str, dst: str) -> bool:
+        """Remove an edge regardless of relation. Used when retargeting a split."""
+        removed = False
+        for rel in Relation:
+            if (src, dst, rel) in self.edges:
+                del self.edges[(src, dst, rel)]
+                removed = True
+        return removed
 
     def add_edge(
         self,
@@ -48,6 +98,7 @@ class Graph:
         rel: Relation,
         invoked_at: tuple[str, ...] = (),
     ) -> AddEdgeResult:
+        src, dst = self.resolve(src), self.resolve(dst)
         if src not in self.nodes:
             raise KeyError(f"unknown src node: {src}")
         if dst not in self.nodes:
@@ -117,10 +168,47 @@ class Graph:
             raise ValueError(f"cycle detected in REQUIRES subgraph: {sorted(missing)}")
         return ordered
 
+    def transitive_reduction(self) -> list[tuple[str, str]]:
+        """Drop REQUIRES edges implied by a longer path.
+
+        Several clusters trimmed these by hand ("reachable via X"), which is
+        judgment applied inconsistently. Reachability is what syllabus() uses,
+        so removing an implied edge cannot change any learning path -- it only
+        stops one node claiming a prerequisite another node already supplies.
+
+        Edges out of ALGORITHM nodes are exempt. Those record what a
+        derivation actually invokes, which is extraction data: an EKF
+        derivation really does use a Jacobian, whether or not something else
+        it requires happens to reach one.
+        """
+        removed: list[tuple[str, str]] = []
+        candidates = [
+            e
+            for e in self.edges.values()
+            if e.rel is Relation.REQUIRES
+            and self.nodes[e.src].type is not NodeType.ALGORITHM
+        ]
+        for edge in sorted(candidates, key=lambda e: (e.src, e.dst)):
+            others = [
+                d for d in self._requires_out(edge.src) if d != edge.dst
+            ]
+            reachable: set[str] = set()
+            for start in others:
+                reachable.add(start)
+                reachable |= self.requires_closure(start)
+            if edge.dst in reachable:
+                del self.edges[edge.key()]
+                removed.append((edge.src, edge.dst))
+        return removed
+
     # ---------- validation ----------
 
-    def validate(self) -> list[str]:
-        """Deterministic checks, enforced at write time rather than by an agent."""
+    def validate(self, check_orphans: bool = True) -> list[str]:
+        """Deterministic checks, enforced at write time rather than by an agent.
+
+        `check_orphans` is a whole-graph property and is meaningless on a
+        partially merged graph, where most nodes legitimately have no edges yet.
+        """
         problems: list[str] = []
 
         for edge in self.edges.values():
@@ -152,9 +240,10 @@ class Graph:
                 problems.append(str(exc))
                 break
 
-        orphans = self._orphans()
-        if orphans:
-            problems.append(f"unreachable nodes: {sorted(orphans)}")
+        if check_orphans:
+            orphans = self._orphans()
+            if orphans:
+                problems.append(f"unreachable nodes: {sorted(orphans)}")
 
         return problems
 

@@ -84,28 +84,56 @@ unknown ids are rejected rather than auto-created, edges out of floor nodes are
 rejected, branching is capped at 5, and any edge closing a cycle is demoted.
 `merge()` starts from the seed graph so re-running is idempotent.
 
-## Next: resolve the 64 flags
+## Flag adjudication (round 2)
 
-`data/canon_flags.json` records what the authoring passes could not settle.
-Three groups:
+All 64 round-1 flags were adjudicated in `data/canon_amendments.json`, which
+records a reason for every decision including the rejections.
 
-1. **Vocabulary gaps.** Concepts the derivations genuinely need that the hand
-   extraction missed. `rank` was flagged independently by two clusters;
-   `skew_symmetric_matrix` is what so(3) literally *is*; `cross_product` was
-   flagged by two. Also `characteristic_polynomial`, `null_space`,
-   `measurement_model`, `cross_entropy`, `sigmoid`, `euler_angles`,
-   `homogeneous_coordinates`, `path`, `inverse_laplace_transform`, complex
-   numbers, and a plain `function` node.
-2. **Merge candidates.** `log_odds_transformation`/`logit`/`log_odds` are three
-   ids for one object; `svd_factorization`/`singular_value_decomposition` are
-   procedure vs object; `weight_normalization` is a subset of `normalization`;
-   `quadratic_form_differentiation` a subset of `matrix_calculus_gradient`.
-3. **Mis-specified nodes.** `information_matrix` conflates the precision matrix
-   with Fisher information. `taylor_expansion` conflates univariate and
-   multivariate. `inequality_bounding` is too coarse. `sparse_matrix`,
-   `algebraic_rearrangement`, `priority_queue` and `error_signal` may belong in
-   FLOOR or not in a mechanics canon at all.
+| | |
+|---|---|
+| Nodes added | 28 (7 floor, 17 concepts, 4 techniques) |
+| Merges | 2, losing ids kept resolvable |
+| Tier corrections | 12 |
+| Edges dropped | 9 |
+| Splits | 2, with 7 consumer retargets |
+| Flags rejected with reasons | 8 |
+| Canon after round 2 | **226 nodes, 851 edges**, depth 6-11 |
 
-That the gap list exists is itself evidence for the caveat above: 179 was an
-optimistic lower bound, and independent authoring found the holes that one
-extraction pass did not.
+Rejected rather than fixed: three flags wanted concepts for content that
+belongs on an existing ALGORITHM node (round 1's brief omitted the algorithm
+layer, so the clusters could not see it); one wanted Chebyshev's inequality for
+`law_of_large_numbers`, which is proof machinery the ceiling excludes - resolved
+by retiering LLN to `claim` instead; four wanted concepts no seeded algorithm
+needs.
+
+Two splits carried real risk, since retargeting the wrong consumer weakens a
+derivation without breaking anything:
+
+- `taylor_expansion` -> univariate + `multivariate_taylor_expansion`. Five
+  consumers retargeted; `step_size` and `exponential_map` deliberately left on
+  the univariate form.
+- `normalization` -> probability + `unit_norm_normalization`.
+
+### Invariants added
+
+- **Amendments fail loudly.** An amendment that cannot be applied raises rather
+  than no-oping. This caught a merge that silently did not happen because a
+  retarget had deleted its survivor node.
+- **Drops apply at merge time**, so an edge removed to free branching-cap space
+  actually frees it.
+- **Transitive reduction is reporting-only.** It exists (`Graph.transitive_reduction`)
+  but is not applied: it would remove 145 true, individually-justified edges,
+  and edges out of ALGORITHM nodes must never be reduced because they record
+  what a derivation invokes, not a minimal cover.
+- **Orphan checking is optional**, since it is a whole-graph property and
+  meaningless on a partially merged graph.
+
+## Next
+
+32 round-2 flags remain unadjudicated in `data/canon_flags.json`. The largest
+group is combinatorics and sampling primitives (`factorial`, `permutation`,
+`uniform_distribution`, `cumulative_distribution_function`) that
+`binomial_coefficient` and `sampling` currently bottom out without.
+
+The canon is now usable as a termination floor, so the next build stage is
+project ingest and the architecture layer.

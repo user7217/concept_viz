@@ -490,18 +490,82 @@
       "demoted": false
     },
     {
-      "from": "controllability",
-      "to": "column_space",
+      "from": "integration_by_parts",
+      "to": "derivative",
       "rel": "requires",
-      "why": "reachable states are exactly the column space of [B AB ... A^{n-1}B]",
-      "cluster": "control_and_signals",
+      "why": "it is the product rule integrated, so it turns on differentiating a product",
+      "cluster": "calculus_and_techniques_round2",
+      "demoted": false
+    },
+    {
+      "from": "integration_by_parts",
+      "to": "integral",
+      "rel": "requires",
+      "why": "the identity is a statement about a definite integral",
+      "cluster": "calculus_and_techniques_round2",
+      "demoted": false
+    },
+    {
+      "from": "multivariate_taylor_expansion",
+      "to": "function_of_several_variables",
+      "rel": "requires",
+      "why": "the object being expanded",
+      "cluster": "calculus_and_techniques_round2",
+      "demoted": false
+    },
+    {
+      "from": "multivariate_taylor_expansion",
+      "to": "gradient",
+      "rel": "requires",
+      "why": "the first-order term is the gradient inner product",
+      "cluster": "calculus_and_techniques_round2",
+      "demoted": false
+    },
+    {
+      "from": "multivariate_taylor_expansion",
+      "to": "hessian_matrix",
+      "rel": "requires",
+      "why": "the second-order term is the Hessian quadratic form",
+      "cluster": "calculus_and_techniques_round2",
+      "demoted": false
+    },
+    {
+      "from": "multivariate_taylor_expansion",
+      "to": "taylor_expansion",
+      "rel": "requires",
+      "why": "the multivariate form is the univariate expansion applied along a direction; the univariate result is the base case",
+      "cluster": "calculus_and_techniques_round2",
+      "demoted": false
+    },
+    {
+      "from": "unit_norm_normalization",
+      "to": "norm",
+      "rel": "requires",
+      "why": "dividing by the norm is the whole move",
+      "cluster": "calculus_and_techniques_round2",
+      "demoted": false
+    },
+    {
+      "from": "unit_norm_normalization",
+      "to": "vector",
+      "rel": "requires",
+      "why": "the object being scaled to unit length",
+      "cluster": "calculus_and_techniques_round2",
+      "demoted": false
+    },
+    {
+      "from": "unit_quaternion",
+      "to": "unit_norm_normalization",
+      "rel": "requires",
+      "why": "a rotation quaternion is maintained on the unit sphere by renormalising after integration",
+      "cluster": "calculus_and_techniques_round2",
       "demoted": false
     },
     {
       "from": "controllability",
-      "to": "linear_independence",
+      "to": "column_space",
       "rel": "requires",
-      "why": "the rank condition asks how many of those columns are independent",
+      "why": "reachable states are exactly the column space of [B AB ... A^{n-1}B]",
       "cluster": "control_and_signals",
       "demoted": false
     },
@@ -707,14 +771,6 @@
     },
     {
       "from": "riccati_equation",
-      "to": "quadratic_form",
-      "rel": "requires",
-      "why": "the derivation substitutes the ansatz V(x) = x^T P x into the recursion",
-      "cluster": "control_and_signals",
-      "demoted": false
-    },
-    {
-      "from": "riccati_equation",
       "to": "quadratic_form_differentiation",
       "rel": "requires",
       "why": "minimising the quadratic in u by setting its gradient to zero produces the P update",
@@ -766,14 +822,6 @@
       "to": "exponential_function",
       "rel": "requires",
       "why": "each mode is e^{pt}, so the sign of Re(p) decides decay or growth",
-      "cluster": "control_and_signals",
-      "demoted": false
-    },
-    {
-      "from": "stability",
-      "to": "partial_fractions",
-      "rel": "requires",
-      "why": "the response is split into one term per pole to expose each mode",
       "cluster": "control_and_signals",
       "demoted": false
     },
@@ -995,14 +1043,6 @@
     },
     {
       "from": "lie_algebra",
-      "to": "matrix_transpose",
-      "rel": "requires",
-      "why": "differentiating R^T R = I is the step that forces the generator to be skew-symmetric",
-      "cluster": "geometry_and_robotics",
-      "demoted": false
-    },
-    {
-      "from": "lie_algebra",
       "to": "so3",
       "rel": "requires",
       "why": "so(3) is derived as the set of velocities through the identity of SO(3)",
@@ -1207,6 +1247,222 @@
       "rel": "requires",
       "why": "rotation is derived by expanding the sandwich product q v q*",
       "cluster": "geometry_and_robotics",
+      "demoted": false
+    },
+    {
+      "from": "axis_angle",
+      "to": "cross_product",
+      "rel": "requires",
+      "why": "Rodrigues' formula carries the (u x v) sin(theta) term from decomposing v across the axis",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "cross_product",
+      "to": "basis",
+      "rel": "requires",
+      "why": "the product is fixed by declaring i x j = k on a right-handed basis and extending bilinearly",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "cross_product",
+      "to": "determinant",
+      "rel": "requires",
+      "why": "the component formula is the cofactor expansion of the formal 3x3 determinant with i, j, k in the first row",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "cross_product",
+      "to": "norm",
+      "rel": "requires",
+      "why": "the magnitude law |a x b| = |a||b| sin(theta) is obtained by expanding norms in the Lagrange identity",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "cross_product",
+      "to": "vector",
+      "rel": "requires",
+      "why": "the product is defined componentwise on two 3-vectors and returns a third vector",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "euler_angles",
+      "to": "basis",
+      "rel": "requires",
+      "why": "which axis each of the three angles turns about is only defined relative to a chosen frame",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "euler_angles",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "R(phi, theta, psi) is derived by multiplying the three elementary rotations out in a fixed order",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "euler_angles",
+      "to": "rotation_matrix",
+      "rel": "requires",
+      "why": "the chart is built from three elementary axis rotations, each written out as a rotation matrix",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "gimbal_lock",
+      "to": "euler_angles",
+      "rel": "requires",
+      "why": "the singularity is a property of the three-angle chart, so that chart is the subject of the derivation",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "homogeneous_coordinates",
+      "to": "matrix_multiplication",
+      "rel": "requires",
+      "why": "the whole construction exists so that the block product [[R,t],[0,1]][x;1] reproduces Rx + t in one multiply",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "homogeneous_coordinates",
+      "to": "translation_vector",
+      "rel": "requires",
+      "why": "the offset that a linear map cannot express is what gets absorbed into the last column",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "homogeneous_coordinates",
+      "to": "vector",
+      "rel": "requires",
+      "why": "a point is embedded by appending a trailing 1 to its coordinate vector",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "inverse_laplace_transform",
+      "to": "exponential_function",
+      "rel": "requires",
+      "why": "each elementary term 1/(s-a) inverts to the mode e^{at}, which is what makes the answer a time signal",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "inverse_laplace_transform",
+      "to": "laplace_transform",
+      "rel": "requires",
+      "why": "the inverse is derived by matching F(s) against forward transforms already computed",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "inverse_laplace_transform",
+      "to": "partial_fractions",
+      "rel": "requires",
+      "why": "a rational F(s) is split into one elementary term per denominator root before any term is inverted",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "path",
+      "to": "graph",
+      "rel": "requires",
+      "why": "a path is a sequence of vertices in which each consecutive pair is an edge of the graph",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "path_cost",
+      "to": "path",
+      "rel": "requires",
+      "why": "the cost is summed along an edge sequence, which graph alone does not supply",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "quadratic_cost",
+      "to": "positive_semidefinite_matrix",
+      "rel": "requires",
+      "why": "Q >= 0 and R > 0 are what make the accumulated cost a penalty and the minimisation over u well posed",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "quadratic_cost",
+      "to": "quadratic_form",
+      "rel": "requires",
+      "why": "each stage cost is the pair of quadratic forms x^T Q x + u^T R u",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "quadratic_cost",
+      "to": "summation",
+      "rel": "requires",
+      "why": "the functional is the sum of stage costs over the horizon plus a terminal term",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "quaternion",
+      "to": "cross_product",
+      "rel": "requires",
+      "why": "the vector part of the Hamilton product is w1v2 + w2v1 + v1 x v2, currently stubbed as an edge to vector",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "quaternion_multiplication",
+      "to": "cross_product",
+      "rel": "requires",
+      "why": "expanding the product of the i, j, k parts produces exactly the cross product term",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "riccati_equation",
+      "to": "quadratic_cost",
+      "rel": "requires",
+      "why": "the recursion is derived by substituting the cost-to-go of the quadratic cost functional into Bellman",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "rigid_transformation",
+      "to": "homogeneous_coordinates",
+      "rel": "requires",
+      "why": "composing two transforms becomes a single matrix product only in the 4x4 homogeneous form",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "se3",
+      "to": "homogeneous_coordinates",
+      "rel": "requires",
+      "why": "a pose is written as a 4x4 matrix so that the group operation is ordinary matrix multiplication",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "shortest_path",
+      "to": "path",
+      "rel": "requires",
+      "why": "the shortest path is an argmin over the set of paths, so that set must be defined first",
+      "cluster": "geometry_control",
+      "demoted": false
+    },
+    {
+      "from": "stability",
+      "to": "inverse_laplace_transform",
+      "rel": "requires",
+      "why": "getting from pole locations to the growing or decaying time response is the inverse transform",
+      "cluster": "geometry_control",
       "demoted": false
     },
     {
@@ -1450,6 +1706,38 @@
       "demoted": false
     },
     {
+      "from": "characteristic_polynomial",
+      "to": "determinant",
+      "rel": "requires",
+      "why": "p(lambda) is produced by expanding det(A - lambda*I) symbolically in lambda",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "characteristic_polynomial",
+      "to": "matrix",
+      "rel": "requires",
+      "why": "the argument A - lambda*I is a matrix expression built by subtracting lambda from the diagonal",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "characteristic_polynomial",
+      "to": "polynomial_root_finding",
+      "rel": "requires",
+      "why": "the polynomial exists only to be set to zero and solved, so extracting its roots is the terminal step",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "cholesky_factorization",
+      "to": "gaussian_elimination",
+      "rel": "requires",
+      "why": "the L L^T recursion is symmetric Gaussian elimination, eliminating one variable per pivot while preserving symmetry",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
       "from": "column_space",
       "to": "basis",
       "rel": "requires",
@@ -1478,6 +1766,14 @@
       "to": "vector_space",
       "rel": "requires",
       "why": "the set of all column combinations must be recognized as a subspace",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "controllability",
+      "to": "rank",
+      "rel": "requires",
+      "why": "the test is literally rank([B AB ... A^{n-1}B]) = n, so rank is the object the criterion is stated in",
       "cluster": "linear_algebra",
       "demoted": false
     },
@@ -1547,9 +1843,9 @@
     },
     {
       "from": "eigenvalue",
-      "to": "determinant",
+      "to": "characteristic_polynomial",
       "rel": "requires",
-      "why": "eigenvalues are obtained by solving det(A - lambda*I) = 0",
+      "why": "the eigenvalues are exactly the roots of det(A - lambda*I), so that polynomial is the object being solved",
       "cluster": "linear_algebra",
       "demoted": false
     },
@@ -1571,9 +1867,9 @@
     },
     {
       "from": "eigenvector",
-      "to": "linear_independence",
+      "to": "null_space",
       "rel": "requires",
-      "why": "the nontrivial solutions of the singular homogeneous system are read off as an independent set",
+      "why": "the eigenvector is obtained by solving (A - lambda*I)v = 0, which is a null-space computation",
       "cluster": "linear_algebra",
       "demoted": false
     },
@@ -1582,6 +1878,22 @@
       "to": "vector",
       "rel": "requires",
       "why": "the eigenvector is the vector held fixed in direction by A",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_elimination",
+      "to": "algebraic_rearrangement",
+      "rel": "requires",
+      "why": "each elimination step is subtracting a multiple of one equation from another and back-substituting",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_elimination",
+      "to": "matrix",
+      "rel": "requires",
+      "why": "the row operations are applied to the augmented matrix of the system",
       "cluster": "linear_algebra",
       "demoted": false
     },
@@ -1642,6 +1954,46 @@
       "demoted": false
     },
     {
+      "from": "lie_algebra",
+      "to": "skew_symmetric_matrix",
+      "rel": "requires",
+      "why": "so(3) IS the skew-symmetric matrices, and differentiating R^T R = I lands on A^T = -A",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "null_space",
+      "to": "gaussian_elimination",
+      "rel": "requires",
+      "why": "the null space is found by row-reducing A and reading off pivot versus free columns",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "null_space",
+      "to": "matrix",
+      "rel": "requires",
+      "why": "the object is the solution set of the homogeneous system Ax = 0 for a given matrix",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "null_space",
+      "to": "span",
+      "rel": "requires",
+      "why": "the answer is reported as the span of one solution vector per free variable",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "null_space",
+      "to": "vector_space",
+      "rel": "requires",
+      "why": "the solution set must be recognised as a subspace (closed under sums and scaling), not just a list of solutions",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
       "from": "orthogonal_matrix",
       "to": "dot_product",
       "rel": "requires",
@@ -1662,6 +2014,46 @@
       "to": "matrix_transpose",
       "rel": "requires",
       "why": "the defining identity is Q^T Q = I",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "partial_fractions",
+      "to": "polynomial_root_finding",
+      "rel": "requires",
+      "why": "the decomposition is indexed by the roots of the denominator, so the denominator must be factored first",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "pole_location",
+      "to": "polynomial_root_finding",
+      "rel": "requires",
+      "why": "poles are obtained by finding the roots of the transfer function's denominator polynomial",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "polynomial_root_finding",
+      "to": "algebraic_rearrangement",
+      "rel": "requires",
+      "why": "the move is setting p(x) = 0 and factoring or isolating x",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "polynomial_root_finding",
+      "to": "completing_the_square",
+      "rel": "requires",
+      "why": "the quadratic formula, the workhorse case, is derived by completing the square",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "polynomial_root_finding",
+      "to": "complex_number",
+      "rel": "requires",
+      "why": "real polynomials have conjugate-pair roots, and oscillatory modes are exactly those roots",
       "cluster": "linear_algebra",
       "demoted": false
     },
@@ -1739,6 +2131,14 @@
     },
     {
       "from": "pseudoinverse",
+      "to": "rank",
+      "rel": "requires",
+      "why": "rank decides which singular values are invertible and whether (A^T A)^-1 exists at all, which is the whole case split of the derivation",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "pseudoinverse",
       "to": "singular_value_decomposition",
       "rel": "requires",
       "why": "the general A^+ = V Sigma^+ U^T is read directly off the SVD",
@@ -1766,6 +2166,30 @@
       "to": "symmetric_matrix",
       "rel": "requires",
       "why": "the standard form assumes A symmetric, since only the symmetric part of A contributes",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "rank",
+      "to": "column_space",
+      "rel": "requires",
+      "why": "rank is defined as the dimension of the column space, so that subspace must exist before the count does",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "rank",
+      "to": "gaussian_elimination",
+      "rel": "requires",
+      "why": "the actual computation is row-reducing to echelon form and counting pivots",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "rank",
+      "to": "linear_independence",
+      "rel": "requires",
+      "why": "the count being taken is the maximum number of mutually independent columns",
       "cluster": "linear_algebra",
       "demoted": false
     },
@@ -1802,6 +2226,14 @@
       "demoted": false
     },
     {
+      "from": "schur_complement",
+      "to": "gaussian_elimination",
+      "rel": "requires",
+      "why": "the complement is the result of one block elimination step, i.e. Gaussian elimination performed on blocks",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
       "from": "singular_value_decomposition",
       "to": "eigendecomposition",
       "rel": "requires",
@@ -1830,6 +2262,38 @@
       "to": "symmetric_matrix",
       "rel": "requires",
       "why": "the derivation hinges on A^T A being symmetric so it is orthogonally diagonalizable",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "skew_symmetric_matrix",
+      "to": "cross_product",
+      "rel": "requires",
+      "why": "the hat operator is constructed so that [w]_x v reproduces w x v entry for entry",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "skew_symmetric_matrix",
+      "to": "matrix",
+      "rel": "requires",
+      "why": "the condition a_ij = -a_ji is stated on the entries of a square matrix",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "skew_symmetric_matrix",
+      "to": "matrix_transpose",
+      "rel": "requires",
+      "why": "the defining equation is literally A^T = -A",
+      "cluster": "linear_algebra",
+      "demoted": false
+    },
+    {
+      "from": "skew_symmetric_matrix",
+      "to": "vector",
+      "rel": "requires",
+      "why": "the hat/vee operator maps a 3-vector to and from the three free entries of the 3x3 case",
       "cluster": "linear_algebra",
       "demoted": false
     },
@@ -1907,22 +2371,6 @@
     },
     {
       "from": "classification_loss",
-      "to": "categorical_distribution",
-      "rel": "requires",
-      "why": "the model output is a categorical distribution over labels",
-      "cluster": "machine_learning_concepts",
-      "demoted": false
-    },
-    {
-      "from": "classification_loss",
-      "to": "entropy",
-      "rel": "requires",
-      "why": "the general soft-target form -sum p log q is read off the cross-entropy expression",
-      "cluster": "machine_learning_concepts",
-      "demoted": false
-    },
-    {
-      "from": "classification_loss",
       "to": "log_likelihood",
       "rel": "requires",
       "why": "the loss is the negative log-likelihood of the observed label under that distribution",
@@ -1986,22 +2434,6 @@
       "demoted": false
     },
     {
-      "from": "logit",
-      "to": "bernoulli_distribution",
-      "rel": "requires",
-      "why": "the probability being mapped to the real line is a Bernoulli success parameter",
-      "cluster": "machine_learning_concepts",
-      "demoted": false
-    },
-    {
-      "from": "logit",
-      "to": "log_odds",
-      "rel": "requires",
-      "why": "the logit of a probability is by definition its log-odds",
-      "cluster": "machine_learning_concepts",
-      "demoted": false
-    },
-    {
       "from": "loss_function",
       "to": "empirical_distribution",
       "rel": "requires",
@@ -2046,14 +2478,6 @@
       "to": "iou",
       "rel": "requires",
       "why": "the positive/negative target for the indicator is assigned by IoU overlap with ground truth",
-      "cluster": "machine_learning_concepts",
-      "demoted": false
-    },
-    {
-      "from": "objectness",
-      "to": "logit",
-      "rel": "requires",
-      "why": "the network emits a log-odds score that is mapped back to that probability",
       "cluster": "machine_learning_concepts",
       "demoted": false
     },
@@ -2986,6 +3410,230 @@
       "demoted": false
     },
     {
+      "from": "binomial_coefficient",
+      "to": "algebraic_rearrangement",
+      "rel": "requires",
+      "why": "the closed form n!/(k!(n-k)!) is reached by cancelling the (n-k)! from the ordered count and dividing out the k! orderings inside the chosen set",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "binomial_distribution",
+      "to": "binomial_coefficient",
+      "rel": "requires",
+      "why": "the pmf's leading factor is the count of orderings with k successes; summation is the current stand-in and does not supply that count",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "classification_loss",
+      "to": "cross_entropy",
+      "rel": "requires",
+      "why": "the loss is the cross-entropy between the label distribution and the predicted one; entropy alone does not give the -sum p log q form",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "classification_loss",
+      "to": "sigmoid",
+      "rel": "requires",
+      "why": "the binary case maps the score to a probability through the sigmoid, which softmax_function does not cover",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "cross_entropy",
+      "to": "entropy",
+      "rel": "requires",
+      "why": "cross-entropy is entropy's -log construction with the log evaluated under a second distribution q while the average is still taken under p",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "cross_entropy",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "H(p,q) is the expectation of -log q taken under p, which is the form used when it becomes a loss",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "cross_entropy",
+      "to": "logarithm",
+      "rel": "requires",
+      "why": "the quantity being averaged is the log of the predicted probability",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_distribution",
+      "to": "gaussian_integral",
+      "rel": "requires",
+      "why": "the 1/sqrt(2*pi*sigma^2) constant is the value of the Gaussian integral, not a generic normalisation step",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_integral",
+      "to": "change_of_variables",
+      "rel": "requires",
+      "why": "the square of the integral is evaluated by substituting polar coordinates, whose Jacobian factor r makes the integrand elementary",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_integral",
+      "to": "exponential_function",
+      "rel": "requires",
+      "why": "the integrand is exp of a negative square, and its multiplicative property is what lets the squared integral factor into a plane integral",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "gaussian_integral",
+      "to": "integral",
+      "rel": "requires",
+      "why": "the object being evaluated is the improper integral of exp(-x^2) over the whole line",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "inverse_sensor_model",
+      "to": "measurement_model",
+      "rel": "requires",
+      "why": "it inverts the forward model p(z|x) that the measurement model supplies",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "measurement_model",
+      "to": "conditional_probability",
+      "rel": "requires",
+      "why": "the form every estimator consumes is p(z|x): x held fixed, the error terms carrying all the randomness",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "measurement_model",
+      "to": "function_of_several_variables",
+      "rel": "requires",
+      "why": "the deterministic part is a vector-valued map h evaluated at the multi-dimensional state, so h's arguments and output dimensions must be defined",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "measurement_model",
+      "to": "probability_density_function",
+      "rel": "requires",
+      "why": "for continuous z that conditional is obtained by shifting the error density, p(z|x) = p_v(z - h(x) - b)",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "measurement_model",
+      "to": "random_variable",
+      "rel": "requires",
+      "why": "z is a random variable only because the deterministic prediction has additive error terms b and v attached to it",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "monte_carlo_integration",
+      "to": "sampling",
+      "rel": "requires",
+      "why": "the mechanical step of obtaining the x_i to average over is drawing them from the density",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "objectness",
+      "to": "sigmoid",
+      "rel": "requires",
+      "why": "the emitted log-odds score is turned back into the Bernoulli parameter by the sigmoid, and the loss is evaluated on that probability",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "proposal_distribution",
+      "to": "sampling",
+      "rel": "requires",
+      "why": "a proposal earns the name only if it can be drawn from, which is the requirement that separates it from an arbitrary density",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "residual",
+      "to": "measurement_model",
+      "rel": "requires",
+      "why": "the residual is z - h(x_hat), so the prediction rule it subtracts must be the measurement model, not only the linear special case",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "sampling",
+      "to": "change_of_variables",
+      "rel": "requires",
+      "why": "pushing a uniform draw through F^{-1} carries the uniform density onto the target, and the Jacobian factor is what makes that the right transform",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "sampling",
+      "to": "integral",
+      "rel": "requires",
+      "why": "inverse-transform sampling inverts the CDF, which is the running integral of the density",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "sampling",
+      "to": "probability_density_function",
+      "rel": "requires",
+      "why": "the target being sampled from is specified as a density, and correctness means the draws are distributed according to it",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "sampling",
+      "to": "random_variable",
+      "rel": "requires",
+      "why": "a sample is a realised draw of a random variable, which is what distinguishes it from a point evaluation of the density",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "sensor_bias",
+      "to": "measurement_model",
+      "rel": "requires",
+      "why": "the bias is defined as the constant term b in z = h(x) + b + v, so the equation must exist before the term can be named",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "sensor_noise",
+      "to": "measurement_model",
+      "rel": "requires",
+      "why": "the noise is the zero-mean term v in the same equation; its covariance R only has meaning relative to that measurement",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "sigmoid",
+      "to": "exponential_function",
+      "rel": "requires",
+      "why": "stripping the log introduces e^z, giving the 1/(1+e^{-z}) form",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
+      "from": "sigmoid",
+      "to": "logarithm_solve",
+      "rel": "requires",
+      "why": "the inversion is exactly exponentiating both sides to strip the log and isolating p",
+      "cluster": "probability_and_ml_round2",
+      "demoted": false
+    },
+    {
       "from": "backward_recursion",
       "to": "bellman_equation",
       "rel": "requires",
@@ -3546,14 +4194,6 @@
       "demoted": false
     },
     {
-      "from": "partial_fractions",
-      "to": "pole_location",
-      "rel": "requires",
-      "why": "the decomposition is indexed by the roots of the denominator",
-      "cluster": "techniques",
-      "demoted": false
-    },
-    {
       "from": "quadratic_form_differentiation",
       "to": "gradient",
       "rel": "requires",
@@ -3758,30 +4398,6 @@
       "to": "matrix_transpose",
       "rel": "requires",
       "why": "the identities are the algebraic rules of the transpose operator",
-      "cluster": "techniques",
-      "demoted": false
-    },
-    {
-      "from": "weight_normalization",
-      "to": "importance_weight_derivation",
-      "rel": "requires",
-      "why": "the raw weights being normalised are the importance weights",
-      "cluster": "techniques",
-      "demoted": false
-    },
-    {
-      "from": "weight_normalization",
-      "to": "normalization",
-      "rel": "requires",
-      "why": "it is normalisation applied to a finite set of weights",
-      "cluster": "techniques",
-      "demoted": false
-    },
-    {
-      "from": "weight_normalization",
-      "to": "summation",
-      "rel": "requires",
-      "why": "the normaliser is the sum of the raw weights over samples",
       "cluster": "techniques",
       "demoted": false
     }

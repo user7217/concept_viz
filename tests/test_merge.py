@@ -82,7 +82,8 @@ class TestMerge(unittest.TestCase):
             ("covariance_matrix", "gaussian_conditioning", Relation.RELATED_TO),
             graph.edges,
         )
-        self.assertEqual(graph.validate(), [])
+        # orphans are expected here: this is a two-edge synthetic merge
+        self.assertEqual(graph.validate(check_orphans=False), [])
 
     def test_merge_is_order_independent_in_accepted_set(self) -> None:
         edges = {"aaa": [("gaussian_conditioning", "joint_gaussian")],
