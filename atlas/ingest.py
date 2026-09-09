@@ -150,3 +150,193 @@ def parse_requirements(text: str) -> dict[str, str | None]:
         if match:
             deps[match.group(1).lower()] = match.group(2)
     return deps
+
+
+# ---------- launch files: runtime topology ----------
+
+@dataclass
+class LaunchNode:
+    """A node a launch file actually starts."""
+
+    package: str
+    executable: str
+    name: str | None = None
+    param_files: list[str] = field(default_factory=list)
+    remappings: list[tuple[str, str]] = field(default_factory=list)
+    unresolved: list[str] = field(default_factory=list)
+    source: str = ""
+
+    @property
+    def topics(self) -> set[str]:
+        """Every topic this node is wired to, in either direction."""
+        return {t for pair in self.remappings for t in pair if t.startswith("/")}
+
+
+def _const(node) -> str | None:
+    import ast
+
+    return node.value if isinstance(node, ast.Constant) and isinstance(node.value, str) else None
+
+
+def parse_launch_py(text: str, source: str = "") -> list[LaunchNode]:
+    """Recover Node(...) declarations from a ROS2 Python launch file.
+
+    Parsed as an AST rather than executed: a launch file is arbitrary code and
+    running it would need the whole ROS environment present.
+
+    Substitutions (LaunchConfiguration, PathJoinSubstitution) are not resolved
+    -- only literal strings are recovered. That is a real limit, recorded in
+    `unresolved` on the returned node rather than guessed at.
+    """
+    import ast
+
+    try:
+        tree = ast.parse(text)
+    except SyntaxError:
+        return []
+
+    nodes: list[LaunchNode] = []
+    for call in (n for n in ast.walk(tree) if isinstance(n, ast.Call)):
+        func = call.func
+        name = func.attr if isinstance(func, ast.Attribute) else getattr(func, "id", None)
+        if name != "Node":
+            continue
+
+        kwargs = {kw.arg: kw.value for kw in call.keywords if kw.arg}
+        package = _const(kwargs.get("package")) or "?"
+        executable = _const(kwargs.get("executable")) or "?"
+
+        param_files: list[str] = []
+        unresolved: list[str] = []
+        params = kwargs.get("parameters")
+        if isinstance(params, ast.List):
+            for element in ast.walk(params):
+                literal = _const(element)
+                if literal and literal.endswith((".yaml", ".yml")):
+                    param_files.append(literal)
+                elif isinstance(element, ast.Call):
+                    fn = element.func
+                    label = fn.attr if isinstance(fn, ast.Attribute) else getattr(fn, "id", "")
+                    if label in {"LaunchConfiguration", "PathJoinSubstitution",
+                                 "FindPackageShare", "ParameterFile"}:
+                        unresolved.append(label)
+
+        remappings: list[tuple[str, str]] = []
+        remaps = kwargs.get("remappings")
+        if isinstance(remaps, ast.List):
+            for element in remaps.elts:
+                if isinstance(element, ast.Tuple) and len(element.elts) == 2:
+                    src, dst = (_const(e) for e in element.elts)
+                    if src and dst:
+                        remappings.append((src, dst))
+
+        nodes.append(
+            LaunchNode(
+                package=package,
+                executable=executable,
+                name=_const(kwargs.get("name")),
+                param_files=param_files,
+                remappings=remappings,
+                unresolved=unresolved,
+                source=source,
+            )
+        )
+    return nodes
+
+
+def parse_launch_xml(text: str, source: str = "") -> list[LaunchNode]:
+    """Recover <node> declarations from an XML launch file."""
+    try:
+        root = ET.fromstring(text)
+    except ET.ParseError:
+        return []
+
+    nodes: list[LaunchNode] = []
+    for el in root.iter("node"):
+        package = el.get("pkg") or el.get("package") or "?"
+        executable = el.get("exec") or el.get("executable") or el.get("type") or "?"
+
+        param_files = [
+            p.get("from")
+            for p in el.iter("param")
+            if p.get("from", "").endswith((".yaml", ".yml"))
+        ]
+        remappings = [
+            (r.get("from"), r.get("to"))
+            for r in el.iter("remap")
+            if r.get("from") and r.get("to")
+        ]
+
+        nodes.append(
+            LaunchNode(
+                package=package,
+                executable=executable,
+                name=el.get("name"),
+                param_files=[p for p in param_files if p],
+                remappings=remappings,
+                source=source,
+            )
+        )
+    return nodes
+
+
+def dataflow(nodes: list[LaunchNode]) -> list[tuple[str, str, str]]:
+    """Infer which components talk to each other, via shared topics.
+
+    Two nodes remapped onto the same topic are wired together. This is the
+    dataflow layer the design doc defers as a separate toggle -- recovered here
+    because launch files are where it is stated, not inferred.
+    """
+    links: list[tuple[str, str, str]] = []
+    for i, first in enumerate(nodes):
+        for second in nodes[i + 1:]:
+            for topic in sorted(first.topics & second.topics):
+                links.append((first.name or first.executable,
+                              second.name or second.executable, topic))
+    return links
+
+
+# ---------- repo path: assemble a Project ----------
+
+PARAM_DIRS = ("config", "params", "param")
+
+
+def ingest_repo(root: Path) -> Project:
+    """Walk a repo and build the Project both input paths converge on."""
+    root = Path(root)
+    project = Project(name=root.name, origin="repo")
+
+    for manifest in root.rglob("package.xml"):
+        name, deps = parse_package_xml(manifest.read_text())
+        project.dependencies.update(deps)
+    for reqs in root.rglob("requirements.txt"):
+        project.dependencies.update(parse_requirements(reqs.read_text()))
+
+    launch_nodes: list[LaunchNode] = []
+    for path in root.rglob("*.launch.py"):
+        launch_nodes += parse_launch_py(path.read_text(), str(path.relative_to(root)))
+    for pattern in ("*.launch.xml", "*.launch"):
+        for path in root.rglob(pattern):
+            launch_nodes += parse_launch_xml(path.read_text(), str(path.relative_to(root)))
+
+    params_by_file: dict[str, list[Parameter]] = {}
+    for directory in PARAM_DIRS:
+        for path in (root / directory).rglob("*.y*ml") if (root / directory).is_dir() else []:
+            rel = str(path.relative_to(root))
+            params_by_file[Path(rel).name] = parse_params(path.read_text(), rel)
+
+    for node in launch_nodes:
+        component = project.component(node.name or node.executable)
+        component.library = node.package
+        component.version = project.dependencies.get(node.package)
+        component.sources.append(node.source)
+        for param_file in node.param_files:
+            component.parameters += params_by_file.get(Path(param_file).name, [])
+
+    # Params in the repo that no launch file claims still count as knobs set.
+    claimed = {p.source for c in project.components for p in c.parameters}
+    for name, params in params_by_file.items():
+        if params and params[0].source not in claimed:
+            project.component(Path(name).stem).parameters += params
+
+    return project
