@@ -44,6 +44,7 @@ class Component:
     name: str
     library: str | None = None
     executable: str | None = None
+    plugin: str | None = None   # pluginlib class, e.g. "ns::ClassName"
     version: str | None = None
     parameters: list[Parameter] = field(default_factory=list)
     sources: list[str] = field(default_factory=list)
@@ -338,6 +339,23 @@ def ingest_repo(root: Path) -> Project:
         component.sources.append(node.source)
         for param_file in node.param_files:
             component.parameters += params_by_file.get(Path(param_file).name, [])
+
+    # A pluginlib class declaration names the algorithm that actually runs.
+    # Attributing at the package layer instead is how nav2_controller -- a
+    # lifecycle node that loads whatever you configure -- got read as PID.
+    for name, params in params_by_file.items():
+        for param in params:
+            if param.name != "plugin":
+                continue
+            klass = param.value.strip().strip('"').strip("'")
+            if "::" not in klass:
+                continue
+            namespace, _, short = klass.partition("::")
+            component = project.component(short)
+            component.plugin = klass
+            component.library = namespace
+            if param.source not in component.sources:
+                component.sources.append(param.source)
 
     # Params in the repo that no launch file claims still count as knobs set.
     claimed = {p.source for c in project.components for p in c.parameters}

@@ -79,13 +79,17 @@ def propose(project: Project) -> ArchitectureProposal:
 
     proposal = ArchitectureProposal(project=project.name)
     for component in project.components:
-        # A package/executable key beats the bare package: one package can ship
-        # unrelated nodes, and attributing all of them to the package's headline
-        # algorithm is a wrong answer rather than a refusal.
-        specific = f"{component.library}/{component.executable}"
-        algorithms = libraries.get(specific)
-        if algorithms is None:
-            algorithms = libraries.get(component.library or "", [])
+        # Most specific key wins. A pluginlib class names the algorithm that
+        # actually runs; a package/executable pair narrows a package that ships
+        # several unrelated nodes; the bare package is the last resort and the
+        # one that produces confidently wrong answers.
+        algorithms = None
+        for key in (component.plugin,
+                    f"{component.library}/{component.executable}",
+                    component.library or ""):
+            if key and key in libraries:
+                algorithms = libraries[key]
+                break
         if not algorithms:
             proposal.unclassified.append(component.name)
             continue

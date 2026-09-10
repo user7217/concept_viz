@@ -1,5 +1,5 @@
 {
-  "_note": "Library -> canon algorithm ids. Keys are either a package name or 'package/executable' when a package ships several unrelated nodes -- robot_localization contains both ekf_node and navsat_transform_node, and mapping the package as a whole would attribute a coordinate transform to a Kalman filter. The more specific key wins. Deliberately conservative: anything unmapped becomes unclassified and is put to the user at the confirmation gate rather than guessed.",
+  "_note": "Algorithm attribution, most specific key first: a pluginlib class ('ns::ClassName') names the algorithm that actually runs; 'package/executable' narrows a package shipping several unrelated nodes; the bare package is a last resort. Server packages that only host plugins are deliberately absent -- mapping nav2_controller, a lifecycle node that loads whatever you configure, produced a confident wrong answer. An empty list means 'known, but no canon algorithm covers it': it stays unclassified rather than borrowing another algorithm's prerequisites.",
   "libraries": {
     "robot_localization": [
       "extended_kalman_filter"
@@ -9,10 +9,6 @@
     ],
     "imu_complementary_filter": [
       "complementary_filter"
-    ],
-    "nav2_bringup": [
-      "a_star",
-      "dijkstra"
     ],
     "nav2_navfn_planner": [
       "dijkstra"
@@ -102,19 +98,49 @@
       "extended_kalman_filter"
     ],
     "robot_localization/navsat_transform_node": [],
-    "nav2_planner": [
-      "dijkstra",
-      "a_star"
-    ],
-    "nav2_controller": [
-      "pid"
-    ],
     "nav2_behaviors": [],
     "nav2_bt_navigator": [],
     "nav2_lifecycle_manager": [],
     "nav2_costmap_2d": [
       "occupancy_grid_mapping"
-    ]
+    ],
+    "nav2_smac_planner::SmacPlannerHybrid": [
+      "a_star"
+    ],
+    "nav2_smac_planner::SmacPlanner2D": [
+      "a_star"
+    ],
+    "nav2_smac_planner::SmacPlannerLattice": [
+      "a_star"
+    ],
+    "nav2_navfn_planner::NavfnPlanner": [
+      "dijkstra"
+    ],
+    "nav2_theta_star_planner::ThetaStarPlanner": [
+      "a_star"
+    ],
+    "nav2_costmap_2d::ObstacleLayer": [
+      "occupancy_grid_mapping"
+    ],
+    "nav2_costmap_2d::VoxelLayer": [
+      "occupancy_grid_mapping"
+    ],
+    "nav2_costmap_2d::StaticLayer": [
+      "occupancy_grid_mapping"
+    ],
+    "nav2_costmap_2d::InflationLayer": [],
+    "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController": [],
+    "nav2_mppi_controller::MPPIController": [],
+    "dwb_core::DWBLocalPlanner": [],
+    "nav2_graceful_controller::GracefulController": [],
+    "nav2_rotation_shim_controller::RotationShimController": [],
+    "nav2_controller::SimpleProgressChecker": [],
+    "nav2_controller::SimpleGoalChecker": [],
+    "nav2_controller::StoppedGoalChecker": [],
+    "nav2_behaviors::BackUp": [],
+    "nav2_behaviors::DriveOnHeading": [],
+    "nav2_behaviors::Wait": [],
+    "nav2_behaviors::Spin": []
   },
   "domain_subsystem": {
     "estimation": "Localization",

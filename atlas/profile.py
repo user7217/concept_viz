@@ -53,6 +53,22 @@ class Entry:
 @dataclass
 class Profile:
     entries: dict[str, Entry] = field(default_factory=dict)
+    denied: dict[str, str] = field(default_factory=dict)  # node -> when denied
+
+    @property
+    def not_known(self) -> set[str]:
+        """Nodes explicitly denied, which override the canon's assumed tier.
+
+        Without this the floor is a claim the system makes on the reader's
+        behalf: assumed nodes vanish from every path whether or not the reader
+        has ever seen them.
+        """
+        return set(self.denied)
+
+    def mark_unknown(self, node_id: str) -> None:
+        """Record not knowing something, even if the canon assumes it."""
+        self.entries.pop(node_id, None)
+        self.denied[node_id] = _now()
 
     # ---------- reading ----------
 
@@ -95,6 +111,7 @@ class Profile:
     def mark(self, node_id: str, state: State = State.DEMONSTRATED,
              evidence: str = "") -> Entry:
         """Record knowing a node. Never downgrades an existing stronger claim."""
+        self.denied.pop(node_id, None)
         existing = self.entries.get(node_id)
         if existing is not None and existing.strength > ORDER[state]:
             existing.suspect = False
@@ -134,6 +151,7 @@ class Profile:
                          "-- keep a copy somewhere that survives this machine.",
                 "entries": [asdict(e) for e in sorted(
                     self.entries.values(), key=lambda e: e.node_id)],
+                "denied": self.denied,
             },
             indent=2,
         ) + "\n"
@@ -151,7 +169,7 @@ class Profile:
                 suspect=bool(raw.get("suspect", False)),
             )
             entries[entry.node_id] = entry
-        return cls(entries=entries)
+        return cls(entries=entries, denied=payload.get("denied", {}))
 
     @classmethod
     def load(cls, path: Path = PROFILE) -> "Profile":

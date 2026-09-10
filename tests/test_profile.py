@@ -157,3 +157,39 @@ class TestStale(unittest.TestCase):
         ).isoformat(timespec="seconds")
         p.mark("fresh")
         self.assertEqual([e.node_id for e in p.stale(180)], ["old"])
+
+
+class TestFloorOverride(unittest.TestCase):
+    """The assumed tier is a default for silence, not an override of a claim."""
+
+    def setUp(self) -> None:
+        self.graph = build_graph(load())
+        self.p = Profile()
+
+    def test_assumed_nodes_are_hidden_by_default(self) -> None:
+        path = self.graph.learning_path("extended_kalman_filter")
+        self.assertNotIn("partial_derivative", path)
+
+    def test_denying_an_assumed_node_surfaces_it(self) -> None:
+        self.p.mark_unknown("partial_derivative")
+        path = self.graph.learning_path(
+            "extended_kalman_filter", known=self.p.known(),
+            not_known=self.p.not_known)
+        self.assertIn("partial_derivative", path)
+
+    def test_denial_removes_a_known_claim(self) -> None:
+        self.p.mark("expectation")
+        self.p.mark_unknown("expectation")
+        self.assertNotIn("expectation", self.p.known())
+        self.assertIn("expectation", self.p.not_known)
+
+    def test_marking_known_clears_a_denial(self) -> None:
+        self.p.mark_unknown("expectation")
+        self.p.mark("expectation")
+        self.assertIn("expectation", self.p.known())
+        self.assertEqual(self.p.not_known, set())
+
+    def test_denials_survive_a_round_trip(self) -> None:
+        self.p.mark_unknown("matrix_inverse")
+        self.assertEqual(Profile.from_json(self.p.to_json()).not_known,
+                         {"matrix_inverse"})
