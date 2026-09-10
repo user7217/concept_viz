@@ -1,0 +1,382 @@
+{
+  "_note": "Technique grounding. 'direct' means an article exists; 'derived' means passages were extracted from a consumer's source. A technique with neither cannot have a derivation written under section 9.",
+  "rows": [
+    {
+      "id": "backward_recursion",
+      "direct": false,
+      "derived": true,
+      "consumers": [
+        "lqr",
+        "dynamic_programming",
+        "riccati_equation"
+      ],
+      "via": [
+        "dynamic_programming"
+      ],
+      "chars": 2963
+    },
+    {
+      "id": "block_matrix_inversion",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "linear_kalman_filter",
+        "matrix_inversion_lemma"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "change_of_variables",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "quaternion_kinematics",
+        "gaussian_integral",
+        "linear_transformation_of_gaussian"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "cholesky_factorization",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "gauss_newton"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "completing_the_square",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "extended_kalman_filter",
+        "linear_kalman_filter",
+        "lqr"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "gaussian_elimination",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "cholesky_factorization",
+        "null_space",
+        "rank"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "importance_weight_derivation",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "particle_filter",
+        "importance_sampling"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "index_notation",
+      "direct": false,
+      "derived": true,
+      "consumers": [
+        "backpropagation",
+        "cholesky_factorization",
+        "matrix_calculus_gradient"
+      ],
+      "via": [
+        "matrix_calculus_gradient",
+        "sparse_matrix"
+      ],
+      "chars": 1769
+    },
+    {
+      "id": "inequality_bounding",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "a_star",
+        "dijkstra",
+        "gradient_descent"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "integration_by_parts",
+      "direct": true,
+      "derived": false,
+      "consumers": [],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "jacobian_vector_product",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "backpropagation"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "lagrange_multipliers",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "icp",
+        "pca"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "laplace_transform_of_derivative",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "complementary_filter",
+        "pid",
+        "final_value_theorem"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "linearization",
+      "direct": false,
+      "derived": true,
+      "consumers": [
+        "extended_kalman_filter",
+        "gauss_newton",
+        "nonlinear_least_squares"
+      ],
+      "via": [
+        "nonlinear_least_squares"
+      ],
+      "chars": 900
+    },
+    {
+      "id": "log_odds_transformation",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "occupancy_grid_mapping",
+        "log_odds"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "log_of_product_to_sum",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "cross_entropy_loss",
+        "kl_divergence",
+        "log_likelihood"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "logarithm_solve",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "ransac",
+        "sigmoid"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "marginalization",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "bayes_filter",
+        "linear_kalman_filter",
+        "particle_filter"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "matrix_calculus_gradient",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "gauss_newton",
+        "gradient_descent",
+        "icp"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "matrix_inversion_lemma",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "extended_kalman_filter",
+        "linear_kalman_filter",
+        "lqr"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "multivariate_chain_rule",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "backpropagation",
+        "cross_entropy_loss",
+        "extended_kalman_filter"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "partial_fractions",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "pid",
+        "inverse_laplace_transform"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "polynomial_root_finding",
+      "direct": false,
+      "derived": true,
+      "consumers": [
+        "characteristic_polynomial",
+        "partial_fractions",
+        "pole_location"
+      ],
+      "via": [
+        "partial_fractions"
+      ],
+      "chars": 1390
+    },
+    {
+      "id": "quadratic_form_differentiation",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "gauss_newton",
+        "lqr",
+        "ordinary_least_squares"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "quaternion_multiplication",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "quaternion_kinematics",
+        "unit_quaternion"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "recursive_substitution",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "bayes_filter",
+        "occupancy_grid_mapping",
+        "particle_filter"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "schur_complement",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "linear_kalman_filter",
+        "block_matrix_inversion",
+        "gaussian_conditioning"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "softmax_differentiation",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "cross_entropy_loss"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "svd_factorization",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "icp",
+        "pca"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "trace_identities",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "icp",
+        "matrix_calculus_gradient"
+      ],
+      "via": [],
+      "chars": 0
+    },
+    {
+      "id": "transpose_identities",
+      "direct": false,
+      "derived": true,
+      "consumers": [
+        "backpropagation",
+        "extended_kalman_filter",
+        "gauss_newton"
+      ],
+      "via": [
+        "linear_kalman_filter",
+        "ordinary_least_squares",
+        "matrix_calculus_gradient"
+      ],
+      "chars": 2546
+    },
+    {
+      "id": "unit_norm_normalization",
+      "direct": true,
+      "derived": false,
+      "consumers": [
+        "quaternion_kinematics",
+        "unit_quaternion"
+      ],
+      "via": [],
+      "chars": 0
+    }
+  ]
+}

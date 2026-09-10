@@ -1,92 +1,295 @@
 {
   "_note": "Search titles for retrieval. Node ids and generated title-case names are not what reference sources call things: 'Linear Kalman Filter' is a miss, 'Kalman filter' is a hit. Entries listed as [] are deliberate: the node names an engineering convention or a manipulation move that no encyclopedia has an article for, and marking it empty stops retrieval burning requests rediscovering that.",
   "aliases": {
-    "bayes_filter": ["Recursive Bayesian estimation"],
-    "linear_kalman_filter": ["Kalman filter"],
-    "particle_filter": ["Particle filter"],
-    "occupancy_grid_mapping": ["Occupancy grid mapping"],
-    "a_star": ["A* search algorithm"],
-    "dijkstra": ["Dijkstra's algorithm"],
-    "icp": ["Iterative closest point"],
-    "quaternion_kinematics": ["Quaternions and spatial rotation"],
-    "gauss_newton": ["Gauss–Newton algorithm"],
-    "lqr": ["Linear–quadratic regulator"],
-    "pid": ["PID controller"],
-    "complementary_filter": ["Sensor fusion"],
-    "pca": ["Principal component analysis"],
-    "ransac": ["Random sample consensus"],
-    "cross_entropy_loss": ["Cross-entropy"],
-    "yolo_detection_loss": ["Object detection"],
-
-    "matrix_inversion_lemma": ["Woodbury matrix identity"],
-    "block_matrix_inversion": ["Block matrix"],
-    "lagrange_multipliers": ["Lagrange multiplier"],
-    "svd_factorization": ["Singular value decomposition"],
-    "cholesky_factorization": ["Cholesky decomposition"],
-    "partial_fractions": ["Partial fraction decomposition"],
-    "polynomial_root_finding": ["Root-finding algorithm"],
-    "laplace_transform_of_derivative": ["Laplace transform"],
-    "multivariate_chain_rule": ["Chain rule"],
-    "quadratic_form_differentiation": ["Matrix calculus"],
-    "matrix_calculus_gradient": ["Matrix calculus"],
-    "transpose_identities": ["Transpose"],
-    "trace_identities": ["Trace (linear algebra)"],
-    "index_notation": ["Einstein notation"],
-    "change_of_variables": ["Integration by substitution"],
-    "normalization": ["Normalizing constant"],
-    "unit_norm_normalization": ["Unit vector"],
-    "backward_recursion": ["Dynamic programming"],
-    "recursive_substitution": ["Recurrence relation"],
-    "importance_weight_derivation": ["Importance sampling"],
-    "softmax_differentiation": ["Softmax function"],
-    "log_odds_transformation": ["Logit"],
-    "log_of_product_to_sum": ["Logarithm"],
-    "inequality_bounding": ["Inequality (mathematics)"],
-    "jacobian_vector_product": ["Jacobian matrix and determinant"],
-    "quaternion_multiplication": ["Quaternion"],
-    "logarithm_solve": ["Logarithm"],
-    "marginalization": ["Marginal distribution"],
-
-    "consensus_set": ["Random sample consensus"],
-    "inlier_ratio": ["Random sample consensus"],
-    "sensor_bias": ["Systematic error"],
-    "sensor_noise": ["Noise (electronics)"],
-    "pole_location": ["Zeros and poles"],
-    "optimal_feedback_gain": ["Full state feedback"],
-    "shortest_path": ["Shortest path problem"],
-    "so3": ["3D rotation group"],
-    "se3": ["Euclidean group"],
-    "iou": ["Jaccard index"],
-    "markov_assumption": ["Markov property"],
-    "log_odds": ["Logit"],
-    "inverse_sensor_model": ["Occupancy grid mapping"],
-    "belief_distribution": ["Recursive Bayesian estimation"],
-    "estimator_variance": ["Variance"],
-    "independent_trials": ["Bernoulli trial"],
-    "descent_direction": ["Gradient descent"],
-    "step_size": ["Learning rate"],
-    "information_matrix": ["Precision (statistics)"],
-    "multivariate_taylor_expansion": ["Taylor series"],
-    "sampling": ["Sampling (statistics)"],
-    "quadratic_cost": ["Linear–quadratic regulator"],
-    "path": ["Path (graph theory)"],
-    "null_space": ["Kernel (linear algebra)"],
-    "rank": ["Rank (linear algebra)"],
-    "sigmoid": ["Sigmoid function"],
-    "cross_entropy": ["Cross-entropy"],
-    "computational_graph": ["Automatic differentiation"],
-    "loss_function": ["Loss function"],
-    "regression_loss": ["Mean squared error"],
-    "classification_loss": ["Cross-entropy"],
-    "linear_model": ["Linear regression"],
-    "residual": ["Errors and residuals"],
-    "measurement_model": ["Observational error"],
-
+    "bayes_filter": [
+      "Recursive Bayesian estimation"
+    ],
+    "linear_kalman_filter": [
+      "Kalman filter"
+    ],
+    "particle_filter": [
+      "Particle filter"
+    ],
+    "occupancy_grid_mapping": [
+      "Occupancy grid mapping"
+    ],
+    "a_star": [
+      "A* search algorithm"
+    ],
+    "dijkstra": [
+      "Dijkstra's algorithm"
+    ],
+    "icp": [
+      "Iterative closest point"
+    ],
+    "quaternion_kinematics": [
+      "Quaternions and spatial rotation"
+    ],
+    "gauss_newton": [
+      "Gauss\u2013Newton algorithm"
+    ],
+    "lqr": [
+      "Linear\u2013quadratic regulator"
+    ],
+    "pid": [
+      "PID controller"
+    ],
+    "complementary_filter": [
+      "Sensor fusion"
+    ],
+    "pca": [
+      "Principal component analysis"
+    ],
+    "ransac": [
+      "Random sample consensus"
+    ],
+    "cross_entropy_loss": [
+      "Cross-entropy"
+    ],
+    "yolo_detection_loss": [
+      "Object detection"
+    ],
+    "matrix_inversion_lemma": [
+      "Woodbury matrix identity"
+    ],
+    "block_matrix_inversion": [
+      "Block matrix"
+    ],
+    "lagrange_multipliers": [
+      "Lagrange multiplier"
+    ],
+    "svd_factorization": [
+      "Singular value decomposition"
+    ],
+    "cholesky_factorization": [
+      "Cholesky decomposition"
+    ],
+    "partial_fractions": [
+      "Partial fraction decomposition"
+    ],
+    "polynomial_root_finding": [
+      "Root-finding algorithm"
+    ],
+    "laplace_transform_of_derivative": [
+      "Laplace transform"
+    ],
+    "multivariate_chain_rule": [
+      "Chain rule"
+    ],
+    "quadratic_form_differentiation": [
+      "Matrix calculus"
+    ],
+    "matrix_calculus_gradient": [
+      "Matrix calculus"
+    ],
+    "transpose_identities": [
+      "Transpose"
+    ],
+    "trace_identities": [
+      "Trace (linear algebra)"
+    ],
+    "index_notation": [
+      "Einstein notation"
+    ],
+    "change_of_variables": [
+      "Integration by substitution"
+    ],
+    "normalization": [
+      "Normalizing constant"
+    ],
+    "unit_norm_normalization": [
+      "Unit vector"
+    ],
+    "backward_recursion": [
+      "Dynamic programming"
+    ],
+    "recursive_substitution": [
+      "Recurrence relation"
+    ],
+    "importance_weight_derivation": [
+      "Importance sampling"
+    ],
+    "softmax_differentiation": [
+      "Softmax function"
+    ],
+    "log_odds_transformation": [
+      "Logit"
+    ],
+    "log_of_product_to_sum": [
+      "Logarithm"
+    ],
+    "inequality_bounding": [
+      "Inequality (mathematics)"
+    ],
+    "jacobian_vector_product": [
+      "Jacobian matrix and determinant"
+    ],
+    "quaternion_multiplication": [
+      "Quaternion"
+    ],
+    "logarithm_solve": [
+      "Logarithm"
+    ],
+    "marginalization": [
+      "Marginal distribution"
+    ],
+    "consensus_set": [
+      "Random sample consensus"
+    ],
+    "inlier_ratio": [
+      "Random sample consensus"
+    ],
+    "sensor_bias": [
+      "Systematic error"
+    ],
+    "sensor_noise": [
+      "Noise (electronics)"
+    ],
+    "pole_location": [
+      "Zeros and poles"
+    ],
+    "optimal_feedback_gain": [
+      "Full state feedback"
+    ],
+    "shortest_path": [
+      "Shortest path problem"
+    ],
+    "so3": [
+      "3D rotation group"
+    ],
+    "se3": [
+      "Euclidean group"
+    ],
+    "iou": [
+      "Jaccard index"
+    ],
+    "markov_assumption": [
+      "Markov property"
+    ],
+    "log_odds": [
+      "Logit"
+    ],
+    "inverse_sensor_model": [
+      "Occupancy grid mapping"
+    ],
+    "belief_distribution": [
+      "Recursive Bayesian estimation"
+    ],
+    "estimator_variance": [
+      "Variance"
+    ],
+    "independent_trials": [
+      "Bernoulli trial"
+    ],
+    "descent_direction": [
+      "Gradient descent"
+    ],
+    "step_size": [
+      "Learning rate"
+    ],
+    "information_matrix": [
+      "Precision (statistics)"
+    ],
+    "multivariate_taylor_expansion": [
+      "Taylor series"
+    ],
+    "sampling": [
+      "Sampling (statistics)"
+    ],
+    "quadratic_cost": [
+      "Linear\u2013quadratic regulator"
+    ],
+    "path": [
+      "Path (graph theory)"
+    ],
+    "null_space": [
+      "Kernel (linear algebra)"
+    ],
+    "rank": [
+      "Rank (linear algebra)"
+    ],
+    "sigmoid": [
+      "Sigmoid function"
+    ],
+    "cross_entropy": [
+      "Cross-entropy"
+    ],
+    "computational_graph": [
+      "Automatic differentiation"
+    ],
+    "loss_function": [
+      "Loss function"
+    ],
+    "regression_loss": [
+      "Mean squared error"
+    ],
+    "classification_loss": [
+      "Cross-entropy"
+    ],
+    "linear_model": [
+      "Linear regression"
+    ],
+    "residual": [
+      "Errors and residuals"
+    ],
+    "measurement_model": [
+      "Observational error"
+    ],
     "anchor_box": [],
     "objectness": [],
     "bounding_box_parameterization": [],
     "non_max_suppression": [],
     "algebraic_rearrangement": [],
-    "transfer_function_note": []
+    "transfer_function_note": [],
+    "gaussian_conditioning": [
+      "Multivariate normal distribution"
+    ],
+    "gaussian_marginalization": [
+      "Multivariate normal distribution"
+    ],
+    "linear_transformation_of_gaussian": [
+      "Multivariate normal distribution"
+    ],
+    "joint_gaussian": [
+      "Multivariate normal distribution"
+    ],
+    "cross_covariance_matrix": [
+      "Cross-covariance matrix",
+      "Covariance matrix"
+    ],
+    "admissibility": [
+      "Admissible heuristic"
+    ],
+    "exponential_map": [
+      "Exponential map (Lie theory)"
+    ],
+    "levenberg_marquardt_damping": [
+      "Levenberg\u2013Marquardt algorithm"
+    ],
+    "least_squares_objective": [
+      "Least squares"
+    ],
+    "recursive_estimation": [
+      "Recursive Bayesian estimation"
+    ],
+    "proposal_distribution": [
+      "Importance sampling"
+    ],
+    "weighted_average": [
+      "Weighted arithmetic mean"
+    ],
+    "steady_state_error": [
+      "Steady-state error",
+      "Control theory"
+    ],
+    "manifold_retraction": [
+      "Riemannian manifold"
+    ],
+    "path_cost": [
+      "Shortest path problem"
+    ],
+    "edge_weight": [
+      "Graph (discrete mathematics)"
+    ]
   }
 }

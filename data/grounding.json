@@ -1,0 +1,1377 @@
+{
+  "_note": "Which canon nodes can be grounded in a retrieved source. Nodes in state known_absent are conventions or manipulation moves with no reference article; they need a different grounding strategy, not a better search.",
+  "rows": [
+    {
+      "id": "a_star",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:A*_search_algorithm",
+      "chars": 35134
+    },
+    {
+      "id": "admissibility",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Admissible_heuristic",
+      "chars": 790,
+      "route": "direct"
+    },
+    {
+      "id": "anchor_box",
+      "type": "concept",
+      "state": "known_absent"
+    },
+    {
+      "id": "angular_velocity",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Angular_velocity",
+      "chars": 29721
+    },
+    {
+      "id": "axis_angle",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Axis\u2013angle_representation",
+      "chars": 29526
+    },
+    {
+      "id": "backpropagation",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:Backpropagation",
+      "chars": 88765
+    },
+    {
+      "id": "backward_recursion",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Dynamic_programming",
+      "chars": 88309
+    },
+    {
+      "id": "bayes_filter",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:Recursive_Bayesian_estimation",
+      "chars": 16191
+    },
+    {
+      "id": "bayes_rule",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Bayes'_theorem",
+      "chars": 52370
+    },
+    {
+      "id": "belief_distribution",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Recursive_Bayesian_estimation",
+      "chars": 16191
+    },
+    {
+      "id": "bellman_equation",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Bellman_equation",
+      "route": "direct"
+    },
+    {
+      "id": "bernoulli_distribution",
+      "type": "concept",
+      "state": "error",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla"
+    },
+    {
+      "id": "binomial_coefficient",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Binomial_coefficient",
+      "chars": 194099
+    },
+    {
+      "id": "binomial_distribution",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Binomial_distribution",
+      "chars": 79341
+    },
+    {
+      "id": "block_matrix_inversion",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Block_matrix",
+      "chars": 110176
+    },
+    {
+      "id": "bounding_box_parameterization",
+      "type": "concept",
+      "state": "known_absent"
+    },
+    {
+      "id": "categorical_distribution",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Categorical_distribution",
+      "chars": 57440
+    },
+    {
+      "id": "centroid",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Centroid",
+      "chars": 50848
+    },
+    {
+      "id": "chain_rule",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Chain_rule",
+      "chars": 112832
+    },
+    {
+      "id": "change_of_variables",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Integration_by_substitution",
+      "chars": 47905
+    },
+    {
+      "id": "characteristic_polynomial",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Characteristic_polynomial",
+      "chars": 30717
+    },
+    {
+      "id": "cholesky_factorization",
+      "type": "technique",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Cholesky_decomposition",
+      "route": "direct"
+    },
+    {
+      "id": "classification_loss",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Cross-entropy",
+      "route": "direct"
+    },
+    {
+      "id": "column_space",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Row_and_column_spaces",
+      "chars": 56075
+    },
+    {
+      "id": "complementary_filter",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:Sensor_fusion",
+      "chars": 18951
+    },
+    {
+      "id": "completing_the_square",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Completing_the_square",
+      "chars": 56205
+    },
+    {
+      "id": "composite_function",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Function_composition",
+      "chars": 19509
+    },
+    {
+      "id": "computational_graph",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Automatic_differentiation",
+      "chars": 92891
+    },
+    {
+      "id": "conditional_independence",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Conditional_independence",
+      "chars": 64064
+    },
+    {
+      "id": "consensus_set",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Random_sample_consensus",
+      "chars": 20405
+    },
+    {
+      "id": "consistency_heuristic",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:A*_search_algorithm#consistency_heuristic",
+      "route": "derived",
+      "via": "a_star"
+    },
+    {
+      "id": "controllability",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Controllability",
+      "route": "direct"
+    },
+    {
+      "id": "convexity",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Convex",
+      "chars": 1241
+    },
+    {
+      "id": "covariance_matrix",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Covariance_matrix",
+      "chars": 105726
+    },
+    {
+      "id": "cross_covariance_matrix",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Cross-covariance_matrix",
+      "chars": 0,
+      "route": "direct"
+    },
+    {
+      "id": "cross_entropy",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Cross-entropy",
+      "chars": 61847
+    },
+    {
+      "id": "cross_entropy_loss",
+      "type": "algorithm",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Cross-entropy",
+      "route": "direct"
+    },
+    {
+      "id": "cross_product",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Cross_product",
+      "route": "direct"
+    },
+    {
+      "id": "descent_direction",
+      "type": "concept",
+      "state": "error",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla"
+    },
+    {
+      "id": "differential_equation",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Differential_equation",
+      "chars": 32290
+    },
+    {
+      "id": "dijkstra",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:Dijkstra's_algorithm",
+      "chars": 37708
+    },
+    {
+      "id": "directional_derivative",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Directional_derivative",
+      "chars": 37519
+    },
+    {
+      "id": "dynamic_programming",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Dynamic_programming",
+      "chars": 88309
+    },
+    {
+      "id": "edge_weight",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Graph_(discrete_mathematics)",
+      "chars": 0,
+      "route": "direct"
+    },
+    {
+      "id": "eigendecomposition",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Eigendecomposition_of_a_matrix",
+      "chars": 100140
+    },
+    {
+      "id": "eigenvalue",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Eigenvalues_and_eigenvectors",
+      "chars": 143439
+    },
+    {
+      "id": "eigenvector",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Eigenvalues_and_eigenvectors",
+      "chars": 143439
+    },
+    {
+      "id": "empirical_distribution",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Particle_filter#empirical_distribution",
+      "route": "derived",
+      "via": "particle_filter"
+    },
+    {
+      "id": "entropy",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Entropy",
+      "route": "direct"
+    },
+    {
+      "id": "estimator_variance",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Variance",
+      "chars": 178857
+    },
+    {
+      "id": "euler_angles",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Euler_angles",
+      "chars": 42327
+    },
+    {
+      "id": "exponential_map",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Exponential_map_(Lie_theory)",
+      "chars": 926,
+      "route": "direct"
+    },
+    {
+      "id": "extended_kalman_filter",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:Extended_Kalman_filter",
+      "chars": 57022
+    },
+    {
+      "id": "feedback_loop",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Feedback",
+      "chars": 27757
+    },
+    {
+      "id": "final_value_theorem",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Final_value_theorem",
+      "chars": 48799
+    },
+    {
+      "id": "frequency_response",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Frequency_response",
+      "route": "direct"
+    },
+    {
+      "id": "gauss_newton",
+      "type": "algorithm",
+      "state": "error",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla"
+    },
+    {
+      "id": "gaussian_conditioning",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Multivariate_normal_distribution",
+      "chars": 0,
+      "route": "direct"
+    },
+    {
+      "id": "gaussian_distribution",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Normal_distribution",
+      "chars": 300415
+    },
+    {
+      "id": "gaussian_elimination",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Gaussian_elimination",
+      "chars": 40421
+    },
+    {
+      "id": "gaussian_integral",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Gaussian_integral",
+      "chars": 107131
+    },
+    {
+      "id": "gaussian_marginalization",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Multivariate_normal_distribution",
+      "chars": 0,
+      "route": "direct"
+    },
+    {
+      "id": "gimbal_lock",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Gimbal_lock",
+      "chars": 31048
+    },
+    {
+      "id": "gradient",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Gradient",
+      "chars": 75512
+    },
+    {
+      "id": "gradient_descent",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:Gradient_descent",
+      "chars": 70007
+    },
+    {
+      "id": "gram_matrix",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Gram_matrix",
+      "route": "direct"
+    },
+    {
+      "id": "greedy_choice",
+      "type": "concept",
+      "state": "ungrounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "route": null
+    },
+    {
+      "id": "hessian_matrix",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Hessian_matrix",
+      "chars": 62447
+    },
+    {
+      "id": "heuristic_function",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Heuristic_(computer_science)",
+      "chars": 11803
+    },
+    {
+      "id": "high_pass_filter",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:High_Pass_Filter",
+      "chars": 3146
+    },
+    {
+      "id": "homogeneous_coordinates",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Homogeneous_coordinates",
+      "chars": 38574
+    },
+    {
+      "id": "icp",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:Iterative_closest_point",
+      "chars": 3539
+    },
+    {
+      "id": "importance_sampling",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Importance_sampling",
+      "chars": 46691
+    },
+    {
+      "id": "importance_weight_derivation",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Importance_sampling",
+      "chars": 46691
+    },
+    {
+      "id": "independent_trials",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Bernoulli_trial",
+      "chars": 17874
+    },
+    {
+      "id": "index_notation",
+      "type": "technique",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Einstein_notation",
+      "route": "direct"
+    },
+    {
+      "id": "inequality_bounding",
+      "type": "technique",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Inequality_(mathematics)",
+      "route": "direct"
+    },
+    {
+      "id": "information_matrix",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Precision_(statistics)",
+      "chars": 4416
+    },
+    {
+      "id": "inlier_ratio",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Random_sample_consensus",
+      "chars": 20405
+    },
+    {
+      "id": "integration_by_parts",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Integration_by_parts",
+      "chars": 124836
+    },
+    {
+      "id": "inverse_laplace_transform",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Inverse_Laplace_transform",
+      "chars": 9267
+    },
+    {
+      "id": "inverse_sensor_model",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Occupancy_grid_mapping",
+      "chars": 5439
+    },
+    {
+      "id": "iou",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Jaccard_index",
+      "chars": 49579
+    },
+    {
+      "id": "jacobian_matrix",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Jacobian_matrix_and_determinant",
+      "chars": 65164
+    },
+    {
+      "id": "jacobian_vector_product",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Jacobian_matrix_and_determinant",
+      "chars": 65164
+    },
+    {
+      "id": "joint_gaussian",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Multivariate_normal_distribution",
+      "route": "direct"
+    },
+    {
+      "id": "kl_divergence",
+      "type": "concept",
+      "state": "error",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla"
+    },
+    {
+      "id": "lagrange_multipliers",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Lagrange_multiplier",
+      "chars": 123827
+    },
+    {
+      "id": "laplace_transform",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Laplace_transform",
+      "chars": 118716
+    },
+    {
+      "id": "laplace_transform_of_derivative",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Laplace_transform",
+      "chars": 118716
+    },
+    {
+      "id": "law_of_large_numbers",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Law_of_large_numbers",
+      "chars": 55422
+    },
+    {
+      "id": "least_squares_objective",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Least_squares",
+      "chars": 0,
+      "route": "direct"
+    },
+    {
+      "id": "levenberg_marquardt_damping",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Levenberg\u2013Marquardt_algorithm",
+      "chars": 0,
+      "route": "direct"
+    },
+    {
+      "id": "lie_algebra",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Lie_algebra",
+      "chars": 137522
+    },
+    {
+      "id": "likelihood",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Likelihood_function",
+      "chars": 91543
+    },
+    {
+      "id": "linear_kalman_filter",
+      "type": "algorithm",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Kalman_filter",
+      "route": "direct"
+    },
+    {
+      "id": "linear_model",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Linear_regression",
+      "route": "direct"
+    },
+    {
+      "id": "linear_transformation_of_gaussian",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Multivariate_normal_distribution",
+      "chars": 0,
+      "route": "direct"
+    },
+    {
+      "id": "linearization",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Linearization",
+      "chars": 16479
+    },
+    {
+      "id": "local_minimum",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Maximum_and_minimum",
+      "chars": 16081
+    },
+    {
+      "id": "log_likelihood",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Likelihood_function",
+      "chars": 91543
+    },
+    {
+      "id": "log_odds",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Logit",
+      "chars": 16498
+    },
+    {
+      "id": "log_odds_transformation",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Logit",
+      "chars": 16498
+    },
+    {
+      "id": "log_of_product_to_sum",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Logarithm",
+      "chars": 87268
+    },
+    {
+      "id": "logarithm_solve",
+      "type": "technique",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Logarithm",
+      "route": "direct"
+    },
+    {
+      "id": "loss_function",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Loss_function",
+      "route": "direct"
+    },
+    {
+      "id": "low_pass_filter",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Low-pass_filter",
+      "chars": 46584
+    },
+    {
+      "id": "lqr",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:Linear\u2013quadratic_regulator",
+      "chars": 32652
+    },
+    {
+      "id": "manifold_retraction",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Riemannian_manifold",
+      "chars": 0,
+      "route": "direct"
+    },
+    {
+      "id": "marginalization",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Marginal_distribution",
+      "chars": 21992
+    },
+    {
+      "id": "markov_assumption",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Markov_property",
+      "chars": 54778
+    },
+    {
+      "id": "matrix_calculus_gradient",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Matrix_calculus",
+      "chars": 148745
+    },
+    {
+      "id": "matrix_inversion_lemma",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Woodbury_matrix_identity",
+      "chars": 39210
+    },
+    {
+      "id": "maximum_likelihood_estimation",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Maximum_likelihood_estimation",
+      "chars": 151515
+    },
+    {
+      "id": "measurement_model",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Observational_error",
+      "chars": 12341
+    },
+    {
+      "id": "monte_carlo_integration",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Monte_Carlo_integration",
+      "route": "direct"
+    },
+    {
+      "id": "multivariate_chain_rule",
+      "type": "technique",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Chain_rule",
+      "route": "direct"
+    },
+    {
+      "id": "multivariate_taylor_expansion",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Taylor_series",
+      "chars": 164016
+    },
+    {
+      "id": "non_max_suppression",
+      "type": "concept",
+      "state": "known_absent"
+    },
+    {
+      "id": "nonlinear_least_squares",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Non-linear_least_squares",
+      "chars": 57645
+    },
+    {
+      "id": "normal_equations",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Ordinary_least_squares",
+      "chars": 118454
+    },
+    {
+      "id": "normalization",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Normalizing_constant",
+      "chars": 11699
+    },
+    {
+      "id": "null_space",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Kernel_(linear_algebra)",
+      "chars": 58140
+    },
+    {
+      "id": "objectness",
+      "type": "concept",
+      "state": "known_absent"
+    },
+    {
+      "id": "occupancy_grid_mapping",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:Occupancy_grid_mapping",
+      "chars": 5439
+    },
+    {
+      "id": "odds_ratio",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Odds_ratio",
+      "chars": 84110
+    },
+    {
+      "id": "optimal_feedback_gain",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Full_state_feedback",
+      "chars": 11455
+    },
+    {
+      "id": "optimal_substructure",
+      "type": "concept",
+      "state": "error",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla"
+    },
+    {
+      "id": "ordinary_least_squares",
+      "type": "algorithm",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Ordinary_least_squares",
+      "route": "direct"
+    },
+    {
+      "id": "orthogonal_matrix",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Orthogonal_matrix",
+      "chars": 57103
+    },
+    {
+      "id": "partial_fractions",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Partial_fraction_decomposition",
+      "chars": 121571
+    },
+    {
+      "id": "particle_filter",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:Particle_filter",
+      "chars": 294096
+    },
+    {
+      "id": "path",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Path_(graph_theory)",
+      "chars": 5796
+    },
+    {
+      "id": "path_cost",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Shortest_path_problem",
+      "chars": 0,
+      "route": "direct"
+    },
+    {
+      "id": "pca",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:Principal_component_analysis",
+      "chars": 114583
+    },
+    {
+      "id": "pid",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:PID_controller",
+      "chars": 103174
+    },
+    {
+      "id": "pole_location",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Zeros_and_poles",
+      "chars": 12607
+    },
+    {
+      "id": "polynomial_root_finding",
+      "type": "technique",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Root-finding_algorithm",
+      "route": "direct"
+    },
+    {
+      "id": "positive_semidefinite_matrix",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Definite_matrix",
+      "route": "direct"
+    },
+    {
+      "id": "projection_matrix",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Projection_matrix",
+      "chars": 27455
+    },
+    {
+      "id": "proposal_distribution",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Importance_sampling",
+      "chars": 0,
+      "route": "direct"
+    },
+    {
+      "id": "pseudoinverse",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Generalized_inverse",
+      "chars": 45054
+    },
+    {
+      "id": "quadratic_cost",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Linear\u2013quadratic_regulator",
+      "chars": 32652
+    },
+    {
+      "id": "quadratic_form",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Quadratic_form",
+      "chars": 40825
+    },
+    {
+      "id": "quadratic_form_differentiation",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Matrix_calculus",
+      "chars": 148745
+    },
+    {
+      "id": "quaternion",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Quaternion",
+      "chars": 140800
+    },
+    {
+      "id": "quaternion_kinematics",
+      "type": "algorithm",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Quaternions_and_spatial_rotation",
+      "route": "direct"
+    },
+    {
+      "id": "quaternion_multiplication",
+      "type": "technique",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Quaternion",
+      "route": "direct"
+    },
+    {
+      "id": "rank",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Rank_(linear_algebra)",
+      "chars": 43784
+    },
+    {
+      "id": "ransac",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:Random_sample_consensus",
+      "chars": 20405
+    },
+    {
+      "id": "rayleigh_quotient",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Rayleigh_quotient",
+      "chars": 70044
+    },
+    {
+      "id": "recursive_estimation",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Recursive_Bayesian_estimation",
+      "chars": 0,
+      "route": "direct"
+    },
+    {
+      "id": "recursive_substitution",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Recurrence_relation",
+      "chars": 55281
+    },
+    {
+      "id": "regression_loss",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Mean_squared_error",
+      "chars": 69570
+    },
+    {
+      "id": "relaxation",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Relaxation",
+      "chars": 1485
+    },
+    {
+      "id": "residual",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Errors_and_residuals",
+      "chars": 15651
+    },
+    {
+      "id": "riccati_equation",
+      "type": "concept",
+      "state": "error",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla"
+    },
+    {
+      "id": "rigid_transformation",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Rigid_transformation",
+      "route": "direct"
+    },
+    {
+      "id": "rotation_matrix",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Rotation_matrix",
+      "chars": 265372
+    },
+    {
+      "id": "sampling",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Sampling_(statistics)",
+      "chars": 45211
+    },
+    {
+      "id": "schur_complement",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Schur_complement",
+      "chars": 69355
+    },
+    {
+      "id": "se3",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Euclidean_group",
+      "chars": 15481
+    },
+    {
+      "id": "sensor_bias",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Observational_error",
+      "chars": 12341
+    },
+    {
+      "id": "sensor_noise",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Noise_(electronics)",
+      "chars": 13395
+    },
+    {
+      "id": "shortest_path",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Shortest_path_problem",
+      "chars": 21787
+    },
+    {
+      "id": "sigmoid",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Sigmoid_function",
+      "chars": 26826
+    },
+    {
+      "id": "singular_value_decomposition",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Singular_value_decomposition",
+      "route": "direct"
+    },
+    {
+      "id": "skew_symmetric_matrix",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Skew-symmetric_matrix",
+      "route": "direct"
+    },
+    {
+      "id": "so3",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:3D_rotation_group",
+      "chars": 166695
+    },
+    {
+      "id": "softmax_differentiation",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Softmax_function",
+      "chars": 57343
+    },
+    {
+      "id": "softmax_function",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Softmax_function",
+      "chars": 57343
+    },
+    {
+      "id": "stability",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Stability",
+      "chars": 3535
+    },
+    {
+      "id": "state_space_model",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:State-space_representation",
+      "chars": 72727
+    },
+    {
+      "id": "stationary_point",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Stationary_point",
+      "chars": 6944
+    },
+    {
+      "id": "steady_state_error",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:PID_controller",
+      "chars": 0,
+      "route": "direct"
+    },
+    {
+      "id": "step_size",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Learning_rate",
+      "route": "direct"
+    },
+    {
+      "id": "svd_factorization",
+      "type": "technique",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Singular_value_decomposition",
+      "route": "direct"
+    },
+    {
+      "id": "symmetric_matrix",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Symmetric_matrix",
+      "chars": 34009
+    },
+    {
+      "id": "taylor_expansion",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Taylor_series",
+      "chars": 164016
+    },
+    {
+      "id": "time_constant",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Time_constant",
+      "chars": 31410
+    },
+    {
+      "id": "total_probability",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Law_of_total_probability",
+      "chars": 15635
+    },
+    {
+      "id": "trace",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Trace",
+      "chars": 3835
+    },
+    {
+      "id": "trace_identities",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Trace_(linear_algebra)",
+      "chars": 50582
+    },
+    {
+      "id": "transfer_function",
+      "type": "concept",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Transfer_function",
+      "route": "direct"
+    },
+    {
+      "id": "transpose_identities",
+      "type": "technique",
+      "state": "grounded",
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla",
+      "best": "wikipedia:Transpose",
+      "route": "direct"
+    },
+    {
+      "id": "unit_norm_normalization",
+      "type": "technique",
+      "state": "grounded",
+      "best": "wikipedia:Unit_vector",
+      "chars": 31952
+    },
+    {
+      "id": "unit_quaternion",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Versor",
+      "chars": 24180
+    },
+    {
+      "id": "value_function",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Value_function",
+      "chars": 15336
+    },
+    {
+      "id": "weighted_average",
+      "type": "concept",
+      "state": "error",
+      "best": null,
+      "chars": 393,
+      "detail": "HTTP 429 for https://en.wikipedia.org/w/api.php?action=query&prop=extracts&expla"
+    },
+    {
+      "id": "weighted_graph",
+      "type": "concept",
+      "state": "grounded",
+      "best": "wikipedia:Glossary_of_graph_theory",
+      "chars": 88257
+    },
+    {
+      "id": "yolo_detection_loss",
+      "type": "algorithm",
+      "state": "grounded",
+      "best": "wikipedia:Object_detection",
+      "chars": 5655
+    }
+  ]
+}

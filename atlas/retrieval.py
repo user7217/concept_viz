@@ -55,11 +55,19 @@ class Source:
     retrieved_at: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat(timespec="seconds")
     )
+    derived_from: str | None = None  # source id this was extracted out of
+    via: str | None = None           # node whose source carried the passage
 
     @property
     def is_substantive(self) -> bool:
-        """An abstract alone cannot ground a derivation."""
-        return len(self.text) >= 1200
+        """Enough text to ground a derivation.
+
+        A derived passage is held to a lower bar than a whole article: it has
+        already been narrowed to the paragraphs performing the move, so a few
+        hundred words is the useful signal rather than a truncation.
+        """
+        floor = 350 if self.kind == "derived" else 1200
+        return len(self.text) >= floor
 
     def excerpt(self, limit: int = 400) -> str:
         return self.text[:limit].replace("\n", " ").strip()
@@ -266,3 +274,108 @@ def grounding_report(name: str, sources: list[Source]) -> dict:
         "grounded": bool(substantive),
         "best": substantive[0].id if substantive else None,
     }
+
+
+# ---------- grounding techniques from the derivations that use them ----------
+
+STOPWORDS = {
+    "derivation", "identities", "identity", "notation", "rule", "method",
+    "technique", "solve", "of", "the", "a", "and", "to", "for", "by",
+}
+
+
+def technique_terms(node_id: str, name: str) -> list[str]:
+    """Search terms for locating a move inside a consumer's article.
+
+    A technique's own name is the best signal, minus the generic nouns that
+    make it a technique name in the first place: "importance_weight_derivation"
+    should look for "importance" and "weight", not "derivation".
+    """
+    tokens = {t for t in node_id.replace("-", "_").split("_") if t}
+    tokens |= {t.lower().strip("()") for t in name.split()}
+    listed = aliases_for(node_id) or []
+    for alias in listed:
+        tokens |= {t.lower().strip("()") for t in alias.split()}
+    return sorted(t for t in tokens if t not in STOPWORDS and len(t) > 2)
+
+
+def extract_passages(text: str, terms: list[str], limit: int = 4,
+                     min_hits: int = 1) -> list[str]:
+    """Paragraphs of `text` that perform the move named by `terms`, best first."""
+    if not terms:
+        return []
+    scored: list[tuple[int, int, int, str]] = []
+    for index, paragraph in enumerate(text.split("\n")):
+        stripped = paragraph.strip()
+        if len(stripped) < 80:
+            continue
+        lowered = stripped.lower()
+        # Distinct terms first: a passage hitting "importance" and "weight"
+        # beats one hitting "importance" three times. Occurrences break the tie,
+        # because a paragraph performing a move names it repeatedly.
+        distinct = sum(1 for term in terms if term in lowered)
+        occurrences = sum(lowered.count(term) for term in terms)
+        if distinct >= min_hits:
+            scored.append((distinct, occurrences, -index, stripped))
+    scored.sort(reverse=True)
+    return [paragraph for _, _, _, paragraph in scored[:limit]]
+
+
+def consumers_of(graph, node_id: str, limit: int = 6) -> list[str]:
+    """Nodes whose derivations require this one, algorithms first.
+
+    An algorithm's article is likelier to show the move being performed than a
+    neighbouring concept's is.
+    """
+    from .schema import NodeType, Relation
+
+    found = [
+        e.src for e in graph.edges.values()
+        if e.rel is Relation.REQUIRES and e.dst == node_id
+    ]
+    found.sort(
+        key=lambda n: (graph.nodes[n].type is not NodeType.ALGORITHM, n)
+    )
+    return found[:limit]
+
+
+def ground_from_consumers(graph, node_id: str, name: str,
+                          transport: Transport | None = None,
+                          limit: int = 3) -> list[Source]:
+    """Ground a node by extracting the passages where its consumers use it.
+
+    For techniques this is the only available route: no encyclopedia has an
+    article on "moving a transpose through a product", but the articles on the
+    algorithms that do it contain the step. Provenance is preserved -- a derived
+    source records the document it came out of and the node that led there -- so
+    the citation guard still holds.
+    """
+    terms = technique_terms(node_id, name)
+    derived: list[Source] = []
+
+    for consumer in consumers_of(graph, node_id):
+        if len(derived) >= limit:
+            break
+        try:
+            sources = retrieve_node(consumer, graph.nodes[consumer].name, transport)
+        except RetrievalError:
+            continue
+
+        for source in sources:
+            passages = extract_passages(source.text, terms)
+            if not passages:
+                continue
+            derived.append(
+                Source(
+                    id=f"{source.id}#{node_id}",
+                    title=f"{source.title} (passages using {name})",
+                    url=source.url,
+                    kind="derived",
+                    text="\n\n".join(passages),
+                    derived_from=source.id,
+                    via=consumer,
+                )
+            )
+            break  # one passage set per consumer is enough
+
+    return derived
