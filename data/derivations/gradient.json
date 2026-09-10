@@ -1,71 +1,101 @@
 {
   "node_id": "gradient",
   "grounded": true,
-  "statement": "(df_p)(v) = \\nabla f(p) \\cdot v = \\sum_{i=1}^{n} \\frac{\\partial f}{\\partial x_i}(p) v_i",
+  "kind": "definition",
+  "statement": "The gradient of a differentiable scalar function f(x1,...,xn) is the unique vector field \u2207f such that, at each point x, its dot product with any unit vector v\u0302 equals the directional derivative of f along v\u0302: (\u2207f(x))\u00b7v\u0302 = D_v f(x). In Cartesian coordinates with the Euclidean metric, \u2207f = (\u2202f/\u2202x1, ..., \u2202f/\u2202xn), conventionally written as a column vector.",
   "symbols": [
     {
       "symbol": "f",
-      "meaning": "differentiable scalar-valued function",
+      "meaning": "scalar-valued differentiable function of n variables",
       "dimensions": "R^n -> R"
     },
     {
-      "symbol": "p",
-      "meaning": "evaluation point in the domain",
+      "symbol": "\u2207f",
+      "meaning": "gradient of f",
+      "dimensions": "n x 1 (column vector)"
+    },
+    {
+      "symbol": "x_i",
+      "meaning": "i-th Cartesian coordinate",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "v\u0302",
+      "meaning": "unit vector specifying a direction",
       "dimensions": "n x 1"
     },
     {
-      "symbol": "v",
-      "meaning": "tangent input vector",
-      "dimensions": "n x 1"
+      "symbol": "D_v f(x)",
+      "meaning": "directional derivative of f along v\u0302 at x",
+      "dimensions": "scalar"
     },
     {
-      "symbol": "df_p",
-      "meaning": "total derivative / differential of f at p",
-      "dimensions": "1 x n"
-    },
-    {
-      "symbol": "\\nabla f(p)",
-      "meaning": "gradient vector of f at p",
-      "dimensions": "n x 1"
+      "symbol": "df_x",
+      "meaning": "total derivative (differential) of f at x, dual to the gradient",
+      "dimensions": "1 x n (row vector)"
     }
   ],
-  "steps": [
+  "steps": [],
+  "properties": [
     {
-      "n": 1,
-      "text": "Represent the action of the total derivative df_p on a vector v as matrix multiplication of a row vector of partial derivatives with a column vector v: (df_p)(v) = \\begin{bmatrix}{\\frac {\\partial f}{\\partial x_{1}}}(p) & \\cdots & {\\frac {\\partial f}{\\partial x_{n}}}(p)\\end{bmatrix}{\\begin{bmatrix}v_{1}\\\\\\vdots \\\\v_{n}\\end{bmatrix}}",
-      "invokes": [
-        "derivative"
-      ],
+      "property": "Defining property: \u2207f is the unique vector field satisfying (\u2207f(x))\u00b7v\u0302 = D_v f(x) for every unit vector v\u0302 at each point x.",
+      "why": "this is how the gradient is defined, independent of coordinate system",
       "cites": [
         "wikipedia:Gradient"
       ]
     },
     {
-      "n": 2,
-      "text": "Compute the matrix product as a linear combination of vector components: \\sum _{i=1}^{n}{\\frac {\\partial f}{\\partial x_{i}}}(p)v_{i}",
-      "invokes": [
-        "algebraic_rearrangement"
-      ],
+      "property": "In Cartesian coordinates, \u2207f(x,y,z) = (\u2202f/\u2202x) i + (\u2202f/\u2202y) j + (\u2202f/\u2202z) k, i.e. the column vector of partial derivatives.",
+      "why": "explicit component formula for the standard Euclidean case",
       "cites": [
         "wikipedia:Gradient"
       ]
     },
     {
-      "n": 3,
-      "text": "Rewrite the sum of partial derivatives and components as the dot product of two column vectors: {\\begin{bmatrix}{\\frac {\\partial f}{\\partial x_{1}}}(p)\\\\\\vdots \\\\{\\frac {\\partial f}{\\partial x_{n}}}(p)\\end{bmatrix}}\\cdot {\\begin{bmatrix}v_{1}\\\\\\vdots \\\\v_{n}\\end{bmatrix}}",
-      "invokes": [
-        "dot_product"
-      ],
+      "property": "The gradient \u2207f and the total derivative (differential) df are transpose of each other: \u2207f is a column vector, df is the row vector with the same components; (df_x)(v) = \u2207f(x)\u00b7v.",
+      "why": "the gradient is dual to the derivative under the Euclidean metric identification of tangent and cotangent spaces",
       "cites": [
         "wikipedia:Gradient"
       ]
     },
     {
-      "n": 4,
-      "text": "Identify the column vector of partial derivatives as the gradient vector \\nabla f(p), concluding (df_p)(v) = \\nabla f(p) \\cdot v",
-      "invokes": [
-        "dot_product"
-      ],
+      "property": "Fr\u00e9chet-derivative characterization: \u2207f(x) is the vector satisfying lim_{h\u21920} |f(x+h) \u2212 f(x) \u2212 \u2207f(x)\u00b7h| / \u2016h\u2016 = 0.",
+      "why": "equivalent analytic definition of differentiability and the gradient",
+      "cites": [
+        "wikipedia:Gradient"
+      ]
+    },
+    {
+      "property": "Linear approximation: f(x) \u2248 f(x0) + (\u2207f)_{x0}\u00b7(x \u2212 x0) for x near x0.",
+      "why": "the gradient gives the best linear (first-order Taylor) approximation of f",
+      "cites": [
+        "wikipedia:Gradient"
+      ]
+    },
+    {
+      "property": "Linearity: \u2207(\u03b1f + \u03b2g)(a) = \u03b1\u2207f(a) + \u03b2\u2207g(a).",
+      "why": "follows directly from linearity of the partial derivative / directional derivative",
+      "cites": [
+        "wikipedia:Gradient"
+      ]
+    },
+    {
+      "property": "Product rule: \u2207(fg)(a) = f(a)\u2207g(a) + g(a)\u2207f(a).",
+      "why": "standard product rule applied componentwise to the gradient",
+      "cites": [
+        "wikipedia:Gradient"
+      ]
+    },
+    {
+      "property": "Chain rule (curve form): (f\u2218g)'(c) = \u2207f(a)\u00b7g'(c) for a parametric curve g with g(c)=a. General form: \u2207(f\u2218g)(c) = (Dg(c))^T (\u2207f(a)) for g: R^k \u2192 R^n. Scalar-outer form: \u2207(h\u2218f)(a) = h'(f(a)) \u2207f(a).",
+      "why": "composition rules needed to propagate gradients through composite functions",
+      "cites": [
+        "wikipedia:Gradient"
+      ]
+    },
+    {
+      "property": "In non-Cartesian orthogonal coordinates (e.g. cylindrical, spherical) or general coordinates, the simple partial-derivative formula does not hold directly; the correct expression requires scale factors h_i or the inverse metric tensor g^{ij}: \u2207f = \u03a3_i (1/h_i) (\u2202f/\u2202x^i) \u00ea_i, or \u2207f = (\u2202f/\u2202x^i) g^{ij} e_j in general coordinates.",
+      "why": "the Cartesian component formula is specific to an orthonormal Euclidean basis; other coordinate systems require metric correction factors",
       "cites": [
         "wikipedia:Gradient"
       ]
@@ -73,24 +103,24 @@
   ],
   "assumptions": [
     {
-      "assumption": "The function f is differentiable at point p.",
-      "breaks_when": "The function f is non-differentiable at p, meaning partial derivatives or total differential do not exist."
+      "assumption": "f is differentiable at the point(s) in question.",
+      "breaks_when": "f is not differentiable there, e.g. has a kink or discontinuity \u2014 the gradient does not exist even if partial derivatives exist along some directions"
     },
     {
-      "assumption": "Standard Euclidean metric and rectangular Cartesian coordinates are used.",
-      "breaks_when": "Coordinates are general curvilinear or non-orthogonal, requiring explicit insertion of the metric tensor inverse g^{ij}."
+      "assumption": "The Cartesian component formula \u2207f = (\u2202f/\u2202x1,...,\u2202f/\u2202xn) assumes a Euclidean metric with an orthonormal basis.",
+      "breaks_when": "working in curvilinear or non-orthogonal coordinates, where the metric tensor / scale factors must be included"
     }
   ],
   "failure_modes": [
     {
-      "mode": "Non-differentiability",
-      "signature": "Partial derivatives fail to exist or fail to form a linear map.",
-      "cause": "Function f has sharp corners, discontinuities, or non-differentiable points."
+      "mode": "Gradient does not exist",
+      "signature": "directional derivatives exist but are not linear in the direction, or partial derivatives are discontinuous / undefined at a point",
+      "cause": "f is not differentiable at that point, only partially or directionally differentiable"
     },
     {
-      "mode": "Coordinate system confusion",
-      "signature": "Gradient expression yields incorrect magnitude/direction in non-Cartesian systems.",
-      "cause": "Equating derivative row components directly to gradient vector components without scale factors h_i or metric tensor inverse g^{ij}."
+      "mode": "Using the plain partial-derivative vector as the gradient in curvilinear coordinates",
+      "signature": "computed vector has wrong magnitude or direction compared to the true gradient",
+      "cause": "omitting the metric tensor g^{ij} or scale factors h_i required outside Cartesian/Euclidean orthonormal coordinates"
     }
   ],
   "source_ids": [
@@ -98,11 +128,13 @@
   ],
   "check": {
     "node_id": "gradient",
+    "kind": "definition",
     "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
+    "shape": [],
     "ok": true
   }
 }

@@ -1,91 +1,68 @@
 {
   "node_id": "conditional_independence",
   "grounded": true,
-  "statement": "For strictly positive probability distributions, the intersection rule of conditional independence holds: if $X \\perp\\!\\!\\!\\perp Y \\mid Z,W$ and $X \\perp\\!\\!\\!\\perp W \\mid Z,Y$, then $X \\perp\\!\\!\\!\\perp W,Y \\mid Z$.",
+  "kind": "definition",
+  "statement": "For random variables (or vectors) X, Y and conditioning variable Z, X is conditionally independent of Y given Z, written X\u22a5\u22a5Y\u2223Z, iff P(X,Y\u2223Z) = P(X\u2223Z)P(Y\u2223Z) \u2014 i.e., once Z is known, learning Y gives no further information about X (informally: an observation is irrelevant or redundant to a hypothesis once the conditioning information is known).",
   "symbols": [
     {
       "symbol": "X",
-      "meaning": "Random variable X",
+      "meaning": "random variable or vector (the hypothesis/quantity of interest)",
       "dimensions": "scalar or vector"
     },
     {
       "symbol": "Y",
-      "meaning": "Random variable Y",
+      "meaning": "random variable or vector (the candidate observation)",
       "dimensions": "scalar or vector"
     },
     {
       "symbol": "Z",
-      "meaning": "Random variable Z",
+      "meaning": "conditioning random variable or vector (known information)",
       "dimensions": "scalar or vector"
     },
     {
-      "symbol": "W",
-      "meaning": "Random variable W",
-      "dimensions": "scalar or vector"
+      "symbol": "P(X,Y\u2223Z)",
+      "meaning": "joint probability (or density/CDF) of X and Y given Z",
+      "dimensions": "scalar-valued function"
     },
     {
-      "symbol": "P(A \\mid B)",
-      "meaning": "Conditional probability of A given B",
-      "dimensions": "scalar"
+      "symbol": "\u22a5\u22a5",
+      "meaning": "conditional independence relation",
+      "dimensions": "n/a"
     }
   ],
-  "steps": [
+  "steps": [],
+  "properties": [
     {
-      "n": 1,
-      "text": "Express the given conditional independence assumptions $X \\perp\\!\\!\\!\\perp Y \\mid Z,W$ and $X \\perp\\!\\!\\!\\perp W \\mid Z,Y$ as equalities of conditional probabilities: $P(X \\mid Z,W,Y) = P(X \\mid Z,W)$ and $P(X \\mid Z,W,Y) = P(X \\mid Z,Y)$, which implies $P(X \\mid Z,Y) = P(X \\mid Z,W)$.",
-      "invokes": [
-        "conditional_probability"
-      ],
+      "property": "Symmetry: X\u22a5\u22a5Y\u2223Z \u21d4 Y\u22a5\u22a5X\u2223Z",
+      "why": "the defining equation P(X,Y\u2223Z)=P(X\u2223Z)P(Y\u2223Z) is unchanged by swapping X and Y",
       "cites": [
         "wikipedia:Conditional_independence"
       ]
     },
     {
-      "n": 2,
-      "text": "Apply the Law of total probability to $P(X \\mid Z)$ by summing over the partition of $W$: $P(X \\mid Z) = \\sum_{w \\in W} P(X \\mid Z, W=w) P(W=w \\mid Z)$.",
-      "invokes": [
-        "conditional_probability"
-      ],
+      "property": "Decomposition: X\u22a5\u22a5Y\u2223Z \u21d2 h(X)\u22a5\u22a5Y\u2223Z for any function h; in particular (X,W)\u22a5\u22a5Y\u2223Z \u21d2 X\u22a5\u22a5Y\u2223Z and X\u22a5\u22a5(Y,W)\u2223Z \u21d2 X\u22a5\u22a5Y\u2223Z",
+      "why": "summing the joint conditional over X-values mapping to a fixed h(X)=a preserves the product form",
       "cites": [
         "wikipedia:Conditional_independence"
       ]
     },
     {
-      "n": 3,
-      "text": "Substitute the equality $P(X \\mid Z,W) = P(X \\mid Y,Z)$ derived in Step 1 into the summation: $P(X \\mid Z) = \\sum_{w \\in W} P(X \\mid Y,Z) P(W=w \\mid Z)$.",
-      "invokes": [
-        "algebraic_rearrangement"
-      ],
+      "property": "Weak union: X\u22a5\u22a5Y\u2223Z \u21d2 X\u22a5\u22a5Y\u2223(Z,h(X)) for any function h; special cases X\u22a5\u22a5(Y,W)\u2223Z \u21d2 X\u22a5\u22a5Y\u2223(Z,W) and (X,W)\u22a5\u22a5Y\u2223Z \u21d2 X\u22a5\u22a5Y\u2223(Z,W)",
+      "why": "conditioning further on a function of X does not reintroduce dependence once X\u22a5\u22a5Y\u2223Z already holds",
       "cites": [
         "wikipedia:Conditional_independence"
       ]
     },
     {
-      "n": 4,
-      "text": "Factor the term $P(X \\mid Z,Y)$ out of the summation over $w$: $P(X \\mid Z) = P(X \\mid Z,Y) \\sum_{w \\in W} P(W=w \\mid Z)$.",
-      "invokes": [
-        "algebraic_rearrangement"
-      ],
+      "property": "Contraction: (X\u22a5\u22a5A\u2223B and X\u22a5\u22a5B) \u21d2 X\u22a5\u22a5(A,B)",
+      "why": "Pr(X\u2223A,B)=Pr(X\u2223B)=Pr(X) chains the two given equalities into joint independence of X from (A,B)",
       "cites": [
         "wikipedia:Conditional_independence"
       ]
     },
     {
-      "n": 5,
-      "text": "Simplify the sum $\\sum_{w \\in W} P(W=w \\mid Z)$ to 1, yielding: $P(X \\mid Z) = P(X \\mid Z,Y)$.",
-      "invokes": [
-        "algebraic_rearrangement"
-      ],
-      "cites": [
-        "wikipedia:Conditional_independence"
-      ]
-    },
-    {
-      "n": 6,
-      "text": "Combine $P(X \\mid Z,W,Y) = P(X \\mid Z,Y)$ and $P(X \\mid Z,Y) = P(X \\mid Z)$ to conclude $P(X \\mid Z,W,Y) = P(X \\mid Z)$, which is equivalent to the statement $X \\perp\\!\\!\\!\\perp Y,W \\mid Z$.",
-      "invokes": [
-        "conditional_probability"
-      ],
+      "property": "Intersection (strictly positive distributions only): (X\u22a5\u22a5Y\u2223Z,W and X\u22a5\u22a5W\u2223Z,Y) \u21d2 X\u22a5\u22a5(W,Y)\u2223Z",
+      "why": "the two hypotheses force P(X\u2223Z,Y)=P(X\u2223Z,W), and the law of total probability over W then collapses P(X\u2223Z) to P(X\u2223Z,Y)",
       "cites": [
         "wikipedia:Conditional_independence"
       ]
@@ -93,21 +70,34 @@
   ],
   "assumptions": [
     {
-      "assumption": "The joint probability distribution is strictly positive.",
-      "breaks_when": "If any probability of events in the conditioning set is zero, the conditional probabilities are undefined or not uniquely determined."
+      "assumption": "The intersection property requires the joint probability distribution to be strictly positive.",
+      "breaks_when": "some outcome has zero probability, e.g. deterministic constraints among variables"
     }
   ],
-  "failure_modes": [],
+  "failure_modes": [
+    {
+      "mode": "Assuming marginal independence (X\u22a5\u22a5Y) implies conditional independence (X\u22a5\u22a5Y\u2223Z), or vice versa",
+      "signature": "independence claim holds unconditionally but is used inside a conditioned model (or vice versa) without re-derivation",
+      "cause": "conditional independence and marginal independence are logically distinct relations; neither implies the other in general"
+    },
+    {
+      "mode": "Applying the Intersection rule to a distribution with zero-probability events",
+      "signature": "derived independence conclusion contradicts direct calculation",
+      "cause": "Intersection's proof relies on strict positivity to divide by P(W=w\u2223Z) terms via the law of total probability"
+    }
+  ],
   "source_ids": [
     "wikipedia:Conditional_independence"
   ],
   "check": {
     "node_id": "conditional_independence",
+    "kind": "definition",
     "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
+    "shape": [],
     "ok": true
   }
 }

@@ -1,101 +1,110 @@
 {
   "node_id": "change_of_variables",
   "grounded": true,
-  "kind": "definition",
-  "statement": "Change of variables (integration by substitution): given g:[a,b]\u2192I differentiable with continuous derivative, and f:I\u2192\u211d continuous, setting u = g(x) (so du = g'(x) dx) converts one integral into another: \u222b_a^b f(g(x))\u00b7g'(x) dx = \u222b_{g(a)}^{g(b)} f(u) du. For indefinite integrals the corresponding identity is \u222b f(g(x))\u00b7g'(x) dx = \u222b f(u) du, with u = g(x) substituted back into the result afterward.",
+  "kind": "derivation",
+  "statement": "For g:[a,b]\u2192I differentiable with continuous derivative g', where I\u2282\u211d is an interval, and f:I\u2192\u211d continuous, the substitution rule holds: \u222b_a^b f(g(x))\u00b7g'(x) dx = \u222b_{g(a)}^{g(b)} f(u) du. Equivalently, setting u = g(x) so that du = g'(x) dx, an integral in x is transformed into an integral in u with the limits replaced by g(a) and g(b).",
   "symbols": [
     {
-      "symbol": "x",
-      "meaning": "original integration variable",
-      "dimensions": "scalar"
-    },
-    {
-      "symbol": "u",
-      "meaning": "new variable, u = g(x)",
-      "dimensions": "scalar"
+      "symbol": "f",
+      "meaning": "continuous integrand defined on interval I",
+      "dimensions": "scalar function I \u2192 \u211d"
     },
     {
       "symbol": "g",
-      "meaning": "differentiable function [a,b] \u2192 I defining the substitution",
-      "dimensions": "function"
+      "meaning": "differentiable function with continuous derivative, maps [a,b] into I",
+      "dimensions": "scalar function [a,b] \u2192 I"
     },
     {
-      "symbol": "f",
-      "meaning": "continuous function on I being integrated",
-      "dimensions": "function"
+      "symbol": "F",
+      "meaning": "antiderivative of f on I, i.e. F' = f",
+      "dimensions": "scalar function I \u2192 \u211d"
+    },
+    {
+      "symbol": "u",
+      "meaning": "substituted variable, u = g(x)",
+      "dimensions": "scalar"
     },
     {
       "symbol": "a, b",
       "meaning": "limits of integration in x",
-      "dimensions": "scalars"
-    },
-    {
-      "symbol": "g(a), g(b)",
-      "meaning": "transformed limits of integration in u",
-      "dimensions": "scalars"
-    },
-    {
-      "symbol": "du",
-      "meaning": "differential of u, equal to g'(x) dx",
-      "dimensions": "scalar"
+      "dimensions": "scalars, endpoints of domain"
     }
   ],
-  "steps": [],
-  "properties": [
+  "steps": [
     {
-      "property": "For definite integrals, the bounds transform along with the variable: \u222b_a^b f(g(x))\u00b7g'(x) dx = \u222b_{g(a)}^{g(b)} f(u) du, so no back-substitution into x is needed.",
-      "why": "the limits a, b are values of x, and after substitution the integral is expressed in u, so its limits must be the corresponding u-values g(a), g(b)",
+      "n": 1,
+      "text": "Since f is continuous on I, it has an antiderivative F on I, so F'(u) = f(u) for u in I. Form the composite function F\u2218g on [a,b].",
+      "invokes": [
+        "antiderivative",
+        "composite_function"
+      ],
       "cites": [
         "wikipedia:Integration_by_substitution"
       ]
     },
     {
-      "property": "For indefinite integrals, \u222b f(g(x))\u00b7g'(x) dx = \u222b f(u) du, and after evaluating the right side, u must be replaced back by g(x) to express the antiderivative in the original variable.",
-      "why": "an indefinite integral has no bounds to carry the change of variable, so the result must be re-expressed in x explicitly",
+      "n": 2,
+      "text": "Since g is differentiable, the chain rule applied to F\u2218g gives (F\u2218g)'(x) = F'(g(x))\u00b7g'(x) = f(g(x))\u00b7g'(x), using F' = f.",
+      "invokes": [
+        "chain_rule",
+        "composite_function"
+      ],
       "cites": [
         "wikipedia:Integration_by_substitution"
       ]
     },
     {
-      "property": "The differential relation du = g'(x) dx follows from treating du/dx = g'(x) heuristically as a ratio of infinitesimals; this is what licenses replacing g'(x) dx by du under the integral sign.",
-      "why": "this is the informal justification given for the substitution before the rigorous proof via the fundamental theorem of calculus",
+      "n": 3,
+      "text": "Apply the fundamental theorem of calculus to (F\u2218g)' on [a,b]: \u222b_a^b f(g(x))\u00b7g'(x) dx = \u222b_a^b (F\u2218g)'(x) dx = (F\u2218g)(b) \u2212 (F\u2218g)(a) = F(g(b)) \u2212 F(g(a)).",
+      "invokes": [
+        "fundamental_theorem_of_calculus"
+      ],
       "cites": [
         "wikipedia:Integration_by_substitution"
       ]
     },
     {
-      "property": "The formula can be applied in either direction: reading left-to-right (u = g(x), 'u-substitution') to simplify a composite integrand, or right-to-left (x = h(u), e.g. trigonometric substitution) to introduce a new variable that simplifies the integrand.",
-      "why": "the source states the identity is symmetric and can be read either way depending on which side is easier to compute",
+      "n": 4,
+      "text": "Apply the fundamental theorem of calculus again, this time to F' = f over the interval with endpoints g(a) and g(b): F(g(b)) \u2212 F(g(a)) = \u222b_{g(a)}^{g(b)} F'(u) du = \u222b_{g(a)}^{g(b)} f(u) du.",
+      "invokes": [
+        "fundamental_theorem_of_calculus"
+      ],
+      "cites": [
+        "wikipedia:Integration_by_substitution"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Combine steps 3 and 4: \u222b_a^b f(g(x))\u00b7g'(x) dx = \u222b_{g(a)}^{g(b)} f(u) du. This is the substitution rule; in Leibniz notation it is reached heuristically by writing u = g(x), du = g'(x) dx and replacing the x-limits a, b with the u-limits g(a), g(b).",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
       "cites": [
         "wikipedia:Integration_by_substitution"
       ]
     }
   ],
+  "properties": [],
   "assumptions": [
     {
-      "assumption": "g is differentiable on [a,b] with continuous derivative g', and f is continuous on an interval I containing the range of g",
-      "breaks_when": "g' fails to be continuous, g is not differentiable at some point, or f is discontinuous on the range of g"
+      "assumption": "g is differentiable on [a,b] with continuous derivative g'.",
+      "breaks_when": "g' fails to exist or is discontinuous at some point of [a,b]; the proof step (F\u2218g)'(x) = f(g(x))\u00b7g'(x) and the fundamental-theorem application to (F\u2218g)' then no longer apply."
     },
     {
-      "assumption": "the integrand can be factored as f(g(x))\u00b7g'(x), i.e. the derivative of the inner function (up to a constant) appears as a multiplicative factor",
-      "breaks_when": "no such factor g'(x) is present in the integrand, making the substitution inapplicable without further manipulation"
+      "assumption": "f is continuous on the interval I containing the range of g.",
+      "breaks_when": "f is discontinuous somewhere on g([a,b]); then f may not have an antiderivative F on I, so step 1 fails."
     }
   ],
   "failure_modes": [
     {
-      "mode": "wrong numerical value for a definite integral",
-      "signature": "the evaluated integral is a constant multiple or otherwise off from the correct value",
-      "cause": "substituting u = g(x) in a definite integral but forgetting to change the limits of integration from a, b to g(a), g(b)"
+      "mode": "Substitution produces an integral that is not actually simpler or not of a form permitting the method.",
+      "signature": "After substituting u = g(x), the resulting integrand \u222b f(u) du still cannot be evaluated in closed form, or du = g'(x) dx cannot be matched against the rest of the integrand.",
+      "cause": "The chosen g does not make the integrand's non-g'(x) factor expressible purely in terms of u = g(x); the source notes explicitly that 'not all integrals are of a form that permits its use.'"
     },
     {
-      "mode": "answer left in the wrong variable",
-      "signature": "an indefinite integral's final antiderivative still contains u instead of x",
-      "cause": "omitting the back-substitution u \u2192 g(x) after integrating in u"
-    },
-    {
-      "mode": "substitution does not simplify the integral",
-      "signature": "after substitution, the integrand still contains x mixed with u, or g'(x) cannot be isolated",
-      "cause": "the chosen substitution's derivative g'(x) does not match (up to constant factor) a term actually present in the integrand"
+      "mode": "Forgetting to transform the limits of integration.",
+      "signature": "Evaluating \u222b_{g(a)}^{g(b)} f(u) du using the original x-limits a, b instead of g(a), g(b).",
+      "cause": "The definite-integral form of the rule requires replacing the limits (per the statement 'the limits of integration must also be adjusted'), which is skipped if one evaluates the antiderivative in u without converting back to x or updating the bounds."
     }
   ],
   "source_ids": [
@@ -103,12 +112,18 @@
   ],
   "check": {
     "node_id": "change_of_variables",
-    "kind": "definition",
+    "kind": "derivation",
     "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
-    "unknown_invocations": [],
-    "closure_holes": [],
+    "unknown_invocations": [
+      "antiderivative",
+      "fundamental_theorem_of_calculus"
+    ],
+    "closure_holes": [
+      "chain_rule",
+      "composite_function"
+    ],
     "shape": [],
     "ok": true
   }

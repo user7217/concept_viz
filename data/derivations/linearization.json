@@ -1,0 +1,197 @@
+{
+  "node_id": "linearization",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "The linearization of a differentiable function f at a point a is the first-order Taylor expansion of f about a, i.e. the tangent line/plane L_a(x) = f(a) + f'(a)(x-a) (scalar case) or f(x) \u2248 f(p) + \u2207f|_p \u00b7 (x-p) (vector case), used to approximate f near a/p.",
+  "symbols": [
+    {
+      "symbol": "f(x)",
+      "meaning": "function to be linearized",
+      "dimensions": "scalar-valued"
+    },
+    {
+      "symbol": "a",
+      "meaning": "point of linearization (scalar case)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "L_a(x)",
+      "meaning": "linearization of f at x = a",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "M",
+      "meaning": "slope used in the point-slope line equation, set equal to f'(a)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f'(a)",
+      "meaning": "derivative (slope of tangent line) of f evaluated at a",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "(a,b)",
+      "meaning": "linearization point for a two-variable function f(x,y)",
+      "dimensions": "scalar, scalar"
+    },
+    {
+      "symbol": "p",
+      "meaning": "linearization point for a multivariable function f(x)",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "x",
+      "meaning": "vector of variables",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\u2207f|_p",
+      "meaning": "gradient of f evaluated at p",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "F(x,t)",
+      "meaning": "vector field defining the dynamical system dx/dt = F(x,t)",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "x0",
+      "meaning": "point of interest (e.g. equilibrium) for the dynamical system",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "DF(x0,t)",
+      "meaning": "x-Jacobian of F evaluated at x0",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Linearization is defined as approximating y = f(x) near x = a by the first-order Taylor expansion of f around a, requiring the basic condition L_a(a) = f(a).",
+      "invokes": [
+        "taylor_expansion"
+      ],
+      "cites": [
+        "wikipedia:Linearization"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Start from the point-slope form of a line through (H,K) with slope M: y - K = M(x - H).",
+      "invokes": [
+        "point_slope_form"
+      ],
+      "cites": [
+        "wikipedia:Linearization"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Substitute the point (H,K) = (a, f(a)) to get L_a(x): y = f(a) + M(x - a).",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Linearization"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Because a differentiable function is locally linear, choose M to be the slope of the line tangent to f at x = a, i.e. M = f'(a).",
+      "invokes": [
+        "derivative"
+      ],
+      "cites": [
+        "wikipedia:Linearization"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Substituting M = f'(a) gives the linearization of f at x = a: y = f(a) + f'(a)(x - a).",
+      "invokes": [
+        "taylor_expansion",
+        "derivative"
+      ],
+      "cites": [
+        "wikipedia:Linearization"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Extend to a two-variable function f(x,y) at p(a,b) by adding one first-order term per variable, each a partial derivative evaluated at p times the corresponding displacement: f(x,y) \u2248 f(a,b) + \u2202f/\u2202x|_{a,b}(x-a) + \u2202f/\u2202y|_{a,b}(y-b).",
+      "invokes": [
+        "multivariate_taylor_expansion"
+      ],
+      "cites": [
+        "wikipedia:Linearization"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "Generalize to an n-variable function f(x) at point p by packaging the partial derivatives into the gradient and the displacement terms into a dot product: f(x) \u2248 f(p) + \u2207f|_p \u00b7 (x - p).",
+      "invokes": [
+        "multivariate_taylor_expansion",
+        "gradient",
+        "dot_product"
+      ],
+      "cites": [
+        "wikipedia:Linearization"
+      ]
+    },
+    {
+      "n": 8,
+      "text": "Apply the same first-order expansion to the right-hand side of a dynamical system dx/dt = F(x,t) at a point of interest x0, replacing the gradient with the x-Jacobian DF(x0,t) of the vector field F: dx/dt \u2248 F(x0,t) + DF(x0,t)\u00b7(x - x0).",
+      "invokes": [
+        "differential_equation",
+        "jacobian",
+        "multivariate_taylor_expansion"
+      ],
+      "cites": [
+        "wikipedia:Linearization"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "f(x) is differentiable on an interval containing a and b (the evaluation point and the linearization point).",
+      "breaks_when": "f is not differentiable at or near the linearization point, so no tangent line/plane (no f'(a) or \u2207f|_p) exists."
+    },
+    {
+      "assumption": "a (or x, or p) is close to the linearization point.",
+      "breaks_when": "The evaluation point is far from the linearization point, so the first-order term no longer approximates f well."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Approximation error grows unacceptably.",
+      "signature": "y computed from L_a(x) (or the multivariable/vector version) diverges noticeably from the true f(x) as x moves away from a/p.",
+      "cause": "Higher-order Taylor terms, which the linearization discards, become non-negligible as |x - a| increases."
+    },
+    {
+      "mode": "Linearization is undefined at the chosen point.",
+      "signature": "f'(a), the partial derivatives, or \u2207f|_p cannot be computed (do not exist) at the point of interest.",
+      "cause": "f is not differentiable at that point, so there is no tangent line/plane to serve as the linearization."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Linearization"
+  ],
+  "check": {
+    "node_id": "linearization",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [
+      "jacobian",
+      "point_slope_form"
+    ],
+    "closure_holes": [
+      "differential_equation"
+    ],
+    "shape": [],
+    "ok": true
+  }
+}

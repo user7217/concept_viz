@@ -1,0 +1,146 @@
+{
+  "node_id": "matrix_inversion_lemma",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For A (n\u00d7n, invertible), C (k\u00d7k, invertible), U (n\u00d7k), V (k\u00d7n), provided C^{-1}+VA^{-1}U is invertible: (A+UCV)^{-1} = A^{-1} - A^{-1}U(C^{-1}+VA^{-1}U)^{-1}VA^{-1}.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "matrix being corrected",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "C",
+      "meaning": "small matrix carrying the rank-k correction",
+      "dimensions": "k x k"
+    },
+    {
+      "symbol": "U",
+      "meaning": "left factor of the low-rank update",
+      "dimensions": "n x k"
+    },
+    {
+      "symbol": "V",
+      "meaning": "right factor of the low-rank update",
+      "dimensions": "k x n"
+    },
+    {
+      "symbol": "C^{-1}+VA^{-1}U",
+      "meaning": "capacitance matrix (k x k inverse to be computed instead of the full n x n inverse)",
+      "dimensions": "k x k"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Derive the auxiliary identity (I+P)^{-1} = I - (I+P)^{-1}P from the trivial factorization I = (I+P)^{-1}(I+P) = (I+P)^{-1} + (I+P)^{-1}P, and symmetrically (I+P)^{-1} = I - P(I+P)^{-1}.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Woodbury_matrix_identity"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Derive the push-through identity (I+UV)^{-1}U = U(I+VU)^{-1} by starting from U(I+VU) = (I+UV)U and left-multiplying by (I+UV)^{-1}, right-multiplying by (I+VU)^{-1}.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Woodbury_matrix_identity"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Set P = UV in step 1 to get (I+UV)^{-1} = I - UV(I+UV)^{-1}. Since UV(I+UV)^{-1} = (I+UV)^{-1}UV (a matrix commutes with its own inverse-shifted product) and (I+UV)^{-1}UV = [(I+UV)^{-1}U]V, apply the push-through identity from step 2 to replace the bracket, giving the reduced Woodbury identity (I+UV)^{-1} = I - U(I+VU)^{-1}V.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Woodbury_matrix_identity"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Recover the general identity by substituting U \u21a6 A^{-1}U and V \u21a6 CV into the reduced identity: (I+A^{-1}UCV)^{-1} = I - A^{-1}U(I+CVA^{-1}U)^{-1}CV. Rewrite the left side as (A+UCV)^{-1}A, since A^{-1}(A+UCV) = I+A^{-1}UCV.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Woodbury_matrix_identity"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Right-multiply both sides by A^{-1}: (A+UCV)^{-1} = A^{-1} - A^{-1}U(I+CVA^{-1}U)^{-1}CVA^{-1}.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Woodbury_matrix_identity"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Fold C into the bracketed inverse: (I+CVA^{-1}U)^{-1}C = [C^{-1}(I+CVA^{-1}U)]^{-1} = (C^{-1}+VA^{-1}U)^{-1}, using (XY)^{-1}=Y^{-1}X^{-1} with X=C^{-1}, Y=(I+CVA^{-1}U). Substituting this gives the Woodbury/matrix-inversion-lemma formula: (A+UCV)^{-1} = A^{-1} - A^{-1}U(C^{-1}+VA^{-1}U)^{-1}VA^{-1}.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Woodbury_matrix_identity"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "Verify directly: multiplying (A+UCV) by the right-hand side and collecting terms, (A+UCV)[A^{-1}-A^{-1}U(C^{-1}+VA^{-1}U)^{-1}VA^{-1}] reduces to I + UCVA^{-1} - UC(C^{-1}+VA^{-1}U)(C^{-1}+VA^{-1}U)^{-1}VA^{-1} = I + UCVA^{-1} - UCVA^{-1} = I, confirming the claimed inverse.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Woodbury_matrix_identity"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "A is n\u00d7n and invertible.",
+      "breaks_when": "A is singular; A^{-1} does not exist so the right-hand side is undefined."
+    },
+    {
+      "assumption": "C is k\u00d7k and invertible.",
+      "breaks_when": "C is singular; a separate variation of the identity (I+BVA^{-1}U in place of C^{-1}+VA^{-1}U) is required instead, per the source's 'variation for when B is singular' case."
+    },
+    {
+      "assumption": "The capacitance matrix C^{-1}+VA^{-1}U (k\u00d7k) is invertible.",
+      "breaks_when": "C^{-1}+VA^{-1}U is singular, e.g. when the rank-k update makes A+UCV itself singular in a way that collapses this small matrix."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Formula undefined",
+      "signature": "C^{-1}+VA^{-1}U is singular, so its inverse cannot be formed",
+      "cause": "the low-rank update interacts with A^{-1} such that the k\u00d7k capacitance matrix loses rank"
+    },
+    {
+      "mode": "Numerical instability despite well-conditioned inputs",
+      "signature": "computed (A+UCV)^{-1} via the formula disagrees substantially with direct inversion even though A and A+UCV are both well-conditioned",
+      "cause": "per the source, direct application of the Sherman\u2013Morrison\u2013Woodbury formula can be numerically unstable in finite precision even under favorable conditioning; this is an empirically reported phenomenon, not resolved by the algebra itself"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Woodbury_matrix_identity"
+  ],
+  "check": {
+    "node_id": "matrix_inversion_lemma",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "node_id": "multivariate_taylor_expansion",
+  "grounded": false,
+  "kind": "definition",
+  "statement": "The supplied source (Wikipedia: Taylor series) defines and works exclusively with the single-variable Taylor series of a function of one real (or complex) variable, expanded in powers of (x - a) using ordinary derivatives at a point. It contains no definition of a Taylor expansion for a function of several variables: no partial derivatives, no gradient/Hessian terms, no multi-index notation, and no statement of how the single-variable formula generalizes to R^n. Because the concept requested here (Multivariate Taylor Expansion) is not present in the supplied sources \u2014 only its single-variable special case is \u2014 stating the multivariate definition would require introducing content from memory, which is not permitted.",
+  "symbols": [],
+  "steps": [],
+  "properties": [],
+  "assumptions": [],
+  "failure_modes": [],
+  "source_ids": [
+    "wikipedia:Taylor_series"
+  ],
+  "check": {
+    "node_id": "multivariate_taylor_expansion",
+    "kind": "definition",
+    "grounded": false,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [
+      "definition lists no properties"
+    ],
+    "ok": false
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "node_id": "linear_transformation_of_gaussian",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "If Y = c + BX is an affine transformation of X ~ N(\u03bc, \u03a3), where c is a constant M\u00d71 vector and B is a constant M\u00d7N matrix, then Y is multivariate normally distributed: Y ~ N(c + B\u03bc, B\u03a3B^T). The source states this result directly as a fact about affine transformations of multivariate normal vectors; it does not show the change-of-variables computation (density transformation or moment derivation) that produces the mean c+B\u03bc and covariance B\u03a3B^T \u2014 only the final formula is given, so there is no derivation to restate from this source.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "multivariate normal random vector being transformed",
+      "dimensions": "N x 1"
+    },
+    {
+      "symbol": "Y",
+      "meaning": "affine transformation of X",
+      "dimensions": "M x 1"
+    },
+    {
+      "symbol": "c",
+      "meaning": "constant offset vector",
+      "dimensions": "M x 1"
+    },
+    {
+      "symbol": "B",
+      "meaning": "constant transformation matrix",
+      "dimensions": "M x N"
+    },
+    {
+      "symbol": "\u03bc",
+      "meaning": "mean of X",
+      "dimensions": "N x 1"
+    },
+    {
+      "symbol": "\u03a3",
+      "meaning": "covariance of X",
+      "dimensions": "N x N"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Y = c + BX is itself multivariate normally distributed, i.e. an affine map of a Gaussian vector is Gaussian.",
+      "why": "stated directly as the conclusion of the affine transformation fact",
+      "cites": [
+        "wikipedia:Multivariate_normal_distribution"
+      ]
+    },
+    {
+      "property": "E[Y] = c + B\u03bc",
+      "why": "given as the mean parameter of Y's distribution in the affine transformation statement",
+      "cites": [
+        "wikipedia:Multivariate_normal_distribution"
+      ]
+    },
+    {
+      "property": "Cov(Y) = B\u03a3B^T",
+      "why": "given as the covariance parameter of Y's distribution in the affine transformation statement",
+      "cites": [
+        "wikipedia:Multivariate_normal_distribution"
+      ]
+    },
+    {
+      "property": "Normality of a vector is equivalent to every linear combination of its components being univariate normal, which is consistent with (and underlies) why a linear/affine image of a normal vector is again normal.",
+      "why": "this is the defining property of multivariate normality given at the start of the source",
+      "cites": [
+        "wikipedia:Multivariate_normal_distribution"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "c is a constant M\u00d71 vector and B is a constant M\u00d7N matrix (not functions of X or other random quantities).",
+      "breaks_when": "B or c depend on X or on other randomness, in which case the map is no longer affine and the stated result does not apply"
+    },
+    {
+      "assumption": "X ~ N(\u03bc, \u03a3) is itself multivariate normal to begin with.",
+      "breaks_when": "X is not jointly Gaussian, in which case an affine transform need not be Gaussian"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Resulting covariance B\u03a3B^T is singular",
+      "signature": "Y's covariance matrix is not invertible, so Y has a degenerate (lower-dimensional) normal distribution",
+      "cause": "B has rank less than M (fewer independent rows than the output dimension), or \u03a3 itself is singular"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Multivariate_normal_distribution"
+  ],
+  "check": {
+    "node_id": "linear_transformation_of_gaussian",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}
