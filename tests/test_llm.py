@@ -272,3 +272,60 @@ class TestRotation(unittest.TestCase):
 
         with self.assertRaises(LLMError):
             RotatingProvider([])
+
+
+class TestGeminiCli(unittest.TestCase):
+    def test_prompt_and_model_reach_argv(self) -> None:
+        from atlas.llm import GeminiCliProvider
+
+        seen = {}
+
+        def runner(command, text):
+            seen["command"] = command
+            return '{"ok": true}'
+
+        p = GeminiCliProvider(model="gemini-3-pro", runner=runner)
+        self.assertEqual(complete_json(p, "derive", system="be terse"), {"ok": True})
+        self.assertEqual(seen["command"][:2], ["gemini", "-p"])
+        self.assertIn("derive", seen["command"][2])
+        self.assertIn("--skip-trust", seen["command"])
+        # read-only: this needs text back, never an edit or a command
+        self.assertEqual(seen["command"][seen["command"].index("--approval-mode") + 1],
+                         "plan")
+        self.assertEqual(seen["command"][-2:], ["-m", "gemini-3-pro"])
+
+    def test_missing_binary_explains_the_install(self) -> None:
+        from atlas.llm import GeminiCliProvider
+
+        with self.assertRaises(LLMError) as ctx:
+            GeminiCliProvider(binary="gemini_not_installed_xyz").complete("x")
+        self.assertIn("npm install", str(ctx.exception))
+
+    def test_quota_message_raises_quota_exhausted(self) -> None:
+        import subprocess
+
+        from atlas.llm import GeminiCliProvider, QuotaExhausted
+
+        class Result:
+            returncode, stdout, stderr = 1, "", "Quota exceeded for this model"
+
+        real = subprocess.run
+        subprocess.run = lambda *a, **k: Result()
+        try:
+            with self.assertRaises(QuotaExhausted):
+                GeminiCliProvider().complete("x")
+        finally:
+            subprocess.run = real
+
+    def test_selectable_by_env(self) -> None:
+        import os
+
+        from atlas.llm import GeminiCliProvider, get_provider
+
+        os.environ["GEMINI_CLI_MODEL"] = "gemini-3-pro"
+        try:
+            p = get_provider("gemini_cli", env_file=None)
+            self.assertIsInstance(p, GeminiCliProvider)
+            self.assertEqual(p.model, "gemini-3-pro")
+        finally:
+            del os.environ["GEMINI_CLI_MODEL"]
