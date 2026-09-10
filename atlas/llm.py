@@ -309,6 +309,78 @@ def get_rotating_provider(models: list[str] | None = None,
     return RotatingProvider([GeminiProvider(api_key=key, model=m) for m in chosen])
 
 
+@dataclass
+class GeminiCliProvider:
+    """Google's `gemini -p`, running on a Google account rather than an API key.
+
+    Same shape as ClaudeCodeProvider and far better quota than the API free
+    tier: a personal account gets 1000 requests/day against 20/day per model
+    on the key-based free tier, and an AI Pro subscription reaches Pro models.
+
+    Reported limit trouble mostly comes from agentic sessions where one prompt
+    fans out into dozens of model requests. These calls are single-turn with no
+    tool use, so one prompt is one request.
+
+    BLOCKED as of gemini-cli 0.46.0 (Sept 2026): every auth path, personal
+    account and API key alike, fails setup with
+
+        IneligibleTierError: This client is no longer supported for Gemini Code
+        Assist for individuals. Migrate to the Antigravity suite.
+
+    Kept because the code is correct and the blocker is a account/version gate
+    that may lift. Do not spend time rediscovering it -- test the CLI by hand
+    before wiring a run to this provider.
+    """
+
+    binary: str = "gemini"
+    model: str | None = None
+    timeout: int = 300
+    runner: Callable[[list[str], str], str] | None = None
+    name: str = field(default="gemini_cli", init=False)
+
+    def complete(self, prompt: str, *, system: str | None = None) -> str:
+        text = f"{system}\n\n{prompt}" if system else prompt
+        # --approval-mode plan is read-only: the model cannot edit or execute
+        # anything, which is all this needs -- one prompt, text back. That makes
+        # --skip-trust (required to run headless at all) a much smaller thing to
+        # grant than it would be with tools enabled.
+        command = [self.binary, "-p", text, "--skip-trust", "--approval-mode", "plan"]
+        if self.model:
+            command += ["-m", self.model]
+
+        if self.runner is not None:
+            return self.runner(command, text)
+
+        try:
+            result = subprocess.run(
+                command, capture_output=True, text=True,
+                timeout=self.timeout, check=False,
+            )
+        except FileNotFoundError as exc:
+            raise LLMError(
+                f"{self.binary!r} not found on PATH. Install with "
+                "`npm install -g @google/gemini-cli`, then run `gemini` once to "
+                "sign in."
+            ) from exc
+        except subprocess.TimeoutExpired as exc:
+            raise LLMError(f"gemini -p timed out after {self.timeout}s") from exc
+
+        if result.returncode != 0:
+            detail = (result.stderr.strip() or result.stdout.strip()
+                      or "(no output on either stream)")
+            lowered = detail.lower()
+            if "quota" in lowered or "rate limit" in lowered or "429" in lowered:
+                raise QuotaExhausted(f"{self.model or 'gemini-cli'}: {detail[:200]}")
+            if "auth" in lowered or "sign in" in lowered or "login" in lowered:
+                raise AuthFailure(
+                    f"{detail[:200]}\nRun `gemini` once interactively to sign in."
+                )
+            raise LLMError(f"gemini -p exited {result.returncode}: {detail[:400]}")
+        if not result.stdout.strip():
+            raise LLMError("gemini -p exited 0 but produced no output")
+        return result.stdout
+
+
 def get_provider(
     name: str | None = None, env_file: Path | None = ENV_FILE
 ) -> Provider:
@@ -339,7 +411,12 @@ def get_provider(
     if name == "claude_code":
         return ClaudeCodeProvider(model=os.environ.get("CLAUDE_MODEL") or None)
 
-    raise LLMError(f"unknown provider {name!r}; expected 'gemini' or 'claude_code'")
+    if name == "gemini_cli":
+        return GeminiCliProvider(model=os.environ.get("GEMINI_CLI_MODEL") or None)
+
+    raise LLMError(
+        f"unknown provider {name!r}; expected 'gemini', 'gemini_cli' or 'claude_code'"
+    )
 
 
 def complete_json(provider: Provider, prompt: str, *, system: str | None = None) -> dict:
