@@ -42,6 +42,14 @@ class LLMError(RuntimeError):
     """A provider call failed in a way retrying will not fix."""
 
 
+class AuthFailure(LLMError):
+    """Credentials are expired or absent. Every later call fails the same way.
+
+    Worth its own type: a run that cannot authenticate should stop at the first
+    node, not grind through the whole path producing identical failures.
+    """
+
+
 class QuotaExhausted(LLMError):
     """This model's quota is spent. A different model may still have some.
 
@@ -194,17 +202,20 @@ class ClaudeCodeProvider:
     name: str = field(default="claude_code", init=False)
 
     def complete(self, prompt: str, *, system: str | None = None) -> str:
-        command = [self.binary, "-p"]
+        # The prompt goes in argv, not stdin. `-p "..."` is the user message;
+        # stdin is supplementary data, so piping the instruction sent a request
+        # with attached data and no actual question.
+        text = f"{system}\n\n{prompt}" if system else prompt
+        command = [self.binary, "-p", text]
         if self.model:
             command += ["--model", self.model]
-        text = f"{system}\n\n{prompt}" if system else prompt
 
         if self.runner is not None:
             return self.runner(command, text)
 
         try:
             result = subprocess.run(
-                command, input=text, capture_output=True, text=True,
+                command, capture_output=True, text=True,
                 timeout=self.timeout, check=False,
             )
         except FileNotFoundError as exc:
@@ -220,6 +231,14 @@ class ClaudeCodeProvider:
             # nothing, and the useful message is often on stdout instead.
             detail = (result.stderr.strip() or result.stdout.strip()
                       or "(no output on either stream)")
+            lowered = detail.lower()
+            if "authenticate" in lowered or "oauth" in lowered or "login" in lowered:
+                raise AuthFailure(
+                    f"{detail[:200]}\n"
+                    "Print mode cannot run /login. Issue a long-lived token:\n"
+                    "  claude setup-token\n"
+                    "  export CLAUDE_CODE_OAUTH_TOKEN=<token>"
+                )
             raise LLMError(
                 f"claude -p exited {result.returncode}: {detail[:400]}"
             )
