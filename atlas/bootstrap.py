@@ -101,13 +101,16 @@ def build_graph(payload: dict, with_canon_edges: bool = True) -> Graph:
             if edge["from"] in graph.nodes and edge["to"] in graph.nodes:
                 graph.add_edge(edge["from"], edge["to"], Relation(edge["rel"]))
 
-    # Retargets before drops: a split moves a consumer onto the narrower node.
-    for entry in amendments.get("retarget_edges", []):
-        if graph.drop_edge(entry["from"], entry["old_to"]):
-            graph.add_edge(entry["from"], entry["new_to"], Relation.REQUIRES)
-
+    # Drops before retargets. Reversing an edge means adding its opposite, and
+    # doing that while the original still exists closes a cycle -- the new edge
+    # is demoted to related_to and the drop then removes the old one, leaving
+    # no prerequisite edge at all.
     for entry in amendments.get("drop_edges", []):
         graph.drop_edge(entry["from"], entry["to"])
+
+    for entry in amendments.get("retarget_edges", []):
+        graph.drop_edge(entry["from"], entry["old_to"])
+        graph.add_edge(entry["from"], entry["new_to"], Relation.REQUIRES)
 
     unapplied: list[str] = []
 

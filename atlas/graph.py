@@ -150,8 +150,20 @@ class Graph:
 
         # Kahn's algorithm over the induced subgraph, deepest-first.
         deps = {n: {d for d in self._requires_out(n) if d in included} for n in included}
+
+        # Tie-break by how many nodes depend on you across the whole canon, so
+        # widely-used foundations come first. Counting only within the path
+        # misses the case that motivated this: transpose_identities is required
+        # by six algorithm nodes, none of which sit inside their own closure, so
+        # it scored zero and alphabetical order buried it last.
+        weight: dict[str, int] = {}
+        for edge in self.edges.values():
+            if edge.rel is Relation.REQUIRES:
+                weight[edge.dst] = weight.get(edge.dst, 0) + 1
+        rank = lambda n: (-weight.get(n, 0), n)
+
         ordered: list[str] = []
-        ready = sorted(n for n, d in deps.items() if not d)
+        ready = sorted((n for n, d in deps.items() if not d), key=rank)
         while ready:
             current = ready.pop(0)
             ordered.append(current)
@@ -161,7 +173,7 @@ class Graph:
                     remaining.discard(current)
                     if not remaining and node_id not in ordered:
                         newly_ready.append(node_id)
-            ready = sorted(set(ready) | set(newly_ready))
+            ready = sorted(set(ready) | set(newly_ready), key=rank)
 
         if len(ordered) != len(included):
             missing = included - set(ordered)
