@@ -1,0 +1,58 @@
+{
+  "node_id": "transpose_identities",
+  "grounded": true,
+  "statement": "The matrix product of a matrix and its transpose, $A A^T$, is a symmetric matrix, which satisfies $(A A^T)^T = A A^T$.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "An $m \\times n$ matrix",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "A^T",
+      "meaning": "The transpose of matrix $A$",
+      "dimensions": "n x m"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Apply the product rule for transposition $(AB)^T = B^T A^T$ to the product of $A$ and $A^T$:",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Transpose"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Apply the involution property of the transpose, $(A^T)^T = A$, to simplify the first factor:",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Transpose"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "A is an $m \\times n$ matrix with elements in a field or ring where matrix multiplication and transposition are defined.",
+      "breaks_when": "The dimensions of the matrices do not allow multiplication or transposition is undefined."
+    }
+  ],
+  "failure_modes": [],
+  "source_ids": [
+    "wikipedia:Transpose"
+  ],
+  "check": {
+    "node_id": "transpose_identities",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "ok": true
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "node_id": "gradient",
+  "grounded": true,
+  "statement": "(df_p)(v) = \\nabla f(p) \\cdot v = \\sum_{i=1}^{n} \\frac{\\partial f}{\\partial x_i}(p) v_i",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "differentiable scalar-valued function",
+      "dimensions": "R^n -> R"
+    },
+    {
+      "symbol": "p",
+      "meaning": "evaluation point in the domain",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "v",
+      "meaning": "tangent input vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "df_p",
+      "meaning": "total derivative / differential of f at p",
+      "dimensions": "1 x n"
+    },
+    {
+      "symbol": "\\nabla f(p)",
+      "meaning": "gradient vector of f at p",
+      "dimensions": "n x 1"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Represent the action of the total derivative df_p on a vector v as matrix multiplication of a row vector of partial derivatives with a column vector v: (df_p)(v) = \\begin{bmatrix}{\\frac {\\partial f}{\\partial x_{1}}}(p) & \\cdots & {\\frac {\\partial f}{\\partial x_{n}}}(p)\\end{bmatrix}{\\begin{bmatrix}v_{1}\\\\\\vdots \\\\v_{n}\\end{bmatrix}}",
+      "invokes": [
+        "derivative"
+      ],
+      "cites": [
+        "wikipedia:Gradient"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Compute the matrix product as a linear combination of vector components: \\sum _{i=1}^{n}{\\frac {\\partial f}{\\partial x_{i}}}(p)v_{i}",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Gradient"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Rewrite the sum of partial derivatives and components as the dot product of two column vectors: {\\begin{bmatrix}{\\frac {\\partial f}{\\partial x_{1}}}(p)\\\\\\vdots \\\\{\\frac {\\partial f}{\\partial x_{n}}}(p)\\end{bmatrix}}\\cdot {\\begin{bmatrix}v_{1}\\\\\\vdots \\\\v_{n}\\end{bmatrix}}",
+      "invokes": [
+        "dot_product"
+      ],
+      "cites": [
+        "wikipedia:Gradient"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Identify the column vector of partial derivatives as the gradient vector \\nabla f(p), concluding (df_p)(v) = \\nabla f(p) \\cdot v",
+      "invokes": [
+        "dot_product"
+      ],
+      "cites": [
+        "wikipedia:Gradient"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The function f is differentiable at point p.",
+      "breaks_when": "The function f is non-differentiable at p, meaning partial derivatives or total differential do not exist."
+    },
+    {
+      "assumption": "Standard Euclidean metric and rectangular Cartesian coordinates are used.",
+      "breaks_when": "Coordinates are general curvilinear or non-orthogonal, requiring explicit insertion of the metric tensor inverse g^{ij}."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Non-differentiability",
+      "signature": "Partial derivatives fail to exist or fail to form a linear map.",
+      "cause": "Function f has sharp corners, discontinuities, or non-differentiable points."
+    },
+    {
+      "mode": "Coordinate system confusion",
+      "signature": "Gradient expression yields incorrect magnitude/direction in non-Cartesian systems.",
+      "cause": "Equating derivative row components directly to gradient vector components without scale factors h_i or metric tensor inverse g^{ij}."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Gradient"
+  ],
+  "check": {
+    "node_id": "gradient",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "ok": true
+  }
+}

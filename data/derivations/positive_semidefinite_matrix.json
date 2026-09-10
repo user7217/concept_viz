@@ -1,0 +1,80 @@
+{
+  "node_id": "positive_semidefinite_matrix",
+  "grounded": true,
+  "statement": "The set of positive semidefinite symmetric matrices is convex: if M and N are positive semidefinite, then for any \u03b1 between 0 and 1, \u03b1M + (1-\u03b1)N is also positive semidefinite.",
+  "symbols": [
+    {
+      "symbol": "M",
+      "meaning": "Positive semidefinite symmetric matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "N",
+      "meaning": "Positive semidefinite symmetric matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "alpha",
+      "meaning": "Real coefficient between 0 and 1",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "x",
+      "meaning": "Arbitrary real vector",
+      "dimensions": "n x 1"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "For any vector x, write the quadratic form of the convex combination as x^{\\mathsf{T}}\\left(\\alpha M+\\left(1-\\alpha\\right)N\\right)x",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Definite_matrix"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Expand the quadratic form by distributing the vector multiplications to obtain \\alpha x^{\\mathsf{T}}Mx + (1-\\alpha)x^{\\mathsf{T}}Nx",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Definite_matrix"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Since M and N are positive semidefinite, we have x^{\\mathsf{T}}Mx \\geq 0 and x^{\\mathsf{T}}Nx \\geq 0. Since 0 \\leq \\alpha \\leq 1, both coefficients are non-negative, which guarantees that the sum \\alpha x^{\\mathsf{T}}Mx + (1-\\alpha)x^{\\mathsf{T}}Nx \\geq 0",
+      "invokes": [
+        "convexity"
+      ],
+      "cites": [
+        "wikipedia:Definite_matrix"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "M and N are symmetric positive semidefinite matrices of the same dimension, and alpha is a real scalar in the interval [0, 1]",
+      "breaks_when": "The dimensions of M and N do not match, or alpha lies outside the range [0, 1]."
+    }
+  ],
+  "failure_modes": [],
+  "source_ids": [
+    "wikipedia:Definite_matrix"
+  ],
+  "check": {
+    "node_id": "positive_semidefinite_matrix",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [
+      "convexity"
+    ],
+    "ok": true
+  }
+}
