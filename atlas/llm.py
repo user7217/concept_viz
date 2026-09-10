@@ -216,7 +216,15 @@ class ClaudeCodeProvider:
             raise LLMError(f"claude -p timed out after {self.timeout}s") from exc
 
         if result.returncode != 0:
-            raise LLMError(f"claude -p failed: {result.stderr.strip()[:300]}")
+            # Report everything: an empty stderr with a non-zero exit says
+            # nothing, and the useful message is often on stdout instead.
+            detail = (result.stderr.strip() or result.stdout.strip()
+                      or "(no output on either stream)")
+            raise LLMError(
+                f"claude -p exited {result.returncode}: {detail[:400]}"
+            )
+        if not result.stdout.strip():
+            raise LLMError("claude -p exited 0 but produced no output")
         return result.stdout
 
 
