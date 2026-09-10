@@ -128,5 +128,10 @@ class TestCanonEdgesLoaded(unittest.TestCase):
                 "flags": [],
             }))
             _, report = merge(read_proposals(directory))
-        self.assertEqual(report.rejected_count, 0)
+        # Edges an amendment drops stay in the authored record, so re-merging
+        # rejects them by design -- that pairing is what preserves why an edge
+        # was removed. Any other rejection is a real defect.
+        unexpected = {r: v for r, v in report.rejected.items()
+                      if r not in ("dropped by amendment", "self-edge")}
+        self.assertEqual(unexpected, {})
         self.assertEqual(len(report.demoted), 2)

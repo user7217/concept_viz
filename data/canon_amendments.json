@@ -293,6 +293,36 @@
       "from": "classification_loss",
       "to": "categorical_distribution",
       "why": "cap pressure after adding cross_entropy and sigmoid; reached through softmax_function"
+    },
+    {
+      "from": "a_star",
+      "to": "inequality_bounding",
+      "why": "web-verified: A* correctness rests on non-negative weights and heuristic consistency, both combinatorial. This edge bridged graph search onto convexity, gradients and the Hessian via inequality_bounding, which round 1 already flagged as too coarse."
+    },
+    {
+      "from": "dijkstra",
+      "to": "inequality_bounding",
+      "why": "same bridge, same reason"
+    },
+    {
+      "from": "admissibility",
+      "to": "inequality_bounding",
+      "why": "the only bound admissibility needs (h <= true cost-to-go) is its own mechanical content"
+    },
+    {
+      "from": "schur_complement",
+      "to": "gaussian_elimination",
+      "why": "web-verified: nothing in the Kalman derivation solves a system by elimination; the inverse is symbolic on paper and a Cholesky solve in code"
+    },
+    {
+      "from": "transpose_identities",
+      "to": "index_notation",
+      "why": "web-verified: every standard EKF derivation is done in matrix notation; index notation is a convenience, not a dependency"
+    },
+    {
+      "from": "weighted_graph",
+      "to": "edge_weight",
+      "why": "backwards: a weighted graph is the structure and an edge weight is a property of it, so the dependency runs the other way"
     }
   ],
   "retarget_edges": [
@@ -313,6 +343,12 @@
       "old_to": "taylor_expansion",
       "new_to": "multivariate_taylor_expansion",
       "why": "the descent condition is a statement about the gradient inner product"
+    },
+    {
+      "from": "edge_weight",
+      "old_to": "graph",
+      "new_to": "weighted_graph",
+      "why": "an edge weight is defined on a weighted graph, which itself requires graph"
     }
   ],
   "seed_retargets": [

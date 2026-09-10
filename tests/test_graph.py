@@ -143,3 +143,44 @@ class TestBootstrap(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestOrdering(unittest.TestCase):
+    """Widely-used foundations should come early, not alphabetically late."""
+
+    def setUp(self) -> None:
+        from atlas.bootstrap import build_graph, load
+        self.graph = build_graph(load())
+
+    def test_heavily_depended_on_nodes_come_early(self) -> None:
+        path = self.graph.syllabus("extended_kalman_filter")
+        self.assertLess(path.index("transpose_identities"), len(path) // 2)
+
+    def test_order_still_respects_dependencies(self) -> None:
+        path = self.graph.syllabus("extended_kalman_filter")
+        position = {n: i for i, n in enumerate(path)}
+        for node_id in path:
+            for dep in self.graph._requires_out(node_id):
+                if dep in position:
+                    self.assertLess(position[dep], position[node_id],
+                                    f"{dep} must precede {node_id}")
+
+
+class TestAmendmentOrdering(unittest.TestCase):
+    def setUp(self) -> None:
+        from atlas.bootstrap import build_graph, load
+        self.graph = build_graph(load())
+
+    def test_reversed_edge_survives_as_a_prerequisite(self) -> None:
+        """Reversing an edge must not leave the pair unconnected.
+
+        Adding the opposite while the original still existed closed a cycle, so
+        the new edge was demoted and the drop removed the old one.
+        """
+        closure = self.graph.requires_closure("edge_weight")
+        self.assertIn("weighted_graph", closure)
+
+    def test_graph_search_does_not_reach_continuous_optimisation(self) -> None:
+        closure = self.graph.requires_closure("a_star")
+        for stray in ("convexity", "hessian_matrix", "positive_semidefinite_matrix"):
+            self.assertNotIn(stray, closure, f"{stray} leaked into A*")
