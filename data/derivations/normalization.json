@@ -109,5 +109,39 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "normalization",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local",
+      "obstaclelayer"
+    ],
+    "why_here": "The ekf_global and ekf_local components from robot_localization implement recursive Bayesian estimation to fuse odometry and IMU measurements into a robot state estimate. Normalization is mathematically required by the filter's update step and probability distributions so that the continuous state belief integrates to 1. The connection is purely algorithmic, as the components' estimation algorithms require this result internally rather than exposing normalization as a tunable parameter.",
+    "concrete": [
+      {
+        "symbol": "D",
+        "in_your_project": "Observed sensor measurement data, such as incoming messages from /imu, /rtk/heading, or /odom_cov"
+      },
+      {
+        "symbol": "p(x)",
+        "in_your_project": "The unnormalized probability density function over the robot's 15-dimensional state vector x (position, orientation, velocities, accelerations)"
+      },
+      {
+        "symbol": "c",
+        "in_your_project": "The scalar normalizing constant ensuring the integral of the state probability density over the 15-dimensional state space equals 1"
+      },
+      {
+        "symbol": "\u03c6(x)",
+        "in_your_project": "The normalized continuous probability density function representing the filter's state estimate"
+      },
+      {
+        "symbol": "P(D)",
+        "in_your_project": "The scalar marginal likelihood (evidence) in Bayes' theorem that normalizes the posterior state distribution given sensor observations D"
+      }
+    ],
+    "knobs": [],
+    "invented": {}
   }
 }

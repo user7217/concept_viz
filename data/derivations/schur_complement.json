@@ -151,5 +151,17 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "schur_complement",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "The ekf_global and ekf_local nodes in agrios_ws use the robot_localization package to perform Extended Kalman Filter state estimation. The Schur complement is not directly instantiated or computed in this project; rather, the underlying EKF algorithm requires this mathematical result for the theoretical derivation of Gaussian conditioning and covariance updates. Because the connection is purely that the component's algorithm requires this result, the project interacts with the filter solely through configuration parameters rather than explicit block matrix operations.",
+    "concrete": [],
+    "knobs": [],
+    "invented": {}
   }
 }

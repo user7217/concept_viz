@@ -113,5 +113,38 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "matrix_inversion_lemma",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In this project, the ekf_global and ekf_local nodes use robot_localization's Extended Kalman Filter to estimate the robot state from odometry and IMU measurements. The connection to the matrix inversion lemma is purely algorithmic: the EKF formulation requires this identity during the measurement update step to convert the information form into the standard covariance form, allowing the filter to invert a k x k innovation covariance matrix rather than an n x n state covariance matrix. The codebase does not directly expose or configure the lemma, as it is an internal mathematical requirement of the estimation algorithm.",
+    "concrete": [
+      {
+        "symbol": "A",
+        "in_your_project": "The prior state inverse covariance (information) matrix P^{-1} (or prior state covariance matrix P) of the 15-dimensional robot state vector, with dimensions 15 x 15 (n = 15)."
+      },
+      {
+        "symbol": "B",
+        "in_your_project": "The measurement noise inverse covariance matrix R^{-1} (or measurement noise covariance R) for the active sensor inputs, with dimensions k x k (where k is the number of active measurement variables)."
+      },
+      {
+        "symbol": "U",
+        "in_your_project": "The transpose of the measurement observation matrix H^T, with dimensions 15 x k (n x k), mapping measurement innovations into the 15-dimensional state space."
+      },
+      {
+        "symbol": "V",
+        "in_your_project": "The measurement observation matrix H, with dimensions k x 15 (k x n), mapping the 15-dimensional state space to the k-dimensional measurement space."
+      },
+      {
+        "symbol": "I",
+        "in_your_project": "The identity matrix conformant to the state space (15 x 15) or measurement space (k x k)."
+      }
+    ],
+    "knobs": [],
+    "invented": {}
   }
 }

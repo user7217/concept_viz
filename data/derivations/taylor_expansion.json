@@ -111,5 +111,38 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "taylor_expansion",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In this project, the ekf_global and ekf_local nodes use an Extended Kalman Filter (EKF) from robot_localization to fuse odometry and IMU data into consistent state estimates. The EKF algorithm relies on a first-order Taylor expansion to linearize non-linear process and measurement models around the current state estimate. The listed components depend on this mathematical result purely through the EKF algorithm itself, rather than through direct parameter configuration.",
+    "concrete": [
+      {
+        "symbol": "f",
+        "in_your_project": "The non-linear motion or measurement model mapping the robot's state to predicted states or expected sensor observations."
+      },
+      {
+        "symbol": "a",
+        "in_your_project": "The operating point or current 15-dimensional state estimate (pose, velocities, accelerations) at which partial derivatives are evaluated."
+      },
+      {
+        "symbol": "x",
+        "in_your_project": "The true or perturbed 15-dimensional robot state vector being estimated."
+      },
+      {
+        "symbol": "c_n",
+        "in_your_project": "The expansion coefficients evaluated at a, where c_0 is the function value f(a) and c_1 corresponds to the first-order partial derivatives forming the Jacobian matrix."
+      },
+      {
+        "symbol": "n",
+        "in_your_project": "The derivative and polynomial order, which is fixed to n = 1 in the Extended Kalman Filter's first-order linearization."
+      }
+    ],
+    "knobs": [],
+    "invented": {}
   }
 }

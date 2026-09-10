@@ -15,7 +15,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from atlas.architecture import apply, propose
 from atlas.ingest import ingest_repo
 from atlas.instantiate import instantiate, invented
-from atlas.llm import AuthFailure, LLMError, QuotaExhausted, get_provider
+from atlas.llm import (AuthFailure, Dropped, LLMError, QuotaExhausted,
+                       get_provider)
 from atlas.profile import Profile
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -50,8 +51,8 @@ for index, node_id in enumerate(pending, 1):
     sheet = json.loads(path_json.read_text())
     try:
         note = instantiate(provider, project, project_id, graph, node_id, sheet)
-    except (AuthFailure, QuotaExhausted) as exc:
-        print(f"\n  stopped at {index}/{len(pending)}: {str(exc)[:100]}")
+    except (AuthFailure, QuotaExhausted, Dropped) as exc:
+        print(f"\n  stopped at {index}/{len(pending)}: {exc}")
         break
     except LLMError as exc:
         print(f"  {index}/{len(pending)} {node_id}: {str(exc)[:60]}", flush=True)

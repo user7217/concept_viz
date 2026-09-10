@@ -122,5 +122,47 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "total_probability",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local",
+      "obstaclelayer"
+    ],
+    "why_here": "The law of total probability is an underlying mathematical requirement for the recursive state estimation algorithms in ekf_global and ekf_local, as well as the occupancy mapping in obstaclelayer. In the continuous case, the Extended Kalman Filter prediction step (the Chapman-Kolmogorov equation) integrates over the continuous state space using total probability to compute the prior state distribution. The project components depend on this result purely at the algorithmic level for state propagation and sensor fusion, rather than exposing parameters that configure the theorem.",
+    "concrete": [
+      {
+        "symbol": "X",
+        "in_your_project": "The continuous 15-dimensional robot state vector at the previous time step in ekf_global and ekf_local, encompassing 3D position, orientation, linear velocity, angular velocity, and linear acceleration."
+      },
+      {
+        "symbol": "f_X",
+        "in_your_project": "The probability density function of the 15-dimensional state vector X, represented in the EKF by a multivariate Gaussian distribution N(x\u0302, P)."
+      },
+      {
+        "symbol": "F_X",
+        "in_your_project": "The cumulative distribution function of the 15-dimensional continuous robot state vector X."
+      },
+      {
+        "symbol": "A",
+        "in_your_project": "The event that the robot state at the current time step falls within a specific subset of the 15-dimensional state space, or the event of observing a sensor measurement vector."
+      },
+      {
+        "symbol": "B_n",
+        "in_your_project": "The n-th discrete partition state of a costmap grid cell (such as being occupied or free) in obstaclelayer."
+      },
+      {
+        "symbol": "P(B_n)",
+        "in_your_project": "The marginal prior probability of a grid cell occupying state B_n in obstaclelayer."
+      },
+      {
+        "symbol": "P(A|B_n)",
+        "in_your_project": "The conditional probability of receiving sensor observation A given that a grid cell is in discrete state B_n in obstaclelayer."
+      }
+    ],
+    "knobs": [],
+    "invented": {}
   }
 }

@@ -149,5 +149,35 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "marginalization",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local",
+      "obstaclelayer"
+    ],
+    "why_here": "The connection to marginalization is algorithmic rather than parameterized: the state estimation nodes ekf_global and ekf_local (from robot_localization) require this result within the Extended Kalman Filter algorithm. During the EKF prediction step, the prior distribution of the current robot state is computed by marginalizing (integrating) out the previous state from their joint distribution. Furthermore, the filter relies on the marginalization properties of multivariate Gaussians to extract marginal distributions for individual state coordinates from the full joint state distribution.",
+    "concrete": [
+      {
+        "symbol": "X, Y",
+        "in_your_project": "The continuous robot state vectors in ekf_global and ekf_local; for example, X is the current 15-dimensional state vector and Y is the previous 15-dimensional state vector that is marginalized out during the filter's prediction step."
+      },
+      {
+        "symbol": "f(x,y)",
+        "in_your_project": "The joint continuous probability density function over the current state X and previous state Y (30-dimensional joint distribution) prior to integrating out the previous state."
+      },
+      {
+        "symbol": "f_X(x)",
+        "in_your_project": "The marginal continuous probability density function of the current 15-dimensional robot state estimate (or a subset of state variables) obtained after marginalizing out Y."
+      },
+      {
+        "symbol": "X_1,\\dots,X_n",
+        "in_your_project": "The n = 15 individual random variables comprising the robot state in robot_localization: 3D position (x, y, z), orientation (roll, pitch, yaw), linear velocities (vx, vy, vz), angular velocities (vroll, vpitch, vyaw), and linear accelerations (ax, ay, az)."
+      }
+    ],
+    "knobs": [],
+    "invented": {}
   }
 }

@@ -94,3 +94,21 @@ class TestInvented(unittest.TestCase):
                              knobs=[{"parameter": "process_noise_covariance",
                                      "file": "config/imagined.yaml", "means": "..."}])
         self.assertIn("files not in this repo", invented(note, self.project, SHEET))
+
+    def test_a_symbol_from_a_combined_entry_is_not_invented(self) -> None:
+        # Sheets group symbols: positive_semidefinite_matrix lists "x, v, z"
+        # as one row. Matching the whole string only, the guard called a
+        # correct reference to x an invention.
+        sheet = {"symbols": [{"symbol": "M", "meaning": "the matrix"},
+                             {"symbol": "x, v, z", "meaning": "test vectors"}]}
+        note = Instantiation("positive_semidefinite_matrix", "rig",
+                             concrete=[{"symbol": "x", "in_your_project": "..."},
+                                       {"symbol": "z", "in_your_project": "..."}])
+        self.assertEqual(invented(note, self.project, sheet), {})
+
+    def test_a_combined_entry_still_catches_a_real_invention(self) -> None:
+        sheet = {"symbols": [{"symbol": "x, v, z", "meaning": "test vectors"}]}
+        note = Instantiation("positive_semidefinite_matrix", "rig",
+                             concrete=[{"symbol": "Q", "in_your_project": "..."}])
+        self.assertIn("symbols not in the sheet",
+                      invented(note, self.project, sheet))

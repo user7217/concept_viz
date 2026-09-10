@@ -20,7 +20,8 @@ from atlas.architecture import apply, propose
 from atlas.derivation import (candidate_vocabulary, check, generate,
                               needs_better_sources)
 from atlas.ingest import ingest_repo
-from atlas.llm import AuthFailure, LLMError, QuotaExhausted, get_provider, get_rotating_provider
+from atlas.llm import (AuthFailure, Dropped, LLMError, QuotaExhausted,
+                       get_provider, get_rotating_provider)
 from atlas.profile import Profile
 from atlas.retrieval import RetrievalError, ground_from_consumers, retrieve_node
 
@@ -105,7 +106,7 @@ for index, node_id in enumerate(path, 1):
     except AuthFailure as exc:
         print(f"\n  stopped at {index}: {exc}")
         break
-    except QuotaExhausted as exc:
+    except (QuotaExhausted, Dropped) as exc:
         print(f"\n  stopped at {index}/{len(path)}: {str(exc)[:80]}")
         print("  rerun to resume -- finished nodes are skipped")
         break

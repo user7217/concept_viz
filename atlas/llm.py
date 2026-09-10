@@ -58,6 +58,16 @@ class QuotaExhausted(LLMError):
     """
 
 
+class Dropped(LLMError):
+    """The request never reached a model: exit 0, no output, no error.
+
+    Distinct from a failure because nothing about the prompt is wrong -- the
+    same text answers fine once the budget recovers. A caller that treats this
+    as a content failure marks good work as bad, which is exactly what the
+    first instantiation run did to six sheets.
+    """
+
+
 def load_env(path: Path = ENV_FILE) -> dict[str, str]:
     """Read a .env file into os.environ without overwriting real env vars.
 
@@ -389,20 +399,32 @@ class AntigravityProvider:
     bound by the API free tier's 20 requests/day/model.
 
     `--mode plan` is read-only: the model cannot edit or execute anything,
-    which is all this needs -- one prompt, JSON back.
+    which is all this needs -- one prompt, JSON back. It is only honoured
+    while slash-command expansion is left on; passing
+    `--disable-slash-commands` alongside it silently voids it, and the CLI
+    says so on stderr.
+
+    **`agy -p` drops large prompts silently**: exit 0, empty stdout, nothing
+    on stderr. Measured 2026-09-11 -- a 1.1k prompt answered every time while
+    the same 5k prompt was dropped 8 times running, yet that same 5k prompt
+    had answered 14 of 20 times an hour earlier. The ceiling moves with the
+    subscription budget, so a drop is a throttle to wait out, not a verdict
+    on the prompt. Retrying with backoff is the only thing that recovers it.
     """
 
     binary: str = "agy"
     model: str | None = None
     effort: str | None = None  # low | medium | high
     timeout: int = 600
+    attempts: int = 3
+    backoff: float = 20.0
+    sleeper: Callable[[float], None] = field(default=time.sleep, repr=False)
     runner: Callable[[list[str], str], str] | None = None
     name: str = field(default="antigravity", init=False)
 
     def complete(self, prompt: str, *, system: str | None = None) -> str:
         text = f"{system}\n\n{prompt}" if system else prompt
-        command = [self.binary, "-p", text, "--mode", "plan",
-                   "--disable-slash-commands"]
+        command = [self.binary, "-p", text, "--mode", "plan"]
         if self.model:
             command += ["--model", self.model]
         if self.effort:
@@ -411,6 +433,23 @@ class AntigravityProvider:
         if self.runner is not None:
             return self.runner(command, text)
 
+        for attempt in range(1, self.attempts + 1):
+            output = self._attempt(command)
+            if output is not None:
+                return output
+            if attempt < self.attempts:
+                self.sleeper(self.backoff * attempt)
+
+        raise Dropped(
+            f"agy -p dropped the request {self.attempts} times "
+            f"(exit 0, empty stdout, empty stderr). The prompt was "
+            f"{len(text)} chars; large prompts are dropped while the "
+            f"subscription budget is low. Wait and re-run -- the run is "
+            f"resumable, so nothing already written is lost."
+        )
+
+    def _attempt(self, command: list[str]) -> str | None:
+        """One call. None means the request was dropped, not that it failed."""
         try:
             result = subprocess.run(
                 command, capture_output=True, text=True,
@@ -436,7 +475,7 @@ class AntigravityProvider:
                 )
             raise LLMError(f"agy -p exited {result.returncode}: {detail[:400]}")
         if not result.stdout.strip():
-            raise LLMError("agy -p exited 0 but produced no output")
+            return None
         return result.stdout
 
 

@@ -137,5 +137,42 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "gradient",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In this project, ekf_global and ekf_local from robot_localization perform state estimation by linearizing nonlinear robot motion and measurement models. The Extended Kalman Filter algorithm requires gradients to compute first-order Taylor approximations, forming the rows of the system's Jacobian matrices around the current state estimate. The connection is purely algorithmic, as the components' underlying estimation logic requires this mathematical result rather than exposing a parameter to configure it directly.",
+    "concrete": [
+      {
+        "symbol": "f",
+        "in_your_project": "A scalar component function of the nonlinear motion or measurement model mapping the 15-dimensional state vector to a scalar state prediction or sensor measurement [R^15 -> R]"
+      },
+      {
+        "symbol": "\u2207f",
+        "in_your_project": "The 15 x 1 gradient column vector of partial derivatives of a scalar model component f with respect to the 15 robot state variables"
+      },
+      {
+        "symbol": "df_x",
+        "in_your_project": "The 1 x 15 total derivative row vector dual to \u2207f that forms a single row of the state transition or measurement Jacobian matrix"
+      },
+      {
+        "symbol": "x_i",
+        "in_your_project": "The i-th state variable coordinate of the robot's 15-dimensional state vector (position, orientation, velocity, or acceleration) [scalar]"
+      },
+      {
+        "symbol": "v\u0302",
+        "in_your_project": "A 15 x 1 unit vector defining a direction in the robot's 15-dimensional state space"
+      },
+      {
+        "symbol": "D_v f(x)",
+        "in_your_project": "The scalar directional derivative measuring the rate of change of scalar model f along direction v\u0302 at the operating state estimate x"
+      }
+    ],
+    "knobs": [],
+    "invented": {}
   }
 }
