@@ -1,0 +1,115 @@
+{
+  "node_id": "change_of_variables",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Change of variables (integration by substitution): given g:[a,b]\u2192I differentiable with continuous derivative, and f:I\u2192\u211d continuous, setting u = g(x) (so du = g'(x) dx) converts one integral into another: \u222b_a^b f(g(x))\u00b7g'(x) dx = \u222b_{g(a)}^{g(b)} f(u) du. For indefinite integrals the corresponding identity is \u222b f(g(x))\u00b7g'(x) dx = \u222b f(u) du, with u = g(x) substituted back into the result afterward.",
+  "symbols": [
+    {
+      "symbol": "x",
+      "meaning": "original integration variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "u",
+      "meaning": "new variable, u = g(x)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "g",
+      "meaning": "differentiable function [a,b] \u2192 I defining the substitution",
+      "dimensions": "function"
+    },
+    {
+      "symbol": "f",
+      "meaning": "continuous function on I being integrated",
+      "dimensions": "function"
+    },
+    {
+      "symbol": "a, b",
+      "meaning": "limits of integration in x",
+      "dimensions": "scalars"
+    },
+    {
+      "symbol": "g(a), g(b)",
+      "meaning": "transformed limits of integration in u",
+      "dimensions": "scalars"
+    },
+    {
+      "symbol": "du",
+      "meaning": "differential of u, equal to g'(x) dx",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "For definite integrals, the bounds transform along with the variable: \u222b_a^b f(g(x))\u00b7g'(x) dx = \u222b_{g(a)}^{g(b)} f(u) du, so no back-substitution into x is needed.",
+      "why": "the limits a, b are values of x, and after substitution the integral is expressed in u, so its limits must be the corresponding u-values g(a), g(b)",
+      "cites": [
+        "wikipedia:Integration_by_substitution"
+      ]
+    },
+    {
+      "property": "For indefinite integrals, \u222b f(g(x))\u00b7g'(x) dx = \u222b f(u) du, and after evaluating the right side, u must be replaced back by g(x) to express the antiderivative in the original variable.",
+      "why": "an indefinite integral has no bounds to carry the change of variable, so the result must be re-expressed in x explicitly",
+      "cites": [
+        "wikipedia:Integration_by_substitution"
+      ]
+    },
+    {
+      "property": "The differential relation du = g'(x) dx follows from treating du/dx = g'(x) heuristically as a ratio of infinitesimals; this is what licenses replacing g'(x) dx by du under the integral sign.",
+      "why": "this is the informal justification given for the substitution before the rigorous proof via the fundamental theorem of calculus",
+      "cites": [
+        "wikipedia:Integration_by_substitution"
+      ]
+    },
+    {
+      "property": "The formula can be applied in either direction: reading left-to-right (u = g(x), 'u-substitution') to simplify a composite integrand, or right-to-left (x = h(u), e.g. trigonometric substitution) to introduce a new variable that simplifies the integrand.",
+      "why": "the source states the identity is symmetric and can be read either way depending on which side is easier to compute",
+      "cites": [
+        "wikipedia:Integration_by_substitution"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "g is differentiable on [a,b] with continuous derivative g', and f is continuous on an interval I containing the range of g",
+      "breaks_when": "g' fails to be continuous, g is not differentiable at some point, or f is discontinuous on the range of g"
+    },
+    {
+      "assumption": "the integrand can be factored as f(g(x))\u00b7g'(x), i.e. the derivative of the inner function (up to a constant) appears as a multiplicative factor",
+      "breaks_when": "no such factor g'(x) is present in the integrand, making the substitution inapplicable without further manipulation"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "wrong numerical value for a definite integral",
+      "signature": "the evaluated integral is a constant multiple or otherwise off from the correct value",
+      "cause": "substituting u = g(x) in a definite integral but forgetting to change the limits of integration from a, b to g(a), g(b)"
+    },
+    {
+      "mode": "answer left in the wrong variable",
+      "signature": "an indefinite integral's final antiderivative still contains u instead of x",
+      "cause": "omitting the back-substitution u \u2192 g(x) after integrating in u"
+    },
+    {
+      "mode": "substitution does not simplify the integral",
+      "signature": "after substitution, the integrand still contains x mixed with u, or g'(x) cannot be isolated",
+      "cause": "the chosen substitution's derivative g'(x) does not match (up to constant factor) a term actually present in the integrand"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Integration_by_substitution"
+  ],
+  "check": {
+    "node_id": "change_of_variables",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}

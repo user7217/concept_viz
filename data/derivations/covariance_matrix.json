@@ -1,0 +1,135 @@
+{
+  "node_id": "covariance_matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For an n-dimensional random vector X = (X_1, ..., X_n)^T with mean \u03bc_X = E[X], the covariance matrix is K_XX = var(X) = E[(X - \u03bc_X)(X - \u03bc_X)^T], an n\u00d7n matrix whose (i,j) entry is cov(X_i, X_j) (so the diagonal holds the individual variances).",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "n-dimensional random vector, X = (X_1, ..., X_n)^T",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mu_X",
+      "meaning": "mean vector, E[X]",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "K_{XX} (\\Sigma)",
+      "meaning": "covariance matrix of X",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "a, b, w",
+      "meaning": "constant real-valued vectors used to form linear combinations of X",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "A",
+      "meaning": "constant matrix applied to X",
+      "dimensions": "m x n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "K_XX = E(XX^T) - \u03bc_X \u03bc_X^T",
+      "why": "expanding the defining expectation of the centered outer product",
+      "cites": [
+        "wikipedia:Covariance_matrix"
+      ]
+    },
+    {
+      "property": "K_XX is symmetric: K_XX^T = K_XX",
+      "why": "basic property listed directly under the definition",
+      "cites": [
+        "wikipedia:Covariance_matrix"
+      ]
+    },
+    {
+      "property": "K_XX is positive-semidefinite: a^T K_XX a >= 0 for all a in R^n",
+      "why": "a^T K_XX a = E[(a^T(X - \u03bc_X))^2] >= 0, since it is the variance of a scalar random variable",
+      "cites": [
+        "wikipedia:Covariance_matrix"
+      ]
+    },
+    {
+      "property": "Every symmetric positive-semidefinite matrix M is itself a covariance matrix: if var(X) = I then var(M^{1/2} X) = M",
+      "why": "converse of positive-semidefiniteness, constructed via the symmetric square root M^{1/2} from the spectral theorem",
+      "cites": [
+        "wikipedia:Covariance_matrix"
+      ]
+    },
+    {
+      "property": "For constant matrix A and vector a: var(AX + a) = A var(X) A^T",
+      "why": "linear transformation rule for the covariance matrix",
+      "cites": [
+        "wikipedia:Covariance_matrix"
+      ]
+    },
+    {
+      "property": "For a same-dimension random vector Y: var(X+Y) = var(X) + cov(X,Y) + cov(Y,X) + var(Y)",
+      "why": "bilinearity of covariance extended to vector sums",
+      "cites": [
+        "wikipedia:Covariance_matrix"
+      ]
+    },
+    {
+      "property": "Joint covariance of stacked (X,Y) has block form \u03a3 = [[K_XX, K_XY],[K_YX, K_YY]] with K_XY = K_YX^T = cov(X,Y); K_XX, K_YY are the marginal covariance matrices",
+      "why": "definition of the joint covariance matrix of a stacked random vector",
+      "cites": [
+        "wikipedia:Covariance_matrix"
+      ]
+    },
+    {
+      "property": "As a bilinear form, d^T \u03a3 c = cov(d^T X, c^T X), so c^T \u03a3 c is the variance of the linear combination c^T X",
+      "why": "covariance matrix acts as a linear operator mapping combinations of X to their covariances with X",
+      "cites": [
+        "wikipedia:Covariance_matrix"
+      ]
+    },
+    {
+      "property": "For complex random vectors Z, K_ZZ = E[(Z-\u03bc_Z)(Z-\u03bc_Z)^H] (conjugate transpose) is Hermitian positive-semidefinite with real diagonal entries; the related pseudo-covariance matrix J_ZZ = E[(Z-\u03bc_Z)(Z-\u03bc_Z)^T] uses plain transpose and is complex symmetric",
+      "why": "extension of the real definition to complex-valued random vectors",
+      "cites": [
+        "wikipedia:Covariance_matrix"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Each component X_i has finite second moment so that E[(X-\u03bc_X)(X-\u03bc_X)^T] exists entrywise",
+      "breaks_when": "a component distribution is heavy-tailed with infinite variance (e.g. Cauchy-like), leaving entries of K_XX undefined"
+    },
+    {
+      "assumption": "\u03bc_X = E[X] exists and is used to center X",
+      "breaks_when": "the mean itself does not exist for some component"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Reported covariance matrix is not actually positive-semidefinite",
+      "signature": "negative variance implied for some linear combination c^T K_XX c < 0",
+      "cause": "numerical error, inconsistent/estimated entries, or the matrix was not built from a genuine random vector's second moments"
+    },
+    {
+      "mode": "Matrix is singular (not positive-definite)",
+      "signature": "K_XX has zero eigenvalues, determinant is zero, inverse used in conditioning/whitening formulas does not exist",
+      "cause": "components of X are exactly linearly dependent, or (for estimated covariances) fewer samples than dimensions"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Covariance_matrix"
+  ],
+  "check": {
+    "node_id": "covariance_matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}

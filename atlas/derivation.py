@@ -206,6 +206,13 @@ def expected_kind(graph: Graph | None, node_id: str) -> tuple[str, list[str]]:
         return "derivation", []
     from .schema import NodeType, Relation
 
+    # A technique IS a move, so it is always performed rather than stated --
+    # whatever its own prerequisites look like. Asking whether a node *requires*
+    # techniques never asked whether it *is* one, which had 17 of 33 techniques,
+    # integration_by_parts and linearization among them, stated as definitions.
+    if graph.nodes[node_id].type is NodeType.TECHNIQUE:
+        return "derivation", [node_id]
+
     moves = sorted(
         e.dst for e in graph.edges.values()
         if e.src == node_id and e.rel is Relation.REQUIRES

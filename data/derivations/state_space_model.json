@@ -1,0 +1,118 @@
+{
+  "node_id": "state_space_model",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A state-space model represents a system by a state vector x whose first-order (differential or difference) dynamics, together with an output map, describe the system's behavior. General (possibly nonlinear, time-varying) form: \u1e8b(t) = f(t, x(t), u(t)) [state equation], y(t) = h(t, x(t), u(t)) [output equation]. When f is a linear combination of states and inputs (linear, time-invariant, finite-dimensional case), this reduces to matrix form: \u1e8b(t) = A x(t) + B u(t), y(t) = C x(t) + D u(t).",
+  "symbols": [
+    {
+      "symbol": "x(t)",
+      "meaning": "state vector; coordinates of the point representing the system in state space",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "u(t)",
+      "meaning": "input vector",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "y(t)",
+      "meaning": "output vector",
+      "dimensions": "p x 1"
+    },
+    {
+      "symbol": "A",
+      "meaning": "state matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "B",
+      "meaning": "input matrix",
+      "dimensions": "n x m"
+    },
+    {
+      "symbol": "C",
+      "meaning": "output matrix",
+      "dimensions": "p x n"
+    },
+    {
+      "symbol": "D",
+      "meaning": "feedthrough (direct transmission) matrix",
+      "dimensions": "p x m"
+    },
+    {
+      "symbol": "f(\u00b7,\u00b7,\u00b7)",
+      "meaning": "general (possibly nonlinear, time-varying) state function",
+      "dimensions": "R x R^n x R^m -> R^n"
+    },
+    {
+      "symbol": "h(\u00b7,\u00b7,\u00b7)",
+      "meaning": "general (possibly nonlinear, time-varying) output function",
+      "dimensions": "R x R^n x R^m -> R^p"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The state variables span a geometric space, the state space (equivalently, time-domain approach, or phase space for certain dynamical systems), whose axes are the state variables; the system's instantaneous state is a point in this space given by the state vector.",
+      "why": "this is how the representation is defined before any matrix specialization",
+      "cites": [
+        "wikipedia:State-space_representation"
+      ]
+    },
+    {
+      "property": "For linear, time-invariant, finite-dimensional systems the state and output equations can be written in the compact matrix form \u1e8b(t)=Ax(t)+Bu(t), y(t)=Cx(t)+Du(t), giving an algebraic alternative to Laplace-transform frequency-domain analysis and extending naturally to multiple-input multiple-output (MIMO) systems.",
+      "why": "matrix form is the LTI specialization of the general representation",
+      "cites": [
+        "wikipedia:State-space_representation"
+      ]
+    },
+    {
+      "property": "Unlike the frequency-domain (transfer-function) approach, the state-space representation is not restricted to linear systems with zero initial conditions.",
+      "why": "distinguishes the scope of state-space models from transfer-function methods",
+      "cites": [
+        "wikipedia:State-space_representation"
+      ]
+    },
+    {
+      "property": "In the general nonlinear form \u1e8b(t)=f(t,x(t),u(t)), y(t)=h(t,x(t),u(t)), the u(t) argument may be dropped when the system is unforced (has no inputs).",
+      "why": "shown explicitly as a stated simplification of the general form",
+      "cites": [
+        "wikipedia:State-space_representation"
+      ]
+    },
+    {
+      "property": "The matrix D encodes direct feedthrough from input to output; a strictly proper transfer function has D=0, while a proper (non-strictly-proper) transfer function has D=G(\u221e), a nonzero constant term added to the strictly proper part.",
+      "why": "identifies what the feedthrough matrix D represents in the state-space object",
+      "cites": [
+        "wikipedia:State-space_representation"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Matrix form \u1e8b=Ax+Bu, y=Cx+Du requires the system to be linear, time-invariant, and finite-dimensional.",
+      "breaks_when": "the system is nonlinear, time-varying, or infinite-dimensional, in which case only the general f,h form applies"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Using the LTI matrix form to represent a system whose state equation is not a linear combination of states and inputs",
+      "signature": "predicted trajectories from Ax+Bu diverge from the actual nonlinear dynamics (e.g. a pendulum's sin \u03b8 term cannot be captured by a constant A)",
+      "cause": "f(t,x(t),u(t)) is nonlinear in x or u, so it cannot be reduced to A x + B u"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:State-space_representation"
+  ],
+  "check": {
+    "node_id": "state_space_model",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}

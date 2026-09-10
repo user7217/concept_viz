@@ -1,0 +1,103 @@
+{
+  "node_id": "hessian_matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The Hessian matrix of a scalar-valued function f (a scalar field) is the square matrix of its second-order partial derivatives; it describes the local curvature of a function of many variables. It is denoted H or \u2207\u00b2f. [wikipedia:Hessian_matrix]",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "scalar-valued function (scalar field) being differentiated",
+      "dimensions": "R^n -> R"
+    },
+    {
+      "symbol": "x",
+      "meaning": "point / vector of n variables at which the function is evaluated",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "H(x)",
+      "meaning": "Hessian matrix of f at x, the square matrix of second-order partial derivatives",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\u2207f(x)",
+      "meaning": "gradient of f at x",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\u0394x",
+      "meaning": "perturbation / displacement vector from x",
+      "dimensions": "n x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "H governs the quadratic term of the second-order Taylor expansion of f: f(x+\u0394x) \u2248 f(x) + \u2207f(x)^T \u0394x + (1/2) \u0394x^T H(x) \u0394x",
+      "why": "the Hessian is the coefficient matrix of the second-order term in the local expansion of f",
+      "cites": [
+        "wikipedia:Hessian_matrix"
+      ]
+    },
+    {
+      "property": "Computing and storing the full Hessian costs \u0398(n\u00b2) memory, which is infeasible for high-dimensional functions (e.g. neural-net or CRF loss functions); truncated-Newton and quasi-Newton algorithms (e.g. BFGS) use approximations to H instead",
+      "why": "the matrix has n\u00b2 entries, one per pair of variables",
+      "cites": [
+        "wikipedia:Hessian_matrix"
+      ]
+    },
+    {
+      "property": "H also appears in the local expansion of the gradient itself: \u2207f(x+\u0394x) = \u2207f(x) + H(x)\u0394x + O(\u2016\u0394x\u2016\u00b2), so a Hessian-vector product H(x)v can be approximated as (1/r)[\u2207f(x+rv) \u2212 \u2207f(x)] + O(r) without forming H explicitly",
+      "why": "lets optimization algorithms that only need H acting as a linear operator avoid materializing the full matrix",
+      "cites": [
+        "wikipedia:Hessian_matrix"
+      ]
+    },
+    {
+      "property": "For a vector-valued function f: R^n \u2192 R^m, the second partial derivatives form a third-order tensor equal to a stack of m ordinary Hessians, H(f) = (H(f_1), H(f_2), \u2026, H(f_m)), which degenerates to the usual Hessian when m = 1",
+      "why": "each component function f_i of a vector field has its own scalar Hessian",
+      "cites": [
+        "wikipedia:Hessian_matrix"
+      ]
+    },
+    {
+      "property": "Under an equality constraint g(x) = c, the relevant object is the bordered Hessian \u2014 the Hessian of the Lagrangian \u039b(x,\u03bb) = f(x) + \u03bb[g(x) \u2212 c] \u2014 with a top-left m\u00d7m zero block and the constraint gradients \u2202g/\u2202x as borders, used for the second-derivative test in constrained optimization",
+      "why": "the unconstrained Hessian's definiteness test no longer applies once the domain is restricted to the constraint surface",
+      "cites": [
+        "wikipedia:Hessian_matrix"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "f is scalar-valued and possesses well-defined second-order partial derivatives at x",
+      "breaks_when": "f is vector-valued (m>1), in which case the second-derivative object is a third-order tensor (an array of m Hessians) rather than a single matrix"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Full Hessian is computationally infeasible to form or store",
+      "signature": "n (number of parameters) is large, e.g. neural-network loss functions, requiring \u0398(n\u00b2) memory",
+      "cause": "the Hessian has n\u00b2 entries; quasi-Newton/truncated-Newton methods (e.g. BFGS) substitute approximations rather than computing H exactly"
+    },
+    {
+      "mode": "Finite-difference approximation of a Hessian-vector product becomes numerically unstable",
+      "signature": "result is inaccurate whether the step scalar r is made very small or left larger",
+      "cause": "H(x)v \u2248 (1/r)[\u2207f(x+rv) \u2212 \u2207f(x)] trades truncation error O(r) against floating-point cancellation error as r \u2192 0, so no single r is safe"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Hessian_matrix"
+  ],
+  "check": {
+    "node_id": "hessian_matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}

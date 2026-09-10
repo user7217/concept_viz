@@ -1,0 +1,133 @@
+{
+  "node_id": "marginalization",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Given a joint distribution over random variables (X, Y) (or more generally X_1,...,X_n), the marginal distribution of a subset (e.g. X) is obtained by summing or integrating the joint distribution over the discarded variables (e.g. Y): discrete case p_X(x_i) = \u03a3_j p(x_i, y_j); continuous case f_X(x) = \u222b f(x,y) dy. The discarded variables (here Y) are said to be 'marginalized out'. [wikipedia:Marginal_distribution]",
+  "symbols": [
+    {
+      "symbol": "X, Y",
+      "meaning": "random variables with a known joint distribution",
+      "dimensions": "scalar or vector"
+    },
+    {
+      "symbol": "p(x_i, y_j)",
+      "meaning": "joint probability mass function of X and Y",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f(x, y)",
+      "meaning": "joint probability density function of X and Y",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_X(x_i)",
+      "meaning": "marginal pmf of X",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f_X(x)",
+      "meaning": "marginal pdf of X",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "F(x,y)",
+      "meaning": "joint cumulative distribution function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "X_1,...,X_n",
+      "meaning": "collection of random variables in the multivariate case",
+      "dimensions": "n scalars or vector of length n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Discrete marginal pmf: p_X(x_i) = \u03a3_j p(x_i, y_j), and symmetrically p_Y(y_j) = \u03a3_i p(x_i, y_j).",
+      "why": "the marginal is found by summing the joint pmf over the values of the discarded variable",
+      "cites": [
+        "wikipedia:Marginal_distribution"
+      ]
+    },
+    {
+      "property": "Continuous marginal pdf: f_X(x) = \u222b_c^d f(x,y) dy, and symmetrically f_Y(y) = \u222b_a^b f(x,y) dx, for x\u2208[a,b], y\u2208[c,d].",
+      "why": "the marginal density is found by integrating the joint density over the discarded variable",
+      "cites": [
+        "wikipedia:Marginal_distribution"
+      ]
+    },
+    {
+      "property": "A marginal probability can be written as an expectation over the conditional: p_X(x) = \u222b_y p_{X|Y}(x|y) p_Y(y) dy = E_Y[p_{X|Y}(x|Y)].",
+      "why": "averaging the conditional distribution of X given Y over the distribution of Y reproduces the marginal, by the law of the unconscious statistician",
+      "cites": [
+        "wikipedia:Marginal_distribution"
+      ]
+    },
+    {
+      "property": "Marginal cumulative distribution: F_X(x) = F(x,d) (or lim_{y\u2192\u221e} F(x,y) if d=\u221e); symmetrically F_Y(y) = F(b,y).",
+      "why": "evaluating the joint CDF at the upper bound of the discarded variable's range removes dependence on that variable",
+      "cites": [
+        "wikipedia:Marginal_distribution"
+      ]
+    },
+    {
+      "property": "For n jointly distributed variables X_1,...,X_n, the marginal of X_i is obtained by summing (discrete) or integrating (continuous) the joint pmf/pdf over every other variable: p_{X_i}(k) = \u03a3 p(x_1,...,x_{i-1},k,x_{i+1},...,x_n); f_{X_i}(x_i) = \u222b...\u222b f(x_1,...,x_n) dx_1...dx_{i-1}dx_{i+1}...dx_n.",
+      "why": "the same sum/integrate-out operation generalizes componentwise to any number of variables",
+      "cites": [
+        "wikipedia:Marginal_distribution"
+      ]
+    },
+    {
+      "property": "Marginalization differs from conditioning: the conditional distribution is the joint distribution divided by the other variable's marginal, e.g. f_{Y|X}(y|x) = f_{X,Y}(x,y) / f_X(x), whereas the marginal makes no reference to the other variable's value at all.",
+      "why": "distinguishes the operation of discarding a variable (marginal) from the operation of fixing its value (conditional)",
+      "cites": [
+        "wikipedia:Marginal_distribution"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The joint distribution (pmf, pdf, or CDF) of the full variable set is known or specified.",
+      "breaks_when": "only marginals or conditionals are known without enough structure to reconstruct the joint \u2014 marginals alone do not determine the joint distribution (correlation/dependence is lost)."
+    },
+    {
+      "assumption": "For the continuous case, the joint density f(x,y) exists and is integrable over the discarded variable's domain.",
+      "breaks_when": "the joint distribution has no density (e.g. purely singular or mixed discrete-continuous components) or the integral diverges."
+    },
+    {
+      "assumption": "The discarded variable's domain is fixed/known ([c,d] for y in the density case, or all of its support in the discrete/multivariate sum).",
+      "breaks_when": "the support depends on the value of the retained variable in a way not accounted for in the limits of summation/integration."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Treating the marginal as if it captured the full joint behavior",
+      "signature": "using p_X(x) alone to reason about events that depend jointly on X and Y, producing wrong probabilities for joint events",
+      "cause": "marginalization discards all information about dependence between X and the marginalized-out variable Y"
+    },
+    {
+      "mode": "Incorrect marginal from mismatched summation/integration range",
+      "signature": "computed marginal does not sum/integrate to 1",
+      "cause": "summing or integrating over the wrong domain for the discarded variable, e.g. omitting part of its support"
+    },
+    {
+      "mode": "Confusing marginal with conditional",
+      "signature": "reporting p_X(x) when the question asked for p(x|y) or vice versa",
+      "cause": "marginal removes reference to the other variable entirely, while conditional fixes it at a particular value; the two source_id formulas differ by a division by p_X(x) or f_X(x)"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Marginal_distribution"
+  ],
+  "check": {
+    "node_id": "marginalization",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}
