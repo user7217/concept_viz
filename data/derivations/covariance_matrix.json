@@ -132,5 +132,51 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "covariance_matrix",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In agrios_ws, the robot_localization nodes (ekf_global and ekf_local) run Extended Kalman Filters to estimate the robot's continuous 15-dimensional kinematic state from odometry and IMU measurements. The covariance matrix represents the uncertainties and cross-correlations between these state variables, determining how the filters balance process dynamics with sensor updates.",
+    "concrete": [
+      {
+        "symbol": "X",
+        "in_your_project": "The 15-dimensional robot state random vector [15 x 1], comprising 3D position (x, y, z), orientation (roll, pitch, yaw), linear velocities, angular velocities, and linear accelerations."
+      },
+      {
+        "symbol": "\\mu_X",
+        "in_your_project": "The mean state estimate [15 x 1] maintained and tracked by the Extended Kalman Filter."
+      },
+      {
+        "symbol": "K_{XX} (\\Sigma)",
+        "in_your_project": "The 15x15 covariance matrix [15 x 15] representing the estimation error covariance of the state, as well as the process noise and initial state uncertainties."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Initializes the filter's state covariance matrix K_{XX} (15x15), establishing the starting uncertainty for each state variable before sensor measurements are incorporated."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the process noise covariance matrix K_{XX} (15x15), dictating how much uncertainty is added to the state estimate at each prediction step due to unmodeled system dynamics."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Defines the initial state covariance matrix K_{XX} (15x15) for local state estimation, specifying the initial variance and cross-terms for the filter."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Defines the process noise covariance matrix K_{XX} (15x15) for local state estimation, controlling how rapidly state uncertainty grows in the prediction phase."
+      }
+    ],
+    "invented": {}
   }
 }

@@ -127,5 +127,38 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "change_of_variables",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In this project, the robot_localization nodes (ekf_global and ekf_local) rely on the change of variables substitution rule within their underlying filtering algorithms to integrate continuous-time kinematic motion models across discrete time steps. The connection is purely algorithmic, as the Extended Kalman Filter requires this calculus result to transform time-domain integrals of rates (like velocities and accelerations) into state displacements. None of the listed configuration parameters directly tune or control this mathematical theorem, so it operates strictly inside the library's state propagation logic.",
+    "concrete": [
+      {
+        "symbol": "f",
+        "in_your_project": "The continuous integrand representing kinematic rates (e.g., velocity or acceleration functions in the continuous-time motion model) [scalar function I \u2192 \u211d]"
+      },
+      {
+        "symbol": "g",
+        "in_your_project": "The differentiable trajectory function mapping the time interval [a, b] into intermediate state values in interval I [scalar function [a, b] \u2192 I]"
+      },
+      {
+        "symbol": "F",
+        "in_your_project": "The antiderivative representing cumulative state displacement (such as position or velocity change over the interval) [scalar function I \u2192 \u211d]"
+      },
+      {
+        "symbol": "u",
+        "in_your_project": "The substituted state variable (such as intermediate heading angle or velocity, u = g(t)) [scalar]"
+      },
+      {
+        "symbol": "a, b",
+        "in_your_project": "The integration limits corresponding to the start and end timestamps of a filter prediction cycle, t_{k-1} and t_k [scalars in seconds]"
+      }
+    ],
+    "knobs": [],
+    "invented": {}
   }
 }

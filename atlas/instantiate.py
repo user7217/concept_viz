@@ -160,6 +160,23 @@ def instantiate(provider: Provider, project: Project, project_id: str,
     )
 
 
+def _symbol_set(sheet: dict) -> set[str]:
+    """Every symbol a sheet declares, including combined entries.
+
+    Sheets group related symbols into one row -- "x, v, z" is a single entry
+    covering three. Matching the whole string only, the guard flagged a
+    correct reference to `x` as invented, so it has to split them too.
+    """
+    found: set[str] = set()
+    for entry in sheet.get("symbols", []):
+        raw = str(entry.get("symbol", "")).strip()
+        if not raw:
+            continue
+        found.add(raw)
+        found.update(part.strip() for part in raw.split(",") if part.strip())
+    return found
+
+
 def invented(instantiation: Instantiation, project: Project,
              sheet: dict) -> dict[str, list[str]]:
     """Symbols, parameters and files it names that do not exist.
@@ -167,7 +184,7 @@ def invented(instantiation: Instantiation, project: Project,
     The independent comparison: not "is this internally consistent" but "does
     every concrete claim point at something really in the sheet or the repo".
     """
-    symbols = {str(s.get("symbol")) for s in sheet.get("symbols", [])}
+    symbols = _symbol_set(sheet)
     parameters = {p.name for p in project.parameters}
     files = {p.source for p in project.parameters}
 

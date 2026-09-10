@@ -194,5 +194,38 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "linearization",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In this project, the ekf_global and ekf_local nodes run an Extended Kalman Filter from the robot_localization package to fuse IMU and odometry data into state estimates. Because the robot's motion dynamics and coordinate frame transformations are non-linear, the EKF algorithm requires linearization via first-order Taylor expansion (computing Jacobians) about the operating state estimate to propagate covariance and update states. The connection is strictly an internal algorithmic requirement of the filter, as none of the component's exposed configuration parameters govern the linearization process.",
+    "concrete": [
+      {
+        "symbol": "x",
+        "in_your_project": "The 15-dimensional state vector [15 x 1] tracked by ekf_global and ekf_local, comprising 3D position, orientation, linear velocity, angular velocity, and linear acceleration."
+      },
+      {
+        "symbol": "x0",
+        "in_your_project": "The current state estimate vector [15 x 1] about which the non-linear system dynamics are linearized at each filter step."
+      },
+      {
+        "symbol": "F(x,t)",
+        "in_your_project": "The non-linear kinematics vector field [15 x 1] defining the continuous-time evolution of the robot's 15-dimensional state."
+      },
+      {
+        "symbol": "DF(x0,t)",
+        "in_your_project": "The 15 x 15 Jacobian matrix of the motion model F with respect to state x evaluated at the state estimate x0, used by the EKF to propagate state covariance."
+      },
+      {
+        "symbol": "p",
+        "in_your_project": "The multivariable linearization point [15 x 1], corresponding to the filter's current state estimate vector where non-linear functions are approximated."
+      }
+    ],
+    "knobs": [],
+    "invented": {}
   }
 }

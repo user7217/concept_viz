@@ -100,5 +100,39 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "conditional_independence",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local",
+      "obstaclelayer"
+    ],
+    "why_here": "Conditional independence is the core algorithmic assumption required by the Extended Kalman Filter nodes (ekf_global and ekf_local from robot_localization) and the obstaclelayer component in agrios_ws. Under the Markov assumption, given the current 15-dimensional robot state estimate (Z), candidate sensor observations (Y) from /imu, /odom_cov, or /rtk/heading are conditionally independent of the state hypothesis (X) and of past measurements. This enables the filtering algorithm to recursively fuse incoming sensor data sequentially without storing or conditioning on historical measurement trajectories.",
+    "concrete": [
+      {
+        "symbol": "X",
+        "in_your_project": "The hypothesis or quantity of interest, specifically the 15-dimensional robot state vector [x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az] estimated by ekf_local and ekf_global, or grid cell occupancy state in obstaclelayer"
+      },
+      {
+        "symbol": "Y",
+        "in_your_project": "A candidate observation vector, such as measurement inputs from /imu, /rtk/heading, or /odom_cov"
+      },
+      {
+        "symbol": "Z",
+        "in_your_project": "The conditioning information vector, representing the known or estimated 15-dimensional robot state at the previous or current time step"
+      },
+      {
+        "symbol": "P(X,Y\u2223Z)",
+        "in_your_project": "The joint conditional probability density of state X and observation Y given conditioning state Z, which factors into P(X\u2223Z)P(Y\u2223Z) under the filter's conditional independence assumption"
+      },
+      {
+        "symbol": "\u22a5\u22a5",
+        "in_your_project": "The conditional independence relation asserting that an observation Y gives no additional information about hypothesis X once state Z is known"
+      }
+    ],
+    "knobs": [],
+    "invented": {}
   }
 }

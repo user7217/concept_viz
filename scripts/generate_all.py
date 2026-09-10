@@ -17,7 +17,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from atlas.bootstrap import build_graph, load
 from atlas.derivation import candidate_vocabulary, check, generate
-from atlas.llm import LLMError, QuotaExhausted, get_rotating_provider
+from atlas.llm import (AuthFailure, Dropped, LLMError, QuotaExhausted,
+                       get_rotating_provider)
 from atlas.retrieval import RetrievalError, ground_from_consumers, retrieve_node
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -59,9 +60,10 @@ for index, node_id in enumerate(targets, 1):
     except AuthFailure as exc:
         print(f"\n  stopped at {index}: {exc}")
         break
-    except QuotaExhausted as exc:
-        # Every model's daily bucket is spent. Stop rather than burn the run
-        # producing failures; the results written so far are resumable.
+    except (QuotaExhausted, Dropped) as exc:
+        # Every model's daily bucket is spent, or the CLI is dropping
+        # requests outright. Stop rather than burn the run producing
+        # failures; the results written so far are resumable.
         print(f"\n  stopped at {index}/{len(targets)}: {str(exc)[:90]}", flush=True)
         break
     except LLMError as exc:

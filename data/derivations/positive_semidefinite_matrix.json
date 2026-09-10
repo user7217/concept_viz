@@ -151,5 +151,47 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "positive_semidefinite_matrix",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "The ekf_global and ekf_local nodes in robot_localization use Extended Kalman Filters to estimate the robot's state from sensor measurements. The EKF algorithm requires covariance matrices, representing state estimation uncertainty and process noise, to be symmetric positive semidefinite so that variance along any direction satisfies x^T M x >= 0. Maintaining positive semidefiniteness prevents non-physical negative variances and ensures numerical stability during filter updates.",
+    "concrete": [
+      {
+        "symbol": "M",
+        "in_your_project": "The symmetric state covariance matrices (initial_estimate_covariance and process_noise_covariance) used by ekf_global and ekf_local [15 x 15]"
+      },
+      {
+        "symbol": "x",
+        "in_your_project": "A real state or error vector in the 15-dimensional state space used to evaluate quadratic variance forms x^T M x [15 x 1]"
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the initial estimation error covariance matrix M, which must be positive semidefinite (with positive diagonal elements) to ensure valid non-negative initial uncertainty x^T M x >= 0"
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the process noise covariance matrix M added at each prediction step, which must be positive semidefinite so that uncertainty added along any state direction satisfies x^T M x >= 0"
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the initial estimation error covariance matrix M, which must be positive semidefinite (with positive diagonal elements) to ensure valid non-negative initial uncertainty x^T M x >= 0"
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the process noise covariance matrix M added at each prediction step, which must be positive semidefinite so that uncertainty added along any state direction satisfies x^T M x >= 0"
+      }
+    ],
+    "invented": {}
   }
 }

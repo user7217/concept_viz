@@ -131,5 +131,46 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "jacobian_matrix",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In agrios_ws, the ekf_global and ekf_local nodes use Extended Kalman Filters from robot_localization to fuse odometry and IMU measurements for state estimation. Because the robot's 3D kinematic motion model is non-linear, the EKF algorithm requires the Jacobian matrix to linearize the dynamics around the current state estimate and propagate covariance. This mathematical connection is strictly algorithmic within robot_localization, rather than being set by any configuration parameter.",
+    "concrete": [
+      {
+        "symbol": "f",
+        "in_your_project": "The non-linear state transition function (kinematic motion model) in robot_localization that projects the robot state to the next time step (R^15 -> R^15)"
+      },
+      {
+        "symbol": "x",
+        "in_your_project": "The 15-dimensional robot state vector containing position, orientation, linear velocity, angular velocity, and linear acceleration (15 x 1)"
+      },
+      {
+        "symbol": "f_i",
+        "in_your_project": "The i-th scalar kinematic equation of the state transition function f that updates the i-th state variable (scalar)"
+      },
+      {
+        "symbol": "J_f(x)",
+        "in_your_project": "The 15 x 15 state transition Jacobian matrix (F) of partial derivatives \u2202f_i/\u2202x_j evaluated to linearize system dynamics and project covariance (15 x 15)"
+      },
+      {
+        "symbol": "n",
+        "in_your_project": "The number of state variables in robot_localization's state representation, which is 15 (scalar)"
+      },
+      {
+        "symbol": "m",
+        "in_your_project": "The number of output components of the state transition model f, which is 15 (scalar)"
+      },
+      {
+        "symbol": "p",
+        "in_your_project": "The current state estimate vector at which the Jacobian matrix is evaluated during the EKF prediction step (15 x 1)"
+      }
+    ],
+    "knobs": [],
+    "invented": {}
   }
 }

@@ -104,5 +104,39 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "markov_assumption",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local",
+      "obstaclelayer"
+    ],
+    "why_here": "The Markov assumption is a core theoretical foundation of the robot_localization Extended Kalman Filter nodes (ekf_local and ekf_global), asserting that the robot's next state depends solely on its current state and process noise rather than its prior trajectory history. This property enables recursive state estimation, allowing the filters to compute the next estimate using only the current estimate and new sensor measurements without storing past states. Neither node provides parameters to configure this assumption, as it is an inherent mathematical prerequisite of the EKF algorithm.",
+    "concrete": [
+      {
+        "symbol": "X_t",
+        "in_your_project": "The 15-dimensional state random vector of the robot at time t in ekf_local and ekf_global, representing 3D pose (x, y, z, roll, pitch, yaw), linear velocities, angular velocities, and linear accelerations."
+      },
+      {
+        "symbol": "t_1, ..., t_n, t_{n+1}",
+        "in_your_project": "The sequence of discrete update timestamps for the filters, advancing at rates such as 30.0 Hz (ekf_global) or 50.0 Hz (ekf_local)."
+      },
+      {
+        "symbol": "x_1, ..., x_{n+1}",
+        "in_your_project": "The realized 15-dimensional state estimates of the robot evaluated at consecutive time steps t_1, ..., t_{n+1}."
+      },
+      {
+        "symbol": "P(...)",
+        "in_your_project": "The transition and state probability distributions, modeled as multivariate Gaussian distributions within the Extended Kalman Filters."
+      },
+      {
+        "symbol": "F_s",
+        "in_your_project": "The filtration representing the history of all sensor measurements (/imu, /rtk/heading, /odom_cov) and states accumulated up to time s."
+      }
+    ],
+    "knobs": [],
+    "invented": {}
   }
 }

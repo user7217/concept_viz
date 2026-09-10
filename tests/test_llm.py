@@ -349,6 +349,48 @@ class TestAntigravity(unittest.TestCase):
         self.assertEqual(seen["command"][seen["command"].index("--mode") + 1], "plan")
         self.assertIn("--model", seen["command"])
         self.assertIn("high", seen["command"])
+        # The CLI voids --mode plan when slash expansion is off, and says so
+        # on stderr. Passing both silently gave up the read-only guarantee.
+        self.assertNotIn("--disable-slash-commands", seen["command"])
+
+    def test_empty_output_is_retried_not_failed(self) -> None:
+        import subprocess
+
+        from atlas.llm import AntigravityProvider
+
+        class Result:
+            def __init__(self, stdout):
+                self.returncode, self.stdout, self.stderr = 0, stdout, ""
+
+        replies = ["", "", '{"ok": true}']
+        slept: list[float] = []
+        real = subprocess.run
+        subprocess.run = lambda *a, **k: Result(replies.pop(0))
+        try:
+            p = AntigravityProvider(sleeper=slept.append)
+            self.assertEqual(p.complete("x"), '{"ok": true}')
+        finally:
+            subprocess.run = real
+        # backed off between attempts rather than hammering the throttle
+        self.assertEqual(slept, [20.0, 40.0])
+
+    def test_persistent_drop_is_not_a_content_failure(self) -> None:
+        import subprocess
+
+        from atlas.llm import AntigravityProvider, Dropped
+
+        class Result:
+            returncode, stdout, stderr = 0, "", ""
+
+        real = subprocess.run
+        subprocess.run = lambda *a, **k: Result()
+        try:
+            with self.assertRaises(Dropped) as caught:
+                AntigravityProvider(sleeper=lambda _: None).complete("x" * 4000)
+        finally:
+            subprocess.run = real
+        # the message has to name the size, since that is what predicts it
+        self.assertIn("4000", str(caught.exception))
 
     def test_quota_is_its_own_error(self) -> None:
         import subprocess
