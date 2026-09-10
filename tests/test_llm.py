@@ -153,18 +153,25 @@ class TestEnv(unittest.TestCase):
 
 class TestGetProvider(unittest.TestCase):
     def test_missing_key_explains_the_fix(self) -> None:
+        """Must not read the developer's own .env to decide this."""
         saved = os.environ.pop("GEMINI_API_KEY", None)
         try:
             with self.assertRaises(LLMError) as ctx:
-                get_provider("gemini")
+                get_provider("gemini", env_file=None)
             self.assertIn(".env.example", str(ctx.exception))
         finally:
             if saved is not None:
                 os.environ["GEMINI_API_KEY"] = saved
 
+    def test_default_model_is_configurable(self) -> None:
+        from atlas.llm import DEFAULT_GEMINI_MODEL, GeminiProvider
+
+        self.assertEqual(GeminiProvider(api_key="k").model, DEFAULT_GEMINI_MODEL)
+        self.assertEqual(GeminiProvider(api_key="k", model="other").model, "other")
+
     def test_unknown_provider_raises(self) -> None:
         with self.assertRaises(LLMError):
-            get_provider("gpt5")
+            get_provider("gpt5", env_file=None)
 
 
 if __name__ == "__main__":

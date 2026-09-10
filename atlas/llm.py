@@ -197,13 +197,19 @@ class ClaudeCodeProvider:
         return result.stdout
 
 
-def get_provider(name: str | None = None) -> Provider:
+def get_provider(
+    name: str | None = None, env_file: Path | None = ENV_FILE
+) -> Provider:
     """Build a provider from the environment.
 
     ATLAS_PROVIDER selects; GEMINI_API_KEY and GEMINI_MODEL configure Gemini;
     CLAUDE_MODEL configures the headless backend.
+
+    `env_file` is explicit so callers -- tests especially -- are not silently
+    reading whatever .env happens to sit in the working tree.
     """
-    load_env()
+    if env_file is not None:
+        load_env(env_file)
     name = name or os.environ.get("ATLAS_PROVIDER", "gemini")
 
     if name == "gemini":
