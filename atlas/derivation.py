@@ -284,6 +284,22 @@ def candidate_vocabulary(graph: Graph, node_id: str, limit: int = 60) -> list[st
     return sorted(nearby)[:limit] if len(nearby) > limit else sorted(nearby)
 
 
+def needs_better_sources(derivation: "Derivation", graph: Graph | None) -> bool:
+    """A result was expected and the sources did not carry its derivation.
+
+    Distinct from having no sources at all. The Multivariate normal article
+    states the affine-transformation result without deriving it, so retrieval
+    succeeds and generation still cannot produce a derivation -- while the
+    Kalman articles derive exactly that result as F P F^T + Q.
+    """
+    if graph is None:
+        return False
+    expected, _ = expected_kind(graph, derivation.node_id)
+    if expected != "derivation":
+        return False
+    return derivation.is_definition or not derivation.grounded
+
+
 def generate(provider: Provider, node_id: str, name: str, sources: list[Source],
              vocabulary: list[str] | None = None,
              graph: Graph | None = None) -> Derivation:
