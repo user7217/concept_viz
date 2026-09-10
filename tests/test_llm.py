@@ -116,8 +116,29 @@ class TestClaudeCode(unittest.TestCase):
         provider = ClaudeCodeProvider(model="claude-opus-5", runner=runner)
         self.assertEqual(complete_json(provider, "derive", system="be terse"),
                          {"ok": True})
-        self.assertEqual(seen["command"], ["claude", "-p", "--model", "claude-opus-5"])
-        self.assertTrue(seen["text"].startswith("be terse"))
+        # The prompt belongs in argv. `-p "..."` is the user message; stdin is
+        # supplementary data, so piping it sent attached data and no question.
+        self.assertEqual(seen["command"][:2], ["claude", "-p"])
+        self.assertIn("derive", seen["command"][2])
+        self.assertTrue(seen["command"][2].startswith("be terse"))
+        self.assertEqual(seen["command"][3:], ["--model", "claude-opus-5"])
+
+    def test_auth_failure_is_its_own_error(self) -> None:
+        """A run that cannot authenticate must stop, not repeat the failure."""
+        import subprocess
+        from atlas.llm import AuthFailure
+
+        class Result:
+            returncode, stdout, stderr = 1, "Failed to authenticate: OAuth session expired", ""
+
+        real = subprocess.run
+        subprocess.run = lambda *a, **k: Result()
+        try:
+            with self.assertRaises(AuthFailure) as ctx:
+                ClaudeCodeProvider().complete("x")
+            self.assertIn("setup-token", str(ctx.exception))
+        finally:
+            subprocess.run = real
 
     def test_missing_binary_explains_the_fix(self) -> None:
         provider = ClaudeCodeProvider(binary="claude_not_installed_xyz")

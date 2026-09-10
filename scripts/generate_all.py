@@ -56,6 +56,9 @@ for index, node_id in enumerate(targets, 1):
         derivation = generate(provider, node.id, node.name, sources,
                               vocabulary=candidate_vocabulary(graph, node.id),
                               graph=graph)
+    except AuthFailure as exc:
+        print(f"\n  stopped at {index}: {exc}")
+        break
     except QuotaExhausted as exc:
         # Every model's daily bucket is spent. Stop rather than burn the run
         # producing failures; the results written so far are resumable.

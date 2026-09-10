@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from atlas.architecture import apply, propose
 from atlas.derivation import candidate_vocabulary, check, generate
 from atlas.ingest import ingest_repo
-from atlas.llm import LLMError, QuotaExhausted, get_provider, get_rotating_provider
+from atlas.llm import AuthFailure, LLMError, QuotaExhausted, get_provider, get_rotating_provider
 from atlas.profile import Profile
 from atlas.retrieval import RetrievalError, ground_from_consumers, retrieve_node
 
@@ -82,6 +82,9 @@ for index, node_id in enumerate(path, 1):
         derivation = generate(provider, node.id, node.name, sources,
                               vocabulary=candidate_vocabulary(graph, node.id),
                               graph=graph)
+    except AuthFailure as exc:
+        print(f"\n  stopped at {index}: {exc}")
+        break
     except QuotaExhausted as exc:
         print(f"\n  stopped at {index}/{len(path)}: {str(exc)[:80]}")
         print("  rerun to resume -- finished nodes are skipped")
