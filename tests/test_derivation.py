@@ -273,3 +273,22 @@ class TestGuardsAgainstVacuousChecks(unittest.TestCase):
         vocab = candidate_vocabulary(self.graph, "schur_complement")
         self.assertNotIn("algebraic_rearrangement", vocab)
         self.assertNotIn("matrix", vocab)
+
+    def test_a_floor_level_invocation_can_still_be_substantive(self) -> None:
+        """Floor means the reader likely knows it, not that naming it is empty.
+
+        A transpose product step turns on matrix_multiplication, which is
+        assumed-tier. Excluding the whole floor failed a correct derivation.
+        """
+        d = Derivation("transpose_identities", True, kind="derivation",
+                       statement="(AB)^T = B^T A^T",
+                       steps=[Step(1, "expand entrywise", ["matrix_multiplication"],
+                                   ["wikipedia:OLS"])])
+        report = check(d, self.sources, self.graph)
+        self.assertFalse(report["vacuous_invocations"])
+
+    def test_only_uninformative_invocations_stay_vacuous(self) -> None:
+        d = Derivation("transpose_identities", True, kind="derivation", statement="s",
+                       steps=[Step(1, "t", ["index_notation", "algebraic_rearrangement"],
+                                   ["wikipedia:OLS"])])
+        self.assertTrue(check(d, self.sources, self.graph)["vacuous_invocations"])

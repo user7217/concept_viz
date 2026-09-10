@@ -59,8 +59,10 @@ except LLMError as exc:
     print(f"no provider: {exc}")
     raise SystemExit(1)
 
-print(f"{target}: {len(path)} nodes to generate "
-      f"({len(profile.known())} already known)\n", flush=True)
+pending = [n for n in path if not (OUT / f"{n}.json").exists()]
+print(f"{target}: {len(path)} nodes on the path, {len(pending)} to generate "
+      f"({len(path) - len(pending)} already have sheets, "
+      f"{len(profile.known())} known and skipped)\n", flush=True)
 
 grounded = refused = skipped = 0
 for index, node_id in enumerate(path, 1):

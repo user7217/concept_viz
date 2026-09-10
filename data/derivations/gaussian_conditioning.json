@@ -159,6 +159,7 @@
       "conditional_independence"
     ],
     "shape": [],
+    "vacuous_invocations": false,
     "ok": true
   }
 }

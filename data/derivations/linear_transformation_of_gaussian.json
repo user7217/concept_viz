@@ -94,7 +94,10 @@
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
-    "shape": [],
-    "ok": true
+    "shape": [
+      "expected a derivation, produced a definition"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
   }
 }
