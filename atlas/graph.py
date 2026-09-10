@@ -225,7 +225,8 @@ class Graph:
                     queue.append(edge.dst)
         return found
 
-    def learning_path(self, node_id: str, known: set[str] | None = None) -> list[str]:
+    def learning_path(self, node_id: str, known: set[str] | None = None,
+                      not_known: set[str] | None = None) -> list[str]:
         """What to learn, in order, to understand an architecture node.
 
         The product query: given a subsystem or the whole system, collect every
@@ -233,9 +234,12 @@ class Graph:
         dependency order, cut at the reader's floor.
         """
         algorithms = self.algorithms_under(node_id)
-        # Assumed-tier nodes are the canon's own floor. A caller asking what to
-        # learn should never be handed them, whatever their personal profile.
+        # The assumed tier is a DEFAULT for a reader who has said nothing, not an
+        # override of one who has. Applying it unconditionally silently removed
+        # expectation, partial_derivative and priority_queue from paths that
+        # genuinely needed them, with no way for the reader to object.
         floor = {n.id for n in self.nodes.values() if n.tier is Tier.ASSUMED}
+        floor -= (not_known or set())
         known = (known or set()) | floor
         if not algorithms:
             return self.syllabus(node_id, known)

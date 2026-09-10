@@ -15,7 +15,9 @@ def sample_project() -> Project:
     project = Project(name="Agri Robot", origin="repo")
     project.components = [
         Component("ekf_filter_node", library="robot_localization"),
-        Component("nav2", library="nav2_bringup"),
+        # a real planner plugin: nav2_bringup is a launch package, not an algorithm
+        Component("nav2", library="nav2_smac_planner",
+                  plugin="nav2_smac_planner::SmacPlannerHybrid"),
         Component("detector", library="ultralytics"),
         Component("relay", library="my_custom_pkg"),
     ]
@@ -29,6 +31,7 @@ class TestPropose(unittest.TestCase):
     def test_components_group_by_their_algorithm_domain(self) -> None:
         self.assertEqual(self.proposal.subsystems["Localization"], ["ekf_filter_node"])
         self.assertEqual(self.proposal.subsystems["Navigation"], ["nav2"])
+        self.assertEqual(self.proposal.algorithms["nav2"], ["a_star"])
         self.assertEqual(self.proposal.subsystems["Perception"], ["detector"])
 
     def test_unknown_library_is_unclassified_not_guessed(self) -> None:
@@ -158,3 +161,36 @@ class TestExecutableKeying(unittest.TestCase):
         proposal = propose(self.project())
         self.assertNotIn("navsat", proposal.algorithms)
         self.assertIn("navsat", proposal.unclassified)
+
+
+class TestPluginAttribution(unittest.TestCase):
+    """A pluginlib class names the algorithm; the host package does not."""
+
+    def component(self, name, plugin=None, library=None, executable=None):
+        c = Component(name, library=library)
+        c.plugin, c.executable = plugin, executable
+        return c
+
+    def test_plugin_class_wins(self) -> None:
+        p = Project(name="r", origin="repo")
+        p.components = [self.component(
+            "SmacPlannerHybrid", plugin="nav2_smac_planner::SmacPlannerHybrid",
+            library="nav2_smac_planner")]
+        self.assertEqual(propose(p).algorithms["SmacPlannerHybrid"], ["a_star"])
+
+    def test_plugin_host_package_is_not_an_algorithm(self) -> None:
+        """nav2_controller loads whatever you configure; it is not PID."""
+        p = Project(name="r", origin="repo")
+        p.components = [self.component("controller_server", library="nav2_controller")]
+        proposal = propose(p)
+        self.assertNotIn("controller_server", proposal.algorithms)
+        self.assertIn("controller_server", proposal.unclassified)
+
+    def test_known_but_uncovered_plugin_stays_unclassified(self) -> None:
+        """Pure pursuit is geometric; it must not borrow PID's prerequisites."""
+        p = Project(name="r", origin="repo")
+        p.components = [self.component(
+            "rpp",
+            plugin="nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController",
+            library="nav2_regulated_pure_pursuit_controller")]
+        self.assertIn("rpp", propose(p).unclassified)
