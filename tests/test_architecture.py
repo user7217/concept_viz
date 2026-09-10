@@ -135,3 +135,26 @@ class TestFloorExclusion(unittest.TestCase):
         path = self.graph.learning_path("agri_robot")
         for node_id in ("algebraic_rearrangement", "matrix", "graph"):
             self.assertNotIn(node_id, path)
+
+
+class TestExecutableKeying(unittest.TestCase):
+    """One package can ship unrelated nodes."""
+
+    def project(self):
+        p = Project(name="rig", origin="repo")
+        ekf = Component("ekf_local", library="robot_localization")
+        ekf.executable = "ekf_node"
+        nav = Component("navsat", library="robot_localization")
+        nav.executable = "navsat_transform_node"
+        p.components = [ekf, nav]
+        return p
+
+    def test_specific_key_beats_the_package(self) -> None:
+        proposal = propose(self.project())
+        self.assertEqual(proposal.algorithms["ekf_local"], ["extended_kalman_filter"])
+
+    def test_sibling_node_is_not_given_the_packages_algorithm(self) -> None:
+        """navsat_transform is a coordinate transform, not a Kalman filter."""
+        proposal = propose(self.project())
+        self.assertNotIn("navsat", proposal.algorithms)
+        self.assertIn("navsat", proposal.unclassified)

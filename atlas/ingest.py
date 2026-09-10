@@ -43,6 +43,7 @@ class Component:
 
     name: str
     library: str | None = None
+    executable: str | None = None
     version: str | None = None
     parameters: list[Parameter] = field(default_factory=list)
     sources: list[str] = field(default_factory=list)
@@ -319,15 +320,20 @@ def ingest_repo(root: Path) -> Project:
         for path in root.rglob(pattern):
             launch_nodes += parse_launch_xml(path.read_text(), str(path.relative_to(root)))
 
+    # Parameter directories are found anywhere in the tree, not just at the
+    # root: a ROS2 workspace nests them under src/<package>/config/.
     params_by_file: dict[str, list[Parameter]] = {}
-    for directory in PARAM_DIRS:
-        for path in (root / directory).rglob("*.y*ml") if (root / directory).is_dir() else []:
+    for directory in root.rglob("*"):
+        if not directory.is_dir() or directory.name not in PARAM_DIRS:
+            continue
+        for path in sorted(directory.rglob("*.y*ml")):
             rel = str(path.relative_to(root))
             params_by_file[Path(rel).name] = parse_params(path.read_text(), rel)
 
     for node in launch_nodes:
         component = project.component(node.name or node.executable)
         component.library = node.package
+        component.executable = node.executable
         component.version = project.dependencies.get(node.package)
         component.sources.append(node.source)
         for param_file in node.param_files:
