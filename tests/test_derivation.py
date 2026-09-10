@@ -156,3 +156,62 @@ class TestVocabulary(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestKindBranching(unittest.TestCase):
+    """Definitions are stated; results are derived. Asking a definition to
+    derive itself makes it derive some property instead."""
+
+    def setUp(self) -> None:
+        self.graph = build_graph(load())
+        self.sources = [source()]
+
+    def test_technique_prerequisites_imply_a_derived_result(self) -> None:
+        from atlas.derivation import expected_kind
+
+        kind, moves = expected_kind(self.graph, "gaussian_conditioning")
+        self.assertEqual(kind, "derivation")
+        self.assertIn("completing_the_square", moves)
+
+    def test_no_techniques_implies_a_definition(self) -> None:
+        from atlas.derivation import expected_kind
+
+        kind, moves = expected_kind(self.graph, "covariance_matrix")
+        self.assertEqual(kind, "definition")
+        self.assertEqual(moves, [])
+
+    def test_expectation_reaches_the_prompt(self) -> None:
+        prompt = build_prompt("gaussian_conditioning", "Gaussian Conditioning",
+                              self.sources, graph=self.graph)
+        self.assertIn("completing_the_square", prompt)
+        self.assertIn("RESULT", prompt)
+
+    def test_definition_passes_without_steps(self) -> None:
+        d = Derivation("covariance_matrix", True, kind="definition",
+                       statement="K = E[(X-EX)(X-EX)^T]",
+                       properties=[{"property": "symmetric", "cites": ["wikipedia:OLS"]}])
+        self.assertTrue(check(d, self.sources, self.graph)["ok"])
+
+    def test_definition_with_no_properties_fails_shape(self) -> None:
+        d = Derivation("covariance_matrix", True, kind="definition", statement="K = ...")
+        self.assertIn("definition lists no properties",
+                      check(d, self.sources, self.graph)["shape"])
+
+    def test_definition_carrying_steps_fails_shape(self) -> None:
+        """The old failure: deriving a property to satisfy the required shape."""
+        d = Derivation("covariance_matrix", True, kind="definition", statement="K",
+                       properties=[{"property": "p", "cites": ["wikipedia:OLS"]}],
+                       steps=[Step(1, "derive PSD", [], ["wikipedia:OLS"])])
+        self.assertIn("definition carries derivation steps",
+                      check(d, self.sources, self.graph)["shape"])
+
+    def test_derivation_with_no_steps_fails_shape(self) -> None:
+        d = Derivation("gaussian_conditioning", True, kind="derivation", statement="s")
+        self.assertIn("derivation carries no steps",
+                      check(d, self.sources, self.graph)["shape"])
+
+    def test_property_citations_are_checked(self) -> None:
+        d = Derivation("covariance_matrix", True, kind="definition", statement="K",
+                       properties=[{"property": "p", "cites": ["Rao 1973"]}])
+        self.assertEqual(check(d, self.sources, self.graph)["ungrounded_citations"],
+                         ["Rao 1973"])

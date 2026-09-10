@@ -54,7 +54,8 @@ for index, node_id in enumerate(targets, 1):
 
     try:
         derivation = generate(provider, node.id, node.name, sources,
-                              vocabulary=candidate_vocabulary(graph, node.id))
+                              vocabulary=candidate_vocabulary(graph, node.id),
+                              graph=graph)
     except QuotaExhausted as exc:
         # Every model's daily bucket is spent. Stop rather than burn the run
         # producing failures; the results written so far are resumable.
