@@ -381,6 +381,65 @@ class GeminiCliProvider:
         return result.stdout
 
 
+@dataclass
+class AntigravityProvider:
+    """Google's `agy -p`, the client that replaced gemini-cli for individuals.
+
+    Runs on a Google AI subscription rather than an API key, so it is not
+    bound by the API free tier's 20 requests/day/model.
+
+    `--mode plan` is read-only: the model cannot edit or execute anything,
+    which is all this needs -- one prompt, JSON back.
+    """
+
+    binary: str = "agy"
+    model: str | None = None
+    effort: str | None = None  # low | medium | high
+    timeout: int = 600
+    runner: Callable[[list[str], str], str] | None = None
+    name: str = field(default="antigravity", init=False)
+
+    def complete(self, prompt: str, *, system: str | None = None) -> str:
+        text = f"{system}\n\n{prompt}" if system else prompt
+        command = [self.binary, "-p", text, "--mode", "plan",
+                   "--disable-slash-commands"]
+        if self.model:
+            command += ["--model", self.model]
+        if self.effort:
+            command += ["--effort", self.effort]
+
+        if self.runner is not None:
+            return self.runner(command, text)
+
+        try:
+            result = subprocess.run(
+                command, capture_output=True, text=True,
+                timeout=self.timeout, check=False,
+            )
+        except FileNotFoundError as exc:
+            raise LLMError(
+                f"{self.binary!r} not found on PATH. Install the Antigravity "
+                "CLI and run `agy` once to sign in."
+            ) from exc
+        except subprocess.TimeoutExpired as exc:
+            raise LLMError(f"agy -p timed out after {self.timeout}s") from exc
+
+        if result.returncode != 0:
+            detail = (result.stderr.strip() or result.stdout.strip()
+                      or "(no output on either stream)")
+            lowered = detail.lower()
+            if "quota" in lowered or "rate limit" in lowered or "429" in lowered:
+                raise QuotaExhausted(f"{self.model or 'antigravity'}: {detail[:200]}")
+            if "auth" in lowered or "sign in" in lowered or "login" in lowered:
+                raise AuthFailure(
+                    f"{detail[:200]}\nRun `agy` once interactively to sign in."
+                )
+            raise LLMError(f"agy -p exited {result.returncode}: {detail[:400]}")
+        if not result.stdout.strip():
+            raise LLMError("agy -p exited 0 but produced no output")
+        return result.stdout
+
+
 def get_provider(
     name: str | None = None, env_file: Path | None = ENV_FILE
 ) -> Provider:
@@ -414,8 +473,15 @@ def get_provider(
     if name == "gemini_cli":
         return GeminiCliProvider(model=os.environ.get("GEMINI_CLI_MODEL") or None)
 
+    if name == "antigravity":
+        return AntigravityProvider(
+            model=os.environ.get("AGY_MODEL") or None,
+            effort=os.environ.get("AGY_EFFORT") or None,
+        )
+
     raise LLMError(
-        f"unknown provider {name!r}; expected 'gemini', 'gemini_cli' or 'claude_code'"
+        f"unknown provider {name!r}; expected 'gemini', 'antigravity', "
+        f"'claude_code' or 'gemini_cli'"
     )
 
 

@@ -17,7 +17,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from atlas.architecture import apply, propose
-from atlas.derivation import candidate_vocabulary, check, generate
+from atlas.derivation import (candidate_vocabulary, check, generate,
+                              needs_better_sources)
 from atlas.ingest import ingest_repo
 from atlas.llm import AuthFailure, LLMError, QuotaExhausted, get_provider, get_rotating_provider
 from atlas.profile import Profile
@@ -81,9 +82,26 @@ for index, node_id in enumerate(path, 1):
         continue
 
     try:
+        vocab = candidate_vocabulary(graph, node.id)
         derivation = generate(provider, node.id, node.name, sources,
-                              vocabulary=candidate_vocabulary(graph, node.id),
-                              graph=graph)
+                              vocabulary=vocab, graph=graph)
+
+        # A result was expected and the sources only stated it. Add the passages
+        # where consumers actually perform the step and try once more -- this is
+        # the same mechanism that grounds techniques, applied to the case where
+        # retrieval succeeded but returned the wrong kind of text.
+        if needs_better_sources(derivation, graph):
+            extra = ground_from_consumers(graph, node.id, node.name)
+            fresh = [s for s in extra if s.id not in {x.id for x in sources}]
+            if fresh:
+                print(f"       sources state but do not derive it; retrying with "
+                      f"{len(fresh)} passage(s) from "
+                      f"{', '.join(sorted({s.via for s in fresh if s.via}))}",
+                      flush=True)
+                retried = generate(provider, node.id, node.name, sources + fresh,
+                                   vocabulary=vocab, graph=graph)
+                if not needs_better_sources(retried, graph):
+                    derivation, sources = retried, sources + fresh
     except AuthFailure as exc:
         print(f"\n  stopped at {index}: {exc}")
         break

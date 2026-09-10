@@ -329,3 +329,52 @@ class TestGeminiCli(unittest.TestCase):
             self.assertEqual(p.model, "gemini-3-pro")
         finally:
             del os.environ["GEMINI_CLI_MODEL"]
+
+
+class TestAntigravity(unittest.TestCase):
+    def test_command_shape(self) -> None:
+        from atlas.llm import AntigravityProvider
+
+        seen = {}
+
+        def runner(command, text):
+            seen["command"] = command
+            return '{"ok": true}'
+
+        p = AntigravityProvider(model="gemini-3-pro", effort="high", runner=runner)
+        self.assertEqual(complete_json(p, "derive", system="be terse"), {"ok": True})
+        self.assertEqual(seen["command"][:2], ["agy", "-p"])
+        self.assertIn("derive", seen["command"][2])
+        # read-only: one prompt, JSON back, never an edit or a command
+        self.assertEqual(seen["command"][seen["command"].index("--mode") + 1], "plan")
+        self.assertIn("--model", seen["command"])
+        self.assertIn("high", seen["command"])
+
+    def test_quota_is_its_own_error(self) -> None:
+        import subprocess
+
+        from atlas.llm import AntigravityProvider, QuotaExhausted
+
+        class Result:
+            returncode, stdout, stderr = 1, "", "Rate limit exceeded"
+
+        real = subprocess.run
+        subprocess.run = lambda *a, **k: Result()
+        try:
+            with self.assertRaises(QuotaExhausted):
+                AntigravityProvider().complete("x")
+        finally:
+            subprocess.run = real
+
+    def test_selectable_by_env(self) -> None:
+        import os
+
+        from atlas.llm import AntigravityProvider, get_provider
+
+        os.environ["AGY_EFFORT"] = "high"
+        try:
+            p = get_provider("antigravity", env_file=None)
+            self.assertIsInstance(p, AntigravityProvider)
+            self.assertEqual(p.effort, "high")
+        finally:
+            del os.environ["AGY_EFFORT"]

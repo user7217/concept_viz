@@ -2,65 +2,65 @@
   "node_id": "linear_transformation_of_gaussian",
   "grounded": true,
   "kind": "definition",
-  "statement": "If Y = c + BX is an affine transformation of X ~ N(\u03bc, \u03a3), where c is a constant M\u00d71 vector and B is a constant M\u00d7N matrix, then Y is multivariate normally distributed: Y ~ N(c + B\u03bc, B\u03a3B^T). The source states this result directly as a fact about affine transformations of multivariate normal vectors; it does not show the change-of-variables computation (density transformation or moment derivation) that produces the mean c+B\u03bc and covariance B\u03a3B^T \u2014 only the final formula is given, so there is no derivation to restate from this source.",
+  "statement": "The supplied source contains no derivation for the affine transformation of a Gaussian distribution; it only states the result as a property. If $\\mathbf{Y} = \\mathbf{c} + \\mathbf{B}\\mathbf{X}$ is an affine transformation of $\\mathbf{X} \\sim \\mathcal{N}(\\boldsymbol{\\mu}, \\boldsymbol{\\Sigma})$, where $\\mathbf{c}$ is an $M \\times 1$ vector of constants and $\\mathbf{B}$ is a constant $M \\times N$ matrix, then $\\mathbf{Y}$ has a multivariate normal distribution with expected value $\\mathbf{c} + \\mathbf{B}\\boldsymbol{\\mu}$ and variance $\\mathbf{B}\\boldsymbol{\\Sigma}\\mathbf{B}^{\\mathrm{T}}$, i.e., $\\mathbf{Y} \\sim \\mathcal{N}\\left(\\mathbf{c} + \\mathbf{B}\\boldsymbol{\\mu}, \\mathbf{B}\\boldsymbol{\\Sigma}\\mathbf{B}^{\\mathrm{T}}\\right)$.",
   "symbols": [
     {
       "symbol": "X",
-      "meaning": "multivariate normal random vector being transformed",
+      "meaning": "input multivariate normal random vector",
       "dimensions": "N x 1"
     },
     {
-      "symbol": "Y",
-      "meaning": "affine transformation of X",
-      "dimensions": "M x 1"
+      "symbol": "\\mu",
+      "meaning": "expected value (mean vector) of X",
+      "dimensions": "N x 1"
+    },
+    {
+      "symbol": "\\Sigma",
+      "meaning": "covariance matrix (variance) of X",
+      "dimensions": "N x N"
     },
     {
       "symbol": "c",
-      "meaning": "constant offset vector",
+      "meaning": "constant translation vector",
       "dimensions": "M x 1"
     },
     {
       "symbol": "B",
-      "meaning": "constant transformation matrix",
+      "meaning": "constant linear transformation matrix",
       "dimensions": "M x N"
     },
     {
-      "symbol": "\u03bc",
-      "meaning": "mean of X",
-      "dimensions": "N x 1"
-    },
-    {
-      "symbol": "\u03a3",
-      "meaning": "covariance of X",
-      "dimensions": "N x N"
+      "symbol": "Y",
+      "meaning": "affine transformed random vector c + BX",
+      "dimensions": "M x 1"
     }
   ],
   "steps": [],
   "properties": [
     {
-      "property": "Y = c + BX is itself multivariate normally distributed, i.e. an affine map of a Gaussian vector is Gaussian.",
-      "why": "stated directly as the conclusion of the affine transformation fact",
+      "property": "Normality preservation: $\\mathbf{Y} = \\mathbf{c} + \\mathbf{B}\\mathbf{X}$ has a multivariate normal distribution $\\mathbf{Y} \\sim \\mathcal{N}\\left(\\mathbf{c} + \\mathbf{B}\\boldsymbol{\\mu}, \\mathbf{B}\\boldsymbol{\\Sigma}\\mathbf{B}^{\\mathrm{T}}\\right)$",
+      "why": "affine transformation of a multivariate normal vector preserves multivariate normality",
       "cites": [
         "wikipedia:Multivariate_normal_distribution"
       ]
     },
     {
-      "property": "E[Y] = c + B\u03bc",
-      "why": "given as the mean parameter of Y's distribution in the affine transformation statement",
+      "property": "Expected value of the affine transformation is $\\mathbb{E}[\\mathbf{Y}] = \\mathbf{c} + \\mathbf{B}\\boldsymbol{\\mu}$",
+      "why": "linear transformation scales the mean vector by $\\mathbf{B}$ and shifts it by constant $\\mathbf{c}$",
       "cites": [
         "wikipedia:Multivariate_normal_distribution"
       ]
     },
     {
-      "property": "Cov(Y) = B\u03a3B^T",
-      "why": "given as the covariance parameter of Y's distribution in the affine transformation statement",
+      "property": "Variance of the affine transformation is $\\operatorname{Var}(\\mathbf{Y}) = \\mathbf{B}\\boldsymbol{\\Sigma}\\mathbf{B}^{\\mathrm{T}}$",
+      "why": "covariance matrix transforms via pre-multiplication by $\\mathbf{B}$ and post-multiplication by $\\mathbf{B}^{\\mathrm{T}}$",
       "cites": [
         "wikipedia:Multivariate_normal_distribution"
       ]
     },
     {
-      "property": "Normality of a vector is equivalent to every linear combination of its components being univariate normal, which is consistent with (and underlies) why a linear/affine image of a normal vector is again normal.",
-      "why": "this is the defining property of multivariate normality given at the start of the source",
+      "property": "Univariate linear combination condition: a random vector is $k$-variate normally distributed if every linear combination of its $k$ components has a univariate normal distribution",
+      "why": "equivalent characterization defining the multivariate normal distribution",
       "cites": [
         "wikipedia:Multivariate_normal_distribution"
       ]
@@ -68,19 +68,28 @@
   ],
   "assumptions": [
     {
-      "assumption": "c is a constant M\u00d71 vector and B is a constant M\u00d7N matrix (not functions of X or other random quantities).",
-      "breaks_when": "B or c depend on X or on other randomness, in which case the map is no longer affine and the stated result does not apply"
+      "assumption": "X is distributed according to an N-dimensional multivariate normal distribution N(\\mu, \\Sigma)",
+      "breaks_when": "X is non-Gaussian or components do not jointly form a multivariate normal distribution"
     },
     {
-      "assumption": "X ~ N(\u03bc, \u03a3) is itself multivariate normal to begin with.",
-      "breaks_when": "X is not jointly Gaussian, in which case an affine transform need not be Gaussian"
+      "assumption": "B is an M x N matrix of constants",
+      "breaks_when": "B is stochastic or has number of columns not equal to N"
+    },
+    {
+      "assumption": "c is an M x 1 vector of constants",
+      "breaks_when": "c is stochastic or has dimension different from M x 1"
     }
   ],
   "failure_modes": [
     {
-      "mode": "Resulting covariance B\u03a3B^T is singular",
-      "signature": "Y's covariance matrix is not invertible, so Y has a degenerate (lower-dimensional) normal distribution",
-      "cause": "B has rank less than M (fewer independent rows than the output dimension), or \u03a3 itself is singular"
+      "mode": "Dimension mismatch in matrix-vector product",
+      "signature": "Matrix product BX or vector addition c + BX is undefined",
+      "cause": "Number of columns of B does not match length N of X, or length of c does not match row dimension M of B"
+    },
+    {
+      "mode": "Loss of Gaussianity from nonlinear or random transformation",
+      "signature": "Transformed vector Y is not multivariate normal",
+      "cause": "Transformation depends nonlinearly on X, or coefficients B and c are random variables"
     }
   ],
   "source_ids": [
