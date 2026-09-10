@@ -34,7 +34,7 @@ ENV_FILE = ROOT / ".env"
 GEMINI_ENDPOINT = (
     "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 )
-DEFAULT_GEMINI_MODEL = "gemini-2.5-flash"
+DEFAULT_GEMINI_MODEL = "gemini-3.6-flash"
 _FENCE = re.compile(r"^\s*```(?:json)?\s*|\s*```\s*$", re.MULTILINE)
 
 
