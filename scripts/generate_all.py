@@ -78,7 +78,9 @@ for index, node_id in enumerate(targets, 1):
     done += 1
     if derivation.grounded:
         grounded += 1
-        print(f"  {index}/{len(targets)} {node_id}: {len(derivation.steps)} steps"
+        body = (f"{len(derivation.steps)} steps" if not derivation.is_definition
+                else f"definition, {len(derivation.properties)} properties")
+        print(f"  {index}/{len(targets)} {node_id}: {body}"
               f"{' OK' if report['ok'] else ' CHECK FAILED'}", flush=True)
     else:
         refused += 1

@@ -1,0 +1,112 @@
+{
+  "node_id": "normalization",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A normalizing constant (normalizing factor) is a constant c by which an everywhere-nonnegative function p, whose integral (or sum) over its domain is finite, is multiplied so that the result integrates (or sums) to 1. Continuous case: given p(x) \u2265 0 with c = \u222b p(x) dx < \u221e, define \u03c6(x) = (1/c) p(x), so \u222b \u03c6(x) dx = 1 and \u03c6 is a probability density function. Discrete case: given p(n) \u2265 0 with c = \u03a3_n p(n) < \u221e, define \u03c6(n) = (1/c) p(n), so \u03a3_n \u03c6(n) = 1 and \u03c6 is a probability mass function.",
+  "symbols": [
+    {
+      "symbol": "p(x)",
+      "meaning": "everywhere-nonnegative function with finite integral or sum",
+      "dimensions": "scalar function"
+    },
+    {
+      "symbol": "c",
+      "meaning": "normalizing constant, c = \u222b p(x) dx or c = \u03a3 p(n)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\u03c6(x)",
+      "meaning": "normalized function, \u03c6 = p/c",
+      "dimensions": "scalar function, probability density or mass function"
+    },
+    {
+      "symbol": "H_0, H_i",
+      "meaning": "hypotheses (mutually exclusive)",
+      "dimensions": "discrete index"
+    },
+    {
+      "symbol": "D",
+      "meaning": "observed data",
+      "dimensions": "-"
+    },
+    {
+      "symbol": "P(D)",
+      "meaning": "normalizing constant in Bayes' theorem, P(D) = \u03a3_i P(D|H_i)P(H_i)",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "For a nonnegative function p(x) with finite integral, c = \u222b_{-\u221e}^{\u221e} p(x) dx, and \u03c6(x) = p(x)/c satisfies \u222b \u03c6(x) dx = 1, making it a probability density function. Example: p(x) = e^{-x\u00b2/2} has \u222b p dx = \u221a(2\u03c0), so \u03c6(x) = (1/\u221a(2\u03c0)) e^{-x\u00b2/2} is the standard normal density.",
+      "why": "direct consequence of the definition applied to the Gaussian function",
+      "cites": [
+        "wikipedia:Normalizing_constant"
+      ]
+    },
+    {
+      "property": "The same construction applies to discrete nonnegative functions: since \u03a3_{n=0}^\u221e \u03bb\u207f/n! = e^\u03bb, the normalizing constant is e^\u03bb and f(n) = \u03bb\u207f e^{-\u03bb}/n! is a probability mass function (the Poisson distribution).",
+      "why": "discrete analogue of the continuous case, sum replaces integral",
+      "cites": [
+        "wikipedia:Normalizing_constant"
+      ]
+    },
+    {
+      "property": "In Bayes' theorem, the posterior is proportional to prior \u00d7 likelihood: P(H_0|D) \u221d P(D|H_0)P(H_0). Because \u03a3_i P(H_i|D) = 1, the normalizing constant is P(D) = \u03a3_i P(D|H_i)P(H_i) (or the corresponding integral over a continuum of hypotheses), giving P(H_0|D) = P(D|H_0)P(H_0) / P(D).",
+      "why": "posterior probabilities over mutually exclusive hypotheses must sum to 1",
+      "cites": [
+        "wikipedia:Normalizing_constant"
+      ]
+    },
+    {
+      "property": "If the unnormalized function depends on parameters, the normalizing constant is itself a function of those parameters; in statistical mechanics, the normalizing constant of the Boltzmann distribution is called the partition function.",
+      "why": "stated directly as a note in the source",
+      "cites": [
+        "wikipedia:Normalizing_constant"
+      ]
+    },
+    {
+      "property": "The concept extends beyond probability: the constant that scales a Legendre polynomial so its value at 1 equals 1 is a normalizing constant, and orthonormal functions are normalized so that \u27e8f_i, f_j\u27e9 = \u03b4_{i,j} with respect to an inner product.",
+      "why": "non-probabilistic uses given explicitly in the source",
+      "cites": [
+        "wikipedia:Normalizing_constant"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "p is everywhere nonnegative",
+      "breaks_when": "p takes negative values, so no scaling makes it a valid density/mass function"
+    },
+    {
+      "assumption": "the integral or sum of p over its domain is finite",
+      "breaks_when": "the integral/sum diverges, so no finite normalizing constant exists (improper distribution)"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "normalizing constant does not exist",
+      "signature": "\u222b p(x) dx or \u03a3 p(n) is infinite",
+      "cause": "the unnormalized function does not decay fast enough / has unbounded mass"
+    },
+    {
+      "mode": "normalizing constant P(D) is intractable to compute directly",
+      "signature": "posterior can only be evaluated up to proportionality; direct summation or integration over hypotheses is infeasible",
+      "cause": "high-dimensional or continuous hypothesis space, requiring estimation methods such as bridge sampling, naive Monte Carlo, the generalized harmonic mean estimator, or importance sampling"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Normalizing_constant"
+  ],
+  "check": {
+    "node_id": "normalization",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}

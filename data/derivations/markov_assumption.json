@@ -1,0 +1,107 @@
+{
+  "node_id": "markov_assumption",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A stochastic process (X_t) satisfies the Markov assumption (equivalently, 'has the Markov property') if its future evolution, conditional on the present state, does not depend on its past history. In discrete time, for any t_1 < t_2 < ... < t_n < t_{n+1}: P(X_{t_{n+1}}=x_{n+1} | X_{t_n}=x_n, ..., X_{t_1}=x_1) = P(X_{t_{n+1}}=x_{n+1} | X_{t_n}=x_n), whenever P(X_{t_n}=x_n,...,X_{t_1}=x_1) > 0. The term 'Markov assumption' specifically denotes a model in which this property is taken as given (assumed to hold) rather than derived, as in a hidden Markov model.",
+  "symbols": [
+    {
+      "symbol": "X_t",
+      "meaning": "value of the stochastic process at time t (a random variable)",
+      "dimensions": "scalar or vector, state space S"
+    },
+    {
+      "symbol": "t_1, ..., t_n, t_{n+1}",
+      "meaning": "an increasing sequence of time indices",
+      "dimensions": "scalar (index set)"
+    },
+    {
+      "symbol": "x_1, ..., x_{n+1}",
+      "meaning": "realized states corresponding to X_{t_1}, ..., X_{t_{n+1}}",
+      "dimensions": "elements of state space S"
+    },
+    {
+      "symbol": "P(...)",
+      "meaning": "probability / conditional probability",
+      "dimensions": "scalar in [0,1]"
+    },
+    {
+      "symbol": "F_s",
+      "meaning": "filtration (sigma-algebra representing information up to time s), in the general formulation",
+      "dimensions": "sigma-algebra"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Memorylessness: the future evolution of the process is independent of its history given the present.",
+      "why": "This is the defining intuition of the Markov property stated at the outset of the source.",
+      "cites": [
+        "wikipedia:Markov_property"
+      ]
+    },
+    {
+      "property": "The 'Markov assumption' names the modeling choice of positing this property holds for a given process, rather than a fact derived from other premises; hidden Markov models are a named example of such a model.",
+      "why": "The source explicitly distinguishes the term 'Markov assumption' from 'Markov property' on this basis.",
+      "cites": [
+        "wikipedia:Markov_property"
+      ]
+    },
+    {
+      "property": "Discrete-time form: P(X_{t_{n+1}}=x_{n+1} | X_{t_n}=x_n, ..., X_{t_1}=x_1) = P(X_{t_{n+1}}=x_{n+1} | X_{t_n}=x_n), valid when the conditioning event has positive probability.",
+      "why": "This is the explicit equation given for the discrete Markov property.",
+      "cites": [
+        "wikipedia:Markov_property"
+      ]
+    },
+    {
+      "property": "General (measure-theoretic) form: for a process adapted to a filtration (F_s), and s < t, P(X_t \u2208 A | F_s) = P(X_t \u2208 A | X_s) for all measurable A.",
+      "why": "This generalizes the discrete statement to arbitrary state spaces and index sets, reducing to the discrete case when S is discrete and I = N.",
+      "cites": [
+        "wikipedia:Markov_property"
+      ]
+    },
+    {
+      "property": "Equivalent alternative characterization: F_t and F'_t := sigma(X_s : s >= t) are conditionally independent given X_t, i.e. P(A \u2229 B | X_t) = P(A | X_t) P(B | X_t) for A in F_t, B in F'_t.",
+      "why": "The source lists this as one of several equivalent formulations of the same property, useful for verification in different settings.",
+      "cites": [
+        "wikipedia:Markov_property"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "In the discrete-time statement, the conditioning event P(X_{t_n}=x_n, ..., X_{t_1}=x_1) > 0 so the conditional probabilities are well defined.",
+      "breaks_when": "The joint event of the observed history has probability zero (e.g., continuous state spaces with point conditioning)."
+    },
+    {
+      "assumption": "The process is adapted to the filtration (F_s) used to express the general form.",
+      "breaks_when": "X_t is not measurable with respect to F_t, so P(X_t \u2208 A | F_s) is not well defined relative to that filtration."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Model misspecification when the true process is not Markov but the Markov assumption is imposed anyway.",
+      "signature": "Conditioning on additional past states x_1,...,x_{n-1} changes the predicted distribution of X_{t_{n+1}} beyond what conditioning on x_n alone gives, contradicting the assumed equality.",
+      "cause": "The physical/statistical system has memory beyond the current state (e.g., higher-order dependencies) that the chosen state representation does not capture."
+    },
+    {
+      "mode": "State under-specification.",
+      "signature": "Markov assumption appears violated empirically.",
+      "cause": "The state X_t as defined omits variables needed to summarize history; augmenting the state (e.g., including recent lags) can restore the Markov property, but this is a modeling fix, not something derivable from the property itself per these sources."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Markov_property"
+  ],
+  "check": {
+    "node_id": "markov_assumption",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}

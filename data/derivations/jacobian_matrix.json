@@ -1,0 +1,134 @@
+{
+  "node_id": "jacobian_matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For a vector-valued function of several variables f: R^n -> R^m, f(x) = (f_1(x),...,f_m(x)) with x = (x_1,...,x_n), the Jacobian matrix J_f(x) is the m x n matrix of all first-order partial derivatives: (J_f)_{ij} = \u2202f_i/\u2202x_j. If m = n (the matrix is square), its determinant is called the Jacobian determinant.",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "vector-valued function of several variables, f: R^n -> R^m",
+      "dimensions": "R^n -> R^m"
+    },
+    {
+      "symbol": "x",
+      "meaning": "input variables (x_1,...,x_n)",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "f_i",
+      "meaning": "i-th scalar component of f",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "J_f(x)",
+      "meaning": "Jacobian matrix of f at x, entries (J_f)_{ij} = \u2202f_i/\u2202x_j",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of input variables",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "m",
+      "meaning": "number of components of f",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p",
+      "meaning": "point at which the Jacobian is evaluated",
+      "dimensions": "n x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The Jacobian matrix is the natural generalization of the derivative and differential of a scalar function to vector-valued functions of several variables.",
+      "why": "it collects all first-order partial derivatives of every component of f with respect to every input variable into one matrix",
+      "cites": [
+        "wikipedia:Jacobian_matrix_and_determinant"
+      ]
+    },
+    {
+      "property": "The Jacobian matrix need not be square; it has shape m x n where m is the number of output components and n the number of inputs (e.g. Example 4: F: R^3 -> R^4 gives a 4x3 Jacobian).",
+      "why": "the matrix is defined by stacking \u2202f_i/\u2202x_j for i=1..m, j=1..n, independent of whether m equals n",
+      "cites": [
+        "wikipedia:Jacobian_matrix_and_determinant"
+      ]
+    },
+    {
+      "property": "When m = n, the determinant of J_f is called the Jacobian determinant, and it governs local invertibility: if J_f is continuous and nonsingular (det \u2260 0) at p, then f is invertible on some neighbourhood of p.",
+      "why": "this is the inverse function theorem statement given directly for the Jacobian",
+      "cites": [
+        "wikipedia:Jacobian_matrix_and_determinant"
+      ]
+    },
+    {
+      "property": "If f: R^n -> R^n is invertible, the Jacobian of the inverse function satisfies J_{f^{-1}}(p) = J_f(f^{-1}(p))^{-1}, and det(J_{f^{-1}}(p)) = 1 / det(J_f(f^{-1}(p))).",
+      "why": "stated as the Jacobian-matrix form of the inverse function theorem",
+      "cites": [
+        "wikipedia:Jacobian_matrix_and_determinant"
+      ]
+    },
+    {
+      "property": "A critical point of f: R^n -> R^m is a point where the rank of J_f is not maximal; when m = n = k, this is equivalent to the Jacobian determinant being zero at that point.",
+      "why": "rank deficiency of the Jacobian is the defining condition for criticality, with the square case reducing to a determinant test",
+      "cites": [
+        "wikipedia:Jacobian_matrix_and_determinant"
+      ]
+    },
+    {
+      "property": "The Jacobian determinant is the local volume-scaling factor used to change variables in multiple integrals, e.g. \u222c_{F(A)} f dx dy = \u222c_A f(F(r,\u03c6)) r dr d\u03c6 for polar coordinates, and the analogous \u03c1\u00b2 sin \u03c6 factor for spherical coordinates.",
+      "why": "shown directly via the polar and spherical coordinate transformation examples",
+      "cites": [
+        "wikipedia:Jacobian_matrix_and_determinant"
+      ]
+    },
+    {
+      "property": "For a dynamical system \u1e8b = F(x) with stationary point x_0 (F(x_0)=0), the eigenvalues of the Jacobian J_F(x_0) determine local stability: all eigenvalues with negative real part \u21d2 stable; any eigenvalue with positive real part \u21d2 unstable.",
+      "why": "this is the Hartman\u2013Grobman-based stability criterion stated for the Jacobian at a stationary point",
+      "cites": [
+        "wikipedia:Jacobian_matrix_and_determinant"
+      ]
+    },
+    {
+      "property": "The Jacobian matrix of a system of nonlinear equations is used by Newton's method to iteratively solve the (square) system, and serves as the linearized design matrix in nonlinear least squares / regression.",
+      "why": "stated as direct applications of the Jacobian",
+      "cites": [
+        "wikipedia:Jacobian_matrix_and_determinant"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "f is differentiable, i.e. all first-order partial derivatives \u2202f_i/\u2202x_j exist at the point of evaluation.",
+      "breaks_when": "f is not differentiable there, so the Jacobian matrix is undefined at that point"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Local invertibility fails to be guaranteed",
+      "signature": "Jacobian determinant is zero (square case) or Jacobian is singular/not continuous at p",
+      "cause": "the inverse function theorem's nonsingularity condition is not met, so f need not be locally invertible near p"
+    },
+    {
+      "mode": "Stability of a stationary point cannot be determined from the Jacobian",
+      "signature": "the largest real part among the eigenvalues of J_F(x_0) is exactly zero",
+      "cause": "per the stated Hartman\u2013Grobman-based criterion, this borderline case gives no conclusion about stability from the Jacobian's eigenvalues"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Jacobian_matrix_and_determinant"
+  ],
+  "check": {
+    "node_id": "jacobian_matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}

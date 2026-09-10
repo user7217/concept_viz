@@ -215,3 +215,23 @@ class TestKindBranching(unittest.TestCase):
                        properties=[{"property": "p", "cites": ["Rao 1973"]}])
         self.assertEqual(check(d, self.sources, self.graph)["ungrounded_citations"],
                          ["Rao 1973"])
+
+
+class TestTechniquesArePerformed(unittest.TestCase):
+    def setUp(self) -> None:
+        self.graph = build_graph(load())
+
+    def test_every_technique_expects_a_derivation(self) -> None:
+        """A technique is a move; a move is performed, not stated."""
+        from atlas.derivation import expected_kind
+        from atlas.schema import NodeType
+
+        for node in self.graph.by_type(NodeType.TECHNIQUE):
+            kind, _ = expected_kind(self.graph, node.id)
+            self.assertEqual(kind, "derivation", node.id)
+
+    def test_objects_without_moves_still_expect_definitions(self) -> None:
+        from atlas.derivation import expected_kind
+
+        for node_id in ("covariance_matrix", "jacobian_matrix"):
+            self.assertEqual(expected_kind(self.graph, node_id)[0], "definition")

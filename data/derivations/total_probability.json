@@ -1,0 +1,125 @@
+{
+  "node_id": "total_probability",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For a finite or countably infinite partition {B_n} of the sample space (mutually exclusive, collectively exhaustive) and any event A, P(A) = \u03a3_n P(A|B_n) P(B_n). In the continuous case, for a random variable X with distribution function F_X, P(A) = \u222b_{-\u221e}^{\u221e} P(A|X=x) dF_X(x), which reduces to P(A) = \u222b_{-\u221e}^{\u221e} P(A|X=x) f_X(x) dx when X has density f_X.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "the event whose total probability is sought"
+    },
+    {
+      "symbol": "B_n",
+      "meaning": "n-th event of a mutually exclusive, collectively exhaustive partition of the sample space"
+    },
+    {
+      "symbol": "P(B_n)",
+      "meaning": "marginal probability of partition element B_n"
+    },
+    {
+      "symbol": "P(A|B_n)",
+      "meaning": "conditional probability of A given B_n"
+    },
+    {
+      "symbol": "X",
+      "meaning": "continuous random variable used to condition A in the continuous case"
+    },
+    {
+      "symbol": "F_X",
+      "meaning": "distribution function of X"
+    },
+    {
+      "symbol": "f_X",
+      "meaning": "density function of X, when it exists"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Take {B_n : n=1,2,3,...} mutually exclusive and collectively exhaustive. Then for any event A, the sets {A \u2229 B_n} are disjoint and their union equals A, so summing (marginalizing over the partition index n) gives P(A) = \u03a3_n P(A \u2229 B_n).",
+      "invokes": [
+        "marginalization"
+      ],
+      "cites": [
+        "wikipedia:Law_of_total_probability"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "By the definition of conditional probability, P(A \u2229 B_n) = P(A|B_n) P(B_n) for each n with P(B_n) \u2260 0; if P(B_n) = 0 the term is simply omitted from the summation since P(A|B_n) need not be finite there.",
+      "invokes": [
+        "conditional_probability"
+      ],
+      "cites": [
+        "wikipedia:Law_of_total_probability"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Substituting the result of step 2 into the sum from step 1 yields the law of total probability: P(A) = \u03a3_n P(A|B_n) P(B_n).",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Law_of_total_probability"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Replacing the discrete partition by conditioning on a continuous random variable X (with distribution function F_X) turns the sum into a Stieltjes integral: P(A) = \u222b_{-\u221e}^{\u221e} P(A|X=x) dF_X(x). If X admits a density f_X, this specializes to P(A) = \u222b_{-\u221e}^{\u221e} P(A|X=x) f_X(x) dx, the continuous analogue of marginalizing over n.",
+      "invokes": [
+        "marginalization",
+        "expectation"
+      ],
+      "cites": [
+        "wikipedia:Law_of_total_probability"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "{B_n} is mutually exclusive and collectively exhaustive (a true partition of the sample space).",
+      "breaks_when": "The B_n overlap (double-counts probability mass) or fail to cover all outcomes (undercounts probability mass)."
+    },
+    {
+      "assumption": "Probability is countably additive, so the sum over a countably infinite partition equals P(A).",
+      "breaks_when": "Working in a setting with only finite additivity, where the countable sum need not equal P(A)."
+    },
+    {
+      "assumption": "In the continuous case, X is a well-defined random variable with distribution function F_X; the simplified integral form additionally requires X to admit a density f_X.",
+      "breaks_when": "X has no density (e.g. a mixed discrete-continuous distribution), in which case only the general dF_X(x) Stieltjes form applies, not f_X(x)dx."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Double-counting or gaps in the partition",
+      "signature": "Recomputed P(A) disagrees with a direct calculation, or \u03a3_n P(B_n) \u2260 1.",
+      "cause": "The chosen B_n are not actually mutually exclusive and collectively exhaustive."
+    },
+    {
+      "mode": "Undefined conditional term",
+      "signature": "P(A|B_n) is undefined or ill-posed for some n.",
+      "cause": "P(B_n) = 0 for that n; per the source, such terms must be omitted from the sum rather than evaluated."
+    },
+    {
+      "mode": "Misapplied continuous formula",
+      "signature": "Using P(A) = \u222b P(A|X=x) f_X(x) dx when no density exists.",
+      "cause": "X does not admit a density function, so the density-based integral is invalid and the general dF_X(x) form must be used instead."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Law_of_total_probability"
+  ],
+  "check": {
+    "node_id": "total_probability",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}
