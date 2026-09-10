@@ -1,0 +1,19 @@
+{
+  "_note": "Copy to profile.json and edit. profile.json is gitignored, so your own entries stay out of the repo while the shape stays in it. Entries are per canon node, never per topic: 'linear algebra' is unanswerable, 'eigendecomposition' is not. This file is the one artifact the system cannot regenerate -- keep a copy somewhere that survives this machine.",
+  "entries": [
+    {
+      "node_id": "matrix_inverse",
+      "state": "declared",
+      "at": "2026-01-01T00:00:00+00:00",
+      "evidence": "declared at setup",
+      "suspect": false
+    },
+    {
+      "node_id": "eigendecomposition",
+      "state": "demonstrated",
+      "at": "2026-01-01T00:00:00+00:00",
+      "evidence": "completed the masked step on the PCA sheet",
+      "suspect": false
+    }
+  ]
+}
