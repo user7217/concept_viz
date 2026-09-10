@@ -1,0 +1,113 @@
+{
+  "node_id": "joint_gaussian",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A random vector x = (x_1, ..., x_k) is k-variate (jointly, multivariate) normally distributed if every linear combination of its k components has a univariate normal distribution.",
+  "symbols": [
+    {
+      "symbol": "x",
+      "meaning": "random vector",
+      "dimensions": "k x 1"
+    },
+    {
+      "symbol": "k",
+      "meaning": "dimensionality of the vector space",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\u03bc",
+      "meaning": "mean vector of x",
+      "dimensions": "k x 1"
+    },
+    {
+      "symbol": "\u03a3",
+      "meaning": "covariance matrix of x",
+      "dimensions": "k x k"
+    },
+    {
+      "symbol": "x_1, x_2",
+      "meaning": "partition of x into subvectors",
+      "dimensions": "q x 1, (k-q) x 1"
+    },
+    {
+      "symbol": "\u03a3_11, \u03a3_12, \u03a3_21, \u03a3_22",
+      "meaning": "corresponding block partition of \u03a3",
+      "dimensions": "q x q, q x (k-q), (k-q) x q, (k-q) x (k-q)"
+    },
+    {
+      "symbol": "c, B",
+      "meaning": "constant offset vector and constant matrix of an affine map Y = c + Bx",
+      "dimensions": "M x 1, M x k"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The distribution of x_1 conditional on x_2 = a is itself multivariate normal, (x_1 | x_2 = a) ~ N(\u03bc\u0304, \u03a3\u0304), with \u03bc\u0304 = \u03bc_1 + \u03a3_12 \u03a3_22^{-1}(a - \u03bc_2) and \u03a3\u0304 = \u03a3_11 - \u03a3_12 \u03a3_22^{-1} \u03a3_21 (the Schur complement of \u03a3_22 in \u03a3).",
+      "why": "obtained by partitioning \u03bc and \u03a3 and inverting the overall covariance, dropping the conditioned rows/columns, and inverting back",
+      "cites": [
+        "wikipedia:Multivariate_normal_distribution"
+      ]
+    },
+    {
+      "property": "Marginal distributions are obtained by simply dropping the marginalized-out variables from \u03bc and \u03a3; the marginal is again multivariate normal (e.g. for x' = [x_1, x_3], \u03bc' = [\u03bc_1, \u03bc_3] and \u03a3' has blocks \u03a3_11, \u03a3_13, \u03a3_31, \u03a3_33).",
+      "why": "follows from the definition of the multivariate normal and linear algebra",
+      "cites": [
+        "wikipedia:Multivariate_normal_distribution"
+      ]
+    },
+    {
+      "property": "Any affine transformation Y = c + Bx of x ~ N(\u03bc, \u03a3) is again multivariate normal: Y ~ N(c + B\u03bc, B\u03a3B^T).",
+      "why": "affine images of a jointly Gaussian vector are jointly Gaussian",
+      "cites": [
+        "wikipedia:Multivariate_normal_distribution"
+      ]
+    },
+    {
+      "property": "If X and Y are each normally distributed and independent, then (X, Y) is jointly normal; conversely a jointly normal pair need not be independent, only so if uncorrelated (\u03c1 = 0).",
+      "why": "independence is sufficient but not necessary for joint normality",
+      "cites": [
+        "wikipedia:Multivariate_normal_distribution"
+      ]
+    },
+    {
+      "property": "Within a multivariate normal vector, any two or more components that are uncorrelated are independent (hence pairwise independence implies independence for jointly Gaussian components).",
+      "why": "uncorrelatedness plus joint Gaussianity is a special case where independence follows, unlike the general case",
+      "cites": [
+        "wikipedia:Multivariate_normal_distribution"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "\u03a3 is a valid (positive semi-definite) covariance matrix for the vector; \u03a3_22^{-1} in the conditioning formula is taken as the generalized inverse when \u03a3_22 is singular.",
+      "breaks_when": "\u03a3_22 is singular and only the generalized inverse is used, the conditional covariance formula still holds but ordinary matrix inversion is unavailable"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Assuming marginal normality of each component implies joint normality of the vector",
+      "signature": "X and Y are each individually normal, but (X, Y) is not bivariate normal",
+      "cause": "joint normality is a strictly stronger condition than each component being marginally normal; a counterexample is X ~ N(0,1) with Y = X for |X| > c and Y = -X for |X| < c"
+    },
+    {
+      "mode": "Assuming uncorrelated implies independent in general",
+      "signature": "two random variables have zero correlation but are still statistically dependent",
+      "cause": "uncorrelatedness implies independence only when the variables are jointly (multivariate) normal; in general uncorrelated variables can be dependent"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Multivariate_normal_distribution"
+  ],
+  "check": {
+    "node_id": "joint_gaussian",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}

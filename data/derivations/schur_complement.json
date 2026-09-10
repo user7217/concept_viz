@@ -1,0 +1,154 @@
+{
+  "node_id": "schur_complement",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For the block matrix M = [[A, B], [C, D]] with A invertible, eliminating x from the linear system M[x;y] = [u;v] produces a reduced equation in y alone whose coefficient matrix is the Schur complement of A in M: S := D - C A^{-1} B.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "p x p block of M, assumed invertible for this elimination",
+      "dimensions": "p x p"
+    },
+    {
+      "symbol": "B",
+      "meaning": "p x q block of M",
+      "dimensions": "p x q"
+    },
+    {
+      "symbol": "C",
+      "meaning": "q x p block of M",
+      "dimensions": "q x p"
+    },
+    {
+      "symbol": "D",
+      "meaning": "q x q block of M",
+      "dimensions": "q x q"
+    },
+    {
+      "symbol": "x",
+      "meaning": "unknown sub-vector to be eliminated",
+      "dimensions": "p x 1"
+    },
+    {
+      "symbol": "y",
+      "meaning": "unknown sub-vector remaining after elimination",
+      "dimensions": "q x 1"
+    },
+    {
+      "symbol": "u",
+      "meaning": "right-hand-side sub-vector paired with x's equation",
+      "dimensions": "p x 1"
+    },
+    {
+      "symbol": "v",
+      "meaning": "right-hand-side sub-vector paired with y's equation",
+      "dimensions": "q x 1"
+    },
+    {
+      "symbol": "S",
+      "meaning": "Schur complement of A in M",
+      "dimensions": "q x q"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Write the block system [[A,B],[C,D]][x;y] = [u;v] as two separate equations: Ax + By = u, and Cx + Dy = v.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Schur_complement"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Solve the first equation for x, using invertibility of A: x = A^{-1}(u - By).",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Schur_complement"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Substitute this expression for x into the second equation: C A^{-1}(u - By) + Dy = v, which rearranges to (D - C A^{-1} B) y = v - C A^{-1} u. This is the reduced equation, and its coefficient matrix defines the Schur complement of A in M: S := D - C A^{-1} B.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Schur_complement"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Solve the reduced equation for y: y = S^{-1}(v - C A^{-1} u).",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Schur_complement"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Substitute this y back into the expression for x from step 2 to eliminate y: x = (A^{-1} + A^{-1} B S^{-1} C A^{-1}) u - A^{-1} B S^{-1} v.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Schur_complement"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Collect the two solutions into matrix form, [x;y] = [[A^{-1}+A^{-1}BS^{-1}CA^{-1}, -A^{-1}BS^{-1}], [-S^{-1}CA^{-1}, S^{-1}]] [u;v], which is exactly M^{-1}. Comparing the (2,2) block shows S^{-1} equals the (2,2) block entry of M^{-1}, i.e. the Schur complement is the inverse of the (2,2) block entry of M^{-1}.",
+      "invokes": [
+        "block_matrix_inversion"
+      ],
+      "cites": [
+        "wikipedia:Schur_complement"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "A is invertible.",
+      "breaks_when": "A is singular, so step 2's elimination x = A^{-1}(u - By) is undefined."
+    },
+    {
+      "assumption": "A is well-conditioned.",
+      "breaks_when": "A is ill-conditioned, in which case the source notes the elimination algorithm is not numerically accurate even though it remains algebraically valid."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Reduced equation has no unique solution for y.",
+      "signature": "S = D - C A^{-1} B is singular.",
+      "cause": "The Schur complement itself is not invertible, even though A is invertible, so step 4 cannot be carried out."
+    },
+    {
+      "mode": "Elimination step undefined.",
+      "signature": "A^{-1} does not exist.",
+      "cause": "A is singular, so x cannot be solved for and eliminated in step 2."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Schur_complement"
+  ],
+  "check": {
+    "node_id": "schur_complement",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [
+      "block_matrix_inversion"
+    ],
+    "shape": [],
+    "ok": true
+  }
+}
