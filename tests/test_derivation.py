@@ -235,3 +235,41 @@ class TestTechniquesArePerformed(unittest.TestCase):
 
         for node_id in ("covariance_matrix", "jacobian_matrix"):
             self.assertEqual(expected_kind(self.graph, node_id)[0], "definition")
+
+
+class TestGuardsAgainstVacuousChecks(unittest.TestCase):
+    """A guard that verifies a sheet against itself verifies nothing."""
+
+    def setUp(self) -> None:
+        self.graph = build_graph(load())
+        self.sources = [source()]
+
+    def test_expectation_is_enforced_not_merely_hinted(self) -> None:
+        d = Derivation("transpose_identities", True, kind="definition",
+                       statement="s",
+                       properties=[{"property": "p", "cites": ["wikipedia:OLS"]}])
+        report = check(d, self.sources, self.graph)
+        self.assertIn("expected a derivation, produced a definition", report["shape"])
+        self.assertFalse(report["ok"])
+
+    def test_steps_invoking_only_floor_trivia_are_vacuous(self) -> None:
+        """Every algebraic step rearranges something; naming that verifies nothing."""
+        d = Derivation("schur_complement", True, kind="derivation", statement="s",
+                       steps=[Step(1, "t", ["algebraic_rearrangement"], ["wikipedia:OLS"])])
+        report = check(d, self.sources, self.graph)
+        self.assertTrue(report["vacuous_invocations"])
+        self.assertFalse(report["ok"])
+
+    def test_a_substantive_invocation_clears_it(self) -> None:
+        d = Derivation("schur_complement", True, kind="derivation", statement="s",
+                       steps=[Step(1, "t", ["block_matrix_inversion",
+                                            "algebraic_rearrangement"],
+                                   ["wikipedia:OLS"])])
+        self.assertFalse(check(d, self.sources, self.graph)["vacuous_invocations"])
+
+    def test_vocabulary_does_not_offer_floor_trivia(self) -> None:
+        from atlas.derivation import candidate_vocabulary
+
+        vocab = candidate_vocabulary(self.graph, "schur_complement")
+        self.assertNotIn("algebraic_rearrangement", vocab)
+        self.assertNotIn("matrix", vocab)

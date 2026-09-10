@@ -1,0 +1,114 @@
+{
+  "node_id": "taylor_expansion",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The Taylor series of a function f at a point a is the infinite sum f(x) = sum_{n=0}^{\\infty} c_n (x-a)^n, where the terms c_n are expressed in terms of the derivatives of f at the single point a (c_n involves f^{(n)}(a)). When a = 0, this is called the Maclaurin series. The partial sum of the first n+1 terms is the nth Taylor polynomial, a degree-n polynomial approximation to f.",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "function being expanded",
+      "dimensions": "scalar-valued function of x"
+    },
+    {
+      "symbol": "a",
+      "meaning": "the single point at which derivatives are evaluated (expansion point)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "the variable of expansion",
+      "dimensions": "scalar (or complex, for a disk)"
+    },
+    {
+      "symbol": "c_n",
+      "meaning": "coefficient of the nth term, expressed via the derivatives of f at a",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "term/derivative order; the nth Taylor polynomial is the degree-n partial sum",
+      "dimensions": "non-negative integer"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The nth Taylor polynomial (partial sum of the first n+1 terms) is a degree-n polynomial approximation of f, and these approximations become generally more accurate as n increases.",
+      "why": "Taylor polynomials are defined as truncations of the Taylor series",
+      "cites": [
+        "wikipedia:Taylor_series"
+      ]
+    },
+    {
+      "property": "Taylor's theorem gives quantitative estimates on the error introduced by truncating to a Taylor polynomial.",
+      "why": "stated directly as the purpose of Taylor's theorem",
+      "cites": [
+        "wikipedia:Taylor_series"
+      ]
+    },
+    {
+      "property": "If the Taylor series converges, its sum is the limit of the sequence of Taylor polynomials; however, a function may differ from the sum of its own convergent Taylor series.",
+      "why": "convergence of the series does not by itself guarantee equality with f",
+      "cites": [
+        "wikipedia:Taylor_series"
+      ]
+    },
+    {
+      "property": "f is analytic at x if it equals the sum of its Taylor series on some open interval (or open disk, in the complex case) containing x; this implies f is analytic at every point of that interval/disk.",
+      "why": "definition of analyticity in terms of the Taylor series",
+      "cites": [
+        "wikipedia:Taylor_series"
+      ]
+    },
+    {
+      "property": "Within its region of convergence, a Taylor/power series sum_{n=0}^{\\infty} c_n(x-a)^n can be differentiated term by term, d/dx sum c_n(x-a)^n = sum_{n=1}^{\\infty} n c_n (x-a)^{n-1}, and integrated term by term, giving C + sum_{n=0}^{\\infty} c_n/(n+1) (x-a)^{n+1}; the differentiated and integrated series share the original series' radius of convergence (boundary behavior may differ).",
+      "why": "termwise differentiation/integration is valid inside the radius of convergence",
+      "cites": [
+        "wikipedia:Taylor_series"
+      ]
+    },
+    {
+      "property": "A Maclaurin series is the special case of a Taylor series taken at a = 0.",
+      "why": "definition given for the named special case",
+      "cites": [
+        "wikipedia:Taylor_series"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "f possesses derivatives of all orders at a, so every coefficient c_n is defined.",
+      "breaks_when": "f fails to be infinitely differentiable at a"
+    },
+    {
+      "assumption": "x lies within the series' region/radius of convergence when using the sum, or its termwise-differentiated/integrated forms.",
+      "breaks_when": "|x-a| exceeds the radius of convergence, or x sits on the boundary where behavior can differ"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Series converges but not to f",
+      "signature": "the Taylor series is convergent at x yet its sum does not equal f(x)",
+      "cause": "f is not analytic at a even though it is infinitely differentiable there (stated directly in the source as a possibility)"
+    },
+    {
+      "mode": "Divergence or altered behavior outside the radius of convergence",
+      "signature": "partial sums fail to approach f(x), or termwise differentiated/integrated series behave differently at the boundary",
+      "cause": "x lies outside (or on the boundary of) the radius of convergence shared by the series and its term-by-term derivative/integral"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Taylor_series"
+  ],
+  "check": {
+    "node_id": "taylor_expansion",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}

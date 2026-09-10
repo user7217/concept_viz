@@ -1,0 +1,132 @@
+{
+  "node_id": "gaussian_integral",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "\u222b_{-\u221e}^{\u221e} e^{-x\u00b2} dx = \u221a\u03c0",
+  "symbols": [
+    {
+      "symbol": "x",
+      "meaning": "integration variable of the original 1-D integral",
+      "dimensions": "scalar, real"
+    },
+    {
+      "symbol": "y",
+      "meaning": "auxiliary integration variable used to form the squared integral as a 2-D integral",
+      "dimensions": "scalar, real"
+    },
+    {
+      "symbol": "r, \u03b8",
+      "meaning": "polar coordinates substituted for (x, y)",
+      "dimensions": "r \u2265 0, \u03b8 \u2208 [0, 2\u03c0)"
+    },
+    {
+      "symbol": "s",
+      "meaning": "substitution variable s = -r\u00b2 used to evaluate the radial integral",
+      "dimensions": "scalar, real"
+    },
+    {
+      "symbol": "I",
+      "meaning": "value of the Gaussian integral, I = \u222b_{-\u221e}^{\u221e} e^{-x\u00b2} dx",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Write the square of the target integral as a product of two copies with independent dummy variables and combine into a single double integral over the plane: I\u00b2 = (\u222b_{-\u221e}^{\u221e} e^{-x\u00b2} dx)(\u222b_{-\u221e}^{\u221e} e^{-y\u00b2} dy) = \u222c_{\u211d\u00b2} e^{-(x\u00b2+y\u00b2)} dx dy.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Gaussian_integral"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Change variables to polar coordinates, x = r cos \u03b8, y = r sin \u03b8, with area element dx dy = r dr d\u03b8 (the factor r is the Jacobian determinant of the transform), giving I\u00b2 = \u222b_0^{2\u03c0} \u222b_0^\u221e e^{-r\u00b2} r dr d\u03b8.",
+      "invokes": [
+        "change_of_variables"
+      ],
+      "cites": [
+        "wikipedia:Gaussian_integral"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "The \u03b8-integral is trivial (the integrand is \u03b8-independent), so I\u00b2 = 2\u03c0 \u222b_0^\u221e r e^{-r\u00b2} dr.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Gaussian_integral"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Substitute s = -r\u00b2, so ds = -2r dr, i.e. r dr = -\u00bd ds; as r runs 0\u2192\u221e, s runs 0\u2192-\u221e: 2\u03c0 \u222b_0^\u221e r e^{-r\u00b2} dr = 2\u03c0 \u222b_0^{-\u221e} (-\u00bd) e^s ds = \u03c0 \u222b_{-\u221e}^0 e^s ds.",
+      "invokes": [
+        "change_of_variables"
+      ],
+      "cites": [
+        "wikipedia:Gaussian_integral"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Evaluate the elementary integral: \u03c0 \u222b_{-\u221e}^0 e^s ds = \u03c0 [e^s]_{-\u221e}^0 = \u03c0(e^0 - e^{-\u221e}) = \u03c0(1 - 0) = \u03c0. Hence I\u00b2 = \u03c0.",
+      "invokes": [
+        "exponential_function"
+      ],
+      "cites": [
+        "wikipedia:Gaussian_integral"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Since e^{-x\u00b2} > 0 everywhere, I = \u222b_{-\u221e}^{\u221e} e^{-x\u00b2} dx > 0, so take the positive square root: I = \u221a\u03c0.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Gaussian_integral"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The double integral \u222c_{\u211d\u00b2} e^{-(x\u00b2+y\u00b2)} dx dy can be formed by multiplying the two 1-D integrals and evaluated by switching to polar coordinates (implicitly relies on the integral being well-behaved over the plane so the order of operations is valid).",
+      "breaks_when": "The source's own 'Complete proof' notes this needs justification via absolute convergence and Fubini's theorem when treated rigorously; that justification is a convergence argument and is out of scope here."
+    },
+    {
+      "assumption": "The exponent is exactly -x\u00b2 (coefficient 1, no shift), matching the polar substitution x = r cos \u03b8, y = r sin \u03b8 used in step 2.",
+      "breaks_when": "For e^{-ax\u00b2} with a \u2260 1, or for e^{-x\u00b2+bx}, this exact sequence of steps does not directly apply without an added scaling or completing-the-square step not present in the supplied derivation."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Sign error: using e^{+x\u00b2} instead of e^{-x\u00b2}",
+      "signature": "The radial integral \u222b_0^\u221e r e^{r\u00b2} dr diverges, so I\u00b2 has no finite value.",
+      "cause": "Without the minus sign, e^{r\u00b2} grows without bound as r \u2192 \u221e, so the substitution s = -r\u00b2 no longer confines the s-range to a convergent exponential integral."
+    },
+    {
+      "mode": "Dropping the Jacobian factor r when converting to polar coordinates",
+      "signature": "Computed value comes out as 2\u03c0 \u222b_0^\u221e e^{-r\u00b2} dr, an integral with no elementary closed form, instead of \u03c0.",
+      "cause": "The area element dx dy = r dr d\u03b8 is required by the coordinate change (step 2); omitting r changes what is being integrated and forfeits the elementary substitution in step 4."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Gaussian_integral"
+  ],
+  "check": {
+    "node_id": "gaussian_integral",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}

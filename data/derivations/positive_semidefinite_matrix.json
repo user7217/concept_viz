@@ -1,56 +1,119 @@
 {
   "node_id": "positive_semidefinite_matrix",
   "grounded": true,
-  "statement": "The set of positive semidefinite symmetric matrices is convex: if M and N are positive semidefinite, then for any \u03b1 between 0 and 1, \u03b1M + (1-\u03b1)N is also positive semidefinite.",
+  "kind": "definition",
+  "statement": "A symmetric (real) matrix M \u2014 Hermitian in the complex case \u2014 is positive semidefinite if x^T M x \u2265 0 for every real vector x (equivalently z*Mz \u2265 0 for every complex vector z). It is positive definite if the inequality is strict for every nonzero x. Writing M \u2265 0 denotes positive semidefiniteness; M \u2265 N means M \u2212 N \u2265 0 (the Loewner order).",
   "symbols": [
     {
       "symbol": "M",
-      "meaning": "Positive semidefinite symmetric matrix",
+      "meaning": "symmetric (Hermitian) matrix being classified",
       "dimensions": "n x n"
     },
     {
       "symbol": "N",
-      "meaning": "Positive semidefinite symmetric matrix",
+      "meaning": "a second symmetric matrix, used for comparisons/ordering",
       "dimensions": "n x n"
     },
     {
-      "symbol": "alpha",
-      "meaning": "Real coefficient between 0 and 1",
-      "dimensions": "1 x 1"
+      "symbol": "x, v, z",
+      "meaning": "test vector (real x,v; complex z) used in the quadratic-form condition",
+      "dimensions": "n x 1"
     },
     {
-      "symbol": "x",
-      "meaning": "Arbitrary real vector",
-      "dimensions": "n x 1"
+      "symbol": "A",
+      "meaning": "arbitrary (possibly rectangular) matrix congruence-transforming M",
+      "dimensions": "n x n or n x m"
     }
   ],
-  "steps": [
+  "steps": [],
+  "properties": [
     {
-      "n": 1,
-      "text": "For any vector x, write the quadratic form of the convex combination as x^{\\mathsf{T}}\\left(\\alpha M+\\left(1-\\alpha\\right)N\\right)x",
-      "invokes": [
-        "algebraic_rearrangement"
-      ],
+      "property": "M \u2265 N iff M \u2212 N is positive semidefinite; this defines a partial order (the Loewner order) on symmetric matrices, with a strict version M > N.",
+      "why": "definition of the induced ordering directly restates the PSD condition applied to a difference of matrices",
       "cites": [
         "wikipedia:Definite_matrix"
       ]
     },
     {
-      "n": 2,
-      "text": "Expand the quadratic form by distributing the vector multiplications to obtain \\alpha x^{\\mathsf{T}}Mx + (1-\\alpha)x^{\\mathsf{T}}Nx",
-      "invokes": [
-        "algebraic_rearrangement"
-      ],
+      "property": "Every positive definite matrix is invertible and its inverse is also positive definite; if M \u2265 N > 0 then N\u207b\u00b9 \u2265 M\u207b\u00b9 > 0.",
+      "why": "inversion reverses the Loewner order for positive definite matrices",
       "cites": [
         "wikipedia:Definite_matrix"
       ]
     },
     {
-      "n": 3,
-      "text": "Since M and N are positive semidefinite, we have x^{\\mathsf{T}}Mx \\geq 0 and x^{\\mathsf{T}}Nx \\geq 0. Since 0 \\leq \\alpha \\leq 1, both coefficients are non-negative, which guarantees that the sum \\alpha x^{\\mathsf{T}}Mx + (1-\\alpha)x^{\\mathsf{T}}Nx \\geq 0",
-      "invokes": [
-        "convexity"
-      ],
+      "property": "If M, N are positive semidefinite, M + N is positive semidefinite; if M is positive definite and N positive semidefinite, M + N is positive definite.",
+      "why": "the defining quadratic form is additive: x^T(M+N)x = x^TMx + x^TNx, a sum of nonnegative terms",
+      "cites": [
+        "wikipedia:Definite_matrix"
+      ]
+    },
+    {
+      "property": "If M is positive semidefinite, A*MA is positive semidefinite for any (possibly rectangular) A; if M is positive definite and A has full column rank, A*MA is positive definite.",
+      "why": "congruence transformation preserves the sign of the quadratic form: y*(A*MA)y = (Ay)*M(Ay)",
+      "cites": [
+        "wikipedia:Definite_matrix"
+      ]
+    },
+    {
+      "property": "The diagonal entries m_ii of a PSD matrix are real and nonnegative, tr(M) \u2265 0, and |m_ij| \u2264 \u221a(m_ii\u00b7m_jj) for all i,j (so max_{i,j}|m_ij| \u2264 max_i m_ii).",
+      "why": "every principal (in particular 2\u00d72) submatrix of a PSD matrix is itself PSD, which forces these diagonal/off-diagonal bounds",
+      "cites": [
+        "wikipedia:Definite_matrix"
+      ]
+    },
+    {
+      "property": "For any two PSD matrices M, N: tr(MN) \u2265 0.",
+      "why": "tr(MN) = tr(M^{1/2} N M^{1/2}), and M^{1/2}NM^{1/2} is PSD so its eigenvalues (and hence trace) are nonnegative",
+      "cites": [
+        "wikipedia:Definite_matrix"
+      ]
+    },
+    {
+      "property": "If M, N \u2265 0, the Hadamard (entrywise) product M\u2218N \u2265 0, even though the ordinary product MN need not be PSD (Schur product theorem).",
+      "why": "stated as a distinct closure property of the PSD cone under the Hadamard product",
+      "cites": [
+        "wikipedia:Definite_matrix"
+      ]
+    },
+    {
+      "property": "If M, N \u2265 0, the Kronecker product M\u2297N \u2265 0, and the Frobenius inner product M:N \u2265 0.",
+      "why": "additional closure properties of the PSD cone under these products",
+      "cites": [
+        "wikipedia:Definite_matrix"
+      ]
+    },
+    {
+      "property": "The set of PSD symmetric matrices is convex: if M, N are PSD, \u03b1M+(1\u2212\u03b1)N is PSD for \u03b1\u2208[0,1].",
+      "why": "x^T(\u03b1M+(1\u2212\u03b1)N)x = \u03b1\u00b7x^TMx + (1\u2212\u03b1)\u00b7x^TNx \u2265 0, a convex combination of nonnegative terms; this convexity is what makes semidefinite programs converge to a global optimum",
+      "cites": [
+        "wikipedia:Definite_matrix"
+      ]
+    },
+    {
+      "property": "For a block matrix M = [[A,B],[B*,D]] that is PSD, both diagonal blocks A and D must themselves be positive (semi)definite, and every principal submatrix of M is positive (semi)definite.",
+      "why": "testing z*Mz \u2265 0 on vectors z = [v,0]^T and z = [0,w]^T isolates v*Av \u2265 0 and w*Dw \u2265 0",
+      "cites": [
+        "wikipedia:Definite_matrix"
+      ]
+    },
+    {
+      "property": "A Hermitian matrix is PSD iff all of its principal minors are nonnegative; checking only the leading principal minors is not sufficient (counterexample: diag(0, \u22121)).",
+      "why": "this is the standard minor-based test for semidefiniteness, with an explicit caveat distinguishing it from the (stronger) positive-definite leading-minor test",
+      "cites": [
+        "wikipedia:Definite_matrix"
+      ]
+    },
+    {
+      "property": "A twice-differentiable function f has a local minimum at a critical point if its Hessian is PSD there; the quadratic form x^TMx itself has a unique minimum (zero) at x=0 exactly when M is positive definite.",
+      "why": "connects the algebraic PSD condition to second-order optimality conditions via the Hessian",
+      "cites": [
+        "wikipedia:Definite_matrix"
+      ]
+    },
+    {
+      "property": "The covariance matrix of any multivariate probability distribution is always PSD (positive definite unless one variable is an exact linear function of the others); conversely every PSD matrix arises as the covariance matrix of some multivariate distribution.",
+      "why": "gives the canonical statistical example/characterization of PSD matrices",
       "cites": [
         "wikipedia:Definite_matrix"
       ]
@@ -58,23 +121,34 @@
   ],
   "assumptions": [
     {
-      "assumption": "M and N are symmetric positive semidefinite matrices of the same dimension, and alpha is a real scalar in the interval [0, 1]",
-      "breaks_when": "The dimensions of M and N do not match, or alpha lies outside the range [0, 1]."
+      "assumption": "The standard notion applies to symmetric (real) or Hermitian (complex) matrices M.",
+      "breaks_when": "M is non-symmetric/non-Hermitian: definiteness must then be assessed via the symmetric part \u00bd(M+M^T) or Hermitian part \u00bd(M+M*), since a non-symmetric M can have all-positive eigenvalues yet fail x^TMx>0 (e.g. M=[[4,9],[1,4]] with eigenvalues 1,7 gives x^TMx=\u22122 for x=[\u22121,1]^T)."
     }
   ],
-  "failure_modes": [],
+  "failure_modes": [
+    {
+      "mode": "Concluding PSD from leading principal minors alone",
+      "signature": "leading principal minors nonnegative but matrix is not PSD",
+      "cause": "leading principal minors only certify positive definiteness of successive blocks; full PSD status requires all principal minors nonnegative (counterexample: diag(0,\u22121) has a nonnegative leading 1\u00d71 minor but is not PSD)"
+    },
+    {
+      "mode": "Using eigenvalue sign alone to judge PSD/definiteness of a non-symmetric matrix",
+      "signature": "all eigenvalues positive/nonnegative yet x^TMx takes negative values for some x",
+      "cause": "for non-symmetric M, eigenvalues do not determine the sign of the quadratic form; only the symmetric (Hermitian) part of M controls x^TMx"
+    }
+  ],
   "source_ids": [
     "wikipedia:Definite_matrix"
   ],
   "check": {
     "node_id": "positive_semidefinite_matrix",
+    "kind": "definition",
     "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
     "unknown_invocations": [],
-    "closure_holes": [
-      "convexity"
-    ],
+    "closure_holes": [],
+    "shape": [],
     "ok": true
   }
 }

@@ -70,7 +70,7 @@ Return JSON:
   "steps": [
     {{"n": 1,
       "text": "the step, with its equation",
-      "invokes": ["canon concept or technique this step uses"],
+      "invokes": ["the SUBSTANTIVE concept or technique this step turns on"],
       "cites": ["source id"]}}
   ],
 
@@ -82,6 +82,12 @@ Return JSON:
   "assumptions": [{{"assumption": "...", "breaks_when": "..."}}],
   "failure_modes": [{{"mode": "...", "signature": "...", "cause": "..."}}]
 }}
+
+"invokes" must name what a step actually turns on -- matrix_inverse,
+block_matrix_inversion, gaussian_conditioning. Do NOT write generic manipulation
+like "algebraic_rearrangement" or "index_notation": every algebraic step
+rearranges something, so naming that identifies nothing. A step whose only
+content really is rearrangement should list nothing.
 
 For "derivation": fill steps, leave properties empty. Do NOT derive a property
 of the object in place of the object itself.
@@ -255,14 +261,16 @@ def candidate_vocabulary(graph: Graph, node_id: str, limit: int = 60) -> list[st
     free-form prose like "sum of squared residuals definition" resolves to
     nothing, so every check downstream goes inert.
     """
-    from .schema import NodeType
+    from .schema import NodeType, Tier
 
+    trivial = {n.id for n in graph.nodes.values() if n.tier is Tier.ASSUMED}
     nearby = set(graph.requires_closure(node_id)) if node_id in graph.nodes else set()
+    nearby -= trivial
     if len(nearby) < limit:
         nearby |= {
             n.id for n in graph.nodes.values()
             if n.type in (NodeType.CONCEPT, NodeType.TECHNIQUE)
-        }
+        } - trivial
     return sorted(nearby)[:limit] if len(nearby) > limit else sorted(nearby)
 
 
@@ -371,6 +379,21 @@ def check(derivation: Derivation, sources: list[Source], graph: Graph,
     else:
         shape = [] if derivation.steps else ["derivation carries no steps"]
 
+    # The expectation was only ever a prompt hint. transpose_identities, a
+    # technique, came back as a definition and passed every check because
+    # check() compared the sheet against itself and never against what was asked.
+    expected, _ = expected_kind(graph, derivation.node_id)
+    if derivation.kind != expected:
+        shape.append(f"expected a {expected}, produced a {derivation.kind}")
+
+    # Resolved invocations that are all floor-level verify nothing: every step
+    # rearranges something, so a closure built from that is vacuously complete.
+    substantive = {
+        n for n in resolved
+        if n in graph.nodes and graph.nodes[n].tier is not Tier.ASSUMED
+    }
+    vacuous = bool(derivation.steps) and not substantive
+
     return {
         "node_id": derivation.node_id,
         "kind": derivation.kind,
@@ -380,6 +403,7 @@ def check(derivation: Derivation, sources: list[Source], graph: Graph,
         "unknown_invocations": sorted(unknown),
         "closure_holes": sorted(holes),
         "shape": shape,
+        "vacuous_invocations": vacuous,
         "ok": (not ungrounded and not uncited and not shape
-               and derivation.grounded),
+               and not vacuous and derivation.grounded),
     }

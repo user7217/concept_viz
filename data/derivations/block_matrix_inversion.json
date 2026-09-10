@@ -1,0 +1,124 @@
+{
+  "node_id": "block_matrix_inversion",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For a block matrix P = [[A, B], [C, D]] with A and D square, the inverse can be expressed in terms of the Schur complements of A and D: P^{-1} = [[(A - B D^{-1} C)^{-1}, 0], [0, (D - C A^{-1} B)^{-1}]] \u00b7 [[I, -B D^{-1}], [-C A^{-1}, I]]. The source states this identity directly and identifies its key sub-expressions (the Schur complements) but does not walk through the elimination arithmetic that produces it from P; what is restated below is the structure the source actually gives \u2014 the partition, the Schur complements, the assembled formula, and the invertibility-equivalence fact \u2014 not a from-scratch multiplication proof.",
+  "symbols": [
+    {
+      "symbol": "P",
+      "meaning": "block matrix being inverted",
+      "dimensions": "n x n, n = n1 + n2"
+    },
+    {
+      "symbol": "A",
+      "meaning": "top-left block of P",
+      "dimensions": "n1 x n1"
+    },
+    {
+      "symbol": "B",
+      "meaning": "top-right block of P",
+      "dimensions": "n1 x n2"
+    },
+    {
+      "symbol": "C",
+      "meaning": "bottom-left block of P",
+      "dimensions": "n2 x n1"
+    },
+    {
+      "symbol": "D",
+      "meaning": "bottom-right block of P",
+      "dimensions": "n2 x n2"
+    },
+    {
+      "symbol": "A - BD^{-1}C",
+      "meaning": "Schur complement of D in P",
+      "dimensions": "n1 x n1"
+    },
+    {
+      "symbol": "D - CA^{-1}B",
+      "meaning": "Schur complement of A in P",
+      "dimensions": "n2 x n2"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Partition P conformally as [[A, B], [C, D]] with A and D square blocks; this is the partitioning the inversion formula is stated for.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Block_matrix"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Form the Schur complement of D in P, A - BD^{-1}C, and the Schur complement of A in P, D - CA^{-1}B; the source explicitly names the first of these ('recognizing that E^{-1} = A - BD^{-1}C (the Schur complement)') and uses the second by the same pattern with A and D exchanged. Forming these requires D and A, respectively, to be invertible.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Block_matrix"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Assemble P^{-1} as the product of a block-diagonal matrix holding the inverted Schur complements and a block unitriangular correction matrix: [[A,B],[C,D]]^{-1} = [[(A-BD^{-1}C)^{-1}, 0], [0, (D-CA^{-1}B)^{-1}]] \u00b7 [[I, -BD^{-1}], [-CA^{-1}, I]], as given directly in the source.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Block_matrix"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "By the Weinstein-Aronszajn identity (cited by the source but not itself restated from it), (A - BD^{-1}C) is invertible exactly when (D - CA^{-1}B) is invertible, so the block-diagonal factor is well-defined as soon as one Schur complement is nonsingular.",
+      "invokes": [
+        "determinant"
+      ],
+      "cites": [
+        "wikipedia:Block_matrix"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "D is invertible",
+      "breaks_when": "D is singular, so BD^{-1}C and the Schur complement A - BD^{-1}C are undefined"
+    },
+    {
+      "assumption": "A is invertible",
+      "breaks_when": "A is singular, so CA^{-1}B and the Schur complement D - CA^{-1}B are undefined"
+    },
+    {
+      "assumption": "The Schur complements A - BD^{-1}C and D - CA^{-1}B are themselves invertible",
+      "breaks_when": "one Schur complement is singular, which by the Weinstein-Aronszajn identity forces the other to be singular too, making the block-diagonal factor non-invertible"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Schur complement singular",
+      "signature": "the assembled block-diagonal factor cannot be inverted even though A and D individually are invertible",
+      "cause": "A - BD^{-1}C (equivalently D - CA^{-1}B) is singular"
+    },
+    {
+      "mode": "Pivot block not invertible",
+      "signature": "BD^{-1}C or CA^{-1}B cannot be formed",
+      "cause": "D or A, respectively, is singular, so the formula as stated does not apply"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Block_matrix"
+  ],
+  "check": {
+    "node_id": "block_matrix_inversion",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "ok": true
+  }
+}

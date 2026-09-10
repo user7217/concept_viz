@@ -43,6 +43,13 @@ for path in sorted(SHEETS.glob("*.json")):
         reason = "definition with no properties"
     elif kind == "definition" and node is not None and node.type is NodeType.TECHNIQUE:
         reason = "technique stated instead of performed"
+    elif sheet.get("check", {}).get("vacuous_invocations"):
+        reason = "every step invokes only floor-level trivia"
+    elif kind == "derivation" and sheet.get("steps") and all(
+        not [i for i in st.get("invokes", []) if i not in ("algebraic_rearrangement",
+                                                           "index_notation")]
+        for st in sheet["steps"]):
+        reason = "no substantive invocations, closure check was vacuous"
     else:
         kept += 1
         continue

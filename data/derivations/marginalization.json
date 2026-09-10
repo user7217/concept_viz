@@ -1,8 +1,8 @@
 {
   "node_id": "marginalization",
   "grounded": true,
-  "kind": "definition",
-  "statement": "Given a joint distribution over random variables (X, Y) (or more generally X_1,...,X_n), the marginal distribution of a subset (e.g. X) is obtained by summing or integrating the joint distribution over the discarded variables (e.g. Y): discrete case p_X(x_i) = \u03a3_j p(x_i, y_j); continuous case f_X(x) = \u222b f(x,y) dy. The discarded variables (here Y) are said to be 'marginalized out'. [wikipedia:Marginal_distribution]",
+  "kind": "derivation",
+  "statement": "The marginal distribution of a subset of random variables (here X, from a pair (X,Y)) is obtained from their joint distribution by eliminating (marginalizing out) the other variable(s) Y: sum the joint pmf over all values of Y (discrete case) or integrate the joint pdf over Y (continuous case).",
   "symbols": [
     {
       "symbol": "X, Y",
@@ -15,13 +15,13 @@
       "dimensions": "scalar"
     },
     {
-      "symbol": "f(x, y)",
-      "meaning": "joint probability density function of X and Y",
+      "symbol": "p_X(x_i)",
+      "meaning": "marginal pmf of X",
       "dimensions": "scalar"
     },
     {
-      "symbol": "p_X(x_i)",
-      "meaning": "marginal pmf of X",
+      "symbol": "f(x,y)",
+      "meaning": "joint probability density function of X and Y",
       "dimensions": "scalar"
     },
     {
@@ -35,85 +35,104 @@
       "dimensions": "scalar"
     },
     {
-      "symbol": "X_1,...,X_n",
-      "meaning": "collection of random variables in the multivariate case",
-      "dimensions": "n scalars or vector of length n"
+      "symbol": "p_{X|Y}(x|y)",
+      "meaning": "conditional pmf/pdf of X given Y=y",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "E_Y[\\cdot]",
+      "meaning": "expectation taken over the distribution of Y",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "X_1,\\dots,X_n",
+      "meaning": "collection of random variables with a joint distribution",
+      "dimensions": "scalar each"
     }
   ],
-  "steps": [],
-  "properties": [
+  "steps": [
     {
-      "property": "Discrete marginal pmf: p_X(x_i) = \u03a3_j p(x_i, y_j), and symmetrically p_Y(y_j) = \u03a3_i p(x_i, y_j).",
-      "why": "the marginal is found by summing the joint pmf over the values of the discarded variable",
+      "n": 1,
+      "text": "Start from the known joint distribution of X and Y: discrete case p(x_i, y_j); continuous case f(x,y). This encodes the probability of X and Y taking values together, without yet discarding either variable.",
+      "invokes": [],
       "cites": [
         "wikipedia:Marginal_distribution"
       ]
     },
     {
-      "property": "Continuous marginal pdf: f_X(x) = \u222b_c^d f(x,y) dy, and symmetrically f_Y(y) = \u222b_a^b f(x,y) dx, for x\u2208[a,b], y\u2208[c,d].",
-      "why": "the marginal density is found by integrating the joint density over the discarded variable",
+      "n": 2,
+      "text": "Marginalize out Y by summing (discrete) or integrating (continuous) the joint distribution over every value Y can take, discarding Y's identity: p_X(x_i) = \\sum_j p(x_i, y_j), and symmetrically p_Y(y_j) = \\sum_i p(x_i, y_j); for continuous variables f_X(x) = \\int_c^d f(x,y)\\,dy and f_Y(y) = \\int_a^b f(x,y)\\,dx. This is literally 'summing values in a table along rows or columns and writing the sum in the margins.'",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
       "cites": [
         "wikipedia:Marginal_distribution"
       ]
     },
     {
-      "property": "A marginal probability can be written as an expectation over the conditional: p_X(x) = \u222b_y p_{X|Y}(x|y) p_Y(y) dy = E_Y[p_{X|Y}(x|Y)].",
-      "why": "averaging the conditional distribution of X given Y over the distribution of Y reproduces the marginal, by the law of the unconscious statistician",
+      "n": 3,
+      "text": "Rewrite the marginalization integral as a conditional expectation. Substitute the definition of the conditional distribution, p_{X,Y}(x,y) = p_{X|Y}(x|y)\\,p_Y(y), into the integral from Step 2: p_X(x) = \\int_y p_{X|Y}(x|y)\\,p_Y(y)\\,dy. By the law of the unconscious statistician, E_Y[f(Y)] = \\int_y f(y)\\,p_Y(y)\\,dy, this integral is exactly E_Y[p_{X|Y}(x|Y)]. So marginalizing X is equivalent to averaging the conditional probability of X over all values of Y, weighted by how likely each value of Y is.",
+      "invokes": [
+        "conditional_probability",
+        "expectation"
+      ],
       "cites": [
         "wikipedia:Marginal_distribution"
       ]
     },
     {
-      "property": "Marginal cumulative distribution: F_X(x) = F(x,d) (or lim_{y\u2192\u221e} F(x,y) if d=\u221e); symmetrically F_Y(y) = F(b,y).",
-      "why": "evaluating the joint CDF at the upper bound of the discarded variable's range removes dependence on that variable",
+      "n": 4,
+      "text": "As a special case, this expectation form gives the transformation rule for a deterministic function X = g(Y): since p_{X|Y}(x|y) = \\delta(x - g(y)), Step 3 becomes p_X(x) = \\int_y \\delta(x - g(y))\\,p_Y(y)\\,dy.",
+      "invokes": [],
       "cites": [
         "wikipedia:Marginal_distribution"
       ]
     },
     {
-      "property": "For n jointly distributed variables X_1,...,X_n, the marginal of X_i is obtained by summing (discrete) or integrating (continuous) the joint pmf/pdf over every other variable: p_{X_i}(k) = \u03a3 p(x_1,...,x_{i-1},k,x_{i+1},...,x_n); f_{X_i}(x_i) = \u222b...\u222b f(x_1,...,x_n) dx_1...dx_{i-1}dx_{i+1}...dx_n.",
-      "why": "the same sum/integrate-out operation generalizes componentwise to any number of variables",
+      "n": 5,
+      "text": "Obtain the marginal CDF the same way, by evaluating the joint CDF at the edge of Y's support rather than integrating a density: if X, Y jointly take values on [a,b]\\times[c,d], then F_X(x) = F(x,d) and F_Y(y) = F(b,y); if the support is unbounded, F_X(x) = \\lim_{y\\to\\infty} F(x,y).",
+      "invokes": [],
       "cites": [
         "wikipedia:Marginal_distribution"
       ]
     },
     {
-      "property": "Marginalization differs from conditioning: the conditional distribution is the joint distribution divided by the other variable's marginal, e.g. f_{Y|X}(y|x) = f_{X,Y}(x,y) / f_X(x), whereas the marginal makes no reference to the other variable's value at all.",
-      "why": "distinguishes the operation of discarding a variable (marginal) from the operation of fixing its value (conditional)",
+      "n": 6,
+      "text": "Generalize to n jointly distributed variables X_1,\\dots,X_n: the marginal of a single X_i is obtained by summing (discrete) or integrating (continuous) the joint pmf/pdf over every other variable, p_{X_i}(k) = \\sum p(x_1,\\dots,x_{i-1},k,x_{i+1},\\dots,x_n), and analogously with an (n-1)-fold integral for the continuous pdf f_{X_i}(x_i).",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
       "cites": [
         "wikipedia:Marginal_distribution"
       ]
     }
   ],
+  "properties": [],
   "assumptions": [
     {
-      "assumption": "The joint distribution (pmf, pdf, or CDF) of the full variable set is known or specified.",
-      "breaks_when": "only marginals or conditionals are known without enough structure to reconstruct the joint \u2014 marginals alone do not determine the joint distribution (correlation/dependence is lost)."
+      "assumption": "The full joint distribution over all variables (including the ones to be discarded) is known.",
+      "breaks_when": "Only a conditional or partial distribution is available; then the sum/integral in Step 2 cannot be formed."
     },
     {
-      "assumption": "For the continuous case, the joint density f(x,y) exists and is integrable over the discarded variable's domain.",
-      "breaks_when": "the joint distribution has no density (e.g. purely singular or mixed discrete-continuous components) or the integral diverges."
-    },
-    {
-      "assumption": "The discarded variable's domain is fixed/known ([c,d] for y in the density case, or all of its support in the discrete/multivariate sum).",
-      "breaks_when": "the support depends on the value of the retained variable in a way not accounted for in the limits of summation/integration."
+      "assumption": "The sum (discrete) or integral (continuous) over the discarded variable's entire support converges/exists.",
+      "breaks_when": "The joint pmf/pdf is not summable or integrable over Y, e.g. an improper density with divergent tails."
     }
   ],
   "failure_modes": [
     {
-      "mode": "Treating the marginal as if it captured the full joint behavior",
-      "signature": "using p_X(x) alone to reason about events that depend jointly on X and Y, producing wrong probabilities for joint events",
-      "cause": "marginalization discards all information about dependence between X and the marginalized-out variable Y"
+      "mode": "Marginal mistaken for conditional",
+      "signature": "Reported probability of X ignores that it was implicitly computed only for one value or a restricted range of Y",
+      "cause": "Summing/integrating over an incomplete set of Y values (Step 2) instead of the full support of Y, e.g. treating a subset of a table as if it were the whole margin"
     },
     {
-      "mode": "Incorrect marginal from mismatched summation/integration range",
-      "signature": "computed marginal does not sum/integrate to 1",
-      "cause": "summing or integrating over the wrong domain for the discarded variable, e.g. omitting part of its support"
+      "mode": "Undefined or infinite marginal",
+      "signature": "The integral in Step 2 diverges or the sum has no finite value",
+      "cause": "Joint density not integrable over Y's support, violating the convergence assumption above"
     },
     {
-      "mode": "Confusing marginal with conditional",
-      "signature": "reporting p_X(x) when the question asked for p(x|y) or vice versa",
-      "cause": "marginal removes reference to the other variable entirely, while conditional fixes it at a particular value; the two source_id formulas differ by a division by p_X(x) or f_X(x)"
+      "mode": "Wrong marginal CDF at finite bounds",
+      "signature": "F_X(x) computed from F(x, y) at some finite y instead of the true upper bound d (or the limit as y\\to\\infty)",
+      "cause": "Step 5 applied with the wrong edge of Y's support instead of its supremum"
     }
   ],
   "source_ids": [
@@ -121,7 +140,7 @@
   ],
   "check": {
     "node_id": "marginalization",
-    "kind": "definition",
+    "kind": "derivation",
     "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
