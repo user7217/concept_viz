@@ -18,7 +18,7 @@ import json
 from dataclasses import asdict, dataclass, field
 
 from .graph import Graph
-from .llm import Provider, complete_json
+from .llm import LLMError, Provider, complete_json
 from .retrieval import Source, cited_but_not_retrieved
 
 MAX_SOURCE_CHARS = 24000
@@ -30,7 +30,13 @@ DERIVATION_MARKERS = (
     "update", "predict", "optimal", "minimiz", "least squares",
 )
 
-SYSTEM = """You restate mathematical derivations from supplied source text.
+SYSTEM = """You restate mathematics from supplied source text.
+
+Some nodes are RESULTS with a derivation (the Kalman update, Gaussian
+conditioning). Others are DEFINITIONS or objects (a covariance matrix, a
+Jacobian) -- there is nothing to derive, and deriving some property of them
+instead answers a question the reader did not ask. Decide which you have been
+given and produce the matching shape.
 
 Absolute rules:
 - Use ONLY the supplied sources. If they do not contain a derivation, say so.
@@ -50,24 +56,39 @@ Canon id: {node_id}
 Sources (cite by id):
 {sources}
 
-Restate the derivation of this concept from those sources.
+{expectation}
+
+Then produce that shape from the sources.
 
 Return JSON:
 {{
+  "kind": "derivation" | "definition",
   "grounded": true | false,
-  "statement": "the result, stated precisely",
+  "statement": "the result or the definition, stated precisely",
   "symbols": [{{"symbol": "P", "meaning": "state covariance", "dimensions": "n x n"}}],
+
   "steps": [
     {{"n": 1,
       "text": "the step, with its equation",
       "invokes": ["canon concept or technique this step uses"],
       "cites": ["source id"]}}
   ],
+
+  "properties": [
+    {{"property": "for a definition: a key fact that follows from it",
+      "why": "one clause", "cites": ["source id"]}}
+  ],
+
   "assumptions": [{{"assumption": "...", "breaks_when": "..."}}],
   "failure_modes": [{{"mode": "...", "signature": "...", "cause": "..."}}]
 }}
 
-Set "grounded" false and leave steps empty if the sources carry no derivation.
+For "derivation": fill steps, leave properties empty. Do NOT derive a property
+of the object in place of the object itself.
+For "definition": leave steps empty, give the defining equation in "statement",
+and list the facts a reader needs in "properties". Every property cites a source.
+
+Set "grounded" false only if the sources do not support the concept at all.
 """
 
 
@@ -83,12 +104,18 @@ class Step:
 class Derivation:
     node_id: str
     grounded: bool
+    kind: str = "derivation"  # "derivation" | "definition"
     statement: str = ""
     symbols: list[dict] = field(default_factory=list)
     steps: list[Step] = field(default_factory=list)
+    properties: list[dict] = field(default_factory=list)
     assumptions: list[dict] = field(default_factory=list)
     failure_modes: list[dict] = field(default_factory=list)
     source_ids: list[str] = field(default_factory=list)
+
+    @property
+    def is_definition(self) -> bool:
+        return self.kind == "definition"
 
     @property
     def invoked(self) -> set[str]:
@@ -96,7 +123,10 @@ class Derivation:
 
     @property
     def citations(self) -> list[str]:
-        return [c for step in self.steps for c in step.cites]
+        cited = [c for step in self.steps for c in step.cites]
+        for prop in self.properties:
+            cited += [str(c) for c in prop.get("cites", [])]
+        return cited
 
     def to_json(self) -> str:
         payload = asdict(self)
@@ -150,8 +180,43 @@ def select_text(text: str, budget: int) -> str:
     return head_text + "\n\n[...]\n\n" + "\n".join(window)
 
 
+EXPECT_DERIVATION = (
+    "This node is expected to be a RESULT with a derivation: the canon records "
+    "that it is reached using {moves}, which are manipulation moves you perform "
+    "in a derivation. Restate that derivation. Only call it a definition if the "
+    "sources genuinely contain nothing to derive, and say so in the statement."
+)
+EXPECT_DEFINITION = (
+    "This node is expected to be a DEFINITION or object -- the canon records no "
+    "manipulation moves under it, so there is likely nothing to derive. State it "
+    "precisely. Do NOT derive a property of the object in place of the object. "
+    "Only produce a derivation if the sources clearly derive this node itself."
+)
+
+
+def expected_kind(graph: Graph | None, node_id: str) -> tuple[str, list[str]]:
+    """Guess result-vs-definition from the canon's own structure.
+
+    A node that requires techniques is derived: techniques are the moves you
+    perform in a derivation, so needing one means there is something to perform.
+    Without this hint the model takes the easier shape and calls everything a
+    definition.
+    """
+    if graph is None or node_id not in graph.nodes:
+        return "derivation", []
+    from .schema import NodeType, Relation
+
+    moves = sorted(
+        e.dst for e in graph.edges.values()
+        if e.src == node_id and e.rel is Relation.REQUIRES
+        and graph.nodes[e.dst].type is NodeType.TECHNIQUE
+    )
+    return ("derivation" if moves else "definition"), moves
+
+
 def build_prompt(node_id: str, name: str, sources: list[Source],
-                 vocabulary: list[str] | None = None) -> str:
+                 vocabulary: list[str] | None = None,
+                 graph: Graph | None = None) -> str:
     """Render sources into the prompt, keeping derivation-bearing sections."""
     budget = MAX_SOURCE_CHARS // max(len(sources), 1)
     blocks = [
@@ -165,8 +230,14 @@ def build_prompt(node_id: str, name: str, sources: list[Source],
             "one applies. Only invent a name if nothing here fits:\n"
             + ", ".join(sorted(vocabulary))
         )
+    kind, moves = expected_kind(graph, node_id)
+    expectation = (
+        EXPECT_DERIVATION.format(moves=", ".join(moves))
+        if kind == "derivation" else EXPECT_DEFINITION
+    )
     return TEMPLATE.format(
-        name=name, node_id=node_id, sources="\n\n".join(blocks) or "(none)"
+        name=name, node_id=node_id, sources="\n\n".join(blocks) or "(none)",
+        expectation=expectation,
     ) + vocab
 
 
@@ -189,16 +260,24 @@ def candidate_vocabulary(graph: Graph, node_id: str, limit: int = 60) -> list[st
 
 
 def generate(provider: Provider, node_id: str, name: str, sources: list[Source],
-             vocabulary: list[str] | None = None) -> Derivation:
+             vocabulary: list[str] | None = None,
+             graph: Graph | None = None) -> Derivation:
     """Ask a provider to restate the derivation carried by `sources`."""
     if not sources:
         return Derivation(node_id=node_id, grounded=False)
 
-    payload = complete_json(
-        provider,
-        build_prompt(node_id, name, sources, vocabulary),
-        system=SYSTEM,
-    )
+    prompt = build_prompt(node_id, name, sources, vocabulary, graph)
+    try:
+        payload = complete_json(provider, prompt, system=SYSTEM)
+    except LLMError:
+        # Derivations are LaTeX-heavy and backslashes break JSON encoding often
+        # enough that one retry is worth a call. A second failure is systematic.
+        payload = complete_json(
+            provider,
+            prompt + "\n\nReturn STRICT JSON. Escape every backslash in LaTeX "
+                     "as \\\\, and do not wrap the object in prose or fences.",
+            system=SYSTEM,
+        )
     steps = [
         Step(
             n=int(raw.get("n", index + 1)),
@@ -208,10 +287,16 @@ def generate(provider: Provider, node_id: str, name: str, sources: list[Source],
         )
         for index, raw in enumerate(payload.get("steps", []))
     ]
+    kind = str(payload.get("kind", "derivation")).lower()
+    if kind not in ("derivation", "definition"):
+        kind = "definition" if not steps else "derivation"
+
     return Derivation(
         node_id=node_id,
         grounded=bool(payload.get("grounded", False)),
+        kind=kind,
         statement=str(payload.get("statement", "")),
+        properties=list(payload.get("properties", [])),
         symbols=list(payload.get("symbols", [])),
         steps=steps,
         assumptions=list(payload.get("assumptions", [])),
@@ -265,12 +350,29 @@ def check(derivation: Derivation, sources: list[Source], graph: Graph,
 
     uncited = [step.n for step in derivation.steps if not step.cites]
 
+    # A definition has no steps to check; it must instead say what the thing is
+    # and cite the facts a reader needs. Requiring steps of it is what made
+    # covariance_matrix derive a property of itself to satisfy the shape.
+    if derivation.is_definition:
+        shape = []
+        if not derivation.statement.strip():
+            shape.append("definition has no statement")
+        if not derivation.properties:
+            shape.append("definition lists no properties")
+        if derivation.steps:
+            shape.append("definition carries derivation steps")
+    else:
+        shape = [] if derivation.steps else ["derivation carries no steps"]
+
     return {
         "node_id": derivation.node_id,
+        "kind": derivation.kind,
         "grounded": derivation.grounded,
         "ungrounded_citations": sorted(ungrounded),
         "uncited_steps": uncited,
         "unknown_invocations": sorted(unknown),
         "closure_holes": sorted(holes),
-        "ok": not ungrounded and not uncited and derivation.grounded,
+        "shape": shape,
+        "ok": (not ungrounded and not uncited and not shape
+               and derivation.grounded),
     }

@@ -80,7 +80,8 @@ for index, node_id in enumerate(path, 1):
 
     try:
         derivation = generate(provider, node.id, node.name, sources,
-                              vocabulary=candidate_vocabulary(graph, node.id))
+                              vocabulary=candidate_vocabulary(graph, node.id),
+                              graph=graph)
     except QuotaExhausted as exc:
         print(f"\n  stopped at {index}/{len(path)}: {str(exc)[:80]}")
         print("  rerun to resume -- finished nodes are skipped")
