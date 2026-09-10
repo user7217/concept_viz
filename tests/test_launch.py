@@ -90,3 +90,22 @@ class TestIngestRepo(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestNestedConfig(unittest.TestCase):
+    """A ROS2 workspace nests config under src/<package>/config/."""
+
+    def test_config_below_the_root_is_found(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            deep = root / "src" / "pkg" / "config"
+            deep.mkdir(parents=True)
+            (deep / "ekf.yaml").write_text(
+                "ekf_node:\n  ros__parameters:\n    frequency: 30.0\n")
+            (root / "src" / "pkg" / "launch").mkdir()
+            (root / "src" / "pkg" / "launch" / "b.launch.py").write_text(
+                'from launch_ros.actions import Node\n'
+                'Node(package="robot_localization", executable="ekf_node",\n'
+                '     name="ekf", parameters=["ekf.yaml"])\n')
+            project = ingest_repo(root)
+        self.assertIn("frequency", {p.name for p in project.parameters})
