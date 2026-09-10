@@ -149,6 +149,7 @@
       "block_matrix_inversion"
     ],
     "shape": [],
+    "vacuous_invocations": false,
     "ok": true
   }
 }

@@ -125,6 +125,7 @@
       "composite_function"
     ],
     "shape": [],
+    "vacuous_invocations": false,
     "ok": true
   }
 }

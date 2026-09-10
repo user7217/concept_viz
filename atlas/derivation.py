@@ -23,6 +23,11 @@ from .retrieval import Source, cited_but_not_retrieved
 
 MAX_SOURCE_CHARS = 24000
 
+# Naming these identifies nothing: every algebraic step rearranges something.
+# This is NOT the assumed tier -- matrix_multiplication is floor-level because
+# most readers know it, yet it is exactly what a transpose-product step turns on.
+UNINFORMATIVE = frozenset({"algebraic_rearrangement", "index_notation"})
+
 # Reference articles put derivations well past the introduction, so truncating
 # from the front feeds the model the setup and cuts off the part it needs.
 DERIVATION_MARKERS = (
@@ -263,7 +268,7 @@ def candidate_vocabulary(graph: Graph, node_id: str, limit: int = 60) -> list[st
     """
     from .schema import NodeType, Tier
 
-    trivial = {n.id for n in graph.nodes.values() if n.tier is Tier.ASSUMED}
+    trivial = set(UNINFORMATIVE)
     nearby = set(graph.requires_closure(node_id)) if node_id in graph.nodes else set()
     nearby -= trivial
     if len(nearby) < limit:
@@ -386,12 +391,11 @@ def check(derivation: Derivation, sources: list[Source], graph: Graph,
     if derivation.kind != expected:
         shape.append(f"expected a {expected}, produced a {derivation.kind}")
 
-    # Resolved invocations that are all floor-level verify nothing: every step
-    # rearranges something, so a closure built from that is vacuously complete.
-    substantive = {
-        n for n in resolved
-        if n in graph.nodes and graph.nodes[n].tier is not Tier.ASSUMED
-    }
+    # A closure built only from "this step rearranges something" is vacuously
+    # complete. Judged against UNINFORMATIVE, not against the floor: excluding
+    # the whole assumed tier failed a correct transpose derivation whose real
+    # content was matrix_multiplication.
+    substantive = {n for n in resolved if n not in UNINFORMATIVE}
     vacuous = bool(derivation.steps) and not substantive
 
     return {

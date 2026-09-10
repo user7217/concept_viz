@@ -113,6 +113,7 @@
     "unknown_invocations": [],
     "closure_holes": [],
     "shape": [],
+    "vacuous_invocations": false,
     "ok": true
   }
 }

@@ -192,6 +192,7 @@
       "differential_equation"
     ],
     "shape": [],
+    "vacuous_invocations": false,
     "ok": true
   }
 }

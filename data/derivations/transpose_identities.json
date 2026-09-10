@@ -1,23 +1,13 @@
 {
   "node_id": "transpose_identities",
   "grounded": true,
-  "kind": "definition",
-  "statement": "The transpose of an m x n matrix A, written A^T, is the n x m matrix obtained by swapping A's row and column indices: [A^T]_{ij} = [A]_{ji}. The source presents the standard algebraic identities of this operation as properties that follow from the definition, listing them without individual step-by-step proofs. The one exception is the symmetry of AA^T (and A^TA), for which the source gives an explicit short derivation by chaining two of the other identities: (AA^T)^T = (A^T)^T A^T = AA^T.",
+  "kind": "derivation",
+  "statement": "For matrices A, B of compatible shape and scalar c, the transpose satisfies: (A^T)^T = A; (A+B)^T = A^T + B^T; (cA)^T = c(A^T); (AB)^T = B^T A^T. All four follow directly from the entrywise definition [A^T]_ij = [A]_ji.",
   "symbols": [
     {
-      "symbol": "A",
-      "meaning": "matrix",
-      "dimensions": "m x n"
-    },
-    {
-      "symbol": "A^T",
-      "meaning": "transpose of A",
-      "dimensions": "n x m"
-    },
-    {
-      "symbol": "B",
-      "meaning": "matrix, conformable with A for the stated operation",
-      "dimensions": "m x n (add/scalar) or n x p (product AB)"
+      "symbol": "A, B",
+      "meaning": "matrices (A is m x n, B conformable for the operation in question)",
+      "dimensions": "A: m x n"
     },
     {
       "symbol": "c",
@@ -25,129 +15,81 @@
       "dimensions": "1 x 1"
     },
     {
-      "symbol": "a, b",
-      "meaning": "column vectors used in the dot-product identities",
-      "dimensions": "n x 1"
+      "symbol": "A^T",
+      "meaning": "transpose of A",
+      "dimensions": "n x m"
     },
     {
-      "symbol": "p_ij",
-      "meaning": "entry (i,j) of the product AA^T, used in the source's index argument for symmetry",
-      "dimensions": "scalar"
+      "symbol": "i, j, k",
+      "meaning": "row/column/summation indices",
+      "dimensions": "scalar index"
     }
   ],
-  "steps": [],
-  "properties": [
+  "steps": [
     {
-      "property": "Involution: (A^T)^T = A. Transposition is self-inverse.",
-      "why": "stated directly as a property of the definition",
+      "n": 1,
+      "text": "Start from the defining entrywise relation of the transpose: [A^T]_ij = [A]_ji.",
+      "invokes": [],
       "cites": [
         "wikipedia:Transpose"
       ]
     },
     {
-      "property": "Additivity: (A + B)^T = A^T + B^T. 'The transpose respects addition.'",
-      "why": "stated directly as a property of the definition",
+      "n": 2,
+      "text": "Involution: apply the definition twice, [(A^T)^T]_ij = [A^T]_ji = [A]_ij for every i,j, so (A^T)^T = A.",
+      "invokes": [],
       "cites": [
         "wikipedia:Transpose"
       ]
     },
     {
-      "property": "Scalar factor: (cA)^T = c(A^T). Combined with additivity, this makes transpose a linear map from m x n matrices to n x m matrices.",
-      "why": "stated directly, with the linearity conclusion given explicitly in the source",
+      "n": 3,
+      "text": "Additivity: [(A+B)^T]_ij = [A+B]_ji = [A]_ji + [B]_ji = [A^T]_ij + [B^T]_ij for every i,j, so (A+B)^T = A^T + B^T.",
+      "invokes": [],
       "cites": [
         "wikipedia:Transpose"
       ]
     },
     {
-      "property": "Product reversal: (AB)^T = B^T A^T; the order of factors reverses. By induction this extends to (A1 A2 ... Ak)^T = Ak^T ... A2^T A1^T.",
-      "why": "stated directly, with the multi-factor extension attributed to induction",
+      "n": 4,
+      "text": "Scalar homogeneity: [(cA)^T]_ij = [cA]_ji = c[A]_ji = c[A^T]_ij for every i,j, so (cA)^T = c(A^T). Together with additivity this makes transposition a linear map on the space of m x n matrices.",
+      "invokes": [],
       "cites": [
         "wikipedia:Transpose"
       ]
     },
     {
-      "property": "Determinant invariance: det(A^T) = det(A) for a square matrix.",
-      "why": "stated directly as a property of the definition",
-      "cites": [
-        "wikipedia:Transpose"
-      ]
-    },
-    {
-      "property": "Dot product as matrix product: a . b = a^T b for column vectors a, b.",
-      "why": "stated directly; used again in the adjoint identity below",
-      "cites": [
-        "wikipedia:Transpose"
-      ]
-    },
-    {
-      "property": "If A has only real entries, A^T A is positive-semidefinite.",
-      "why": "stated directly as a property of the definition",
-      "cites": [
-        "wikipedia:Transpose"
-      ]
-    },
-    {
-      "property": "Inverse-transpose commute: (A^T)^{-1} = (A^{-1})^T, so the transpose of an invertible matrix is invertible, with inverse equal to the transpose of the inverse.",
-      "why": "stated directly as a property of the definition",
-      "cites": [
-        "wikipedia:Transpose"
-      ]
-    },
-    {
-      "property": "A and A^T share the same characteristic polynomial, hence the same eigenvalues.",
-      "why": "stated directly ('their eigenvalues are equal ... since they share the same characteristic polynomial')",
-      "cites": [
-        "wikipedia:Transpose"
-      ]
-    },
-    {
-      "property": "Adjoint-style identity: (Aa) . b = a . (A^T b) for column vectors a, b and the standard dot product.",
-      "why": "stated directly as a property of the definition",
-      "cites": [
-        "wikipedia:Transpose"
-      ]
-    },
-    {
-      "property": "AA^T and A^T A are symmetric matrices.",
-      "why": "the source gives an explicit derivation: entrywise, p_ij = p_ji because both are obtained as the inner product of rows i and j of A, and separately a 'quick proof' shows (AA^T)^T = (A^T)^T A^T = AA^T by applying the product-reversal identity then the involution identity",
+      "n": 5,
+      "text": "Product reversal: expand the (i,j) entry of AB using the definition of matrix multiplication, [(AB)^T]_ij = [AB]_ji = sum_k [A]_jk [B]_ki. Rewrite each factor via the transpose definition, [A]_jk = [A^T]_kj and [B]_ki = [B^T]_ik, giving sum_k [B^T]_ik [A^T]_kj = [B^T A^T]_ij for every i,j. Hence (AB)^T = B^T A^T; by induction this extends to (A_1 A_2 ... A_k)^T = A_k^T ... A_2^T A_1^T.",
+      "invokes": [
+        "matrix_multiplication"
+      ],
       "cites": [
         "wikipedia:Transpose"
       ]
     }
   ],
+  "properties": [],
   "assumptions": [
     {
-      "assumption": "Matrix dimensions are conformable for the stated operation (e.g. A and B same shape for addition, A's columns match B's rows for the product AB).",
-      "breaks_when": "shapes are mismatched, in which case the operation is undefined"
+      "assumption": "Entries lie in a field where scalar multiplication commutes (e.g. real or complex numbers), so [A]_jk[B]_ki can be reordered freely inside the sum used in step 5.",
+      "breaks_when": "entries are drawn from a noncommutative ring, where the product-reversal law can fail or require a different convention"
     },
     {
-      "assumption": "The positive-semidefinite property of A^T A requires A to have real entries.",
-      "breaks_when": "A has complex entries; the source's complex analogues (Hermitian, unitary) use the conjugate transpose instead of the plain transpose"
-    },
-    {
-      "assumption": "The inverse-transpose identity (A^T)^{-1} = (A^{-1})^T requires A to be invertible.",
-      "breaks_when": "A is singular, so A^{-1} does not exist"
-    },
-    {
-      "assumption": "The eigenvalue/characteristic-polynomial and similarity-to-A^T claims are stated for square matrices.",
-      "breaks_when": "A is not square, since eigenvalues and similarity are undefined"
+      "assumption": "Matrix shapes are conformable for the operation being transposed (same m x n for the sum; A is m x n and B is n x p for the product).",
+      "breaks_when": "shapes are mismatched, making the operation itself undefined before transposition is even considered"
     }
   ],
   "failure_modes": [
     {
-      "mode": "Applying (AB)^T = A^T B^T instead of B^T A^T",
-      "signature": "computed transpose has wrong shape or wrong numerical entries whenever A, B do not commute",
-      "cause": "forgetting that the product-reversal identity swaps the order of the factors"
+      "mode": "Applying (AB)^T = B^T A^T without reversing order",
+      "signature": "computed transpose of a product does not equal the product of transposes in original order",
+      "cause": "forgetting that transposition, like taking an inverse, reverses composition order"
     },
     {
-      "mode": "Assuming A^T A is positive-semidefinite for complex A",
-      "signature": "x^T (A^T A) x can be non-real or negative for complex A",
-      "cause": "the PSD property in the source is stated only for real-entry A; complex matrices need the conjugate transpose (Hermitian) version"
-    },
-    {
-      "mode": "Treating the transpose and the adjoint as identical in a non-orthonormal basis",
-      "signature": "matrix representing the adjoint of a linear map does not equal A^T",
-      "cause": "the source notes the adjoint's matrix equals the transpose only when bases are orthonormal with respect to the relevant bilinear forms"
+      "mode": "Confusing plain transpose with conjugate transpose",
+      "signature": "identities appear to fail for complex matrices, e.g. A^T A is not positive-semidefinite",
+      "cause": "the source's real-entry claim (A^T A positive-semidefinite) and the Hermitian/unitary definitions require the conjugate transpose, not the plain transpose, once entries are complex"
     }
   ],
   "source_ids": [
@@ -155,13 +97,14 @@
   ],
   "check": {
     "node_id": "transpose_identities",
-    "kind": "definition",
+    "kind": "derivation",
     "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
     "shape": [],
+    "vacuous_invocations": false,
     "ok": true
   }
 }
