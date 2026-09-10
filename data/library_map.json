@@ -1,0 +1,40 @@
+{
+  "_note": "Library -> canon algorithm ids. Deterministic and deliberately conservative: a library maps only where its documented core is one of the seeded algorithms. Anything unmapped becomes unclassified and is put to the user at the confirmation gate rather than guessed.",
+  "libraries": {
+    "robot_localization":     ["extended_kalman_filter"],
+    "imu_filter_madgwick":    ["complementary_filter"],
+    "imu_complementary_filter": ["complementary_filter"],
+    "nav2_bringup":           ["a_star", "dijkstra"],
+    "nav2_navfn_planner":     ["dijkstra"],
+    "nav2_smac_planner":      ["a_star"],
+    "nav2_amcl":              ["particle_filter"],
+    "amcl":                   ["particle_filter"],
+    "slam_toolbox":           ["gauss_newton", "occupancy_grid_mapping"],
+    "gmapping":               ["particle_filter", "occupancy_grid_mapping"],
+    "cartographer":           ["gauss_newton", "occupancy_grid_mapping"],
+    "pcl_ros":                ["icp", "ransac"],
+    "pcl":                    ["icp", "ransac"],
+    "ultralytics":            ["yolo_detection_loss"],
+    "torch":                  ["backpropagation", "cross_entropy_loss", "gradient_descent"],
+    "torchvision":            ["backpropagation", "cross_entropy_loss"],
+    "tensorflow":             ["backpropagation", "cross_entropy_loss", "gradient_descent"],
+    "scikit-learn":           ["pca", "ordinary_least_squares", "ransac"],
+    "sklearn":                ["pca", "ordinary_least_squares", "ransac"],
+    "ros2_control":           ["pid"],
+    "control_toolbox":        ["pid"],
+    "tf2_ros":                ["quaternion_kinematics"],
+    "tf_transformations":     ["quaternion_kinematics"],
+    "gtsam":                  ["gauss_newton"],
+    "ceres":                  ["gauss_newton", "ordinary_least_squares"],
+    "g2o":                    ["gauss_newton"]
+  },
+  "domain_subsystem": {
+    "estimation":   "Localization",
+    "mapping":      "Mapping",
+    "planning":     "Navigation",
+    "ml":           "Perception",
+    "geometry":     "Perception",
+    "control":      "Control",
+    "optimization": "Estimation"
+  }
+}

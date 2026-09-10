@@ -201,6 +201,57 @@ class Graph:
                 removed.append((edge.src, edge.dst))
         return removed
 
+    def algorithms_under(self, node_id: str) -> set[str]:
+        """Every algorithm reachable from an architecture node.
+
+        Walks CONTAINS down the project layer and crosses USES at the seam.
+        """
+        found: set[str] = set()
+        queue = deque([node_id])
+        seen: set[str] = set()
+        while queue:
+            current = queue.popleft()
+            if current in seen:
+                continue
+            seen.add(current)
+            if self.nodes[current].type is NodeType.ALGORITHM:
+                found.add(current)
+                continue
+            for edge in self.edges.values():
+                if edge.src == current and edge.rel in (
+                    Relation.CONTAINS,
+                    Relation.USES,
+                ):
+                    queue.append(edge.dst)
+        return found
+
+    def learning_path(self, node_id: str, known: set[str] | None = None) -> list[str]:
+        """What to learn, in order, to understand an architecture node.
+
+        The product query: given a subsystem or the whole system, collect every
+        algorithm under it and return the union of their prerequisites in
+        dependency order, cut at the reader's floor.
+        """
+        algorithms = self.algorithms_under(node_id)
+        # Assumed-tier nodes are the canon's own floor. A caller asking what to
+        # learn should never be handed them, whatever their personal profile.
+        floor = {n.id for n in self.nodes.values() if n.tier is Tier.ASSUMED}
+        known = (known or set()) | floor
+        if not algorithms:
+            return self.syllabus(node_id, known)
+
+        wanted: set[str] = set()
+        for algorithm in algorithms:
+            wanted |= self.requires_closure(algorithm)
+        wanted -= known
+
+        ordered: list[str] = []
+        for algorithm in sorted(algorithms):
+            for prerequisite in self.syllabus(algorithm, known):
+                if prerequisite in wanted and prerequisite not in ordered:
+                    ordered.append(prerequisite)
+        return ordered
+
     # ---------- validation ----------
 
     def validate(self, check_orphans: bool = True) -> list[str]:
