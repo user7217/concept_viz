@@ -5,3 +5,7 @@ __pycache__/
 # secrets
 .env
 profile.json
+
+# working context, not shipped docs
+CLAUDE.md
+docs/
