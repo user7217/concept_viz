@@ -1,0 +1,117 @@
+{
+  "node_id": "matrix_inversion_lemma",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "The matrix inversion lemma (Woodbury identity) rewrites the inverse of a rank-k-corrected matrix (A + UBV)^{-1}, where the correction UBV has rank at most k, in terms of A^{-1} and the inverse of a k\u00d7k matrix instead of an n\u00d7n one: (A+UBV)^{-1} = A^{-1} - A^{-1}UB(B+BVA^{-1}UB)^{-1}BVA^{-1}, valid provided A and B+BVA^{-1}UB are nonsingular [wikipedia:Woodbury_matrix_identity]. NOTE ON SOURCE COMPLETENESS: the supplied excerpt's '== Derivations == / === Direct proof ===' section, which is where the identity would be verified by checking that (A+UCV) times the claimed inverse equals I, is truncated after its opening clause ('The formula can be proven by checking that (A+UCV)...'). The actual multiplication-based verification is not present in the supplied text and is not reproduced here. What follows instead restates the relationships between stated forms that ARE fully given in the source: the general (Binomial inverse theorem) form, its reduction to the classical Woodbury form, the singular/non-square-B variant, and the recursive Neumann-series form of the related (A-B)^{-1} identity.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "matrix being corrected",
+      "dimensions": "n x n, nonsingular"
+    },
+    {
+      "symbol": "B",
+      "meaning": "correction 'core' matrix (also written C in the source's other forms)",
+      "dimensions": "k x k"
+    },
+    {
+      "symbol": "U",
+      "meaning": "left factor of the low-rank correction UBV",
+      "dimensions": "n x k"
+    },
+    {
+      "symbol": "V",
+      "meaning": "right factor of the low-rank correction UBV",
+      "dimensions": "k x n"
+    },
+    {
+      "symbol": "I",
+      "meaning": "identity matrix",
+      "dimensions": "conformant"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "State the general rank-k form of the lemma (Binomial inverse theorem): for A (n x n), B (k x k), U (n x k), V (k x n), (A+UBV)^{-1} = A^{-1} - A^{-1}UB(B+BVA^{-1}UB)^{-1}BVA^{-1}, provided A and B+BVA^{-1}UB are nonsingular. Nonsingularity of the latter requires B^{-1} to exist, since B+BVA^{-1}UB = B(I+VA^{-1}UB) and the rank of the right-hand side cannot exceed rank(B).",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Woodbury_matrix_identity"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Reduce to the classical Woodbury form when B is invertible: since B = (B^{-1})^{-1}, the two B terms flanking (B+BVA^{-1}UB)^{-1} on the right-hand side can be replaced with (B^{-1})^{-1}, which turns B(B+BVA^{-1}UB)^{-1}B into (B^{-1}+VA^{-1}U)^{-1} and results in the original Woodbury identity, (A+UBV)^{-1} = A^{-1} - A^{-1}U(B^{-1}+VA^{-1}U)^{-1}VA^{-1}.",
+      "invokes": [
+        "matrix_inverse_identity"
+      ],
+      "cites": [
+        "wikipedia:Woodbury_matrix_identity"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "State the variant that holds when B is singular or even non-square, avoiding any need to invert B itself: (A+UBV)^{-1} = A^{-1} - A^{-1}U(I+BVA^{-1}U)^{-1}BVA^{-1}.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Woodbury_matrix_identity"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "For the related two-term identity (A-B)^{-1} = A^{-1} + A^{-1}B(A-B)^{-1} (valid even for singular B), recursively substitute the right-hand side's (A-B)^{-1} into itself; this generates the Neumann series (A-B)^{-1} = sum_{k=0}^{infty} (A^{-1}B)^k A^{-1}, which equals (A-B)^{-1} when it converges, i.e. when the spectral radius of A^{-1}B is less than one.",
+      "invokes": [
+        "eigenvalue"
+      ],
+      "cites": [
+        "wikipedia:Woodbury_matrix_identity"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "A is nonsingular (A^{-1} exists).",
+      "breaks_when": "A is singular; the lemma is undefined since A^{-1} does not exist."
+    },
+    {
+      "assumption": "B+BVA^{-1}UB is nonsingular (equivalently B^{-1} exists, per the source's rank argument), for the Binomial inverse theorem / classical Woodbury form.",
+      "breaks_when": "B is singular, since B+BVA^{-1}UB = B(I+VA^{-1}UB) then has rank bounded by rank(B) and is itself singular; use the singular/non-square-B variant (step 3) instead."
+    },
+    {
+      "assumption": "For the series form of (A-B)^{-1}, the spectral radius of A^{-1}B is less than one.",
+      "breaks_when": "spectral radius of A^{-1}B >= 1; the Neumann series diverges even though the closed form (A-B)^{-1}=A^{-1}+A^{-1}B(A-B)^{-1} remains valid."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Applying the nonsingular-B (classical) Woodbury form to a singular B",
+      "signature": "B+BVA^{-1}UB (or B^{-1} itself) is not invertible; the formula requires inverting a singular matrix",
+      "cause": "B lacks an inverse; the source's singular/non-square-B variant should be used instead"
+    },
+    {
+      "mode": "Truncated Neumann series used for (A-B)^{-1}",
+      "signature": "Partial sum of (A^{-1}B)^k A^{-1} fails to approach (A-B)^{-1}",
+      "cause": "spectral radius of A^{-1}B is not less than one, so the infinite series does not converge"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Woodbury_matrix_identity"
+  ],
+  "check": {
+    "node_id": "matrix_inversion_lemma",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [
+      "matrix_inverse_identity"
+    ],
+    "closure_holes": [
+      "eigenvalue"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

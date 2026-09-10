@@ -15,13 +15,16 @@ turns "what does this require?" from a judgment into a set difference.
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import asdict, dataclass, field
 
 from .graph import Graph
 from .llm import LLMError, Provider, complete_json
 from .retrieval import Source, cited_but_not_retrieved
 
-MAX_SOURCE_CHARS = 24000
+# Source text is ~88% of a prompt, so this is the only lever that matters.
+# Override with ATLAS_SOURCE_CHARS to measure a different budget.
+MAX_SOURCE_CHARS = int(os.environ.get("ATLAS_SOURCE_CHARS", "24000"))
 
 # Naming these identifies nothing: every algebraic step rearranges something.
 # This is NOT the assumed tier -- matrix_multiplication is floor-level because
@@ -271,7 +274,9 @@ def candidate_vocabulary(graph: Graph, node_id: str, limit: int = 60) -> list[st
     trivial = set(UNINFORMATIVE)
     nearby = set(graph.requires_closure(node_id)) if node_id in graph.nodes else set()
     nearby -= trivial
-    if len(nearby) < limit:
+    # A node's own closure is the relevant vocabulary. Widening to the whole
+    # canon adds a thousand characters of ids a derivation will never name.
+    if len(nearby) < 8:
         nearby |= {
             n.id for n in graph.nodes.values()
             if n.type in (NodeType.CONCEPT, NodeType.TECHNIQUE)
@@ -398,6 +403,12 @@ def check(derivation: Derivation, sources: list[Source], graph: Graph,
     substantive = {n for n in resolved if n not in UNINFORMATIVE}
     vacuous = bool(derivation.steps) and not substantive
 
+    # closure_holes and unknown_invocations are CANON signals, not sheet
+    # defects, so they are reported without failing "ok". A hole usually means
+    # the canon is missing an edge or a node, and failing the sheet would force
+    # a regeneration that fixes nothing. scripts/canon_gaps.py aggregates them
+    # into curation work; a hole appearing across several sheets is the strong
+    # signal, the same convergence that made round-2 flags trustworthy.
     return {
         "node_id": derivation.node_id,
         "kind": derivation.kind,
