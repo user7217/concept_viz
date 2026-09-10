@@ -1,0 +1,129 @@
+{
+  "node_id": "angular_velocity",
+  "grounded": true,
+  "statement": "The orbital angular velocity in two dimensions is defined as the time rate of change of angular position, omega = d\\phi/dt, and is related to the cross-radial speed by omega = v_\\perp / r.",
+  "symbols": [
+    {
+      "symbol": "r",
+      "meaning": "Position vector relative to origin",
+      "dimensions": "2"
+    },
+    {
+      "symbol": "r",
+      "meaning": "Radial distance from origin",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\phi",
+      "meaning": "Angular displacement relative to x-axis",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\hat{r}",
+      "meaning": "Radial unit vector (cos(\\phi), sin(\\phi))",
+      "dimensions": "2"
+    },
+    {
+      "symbol": "\\hat{\\phi}",
+      "meaning": "Cross-radial (perpendicular) unit vector (-sin(\\phi), cos(\\phi))",
+      "dimensions": "2"
+    },
+    {
+      "symbol": "v",
+      "meaning": "Linear velocity vector d(r)/dt",
+      "dimensions": "2"
+    },
+    {
+      "symbol": "v_\\perp",
+      "meaning": "Cross-radial (perpendicular) linear velocity component",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\omega",
+      "meaning": "Angular velocity (rate of change of angle with respect to time)",
+      "dimensions": "1"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Express the position vector r in planar polar coordinates as r = (r cos(\\phi), r sin(\\phi)), where r and \\phi are functions of time t.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Angular_velocity"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Differentiate the position vector r with respect to time t using the product and chain rules: d(r)/dt = (r_dot cos(\\phi) - r \\phi_dot sin(\\phi), r_dot sin(\\phi) + r \\phi_dot cos(\\phi)).",
+      "invokes": [
+        "derivative",
+        "chain_rule"
+      ],
+      "cites": [
+        "wikipedia:Angular_velocity"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Factor the derivative into radial and perpendicular components: d(r)/dt = r_dot (cos(\\phi), sin(\\phi)) + r \\phi_dot (-sin(\\phi), cos(\\phi)) = r_dot \\hat{r} + r \\phi_dot \\hat{\\phi}.",
+      "invokes": [
+        "algebraic_rearrangement",
+        "basis"
+      ],
+      "cites": [
+        "wikipedia:Angular_velocity"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Equate d(r)/dt to linear velocity v and identify the radial component as r_dot and the perpendicular (cross-radial) component as v_\\perp = r \\phi_dot.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Angular_velocity"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Solve for the angular velocity omega = \\phi_dot = d\\phi/dt from the perpendicular component to obtain omega = v_\\perp / r.",
+      "invokes": [
+        "algebraic_rearrangement",
+        "angular_velocity"
+      ],
+      "cites": [
+        "wikipedia:Angular_velocity"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The particle motion is restricted to a plane, and position coordinates are twice-continuously differentiable with respect to time.",
+      "breaks_when": "Position vector is non-differentiable or discontinuous in time."
+    },
+    {
+      "assumption": "The particle is not located at the origin (r > 0).",
+      "breaks_when": "r = 0, causing division by zero when calculating omega = v_\\perp / r."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Division by zero at the origin",
+      "signature": "Undefined or infinite angular velocity",
+      "cause": "Distance from origin r equals 0, making polar angle undefined and cross-radial speed division indeterminate."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Angular_velocity"
+  ],
+  "check": {
+    "node_id": "angular_velocity",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [
+      "chain_rule"
+    ],
+    "ok": true
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "node_id": "admissibility",
+  "grounded": false,
+  "statement": "A heuristic function h(n) is admissible if for all nodes n, h(n) <= h*(n), where h*(n) is the true optimal cost to reach a goal from n.",
+  "symbols": [
+    {
+      "symbol": "n",
+      "meaning": "Node in the search graph",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "h(n)",
+      "meaning": "Estimated cost to reach a goal state from node n",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "h*(n)",
+      "meaning": "Optimal (lowest possible) actual cost to reach a goal state from node n",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "assumptions": [],
+  "failure_modes": [],
+  "source_ids": [
+    "wikipedia:Admissible_heuristic"
+  ],
+  "check": {
+    "node_id": "admissibility",
+    "grounded": false,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "ok": false
+  }
+}

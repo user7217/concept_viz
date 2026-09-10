@@ -176,3 +176,78 @@ class TestGetProvider(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestRotation(unittest.TestCase):
+    """Free-tier quota is per model, so several small allowances combine."""
+
+    def make(self, model: str, replies):
+        import itertools
+        from atlas.llm import GeminiProvider
+
+        stream = iter(replies)
+
+        def transport(url: str, data: bytes) -> bytes:
+            item = next(stream)
+            if isinstance(item, Exception):
+                raise item
+            return item
+
+        return GeminiProvider(api_key="k", model=model, transport=transport)
+
+    def test_falls_through_to_the_next_model_when_quota_is_spent(self) -> None:
+        from atlas.llm import QuotaExhausted, RotatingProvider
+
+        first = self.make("a", [QuotaExhausted("a: spent")])
+        second = self.make("b", [gemini_reply('{"ok": true}')])
+        rotation = RotatingProvider([first, second])
+        self.assertEqual(rotation.complete("p"), '{"ok": true}')
+
+    def test_an_exhausted_model_is_not_retried(self) -> None:
+        from atlas.llm import QuotaExhausted, RotatingProvider
+
+        calls = []
+
+        def counting(url: str, data: bytes) -> bytes:
+            calls.append(url)
+            raise QuotaExhausted("spent")
+
+        from atlas.llm import GeminiProvider
+
+        first = GeminiProvider(api_key="k", model="a", transport=counting)
+        second = self.make("b", [gemini_reply("{}"), gemini_reply("{}")])
+        rotation = RotatingProvider([first, second])
+        rotation.complete("one")
+        rotation.complete("two")
+        self.assertEqual(len(calls), 1, "exhausted model was called again")
+
+    def test_all_exhausted_raises(self) -> None:
+        from atlas.llm import QuotaExhausted, RotatingProvider
+
+        rotation = RotatingProvider([
+            self.make("a", [QuotaExhausted("spent")]),
+            self.make("b", [QuotaExhausted("spent")]),
+        ])
+        with self.assertRaises(QuotaExhausted):
+            rotation.complete("p")
+
+    def test_a_non_quota_error_is_not_treated_as_exhaustion(self) -> None:
+        """A malformed request must not silently burn the whole rotation."""
+        import urllib.error
+
+        from atlas.llm import GeminiProvider, LLMError, RotatingProvider
+
+        def bad_request(url: str, data: bytes) -> bytes:
+            raise urllib.error.HTTPError(url, 400, "Bad", {}, None)
+
+        rotation = RotatingProvider([GeminiProvider(api_key="k", model="a",
+                                                    transport=bad_request)])
+        with self.assertRaises(LLMError):
+            rotation.complete("p")
+        self.assertEqual(rotation.exhausted, set())
+
+    def test_empty_rotation_is_rejected(self) -> None:
+        from atlas.llm import LLMError, RotatingProvider
+
+        with self.assertRaises(LLMError):
+            RotatingProvider([])

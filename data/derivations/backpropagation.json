@@ -1,0 +1,151 @@
+{
+  "node_id": "backpropagation",
+  "grounded": true,
+  "statement": "Backpropagation computes the gradient of the error function E with respect to any weight w_ij in a neural network as dE/dw_ij = o_i * delta_j, where delta_j is computed recursively from output to input layers using the chain rule.",
+  "symbols": [
+    {
+      "symbol": "E",
+      "meaning": "Loss or total error of the network",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "w_ij",
+      "meaning": "Weight on the connection from neuron i to neuron j",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "net_j",
+      "meaning": "Weighted sum of inputs to neuron j",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "o_j",
+      "meaning": "Output activation of neuron j, given by o_j = phi(net_j)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "phi",
+      "meaning": "Activation function",
+      "dimensions": "scalar -> scalar"
+    },
+    {
+      "symbol": "delta_j",
+      "meaning": "Error signal for neuron j, defined as (dE/do_j) * (do_j/dnet_j)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "eta",
+      "meaning": "Learning rate",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Define the output of neuron j as o_j = phi(net_j) = phi(sum_k w_kj * o_k), where net_j is the total weighted input to neuron j.",
+      "invokes": [
+        "function"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Apply the chain rule to expand the derivative of error E with respect to weight w_ij into partial derivatives: dE/dw_ij = (dE/do_j) * (do_j/dnet_j) * (dnet_j/dw_ij).",
+      "invokes": [
+        "chain_rule"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Evaluate the partial derivative of net_j with respect to w_ij, yielding dnet_j/dw_ij = o_i.",
+      "invokes": [
+        "derivative"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Evaluate the partial derivative of output o_j with respect to net_j as do_j/dnet_j = d phi(net_j) / d net_j.",
+      "invokes": [
+        "derivative"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Define the error signal delta_j = (dE/do_j) * (do_j/dnet_j), which simplifies the weight derivative to dE/dw_ij = o_i * delta_j.",
+      "invokes": [
+        "algebraic_rearrangement"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "For an output neuron j, evaluate dE/do_j directly from the loss function L(t, o_j), giving delta_j = (dL(t, o_j)/do_j) * (d phi(net_j) / d net_j).",
+      "invokes": [
+        "derivative"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "For an inner neuron j, express dE/do_j via the total derivative over all downstream neurons L = {u, v, ..., w} that receive input from neuron j: dE/do_j = sum_{ell in L} delta_ell * w_jell, yielding recursive delta_j = (sum_{ell in L} w_jell * delta_ell) * (d phi(net_j) / d net_j).",
+      "invokes": [
+        "chain_rule"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 8,
+      "text": "Compute the gradient descent weight update Delta w_ij = -eta * (dE/dw_ij) = -eta * o_i * delta_j.",
+      "invokes": [
+        "descent_direction"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The activation function phi is differentiable over its operating domain.",
+      "breaks_when": "The activation function is non-differentiable, preventing the direct application of the chain rule."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Gradient computation failure",
+      "signature": "Undefined or zero derivative",
+      "cause": "Using non-differentiable activation functions or non-differentiable loss functions."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Backpropagation"
+  ],
+  "check": {
+    "node_id": "backpropagation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [
+      "descent_direction"
+    ],
+    "ok": true
+  }
+}

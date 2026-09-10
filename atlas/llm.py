@@ -42,6 +42,14 @@ class LLMError(RuntimeError):
     """A provider call failed in a way retrying will not fix."""
 
 
+class QuotaExhausted(LLMError):
+    """This model's quota is spent. A different model may still have some.
+
+    Free-tier quota is per project *per model*, so exhausting one model says
+    nothing about the others -- which is what makes rotation worth doing.
+    """
+
+
 def load_env(path: Path = ENV_FILE) -> dict[str, str]:
     """Read a .env file into os.environ without overwriting real env vars.
 
@@ -104,6 +112,7 @@ class GeminiProvider:
     model: str = DEFAULT_GEMINI_MODEL
     json_mode: bool = True
     max_retries: int = 4
+    backoff_on_quota: bool = True
     transport: Callable[[str, bytes], bytes] | None = None
     name: str = field(default="gemini", init=False)
 
@@ -127,26 +136,40 @@ class GeminiProvider:
             raise LLMError(f"unexpected gemini response shape: {payload}") from exc
 
     def _post(self, url: str, data: bytes) -> bytes:
-        if self.transport is not None:
-            return self.transport(url, data)
-
         delay = 2.0
         for attempt in range(self.max_retries):
-            request = urllib.request.Request(
-                url, data=data, headers={"Content-Type": "application/json"}
-            )
             try:
+                # An injected transport goes through the same error handling as
+                # a real request, so tests exercise the paths that actually run.
+                if self.transport is not None:
+                    return self.transport(url, data)
+                request = urllib.request.Request(
+                    url, data=data, headers={"Content-Type": "application/json"}
+                )
                 with urllib.request.urlopen(request, timeout=120) as response:
                     return response.read()
             except urllib.error.HTTPError as exc:
-                # 429 is the expected free-tier signal, not an error condition.
-                if exc.code in (429, 500, 502, 503, 504) and attempt < self.max_retries - 1:
+                # An HTTPError can carry no readable body; failing to read one
+                # must not mask the status code that actually matters.
+                try:
+                    body = _redact(exc.read().decode()[:300])
+                except Exception:
+                    body = f"(no response body) {exc.reason}"
+                if exc.code == 429:
+                    # Backing off is pointless when the bucket is daily; let the
+                    # caller try another model instead.
+                    if "PerDay" in body or not self.backoff_on_quota:
+                        raise QuotaExhausted(f"{self.model}: {body}") from exc
+                    if attempt < self.max_retries - 1:
+                        time.sleep(delay)
+                        delay *= 2
+                        continue
+                    raise QuotaExhausted(f"{self.model}: {body}") from exc
+                if exc.code in (500, 502, 503, 504) and attempt < self.max_retries - 1:
                     time.sleep(delay)
                     delay *= 2
                     continue
-                raise LLMError(
-                    f"gemini HTTP {exc.code}: {_redact(exc.read().decode()[:300])}"
-                ) from exc
+                raise LLMError(f"gemini HTTP {exc.code}: {body}") from exc
             except urllib.error.URLError as exc:
                 if attempt < self.max_retries - 1:
                     time.sleep(delay)
@@ -195,6 +218,68 @@ class ClaudeCodeProvider:
         if result.returncode != 0:
             raise LLMError(f"claude -p failed: {result.stderr.strip()[:300]}")
         return result.stdout
+
+
+@dataclass
+class RotatingProvider:
+    """Try each provider in turn, moving on when one's quota is spent.
+
+    Free-tier quota is granted per model, so several small daily allowances
+    combine into a usable one. Order matters: put the model you most want
+    answering first, since later ones are only reached once earlier buckets
+    are empty.
+    """
+
+    providers: list[Provider]
+    name: str = field(default="rotating", init=False)
+
+    def __post_init__(self) -> None:
+        if not self.providers:
+            raise LLMError("RotatingProvider needs at least one provider")
+        self.exhausted: set[str] = set()
+
+    @property
+    def model(self) -> str:
+        live = [p for p in self.providers if getattr(p, "model", "") not in self.exhausted]
+        return getattr(live[0], "model", "-") if live else "(all exhausted)"
+
+    def complete(self, prompt: str, *, system: str | None = None) -> str:
+        errors = []
+        for provider in self.providers:
+            model = getattr(provider, "model", provider.name)
+            if model in self.exhausted:
+                continue
+            try:
+                return provider.complete(prompt, system=system)
+            except QuotaExhausted as exc:
+                self.exhausted.add(model)
+                errors.append(f"{model}: quota spent")
+                continue
+        raise QuotaExhausted("every model's quota is spent: " + "; ".join(errors))
+
+
+ROTATION = [
+    "gemini-3.6-flash",
+    "gemini-3.5-flash",
+    "gemini-3.1-flash-lite",
+    "gemini-3.5-flash-lite",
+    "gemini-flash-lite-latest",
+]
+
+
+def get_rotating_provider(models: list[str] | None = None,
+                          env_file: Path | None = ENV_FILE) -> RotatingProvider:
+    """Build a rotation over several Gemini models sharing one API key."""
+    if env_file is not None:
+        load_env(env_file)
+    key = os.environ.get("GEMINI_API_KEY", "").strip()
+    if not key:
+        raise LLMError("GEMINI_API_KEY is not set.")
+    chosen = models or [
+        m.strip() for m in os.environ.get("GEMINI_ROTATION", ",".join(ROTATION)).split(",")
+        if m.strip()
+    ]
+    return RotatingProvider([GeminiProvider(api_key=key, model=m) for m in chosen])
 
 
 def get_provider(

@@ -1,0 +1,141 @@
+{
+  "node_id": "belief_distribution",
+  "grounded": true,
+  "statement": "In recursive Bayesian estimation, the belief distribution over the current state given all observations up to time step k, p(x_k | z_{1:k}), is computed recursively via a prediction step p(x_k | z_{1:k-1}) = \\int p(x_k | x_{k-1}) p(x_{k-1} | z_{1:k-1}) d x_{k-1} and an update step p(x_k | z_{1:k}) = \\frac{p(z_k | x_k) p(x_k | z_{1:k-1})}{p(z_k | z_{1:k-1})} \\propto p(z_k | x_k) p(x_k | z_{1:k-1}).",
+  "symbols": [
+    {
+      "symbol": "x_k",
+      "meaning": "Unobserved true state vector at step k",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "z_k",
+      "meaning": "Observed measurement vector at step k",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "z_{1:k}",
+      "meaning": "Sequence of measurements from time step 1 up to time step k",
+      "dimensions": "m x k"
+    },
+    {
+      "symbol": "p(x_k | z_{1:k})",
+      "meaning": "Posterior belief distribution over the state x_k given measurements up to time step k",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "p(x_k | z_{1:k-1})",
+      "meaning": "Predicted belief distribution over state x_k given measurements up to time step k-1",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "p(x_k | x_{k-1})",
+      "meaning": "State transition probability distribution model",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "p(z_k | x_k)",
+      "meaning": "Measurement likelihood function",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "p(z_k | z_{1:k-1})",
+      "meaning": "Marginal likelihood normalization factor for the observation z_k",
+      "dimensions": "scalar density"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Apply the first-order Markov process assumption on states, stating that the state x_k is conditionally independent of all earlier states x_{k-2}, ..., x_0 given x_{k-1}: p(x_k | x_{k-1}, x_{k-2}, \\dots, x_0) = p(x_k | x_{k-1}).",
+      "invokes": [
+        "conditional_independence"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Apply the conditional independence assumption on measurements, stating that z_k depends only on x_k: p(z_k | x_k, x_{k-1}, \\dots, x_0) = p(z_k | x_k).",
+      "invokes": [
+        "conditional_independence"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Write the joint probability distribution over all states x_0, \\dots, x_k and observations z_1, \\dots, z_k using the Markov and conditional independence assumptions: p(x_0, \\dots, x_k, z_1, \\dots, z_k) = p(x_0) \\prod_{i=1}^{k} p(z_i | x_i) p(x_i | x_{i-1}).",
+      "invokes": [
+        "chain_rule"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Compute the predicted belief distribution p(x_k | z_{1:k-1}) by marginalizing out the previous state x_{k-1} from the product of transition probability and previous state belief distribution: p(x_k | z_{1:k-1}) = \\int p(x_k | x_{k-1}) p(x_{k-1} | z_{1:k-1}) d x_{k-1}.",
+      "invokes": [
+        "conditional_probability"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Compute the updated belief distribution p(x_k | z_{1:k}) using Bayes' rule to condition on the new measurement z_k: p(x_k | z_{1:k}) = \\frac{p(z_k | x_k) p(x_k | z_{1:k-1})}{p(z_k | z_{1:k-1})} \\propto p(z_k | x_k) p(x_k | z_{1:k-1}).",
+      "invokes": [
+        "bayes_rule"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Express the normalization denominator by integrating the numerator over all possible states x_k: p(z_k | z_{1:k-1}) = \\int p(z_k | x_k) p(x_k | z_{1:k-1}) d x_k.",
+      "invokes": [
+        "conditional_probability"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The state sequence follows a first-order Markov process.",
+      "breaks_when": "The state at step k depends directly on states earlier than step k-1."
+    },
+    {
+      "assumption": "Measurements are conditionally independent of all other states and past observations given the current state x_k.",
+      "breaks_when": "Measurement noise is temporally correlated across time steps independently of the underlying state."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Intractable integral in prediction or update steps",
+      "signature": "Posterior distributions develop increasingly complex non-parametric functional forms over time.",
+      "cause": "Non-linear transition or observation models, or non-Gaussian noise distributions, prevent closed-form integration."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Recursive_Bayesian_estimation"
+  ],
+  "check": {
+    "node_id": "belief_distribution",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [
+      "bayes_rule",
+      "chain_rule"
+    ],
+    "ok": true
+  }
+}
