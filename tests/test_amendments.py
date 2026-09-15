@@ -170,3 +170,40 @@ class TestSplitsAndRetargets(unittest.TestCase):
         )
         over = {n: c for n, c in counts.items() if c > BRANCHING_CAP}
         self.assertEqual(over, {}, f"nodes over the branching cap: {over}")
+
+
+class TestAddEdges(unittest.TestCase):
+    def test_an_added_edge_appears_in_the_graph(self) -> None:
+        import atlas.bootstrap as bootstrap
+        from atlas.schema import Relation
+
+        real = bootstrap.load_amendments
+        bootstrap.load_amendments = lambda *a, **k: {
+            "add_edges": [{"from": "multivariate_taylor_expansion",
+                           "to": "multivariate_chain_rule", "rel": "requires"}]
+        }
+        try:
+            graph = build_graph(load())
+        finally:
+            bootstrap.load_amendments = real
+        self.assertTrue(any(
+            e.src == "multivariate_taylor_expansion"
+            and e.dst == "multivariate_chain_rule"
+            and e.rel is Relation.REQUIRES
+            for e in graph.edges.values()))
+
+    def test_an_edge_naming_a_missing_node_raises(self) -> None:
+        import atlas.bootstrap as bootstrap
+
+        real = bootstrap.load_amendments
+        bootstrap.load_amendments = lambda *a, **k: {
+            "add_edges": [{"from": "taylor_expansion",
+                           "to": "no_such_node_at_all"}]
+        }
+        try:
+            # never fail silently: an amendment that cannot apply is an error
+            with self.assertRaises(ValueError) as ctx:
+                build_graph(load())
+            self.assertIn("add_edge", str(ctx.exception))
+        finally:
+            bootstrap.load_amendments = real

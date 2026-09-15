@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from dataclasses import asdict, dataclass, field
 
 from .graph import Graph
@@ -208,13 +209,53 @@ EXPECT_DEFINITION = (
 )
 
 
-def expected_kind(graph: Graph | None, node_id: str) -> tuple[str, list[str]]:
-    """Guess result-vs-definition from the canon's own structure.
+DERIVATION_SECTION = re.compile(
+    r"(?im)^\s*=+\s*((?:proof|derivation|deriving)[^=\n]*)")
+
+# The governing constraint, as a filter. "Proof of the equivalent definition"
+# on the conditional_independence article is a theorem *about* the object --
+# two definitions agree -- not a derivation *of* it, and taking it as evidence
+# flipped a correct definition into a derivation it cannot support.
+OUT_OF_SCOPE = re.compile(
+    r"(?i)\b(equivalen|existence|uniqueness|convergen|consisten|"
+    r"measurab|asymptotic|unbiased)")
+
+
+def source_derives(sources: list[Source] | None) -> bool:
+    """Whether the retrieved text carries a derivation *of the object*.
+
+    Independent of the canon's shape, which is the point: the topology proxy
+    below is a guess about mathematics made from edges, this is evidence. But
+    evidence has to be read against the scope rule -- an article proving
+    properties of a definition is not an article deriving it.
+    """
+    for source in sources or []:
+        for heading in DERIVATION_SECTION.findall(source.text):
+            if not OUT_OF_SCOPE.search(heading):
+                return True
+    return False
+
+
+def expected_kind(graph: Graph | None, node_id: str,
+                  sources: list[Source] | None = None) -> tuple[str, list[str]]:
+    """Guess result-vs-definition from the canon's structure, then the source.
 
     A node that requires techniques is derived: techniques are the moves you
     perform in a derivation, so needing one means there is something to perform.
     Without this hint the model takes the easier shape and calls everything a
     definition.
+
+    But the hint is only a proxy, and a proxy over edges cannot see
+    mathematics. multivariate_taylor_expansion requires no technique, so it was
+    told to write a definition and did -- while the article it had retrieved,
+    Taylor's theorem, carried four proof sections. The instruction, not the
+    source, was the constraint.
+
+    So when the retrieved text itself contains a derivation, that outranks the
+    absence of a technique edge. Measured over the Localization path this flips
+    only the nodes whose sources really do derive something; gradient,
+    covariance_matrix and the other genuine definitions have no proof section
+    and stay definitions.
     """
     if graph is None or node_id not in graph.nodes:
         return "derivation", []
@@ -232,7 +273,11 @@ def expected_kind(graph: Graph | None, node_id: str) -> tuple[str, list[str]]:
         if e.src == node_id and e.rel is Relation.REQUIRES
         and graph.nodes[e.dst].type is NodeType.TECHNIQUE
     )
-    return ("derivation" if moves else "definition"), moves
+    if moves:
+        return "derivation", moves
+    if source_derives(sources):
+        return "derivation", []
+    return "definition", []
 
 
 def build_prompt(node_id: str, name: str, sources: list[Source],
@@ -251,7 +296,7 @@ def build_prompt(node_id: str, name: str, sources: list[Source],
             "one applies. Only invent a name if nothing here fits:\n"
             + ", ".join(sorted(vocabulary))
         )
-    kind, moves = expected_kind(graph, node_id)
+    kind, moves = expected_kind(graph, node_id, sources)
     expectation = (
         EXPECT_DERIVATION.format(moves=", ".join(moves))
         if kind == "derivation" else EXPECT_DEFINITION
@@ -408,7 +453,7 @@ def check(derivation: Derivation, sources: list[Source], graph: Graph,
     # The expectation was only ever a prompt hint. transpose_identities, a
     # technique, came back as a definition and passed every check because
     # check() compared the sheet against itself and never against what was asked.
-    expected, _ = expected_kind(graph, derivation.node_id)
+    expected, _ = expected_kind(graph, derivation.node_id, sources)
     if derivation.kind != expected:
         shape.append(f"expected a {expected}, produced a {derivation.kind}")
 

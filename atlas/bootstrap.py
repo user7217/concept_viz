@@ -114,6 +114,21 @@ def build_graph(payload: dict, with_canon_edges: bool = True) -> Graph:
 
     unapplied: list[str] = []
 
+    # Added after drops and retargets so an added edge is final, and reported
+    # when it cannot be applied rather than silently skipped -- a missing
+    # endpoint here means the canon says something different from what the
+    # amendment assumed.
+    for entry in amendments.get("add_edges", []):
+        if entry["from"] in graph.nodes and entry["to"] in graph.nodes:
+            graph.add_edge(entry["from"], entry["to"],
+                           Relation(entry.get("rel", "requires")))
+        else:
+            missing = [k for k in ("from", "to") if entry[k] not in graph.nodes]
+            unapplied.append(
+                f"add_edge: {entry['from']} -> {entry['to']}, "
+                f"missing {', '.join(entry[k] for k in missing)}"
+            )
+
     for entry in amendments.get("retier", []):
         if entry["id"] in graph.nodes:
             graph.retier(entry["id"], Tier(entry["tier"]))

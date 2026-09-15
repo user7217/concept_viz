@@ -292,3 +292,66 @@ class TestGuardsAgainstVacuousChecks(unittest.TestCase):
                        steps=[Step(1, "t", ["index_notation", "algebraic_rearrangement"],
                                    ["wikipedia:OLS"])])
         self.assertTrue(check(d, self.sources, self.graph)["vacuous_invocations"])
+
+
+class TestSourceAwareKind(unittest.TestCase):
+    """The topology proxy is a guess about mathematics made from edges."""
+
+    def setUp(self) -> None:
+        from atlas.bootstrap import build_graph, load
+        self.graph = build_graph(load())
+
+    def _source(self, text: str):
+        from atlas.retrieval import Source
+        return Source(id="wikipedia:X", title="X", url="u",
+                      kind="encyclopedia", text=text)
+
+    def test_a_source_that_derives_outranks_a_missing_technique_edge(self) -> None:
+        from atlas.derivation import expected_kind
+        # multivariate_taylor_expansion requires no technique, so topology
+        # alone called it a definition while its article carried proofs.
+        self.assertEqual(
+            expected_kind(self.graph, "multivariate_taylor_expansion")[0],
+            "definition")
+        with_proof = [self._source("== Proof ==\nBy induction on n ...")]
+        self.assertEqual(
+            expected_kind(self.graph, "multivariate_taylor_expansion",
+                          with_proof)[0],
+            "derivation")
+
+    def test_a_real_definition_stays_a_definition(self) -> None:
+        from atlas.derivation import expected_kind
+        descriptive = [self._source("== Properties ==\nThe matrix is symmetric.")]
+        self.assertEqual(
+            expected_kind(self.graph, "covariance_matrix", descriptive)[0],
+            "definition")
+
+    def test_a_technique_is_still_always_a_derivation(self) -> None:
+        from atlas.derivation import expected_kind
+        self.assertEqual(
+            expected_kind(self.graph, "transpose_identities", [])[0],
+            "derivation")
+
+    def test_source_derives_needs_a_section_not_a_mention(self) -> None:
+        from atlas.derivation import source_derives
+        # "proof" in running prose is not a derivation section
+        self.assertFalse(source_derives(
+            [self._source("This follows from a proof due to Gauss.")]))
+        self.assertTrue(source_derives(
+            [self._source("=== Derivation ===\nStart from ...")]))
+
+    def test_a_proof_about_the_object_is_not_a_derivation_of_it(self) -> None:
+        from atlas.derivation import source_derives
+        # the governing constraint: derive the object, do not prove theorems
+        # about it. This heading flipped conditional_independence wrongly.
+        self.assertFalse(source_derives(
+            [self._source("=== Proof of the equivalent definition ===\nP(A|B)")]))
+        self.assertFalse(source_derives(
+            [self._source("== Proof of existence and uniqueness ==\n...")]))
+        self.assertTrue(source_derives(
+            [self._source("== Derivation of the density ==\nStart from ...")]))
+
+    def test_a_scoped_heading_among_unscoped_ones_still_counts(self) -> None:
+        from atlas.derivation import source_derives
+        self.assertTrue(source_derives([self._source(
+            "== Proof of uniqueness ==\nx\n== Derivation ==\nStart from ...")]))
