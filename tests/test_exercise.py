@@ -131,3 +131,23 @@ class TestEarnedState(unittest.TestCase):
         from atlas.exercise import available_count
         self.assertEqual(available_count(SHEET),
                          len(maskable_steps(SHEET)) + len(maskable_symbols(SHEET)))
+
+
+class TestSymbolRanking(unittest.TestCase):
+    def test_a_term_in_the_equation_outranks_a_rarer_aside(self) -> None:
+        # F_s is a filtration: it appears nowhere else, so rarity alone ranked
+        # it first, surfacing measure theory the project excludes on purpose.
+        sheet = {
+            "node_id": "markov_assumption",
+            "statement": "P(X_t | X_s) does not depend on history before s.",
+            "steps": [],
+            "symbols": [
+                {"symbol": "F_s", "meaning": "filtration sigma-algebra"
+                                             " encoding information up to s"},
+                {"symbol": "X_t", "meaning": "the process state random"
+                                             " variable at index t"},
+            ],
+            "assumptions": [], "failure_modes": [],
+        }
+        order = maskable_symbols(sheet)
+        self.assertEqual(order[0], 1, "X_t appears in the statement, F_s does not")

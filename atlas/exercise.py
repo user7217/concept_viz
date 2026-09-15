@@ -110,9 +110,28 @@ def maskable_steps(sheet: dict, min_unique: int = MIN_UNIQUE) -> list[int]:
 
 
 def maskable_symbols(sheet: dict, min_unique: int = MIN_UNIQUE) -> list[int]:
-    scored = [(len(unique_symbol_content(sheet, i)), i)
-              for i in range(len(sheet.get("symbols", [])))]
-    return [i for score, i in sorted(scored, reverse=True) if score >= min_unique]
+    """Symbols worth asking about, terms in the equation first.
+
+    Ranking by rarity alone is actively wrong here. A symbol is rare exactly
+    when nothing else in the sheet refers to it, which is the signature of an
+    aside rather than of importance -- it put `F_s`, a filtration, at the top
+    of the markov_assumption drill, when measure-theoretic framing is out of
+    scope for this project by construction.
+
+    So a symbol that actually appears in the statement outranks one that does
+    not, and rarity only breaks ties. That is the operational test the project
+    is built around: for every term *in the equations*, can you say why it is
+    there?
+    """
+    statement = str(sheet.get("statement", ""))
+    scored = []
+    for i, entry in enumerate(sheet.get("symbols", [])):
+        name = str(entry.get("symbol", "")).strip()
+        first = name.split(",")[0].strip()
+        in_statement = bool(first) and first in statement
+        scored.append((in_statement, len(unique_symbol_content(sheet, i)), i))
+    return [i for in_statement, score, i in sorted(scored, reverse=True)
+            if score >= min_unique]
 
 
 def step_exercise(sheet: dict, index: int) -> Exercise:
