@@ -151,3 +151,55 @@ class TestSymbolRanking(unittest.TestCase):
         }
         order = maskable_symbols(sheet)
         self.assertEqual(order[0], 1, "X_t appears in the statement, F_s does not")
+
+
+class TestForwardLeaks(unittest.TestCase):
+    LEAKY = {
+        "node_id": "marginalization",
+        "statement": "The marginal recovers one variable.",
+        "steps": [
+            {"n": 1, "text": "Start from the joint distribution.", "invokes": []},
+            {"n": 2, "text": "Substitute p(x,y) = p(x|y)p(y) to reach a"
+                             " conditional expectation form.",
+             "invokes": ["expectation"]},
+            {"n": 3, "text": "As a special case, Step 2 becomes"
+                             " p_X(x) = int delta(x-g(y)) p_Y(y) dy.",
+             "invokes": ["dirac_delta"]},
+        ],
+        "symbols": [], "assumptions": [], "failure_modes": [],
+    }
+
+    def test_a_step_naming_the_masked_one_is_found(self) -> None:
+        from atlas.exercise import forward_leaks
+        self.assertEqual(forward_leaks(self.LEAKY, 1), [2])
+
+    def test_only_later_steps_count(self) -> None:
+        from atlas.exercise import forward_leaks
+        # step 3 is last: nothing can leak it
+        self.assertEqual(forward_leaks(self.LEAKY, 2), [])
+
+    def test_the_leaking_step_is_hidden_too(self) -> None:
+        ex = step_exercise(self.LEAKY, 1)
+        self.assertEqual(ex.masked, [1, 2])
+        self.assertIn("[2] ???", ex.context)
+        self.assertIn("[3] ???", ex.context)
+        # and the answer covers both, so the reader is asked for what is hidden
+        self.assertIn("conditional expectation", ex.answer)
+        self.assertIn("special case", ex.answer)
+
+    def test_the_question_says_why_two_are_hidden(self) -> None:
+        ex = step_exercise(self.LEAKY, 1)
+        self.assertIn("2", ex.question)
+        self.assertIn("3", ex.question)
+        self.assertIn("restates", ex.question)
+
+    def test_hints_merge_without_duplicates(self) -> None:
+        ex = step_exercise(self.LEAKY, 1)
+        self.assertIn("expectation", ex.hint)
+        self.assertIn("dirac_delta", ex.hint)
+        self.assertEqual(ex.hint.count("expectation"), 1)
+
+    def test_a_clean_step_still_masks_only_itself(self) -> None:
+        ex = step_exercise(SHEET, 1)
+        self.assertEqual(ex.masked, [1])
+        self.assertEqual(ex.question, "Reproduce step 2.")

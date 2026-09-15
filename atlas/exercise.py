@@ -22,7 +22,7 @@ often enough to matter.
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 # Words that carry no recall load: if the only thing unique about a masked
 # step is that it says "therefore", there is nothing to reproduce.
@@ -94,6 +94,32 @@ class Exercise:
     answer: str
     hint: str = ""
     unique_terms: int = 0
+    masked: list[int] = field(default_factory=list)
+
+
+STEP_REF = re.compile(r"(?i)\bstep\s*(\d+)\b")
+
+
+def forward_leaks(sheet: dict, index: int) -> list[int]:
+    """Later steps that name this one and show what it produced.
+
+    The vacuity guard is lexical: it asks whether this step's *words* appear
+    elsewhere. This leak is structural. Masking step 3 of marginalization left
+    step 4 saying "this expectation form ... Step 3 becomes p_X(x) = \int_y
+    \delta(x-g(y)) p_Y(y) dy" -- the answer's form, handed over, with every
+    word of it legitimately absent from step 3's own vocabulary.
+
+    Demoting such steps is the wrong repair: they are back-referenced precisely
+    because they carry the central move, and avoiding them leaves the reader
+    drilling the peripheral ones. Mask the leak instead.
+    """
+    steps = sheet.get("steps", [])
+    if not 0 <= index < len(steps):
+        return []
+    number = steps[index].get("n", index + 1)
+    return [j for j in range(index + 1, len(steps))
+            if any(int(m) == number
+                   for m in STEP_REF.findall(str(steps[j].get("text", ""))))]
 
 
 MIN_UNIQUE = 2
@@ -136,21 +162,32 @@ def maskable_symbols(sheet: dict, min_unique: int = MIN_UNIQUE) -> list[int]:
 
 def step_exercise(sheet: dict, index: int) -> Exercise:
     steps = sheet.get("steps", [])
-    step = steps[index]
+    hidden = sorted({index, *forward_leaks(sheet, index)})
     context = [f"[{s.get('n', i + 1)}] {s.get('text', '')}"
-               if i != index else f"[{s.get('n', i + 1)}] ???"
+               if i not in hidden else f"[{s.get('n', i + 1)}] ???"
                for i, s in enumerate(steps)]
-    invokes = [str(x) for x in step.get("invokes", [])]
+    numbers = [steps[i].get("n", i + 1) for i in hidden]
+    invokes: list[str] = []
+    for i in hidden:
+        invokes += [str(x) for x in steps[i].get("invokes", [])]
+    if len(numbers) == 1:
+        question = f"Reproduce step {numbers[0]}."
+    else:
+        listed = ", ".join(str(n) for n in numbers[:-1])
+        question = (f"Reproduce steps {listed} and {numbers[-1]}"
+                    f" (the later one restates the first, so it is hidden too).")
     return Exercise(
         node_id=str(sheet.get("node_id", "")),
         kind="step",
-        question=f"Reproduce step {step.get('n', index + 1)}.",
+        question=question,
         context=context,
-        answer=str(step.get("text", "")),
+        answer="\n\n".join(f"[{steps[i].get('n', i + 1)}] "
+                            f"{steps[i].get('text', '')}" for i in hidden),
         # What the step invokes is the honest hint: it names the move without
         # performing it.
-        hint=("uses: " + ", ".join(invokes)) if invokes else "",
+        hint=("uses: " + ", ".join(dict.fromkeys(invokes))) if invokes else "",
         unique_terms=len(unique_content(sheet, index)),
+        masked=hidden,
     )
 
 
