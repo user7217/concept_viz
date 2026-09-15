@@ -62,6 +62,9 @@ Only use symbols listed above. Only use parameters and files listed above.
 Leave "knobs" empty if none of the listed parameters relate to this concept."""
 
 
+PLAIN_PARAM_BUDGET = 4
+
+
 @dataclass
 class Instantiation:
     node_id: str
@@ -106,15 +109,20 @@ def _render_components(project: Project, component_ids: list[str],
             continue
         line = f"- {name} (library: {component.library or 'unknown'})"
         if component.parameters:
-            # Matrix-valued parameters first: they are the leak signal, the
-            # knobs you cannot set without understanding the object behind
-            # them. Taking the first N in file order hid
+            # Every matrix-valued parameter, always. They are the leak signal,
+            # the knobs you cannot set without understanding the object behind
+            # them, and a blind cut at N in file order once hid
             # process_noise_covariance and produced a note claiming nothing in
             # the project tunes covariance.
-            ordered = sorted(component.parameters,
-                             key=lambda x: (not x.is_matrix, x.name))
+            #
+            # Plain parameters get a small budget instead of filling the rest:
+            # they were 22 of 32 lines and 60% of a prompt that `agy` drops
+            # more often the larger it gets.
+            matrix = [x for x in component.parameters if x.is_matrix]
+            plain = sorted((x for x in component.parameters if not x.is_matrix),
+                           key=lambda x: x.name)[:PLAIN_PARAM_BUDGET]
             shown = []
-            for param in ordered[:16]:
+            for param in matrix + plain:
                 mark = "  [matrix-valued]" if param.is_matrix else ""
                 shown.append(f"    {param.name} = {param.value[:60]}"
                              f"  in {param.source}{mark}")

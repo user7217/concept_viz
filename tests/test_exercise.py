@@ -1,0 +1,133 @@
+import unittest
+
+from atlas.exercise import (Exercise, exercises_for, maskable_steps,
+                            maskable_symbols, step_exercise, symbol_exercise,
+                            unique_content, unique_symbol_content)
+
+SHEET = {
+    "node_id": "marginalization",
+    "statement": "The marginal recovers one variable from a joint distribution.",
+    "steps": [
+        {"n": 1, "text": "Start from the joint distribution of X and Y.",
+         "invokes": []},
+        {"n": 2, "text": "Integrate the joint density over every value Y takes,"
+                         " discarding Y's identity.",
+         "invokes": ["algebraic_rearrangement"]},
+        {"n": 3, "text": "Substitute the conditional factorisation p(x,y) ="
+                         " p(x|y)p(y) to reach a conditional expectation.",
+         "invokes": ["conditional_probability", "expectation"]},
+    ],
+    "symbols": [
+        {"symbol": "p", "meaning": "a probability density", "dimensions": ""},
+        {"symbol": "Y", "meaning": "the nuisance variable eliminated",
+         "dimensions": "scalar"},
+    ],
+    "assumptions": [],
+    "failure_modes": [],
+}
+
+
+class TestVacuity(unittest.TestCase):
+    def test_a_step_restated_elsewhere_contributes_nothing(self) -> None:
+        # The guard's independent comparison: not "is this step well formed"
+        # but "can the reader read it off the page around it".
+        sheet = {
+            "node_id": "x",
+            "statement": "Integrate the joint density over every value Y takes.",
+            "steps": [
+                {"n": 1, "text": "Integrate the joint density over every value"
+                                 " Y takes.", "invokes": []},
+            ],
+            "symbols": [], "assumptions": [], "failure_modes": [],
+        }
+        self.assertEqual(unique_content(sheet, 0), set())
+        self.assertEqual(maskable_steps(sheet), [])
+
+    def test_a_step_with_its_own_content_is_maskable(self) -> None:
+        self.assertIn(2, maskable_steps(SHEET))
+        self.assertTrue(unique_content(SHEET, 2))
+
+    def test_hardest_step_comes_first(self) -> None:
+        order = maskable_steps(SHEET)
+        scores = [len(unique_content(SHEET, i)) for i in order]
+        self.assertEqual(scores, sorted(scores, reverse=True))
+
+    def test_out_of_range_is_empty_not_an_error(self) -> None:
+        self.assertEqual(unique_content(SHEET, 99), set())
+        self.assertEqual(unique_symbol_content(SHEET, 99), set())
+
+
+class TestStepExercise(unittest.TestCase):
+    def test_the_masked_step_is_hidden_and_the_rest_shown(self) -> None:
+        ex = step_exercise(SHEET, 1)
+        self.assertEqual(ex.kind, "step")
+        self.assertIn("[2] ???", ex.context)
+        self.assertIn("Start from the joint", ex.context[0])
+        # the answer must not leak into the visible context
+        self.assertNotIn(ex.answer, ex.context)
+
+    def test_the_hint_names_the_move_without_performing_it(self) -> None:
+        ex = step_exercise(SHEET, 2)
+        self.assertIn("conditional_probability", ex.hint)
+        self.assertNotIn("Substitute", ex.hint)
+
+    def test_a_step_invoking_nothing_gets_no_hint(self) -> None:
+        self.assertEqual(step_exercise(SHEET, 0).hint, "")
+
+
+class TestSymbolExercise(unittest.TestCase):
+    def test_asks_only_what_the_sheet_can_answer(self) -> None:
+        ex = symbol_exercise(SHEET, 1)
+        self.assertEqual(ex.question, "What is Y?")
+        # not "what changes if you change it" -- the sheet has no such field
+        self.assertNotIn("changes", ex.question)
+        self.assertEqual(ex.answer, "the nuisance variable eliminated")
+
+    def test_dimensions_become_the_hint(self) -> None:
+        self.assertIn("scalar", symbol_exercise(SHEET, 1).hint)
+
+
+class TestSelection(unittest.TestCase):
+    def test_steps_are_preferred_over_symbols(self) -> None:
+        kinds = [e.kind for e in exercises_for(SHEET, limit=2)]
+        self.assertEqual(kinds, ["step", "step"])
+
+    def test_a_stepless_sheet_still_yields_symbol_exercises(self) -> None:
+        stepless = dict(SHEET, steps=[])
+        out = exercises_for(stepless, limit=3)
+        self.assertTrue(out)
+        self.assertTrue(all(e.kind == "symbol" for e in out))
+
+    def test_a_sheet_with_nothing_to_recall_yields_nothing(self) -> None:
+        empty = {"node_id": "x", "statement": "", "steps": [], "symbols": [],
+                 "assumptions": [], "failure_modes": []}
+        self.assertEqual(exercises_for(empty), [])
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+class TestEarnedState(unittest.TestCase):
+    def test_a_display_limit_cannot_buy_demonstrated(self) -> None:
+        from atlas.exercise import earned_state
+        # 1 of 1 shown, but the sheet could have asked 5
+        self.assertEqual(earned_state(passed=1, presented=1, available=5), "read")
+
+    def test_answering_everything_the_sheet_can_ask_is_demonstrated(self) -> None:
+        from atlas.exercise import earned_state
+        self.assertEqual(earned_state(passed=5, presented=5, available=5),
+                         "demonstrated")
+
+    def test_a_partial_pass_is_reading(self) -> None:
+        from atlas.exercise import earned_state
+        self.assertEqual(earned_state(passed=3, presented=5, available=5), "read")
+
+    def test_getting_nothing_earns_nothing(self) -> None:
+        from atlas.exercise import earned_state
+        self.assertIsNone(earned_state(passed=0, presented=5, available=5))
+
+    def test_available_count_ignores_the_limit(self) -> None:
+        from atlas.exercise import available_count
+        self.assertEqual(available_count(SHEET),
+                         len(maskable_steps(SHEET)) + len(maskable_symbols(SHEET)))

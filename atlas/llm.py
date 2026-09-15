@@ -416,7 +416,7 @@ class AntigravityProvider:
     model: str | None = None
     effort: str | None = None  # low | medium | high
     timeout: int = 600
-    attempts: int = 3
+    attempts: int = 5
     backoff: float = 20.0
     sleeper: Callable[[float], None] = field(default=time.sleep, repr=False)
     runner: Callable[[list[str], str], str] | None = None

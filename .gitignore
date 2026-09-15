@@ -9,3 +9,4 @@ profile.json
 # working context, not shipped docs
 CLAUDE.md
 docs/
+.DS_Store
