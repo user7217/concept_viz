@@ -32,6 +32,7 @@ if "--node" in argv:
             if i not in (argv.index("--node"), argv.index("--node") + 1)]
 dry_run = "--dry-run" in argv
 argv = [a for a in argv if a != "--dry-run"]
+argv = [a for a in argv if a != "--symbols"]
 worksheet = None
 if "--worksheet" in argv:
     worksheet = Path(argv[argv.index("--worksheet") + 1])
@@ -70,40 +71,22 @@ asked = right = 0
 demonstrated: list[str] = []
 
 if worksheet is not None:
-    # Paper form: every question first, every answer in a block at the end,
-    # so working through it cannot accidentally reveal the next answer.
-    questions: list[str] = []
-    answers: list[str] = []
-    count = 0
-    for node_id in order:
-        path = SHEETS / f"{node_id}.json"
-        if not path.exists():
-            continue
-        sheet = json.loads(path.read_text())
-        found = exercises_for(sheet, limit=limit)
-        if not found:
-            continue
-        questions.append(f"\n## {node_id}\n")
-        for exercise in found:
-            count += 1
-            questions.append(f"\n**{count}. {exercise.question}**\n")
-            if exercise.hint:
-                questions.append(f"\n_{exercise.hint}_\n")
-            questions.append("\n```\n")
-            questions += [f"{line}\n" for line in exercise.context]
-            questions.append("```\n")
-            answers.append(f"\n**{count}. {node_id}**\n\n```\n"
-                           f"{exercise.answer}\n```\n")
-    worksheet.write_text(
-        "# Derivation Atlas drill\n\n"
-        f"{count} exercises. Work them on paper; answers are at the end.\n"
-        "Record what you actually got with:\n\n"
-        "```\npython3 scripts/drill.py <repo> <subsystem> --limit "
-        f"{limit}\n```\n"
-        + "".join(questions)
-        + "\n\n---\n\n# Answers\n" + "".join(answers))
-    print(f"wrote {count} exercises to {worksheet}")
+    from atlas.worksheet import build
+
+    if len(argv) < 2:
+        print("--worksheet needs <repo> <subsystem> for the path context")
+        raise SystemExit(1)
+    algorithms = sorted(graph.algorithms_under(target))
+    sheets = {n: json.loads((SHEETS / f"{n}.json").read_text())
+              for n in order if (SHEETS / f"{n}.json").exists()}
+    worksheet.write_text(build(
+        graph, order, sheets,
+        algorithm=algorithms[0] if algorithms else target,
+        project_name=project.name, subsystem=argv[1],
+        limit=limit, include_symbols="--symbols" in sys.argv))
+    print(f"wrote {worksheet}")
     raise SystemExit(0)
+
 
 for node_id in order:
     path = SHEETS / f"{node_id}.json"

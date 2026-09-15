@@ -140,6 +140,34 @@ class Graph:
             queue.extend(self._requires_out(current))
         return seen
 
+    def requires_chain(self, src: str, dst: str) -> list[str]:
+        """Shortest REQUIRES chain from src down to dst, inclusive.
+
+        Answers the question a bare ordered list cannot: *why is this node on
+        my path at all?* An ordering says marginalization comes before
+        gaussian_conditioning; it never says the extended Kalman filter needs
+        it, which is the only reason either is here.
+
+        Empty when dst is not reachable from src.
+        """
+        if src == dst:
+            return [src]
+        previous: dict[str, str] = {src: ""}
+        queue = deque([src])
+        while queue:
+            current = queue.popleft()
+            for nxt in self._requires_out(current):
+                if nxt in previous:
+                    continue
+                previous[nxt] = current
+                if nxt == dst:
+                    chain = [dst]
+                    while previous[chain[-1]]:
+                        chain.append(previous[chain[-1]])
+                    return list(reversed(chain))
+                queue.append(nxt)
+        return []
+
     def syllabus(self, target: str, known: set[str] | None = None) -> list[str]:
         """Prerequisites of target in dependency order, cut at the reader's floor.
 
