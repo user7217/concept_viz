@@ -115,5 +115,81 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "state_space_model",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local",
+      "obstaclelayer"
+    ],
+    "why_here": "In agrios_ws, the state-space model provides the mathematical framework for state estimation in the ekf_global and ekf_local nodes from robot_localization. The state equation models the robot's kinematic motion dynamics over time, while the output equation maps the robot's internal state to incoming odometry and IMU measurements. Downstream components such as obstaclelayer rely on the resulting state estimates to locate and track obstacles accurately in the environment.",
+    "concrete": [
+      {
+        "symbol": "x(t)",
+        "in_your_project": "The 15-dimensional state vector [15 x 1] tracked by ekf_global and ekf_local, containing 3D position (x, y, z), orientation (roll, pitch, yaw), linear velocities, angular velocities, and linear accelerations."
+      },
+      {
+        "symbol": "y(t)",
+        "in_your_project": "The measurement vector [p x 1] containing sensor observations received from odometry (odom0, odom1) and IMU (imu0, imu1) sources."
+      },
+      {
+        "symbol": "f(\u00b7,\u00b7,\u00b7)",
+        "in_your_project": "The 3D kinematic state transition function [R x R^15 x R^m -> R^15] used by robot_localization to project the robot's 15-dimensional state forward in time."
+      },
+      {
+        "symbol": "h(\u00b7,\u00b7,\u00b7)",
+        "in_your_project": "The output measurement function [R x R^15 x R^m -> R^p] that maps the 15-dimensional state vector to expected sensor observations from odometry and IMU sensors."
+      },
+      {
+        "symbol": "C",
+        "in_your_project": "The output matrix [p x 15] that projects the 15-dimensional state vector onto the observed measurement vector y(t) according to the sensor configuration masks."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "odom0_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the boolean selection mask defining which components of the 15D state vector x(t) are observed by odom0, configuring the output matrix C and output map h."
+      },
+      {
+        "parameter": "odom1_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the boolean selection mask defining which components of the 15D state vector x(t) are observed by odom1, configuring the output matrix C and output map h."
+      },
+      {
+        "parameter": "imu0_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the boolean selection mask defining which components of the 15D state vector x(t) are observed by imu0, configuring the output matrix C and output map h."
+      },
+      {
+        "parameter": "imu1_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the boolean selection mask defining which components of the 15D state vector x(t) are observed by imu1, configuring the output matrix C and output map h."
+      },
+      {
+        "parameter": "frequency",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the execution rate (in Hz) at which the discrete-time state transition equation updates and propagates the state vector x(t)."
+      },
+      {
+        "parameter": "odom0_config",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the boolean selection mask defining which components of the 15D state vector x(t) are observed by odom0, configuring the output matrix C and output map h."
+      },
+      {
+        "parameter": "imu0_config",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the boolean selection mask defining which components of the 15D state vector x(t) are observed by imu0, configuring the output matrix C and output map h."
+      },
+      {
+        "parameter": "frequency",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the execution rate (in Hz) at which the discrete-time state transition equation updates and propagates the state vector x(t)."
+      }
+    ],
+    "invented": {},
+    "thin": ""
   }
 }

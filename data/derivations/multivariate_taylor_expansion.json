@@ -119,5 +119,59 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "multivariate_taylor_expansion",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In agrios_ws, ekf_global and ekf_local run the Extended Kalman Filter from robot_localization to fuse odometry and IMU data for global and local robot state estimation. The EKF algorithm relies on a first-order multivariate Taylor expansion to linearize nonlinear process motion models and measurement models about the current state estimate. The connection in this project is strictly that the filter's underlying algorithm requires this mathematical linearization, rather than any direct parameter configuration.",
+    "concrete": [
+      {
+        "symbol": "a",
+        "in_your_project": "The current state estimate (expansion point) about which the nonlinear motion or measurement functions are linearized, with dimension R^15 (3D position, orientation, linear/angular velocities, and linear accelerations)."
+      },
+      {
+        "symbol": "x",
+        "in_your_project": "The robot state vector (evaluation point) in the state space R^15."
+      },
+      {
+        "symbol": "k",
+        "in_your_project": "The truncation order k = 1 (scalar), as the Extended Kalman Filter uses a first-order polynomial approximation to linearize nonlinear functions."
+      },
+      {
+        "symbol": "df(a)",
+        "in_your_project": "The differential (Jacobian) of the process transition or measurement model evaluated at the state estimate a, mapping state perturbations in R^15 to output perturbations."
+      },
+      {
+        "symbol": "v",
+        "in_your_project": "A perturbation or displacement vector in the state space R^15, such as the state error vector (x - a)."
+      },
+      {
+        "symbol": "D^alpha f",
+        "in_your_project": "The first-order partial derivatives of the process or measurement models with respect to individual state variables evaluated at a, forming the entries of the Jacobian matrices [scalar]."
+      },
+      {
+        "symbol": "alpha",
+        "in_your_project": "A multi-index in N^15 indicating the partial derivative order for each of the 15 state variables, taking the form of unit basis vectors e_i for first-order terms."
+      },
+      {
+        "symbol": "|alpha|",
+        "in_your_project": "The order of the multi-index derivative, taking values 0 or 1 (scalar) for the first-order EKF approximation."
+      },
+      {
+        "symbol": "alpha!",
+        "in_your_project": "The multi-index factorial, evaluating to 1 (scalar) for all first-order terms |alpha| = 1."
+      },
+      {
+        "symbol": "x^alpha",
+        "in_your_project": "The state monomial, evaluating to an individual state variable coordinate x_i (scalar) when |alpha| = 1."
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

@@ -210,3 +210,23 @@ def invented(instantiation: Instantiation, project: Project,
     if bad_files:
         problems["files not in this repo"] = bad_files
     return problems
+
+
+def thin(instantiation: Instantiation, sheet: dict) -> str:
+    """Why this note says nothing, or "" if it says something.
+
+    `invented` asks whether the claims are false. A note that makes no claims
+    passes it trivially -- schur_complement came back with prose and nothing
+    else, no symbol mapped and no parameter named, and was recorded clean.
+
+    The two checks are different axes and both are needed: one catches a note
+    that says too much, this one catches a note that says nothing.
+    """
+    if not instantiation.components:
+        return ""  # nothing reaches it; an empty note is the honest answer
+    if instantiation.concrete or instantiation.knobs:
+        return ""
+    if sheet.get("symbols"):
+        return (f"names no parameter and maps none of the "
+                f"{len(sheet['symbols'])} symbols the sheet defines")
+    return "names no parameter and maps no symbol"

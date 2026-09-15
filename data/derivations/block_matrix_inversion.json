@@ -121,5 +121,23 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "block_matrix_inversion",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In this project, ekf_global and ekf_local use robot_localization to fuse odometry and IMU sensor data into robot state estimates. The Extended Kalman Filter algorithm requires matrix inversion during the measurement update step to compute the Kalman gain from the innovation covariance. The connection is purely that the component's estimation algorithm requires this mathematical result, rather than any explicit block matrix inversion defined in the project configuration.",
+    "concrete": [
+      {
+        "symbol": "P",
+        "in_your_project": "The matrix being inverted within the EKF measurement update step (the innovation covariance matrix in robot_localization). Its dimensions depend on the active measurement variables, and its block structure is handled internally by the algorithm rather than exposed in this project."
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

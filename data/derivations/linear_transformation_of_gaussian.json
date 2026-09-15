@@ -108,5 +108,43 @@
     ],
     "vacuous_invocations": false,
     "ok": false
+  },
+  "instantiation": {
+    "node_id": "linear_transformation_of_gaussian",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "The ekf_global and ekf_local components from robot_localization use Extended Kalman Filters to estimate the robot's state from sensor inputs. The connection is only that the components' algorithm requires this result to propagate and update Gaussian state estimates through linear or linearized transformations. This mathematical property guarantees that transforming the Gaussian state estimate via system or measurement matrices preserves Gaussianity with transformed covariance B Sigma B^T.",
+    "concrete": [
+      {
+        "symbol": "X",
+        "in_your_project": "The robot state random vector being estimated by the EKF in robot_localization (15 x 1)."
+      },
+      {
+        "symbol": "\\mu",
+        "in_your_project": "The mean vector of the robot's state estimate in the EKF (15 x 1)."
+      },
+      {
+        "symbol": "\\Sigma",
+        "in_your_project": "The covariance matrix of the robot's state estimate in the EKF (15 x 15)."
+      },
+      {
+        "symbol": "c",
+        "in_your_project": "The constant translation offset vector in the affine system or measurement model (M x 1)."
+      },
+      {
+        "symbol": "B",
+        "in_your_project": "The linear or linearized transformation matrix, such as the state transition or measurement Jacobian matrix in the EKF (M x N)."
+      },
+      {
+        "symbol": "Y",
+        "in_your_project": "The transformed Gaussian random vector, such as the predicted state or measurement vector in the EKF (M x 1)."
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

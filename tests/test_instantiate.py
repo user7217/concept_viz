@@ -112,3 +112,22 @@ class TestInvented(unittest.TestCase):
                              concrete=[{"symbol": "Q", "in_your_project": "..."}])
         self.assertIn("symbols not in the sheet",
                       invented(note, self.project, sheet))
+
+    def test_a_note_that_says_nothing_is_thin(self) -> None:
+        from atlas.instantiate import thin
+        # invented() passes this trivially: it makes no claims to be false.
+        note = Instantiation("schur_complement", "rig", components=["ekf_local"],
+                             why_here="The EKF requires it.")
+        self.assertEqual(invented(note, self.project, SHEET), {})
+        self.assertIn("maps none", thin(note, SHEET))
+
+    def test_a_note_with_a_mapped_symbol_is_not_thin(self) -> None:
+        from atlas.instantiate import thin
+        note = Instantiation("covariance_matrix", "rig", components=["ekf_local"],
+                             concrete=[{"symbol": "K_XX", "in_your_project": "15x15"}])
+        self.assertEqual(thin(note, SHEET), "")
+
+    def test_a_node_nothing_reaches_is_not_thin(self) -> None:
+        from atlas.instantiate import thin
+        # No component depends on it, so an empty note is the honest answer.
+        self.assertEqual(thin(Instantiation("x", "rig"), SHEET), "")

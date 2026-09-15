@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from atlas.architecture import apply, propose
 from atlas.ingest import ingest_repo
-from atlas.instantiate import instantiate, invented
+from atlas.instantiate import instantiate, invented, thin
 from atlas.llm import (AuthFailure, Dropped, LLMError, QuotaExhausted,
                        get_provider)
 from atlas.profile import Profile
@@ -63,11 +63,14 @@ for index, node_id in enumerate(pending, 1):
         continue
 
     problems = invented(note, project, sheet)
+    weak = thin(note, sheet)
     sheet["instantiation"] = json.loads(note.to_json())
     sheet["instantiation"]["invented"] = problems
+    sheet["instantiation"]["thin"] = weak
     path_json.write_text(json.dumps(sheet, indent=2) + "\n")
     done += 1
     flag = f"  INVENTED: {problems}" if problems else ""
+    flag += f"  THIN: {weak}" if weak else ""
     print(f"  {index}/{len(pending)} {node_id}: {len(note.knobs)} knobs, "
           f"{len(note.concrete)} symbols{flag}", flush=True)
 

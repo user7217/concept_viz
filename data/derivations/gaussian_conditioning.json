@@ -161,5 +161,84 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "gaussian_conditioning",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In this project, the ekf_global and ekf_local nodes from robot_localization use Extended Kalman Filters to estimate the robot's state by fusing odometry and IMU sensor data. Gaussian conditioning provides the mathematical foundation for the filter's measurement update step, conditioning the joint state-measurement distribution on incoming sensor measurements to yield the posterior state estimate and updated covariance. The connection is simply that the EKF algorithm requires this mathematical result to assimilate sensor observations, rather than any configured parameters directly setting the conditioning operation.",
+    "concrete": [
+      {
+        "symbol": "x",
+        "in_your_project": "The joint random vector [x1; x2] combining the 15-dimensional robot state and the sensor measurement vector [N x 1]"
+      },
+      {
+        "symbol": "x1",
+        "in_your_project": "The robot state vector estimated by ekf_global and ekf_local, containing 3D pose, linear and angular velocities, and linear acceleration [15 x 1]"
+      },
+      {
+        "symbol": "x2",
+        "in_your_project": "The sensor measurement random vector from configured odometry and IMU inputs before observation [(N-15) x 1]"
+      },
+      {
+        "symbol": "\u03bc",
+        "in_your_project": "The joint mean vector [\u03bc1; \u03bc2] combining the prior state estimate and predicted sensor measurement [N x 1]"
+      },
+      {
+        "symbol": "\u03bc1",
+        "in_your_project": "The prior (predicted) robot state estimate vector before incorporating incoming sensor measurements [15 x 1]"
+      },
+      {
+        "symbol": "\u03bc2",
+        "in_your_project": "The expected measurement vector predicted from the prior state estimate [(N-15) x 1]"
+      },
+      {
+        "symbol": "\u03a3",
+        "in_your_project": "The joint covariance matrix of the robot state and sensor measurement vector [N x N]"
+      },
+      {
+        "symbol": "\u03a311",
+        "in_your_project": "The prior state covariance matrix representing uncertainty in the robot state before the measurement update [15 x 15]"
+      },
+      {
+        "symbol": "\u03a312",
+        "in_your_project": "The cross-covariance matrix between the robot state and the sensor measurement [15 x (N-15)]"
+      },
+      {
+        "symbol": "\u03a321",
+        "in_your_project": "The cross-covariance matrix between the sensor measurement and the robot state [(N-15) x 15]"
+      },
+      {
+        "symbol": "\u03a322",
+        "in_your_project": "The measurement innovation covariance matrix representing uncertainty in the sensor measurement space [(N-15) x (N-15)]"
+      },
+      {
+        "symbol": "a",
+        "in_your_project": "The actual observed sensor measurement vector received from the odometry and IMU topics [(N-15) x 1]"
+      },
+      {
+        "symbol": "y1",
+        "in_your_project": "The auxiliary variable x1 - \u03a312 \u03a322^{-1} x2 from the conditioning proof; an intermediate mathematical construct uncorrelated with x2, not explicitly instantiated in robot_localization [15 x 1]"
+      },
+      {
+        "symbol": "\u03bc\u0304",
+        "in_your_project": "The posterior (updated) robot state estimate vector after conditioning on the observed sensor measurement [15 x 1]"
+      },
+      {
+        "symbol": "\u03a3\u0304",
+        "in_your_project": "The posterior (updated) state covariance matrix after the measurement update, computed via the Schur complement of \u03a322 in \u03a3 [15 x 15]"
+      }
+    ],
+    "knobs": [],
+    "invented": {
+      "symbols not in the sheet": [
+        "\u03bc1",
+        "\u03bc2"
+      ]
+    },
+    "thin": ""
   }
 }

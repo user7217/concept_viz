@@ -177,6 +177,7 @@
         "means": "Defines the process noise covariance matrix K_{XX} (15x15) for local state estimation, controlling how rapidly state uncertainty grows in the prediction phase."
       }
     ],
-    "invented": {}
+    "invented": {},
+    "thin": ""
   }
 }

@@ -110,5 +110,56 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "joint_gaussian",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In this project, the EKF nodes (ekf_global and ekf_local) from robot_localization rely on the joint Gaussian assumption to model the robot's multi-variable state and sensor uncertainties. The components' Extended Kalman Filter algorithm requires state variables and noise to be jointly Gaussian so that affine state transitions and measurement conditioning preserve normal distributions analytically. This allows the system to recursively track the robot's pose and velocity estimates along with their covariance.",
+    "concrete": [
+      {
+        "symbol": "x",
+        "in_your_project": "The robot state vector estimated by ekf_global and ekf_local, comprising position, orientation, and velocity states [15 x 1]"
+      },
+      {
+        "symbol": "k",
+        "in_your_project": "The dimensionality of the filter state vector space, which is 15 in robot_localization [scalar]"
+      },
+      {
+        "symbol": "\u03bc",
+        "in_your_project": "The mean vector of the robot's state estimate maintained and updated by the EKF [15 x 1]"
+      },
+      {
+        "symbol": "\u03a3",
+        "in_your_project": "The state estimation error covariance matrix representing uncertainty across the state vector components [15 x 15]"
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the covariance matrix \u03a3 of the joint Gaussian process noise vector, determining how much uncertainty is added to the state at each prediction step"
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the initial covariance matrix \u03a3 for the robot's joint Gaussian state vector x, defining the prior uncertainty before sensor updates occur"
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the covariance matrix \u03a3 of the joint Gaussian process noise vector, determining how much uncertainty is added to the state at each prediction step"
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the initial covariance matrix \u03a3 for the robot's joint Gaussian state vector x, defining the prior uncertainty before sensor updates occur"
+      }
+    ],
+    "invented": {},
+    "thin": ""
   }
 }

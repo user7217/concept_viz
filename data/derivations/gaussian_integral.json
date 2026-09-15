@@ -129,5 +129,18 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "gaussian_integral",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In this project, ekf_global and ekf_local use the Extended Kalman Filter from robot_localization to estimate robot state from odometry and IMU inputs. The Gaussian integral is required by the EKF algorithm as the normalization foundation for the multivariate Gaussian probability distributions used to model state uncertainty and noise. The connection is solely that the components' algorithm requires this mathematical result, rather than computing or configuring the integral directly.",
+    "concrete": [],
+    "knobs": [],
+    "invented": {},
+    "thin": "names no parameter and maps none of the 5 symbols the sheet defines"
   }
 }

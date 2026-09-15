@@ -407,9 +407,12 @@ class AntigravityProvider:
     **`agy -p` drops large prompts silently**: exit 0, empty stdout, nothing
     on stderr. Measured 2026-09-11 -- a 1.1k prompt answered every time while
     the same 5k prompt was dropped 8 times running, yet that same 5k prompt
-    had answered 14 of 20 times an hour earlier. The ceiling moves with the
-    subscription budget, so a drop is a throttle to wait out, not a verdict
-    on the prompt. Retrying with backoff is the only thing that recovers it.
+    had answered 14 of 20 times an hour earlier. Re-measured four days on
+    with well-formed prompts, it is not a ceiling and not a budget that
+    refills: 2353 chars dropped while 2495 and 3448 answered, and 4418
+    dropped. It is stochastic, with the odds of a drop rising with size.
+    Retrying is what gets through; a smaller prompt raises the per-attempt
+    odds. A drop is never a verdict on the prompt.
     """
 
     binary: str = "agy"
@@ -443,9 +446,9 @@ class AntigravityProvider:
         raise Dropped(
             f"agy -p dropped the request {self.attempts} times "
             f"(exit 0, empty stdout, empty stderr). The prompt was "
-            f"{len(text)} chars; large prompts are dropped while the "
-            f"subscription budget is low. Wait and re-run -- the run is "
-            f"resumable, so nothing already written is lost."
+            f"{len(text)} chars. Drops are stochastic and get likelier the "
+            f"larger the prompt -- re-running usually gets further, and the "
+            f"run is resumable, so nothing already written is lost."
         )
 
     def _attempt(self, command: list[str]) -> str | None:

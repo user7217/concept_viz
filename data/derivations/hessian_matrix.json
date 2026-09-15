@@ -100,5 +100,39 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "hessian_matrix",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In this project, ekf_global and ekf_local use the robot_localization package to estimate the robot's 15-dimensional state. The connection to the Hessian matrix is purely algorithmic, as state estimation theory relates the Hessian of the negative log-likelihood scalar field to the information matrix describing estimation curvature and uncertainty. The codebase itself executes a standard first-order Extended Kalman Filter using Jacobians, so the Hessian matrix is not directly instantiated or computed.",
+    "concrete": [
+      {
+        "symbol": "x",
+        "in_your_project": "The 15-dimensional robot state vector [x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az]^T tracked by ekf_global and ekf_local [15 x 1]"
+      },
+      {
+        "symbol": "f",
+        "in_your_project": "The scalar-valued negative log-likelihood function of the state vector under Gaussian estimation assumptions [R^15 -> R]"
+      },
+      {
+        "symbol": "H(x)",
+        "in_your_project": "The 15 x 15 Hessian matrix of second-order partial derivatives of the negative log-likelihood function, representing the information matrix (inverse of error covariance) [15 x 15]"
+      },
+      {
+        "symbol": "\u2207f(x)",
+        "in_your_project": "The gradient vector of the negative log-likelihood function with respect to the state vector, vanishing at the maximum a posteriori state estimate [15 x 1]"
+      },
+      {
+        "symbol": "\u0394x",
+        "in_your_project": "The state error perturbation or displacement vector from the current state estimate [15 x 1]"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

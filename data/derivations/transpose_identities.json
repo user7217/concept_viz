@@ -106,5 +106,35 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "transpose_identities",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In agrios_ws, the ekf_global and ekf_local nodes from the robot_localization library execute Extended Kalman Filter algorithms for state estimation. Transpose identities, such as (AB)^T = B^T A^T and (A+B)^T = A^T + B^T, are required algorithmically by the EKF to propagate and update state covariance matrices while preserving symmetry. None of the listed configuration parameters tune this concept; the connection is strictly that the underlying EKF algorithm requires these matrix transpose identities to evaluate its equations.",
+    "concrete": [
+      {
+        "symbol": "A, B",
+        "in_your_project": "State transition matrix F (15 x 15), state estimate covariance matrix P (15 x 15), and measurement matrix H (m x 15) in ekf_global and ekf_local, where compatible matrix products and additions are computed"
+      },
+      {
+        "symbol": "c",
+        "in_your_project": "Scalar constants (1 x 1) scaling a matrix, such as filter weighting factors or variance scaling coefficients"
+      },
+      {
+        "symbol": "A^T",
+        "in_your_project": "Matrix transpose of A, such as Jacobian transpose F^T (15 x 15) or measurement matrix transpose H^T (15 x m) used in covariance propagation (F P F^T) and Kalman gain calculation (P H^T (H P H^T + R)^(-1))"
+      },
+      {
+        "symbol": "i, j, k",
+        "in_your_project": "Scalar indices (0 to 14) indexing the 15 state dimensions (position, orientation, velocity) and sensor measurement components"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }
