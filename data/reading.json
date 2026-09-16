@@ -1,0 +1,692 @@
+{
+  "reading": {
+    "a_star": [
+      {
+        "url": "https://www.cs.cmu.edu/afs/cs.cmu.edu/Web/People/maxim/files/hsplanguide_icaps05ws.pdf",
+        "kind": "course notes",
+        "title": "hsplanguide icaps05ws \u2014 www.cs.cmu.edu"
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/robotica/article/abs/investigating-reduced-path-planning-strategy-for-differential-wheeled-mobile-robot/6EDFFC11CEF00D0E010C0D149FE9C811",
+        "kind": "book",
+        "title": "6EDFFC11CEF00D0E010C0D149FE9C811 \u2014 www.cambridge.org"
+      },
+      {
+        "url": "https://arxiv.org/abs/1110.2737",
+        "kind": "preprint",
+        "title": "1110.2737 \u2014 arxiv.org"
+      },
+      {
+        "url": "https://doi.org/10.1109%2FTSSC.1968.300136",
+        "kind": "paper",
+        "title": "10.1109%2FTSSC.1968.300136 \u2014 doi.org"
+      },
+      {
+        "url": "https://www.cs.umd.edu/~nau/papers/nau1984general.pdf",
+        "kind": "course notes",
+        "title": "nau1984general \u2014 www.cs.umd.edu"
+      },
+      {
+        "url": "https://doi.org/10.1098%2Frspa.1966.0205",
+        "kind": "paper",
+        "title": "10.1098%2Frspa.1966.0205 \u2014 doi.org"
+      }
+    ],
+    "admissibility": [
+      {
+        "url": "https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.124.817",
+        "kind": "course notes",
+        "title": "summary \u2014 citeseerx.ist.psu.edu"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F3-540-44914-0_3",
+        "kind": "paper",
+        "title": "10.1007%2F3 540 44914 0 3 \u2014 doi.org"
+      }
+    ],
+    "belief_distribution": [
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2002ITSP...50..174A",
+        "kind": "course notes",
+        "title": "2002ITSP...50..174A \u2014 ui.adsabs.harvard.edu"
+      },
+      {
+        "url": "https://doi.org/10.1109%2F78.978374",
+        "kind": "paper",
+        "title": "10.1109%2F78.978374 \u2014 doi.org"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2015SigPr.108..498V",
+        "kind": "course notes",
+        "title": "2015SigPr.108..498V \u2014 ui.adsabs.harvard.edu"
+      },
+      {
+        "url": "https://doi.org/10.26300%2Fnhfp-xv22",
+        "kind": "paper",
+        "title": "10.26300%2Fnhfp xv22 \u2014 doi.org"
+      },
+      {
+        "url": "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.117.1144",
+        "kind": "course notes",
+        "title": "summary \u2014 citeseerx.ist.psu.edu"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.sigpro.2014.10.025",
+        "kind": "paper",
+        "title": "10.1016%2Fj.sigpro.2014.10.025 \u2014 doi.org"
+      }
+    ],
+    "bernoulli_distribution": [],
+    "block_matrix_inversion": [
+      {
+        "url": "http://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/video-lectures/lecture-3-multiplication-and-inverse-matrices",
+        "kind": "course notes",
+        "title": "lecture 3 multiplication and inverse matrices \u2014 ocw.mit.edu"
+      },
+      {
+        "url": "https://arxiv.org/abs/1312.4818",
+        "kind": "preprint",
+        "title": "1312.4818 \u2014 arxiv.org"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.scico.2012.07.012",
+        "kind": "paper",
+        "title": "10.1016%2Fj.scico.2012.07.012 \u2014 doi.org"
+      },
+      {
+        "url": "https://www.cfm.brown.edu/people/dobrush/cs52/Mathematica/Part2/partition.html",
+        "kind": "course notes",
+        "title": "partition \u2014 www.cfm.brown.edu"
+      },
+      {
+        "url": "https://arxiv.org/abs/1805.06027",
+        "kind": "preprint",
+        "title": "1805.06027 \u2014 arxiv.org"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F3620776",
+        "kind": "paper",
+        "title": "10.2307%2F3620776 \u2014 doi.org"
+      }
+    ],
+    "change_of_variables": [
+      {
+        "url": "https://doi.org/10.2307%2F2687130",
+        "kind": "paper",
+        "title": "10.2307%2F2687130 \u2014 doi.org"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2689856",
+        "kind": "paper",
+        "title": "10.2307%2F2689856 \u2014 doi.org"
+      },
+      {
+        "url": "https://www.jstor.org/stable/2687130",
+        "kind": "paper",
+        "title": "2687130 \u2014 www.jstor.org"
+      },
+      {
+        "url": "https://www.jstor.org/stable/2689856",
+        "kind": "paper",
+        "title": "2689856 \u2014 www.jstor.org"
+      }
+    ],
+    "conditional_independence": [],
+    "consistency_heuristic": [],
+    "covariance_matrix": [],
+    "edge_weight": [
+      {
+        "url": "http://www.cs.rhul.ac.uk/books/dbook/",
+        "kind": "course notes",
+        "title": "dbook \u2014 www.cs.rhul.ac.uk"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/Graph.html",
+        "kind": "reference",
+        "title": "Graph \u2014 mathworld.wolfram.com"
+      },
+      {
+        "url": "https://doi.org/10.1145%2F2488388.2488433",
+        "kind": "paper",
+        "title": "10.1145%2F2488388.2488433 \u2014 doi.org"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F23311983.2016.1171458",
+        "kind": "paper",
+        "title": "10.1080%2F23311983.2016.1171458 \u2014 doi.org"
+      },
+      {
+        "url": "https://doi.org/10.1038%2F017284a0",
+        "kind": "paper",
+        "title": "10.1038%2F017284a0 \u2014 doi.org"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2369436",
+        "kind": "paper",
+        "title": "10.2307%2F2369436 \u2014 doi.org"
+      }
+    ],
+    "extended_kalman_filter": [],
+    "gaussian_conditioning": [
+      {
+        "url": "http://fourier.eng.hmc.edu/e161/lectures/gaussianprocess/node7.html",
+        "kind": "course notes",
+        "title": "node7 \u2014 fourier.eng.hmc.edu"
+      },
+      {
+        "url": "https://www.springer.com/statistics/computational+statistics/book/978-3-642-01688-2",
+        "kind": "book",
+        "title": "978 3 642 01688 2 \u2014 www.springer.com"
+      },
+      {
+        "url": "https://arxiv.org/abs/1603.04166",
+        "kind": "preprint",
+        "title": "1603.04166 \u2014 arxiv.org"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2371328",
+        "kind": "paper",
+        "title": "10.2307%2F2371328 \u2014 doi.org"
+      },
+      {
+        "url": "http://web.mit.edu/6.041/www/LECTURE/lec22.pdf",
+        "kind": "course notes",
+        "title": "lec22 \u2014 web.mit.edu"
+      },
+      {
+        "url": "https://arxiv.org/abs/1604.00772",
+        "kind": "preprint",
+        "title": "1604.00772 \u2014 arxiv.org"
+      }
+    ],
+    "gaussian_integral": [],
+    "gaussian_marginalization": [
+      {
+        "url": "http://fourier.eng.hmc.edu/e161/lectures/gaussianprocess/node7.html",
+        "kind": "course notes",
+        "title": "node7 \u2014 fourier.eng.hmc.edu"
+      },
+      {
+        "url": "https://www.springer.com/statistics/computational+statistics/book/978-3-642-01688-2",
+        "kind": "book",
+        "title": "978 3 642 01688 2 \u2014 www.springer.com"
+      },
+      {
+        "url": "https://arxiv.org/abs/1603.04166",
+        "kind": "preprint",
+        "title": "1603.04166 \u2014 arxiv.org"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2371328",
+        "kind": "paper",
+        "title": "10.2307%2F2371328 \u2014 doi.org"
+      },
+      {
+        "url": "http://web.mit.edu/6.041/www/LECTURE/lec22.pdf",
+        "kind": "course notes",
+        "title": "lec22 \u2014 web.mit.edu"
+      },
+      {
+        "url": "https://arxiv.org/abs/1604.00772",
+        "kind": "preprint",
+        "title": "1604.00772 \u2014 arxiv.org"
+      }
+    ],
+    "gradient": [
+      {
+        "url": "https://mathworld.wolfram.com/Gradient.html",
+        "kind": "reference",
+        "title": "Gradient \u2014 mathworld.wolfram.com"
+      },
+      {
+        "url": "https://doi.org/10.1007/978-3-662-64389-1",
+        "kind": "paper",
+        "title": "978 3 662 64389 1 \u2014 doi.org"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-3-662-64389-1",
+        "kind": "paper",
+        "title": "10.1007%2F978 3 662 64389 1 \u2014 doi.org"
+      },
+      {
+        "url": "https://www.jstor.org/action/doBasicSearch?Query=%22Gradient%22&acc=on&wc=on",
+        "kind": "paper",
+        "title": "doBasicSearch \u2014 www.jstor.org"
+      }
+    ],
+    "hessian_matrix": [],
+    "heuristic_function": [],
+    "inverse_sensor_model": [
+      {
+        "url": "https://www.cs.cmu.edu/~16831-f14/notes/F14/16831_lecture06_agiri_dmcconac_kumarsha_nbhakta.pdf",
+        "kind": "course notes",
+        "title": "16831 lecture06 agiri dmcconac kumarsha nbhakta \u2014 www.cs.cmu.edu"
+      },
+      {
+        "url": "https://doi.org/10.1109%2FROBOT.1985.1087316",
+        "kind": "paper",
+        "title": "10.1109%2FROBOT.1985.1087316 \u2014 doi.org"
+      },
+      {
+        "url": "https://www.ri.cmu.edu/pub_files/pub1/thrun_sebastian_1996_8/thrun_sebastian_1996_8.pdf",
+        "kind": "course notes",
+        "title": "thrun sebastian 1996 8 \u2014 www.ri.cmu.edu"
+      }
+    ],
+    "jacobian_matrix": [],
+    "joint_gaussian": [
+      {
+        "url": "http://fourier.eng.hmc.edu/e161/lectures/gaussianprocess/node7.html",
+        "kind": "course notes",
+        "title": "node7 \u2014 fourier.eng.hmc.edu"
+      },
+      {
+        "url": "https://www.springer.com/statistics/computational+statistics/book/978-3-642-01688-2",
+        "kind": "book",
+        "title": "978 3 642 01688 2 \u2014 www.springer.com"
+      },
+      {
+        "url": "https://arxiv.org/abs/1603.04166",
+        "kind": "preprint",
+        "title": "1603.04166 \u2014 arxiv.org"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2371328",
+        "kind": "paper",
+        "title": "10.2307%2F2371328 \u2014 doi.org"
+      },
+      {
+        "url": "http://web.mit.edu/6.041/www/LECTURE/lec22.pdf",
+        "kind": "course notes",
+        "title": "lec22 \u2014 web.mit.edu"
+      },
+      {
+        "url": "https://arxiv.org/abs/1604.00772",
+        "kind": "preprint",
+        "title": "1604.00772 \u2014 arxiv.org"
+      }
+    ],
+    "likelihood": [],
+    "linear_kalman_filter": [],
+    "linear_transformation_of_gaussian": [],
+    "linearization": [],
+    "log_odds": [
+      {
+        "url": "http://www.columbia.edu/~so33/SusDev/Lecture_9.pdf",
+        "kind": "course notes",
+        "title": "Lecture 9 \u2014 www.columbia.edu"
+      },
+      {
+        "url": "http://www.cambridge.org/resources/0521815886/1208_default.pdf",
+        "kind": "book",
+        "title": "1208 default \u2014 www.cambridge.org"
+      },
+      {
+        "url": "https://doi.org/10.1023%2FA:1025584807625",
+        "kind": "paper",
+        "title": "10.1023%2FA:1025584807625 \u2014 doi.org"
+      },
+      {
+        "url": "https://www.cs.cmu.edu/~16831-f12/notes/F12/16831_lecture05_vh.pdf",
+        "kind": "course notes",
+        "title": "16831 lecture05 vh \u2014 www.cs.cmu.edu"
+      },
+      {
+        "url": "https://doi.org/10.1109%2FACCESS.2015.2454533",
+        "kind": "paper",
+        "title": "10.1109%2FACCESS.2015.2454533 \u2014 doi.org"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2015IEEEA...3.1233D",
+        "kind": "course notes",
+        "title": "2015IEEEA...3.1233D \u2014 ui.adsabs.harvard.edu"
+      }
+    ],
+    "log_odds_transformation": [
+      {
+        "url": "http://www.columbia.edu/~so33/SusDev/Lecture_9.pdf",
+        "kind": "course notes",
+        "title": "Lecture 9 \u2014 www.columbia.edu"
+      },
+      {
+        "url": "http://www.cambridge.org/resources/0521815886/1208_default.pdf",
+        "kind": "book",
+        "title": "1208 default \u2014 www.cambridge.org"
+      },
+      {
+        "url": "https://doi.org/10.1023%2FA:1025584807625",
+        "kind": "paper",
+        "title": "10.1023%2FA:1025584807625 \u2014 doi.org"
+      },
+      {
+        "url": "https://www.cs.cmu.edu/~16831-f12/notes/F12/16831_lecture05_vh.pdf",
+        "kind": "course notes",
+        "title": "16831 lecture05 vh \u2014 www.cs.cmu.edu"
+      },
+      {
+        "url": "https://doi.org/10.1109%2FACCESS.2015.2454533",
+        "kind": "paper",
+        "title": "10.1109%2FACCESS.2015.2454533 \u2014 doi.org"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2015IEEEA...3.1233D",
+        "kind": "course notes",
+        "title": "2015IEEEA...3.1233D \u2014 ui.adsabs.harvard.edu"
+      }
+    ],
+    "marginalization": [
+      {
+        "url": "https://www.math.fsu.edu/~paris/Pexam/",
+        "kind": "course notes",
+        "title": "Pexam \u2014 www.math.fsu.edu"
+      },
+      {
+        "url": "https://lux.collections.yale.edu/view/concept/49157777-21c0-403c-a299-b52ceb3e434d",
+        "kind": "course notes",
+        "title": "49157777 21c0 403c a299 b52ceb3e434d \u2014 lux.collections.yale.edu"
+      }
+    ],
+    "markov_assumption": [],
+    "matrix_inversion_lemma": [
+      {
+        "url": "http://math.nyu.edu/mfdd/riedel/ranksiam.ps",
+        "kind": "course notes",
+        "title": "ranksiam.ps \u2014 math.nyu.edu"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/WoodburyFormula.html",
+        "kind": "reference",
+        "title": "WoodburyFormula \u2014 mathworld.wolfram.com"
+      },
+      {
+        "url": "https://arxiv.org/abs/2504.04554",
+        "kind": "preprint",
+        "title": "2504.04554 \u2014 arxiv.org"
+      },
+      {
+        "url": "https://doi.org/10.1137%2F0613040",
+        "kind": "paper",
+        "title": "10.1137%2F0613040 \u2014 doi.org"
+      },
+      {
+        "url": "https://ecommons.cornell.edu/bitstream/1813/32749/1/BU-647-M.pdf",
+        "kind": "course notes",
+        "title": "BU 647 M \u2014 ecommons.cornell.edu"
+      },
+      {
+        "url": "https://doi.org/10.1214%2Faoms%2F1177730946",
+        "kind": "paper",
+        "title": "10.1214%2Faoms%2F1177730946 \u2014 doi.org"
+      }
+    ],
+    "measurement_model": [
+      {
+        "url": "http://repositori.upf.edu/bitstream/10230/28341/1/RECSM-WP-031-Correction%20for%20measurement%20errors%20in%20survey%20research.pdf",
+        "kind": "course notes",
+        "title": "RECSM WP 031 Correction%20for%20measurement%20errors%20in%20survey%20research \u2014 repositori.upf.edu"
+      },
+      {
+        "url": "https://doi.org/10.1136%2Fbmj.313.7059.744",
+        "kind": "paper",
+        "title": "10.1136%2Fbmj.313.7059.744 \u2014 doi.org"
+      },
+      {
+        "url": "https://direct.mit.edu/posc/article/9/1/38-58/15089",
+        "kind": "course notes",
+        "title": "15089 \u2014 direct.mit.edu"
+      },
+      {
+        "url": "https://doi.org/10.1007%2Fs11205-015-1002-x",
+        "kind": "paper",
+        "title": "10.1007%2Fs11205 015 1002 x \u2014 doi.org"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F1267450",
+        "kind": "paper",
+        "title": "10.2307%2F1267450 \u2014 doi.org"
+      },
+      {
+        "url": "https://doi.org/10.1146%2Fannurev.nucl.57.090506.123052",
+        "kind": "paper",
+        "title": "10.1146%2Fannurev.nucl.57.090506.123052 \u2014 doi.org"
+      }
+    ],
+    "multivariate_taylor_expansion": [
+      {
+        "url": "http://numericalmethods.eng.usf.edu/topics/taylor_series.html",
+        "kind": "course notes",
+        "title": "taylor series \u2014 numericalmethods.eng.usf.edu"
+      },
+      {
+        "url": "http://numericalmethods.eng.usf.edu/",
+        "kind": "course notes",
+        "title": "numericalmethods.eng.usf.edu \u2014 numericalmethods.eng.usf.edu"
+      },
+      {
+        "url": "https://sites.math.washington.edu/~folland/Math425/taylor2.pdf",
+        "kind": "course notes",
+        "title": "taylor2 \u2014 sites.math.washington.edu"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/TaylorSeries.html",
+        "kind": "reference",
+        "title": "TaylorSeries \u2014 mathworld.wolfram.com"
+      },
+      {
+        "url": "https://link.springer.com/chapter/10.1007/978-3-642-61497-2_2",
+        "kind": "book",
+        "title": "978 3 642 61497 2 2 \u2014 link.springer.com"
+      },
+      {
+        "url": "https://arxiv.org/abs/1511.08345",
+        "kind": "preprint",
+        "title": "1511.08345 \u2014 arxiv.org"
+      }
+    ],
+    "normalization": [
+      {
+        "url": "http://www.math.uah.edu/stat/dist/Continuous.xhtml",
+        "kind": "course notes",
+        "title": "Continuous.xhtml \u2014 www.math.uah.edu"
+      }
+    ],
+    "occupancy_grid_mapping": [],
+    "odds_ratio": [],
+    "optimal_substructure": [],
+    "path": [
+      {
+        "url": "https://lux.collections.yale.edu/view/concept/20f81b3b-453f-47f4-87ba-7b252da0431f",
+        "kind": "course notes",
+        "title": "20f81b3b 453f 47f4 87ba 7b252da0431f \u2014 lux.collections.yale.edu"
+      },
+      {
+        "url": "https://doi.org/10.1007/s10878-018-00372-z",
+        "kind": "paper",
+        "title": "s10878 018 00372 z \u2014 doi.org"
+      },
+      {
+        "url": "https://doi.org/10.1007%2Fs10878-018-00372-z",
+        "kind": "paper",
+        "title": "10.1007%2Fs10878 018 00372 z \u2014 doi.org"
+      }
+    ],
+    "path_cost": [
+      {
+        "url": "http://ftp.cs.stanford.edu/cs/theory/pub/goldberg/sp-alg.ps.Z",
+        "kind": "course notes",
+        "title": "sp alg.ps.Z \u2014 ftp.cs.stanford.edu"
+      },
+      {
+        "url": "https://link.springer.com/book/10.1007/978-3-031-02574-7",
+        "kind": "book",
+        "title": "978 3 031 02574 7 \u2014 link.springer.com"
+      },
+      {
+        "url": "https://arxiv.org/abs/2108.01036",
+        "kind": "preprint",
+        "title": "2108.01036 \u2014 arxiv.org"
+      },
+      {
+        "url": "https://doi.org/10.1007/s101070050058",
+        "kind": "paper",
+        "title": "s101070050058 \u2014 doi.org"
+      },
+      {
+        "url": "http://www.eecs.umich.edu/~pettie/matching/Gabow-scaling-algorithms-for-network-problems.pdf",
+        "kind": "course notes",
+        "title": "Gabow scaling algorithms for network problems \u2014 www.eecs.umich.edu"
+      },
+      {
+        "url": "https://link.springer.com/chapter/10.1007/3-540-45253-2_30",
+        "kind": "book",
+        "title": "3 540 45253 2 30 \u2014 link.springer.com"
+      }
+    ],
+    "positive_semidefinite_matrix": [],
+    "recursive_estimation": [
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2002ITSP...50..174A",
+        "kind": "course notes",
+        "title": "2002ITSP...50..174A \u2014 ui.adsabs.harvard.edu"
+      },
+      {
+        "url": "https://doi.org/10.1109%2F78.978374",
+        "kind": "paper",
+        "title": "10.1109%2F78.978374 \u2014 doi.org"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2015SigPr.108..498V",
+        "kind": "course notes",
+        "title": "2015SigPr.108..498V \u2014 ui.adsabs.harvard.edu"
+      },
+      {
+        "url": "https://doi.org/10.26300%2Fnhfp-xv22",
+        "kind": "paper",
+        "title": "10.26300%2Fnhfp xv22 \u2014 doi.org"
+      },
+      {
+        "url": "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.117.1144",
+        "kind": "course notes",
+        "title": "summary \u2014 citeseerx.ist.psu.edu"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.sigpro.2014.10.025",
+        "kind": "paper",
+        "title": "10.1016%2Fj.sigpro.2014.10.025 \u2014 doi.org"
+      }
+    ],
+    "recursive_substitution": [
+      {
+        "url": "http://faculty.pccu.edu.tw/~meng/Math15.pdf",
+        "kind": "course notes",
+        "title": "Math15 \u2014 faculty.pccu.edu.tw"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/RecurrenceEquation.html",
+        "kind": "reference",
+        "title": "RecurrenceEquation \u2014 mathworld.wolfram.com"
+      },
+      {
+        "url": "https://arxiv.org/abs/1101.4371",
+        "kind": "preprint",
+        "title": "1101.4371 \u2014 arxiv.org"
+      },
+      {
+        "url": "https://doi.org/10.1142%2FS0219530512500108",
+        "kind": "paper",
+        "title": "10.1142%2FS0219530512500108 \u2014 doi.org"
+      },
+      {
+        "url": "https://lux.collections.yale.edu/view/concept/9d8469dc-195a-4e15-9480-eb6f494c8601",
+        "kind": "course notes",
+        "title": "9d8469dc 195a 4e15 9480 eb6f494c8601 \u2014 lux.collections.yale.edu"
+      },
+      {
+        "url": "https://www.jstor.org/stable/2027658",
+        "kind": "paper",
+        "title": "2027658 \u2014 www.jstor.org"
+      }
+    ],
+    "relaxation": [
+      {
+        "url": "http://algs4.cs.princeton.edu/44sp/",
+        "kind": "course notes",
+        "title": "44sp \u2014 algs4.cs.princeton.edu"
+      },
+      {
+        "url": "https://arxiv.org/abs/1111.5414",
+        "kind": "preprint",
+        "title": "1111.5414 \u2014 arxiv.org"
+      },
+      {
+        "url": "https://doi.org/10.1090%2Fqam%2F102435",
+        "kind": "paper",
+        "title": "10.1090%2Fqam%2F102435 \u2014 doi.org"
+      },
+      {
+        "url": "https://web.stanford.edu/class/archive/cs/cs161/cs161.1168/lecture14.pdf",
+        "kind": "course notes",
+        "title": "lecture14 \u2014 web.stanford.edu"
+      },
+      {
+        "url": "https://arxiv.org/abs/2311.02520",
+        "kind": "preprint",
+        "title": "2311.02520 \u2014 arxiv.org"
+      },
+      {
+        "url": "https://doi.org/10.1090%2Fqam%2F253822",
+        "kind": "paper",
+        "title": "10.1090%2Fqam%2F253822 \u2014 doi.org"
+      }
+    ],
+    "schur_complement": [],
+    "shortest_path": [
+      {
+        "url": "http://ftp.cs.stanford.edu/cs/theory/pub/goldberg/sp-alg.ps.Z",
+        "kind": "course notes",
+        "title": "sp alg.ps.Z \u2014 ftp.cs.stanford.edu"
+      },
+      {
+        "url": "https://link.springer.com/book/10.1007/978-3-031-02574-7",
+        "kind": "book",
+        "title": "978 3 031 02574 7 \u2014 link.springer.com"
+      },
+      {
+        "url": "https://arxiv.org/abs/2108.01036",
+        "kind": "preprint",
+        "title": "2108.01036 \u2014 arxiv.org"
+      },
+      {
+        "url": "https://doi.org/10.1007/s101070050058",
+        "kind": "paper",
+        "title": "s101070050058 \u2014 doi.org"
+      },
+      {
+        "url": "http://www.eecs.umich.edu/~pettie/matching/Gabow-scaling-algorithms-for-network-problems.pdf",
+        "kind": "course notes",
+        "title": "Gabow scaling algorithms for network problems \u2014 www.eecs.umich.edu"
+      },
+      {
+        "url": "https://link.springer.com/chapter/10.1007/3-540-45253-2_30",
+        "kind": "book",
+        "title": "3 540 45253 2 30 \u2014 link.springer.com"
+      }
+    ],
+    "state_space_model": [],
+    "taylor_expansion": [],
+    "total_probability": [],
+    "transpose_identities": [
+      {
+        "url": "https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/",
+        "kind": "course notes",
+        "title": "18 06 linear algebra spring 2010 \u2014 ocw.mit.edu"
+      },
+      {
+        "url": "http://www.cmat.edu.uy/~marclan/TM/Algebra%20i%20-%20Bourbaki.pdf",
+        "kind": "course notes",
+        "title": "Algebra%20i%20 %20Bourbaki \u2014 www.cmat.edu.uy"
+      }
+    ],
+    "weighted_graph": []
+  }
+}

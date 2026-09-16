@@ -93,6 +93,10 @@ def main() -> None:
     # Verified excerpts from the library the project actually runs. The maths
     # the reader is learning is executed there, not in the 146 lines of Python
     # this workspace owns.
+    reading_path = ROOT / "data" / "reading.json"
+    reading = (json.loads(reading_path.read_text())["reading"]
+               if reading_path.exists() else {})
+
     notes_path = ROOT / "data" / "components.json"
     component_notes = (json.loads(notes_path.read_text())["components"]
                        if notes_path.exists() else {})
@@ -147,6 +151,7 @@ def main() -> None:
             "exercises": available_count(sheet) if sheet else 0,
             "statement": _trim((sheet or {}).get("statement") or "", 1400),
             "whyHere": _trim(str(note.get("why_here", "")), 900),
+            "reading": reading.get(node.id, []),
             "code": (library["spans"].get(node.id, []) +
                      ([span.to_dict() for span in
                        evidence_for(node.name, sources, note)]
@@ -184,7 +189,7 @@ def main() -> None:
                 "steps": 0, "exercises": 0,
                 "statement": (f"{purpose} {apart}".strip() if purpose else ""),
                 "whyHere": purpose,
-                "code": [], "knobs": [],
+                "code": [], "knobs": [], "reading": [],
                 "measures": {k: 0 for k in ("depth", "reuse", "cost", "tier",
                                             "known", "steps", "exercises")},
             })

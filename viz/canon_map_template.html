@@ -183,6 +183,17 @@ body.resizing{cursor:col-resize;user-select:none}
 .tag.on{border-color:transparent;color:var(--surface)}
 .body{font-size:13.5px;line-height:1.6;color:var(--ink);margin:0}
 .meta{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0}
+.deeper button{font-family:var(--sans);font-size:12.5px;padding:7px 11px;
+  width:100%;text-align:left;border:1px solid var(--concept);border-radius:6px;
+  background:var(--sunk);color:var(--concept);cursor:pointer;font-weight:500}
+.deeper button:hover{background:var(--concept);color:var(--surface)}
+.deeper button.done{border-color:var(--state);background:var(--state);
+  color:var(--surface)}
+.read{display:flex;gap:8px;align-items:baseline;font-size:12.5px;
+  text-decoration:none;color:var(--ink);padding:3px 0}
+.read:hover{color:var(--concept);text-decoration:underline}
+.read .kind{font-family:var(--mono);font-size:10px;color:var(--faint);
+  flex:none;min-width:74px}
 .snippet{border:1px solid var(--line);border-radius:6px;overflow:hidden}
 .snippet.lib{border-color:var(--algorithm)}
 .snippet.lib header{background:color-mix(in srgb,var(--algorithm) 12%,transparent)}
@@ -409,6 +420,16 @@ body.resizing{cursor:col-resize;user-select:none}
       <div id="d-knobwrap">
         <span class="eyebrow">Config it reaches</span>
         <div id="d-knobs" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+      <div id="d-readwrap">
+        <span class="eyebrow">Go deeper</span>
+        <div class="deeper">
+          <button id="d-copy" type="button">Copy a prompt for another model</button>
+          <p class="hint" id="d-copynote">Carries what you already know, what
+          this node is for in your robot, and where it sits in the chain — so
+          the answer starts where the sheet stops.</p>
+        </div>
+        <div id="d-reading" style="display:flex;flex-direction:column;gap:6px"></div>
       </div>
       <div id="d-codewrap">
         <span class="eyebrow">Where it is in the code</span>
@@ -1221,6 +1242,54 @@ function drawCrumbs(id) {
   });
 }
 
+/* A prompt for a model that has none of this context. Assembled from the
+   payload, so it states only what the project already knows: the chain that
+   makes this node relevant, what the reader has already worked through, the
+   role it plays in their code, and where the sheet stops. Nothing here is
+   generated, so there is nothing here to be wrong. */
+function studyPrompt(n) {
+  const chain = chainTo(n.id);
+  const below = (needs.get(n.id) || []).map(id => (byId.get(id) || {}).name || id);
+  const done = nodes.filter(x => x.state === 'demonstrated' || x.state === 'read')
+                    .map(x => x.name);
+  const lines = [];
+  lines.push(`I am learning **${n.name}** so that I can derive it on paper.`);
+  lines.push('');
+  lines.push('Context, so you can pitch this correctly:');
+  if (chain.length > 1)
+    lines.push(`- I need it because ${chain.join(' → ')}. It is not an ` +
+               'abstract interest; it is load-bearing for code I run.');
+  if (n.whyHere) lines.push(`- In my own project: ${n.whyHere}`);
+  if (n.knobs && n.knobs.length)
+    lines.push('- Config I actually set that this governs: ' +
+               n.knobs.map(k => k.parameter).join(', ') + '.');
+  if (below.length)
+    lines.push(`- Its stated prerequisites are: ${below.join(', ')}.`);
+  if (done.length)
+    lines.push(`- I have already worked through: ${done.slice(0, 12).join(', ')}.`);
+  lines.push('');
+  if (n.statement) {
+    lines.push('What I have so far, which is a restatement rather than a derivation:');
+    lines.push(`> ${n.statement.replace(/\s+/g, ' ').slice(0, 700)}`);
+    lines.push('');
+  }
+  lines.push('What I want from you:');
+  lines.push(n.steps
+    ? '1. Walk the derivation line by line, and for every term say why it is ' +
+      'there and what breaks if I change it.'
+    : '1. This is stated as a definition. Tell me honestly whether there is ' +
+      'anything to derive here, and if so, derive it.');
+  lines.push('2. Show me where it fails: the assumption that breaks first, and ' +
+             'what I would observe when it does.');
+  lines.push('3. Give me one worked numerical example small enough to check by hand.');
+  lines.push('4. Do not skip algebra. If a step is "standard", show it anyway — ' +
+             'the skipped steps are exactly where my understanding has holes.');
+  lines.push('');
+  lines.push('Scope: derive the object, do not prove theorems about it. I do not ' +
+             'need existence or convergence proofs or measure-theoretic framing.');
+  return lines.join('\n');
+}
+
 function select(id) {
   selected = id;
   drawCrumbs(id);
@@ -1272,6 +1341,32 @@ function select(id) {
     const m = document.createElement('div'); m.className = 'means'; m.innerHTML = tex(k.means);
     el.append(c, w, m); kw.appendChild(el);
   }
+
+  // Further reading, from the article's own citations rather than generated
+  const reading = document.getElementById('d-reading');
+  reading.innerHTML = '';
+  for (const item of (n.reading || [])) {
+    const a = document.createElement('a');
+    a.className = 'read'; a.href = item.url;
+    a.target = '_blank'; a.rel = 'noopener noreferrer';
+    const kind = document.createElement('span');
+    kind.className = 'kind'; kind.textContent = item.kind;
+    const label = document.createElement('span');
+    label.textContent = item.title;
+    a.append(kind, label);
+    reading.appendChild(a);
+  }
+  document.getElementById('d-readwrap').hidden = false;
+  document.getElementById('d-copynote').hidden = false;
+  const copy = document.getElementById('d-copy');
+  copy.className = '';
+  copy.textContent = 'Copy a prompt for another model';
+  copy.onclick = () => {
+    navigator.clipboard.writeText(studyPrompt(n)).then(() => {
+      copy.className = 'done';
+      copy.textContent = 'Copied — paste it into any model';
+    }, () => { copy.textContent = 'Could not copy'; });
+  };
 
   const code = document.getElementById('d-code'); code.innerHTML = '';
   document.getElementById('d-codewrap').hidden = !(n.code && n.code.length);
