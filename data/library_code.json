@@ -1,0 +1,268 @@
+{
+  "_note": "Verified excerpts from a third-party library. Regenerate with scripts/extract_library.py after re-cloning.",
+  "source": {
+    "name": "robot_localization",
+    "url": "https://github.com/cra-ros-pkg/robot_localization",
+    "license": "BSD-3-Clause",
+    "license_note": "LICENSE at the repo root is BSD 3-Clause (Charles River Analytics, 2014-2016). package.xml line 12 declares Apache License 2.0, which contradicts it; the LICENSE file governs.",
+    "copyright": "Copyright (c) 2014, 2015, 2016, Charles River Analytics, Inc.",
+    "commit": "7dfb6aa97b2082185d2fac3420888ae8474bfc1a",
+    "tag": "3.10.1"
+  },
+  "spans": {
+    "jacobian_matrix": [
+      {
+        "path": "src/ekf.cpp",
+        "language": "cpp",
+        "start": 371,
+        "hit": 371,
+        "term": "Ekf::predict",
+        "strength": "library",
+        "note": "Copies the transfer function into the Jacobian, then overwrites the 13 entries that are genuinely nonlinear -- the full df/dx at the current state.",
+        "lines": [
+          "  // Much of the transfer function Jacobian is identical to the transfer",
+          "  // function",
+          "  transfer_function_jacobian_ = transfer_function_;",
+          "  transfer_function_jacobian_(StateMemberX, StateMemberRoll) = dFx_dR;",
+          "  transfer_function_jacobian_(StateMemberX, StateMemberPitch) = dFx_dP;",
+          "  transfer_function_jacobian_(StateMemberX, StateMemberYaw) = dFx_dY;",
+          "  transfer_function_jacobian_(StateMemberY, StateMemberRoll) = dFy_dR;",
+          "  transfer_function_jacobian_(StateMemberY, StateMemberPitch) = dFy_dP;",
+          "  transfer_function_jacobian_(StateMemberY, StateMemberYaw) = dFy_dY;",
+          "  transfer_function_jacobian_(StateMemberZ, StateMemberRoll) = dFz_dR;",
+          "  transfer_function_jacobian_(StateMemberZ, StateMemberPitch) = dFz_dP;",
+          "  transfer_function_jacobian_(StateMemberRoll, StateMemberRoll) = dFR_dR;",
+          "  transfer_function_jacobian_(StateMemberRoll, StateMemberPitch) = dFR_dP;",
+          "  transfer_function_jacobian_(StateMemberPitch, StateMemberRoll) = dFP_dR;",
+          "  transfer_function_jacobian_(StateMemberYaw, StateMemberRoll) = dFY_dR;",
+          "  transfer_function_jacobian_(StateMemberYaw, StateMemberPitch) = dFY_dP;"
+        ]
+      }
+    ],
+    "linearization": [
+      {
+        "path": "src/ekf.cpp",
+        "language": "cpp",
+        "start": 302,
+        "hit": 302,
+        "term": "Ekf::predict",
+        "strength": "library",
+        "note": "Evaluates analytically derived partials using the current roll, pitch and yaw: this is the linearisation of f about the present mean estimate.",
+        "lines": [
+          "  // Prepare the transfer function Jacobian. This function is analytically",
+          "  // derived from the transfer function.",
+          "  double x_coeff = 0.0;",
+          "  double y_coeff = 0.0;",
+          "  double z_coeff = 0.0;",
+          "  double one_half_at_squared = 0.5 * delta_sec * delta_sec;",
+          "",
+          "  y_coeff = cy * sp * cr + sy * sr;",
+          "  z_coeff = -cy * sp * sr + sy * cr;",
+          "  double dFx_dR = (y_coeff * y_vel + z_coeff * z_vel) * delta_sec +",
+          "    (y_coeff * y_acc + z_coeff * z_acc) * one_half_at_squared;",
+          "  double dFR_dR = 1.0 + (cr * tp * pitch_vel - sr * tp * yaw_vel) * delta_sec;",
+          "",
+          "  x_coeff = -cy * sp;",
+          "  y_coeff = cy * cp * sr;",
+          "  z_coeff = cy * cp * cr;",
+          "  double dFx_dP =",
+          "    (x_coeff * x_vel + y_coeff * y_vel + z_coeff * z_vel) * delta_sec +",
+          "    (x_coeff * x_acc + y_coeff * y_acc + z_coeff * z_acc) *",
+          "    one_half_at_squared;",
+          "  double dFR_dP =",
+          "    (cpi * cpi * sr * pitch_vel + cpi * cpi * cr * yaw_vel) * delta_sec;"
+        ]
+      }
+    ],
+    "state_space_model": [
+      {
+        "path": "include/robot_localization/filter_common.hpp",
+        "language": "cpp",
+        "start": 41,
+        "hit": 41,
+        "term": "enum StateMembers",
+        "strength": "library",
+        "note": "The 15-dimensional state itself: position, orientation, their velocities, and linear acceleration.",
+        "lines": [
+          "enum StateMembers",
+          "{",
+          "  StateMemberX = 0,",
+          "  StateMemberY,",
+          "  StateMemberZ,",
+          "  StateMemberRoll,",
+          "  StateMemberPitch,",
+          "  StateMemberYaw,",
+          "  StateMemberVx,",
+          "  StateMemberVy,",
+          "  StateMemberVz,",
+          "  StateMemberVroll,",
+          "  StateMemberVpitch,",
+          "  StateMemberVyaw,",
+          "  StateMemberAx,",
+          "  StateMemberAy,",
+          "  StateMemberAz"
+        ]
+      },
+      {
+        "path": "src/ekf.cpp",
+        "language": "cpp",
+        "start": 259,
+        "hit": 259,
+        "term": "Ekf::predict",
+        "strength": "library",
+        "note": "Fills F: the rotation matrix times dt that carries body-frame velocity into world-frame position, with the half-dt-squared acceleration terms.",
+        "lines": [
+          "  // Prepare the transfer function",
+          "  transfer_function_(StateMemberX, StateMemberVx) = cy * cp * delta_sec;",
+          "  transfer_function_(StateMemberX, StateMemberVy) =",
+          "    (cy * sp * sr - sy * cr) * delta_sec;",
+          "  transfer_function_(StateMemberX, StateMemberVz) =",
+          "    (cy * sp * cr + sy * sr) * delta_sec;",
+          "  transfer_function_(StateMemberX, StateMemberAx) =",
+          "    0.5 * transfer_function_(StateMemberX, StateMemberVx) * delta_sec;",
+          "  transfer_function_(StateMemberX, StateMemberAy) =",
+          "    0.5 * transfer_function_(StateMemberX, StateMemberVy) * delta_sec;",
+          "  transfer_function_(StateMemberX, StateMemberAz) =",
+          "    0.5 * transfer_function_(StateMemberX, StateMemberVz) * delta_sec;",
+          "  transfer_function_(StateMemberY, StateMemberVx) = sy * cp * delta_sec;",
+          "  transfer_function_(StateMemberY, StateMemberVy) =",
+          "    (sy * sp * sr + cy * cr) * delta_sec;",
+          "  transfer_function_(StateMemberY, StateMemberVz) =",
+          "    (sy * sp * cr - cy * sr) * delta_sec;",
+          "  transfer_function_(StateMemberY, StateMemberAx) =",
+          "    0.5 * transfer_function_(StateMemberY, StateMemberVx) * delta_sec;",
+          "  transfer_function_(StateMemberY, StateMemberAy) =",
+          "    0.5 * transfer_function_(StateMemberY, StateMemberVy) * delta_sec;",
+          "  transfer_function_(StateMemberY, StateMemberAz) =",
+          "    0.5 * transfer_function_(StateMemberY, StateMemberVz) * delta_sec;"
+        ]
+      }
+    ],
+    "marginalization": [
+      {
+        "path": "src/ekf.cpp",
+        "language": "cpp",
+        "start": 420,
+        "hit": 420,
+        "term": "Ekf::predict",
+        "strength": "library",
+        "note": "Projects the mean forward and propagates P = J P J' + Q dt -- the prior obtained by marginalising the joint over the previous state.",
+        "lines": [
+          "  // (2) Project the state forward: x = Ax + Bu (really, x = f(x, u))",
+          "  state_ = transfer_function_ * state_;",
+          "",
+          "  // Handle wrapping",
+          "  wrapStateAngles();",
+          "",
+          "  FB_DEBUG(",
+          "    \"Predicted state is:\\n\" <<",
+          "      state_ << \"\\nCurrent estimate error covariance is:\\n\" <<",
+          "      estimate_error_covariance_ << \"\\n\");",
+          "",
+          "  // (3) Project the error forward: P = J * P * J' + Q",
+          "  estimate_error_covariance_ =",
+          "    (transfer_function_jacobian_ * estimate_error_covariance_ *",
+          "    transfer_function_jacobian_.transpose());",
+          "  estimate_error_covariance_.noalias() +=",
+          "    delta_sec * (*process_noise_covariance);"
+        ]
+      }
+    ],
+    "gaussian_conditioning": [
+      {
+        "path": "src/ekf.cpp",
+        "language": "cpp",
+        "start": 170,
+        "hit": 170,
+        "term": "Ekf::correct",
+        "strength": "library",
+        "note": "The Kalman gain K = PH'(HPH' + R)^-1 and the innovation z - Hx: the Gaussian prior conditioned on the measurement.",
+        "lines": [
+          "  // (1) Compute the Kalman gain: K = (PH') / (HPH' + R)",
+          "  Eigen::MatrixXd pht =",
+          "    estimate_error_covariance_ * state_to_measurement_subset.transpose();",
+          "  Eigen::MatrixXd hphr_inverse =",
+          "    (state_to_measurement_subset * pht + measurement_covariance_subset)",
+          "    .inverse();",
+          "  kalman_gain_subset.noalias() = pht * hphr_inverse;",
+          "",
+          "  innovation_subset = (measurement_subset - state_subset);",
+          "",
+          "  // Wrap angles in the innovation",
+          "  for (size_t i = 0; i < update_size; ++i) {",
+          "    if (update_indices[i] == StateMemberRoll ||",
+          "      update_indices[i] == StateMemberPitch ||",
+          "      update_indices[i] == StateMemberYaw)",
+          "    {",
+          "      innovation_subset(i) = ::angles::normalize_angle(innovation_subset(i));",
+          "    }",
+          "  }"
+        ]
+      }
+    ],
+    "covariance_matrix": [
+      {
+        "path": "src/ekf.cpp",
+        "language": "cpp",
+        "start": 195,
+        "hit": 195,
+        "term": "Ekf::correct",
+        "strength": "library",
+        "note": "Applies the gain and updates the error covariance in Joseph form, (I - KH)P(I - KH)' + KRK', which stays symmetric by construction.",
+        "lines": [
+          "    // (3) Apply the gain to the difference between the state and measurement: x",
+          "    // = x + K(z - Hx)",
+          "    state_.noalias() += kalman_gain_subset * innovation_subset;",
+          "",
+          "    // (4) Update the estimate error covariance using the Joseph form: (I -",
+          "    // KH)P(I - KH)' + KRK'",
+          "    Eigen::MatrixXd gain_residual = identity_;",
+          "    gain_residual.noalias() -= kalman_gain_subset * state_to_measurement_subset;",
+          "    estimate_error_covariance_ =",
+          "      gain_residual * estimate_error_covariance_ * gain_residual.transpose();",
+          "    estimate_error_covariance_.noalias() += kalman_gain_subset *",
+          "      measurement_covariance_subset *",
+          "      kalman_gain_subset.transpose();"
+        ]
+      }
+    ],
+    "positive_semidefinite_matrix": [
+      {
+        "path": "src/ekf.cpp",
+        "language": "cpp",
+        "start": 128,
+        "hit": 128,
+        "term": "Ekf::correct",
+        "strength": "library",
+        "note": "Conditions R before it reaches the gain: negative diagonal entries are replaced by their absolute value and near-zero variances floored at 1e-9, so the innovation covariance stays invertible.",
+        "lines": [
+          "    if (measurement_covariance_subset(i, i) < 0) {",
+          "      FB_DEBUG(",
+          "        \"WARNING: Negative covariance for index \" <<",
+          "          i << \" of measurement (value is\" <<",
+          "          measurement_covariance_subset(i, i) <<",
+          "          \"). Using absolute value...\\n\");",
+          "",
+          "      measurement_covariance_subset(i, i) =",
+          "        ::fabs(measurement_covariance_subset(i, i));",
+          "    }",
+          "",
+          "    // If the measurement variance for a given variable is very",
+          "    // near 0 (as in e-50 or so) and the variance for that",
+          "    // variable in the covariance matrix is also near zero, then",
+          "    // the Kalman gain computation will blow up. Really, no",
+          "    // measurement can be completely without error, so add a small",
+          "    // amount in that case.",
+          "    if (measurement_covariance_subset(i, i) < 1e-9) {",
+          "      FB_DEBUG(",
+          "        \"WARNING: measurement had very small error covariance for index \" <<",
+          "          update_indices[i] <<",
+          "          \". Adding some noise to maintain filter stability.\\n\");",
+          "",
+          "      measurement_covariance_subset(i, i) = 1e-9;",
+          "    }"
+        ]
+      }
+    ]
+  }
+}

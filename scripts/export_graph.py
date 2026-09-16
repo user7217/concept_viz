@@ -88,6 +88,13 @@ def main() -> None:
 
     sources = index_repo(Path(sys.argv[1])) if len(sys.argv) > 1 else []
 
+    # Verified excerpts from the library the project actually runs. The maths
+    # the reader is learning is executed there, not in the 146 lines of Python
+    # this workspace owns.
+    library_path = ROOT / "data" / "library_code.json"
+    library = (json.loads(library_path.read_text()) if library_path.exists()
+               else {"spans": {}, "source": {}})
+
     path: set[str] = set()
     if len(sys.argv) > 2:
         from atlas.architecture import apply, propose
@@ -131,8 +138,10 @@ def main() -> None:
             "exercises": available_count(sheet) if sheet else 0,
             "statement": _trim((sheet or {}).get("statement") or "", 1400),
             "whyHere": _trim(str(note.get("why_here", "")), 900),
-            "code": [span.to_dict() for span in
-                     evidence_for(node.name, sources, note)] if sources else [],
+            "code": (library["spans"].get(node.id, []) +
+                     ([span.to_dict() for span in
+                       evidence_for(node.name, sources, note)]
+                      if sources else [])),
             "knobs": [{"parameter": k.get("parameter"), "file": k.get("file"),
                        "means": str(k.get("means", ""))[:240]}
                       for k in note.get("knobs", [])[:6]],
@@ -146,7 +155,8 @@ def main() -> None:
               "why": why.get((e.src, e.dst), "")}
              for e in graph.edges.values()]
     json.dump({"nodes": nodes, "edges": edges,
-               "maxDepth": max(level.values(), default=0)},
+               "maxDepth": max(level.values(), default=0),
+               "library": library.get("source", {})},
               sys.stdout)
 
 

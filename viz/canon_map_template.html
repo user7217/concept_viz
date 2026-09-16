@@ -90,6 +90,20 @@ canvas.dragging{cursor:grabbing}
 .depthkey{position:absolute;left:10px;bottom:10px;font-family:var(--mono);font-size:10.5px;
   color:var(--faint);pointer-events:none;line-height:1.6}
 
+.zoomer{position:absolute;right:14px;bottom:14px;display:flex;flex-direction:column;
+  gap:5px;z-index:2}
+.zoomer button{width:34px;height:34px;font-size:16px;line-height:1;cursor:pointer;
+  border:1px solid var(--line);border-radius:7px;background:var(--surface);
+  color:var(--muted);box-shadow:var(--shadow)}
+.zoomer button:hover{color:var(--ink);border-color:var(--concept)}
+.edgepanel{position:absolute;left:14px;bottom:14px;max-width:min(430px,60%);
+  background:var(--surface);border:1px solid var(--technique);border-radius:8px;
+  padding:13px 34px 13px 15px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:5px;z-index:2}
+.edgepanel[hidden]{display:none!important}
+.edgepanel .pair{font-family:var(--mono);font-size:12px;color:var(--ink);
+  word-break:break-word}
+.closebtn.small{top:8px;right:8px;padding:2px 6px;font-size:12px}
 .drawer{position:absolute;top:0;right:0;width:370px;max-width:92%;height:100%;
   background:var(--surface);border-left:1px solid var(--line);box-shadow:var(--shadow);
   overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
@@ -104,6 +118,11 @@ canvas.dragging{cursor:grabbing}
 .body{font-size:13.5px;line-height:1.6;color:var(--ink);margin:0}
 .meta{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0}
 .snippet{border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.snippet.lib{border-color:var(--algorithm)}
+.snippet.lib header{background:color-mix(in srgb,var(--algorithm) 12%,transparent)}
+.snote{margin:0;padding:8px 10px;font-size:12.5px;line-height:1.5;
+  color:var(--muted);border-bottom:1px solid var(--line)}
+.credit{margin:0;font-size:11px;line-height:1.5;color:var(--faint)}
 .snippet header{display:flex;gap:8px;align-items:baseline;padding:5px 9px;
   background:var(--sunk);border-bottom:1px solid var(--line);
   font-family:var(--mono);font-size:10.5px;color:var(--muted);flex-wrap:wrap}
@@ -188,13 +207,28 @@ canvas.dragging{cursor:grabbing}
       a line, because that direction carries no information.</p>
       <p class="hint">It opens on the filter itself. Click any node to reveal
       what it needs — the badge counts what is still hidden beneath it.</p>
-      <p class="hint">Drag to turn, scroll to zoom, Escape to close.</p>
+      <p class="hint">Trackpad: two fingers to pan, pinch to zoom, drag to
+      turn, shift-drag to pan. Or the buttons bottom-right, and + − 0.</p>
+      <p class="hint">Click a <em>line</em> to read why that prerequisite
+      exists. Selecting a node drops a marker onto each axis showing its
+      reading.</p>
     </div>
   </aside>
 
   <div class="stage">
     <canvas id="c"></canvas>
     <div class="depthkey" id="dk"></div>
+    <div class="zoomer">
+      <button id="z-in"  type="button" aria-label="Zoom in">+</button>
+      <button id="z-out" type="button" aria-label="Zoom out">−</button>
+      <button id="z-fit" type="button" aria-label="Fit to view">⤢</button>
+    </div>
+    <div class="edgepanel" id="edgepanel" hidden>
+      <button class="closebtn small" id="e-close" aria-label="Close">✕</button>
+      <span class="eyebrow">Why this edge exists</span>
+      <div class="pair" id="e-pair"></div>
+      <p class="meta" id="e-why"></p>
+    </div>
     <div class="drawer" id="drawer" hidden>
       <button class="closebtn" id="close" aria-label="Close">✕</button>
       <div>
@@ -437,7 +471,26 @@ function fit(snap) {
 
 /* ---------- drawing ---------- */
 const css = k => getComputedStyle(document.documentElement).getPropertyValue(k).trim();
-let selected = null, hovered = null;
+let selected = null, hovered = null, selectedEdge = null;
+
+function wrap(text, width) {
+  const words = String(text).split(/\s+/), out = [];
+  let line = '';
+  for (const w of words) {
+    if ((line + ' ' + w).trim().length > width) { out.push(line.trim()); line = w; }
+    else line += ' ' + w;
+  }
+  if (line.trim()) out.push(line.trim());
+  return out;
+}
+
+/* Distance from a click to a line segment, so an edge can be clicked. */
+function distToSegment(px, py, ax, ay, bx, by) {
+  const dx = bx - ax, dy = by - ay;
+  const len = dx * dx + dy * dy;
+  const t = len ? Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / len)) : 0;
+  return Math.hypot(px - (ax + t * dx), py - (ay + t * dy));
+}
 const pathOnly = () => document.getElementById('pathonly').checked;
 const wantLabels = () => document.getElementById('showlabels').checked;
 const shownIds = () => [...revealed.keys()]
@@ -501,8 +554,13 @@ function draw(now) {
     ctx.lineWidth = hot ? 2 : 1.4;
     ctx.strokeStyle = hot ? css('--ring') : css('--edge');
     ctx.beginPath(); ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy); ctx.stroke();
-    if (hot && e.why && edgeLabels.length < 7)
+    if (e === selectedEdge && e.why)
       edgeLabels.push([e, (a.sx + b.sx) / 2, (a.sy + b.sy) / 2]);
+    if (e === selectedEdge) {
+      ctx.globalAlpha = 1; ctx.strokeStyle = css('--technique');
+      ctx.lineWidth = 2.6;
+      ctx.beginPath(); ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy); ctx.stroke();
+    }
   }
   ctx.lineWidth = 1.4;
 
@@ -549,22 +607,61 @@ function draw(now) {
     ctx.fillText(t, p.sx, p.sy + r + 18);
     ctx.textAlign = 'left';
   }
+  // Why this node sits here: a dropped line to each axis, with the reading at
+  // its foot. Without it the position is a claim the page never backs up.
+  if (selected && pts.has(selected)) {
+    const n = byId.get(selected), here = pts.get(selected);
+    const keys = [axis.x, axis.y, axis.z];
+    const feet = [{x: n.x, y: 0, z: 0}, {x: 0, y: n.y, z: 0}, {x: 0, y: 0, z: n.z}];
+    ctx.font = '11px ' + css('--mono').split(',')[0].replace(/"/g, '');
+    for (let i = 0; i < 3; i++) {
+      if (keys[i] === 'none') continue;
+      const foot = project(feet[i]);
+      ctx.globalAlpha = 0.8; ctx.strokeStyle = css('--technique');
+      ctx.setLineDash([3, 4]); ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(here.sx, here.sy);
+      ctx.lineTo(foot.sx, foot.sy); ctx.stroke();
+      ctx.setLineDash([]);
+      const r = rangeOf(keys[i]);
+      const text = MEASURES[keys[i]].label + ' ' + n.measures[keys[i]] +
+        '/' + r.hi;
+      const w = ctx.measureText(text).width;
+      ctx.globalAlpha = 0.96; ctx.fillStyle = css('--surface');
+      ctx.strokeStyle = css('--technique'); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.roundRect(foot.sx - w / 2 - 6, foot.sy - 9, w + 12, 18, 4);
+      ctx.fill(); ctx.stroke();
+      ctx.fillStyle = css('--ink'); ctx.textAlign = 'center';
+      ctx.fillText(text, foot.sx, foot.sy + 4);
+      ctx.textAlign = 'left';
+    }
+    ctx.lineWidth = 1.4;
+  }
+
   // Why this line exists, on the line. "requires" would only repeat the arrow.
   ctx.font = '11px ' + css('--sans').split(',')[0].replace(/"/g, '');
   for (const [e, mx, my] of edgeLabels) {
-    const other = e.from === selected ? e.to : e.from;
-    const lead = (e.why.split(/,|;| -- /)[0] || e.why).trim();
-    const text = (lead.length > 52 ? lead.slice(0, 50) + '…' : lead);
-    const w = ctx.measureText(text).width;
-    ctx.globalAlpha = 0.97;
-    ctx.fillStyle = css('--surface');
-    ctx.strokeStyle = css('--line');
+    const head = e.from + ' needs ' + e.to;
+    const wrapped = wrap(e.why, 46).slice(0, 4);
+    const rows = [head, ...wrapped];
+    let width = 0;
+    ctx.font = '600 11px ' + css('--sans').split(',')[0].replace(/"/g, '');
+    width = Math.max(width, ctx.measureText(head).width);
+    ctx.font = '11.5px ' + css('--sans').split(',')[0].replace(/"/g, '');
+    for (const r of wrapped) width = Math.max(width, ctx.measureText(r).width);
+    const h = 10 + rows.length * 15;
+    ctx.globalAlpha = 0.99;
+    ctx.fillStyle = css('--surface'); ctx.strokeStyle = css('--technique');
+    ctx.lineWidth = 1.2;
     ctx.beginPath();
-    ctx.roundRect(mx - w / 2 - 7, my - 9, w + 14, 19, 5);
+    ctx.roundRect(mx - width / 2 - 10, my - h / 2, width + 20, h, 6);
     ctx.fill(); ctx.stroke();
-    ctx.fillStyle = css('--muted');
-    ctx.textAlign = 'center';
-    ctx.fillText(text, mx, my + 4);
+    rows.forEach((row, i) => {
+      ctx.font = (i ? '11.5px ' : '600 11px ') +
+        css('--sans').split(',')[0].replace(/"/g, '');
+      ctx.fillStyle = i ? css('--ink') : css('--muted');
+      ctx.textAlign = 'center';
+      ctx.fillText(row, mx, my - h / 2 + 17 + i * 15);
+    });
     ctx.textAlign = 'left';
   }
 
@@ -622,10 +719,44 @@ canvas.addEventListener('pointerup', e => {
   dragging = false; canvas.classList.remove('dragging');
   if (moved > 5) return;
   const hit = pick(e);
-  if (!hit) { select(null); return; }
-  select(hit.id);
-  if (hiddenBelow(hit.id)) { expand(hit.id); fit(false); }
+  if (hit) {
+    selectedEdge = null;
+    select(hit.id);
+    if (hiddenBelow(hit.id)) { expand(hit.id); fit(false); }
+    return;
+  }
+  const edge = pickEdge(e);
+  if (edge) { selectedEdge = edge; showEdge(edge); frame(); return; }
+  selectedEdge = null; select(null);
 });
+
+function pickEdge(e) {
+  const r = canvas.getBoundingClientRect();
+  const mx = e.clientX - r.left, my = e.clientY - r.top;
+  const pts = new Map();
+  for (const id of shownIds()) pts.set(id, project(byId.get(id)));
+  let best = null, bestD = 9;
+  for (const edge of edges) {
+    const a = pts.get(edge.from), b = pts.get(edge.to);
+    if (!a || !b) continue;
+    const d = distToSegment(mx, my, a.sx, a.sy, b.sx, b.sy);
+    if (d < bestD) { bestD = d; best = edge; }
+  }
+  return best;
+}
+
+function showEdge(edge) {
+  const panel = document.getElementById('edgepanel');
+  panel.hidden = false;
+  document.getElementById('e-pair').textContent =
+    edge.from + '  needs  ' + edge.to;
+  document.getElementById('e-why').textContent =
+    edge.why || 'This edge came from a seed algorithm, so it carries no written rationale.';
+}
+document.getElementById('e-close').onclick = () => {
+  document.getElementById('edgepanel').hidden = true;
+  selectedEdge = null; frame();
+};
 /* A trackpad sends pinch as wheel+ctrlKey and two-finger scroll as plain
    wheel with both deltas. Treating every wheel event as zoom made the graph
    impossible to move: the only way to see the left edge was to zoom out. */
@@ -733,12 +864,23 @@ function select(id) {
   document.getElementById('d-codewrap').hidden = !(n.code && n.code.length);
   for (const span of (n.code || [])) {
     const box = document.createElement('div'); box.className = 'snippet';
+    const fromLibrary = span.strength === 'library';
+    if (fromLibrary) box.classList.add('lib');
     const head = document.createElement('header');
     const where = document.createElement('b');
-    where.textContent = span.path + ':' + span.hit;
+    where.textContent = span.path + ':' + span.start;
     const term = document.createElement('span');
-    term.textContent = 'matched ' + span.term;
+    term.textContent = fromLibrary
+      ? (DATA.library.name || 'library') + ' · ' + span.term
+      : 'matched ' + span.term;
     head.append(where, term);
+    if (span.note) {
+      const note = document.createElement('p');
+      note.className = 'snote'; note.textContent = span.note;
+      box.appendChild(head); box.appendChild(note);
+    } else {
+      box.appendChild(head);
+    }
     const pre = document.createElement('pre');
     const codeEl = document.createElement('code');
     span.lines.forEach((line, i) => {
@@ -752,8 +894,16 @@ function select(id) {
       codeEl.appendChild(document.createTextNode('\n'));
     });
     pre.appendChild(codeEl);
-    box.append(head, pre);
+    box.appendChild(pre);
     code.appendChild(box);
+  }
+
+  if (n.code && n.code.some(c => c.strength === 'library') && DATA.library.name) {
+    const credit = document.createElement('p');
+    credit.className = 'credit';
+    credit.textContent = DATA.library.name + ' ' + (DATA.library.tag || '') +
+      ' — ' + DATA.library.license + '. ' + (DATA.library.copyright || '');
+    code.appendChild(credit);
   }
 
   const st = document.getElementById('d-statement');
@@ -809,9 +959,25 @@ function describeAxes() {
   el.textContent = used.map(d => d.toUpperCase() + ': ' +
     MEASURES[axis[d]].hint).join(' · ');
 }
+const zoomBy = f => {
+  target.zoom = Math.max(0.15, Math.min(8, target.zoom * f));
+  frame();
+};
+document.getElementById('z-in').onclick = () => zoomBy(1.3);
+document.getElementById('z-out').onclick = () => zoomBy(1 / 1.3);
+document.getElementById('z-fit').onclick = () => { fit(false); frame(); };
 document.getElementById('reset').onclick = reset;
 document.getElementById('all').onclick = expandAll;
-window.addEventListener('keydown', e => { if (e.key === 'Escape') select(null); });
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    selectedEdge = null;
+    document.getElementById('edgepanel').hidden = true;
+    select(null);
+  }
+  if (e.key === '+' || e.key === '=') zoomBy(1.3);
+  if (e.key === '-' || e.key === '_') zoomBy(1 / 1.3);
+  if (e.key === '0') { fit(false); frame(); }
+});
 
 layout();
 buildAxisPickers();
