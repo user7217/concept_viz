@@ -113,5 +113,38 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "measurement_model",
+    "project": "agrios_ws",
+    "components": [
+      "obstaclelayer"
+    ],
+    "why_here": "In agrios_ws, the obstaclelayer component processes sensor observations to detect and represent obstacles in the environment. The measurement model provides the mathematical framework relating observed sensor data to the true physical state by modeling additive systematic bias and random noise. The component's obstacle tracking and mapping algorithms require this result to interpret and handle observational errors in incoming measurements.",
+    "concrete": [
+      {
+        "symbol": "y",
+        "in_your_project": "The measured sensor reading processed by obstaclelayer [scalar]"
+      },
+      {
+        "symbol": "x",
+        "in_your_project": "The unknown true physical quantity being measured in the environment [scalar]"
+      },
+      {
+        "symbol": "e",
+        "in_your_project": "The total observational error between the measured sensor reading and the true quantity [scalar]"
+      },
+      {
+        "symbol": "e_{\\text{sys}}",
+        "in_your_project": "The systematic error or sensor bias consistently present across measurements [scalar]"
+      },
+      {
+        "symbol": "e_{\\text{rand}}",
+        "in_your_project": "The random measurement noise varying unpredictably across observations [scalar]"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

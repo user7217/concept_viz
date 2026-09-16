@@ -112,5 +112,34 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "heuristic_function",
+    "project": "agrios_ws",
+    "components": [
+      "smacplannerhybrid"
+    ],
+    "why_here": "In this project, the smacplannerhybrid component requires a heuristic function to guide its path search algorithm toward the target goal. By estimating the remaining distance or cost to the goal at each branching step, it prioritizes the most promising search branches. The component's planning algorithm directly relies on this mathematical result to find paths efficiently without exploring the entire state space.",
+    "concrete": [
+      {
+        "symbol": "h(v_i, v_g)",
+        "in_your_project": "The heuristic estimate of the remaining cost or optimal distance from an intermediate search node v_i to the goal node v_g in smacplannerhybrid [scalar]"
+      },
+      {
+        "symbol": "v_i",
+        "in_your_project": "A candidate search state or node explored during branching in smacplannerhybrid [dimensionless]"
+      },
+      {
+        "symbol": "v_g",
+        "in_your_project": "The target goal node or state that smacplannerhybrid plans toward [dimensionless]"
+      },
+      {
+        "symbol": "G",
+        "in_your_project": "The directed search graph of candidate states and transitions traversed by smacplannerhybrid [graph]"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

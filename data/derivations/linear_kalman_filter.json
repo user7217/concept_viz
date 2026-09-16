@@ -241,5 +241,122 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "linear_kalman_filter",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In the agrios_ws project, the ekf_global and ekf_local components from robot_localization use the linear Kalman filter measurement update to fuse odometry and IMU sensor data. By calculating the optimal Kalman gain from the a priori covariance and measurement matrix, the nodes update the predicted state estimate with incoming measurements. This produces an optimal a posteriori state estimate of the robot's pose and velocity while minimizing estimation error.",
+    "concrete": [
+      {
+        "symbol": "\\mathbf{x}_k",
+        "in_your_project": "The true unobserved state vector of the robot at time step k [n x 1]."
+      },
+      {
+        "symbol": "\\hat{\\mathbf{x}}_{k\\mid k-1}",
+        "in_your_project": "The a priori state estimate vector of the robot predicted at time step k before fusing measurements [n x 1]."
+      },
+      {
+        "symbol": "\\hat{\\mathbf{x}}_{k\\mid k}",
+        "in_your_project": "The a posteriori state estimate vector of the robot computed by ekf_global and ekf_local after incorporating sensor measurements [n x 1]."
+      },
+      {
+        "symbol": "\\mathbf{P}_{k\\mid k-1}",
+        "in_your_project": "The a priori estimate error covariance matrix before the measurement update [n x n]."
+      },
+      {
+        "symbol": "\\mathbf{P}_{k\\mid k}",
+        "in_your_project": "The a posteriori estimate error covariance matrix after incorporating the measurement update [n x n]."
+      },
+      {
+        "symbol": "\\mathbf{z}_k",
+        "in_your_project": "The measurement vector constructed from active sensor inputs such as odometry (odom0, odom1) and IMU (imu0, imu1) [m x 1]."
+      },
+      {
+        "symbol": "\\mathbf{H}_k",
+        "in_your_project": "The measurement observation matrix mapping the state vector to the sensor measurements, determined by configuration selection masks [m x n]."
+      },
+      {
+        "symbol": "\\mathbf{v}_k",
+        "in_your_project": "The measurement noise vector associated with the incoming sensor readings [m x 1]."
+      },
+      {
+        "symbol": "\\mathbf{R}_k",
+        "in_your_project": "The measurement noise covariance matrix of the incoming sensor data [m x m]."
+      },
+      {
+        "symbol": "\\tilde{\\mathbf{y}}_k",
+        "in_your_project": "The measurement residual (innovation) vector representing the difference between actual sensor measurements and predicted observations [m x 1]."
+      },
+      {
+        "symbol": "\\mathbf{S}_k",
+        "in_your_project": "The innovation covariance matrix representing residual uncertainty during the measurement update [m x m]."
+      },
+      {
+        "symbol": "\\mathbf{K}_k",
+        "in_your_project": "The optimal Kalman gain matrix computed to weight the innovation when updating the state estimate [n x m]."
+      },
+      {
+        "symbol": "\\mathbf{I}",
+        "in_your_project": "The identity matrix used in updating the error covariance matrix [n x n]."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Initializes the estimate error covariance matrix \\mathbf{P}_{k\\mid k-1} (at k=0) representing initial state uncertainty before measurement updates occur."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Initializes the estimate error covariance matrix \\mathbf{P}_{k\\mid k-1} (at k=0) representing initial state uncertainty before measurement updates occur."
+      },
+      {
+        "parameter": "odom0_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Specifies which state variables are observed from odom0, defining the structure of the measurement observation matrix \\mathbf{H}_k and the measurement vector \\mathbf{z}_k."
+      },
+      {
+        "parameter": "odom1_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Specifies which state variables are observed from odom1, defining the structure of the measurement observation matrix \\mathbf{H}_k and the measurement vector \\mathbf{z}_k."
+      },
+      {
+        "parameter": "imu0_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Specifies which state variables are observed from imu0, defining the structure of the measurement observation matrix \\mathbf{H}_k and the measurement vector \\mathbf{z}_k."
+      },
+      {
+        "parameter": "imu1_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Specifies which state variables are observed from imu1, defining the structure of the measurement observation matrix \\mathbf{H}_k and the measurement vector \\mathbf{z}_k."
+      },
+      {
+        "parameter": "odom0_config",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Specifies which state variables are observed from odom0, defining the structure of the measurement observation matrix \\mathbf{H}_k and the measurement vector \\mathbf{z}_k."
+      },
+      {
+        "parameter": "imu0_config",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Specifies which state variables are observed from imu0, defining the structure of the measurement observation matrix \\mathbf{H}_k and the measurement vector \\mathbf{z}_k."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the process noise covariance added during prediction, which propagates uncertainty into the a priori estimate error covariance matrix \\mathbf{P}_{k\\mid k-1} used in calculating the Kalman gain."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the process noise covariance added during prediction, which propagates uncertainty into the a priori estimate error covariance matrix \\mathbf{P}_{k\\mid k-1} used in calculating the Kalman gain."
+      }
+    ],
+    "invented": {},
+    "thin": ""
   }
 }

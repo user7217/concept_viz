@@ -129,5 +129,38 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "a_star",
+    "project": "agrios_ws",
+    "components": [
+      "smacplannerhybrid"
+    ],
+    "why_here": "In agrios_ws, the smacplannerhybrid component relies on A* search as its pathfinding and graph traversal algorithm to find paths from a start node to a goal node. The component's algorithm requires this result to guide search exploration via the evaluation function f(n) = g(n) + h(n), balancing accumulated path cost against heuristic estimates to the goal.",
+    "concrete": [
+      {
+        "symbol": "n",
+        "in_your_project": "A node in the search graph evaluated during pathfinding in smacplannerhybrid [dimensionless]"
+      },
+      {
+        "symbol": "f(n)",
+        "in_your_project": "The total evaluation function value estimating the path cost through node n to the goal in smacplannerhybrid [scalar]"
+      },
+      {
+        "symbol": "g(n)",
+        "in_your_project": "The cost of the path traversed from the start node to node n in smacplannerhybrid [scalar]"
+      },
+      {
+        "symbol": "h(n)",
+        "in_your_project": "The heuristic estimate of the remaining cost or distance from node n to the goal node in smacplannerhybrid [scalar]"
+      },
+      {
+        "symbol": "C^*",
+        "in_your_project": "The cost of the optimal path determined by smacplannerhybrid from the start node to the goal node [scalar]"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

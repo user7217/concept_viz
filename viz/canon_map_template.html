@@ -107,6 +107,31 @@ canvas.dragging{cursor:grabbing}
 .depthkey{position:absolute;left:10px;bottom:10px;font-family:var(--mono);font-size:10.5px;
   color:var(--faint);pointer-events:none;line-height:1.6}
 
+.helpbtn{position:absolute;top:12px;right:14px;width:30px;height:30px;
+  border-radius:50%;border:1px solid var(--line);background:var(--surface);
+  color:var(--muted);font-family:var(--serif);font-size:15px;cursor:pointer;
+  box-shadow:var(--shadow);z-index:4}
+.helpbtn:hover{color:var(--ink);border-color:var(--concept)}
+.guide{position:absolute;inset:0;margin:auto;z-index:6;overflow-y:auto;
+  width:min(680px,92%);max-height:88%;height:max-content;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 24px 70px rgba(0,0,0,.34);padding:26px 30px;
+  display:flex;flex-direction:column;gap:18px}
+.guide[hidden]{display:none!important}
+.guide h2{font-family:var(--serif);font-weight:500;font-size:24px;margin:0;
+  letter-spacing:-.01em}
+.guide .lede{margin:0;font-size:14.5px;line-height:1.6;color:var(--ink);
+  max-width:60ch}
+.guide section{display:flex;flex-direction:column;gap:7px}
+.guide p{margin:0;font-size:13.5px;line-height:1.62;color:var(--muted);
+  max-width:64ch}
+.guide ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.guide li{font-size:13.5px;line-height:1.55;color:var(--muted);max-width:62ch}
+.guide b{color:var(--ink);font-weight:600}
+.guide code{font-family:var(--mono);font-size:12.5px;color:var(--ink)}
+.guide .flow{font-family:var(--mono);font-size:12px;color:var(--ink);
+  background:var(--sunk);padding:8px 11px;border-radius:6px;line-height:1.9}
+.guide .warn{border-left:2px solid var(--technique);padding-left:11px}
 .crumbs{position:absolute;top:12px;left:14px;display:flex;flex-wrap:wrap;
   gap:4px;align-items:center;max-width:min(62%,640px);z-index:2}
 .crumbs button{font-family:var(--mono);font-size:11.5px;padding:4px 9px;
@@ -255,6 +280,85 @@ body.resizing{cursor:col-resize;user-select:none}
   <div class="stage">
     <canvas id="c"></canvas>
     <nav class="crumbs" id="crumbs" aria-label="Walkthrough position"></nav>
+    <button class="helpbtn" id="helpbtn" type="button"
+            aria-label="How to read this map">?</button>
+
+    <div class="guide" id="guide" hidden>
+      <button class="closebtn" id="guide-close" aria-label="Close">✕</button>
+      <h2>How to read this</h2>
+      <p class="lede">Every piece of mathematics your robot's code depends on,
+      and the chain connecting the two. It opens on the whole program and
+      goes down only where you ask it to.</p>
+
+      <section>
+        <span class="eyebrow">Start here</span>
+        <p>One circle, <code>agrios_ws</code>. Click it and its three
+        subsystems appear. Keep clicking down:</p>
+        <p class="flow"><b>program</b> → <b>subsystem</b> → <b>component</b>
+        (a node that actually runs) → <b>algorithm</b> → <b>the mathematics</b></p>
+        <p>The <b>+N</b> badge counts what is still hidden beneath a circle,
+        so you can see where more is without showing it. The breadcrumb along
+        the top is your trail back, and every step of it is clickable.</p>
+      </section>
+
+      <section>
+        <span class="eyebrow">What the shapes mean</span>
+        <ul>
+          <li><b>Size</b> is depth in the hierarchy. The program is largest,
+          the floor of the mathematics smallest.</li>
+          <li><b>Colour</b> is what a node <em>is</em>: system and subsystem,
+          component, algorithm, concept, and technique — a move you perform
+          rather than an object you know.</li>
+          <li><b>A ring</b> means the node is on your current learning path.</li>
+          <li><b>Lines</b> point from a result down to something it needs.</li>
+        </ul>
+      </section>
+
+      <section>
+        <span class="eyebrow">The axes are real measurements</span>
+        <p>Each axis is bound to a quantity, named on the viewport, and
+        selecting a node drops a dashed marker onto every axis showing its
+        reading. Swap them in the sidebar:</p>
+        <ul>
+          <li><b>walkthrough level</b> — how far below the program it sits</li>
+          <li><b>reuse</b> — how many of the 20 algorithms need it. High reuse
+          and low cost is what you learn first.</li>
+          <li><b>cost</b> — how many prerequisites it drags in with it</li>
+          <li><b>prerequisite depth</b>, <b>tier</b>, <b>your profile</b>,
+          <b>steps</b>, <b>exercises</b></li>
+        </ul>
+        <p class="warn">Read one axis at a time. The diagonal between two
+        nodes mixes units and means nothing, which is why nothing here invites
+        you to read it. An axis set to <em>spread</em> has no line, because
+        that direction carries no information at all. Positions are spaced by
+        rank, not by magnitude — most of these measures are so skewed that
+        proportional spacing crushes everything into one corner.</p>
+      </section>
+
+      <section>
+        <span class="eyebrow">Clicking things</span>
+        <ul>
+          <li><b>A circle</b> opens its panel and reveals what it needs.</li>
+          <li><b>A line</b> tells you why that prerequisite exists — the real
+          reason, written when the edge was made, not the word "requires".</li>
+          <li><b>Drag</b> turns the graph, <b>two fingers</b> pan,
+          <b>pinch</b> zooms about the cursor, <b>shift-drag</b> pans.
+          <b>+ − 0</b> also work. <b>Esc</b> closes.</li>
+          <li>Drag the panel's left edge to resize it; the width is remembered.</li>
+        </ul>
+      </section>
+
+      <section>
+        <span class="eyebrow">What a panel holds</span>
+        <p>Why the node is on the path, what it does in your codebase, the
+        config parameters it governs, the statement itself, and the real code
+        that executes it — from your repo and from the library.</p>
+        <p class="warn">Not every node has all of it. A node with
+        <code>steps 0</code> is a definition: there is genuinely nothing to
+        derive, and that is the honest answer rather than a gap. An empty
+        project section means nothing in your code reaches that node yet.</p>
+      </section>
+    </div>
     <div class="depthkey" id="dk"></div>
     <div class="zoomer">
       <button id="z-in"  type="button" aria-label="Zoom in">+</button>
@@ -1147,6 +1251,18 @@ grip.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') { setDrawerWidth(current - 40); e.preventDefault(); }
 });
 
+const guide = document.getElementById('guide');
+const showGuide = on => { guide.hidden = !on; };
+document.getElementById('helpbtn').onclick = () => showGuide(guide.hidden);
+document.getElementById('guide-close').onclick = () => showGuide(false);
+// Open once for a first-time reader, then stay out of the way.
+try {
+  if (!localStorage.getItem('atlas.guideSeen')) {
+    showGuide(true);
+    localStorage.setItem('atlas.guideSeen', '1');
+  }
+} catch (err) { /* private window: just leave it closed */ }
+
 document.getElementById('close').onclick = () => select(null);
 
 /* ---------- controls ---------- */
@@ -1202,6 +1318,8 @@ document.getElementById('z-fit').onclick = () => { fit(false); frame(); };
 document.getElementById('reset').onclick = reset;
 document.getElementById('all').onclick = expandAll;
 window.addEventListener('keydown', e => {
+  if (e.key === '?') { showGuide(guide.hidden); return; }
+  if (e.key === 'Escape' && !guide.hidden) { showGuide(false); return; }
   if (e.key === 'Escape') {
     selectedEdge = null;
     document.getElementById('edgepanel').hidden = true;

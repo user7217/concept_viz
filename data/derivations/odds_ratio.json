@@ -140,5 +140,54 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "odds_ratio",
+    "project": "agrios_ws",
+    "components": [
+      "obstaclelayer"
+    ],
+    "why_here": "In agrios_ws, the obstaclelayer component relies on the odds ratio as part of its algorithm for evaluating and updating binary occupancy states from sensor data. The component's algorithm requires this mathematical result to quantify the association between observations and cell occupancy. Because no specific parameters or files are given, its role is grounded plainly in the obstaclelayer algorithm requiring this result.",
+    "concrete": [
+      {
+        "symbol": "OR",
+        "in_your_project": "The scalar odds ratio used by the obstaclelayer algorithm to quantify association between binary states such as cell occupancy and sensor observations [scalar]."
+      },
+      {
+        "symbol": "p_1",
+        "in_your_project": "The scalar probability of the binary event occurring in the first group within the obstaclelayer algorithm [scalar]."
+      },
+      {
+        "symbol": "p_2",
+        "in_your_project": "The scalar probability of the binary event occurring in the second group within the obstaclelayer algorithm [scalar]."
+      },
+      {
+        "symbol": "q_1",
+        "in_your_project": "The scalar probability of the event not occurring in the first group (1 - p_1) in obstaclelayer [scalar]."
+      },
+      {
+        "symbol": "q_2",
+        "in_your_project": "The scalar probability of the event not occurring in the second group (1 - p_2) in obstaclelayer [scalar]."
+      },
+      {
+        "symbol": "p_11",
+        "in_your_project": "The scalar joint probability P(X = 1, Y = 1) for the two binary variables evaluated in the obstaclelayer algorithm [scalar]."
+      },
+      {
+        "symbol": "p_10",
+        "in_your_project": "The scalar joint probability P(X = 1, Y = 0) for the two binary variables evaluated in the obstaclelayer algorithm [scalar]."
+      },
+      {
+        "symbol": "p_01",
+        "in_your_project": "The scalar joint probability P(X = 0, Y = 1) for the two binary variables evaluated in the obstaclelayer algorithm [scalar]."
+      },
+      {
+        "symbol": "p_00",
+        "in_your_project": "The scalar joint probability P(X = 0, Y = 0) for the two binary variables evaluated in the obstaclelayer algorithm [scalar]."
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

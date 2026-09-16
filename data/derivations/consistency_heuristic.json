@@ -106,5 +106,42 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "consistency_heuristic",
+    "project": "agrios_ws",
+    "components": [
+      "smacplannerhybrid"
+    ],
+    "why_here": "In the agrios_ws project, the smacplannerhybrid component relies on A* search to compute kinematically feasible, collision-free navigation paths. A consistent heuristic ensures that whenever a search node is popped from the open set, its path cost from the start is guaranteed to be optimal, preventing the algorithm from having to re-open closed nodes. This preserves execution efficiency and guarantees search optimality within the planner.",
+    "concrete": [
+      {
+        "symbol": "h(n)",
+        "in_your_project": "Heuristic cost estimate from candidate search node n to the goal in smacplannerhybrid [scalar cost]"
+      },
+      {
+        "symbol": "g(n)",
+        "in_your_project": "Path cost from the start node to search node n in smacplannerhybrid [scalar cost]"
+      },
+      {
+        "symbol": "n",
+        "in_your_project": "A node representing a search state or pose in the smacplannerhybrid search graph [node]"
+      },
+      {
+        "symbol": "open_set",
+        "in_your_project": "The priority queue of candidate search nodes awaiting expansion in smacplannerhybrid [set of nodes]"
+      },
+      {
+        "symbol": "tentative_g_score",
+        "in_your_project": "Candidate cost to reach a neighbor node via node n during smacplannerhybrid search expansion [scalar cost]"
+      },
+      {
+        "symbol": "g_score[neighbor]",
+        "in_your_project": "Recorded lowest cost from start to neighbor maintained during smacplannerhybrid search [scalar cost]"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

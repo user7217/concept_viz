@@ -109,5 +109,42 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "admissibility",
+    "project": "agrios_ws",
+    "components": [
+      "smacplannerhybrid"
+    ],
+    "why_here": "The smacplannerhybrid component relies on A* search, an algorithm whose theoretical guarantees require an admissible heuristic to ensure that the search finds an optimal path to the goal without overestimating remaining cost. The connection in this project is algorithmic: smacplannerhybrid requires admissibility so that node expansion order correctly directs the path search toward the goal.",
+    "concrete": [
+      {
+        "symbol": "n",
+        "in_your_project": "A node in smacplannerhybrid's search space representing a state"
+      },
+      {
+        "symbol": "h",
+        "in_your_project": "The heuristic function in smacplannerhybrid estimating remaining cost to the goal"
+      },
+      {
+        "symbol": "h(n)",
+        "in_your_project": "The estimated scalar cost from search node n to the goal"
+      },
+      {
+        "symbol": "h^*(n)",
+        "in_your_project": "The true optimal scalar cost to reach the goal from search node n"
+      },
+      {
+        "symbol": "f(n)",
+        "in_your_project": "The evaluation function scalar f(n) = g(n) + h(n) used to prioritize node expansion in the search"
+      },
+      {
+        "symbol": "g(n)",
+        "in_your_project": "The scalar cost accumulated from the start node to current search node n"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

@@ -119,5 +119,46 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "path",
+    "project": "agrios_ws",
+    "components": [
+      "smacplannerhybrid"
+    ],
+    "why_here": "In agrios_ws, the smacplannerhybrid component computes kinematically feasible collision-free navigation routes through a discretized state space. A path formalizes the valid sequence of transitions from an initial robot state to a goal state found by the hybrid planner's search algorithm.",
+    "concrete": [
+      {
+        "symbol": "G",
+        "in_your_project": "The state-space search graph explored by smacplannerhybrid."
+      },
+      {
+        "symbol": "V",
+        "in_your_project": "The set of discrete robot configurations and search states."
+      },
+      {
+        "symbol": "E",
+        "in_your_project": "The set of kinematically feasible motion primitive transitions between states."
+      },
+      {
+        "symbol": "\\Phi",
+        "in_your_project": "The incidence function associating each motion transition with its start and end state poses."
+      },
+      {
+        "symbol": "(v_1, v_2, ..., v_n)",
+        "in_your_project": "The sequence of discrete waypoints or states traversed from the start configuration to the goal."
+      },
+      {
+        "symbol": "(e_1, e_2, ..., e_{n-1})",
+        "in_your_project": "The sequence of motion actions and primitive segments connecting consecutive waypoints in the plan."
+      },
+      {
+        "symbol": "n",
+        "in_your_project": "The total number of state waypoints in the generated trajectory."
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

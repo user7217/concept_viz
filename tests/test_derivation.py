@@ -247,10 +247,19 @@ class TestGuardsAgainstVacuousChecks(unittest.TestCase):
         self.sources = [source()]
 
     def test_expectation_is_enforced_not_merely_hinted(self) -> None:
+        from atlas.retrieval import Source
+        # Enforced when the derivation was actually there to restate: the sheet
+        # is at fault only if a source performs one and it produced a
+        # definition anyway. Where no source derives, the canon is at fault
+        # instead -- see TestUnservableExpectation.
+        deriving = [Source(id="wikipedia:OLS", title="OLS", url="u",
+                           kind="encyclopedia",
+                           text="== Proof ==\nTake the transpose of both sides.")]
         d = Derivation("transpose_identities", True, kind="definition",
                        statement="s",
+                       symbols=[{"symbol": "A", "meaning": "a matrix"}],
                        properties=[{"property": "p", "cites": ["wikipedia:OLS"]}])
-        report = check(d, self.sources, self.graph)
+        report = check(d, deriving, self.graph)
         self.assertIn("expected a derivation, produced a definition", report["shape"])
         self.assertFalse(report["ok"])
 
@@ -410,3 +419,46 @@ class TestSymbolPresence(unittest.TestCase):
         ])
         window = select_text(article, 2000)
         self.assertIn("== Derivations ==", window)
+
+
+class TestUnservableExpectation(unittest.TestCase):
+    """A derivation the canon wants and no source performs."""
+
+    def _sheet(self, kind, **kw):
+        from atlas.derivation import Derivation
+        return Derivation(node_id="gaussian_marginalization", grounded=True,
+                          kind=kind, statement="x1 ~ N(mu1, Sigma11)",
+                          symbols=[{"symbol": "x1", "meaning": "the block kept"}],
+                          **kw)
+
+    def _source(self, text):
+        from atlas.retrieval import Source
+        return Source(id="wikipedia:X", title="X", url="u",
+                      kind="encyclopedia", text=text)
+
+    def setUp(self) -> None:
+        from atlas.bootstrap import build_graph, load
+        self.graph = build_graph(load())
+
+    def test_no_source_derives_it_so_the_canon_is_flagged_not_the_sheet(self) -> None:
+        from atlas.derivation import check
+        stating = [self._source("== Marginal distributions ==\nOne simply "
+                                "drops the irrelevant variables.")]
+        report = check(self._sheet("definition",
+                                   properties=[{"property": "normal",
+                                                "cites": ["wikipedia:X"]}]),
+                       stating, self.graph)
+        self.assertTrue(report["canon_notes"])
+        self.assertFalse(report["shape"])
+        self.assertTrue(report["ok"])
+
+    def test_a_source_that_does_derive_still_fails_the_sheet(self) -> None:
+        from atlas.derivation import check
+        deriving = [self._source("== Derivation ==\nIntegrate x2 out ...")]
+        report = check(self._sheet("definition",
+                                   properties=[{"property": "normal",
+                                                "cites": ["wikipedia:X"]}]),
+                       deriving, self.graph)
+        # the derivation was there to restate and the sheet did not
+        self.assertTrue(any("expected a derivation" in m for m in report["shape"]))
+        self.assertFalse(report["ok"])

@@ -122,5 +122,38 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "bernoulli_distribution",
+    "project": "agrios_ws",
+    "components": [
+      "obstaclelayer"
+    ],
+    "why_here": "In obstaclelayer, spatial occupancy is treated as a binary event where a location is either occupied or free. The component's algorithm requires this result to model the discrete probability of a cell being occupied versus empty. Beyond the algorithm requiring this mathematical foundation, no specific parameters or files were provided.",
+    "concrete": [
+      {
+        "symbol": "X",
+        "in_your_project": "The binary occupancy state of a grid cell or obstacle in obstaclelayer (1 for occupied, 0 for free) [scalar]"
+      },
+      {
+        "symbol": "p",
+        "in_your_project": "The probability that a given cell in obstaclelayer is occupied [scalar]"
+      },
+      {
+        "symbol": "q",
+        "in_your_project": "The probability that a given cell in obstaclelayer is free, equal to 1 - p [scalar]"
+      },
+      {
+        "symbol": "k",
+        "in_your_project": "The binary evaluation state in {0, 1} representing an unoccupied (0) or occupied (1) cell [scalar]"
+      },
+      {
+        "symbol": "f(k; p)",
+        "in_your_project": "The probability mass function assigning probability to cell state k given occupancy probability p [scalar]"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

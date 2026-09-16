@@ -135,5 +135,46 @@
     ],
     "vacuous_invocations": false,
     "ok": false
+  },
+  "instantiation": {
+    "node_id": "occupancy_grid_mapping",
+    "project": "agrios_ws",
+    "components": [
+      "obstaclelayer"
+    ],
+    "why_here": "In agrios_ws, the obstaclelayer component relies on occupancy grid mapping to represent obstacle presence across discrete spatial cells. Its algorithm requires this formulation to factor the joint posterior probability over the map into independent marginal cell probabilities updated from sensor data and robot poses. This enables the layer to track and maintain the environment's occupancy state over time.",
+    "concrete": [
+      {
+        "symbol": "m",
+        "in_your_project": "The discrete occupancy grid map of the environment maintained by obstaclelayer."
+      },
+      {
+        "symbol": "m_i",
+        "in_your_project": "The binary occupancy state of an individual cell i in obstaclelayer indicating obstacle presence."
+      },
+      {
+        "symbol": "z_{1:t}",
+        "in_your_project": "The sequence of sensor measurements received and integrated by obstaclelayer over time."
+      },
+      {
+        "symbol": "x_{1:t}",
+        "in_your_project": "The sequence of known robot poses over time used to locate sensor readings in the map."
+      },
+      {
+        "symbol": "p(m \\mid z_{1:t}, x_{1:t})",
+        "in_your_project": "The joint posterior probability over the map given measurements and poses, factored by the algorithm into cell-level marginals."
+      },
+      {
+        "symbol": "p(m_i \\mid z_{1:t}, x_{1:t})",
+        "in_your_project": "The posterior probability that individual cell i in obstaclelayer is occupied given sensor measurements and poses."
+      },
+      {
+        "symbol": "i",
+        "in_your_project": "The grid cell index (or pair of 2D indices) in the obstaclelayer."
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

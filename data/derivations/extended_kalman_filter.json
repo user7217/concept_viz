@@ -180,5 +180,108 @@
     ],
     "vacuous_invocations": false,
     "ok": false
+  },
+  "instantiation": {
+    "node_id": "extended_kalman_filter",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In agrios_ws, the Extended Kalman Filter is used by the robot_localization nodes ekf_local and ekf_global to estimate the robot's pose and velocity. It fuses continuous motion model predictions with discrete sensor observations from odometry and IMU sources to maintain filtered state and covariance estimates. The algorithm handles system non-linearities by linearizing state and measurement transitions around current estimates while accounting for process and sensor noise.",
+    "concrete": [
+      {
+        "symbol": "\\hat{\\mathbf{x}}_{k|k}",
+        "in_your_project": "The updated robot state estimate vector [n x 1] computed at step k for base_link_frame base_footprint."
+      },
+      {
+        "symbol": "\\mathbf{P}(t)",
+        "in_your_project": "The state error covariance matrix [n x n] representing estimate uncertainty, initialized via initial_estimate_covariance."
+      },
+      {
+        "symbol": "\\mathbf{Q}(t)",
+        "in_your_project": "The process noise covariance matrix [n x n] set by process_noise_covariance, modeling uncertainty in vehicle motion dynamics."
+      },
+      {
+        "symbol": "\\mathbf{z}_k",
+        "in_your_project": "Discrete measurement vectors [m x 1] received at step k from sensor inputs such as /imu (imu0, imu1) and odometry sources (odom0, odom1)."
+      },
+      {
+        "symbol": "\\mathbf{H}_k",
+        "in_your_project": "The measurement Jacobian matrix [m x n] selecting which components of the state vector are observed, configured via sensor boolean masks."
+      },
+      {
+        "symbol": "\\mathbf{R}_k",
+        "in_your_project": "The measurement noise covariance matrix [m x m] corresponding to sensor noise from active odometry and IMU measurement streams."
+      },
+      {
+        "symbol": "\\mathbf{K}_k",
+        "in_your_project": "The Kalman gain matrix [n x m] computed at step k to weight sensor innovation against prediction covariance during the update step."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the process noise covariance matrix \\mathbf{Q}(t), defining the uncertainty added during the state prediction step."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the initial state error covariance matrix \\mathbf{P}(t), defining the starting uncertainty of the filter's state estimate."
+      },
+      {
+        "parameter": "odom0_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Determines which state variables are observed by measurement vector \\mathbf{z}_k from odom0, configuring the structure of measurement Jacobian \\mathbf{H}_k."
+      },
+      {
+        "parameter": "odom1_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Determines which state variables are observed by measurement vector \\mathbf{z}_k from odom1, configuring the structure of measurement Jacobian \\mathbf{H}_k."
+      },
+      {
+        "parameter": "imu0_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Determines which state variables are observed by measurement vector \\mathbf{z}_k from imu0, configuring the structure of measurement Jacobian \\mathbf{H}_k."
+      },
+      {
+        "parameter": "imu1_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Determines which state variables are observed by measurement vector \\mathbf{z}_k from imu1, configuring the structure of measurement Jacobian \\mathbf{H}_k."
+      },
+      {
+        "parameter": "frequency",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the rate at which discrete-time filter prediction and measurement update steps are executed."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the process noise covariance matrix \\mathbf{Q}(t) for local state estimation, determining motion model uncertainty during prediction."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the initial state error covariance matrix \\mathbf{P}(t) for local state estimation, defining initial estimate uncertainty."
+      },
+      {
+        "parameter": "odom0_config",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Determines which state variables are observed by measurement vector \\mathbf{z}_k from odom0, configuring the structure of measurement Jacobian \\mathbf{H}_k in the local filter."
+      },
+      {
+        "parameter": "imu0_config",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Determines which state variables are observed by measurement vector \\mathbf{z}_k from imu0, configuring the structure of measurement Jacobian \\mathbf{H}_k in the local filter."
+      },
+      {
+        "parameter": "frequency",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the rate at which discrete-time filter prediction and measurement update steps are executed in the local filter."
+      }
+    ],
+    "invented": {},
+    "thin": ""
   }
 }

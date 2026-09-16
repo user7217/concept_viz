@@ -173,5 +173,54 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "relaxation",
+    "project": "agrios_ws",
+    "components": [
+      "smacplannerhybrid"
+    ],
+    "why_here": "In agrios_ws, the smacplannerhybrid component relies on shortest path graph search to generate kinematically feasible vehicle trajectories. Edge relaxation is the core mechanism used during node expansion to update tentative cost-to-come values across neighbor states. This guarantees that path costs monotonically decrease toward the optimal shortest path from the start pose.",
+    "concrete": [
+      {
+        "symbol": "s",
+        "in_your_project": "The start pose/state in smacplannerhybrid from which planning begins."
+      },
+      {
+        "symbol": "u",
+        "in_your_project": "The current predecessor state/node being expanded in the search graph."
+      },
+      {
+        "symbol": "v",
+        "in_your_project": "The candidate successor state/node generated via a motion primitive from u."
+      },
+      {
+        "symbol": "uv.weight",
+        "in_your_project": "The transition cost of the motion primitive edge connecting state u to state v."
+      },
+      {
+        "symbol": "distance[v]",
+        "in_your_project": "The tentative cost-to-come (g-value) from the start pose s to state v."
+      },
+      {
+        "symbol": "P",
+        "in_your_project": "The tentative shortest path of poses connecting start s to state v."
+      },
+      {
+        "symbol": "i",
+        "in_your_project": "The number of search expansion steps or edges along the path."
+      },
+      {
+        "symbol": "|V|",
+        "in_your_project": "The total number of discretized poses/states in the planner's search space."
+      },
+      {
+        "symbol": "|E|",
+        "in_your_project": "The total number of valid motion primitive transitions between states."
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

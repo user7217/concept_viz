@@ -136,5 +136,17 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "recursive_substitution",
+    "project": "agrios_ws",
+    "components": [
+      "obstaclelayer"
+    ],
+    "why_here": "In agrios_ws, the obstaclelayer component relies on recursive substitution because its algorithm requires solving first-order linear recurrence relations. The connection is strictly that the component's algorithm requires this mathematical result, as no parameters, configuration files, or specific variable mappings are provided in the project context. Rather than manufacturing implementation details, the concept serves directly as the mathematical foundation for evaluating the recurrence in obstaclelayer.",
+    "concrete": [],
+    "knobs": [],
+    "invented": {},
+    "thin": "names no parameter and maps none of the 7 symbols the sheet defines"
   }
 }

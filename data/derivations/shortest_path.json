@@ -131,5 +131,58 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "shortest_path",
+    "project": "agrios_ws",
+    "components": [
+      "smacplannerhybrid"
+    ],
+    "why_here": "In agrios_ws, smacplannerhybrid relies on the shortest path concept to compute optimal, collision-free trajectories from a starting pose to a goal pose. The component's planning algorithm searches across a state graph to find a path that minimizes traversal and steering costs. The connection is that the component's algorithm requires this mathematical formulation to solve the navigation problem.",
+    "concrete": [
+      {
+        "symbol": "G",
+        "in_your_project": "The state graph of poses and transitions searched by smacplannerhybrid"
+      },
+      {
+        "symbol": "V",
+        "in_your_project": "The set of discrete robot configurations (poses/states) explored during planning"
+      },
+      {
+        "symbol": "E",
+        "in_your_project": "The set of valid motion primitives or transitions between states"
+      },
+      {
+        "symbol": "v",
+        "in_your_project": "The initial starting pose of the robot"
+      },
+      {
+        "symbol": "v'",
+        "in_your_project": "The target goal pose for the planner"
+      },
+      {
+        "symbol": "P",
+        "in_your_project": "The planned sequence of poses representing the generated path from start to goal"
+      },
+      {
+        "symbol": "v_i",
+        "in_your_project": "The i-th pose or waypoint along the planned path"
+      },
+      {
+        "symbol": "e_{i, j}",
+        "in_your_project": "The motion primitive or edge connecting state v_i to state v_j"
+      },
+      {
+        "symbol": "f",
+        "in_your_project": "The cost function assigning edge weights based on distance, direction changes, and obstacle proximity"
+      },
+      {
+        "symbol": "n",
+        "in_your_project": "The total number of poses/waypoints in the planned path sequence"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

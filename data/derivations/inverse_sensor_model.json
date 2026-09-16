@@ -24,5 +24,17 @@
     ],
     "vacuous_invocations": false,
     "ok": false
+  },
+  "instantiation": {
+    "node_id": "inverse_sensor_model",
+    "project": "agrios_ws",
+    "components": [
+      "obstaclelayer"
+    ],
+    "why_here": "The obstaclelayer component depends on an inverse sensor model to update its occupancy representation from sensor measurements. Because the supplied sources do not define or support this concept, its specific mathematical formulation is not provided in the reference material. The connection in this project is simply that the obstaclelayer's algorithm requires this theoretical result.",
+    "concrete": [],
+    "knobs": [],
+    "invented": {},
+    "thin": "names no parameter and maps no symbol"
   }
 }

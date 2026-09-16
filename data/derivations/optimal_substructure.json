@@ -118,5 +118,26 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "optimal_substructure",
+    "project": "agrios_ws",
+    "components": [
+      "smacplannerhybrid"
+    ],
+    "why_here": "The smacplannerhybrid component relies on optimal substructure because its search algorithm constructs globally optimal or near-optimal paths from optimal solutions to subproblems. In this planner, an optimal path between start and goal states is composed of optimal sub-paths between intermediate states, allowing suboptimal sub-paths to be pruned during graph exploration.",
+    "concrete": [
+      {
+        "symbol": "a",
+        "in_your_project": "A candidate path, trajectory, or motion primitive alternative evaluated by smacplannerhybrid"
+      },
+      {
+        "symbol": "c(a)",
+        "in_your_project": "The scalar cost associated with candidate path or motion alternative a"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

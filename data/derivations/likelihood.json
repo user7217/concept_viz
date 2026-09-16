@@ -118,5 +118,30 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "likelihood",
+    "project": "agrios_ws",
+    "components": [
+      "obstaclelayer"
+    ],
+    "why_here": "In agrios_ws, the obstaclelayer component models and tracks environmental obstacles from incoming sensor data. The component's algorithm requires the concept of likelihood to assess how probable observed sensor returns are under hypothesized obstacle states. This provides the mathematical basis for inferring obstacle presence from noisy observations.",
+    "concrete": [
+      {
+        "symbol": "\\mathcal{L}(\\theta \\mid x)",
+        "in_your_project": "The likelihood of an obstacle configuration or occupancy state given observed sensor measurements"
+      },
+      {
+        "symbol": "\\theta",
+        "in_your_project": "The parameter representing the obstacle state or occupancy being evaluated by the obstaclelayer"
+      },
+      {
+        "symbol": "x",
+        "in_your_project": "The observed sensor data (such as range or obstacle readings) received by the obstaclelayer"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

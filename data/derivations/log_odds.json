@@ -101,5 +101,30 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "log_odds",
+    "project": "agrios_ws",
+    "components": [
+      "obstaclelayer"
+    ],
+    "why_here": "In agrios_ws, the obstaclelayer component relies on the log-odds representation to update and track occupancy probabilities from incoming sensor measurements. Transforming probabilities into log-odds allows the component's occupancy grid algorithm to perform Bayesian updates through simple addition rather than multiplication.",
+    "concrete": [
+      {
+        "symbol": "p",
+        "in_your_project": "The probability of a grid cell being occupied in the obstaclelayer [scalar]"
+      },
+      {
+        "symbol": "\\frac{p}{1-p}",
+        "in_your_project": "The odds of occupancy for a grid cell in the obstaclelayer [scalar]"
+      },
+      {
+        "symbol": "\\operatorname{logit}(p)",
+        "in_your_project": "The log-odds value used by the obstaclelayer algorithm to update cell occupancy states [scalar]"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

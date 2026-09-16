@@ -78,5 +78,34 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "edge_weight",
+    "project": "agrios_ws",
+    "components": [
+      "smacplannerhybrid"
+    ],
+    "why_here": "In this project, the component smacplannerhybrid relies on edge weights to represent the cost of traversing transitions between states. The underlying search algorithm requires edge weights to evaluate path costs and navigate the graph. Plainly, the component's planning algorithm depends directly on this concept to compute optimal paths.",
+    "concrete": [
+      {
+        "symbol": "G",
+        "in_your_project": "The state-space search graph traversed by smacplannerhybrid"
+      },
+      {
+        "symbol": "V",
+        "in_your_project": "The set of search states or poses evaluated by smacplannerhybrid"
+      },
+      {
+        "symbol": "E",
+        "in_your_project": "The set of valid motion transitions connecting states"
+      },
+      {
+        "symbol": "weight",
+        "in_your_project": "The scalar traversal cost assigned to a motion transition between states"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

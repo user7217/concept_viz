@@ -488,8 +488,27 @@ def check(derivation: Derivation, sources: list[Source], graph: Graph,
     # technique, came back as a definition and passed every check because
     # check() compared the sheet against itself and never against what was asked.
     expected, _ = expected_kind(graph, derivation.node_id, sources)
+    canon_notes: list[str] = []
     if derivation.kind != expected:
-        shape.append(f"expected a {expected}, produced a {derivation.kind}")
+        if expected == "derivation" and not source_derives(sources):
+            # Topology says a derivation ought to exist; no source performs
+            # one. That is a fact about the canon or the sources, not a defect
+            # in the sheet, and failing the sheet fails the same node on every
+            # run forever -- gaussian_marginalization, log_odds and
+            # log_odds_transformation all reached that state.
+            #
+            # Deliberately not done by making the source authoritative in
+            # expected_kind: source_derives only sees "== Proof ==" style
+            # headings, and measured over the stored sheets its False would
+            # have branded seven working derivations as definitions --
+            # gaussian_conditioning at 7 steps among them. Its True is
+            # evidence; its False is not.
+            canon_notes.append(
+                f"canon expects a derivation but no source performs one, so "
+                f"{derivation.node_id} is recorded as a definition"
+            )
+        else:
+            shape.append(f"expected a {expected}, produced a {derivation.kind}")
 
     # A closure built only from "this step rearranges something" is vacuously
     # complete. Judged against UNINFORMATIVE, not against the floor: excluding
@@ -512,6 +531,7 @@ def check(derivation: Derivation, sources: list[Source], graph: Graph,
         "uncited_steps": uncited,
         "unknown_invocations": sorted(unknown),
         "closure_holes": sorted(holes),
+        "canon_notes": canon_notes,
         "shape": shape,
         "vacuous_invocations": vacuous,
         "ok": (not ungrounded and not uncited and not shape

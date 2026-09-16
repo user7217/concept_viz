@@ -121,5 +121,26 @@
     ],
     "vacuous_invocations": false,
     "ok": false
+  },
+  "instantiation": {
+    "node_id": "log_odds_transformation",
+    "project": "agrios_ws",
+    "components": [
+      "obstaclelayer"
+    ],
+    "why_here": "In this project, the obstaclelayer component depends on the log-odds transformation for its occupancy grid algorithm. The transformation maps occupancy probabilities into log-odds values to facilitate the component's internal calculations. The connection is strictly that the component's algorithm requires this result, as no configuration files or parameters are provided.",
+    "concrete": [
+      {
+        "symbol": "p",
+        "in_your_project": "Probability value used in the obstaclelayer algorithm [scalar in (0, 1)]"
+      },
+      {
+        "symbol": "logit(p)",
+        "in_your_project": "Log-odds representation required by the obstaclelayer component's algorithm [scalar in (-inf, +inf)]"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

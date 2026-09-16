@@ -164,5 +164,42 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "recursive_estimation",
+    "project": "agrios_ws",
+    "components": [
+      "obstaclelayer"
+    ],
+    "why_here": "In agrios_ws, the obstaclelayer component relies on recursive estimation to track and maintain its belief about obstacle states over time. The component's algorithm requires this recursive prediction-update cycle to incorporate incoming sequential sensor measurements into an updated posterior state estimate.",
+    "concrete": [
+      {
+        "symbol": "x_k",
+        "in_your_project": "The unobserved obstacle state at timestep k being tracked by obstaclelayer."
+      },
+      {
+        "symbol": "z_k",
+        "in_your_project": "The measurement manifestation observed by obstaclelayer at timestep k."
+      },
+      {
+        "symbol": "z_{1:k}",
+        "in_your_project": "The set of all measurements received by obstaclelayer up to timestep k."
+      },
+      {
+        "symbol": "p(x_k | z_{1:k-1})",
+        "in_your_project": "The predicted obstacle state distribution prior to integrating the measurement at timestep k."
+      },
+      {
+        "symbol": "p(x_k | z_{1:k})",
+        "in_your_project": "The updated posterior distribution over the obstacle state conditioned on all measurements up to timestep k in obstaclelayer."
+      },
+      {
+        "symbol": "p(z_k | x_k)",
+        "in_your_project": "The measurement likelihood of observing sensor data z_k given obstacle state x_k."
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

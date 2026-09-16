@@ -87,5 +87,30 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "weighted_graph",
+    "project": "agrios_ws",
+    "components": [
+      "smacplannerhybrid"
+    ],
+    "why_here": "In agrios_ws, smacplannerhybrid relies on a weighted graph to model the robot's state-space for path planning. The component's planning algorithm requires this representation so that edge weights encode traversal distances and motion penalties to search for a minimal-cost trajectory.",
+    "concrete": [
+      {
+        "symbol": "G",
+        "in_your_project": "The search space graph traversed by the smacplannerhybrid planning algorithm"
+      },
+      {
+        "symbol": "V(G)",
+        "in_your_project": "The set of discrete search states representing robot poses considered by the planner"
+      },
+      {
+        "symbol": "E(G)",
+        "in_your_project": "The set of valid motion primitives or transitions connecting reachable poses, weighted by traversal cost"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }
