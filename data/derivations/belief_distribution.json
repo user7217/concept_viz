@@ -1,0 +1,128 @@
+{
+  "node_id": "belief_distribution",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In recursive Bayesian estimation (Bayes filtering), the belief distribution is the probability distribution over the current unobserved state $\\mathbf{x}_k$ conditioned on all sensor measurements up to the current timestep $\\mathbf{z}_{1:k}$, given by the recursive update equation: $$p(\\mathbf{x}_k | \\mathbf{z}_{1:k}) = \\frac{p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})}{p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1})} \\propto p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})$$ where the predicted belief distribution is given by: $$p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1}) = \\int p(\\mathbf{x}_k | \\mathbf{x}_{k-1}) p(\\mathbf{x}_{k-1} | \\mathbf{z}_{1:k-1}) d\\mathbf{x}_{k-1}$$",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{x}_k",
+      "meaning": "true unobserved state at timestep k",
+      "dimensions": "state space vector"
+    },
+    {
+      "symbol": "\\mathbf{z}_k",
+      "meaning": "measurement manifestation at timestep k",
+      "dimensions": "measurement space vector"
+    },
+    {
+      "symbol": "\\mathbf{z}_{1:k}",
+      "meaning": "sequence of measurements from timestep 1 to k",
+      "dimensions": "measurement history"
+    },
+    {
+      "symbol": "p(\\mathbf{x}_k | \\mathbf{z}_{1:k})",
+      "meaning": "updated posterior belief distribution over the state at timestep k given measurements up to timestep k",
+      "dimensions": "probability density (scalar)"
+    },
+    {
+      "symbol": "p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})",
+      "meaning": "predicted belief distribution over the state at timestep k conditioned on measurements up to timestep k-1",
+      "dimensions": "probability density (scalar)"
+    },
+    {
+      "symbol": "p(\\mathbf{z}_k | \\mathbf{x}_k)",
+      "meaning": "measurement likelihood at timestep k given current state",
+      "dimensions": "probability density (scalar)"
+    },
+    {
+      "symbol": "p(\\mathbf{x}_k | \\mathbf{x}_{k-1})",
+      "meaning": "state transition probability distribution from timestep k-1 to k",
+      "dimensions": "probability density (scalar)"
+    },
+    {
+      "symbol": "p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1})",
+      "meaning": "marginal measurement likelihood denominator",
+      "dimensions": "probability density (scalar)"
+    },
+    {
+      "symbol": "\\alpha",
+      "meaning": "normalization coefficient substituting 1 / p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1})",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The predicted belief distribution is obtained by integrating the transition probability against the prior belief distribution: $p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1}) = \\int p(\\mathbf{x}_k | \\mathbf{x}_{k-1}) p(\\mathbf{x}_{k-1} | \\mathbf{z}_{1:k-1}) d\\mathbf{x}_{k-1}$.",
+      "why": "marginalising out the previous states under the Markov assumption",
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "property": "The updated belief distribution is proportional to the product of the measurement likelihood and the predicted state distribution: $p(\\mathbf{x}_k | \\mathbf{z}_{1:k}) \\propto p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})$.",
+      "why": "the denominator $p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1})$ is constant relative to $\\mathbf{x}_k$ and serves as a normalization factor",
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "property": "The normalization denominator evaluates to $p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1}) = \\int p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1}) d\\mathbf{x}_k$.",
+      "why": "the integral of the posterior probability density over all possible states must be unity",
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "property": "If state transitions are linear and variables are normally distributed, recursive Bayesian estimation of the belief distribution reduces to the Kalman filter.",
+      "why": "linear Gaussian models preserve multivariate normal distributions across prediction and innovation steps",
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "property": "The joint distribution over all states and measurements decomposes as $p(\\mathbf{x}_0, \\dots, \\mathbf{x}_k, \\mathbf{z}_1, \\dots, \\mathbf{z}_k) = p(\\mathbf{x}_0) \\prod_{i=1}^k p(\\mathbf{z}_i | \\mathbf{x}_i) p(\\mathbf{x}_i | \\mathbf{x}_{i-1})$.",
+      "why": "conditional independence of measurements and first-order Markov process dynamics",
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The state sequence $\\mathbf{x}_k$ is an unobserved first-order Markov process such that $p(\\mathbf{x}_k | \\mathbf{x}_{k-1}, \\dots, \\mathbf{x}_0) = p(\\mathbf{x}_k | \\mathbf{x}_{k-1})$.",
+      "breaks_when": "The state dynamics depend directly on older historical states $\\mathbf{x}_{k-2}, \\dots, \\mathbf{x}_0$ beyond the immediate predecessor."
+    },
+    {
+      "assumption": "The measurement $\\mathbf{z}_k$ is conditionally independent of all past states given the current state: $p(\\mathbf{z}_k | \\mathbf{x}_k, \\mathbf{x}_{k-1}, \\dots, \\mathbf{x}_0) = p(\\mathbf{z}_k | \\mathbf{x}_k)$.",
+      "breaks_when": "Measurements depend on historical states or sensor noise is temporally correlated across timesteps."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Analytical intractability of posterior distribution",
+      "signature": "Posterior distributions acquire increasingly complex functional forms over time that cannot be integrated or maintained recursively in closed form",
+      "cause": "Measurement likelihood functions whose product with the predicted distribution does not belong to a tractable or conjugate parametric family"
+    },
+    {
+      "mode": "Continuous loss of certainty (dispersion of belief)",
+      "signature": "Continuously decreasing certainty / increasing spread in the belief distribution about position or state",
+      "cause": "Propagating motion over time without receiving informative sensor measurements to innovate the belief distribution"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Recursive_Bayesian_estimation"
+  ],
+  "check": {
+    "node_id": "belief_distribution",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

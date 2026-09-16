@@ -1,0 +1,144 @@
+{
+  "node_id": "odds_ratio",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The odds ratio (OR) is defined as the ratio of the odds of an event occurring in one group to the odds of it occurring in another group: $\\mathrm{OR} = \\frac{p_1 / (1 - p_1)}{p_2 / (1 - p_2)} = \\frac{p_1 / q_1}{p_2 / q_2} = \\frac{p_1 q_2}{p_2 q_1}$, where $q_x = 1 - p_x$. Equivalently, in terms of the joint distribution of two binary random variables $X$ and $Y$ with cell probabilities $p_{xy} = P(X=x, Y=y)$: $\\mathrm{OR} = \\frac{p_{11} p_{00}}{p_{10} p_{01}}$.",
+  "symbols": [
+    {
+      "symbol": "OR",
+      "meaning": "odds ratio statistic quantifying association between two events or binary variables",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_1",
+      "meaning": "probability of the event occurring in the first group",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_2",
+      "meaning": "probability of the event occurring in the second group",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "q_1",
+      "meaning": "probability of the event not occurring in the first group (1 - p_1)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "q_2",
+      "meaning": "probability of the event not occurring in the second group (1 - p_2)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_11",
+      "meaning": "joint probability P(X = 1, Y = 1)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_10",
+      "meaning": "joint probability P(X = 1, Y = 0)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_01",
+      "meaning": "joint probability P(X = 0, Y = 1)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_00",
+      "meaning": "joint probability P(X = 0, Y = 0)",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Statistical independence equivalence: OR = 1 if and only if events or variables X and Y are independent.",
+      "why": "joint probabilities factor into products of marginal probabilities, causing cross-products in numerator and denominator to balance to 1",
+      "cites": [
+        "wikipedia:Odds_ratio"
+      ]
+    },
+    {
+      "property": "Symmetry: The odds ratio is symmetric with respect to the two variables (OR of Y given X equals OR of X given Y).",
+      "why": "evaluating the ratio of conditional odds conditioning on Y yields the identical cross-product ratio (p_11 * p_00) / (p_10 * p_01)",
+      "cites": [
+        "wikipedia:Odds_ratio"
+      ]
+    },
+    {
+      "property": "Concordant to discordant ratio: OR equals the product of concordant cell probabilities divided by the product of discordant cell probabilities.",
+      "why": "marginal denominators cancel out when taking the ratio of conditional probabilities",
+      "cites": [
+        "wikipedia:Odds_ratio"
+      ]
+    },
+    {
+      "property": "Rare-disease approximation: The odds ratio approximates the relative risk when the event or condition is rare.",
+      "why": "the count of healthy individuals approximately equals the total group size (V_E \u2248 H_E and V_N \u2248 H_N), making risk and odds denominators approximately equal",
+      "cites": [
+        "wikipedia:Odds_ratio"
+      ]
+    },
+    {
+      "property": "Logarithmic tempering: The natural logarithm of the odds ratio tempers extreme sensitivity and induces symmetry with respect to group ordering.",
+      "why": "log(OR) equals the difference of the logits of the probabilities, mapping an inverted ratio OR to -log(OR)",
+      "cites": [
+        "wikipedia:Odds_ratio"
+      ]
+    },
+    {
+      "property": "Recovery of joint distribution: Cell probabilities can be recovered from the odds ratio and marginal probabilities.",
+      "why": "p_11 is solved via a closed-form quadratic equation parameterized by R and marginals p_{1\u00b7} and p_{\u00b71}",
+      "cites": [
+        "wikipedia:Odds_ratio"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Dichotomous classification: Observations can be classified into binary categories (e.g., exposed/unexposed and diseased/healthy).",
+      "breaks_when": "Variables have multiple categories or are continuous without dichotomization."
+    },
+    {
+      "assumption": "Non-zero denominator: The product p_2 * q_1 \u2260 0 (or discordant cells p_10 * p_01 \u2260 0).",
+      "breaks_when": "p_2 = 0, q_1 = 0 (i.e. p_1 = 1), p_10 = 0, or p_01 = 0, which makes the odds ratio undefined."
+    },
+    {
+      "assumption": "Rare-disease condition (when using OR as an approximation for relative risk).",
+      "breaks_when": "Disease prevalence is high, causing healthy counts H_E and H_N to diverge significantly from total group sizes V_E and V_N."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Undefined odds ratio",
+      "signature": "Division by zero producing undefined or indeterminate output.",
+      "cause": "Zero probability or zero cell count in the denominator terms (p_2 = 0, q_1 = 0, p_10 = 0, or p_01 = 0)."
+    },
+    {
+      "mode": "Causal fallacy",
+      "signature": "Asserting that exposure causes outcome purely because OR > 1.",
+      "cause": "The odds ratio is symmetric and measures association rather than causation; correlation does not imply causation."
+    },
+    {
+      "mode": "Conflation of odds ratio with relative risk for common outcomes",
+      "signature": "Marked discrepancy between calculated odds ratio and actual relative risk.",
+      "cause": "Violation of the rare-disease assumption when outcome frequency in the population is non-negligible."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Odds_ratio"
+  ],
+  "check": {
+    "node_id": "odds_ratio",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

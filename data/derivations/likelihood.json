@@ -1,0 +1,122 @@
+{
+  "node_id": "likelihood",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For a probability function or probability density function $\\Pr(x \\mid \\theta)$ that gives the probability or probability density of observed data $x$ for a given model-specifying parameter $\\theta$, the likelihood function $\\mathcal{L}(\\theta \\mid x)$ is any function of $\\theta$ equal to $c \\Pr(x \\mid \\theta)$ for some positive constant $c$. For a discrete random variable $X$, $\\mathcal{L}(\\theta \\mid x) = p_\\theta(x) = P_\\theta(X = x) = \\Pr(X = x \\mid \\Theta = \\theta)$; for an absolutely continuous random variable with density $f_\\theta$, $\\mathcal{L}(\\theta \\mid x) = f_\\theta(x)$, considered as a function of the parameter $\\theta$ given the outcome $x$.",
+  "symbols": [
+    {
+      "symbol": "\\mathcal{L}(\\theta \\mid x)",
+      "meaning": "likelihood function of the parameter \\theta given observation x",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\theta",
+      "meaning": "model-specifying parameter or vector of parameters (a possible value of deterministic but unknown parameter \\Theta)",
+      "dimensions": "scalar or k x 1"
+    },
+    {
+      "symbol": "x",
+      "meaning": "observed outcome or data of random variable X",
+      "dimensions": "scalar or vector"
+    },
+    {
+      "symbol": "c",
+      "meaning": "positive constant of proportionality that may depend on x but not on \\theta",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f_\\theta(x)",
+      "meaning": "probability density function of continuous random variable X evaluated at x given parameter \\theta",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_\\theta(x)",
+      "meaning": "probability mass function Pr(X = x | \\theta) of discrete random variable X given parameter \\theta",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The likelihood function is not a probability mass function or probability density function over the parameter \\theta, and does not necessarily integrate or sum to 1 over the parameter space.",
+      "why": "it is defined as a function of the parameter \\theta for a fixed observed outcome x, rather than a probability distribution over \\theta",
+      "cites": [
+        "wikipedia:Likelihood_function"
+      ]
+    },
+    {
+      "property": "The likelihood \\mathcal{L}(\\theta \\mid x) is not equivalent to the posterior probability P(\\theta \\mid x).",
+      "why": "obtaining P(\\theta \\mid x) requires Bayes' theorem and knowledge of prior and marginal probabilities, whereas likelihood represents the probability mass or density of x given \\theta",
+      "cites": [
+        "wikipedia:Likelihood_function"
+      ]
+    },
+    {
+      "property": "The likelihood function is defined up to a positive constant of proportionality c.",
+      "why": "multiplying by a positive factor that does not depend on \\theta preserves the relative merit of candidate parameters and the argument that maximizes the function",
+      "cites": [
+        "wikipedia:Likelihood_function"
+      ]
+    },
+    {
+      "property": "For continuous distributions, maximizing the likelihood \\mathcal{L}(\\theta \\mid x_j) of an observation x_j is equivalent to maximizing the probability density f(x_j \\mid \\theta).",
+      "why": "the limit of the likelihood over an interval [x_j, x_j + h] scaled by 1/h converges to f(x_j \\mid \\theta) as h approaches 0^+ by the first fundamental theorem of calculus",
+      "cites": [
+        "wikipedia:Likelihood_function"
+      ]
+    },
+    {
+      "property": "For mixed continuous\u2013discrete distributions, the likelihood can incorporate both discrete probability masses p_k(\\theta) and continuous density values f(x \\mid \\theta).",
+      "why": "the likelihood is defined up to a constant of proportionality that can vary with the observation x while remaining invariant with respect to \\theta",
+      "cites": [
+        "wikipedia:Likelihood_function"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "A statistical model specifies a valid probability function or probability density function \\Pr(x \\mid \\theta) parameterized by \\theta over the data domain.",
+      "breaks_when": "The probability distribution or density cannot be defined or does not exist for the observed outcome x under parameter \\theta."
+    },
+    {
+      "assumption": "For mixed continuous\u2013discrete distributions, an observation from a discrete component can be distinguished from an observation from a continuous density component.",
+      "breaks_when": "It is not possible to determine whether an observation corresponds to a discrete probability mass or a continuous density component."
+    },
+    {
+      "assumption": "For maximum likelihood estimation, the likelihood function attains a global maximum on the parameter space \\Theta.",
+      "breaks_when": "The parameter space \\Theta is non-compact and the likelihood is unbounded or fails to attain its supremum."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Misinterpreting likelihood as posterior probability over parameters",
+      "signature": "Attempting to normalize \\mathcal{L}(\\theta \\mid x) to integrate to 1 over \\theta, or interpreting \\mathcal{L}(\\theta \\mid x) as the probability that parameter \\theta is true.",
+      "cause": "Confusing \\mathcal{L}(\\theta \\mid x) with P(\\theta \\mid x) without applying Bayes' theorem and prior distributions."
+    },
+    {
+      "mode": "Non-existence or divergence of maximum likelihood estimate",
+      "signature": "argmax_\\theta \\mathcal{L}(\\theta \\mid x) does not exist, diverges to infinity, or approaches the boundary of \\Theta.",
+      "cause": "The parameter space is non-compact and the likelihood function lacks strict concavity or fails to approach zero on the boundary \\partial\\Theta."
+    },
+    {
+      "mode": "Non-unique maximum likelihood estimate",
+      "signature": "Multiple distinct parameter values achieve the maximum likelihood value.",
+      "cause": "The Hessian matrix of second partial derivatives H(\\theta) is not strictly negative definite at stationary points where the gradient vanishes."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Likelihood_function"
+  ],
+  "check": {
+    "node_id": "likelihood",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

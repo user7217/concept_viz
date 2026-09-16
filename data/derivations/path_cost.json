@@ -1,0 +1,114 @@
+{
+  "node_id": "path_cost",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Given an undirected or directed graph G with vertex set V and edge set E, a path P = (v_1, v_2, ..., v_n) where consecutive vertices v_i and v_{i+1} are adjacent via edge e_{i,i+1} in E for 1 <= i < n, and a real-valued weight function f: E -> R, the path cost is the sum of the weights of the constituent edges of P: sum_{i=1}^{n-1} f(e_{i,i+1}).",
+  "symbols": [
+    {
+      "symbol": "P",
+      "meaning": "a path defined as a sequence of vertices (v_1, v_2, ..., v_n)",
+      "dimensions": "sequence of n vertices in V"
+    },
+    {
+      "symbol": "V",
+      "meaning": "the set of vertices (or nodes) in graph G",
+      "dimensions": "set of vertices"
+    },
+    {
+      "symbol": "E",
+      "meaning": "the set of edges {e_{i,j}} in graph G",
+      "dimensions": "set of edges"
+    },
+    {
+      "symbol": "v_i",
+      "meaning": "the i-th vertex in the sequence defining path P",
+      "dimensions": "vertex in V"
+    },
+    {
+      "symbol": "e_{i,i+1}",
+      "meaning": "the edge incident to consecutive vertices v_i and v_{i+1}",
+      "dimensions": "edge in E"
+    },
+    {
+      "symbol": "f",
+      "meaning": "real-valued weight function mapping edges to real numbers",
+      "dimensions": "function E -> R"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of vertices in the path sequence",
+      "dimensions": "positive integer"
+    },
+    {
+      "symbol": "n - 1",
+      "meaning": "length of path P, corresponding to the number of constituent edges",
+      "dimensions": "non-negative integer"
+    },
+    {
+      "symbol": "\\sum_{i=1}^{n-1} f(e_{i,i+1})",
+      "meaning": "the path cost, defined as the sum of the weights of constituent edges along path P",
+      "dimensions": "scalar real number"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "When each edge has unit weight (f: E -> {1}), the path cost equals the number of edges n - 1, making path cost minimization equivalent to finding the path with the fewest edges.",
+      "why": "Each term in the sum evaluates to 1, reducing the summation to the edge count n - 1",
+      "cites": [
+        "wikipedia:Shortest_path_problem"
+      ]
+    },
+    {
+      "property": "Under the algebraic path problem framework over semirings, the accumulation of edge weights to form path cost is generalized to semiring multiplication.",
+      "why": "Semiring multiplication is defined along the path while semiring addition is defined across paths",
+      "cites": [
+        "wikipedia:Shortest_path_problem"
+      ]
+    },
+    {
+      "property": "In constrained variants such as the Restricted Shortest Path problem (RSP), edges can possess multiple weight attributes (e.g., cost and delay), evaluating path cost subject to an upper bound on secondary path metrics.",
+      "why": "Paths must simultaneously track multiple cumulative edge attributes subject to budget constraints",
+      "cites": [
+        "wikipedia:Shortest_path_problem"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Consecutive vertices v_i and v_{i+1} in the sequence P must be adjacent, connected by a valid edge e_{i,i+1} in E (or an appropriate directed edge in directed graphs)",
+      "breaks_when": "Any pair of adjacent vertices in the sequence lacks an incident connecting edge in the graph"
+    },
+    {
+      "assumption": "The weight function f assigns a well-defined real value to every edge along the path",
+      "breaks_when": "An edge weight is undefined or not a real number"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Negative weight cycle traversal",
+      "signature": "Path cost diverges toward negative infinity when repeated cycles are allowed in walks",
+      "cause": "Presence of a cycle whose constituent edge weights sum to a negative value"
+    },
+    {
+      "mode": "Path nonexistence",
+      "signature": "Path cost cannot be evaluated between the specified vertices",
+      "cause": "Source and destination vertices are in disconnected components or lack a connecting directed path"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Shortest_path_problem"
+  ],
+  "check": {
+    "node_id": "path_cost",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

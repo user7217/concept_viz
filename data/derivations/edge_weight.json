@@ -1,0 +1,82 @@
+{
+  "node_id": "edge_weight",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In a weighted graph (or network), an edge weight is a number assigned to each edge.",
+  "symbols": [
+    {
+      "symbol": "G",
+      "meaning": "Graph (or weighted graph / network)",
+      "dimensions": "pair (V, E)"
+    },
+    {
+      "symbol": "V",
+      "meaning": "Set of vertices",
+      "dimensions": "set"
+    },
+    {
+      "symbol": "E",
+      "meaning": "Set of edges",
+      "dimensions": "set"
+    },
+    {
+      "symbol": "weight",
+      "meaning": "Number assigned to an edge",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Edge weights may represent quantities such as costs, lengths, or capacities, depending on the problem at hand.",
+      "why": "Given as standard interpretations of edge weights in a weighted graph or network.",
+      "cites": [
+        "wikipedia:Graph_(discrete_mathematics)"
+      ]
+    },
+    {
+      "property": "Weighted graphs arise in optimization contexts such as shortest path problems and the traveling salesman problem.",
+      "why": "Given as problem contexts where graphs with assigned edge weights occur.",
+      "cites": [
+        "wikipedia:Graph_(discrete_mathematics)"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "A numerical value (weight) is assigned to each edge in the graph.",
+      "breaks_when": "An edge has no number assigned to it, rendering the graph unweighted or incompletely weighted."
+    },
+    {
+      "assumption": "The underlying structure is a graph consisting of a vertex set V and an edge set E.",
+      "breaks_when": "The underlying structure is not a graph G = (V, E)."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Unassigned edge weight",
+      "signature": "An edge lacks an associated number.",
+      "cause": "The graph is unweighted or the assignment of weights across the edge set is incomplete."
+    },
+    {
+      "mode": "Non-numeric edge weight assignment",
+      "signature": "The attribute assigned to an edge cannot be evaluated as a number.",
+      "cause": "An edge attribute is non-numeric, violating the requirement that a number be assigned to each edge."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Graph_(discrete_mathematics)"
+  ],
+  "check": {
+    "node_id": "edge_weight",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "node_id": "recursive_substitution",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For the general first-order non-homogeneous linear recurrence relation with variable coefficients $a_{n+1} = f_n a_n + g_n$ with $f_n \\neq 0$, the closed-form solution is $a_n = \\left(\\prod_{k=0}^{n-1} f_k\\right)\\left(A_0 + \\sum_{m=0}^{n-1} \\frac{g_m}{\\prod_{k=0}^m f_k}\\right)$, where $A_0 = a_0$.",
+  "symbols": [
+    {
+      "symbol": "a_n",
+      "meaning": "term of index n in the sequence",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "a_{n+1}",
+      "meaning": "term of index n+1 in the sequence",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f_n",
+      "meaning": "variable coefficient multiplying a_n",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "g_n",
+      "meaning": "non-homogeneous term at index n",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "A_n",
+      "meaning": "transformed sequence term defined as a_n / \\prod_{k=0}^{n-1} f_k",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "A_0",
+      "meaning": "initial value of transformed sequence, equal to a_0",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "sequence term index",
+      "dimensions": "dimensionless"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Express the recurrence relation $a_{n+1} = f_n a_n + g_n$ in non-homogeneous difference form: $a_{n+1} - f_n a_n = g_n$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Recurrence_relation"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Divide both sides of the equation by the product $\\prod_{k=0}^n f_k$: $\\frac{a_{n+1}}{\\prod_{k=0}^n f_k} - \\frac{f_n a_n}{\\prod_{k=0}^n f_k} = \\frac{g_n}{\\prod_{k=0}^n f_k}$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Recurrence_relation"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Simplify the second term by canceling $f_n$ in the denominator product $\\prod_{k=0}^n f_k = f_n \\prod_{k=0}^{n-1} f_k$, yielding $\\frac{a_{n+1}}{\\prod_{k=0}^n f_k} - \\frac{a_n}{\\prod_{k=0}^{n-1} f_k} = \\frac{g_n}{\\prod_{k=0}^n f_k}$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Recurrence_relation"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Define $A_n = \\frac{a_n}{\\prod_{k=0}^{n-1} f_k}$, transforming the recurrence relation into $A_{n+1} - A_n = \\frac{g_n}{\\prod_{k=0}^n f_k}$.",
+      "invokes": [
+        "change_of_variables"
+      ],
+      "cites": [
+        "wikipedia:Recurrence_relation"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Sum both sides from $m = 0$ to $n-1$, which telescopes on the left-hand side: $\\sum_{m=0}^{n-1} (A_{m+1} - A_m) = A_n - A_0 = \\sum_{m=0}^{n-1} \\frac{g_m}{\\prod_{k=0}^m f_k}$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Recurrence_relation"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Substitute $A_n = \\frac{a_n}{\\prod_{k=0}^{n-1} f_k}$ into $A_n = A_0 + \\sum_{m=0}^{n-1} \\frac{g_m}{\\prod_{k=0}^m f_k}$ to obtain $\\frac{a_n}{\\prod_{k=0}^{n-1} f_k} = A_0 + \\sum_{m=0}^{n-1} \\frac{g_m}{\\prod_{k=0}^m f_k}$.",
+      "invokes": [
+        "change_of_variables"
+      ],
+      "cites": [
+        "wikipedia:Recurrence_relation"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "Multiply both sides by $\\prod_{k=0}^{n-1} f_k$ to solve for $a_n$: $a_n = \\left(\\prod_{k=0}^{n-1} f_k\\right)\\left(A_0 + \\sum_{m=0}^{n-1} \\frac{g_m}{\\prod_{k=0}^m f_k}\\right)$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Recurrence_relation"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "f_n \\neq 0 for all indices n \\geq 0",
+      "breaks_when": "f_k = 0 for some k, causing division by zero in the denominator product \\prod_{k=0}^m f_k."
+    },
+    {
+      "assumption": "The initial value a_0 (or A_0) is specified",
+      "breaks_when": "No initial value is provided, leaving the sequence undetermined."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Division by zero in summation factor",
+      "signature": "Division by zero when evaluating 1 / \\prod_{k=0}^m f_k",
+      "cause": "At least one coefficient f_k = 0 for k in {0, ..., n-1}."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Recurrence_relation"
+  ],
+  "check": {
+    "node_id": "recursive_substitution",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [
+      "change_of_variables"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

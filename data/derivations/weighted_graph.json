@@ -1,0 +1,91 @@
+{
+  "node_id": "weighted_graph",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A weighted graph is a graph whose vertices or edges have been assigned weights, where a weight is a numerical value assigned as a label to a vertex or edge of the graph.",
+  "symbols": [
+    {
+      "symbol": "G",
+      "meaning": "graph",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "V(G)",
+      "meaning": "vertex set of graph G",
+      "dimensions": "set"
+    },
+    {
+      "symbol": "E(G)",
+      "meaning": "edge set of graph G",
+      "dimensions": "set"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "A vertex-weighted graph has weights on its vertices and an edge-weighted graph has weights on its edges.",
+      "why": "Distinguishes whether weights are assigned to vertices or edges of the graph",
+      "cites": [
+        "wikipedia:Glossary_of_graph_theory"
+      ]
+    },
+    {
+      "property": "The weight of a subgraph is the sum of the weights of the vertices or edges within that subgraph.",
+      "why": "Defines how the weight of a subgraph is aggregated from its elements",
+      "cites": [
+        "wikipedia:Glossary_of_graph_theory"
+      ]
+    },
+    {
+      "property": "A weight is a numerical value assigned as a label to a vertex or edge of a graph.",
+      "why": "Specifies that the assigned label must be numerical",
+      "cites": [
+        "wikipedia:Glossary_of_graph_theory"
+      ]
+    },
+    {
+      "property": "An unweighted graph is a graph whose vertices and edges have not been assigned weights, representing the opposite of a weighted graph.",
+      "why": "Contrasts weighted graphs with graphs lacking weight assignments",
+      "cites": [
+        "wikipedia:Glossary_of_graph_theory"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Weights assigned to vertices or edges are numerical values.",
+      "breaks_when": "Labels assigned to vertices or edges are non-numerical or omitted."
+    },
+    {
+      "assumption": "The underlying structure is a graph consisting of vertices connected in pairs by edges.",
+      "breaks_when": "The structure is not a graph."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Unweighted graph",
+      "signature": "Neither vertices nor edges have assigned weights",
+      "cause": "No weights have been assigned to any vertex or edge of the graph."
+    },
+    {
+      "mode": "Undefined subgraph weight",
+      "signature": "Inability to compute the weight of a subgraph as a sum",
+      "cause": "Vertices or edges within the subgraph lack assigned numerical weights."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Glossary_of_graph_theory"
+  ],
+  "check": {
+    "node_id": "weighted_graph",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

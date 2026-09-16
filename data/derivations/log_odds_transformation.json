@@ -1,0 +1,153 @@
+{
+  "node_id": "log_odds_transformation",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied source contains no derivation of the log-odds transformation, defining it directly: for a probability $p \\in (0, 1)$ with corresponding odds $\\frac{p}{1-p}$, the logit (or log-odds) function is defined as the logarithm of the odds, $\\operatorname{logit}(p) = \\sigma^{-1}(p) = \\ln\\left(\\frac{p}{1-p}\\right) = \\ln(p) - \\ln(1-p) = -\\ln\\left(\\frac{1}{p} - 1\\right) = 2\\operatorname{atanh}(2p-1)$, which serves as the inverse of the standard logistic function $\\sigma(x) = \\frac{1}{1 + e^{-x}}$.",
+  "symbols": [
+    {
+      "symbol": "p",
+      "meaning": "probability value",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\operatorname{logit}(p)",
+      "meaning": "logit or log-odds of probability p",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\frac{p}{1-p}",
+      "meaning": "odds corresponding to probability p",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\sigma(x)",
+      "meaning": "standard logistic function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "real-valued argument to the standard logistic function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "R",
+      "meaning": "odds ratio between two probabilities",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\alpha",
+      "meaning": "real-valued argument to the inverse-logit (logistic) function",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The inverse of the logit function is the standard logistic function: $\\operatorname{logit}^{-1}(\\alpha) = \\operatorname{logistic}(\\alpha) = \\frac{1}{1+e^{-\\alpha}} = \\frac{e^\\alpha}{e^\\alpha+1} = \\frac{\\tanh(\\alpha/2)+1}{2}$.",
+      "why": "The logit is defined mathematically as the inverse of the standard logistic function $\\sigma(x)$.",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "The logit function maps probability values from the open interval $(0, 1)$ to real numbers in $(-\\infty, +\\infty)$.",
+      "why": "As $p \\to 0^+$, the log-odds approach $-\\infty$, and as $p \\to 1^-$, the log-odds approach $+\\infty$.",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "The difference between the logits of two probabilities is the logarithm of the odds ratio $R$: $\\operatorname{logit}(p_1) - \\operatorname{logit}(p_2) = \\ln(R) = \\ln\\left(\\frac{p_1/(1-p_1)}{p_2/(1-p_2)}\right)$.",
+      "why": "The logarithm of a ratio of odds expands by logarithm quotient rules into the difference of the individual logits.",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "The logit function has equivalent algebraic expressions: $\\operatorname{logit}(p) = \\ln(p) - \\ln(1-p) = -\\ln\\left(\\frac{1}{p}-1\\right) = 2\\operatorname{atanh}(2p-1)$.",
+      "why": "Algebraic expansion of the quotient logarithm and inverse hyperbolic tangent identity.",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "The Taylor series expansion of the logit function is $\\operatorname{logit}(x) = 2\\sum_{n=0}^\\infty \\frac{(2x-1)^{2n+1}}{2n+1}$.",
+      "why": "Series expansion of the logit function about $x = 1/2$.",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "The logit function is the quantile function (inverse cumulative distribution function) of the standard logistic distribution.",
+      "why": "The standard logistic function is the CDF of the standard logistic distribution.",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "The logit is the canonical link function for the Bernoulli distribution in generalized linear models and the natural parameter for the binomial distribution.",
+      "why": "It arises directly from the canonical parameterization of the exponential family for binary outcomes.",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "The logit function is the negative derivative of the binary entropy function.",
+      "why": "Differentiating the binary entropy function with respect to probability yields $-\\operatorname{logit}(p)$.",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "In state estimation algorithms, log-odds probabilities can be summed instead of multiplying small floating-point numbers.",
+      "why": "Logarithmic transformation converts multiplication of probabilities into addition, preventing numerical underflow.",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The probability argument $p$ satisfies $p \\in (0, 1)$.",
+      "breaks_when": "$p \\le 0$ or $p \\ge 1$, which makes the odds non-positive or undefined due to division by zero."
+    },
+    {
+      "assumption": "The base of the logarithm is strictly greater than 1 (standardly base $e$).",
+      "breaks_when": "The logarithm base is less than or equal to 1 or non-positive."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Boundary evaluation at p = 0",
+      "signature": "Divergence to $-\\infty$ or numerical `-inf` / underflow error.",
+      "cause": "When $p = 0$, the odds evaluate to 0 and the logarithm $\\ln(0)$ diverges to $-\\infty$."
+    },
+    {
+      "mode": "Boundary evaluation at p = 1",
+      "signature": "Division by zero, divergence to $+\\infty$, or numerical `+inf`.",
+      "cause": "When $p = 1$, the denominator $1-p$ equals 0, causing division by zero in the odds."
+    },
+    {
+      "mode": "Out-of-bounds probability input (p < 0 or p > 1)",
+      "signature": "Domain error, NaN, or complex result.",
+      "cause": "For $p < 0$ or $p > 1$, the expression $p/(1-p)$ becomes negative or ill-defined, making the real logarithm undefined."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Logit"
+  ],
+  "check": {
+    "node_id": "log_odds_transformation",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [
+      "expected a derivation, produced a definition"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

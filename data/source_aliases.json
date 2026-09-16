@@ -297,6 +297,10 @@
     ],
     "yolo_detection_loss": [
       "Object detection"
+    ],
+    "relaxation": [
+      "Bellman\u2013Ford algorithm",
+      "Dijkstra's algorithm"
     ]
   }
 }

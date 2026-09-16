@@ -1,0 +1,110 @@
+{
+  "node_id": "consistency_heuristic",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A heuristic function h(n), representing the estimated distance from node n to the goal node, is consistent if, whenever a node is removed from open_set during A* search, the path to it is guaranteed to be optimal, ensuring that the test 'tentative_g_score < g_score[neighbor]' will always fail if the node is reached again.",
+  "symbols": [
+    {
+      "symbol": "h(n)",
+      "meaning": "heuristic function, the estimated distance from node n to the goal node",
+      "dimensions": "scalar cost"
+    },
+    {
+      "symbol": "g(n)",
+      "meaning": "distance from the start node to node n",
+      "dimensions": "scalar cost"
+    },
+    {
+      "symbol": "n",
+      "meaning": "a node in the search graph",
+      "dimensions": "node"
+    },
+    {
+      "symbol": "open_set",
+      "meaning": "the set of candidate nodes to be expanded in A*",
+      "dimensions": "set of nodes"
+    },
+    {
+      "symbol": "tentative_g_score",
+      "meaning": "tentative distance/cost score to a neighbor node via a candidate path",
+      "dimensions": "scalar cost"
+    },
+    {
+      "symbol": "g_score[neighbor]",
+      "meaning": "recorded lowest distance/cost score from start to neighbor",
+      "dimensions": "scalar cost"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "When a node is removed from open_set, the path found to it is guaranteed to be optimal.",
+      "why": "the test 'tentative_g_score < g_score[neighbor]' will always fail if the node is reached again",
+      "cites": [
+        "wikipedia:A*_search_algorithm#consistency_heuristic"
+      ]
+    },
+    {
+      "property": "Nodes removed from open_set never need to be re-added to open_set.",
+      "why": "optimal paths to closed nodes are already guaranteed upon first removal",
+      "cites": [
+        "wikipedia:A*_search_algorithm#consistency_heuristic"
+      ]
+    },
+    {
+      "property": "The tree-search version of A* (which does not re-add nodes to open_set) is guaranteed to find optimal paths.",
+      "why": "tree-search omits the test to add nodes back to open_set and requires a consistent heuristic for optimality",
+      "cites": [
+        "wikipedia:A*_search_algorithm#consistency_heuristic"
+      ]
+    },
+    {
+      "property": "A* is optimally efficient with respect to all admissible A*-like search algorithms on non-pathological problems.",
+      "why": "no admissible A*-like algorithm can expand fewer nodes than A* when the heuristic is consistent and tie-breaking is suitably chosen",
+      "cites": [
+        "wikipedia:A*_search_algorithm#consistency_heuristic"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The cost of a path is the sum of its costs, or the problem satisfies the conditions of a cost algebra.",
+      "breaks_when": "The path cost cannot be formed by summation of edge costs or violates the conditions of a cost algebra."
+    },
+    {
+      "assumption": "A*'s tie-breaking rule is suitably chosen.",
+      "breaks_when": "An unsuitable tie-breaking rule allows an alternative algorithm to expand fewer nodes."
+    },
+    {
+      "assumption": "The search problem is non-pathological (up to tie-breaking).",
+      "breaks_when": "Pathological problem instances occur where optimal efficiency guarantees fail."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Suboptimal path returned by tree-search A*",
+      "signature": "Tree-search A* terminates with a path that is not least-cost.",
+      "cause": "The heuristic function is admissible but not consistent, and nodes reached via subsequent cheaper paths cannot be re-added to open_set."
+    },
+    {
+      "mode": "Arbitrary node expansion overhead (loss of optimal efficiency)",
+      "signature": "A* expands arbitrarily more nodes than an alternative admissible A*-like search algorithm.",
+      "cause": "The heuristic function is admissible but not consistent on a non-pathological search problem."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:A*_search_algorithm#consistency_heuristic"
+  ],
+  "check": {
+    "node_id": "consistency_heuristic",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

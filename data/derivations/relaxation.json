@@ -1,0 +1,177 @@
+{
+  "node_id": "relaxation",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "In shortest path algorithms on a weighted digraph, relaxation updates the tentative distance to a vertex v along edge (u, v) with weight w by v.distance := min(v.distance, u.distance + w). For a shortest path P from source s to v with final edge uv, if u.distance is at most the shortest path length using at most i - 1 edges, relaxation guarantees v.distance is at most the shortest path length using at most i edges, and at termination in a graph with no negative-weight cycles, every edge satisfies v.distance <= u.distance + uv.weight.",
+  "symbols": [
+    {
+      "symbol": "s",
+      "meaning": "source vertex",
+      "dimensions": "vertex"
+    },
+    {
+      "symbol": "u",
+      "meaning": "predecessor vertex / tail of directed edge (u, v)",
+      "dimensions": "vertex"
+    },
+    {
+      "symbol": "v",
+      "meaning": "destination vertex / head of directed edge (u, v)",
+      "dimensions": "vertex"
+    },
+    {
+      "symbol": "uv.weight",
+      "meaning": "weight of directed edge from u to v",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "distance[v]",
+      "meaning": "tentative distance from source to vertex v (overestimate of true shortest path distance)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "P",
+      "meaning": "shortest path from source s to vertex v using at most i edges",
+      "dimensions": "path"
+    },
+    {
+      "symbol": "i",
+      "meaning": "iteration number / edge-count bound on path",
+      "dimensions": "integer"
+    },
+    {
+      "symbol": "|V|",
+      "meaning": "number of vertices in graph",
+      "dimensions": "integer"
+    },
+    {
+      "symbol": "|E|",
+      "meaning": "number of edges in graph",
+      "dimensions": "integer"
+    },
+    {
+      "symbol": "k",
+      "meaning": "number of vertices in a cycle",
+      "dimensions": "integer"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "For the base case i = 0 before the edge relaxation loop executes, initialize source.distance := 0 and u.distance := infinity for all u != source, which is correct because no path from source to u exists with 0 edges.",
+      "invokes": [
+        "path",
+        "path_cost"
+      ],
+      "cites": [
+        "wikipedia:Bellman\u2013Ford_algorithm"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "For the inductive step, consider when a vertex distance is updated by relaxation: v.distance := u.distance + uv.weight. If by induction u.distance is the length of some path from source to u, then u.distance + uv.weight is the length of the path from source to v obtained by following the path from source to u and appending edge uv.",
+      "invokes": [
+        "path",
+        "path_cost",
+        "edge_weight"
+      ],
+      "cites": [
+        "wikipedia:Bellman\u2013Ford_algorithm"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Let P be a shortest path from source to v with at most i edges, and let u be the last vertex before v on P. The subpath of P from source to u must be a shortest path from source to u with at most i - 1 edges; otherwise, a strictly shorter path to u could be concatenated with edge uv to form a path to v with at most i edges strictly shorter than P, yielding a contradiction.",
+      "invokes": [
+        "optimal_substructure",
+        "shortest_path",
+        "path"
+      ],
+      "cites": [
+        "wikipedia:Bellman\u2013Ford_algorithm"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "By inductive hypothesis, u.distance after i - 1 iterations is at most the length of the subpath from source to u, so uv.weight + u.distance <= length(P). In the i-th iteration, v.distance is compared with uv.weight + u.distance and set equal to it if smaller, ensuring that after i iterations v.distance <= length(P), the shortest path length using at most i edges.",
+      "invokes": [
+        "shortest_path",
+        "edge_weight",
+        "path_cost"
+      ],
+      "cites": [
+        "wikipedia:Bellman\u2013Ford_algorithm"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "If no negative-weight cycles exist, every shortest path visits each vertex at most once (using at most |V| - 1 edges), so after |V| - 1 iterations no further distance improvements can be made. Therefore, for any cycle with vertices v[0], ..., v[k-1], every edge satisfies v[i].distance <= v[i-1 (mod k)].distance + v[i-1 (mod k)]v[i].weight.",
+      "invokes": [
+        "graph",
+        "edge_weight"
+      ],
+      "cites": [
+        "wikipedia:Bellman\u2013Ford_algorithm"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Summing the relaxation inequality around the cycle from i = 1 to k, the v[i].distance and v[i-1 (mod k)].distance terms cancel, leaving 0 <= sum_{i=1}^k v[i-1 (mod k)]v[i].weight, establishing that the termination of relaxation implies every cycle has non-negative weight.",
+      "invokes": [
+        "summation",
+        "edge_weight"
+      ],
+      "cites": [
+        "wikipedia:Bellman\u2013Ford_algorithm"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The weighted graph contains no negative-weight cycles reachable from the source vertex.",
+      "breaks_when": "A reachable cycle has negative total weight, allowing distances to be made arbitrarily small by repeated traversals so that no shortest path exists."
+    },
+    {
+      "assumption": "Tentative distances are initialized to infinity for all non-source vertices and 0 for the source vertex.",
+      "breaks_when": "Initial values underestimate true path costs or fail to properly distinguish the source from other vertices."
+    },
+    {
+      "assumption": "Edge weights are non-negative when greedy single-edge relaxation order without full passes is used.",
+      "breaks_when": "Negative edge weights cause greedy frontier settlement to permanently settle vertices with suboptimal tentative distances."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Negative-weight cycle reachable from source",
+      "signature": "Relaxation condition distance[u] + w < distance[v] remains satisfied on some edge after |V| - 1 iterations",
+      "cause": "A cycle whose edge weights sum to a negative value enables path lengths to decrease indefinitely upon repeated traversal"
+    },
+    {
+      "mode": "Premature termination in bidirectional Dijkstra",
+      "signature": "Halting search immediately when forward and backward search frontiers meet, resulting in a suboptimal path length mu > delta(s, t)",
+      "cause": "A shorter connecting path crossing elsewhere between search frontiers exists before the queue priority sum reaches mu"
+    },
+    {
+      "mode": "Count to infinity in distributed distance-vector routing",
+      "signature": "Nodes spend forever gradually increasing distance estimates while routing loops persist",
+      "cause": "Node or link failure isolates a destination while updates propagate node-by-node without rapid topology reflection"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Bellman\u2013Ford_algorithm",
+    "wikipedia:Dijkstra's_algorithm"
+  ],
+  "check": {
+    "node_id": "relaxation",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

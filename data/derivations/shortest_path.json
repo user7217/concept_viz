@@ -1,0 +1,135 @@
+{
+  "node_id": "shortest_path",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Given a graph $G = (V, E)$ (undirected or directed) and a real-valued edge weight function $f: E \\to \\mathbb{R}$, the shortest path from vertex $v$ to vertex $v'$ is a path $P = (v_1, v_2, \\ldots, v_n) \\in V \\times V \\times \\cdots \\times V$ with $v_1 = v$ and $v_n = v'$, where each vertex $v_i$ is adjacent to $v_{i+1}$ via edge $e_{i, i+1} \\in E$ for $1 \\le i < n$, that over all possible $n$ minimizes the sum $\\sum_{i=1}^{n-1} f(e_{i, i+1})$.",
+  "symbols": [
+    {
+      "symbol": "G",
+      "meaning": "graph consisting of vertices and edges",
+      "dimensions": "graph"
+    },
+    {
+      "symbol": "V",
+      "meaning": "set of vertices (nodes) in the graph",
+      "dimensions": "|V|"
+    },
+    {
+      "symbol": "E",
+      "meaning": "set of edges {e_{i,j}} in the graph",
+      "dimensions": "|E|"
+    },
+    {
+      "symbol": "v",
+      "meaning": "source (starting) vertex",
+      "dimensions": "vertex"
+    },
+    {
+      "symbol": "v'",
+      "meaning": "destination (target) vertex",
+      "dimensions": "vertex"
+    },
+    {
+      "symbol": "P",
+      "meaning": "path from v to v' represented as a sequence of vertices (v_1, v_2, ..., v_n)",
+      "dimensions": "sequence of n vertices"
+    },
+    {
+      "symbol": "v_i",
+      "meaning": "i-th vertex in the path sequence P",
+      "dimensions": "vertex"
+    },
+    {
+      "symbol": "e_{i, j}",
+      "meaning": "edge incident to both vertices v_i and v_j",
+      "dimensions": "edge"
+    },
+    {
+      "symbol": "f",
+      "meaning": "real-valued weight function assigning a weight to each edge in E",
+      "dimensions": "|E| -> R"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of vertices in the path sequence P, where the path length is n - 1",
+      "dimensions": "scalar (integer >= 1)"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "When each edge has unit weight (f: E -> {1}), the shortest path problem is equivalent to finding the path with the fewest edges.",
+      "why": "the sum of edge weights along the path equals the path length n - 1",
+      "cites": [
+        "wikipedia:Shortest_path_problem"
+      ]
+    },
+    {
+      "property": "A sequence of vertices P = (v_1, v_2, ..., v_n) where v_i is adjacent to v_{i+1} for 1 <= i < n is a path of length n - 1 from v_1 to v_n.",
+      "why": "path length is defined by the number of constituent edges connecting consecutive vertices",
+      "cites": [
+        "wikipedia:Shortest_path_problem"
+      ]
+    },
+    {
+      "property": "The single-destination shortest path problem reduces to the single-source shortest path problem.",
+      "why": "reversing all directed edges (arcs) transforms paths towards a destination into paths from a source",
+      "cites": [
+        "wikipedia:Shortest_path_problem"
+      ]
+    },
+    {
+      "property": "Shortest path problems can be formulated within an algebraic path problem framework over semirings.",
+      "why": "semiring multiplication corresponds to traversal along a path and semiring addition corresponds to path choice and minimization",
+      "cites": [
+        "wikipedia:Shortest_path_problem"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "At least one valid path exists between source vertex v and destination vertex v'.",
+      "breaks_when": "v and v' belong to disconnected components or no sequence of directed edges connects v to v'."
+    },
+    {
+      "assumption": "The graph contains no negative-weight cycles reachable along paths between v and v'.",
+      "breaks_when": "A directed cycle with negative total edge weight is reachable, allowing the path weight sum to be made arbitrarily negative (-infinity) through repeated cycles."
+    },
+    {
+      "assumption": "Edge weights are known, deterministic, and real-valued under f: E -> R.",
+      "breaks_when": "Weights are stochastic, time-dependent, or held by selfish strategic agents who misreport costs."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Negative-weight cycle divergence",
+      "signature": "Total path weight sum diverges to -infinity; no finite minimum path weight exists",
+      "cause": "Presence of a cycle reachable on the way to v' where the sum of edge weights is strictly negative"
+    },
+    {
+      "mode": "Destination unreachable",
+      "signature": "No path sequence P connecting v to v' exists (distance is undefined or infinite)",
+      "cause": "Disconnection between v and v' in the graph topology"
+    },
+    {
+      "mode": "Algorithm precondition violation (negative weights on non-negative algorithms)",
+      "signature": "Incorrect or suboptimal path returned by algorithms designed strictly for non-negative weights (e.g., Dijkstra's algorithm)",
+      "cause": "Graph contains negative edge weights violating the non-negativity requirement of the algorithm"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Shortest_path_problem"
+  ],
+  "check": {
+    "node_id": "shortest_path",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

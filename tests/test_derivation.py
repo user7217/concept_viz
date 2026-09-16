@@ -189,6 +189,8 @@ class TestKindBranching(unittest.TestCase):
     def test_definition_passes_without_steps(self) -> None:
         d = Derivation("covariance_matrix", True, kind="definition",
                        statement="K = E[(X-EX)(X-EX)^T]",
+                       symbols=[{"symbol": "K", "meaning": "the covariance matrix"},
+                                {"symbol": "X", "meaning": "the random vector"}],
                        properties=[{"property": "symmetric", "cites": ["wikipedia:OLS"]}])
         self.assertTrue(check(d, self.sources, self.graph)["ok"])
 
@@ -373,3 +375,25 @@ class TestSourceAwareKind(unittest.TestCase):
         prompt = build_prompt("gaussian_conditioning", "Gaussian Conditioning",
                               [self._source("text")], graph=self.graph)
         self.assertIn("the canon records", prompt)
+
+
+class TestSymbolPresence(unittest.TestCase):
+    def test_a_sheet_with_no_symbols_is_flagged(self) -> None:
+        from atlas.bootstrap import build_graph, load
+        from atlas.derivation import Derivation, check
+        graph = build_graph(load())
+        bare = Derivation(node_id="relaxation", grounded=True, kind="definition",
+                          statement="Relaxation stands quite generally for a "
+                                    "release of tension.", symbols=[])
+        report = check(bare, [], graph)
+        self.assertTrue(any("names no symbols" in m for m in report["shape"]))
+
+    def test_a_sheet_with_symbols_is_not_flagged(self) -> None:
+        from atlas.bootstrap import build_graph, load
+        from atlas.derivation import Derivation, check
+        graph = build_graph(load())
+        ok = Derivation(node_id="relaxation", grounded=True, kind="definition",
+                        statement="d[v] > d[u] + w(u,v)",
+                        symbols=[{"symbol": "d", "meaning": "tentative distance"}])
+        report = check(ok, [], graph)
+        self.assertFalse(any("names no symbols" in m for m in report["shape"]))

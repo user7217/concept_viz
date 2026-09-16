@@ -1,0 +1,117 @@
+{
+  "node_id": "measurement_model",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "An observational error (or measurement error) $e$ is the difference between a measured value $y$ of a quantity and its unknown true value $x$, defined by $e = y - x$. Under the common additive statistical measurement model, the measured value is modeled as $y = x + e_{\\text{sys}} + e_{\\text{rand}}$, where the total observational error $e = e_{\\text{sys}} + e_{\\text{rand}}$ is composed of an additive systematic error component $e_{\\text{sys}}$ (which consistently acts in the same direction across repeated measurements under identical conditions) and an additive random error component $e_{\\text{rand}}$ (which varies unpredictably from observation to observation).",
+  "symbols": [
+    {
+      "symbol": "y",
+      "meaning": "measured value of a quantity",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "unknown true value of the quantity",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "e",
+      "meaning": "total observational (measurement) error",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "e_{\\text{sys}}",
+      "meaning": "systematic error component (statistical bias)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "e_{\\text{rand}}",
+      "meaning": "random error component",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The effect of random error can be reduced by averaging repeated measurements, whereas repeated identical measurements do not reduce systematic error.",
+      "why": "Random errors fluctuate unpredictably about a mean, whereas systematic errors arise from causes that consistently act in the same way and alter results in the same direction.",
+      "cites": [
+        "wikipedia:Observational_error"
+      ]
+    },
+    {
+      "property": "Random errors are uncorrelated between measurements and can be quantified by calculating the standard deviation of a large set of repeated measurements.",
+      "why": "Unpredictable fluctuations create a distribution of inconsistent readings whose spread directly reflects the precision of the instrument.",
+      "cites": [
+        "wikipedia:Observational_error"
+      ]
+    },
+    {
+      "property": "Systematic error (statistical bias) is caused by repeatable processes inherent to the system and can be eliminated or corrected if its cause is identified.",
+      "why": "Systematic errors stem from determinate mechanisms such as imperfect calibration (zero error), environmental interference, or incorrect theoretical models.",
+      "cites": [
+        "wikipedia:Observational_error"
+      ]
+    },
+    {
+      "property": "When two or more measurements or instruments are combined, the resulting error depends on the statistical characteristics of each measurement and any statistical correlation between them.",
+      "why": "Errors propagate through combinations in accordance with their individual variances and mutual covariance.",
+      "cites": [
+        "wikipedia:Observational_error"
+      ]
+    },
+    {
+      "property": "Stochastic errors tend to be normally distributed when the error is the sum of many independent random errors.",
+      "why": "The central limit theorem dictates that the sum of multiple independent random error sources converges toward a normal distribution.",
+      "cites": [
+        "wikipedia:Observational_error"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Measurement error decomposes additively into a systematic error component and a random error component.",
+      "breaks_when": "Errors interact non-additively or cannot be cleanly separated into distinct random and systematic parts, such as complex calibration uncertainties."
+    },
+    {
+      "assumption": "Random errors are statistically uncorrelated between successive repeated measurements.",
+      "breaks_when": "Interference from surroundings or measurement latency introduces serial correlation across observations."
+    },
+    {
+      "assumption": "Systematic error remains constant or predictable across repeated measurements under the same conditions.",
+      "breaks_when": "Instrument drift occurs over the course of the experiment, such as an instrument warming up and shifting its baseline over time."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Uncorrected systematic error (calibration bias)",
+      "signature": "Measurements display high precision (low variance) but cluster around an incorrect value, with repeated measurement averaging failing to reduce the offset.",
+      "cause": "Imperfect calibration of the measuring instrument (such as non-zero initial reading / zero error), unmodeled environmental effects (e.g., thermal expansion), or flawed observation protocols."
+    },
+    {
+      "mode": "Instrument drift",
+      "signature": "Measurements of a constant quantity show a time-dependent trend or unidirectional shift rather than stationary random fluctuation about a constant mean.",
+      "cause": "Physical changes in the apparatus during the experiment, such as thermal warming or component aging altering the baseline zero reading."
+    },
+    {
+      "mode": "Attenuation bias in regression",
+      "signature": "Estimated regression coefficients are biased and standard hypothesis tests are rendered invalid.",
+      "cause": "Measurement error is present in one or more independent (explanatory) variables in a regression analysis."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Observational_error"
+  ],
+  "check": {
+    "node_id": "measurement_model",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

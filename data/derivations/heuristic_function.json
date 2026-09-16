@@ -1,0 +1,116 @@
+{
+  "node_id": "heuristic_function",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A heuristic function, also simply called a heuristic, is a function $h$ that ranks alternatives in search algorithms at each branching step based on available information to decide which branch to follow, often approximating the exact solution or estimating the true optimal distance $d^\\star(v_i, v_g)$ to a goal node $v_g$ in a directed graph $G$.",
+  "symbols": [
+    {
+      "symbol": "h(v_i, v_g)",
+      "meaning": "heuristic estimate of the optimal distance from node v_i to goal node v_g",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "d^\\star(v_i, v_g)",
+      "meaning": "true optimal distance from node v_i to goal node v_g",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "G",
+      "meaning": "directed graph containing vertices v_0, v_1, ..., v_n",
+      "dimensions": "graph"
+    },
+    {
+      "symbol": "v_i",
+      "meaning": "node or vertex in directed graph G",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "v_g",
+      "meaning": "goal node or vertex in directed graph G",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "n",
+      "meaning": "total number of nodes or vertices in graph G",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "h(n)",
+      "meaning": "heuristic estimate of the remaining cost from node n to reach the goal",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Admissibility: A heuristic function is admissible if $h(v_i, v_g) \\le d^\\star(v_i, v_g)$ for all $(v_i, v_g)$ where $i, g \\in [0, 1, \\dots, n]$.",
+      "why": "It underestimates the true optimal cost to the goal node.",
+      "cites": [
+        "wikipedia:Heuristic_(computer_science)"
+      ]
+    },
+    {
+      "property": "Convergence and correctness preservation in A* search: In best-first search algorithms such as A*, using an admissible heuristic improves algorithm convergence while maintaining correctness.",
+      "why": "A* combines the actual path cost with the heuristic estimate of the remaining cost to find optimal solutions efficiently.",
+      "cites": [
+        "wikipedia:Heuristic_(computer_science)"
+      ]
+    },
+    {
+      "property": "Branch selectivity: A heuristic function selects branches more likely to produce solutions at each decision point rather than generating all possible branches.",
+      "why": "It evaluates alternatives by measuring how close the current step is to the solution.",
+      "cites": [
+        "wikipedia:Heuristic_(computer_science)"
+      ]
+    },
+    {
+      "property": "Trade-off of optimality/completeness for speed: Heuristics trade optimality, completeness, accuracy, or precision in order to produce a good enough solution in a reasonable time frame.",
+      "why": "Classic methods may be prohibitively slow or fail to find exact solutions in large search spaces.",
+      "cites": [
+        "wikipedia:Heuristic_(computer_science)"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The heuristic function is admissible ($h(v_i, v_g) \\le d^\\star(v_i, v_g)$ for all pairs of nodes $(v_i, v_g)$).",
+      "breaks_when": "The heuristic overestimates the true optimal cost to reach the goal node."
+    },
+    {
+      "assumption": "The heuristic is evaluated on a domain and data distribution that accurately reflect the requirements of the problem.",
+      "breaks_when": "A heuristic that worked in one context is reused without mathematical proof on data that does not represent future data sets (overfitting)."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Dead-end entrapment",
+      "signature": "The search fails to reach the goal node $v_g$ and halts in a dead end in graph $G$.",
+      "cause": "The heuristic is not admissible."
+    },
+    {
+      "mode": "Node oscillation / infinite skipping",
+      "signature": "The search skips indefinitely back and forth between two non-goal nodes $v_i$ and $v_j$ ($i, j \\neq g$) without reaching $v_g$.",
+      "cause": "The heuristic is not admissible."
+    },
+    {
+      "mode": "Solutions akin to noise",
+      "signature": "Purported solutions fail to generalize or produce invalid results in new contexts.",
+      "cause": "Reusing a heuristic without mathematical proof or theoretical grounding where the current data set does not represent future data sets."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Heuristic_(computer_science)"
+  ],
+  "check": {
+    "node_id": "heuristic_function",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "node_id": "optimal_substructure",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In computer science and optimization, a problem has optimal substructure if an optimal solution can be constructed from optimal solutions of its subproblems. More formally, let a problem be a collection of alternatives where each alternative $a$ has an associated cost $c(a)$, and the objective is to find a set of alternatives that minimizes $c(a)$. The problem exhibits optimal substructure if the alternatives can be partitioned into disjoint subsets each with its own local cost function, the minima of the global cost function restricted to each subset match the minima of the local cost function for that subset (allowing the global minimum to be chosen from among the local minima), and minimizing the local functions is a problem of lower order that becomes trivial after a finite number of reductions.",
+  "symbols": [
+    {
+      "symbol": "a",
+      "meaning": "an alternative in the problem's collection of alternatives",
+      "dimensions": "element"
+    },
+    {
+      "symbol": "c(a)",
+      "meaning": "cost associated with alternative a",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "t",
+      "meaning": "starting period in dynamic optimization",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "T",
+      "meaning": "ending period in dynamic optimization",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "s",
+      "meaning": "intermediate period in dynamic optimization such that t < s < T",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "k",
+      "meaning": "maximum number of layovers parameter in flight routing",
+      "dimensions": "integer"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "A problem with optimal substructure can typically be solved by a greedy algorithm if it can be proven by induction that the greedy choice is optimal at each step.",
+      "why": "Optimal substructure allows global optimality to be achieved by locally optimal choices when inductive optimality holds.",
+      "cites": [
+        "wikipedia:Optimal_substructure"
+      ]
+    },
+    {
+      "property": "If a problem exhibits optimal substructure and overlapping subproblems, dynamic programming or divide-and-conquer methods can be applied.",
+      "why": "Optimal solutions are constructed from subproblem solutions, and overlapping subproblems allow subproblem solutions to be stored and reused.",
+      "cites": [
+        "wikipedia:Optimal_substructure"
+      ]
+    },
+    {
+      "property": "The global minimum can be searched for strictly within the set of local cost function minima rather than the full set of alternatives.",
+      "why": "The minima of the global cost function restricted to each partitioned subset match the minima of the respective local cost functions.",
+      "cites": [
+        "wikipedia:Optimal_substructure"
+      ]
+    },
+    {
+      "property": "Bellman's Principle of Optimality in dynamic optimization is an instance of optimal substructure used to derive the Bellman equation.",
+      "why": "Solving a dynamic optimization problem from starting period t to ending period T requires solving subproblems starting from later dates s (where t < s < T), relating the value at t to the value at s.",
+      "cites": [
+        "wikipedia:Optimal_substructure"
+      ]
+    },
+    {
+      "property": "Adding parameters or constraints to a problem can introduce optimal substructure where it was previously absent.",
+      "why": "Parameterizing subproblems (such as bounding layovers by at most k) allows decomposition into subproblems with bounded parameters (e.g., at most t and at most k - 1 - t layovers).",
+      "cites": [
+        "wikipedia:Optimal_substructure"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Alternatives can be partitioned into subsets such that each alternative belongs to only one subset and each subset has its own cost function.",
+      "breaks_when": "The alternatives cannot be partitioned into disjoint subsets with independent local cost evaluations."
+    },
+    {
+      "assumption": "The minima of the local cost functions match the minima of the global cost function restricted to the corresponding subsets.",
+      "breaks_when": "Global cost is non-additive or non-separable across subproblem boundaries, such that combining optimal subproblem alternatives yields a suboptimal global alternative."
+    },
+    {
+      "assumption": "Minimizing local cost functions is of lower order and reaches a trivial base case in a finite number of reductions.",
+      "breaks_when": "Subproblem reductions are cyclic, do not strictly reduce problem order, or do not terminate."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Non-additive / non-independent subproblem costs (Least-cost airline fare)",
+      "signature": "The cheapest multi-flight route from A to B connecting through C does not use the cheapest flight from A to C.",
+      "cause": "The price of a multi-flight trip is not the sum of the prices of the individual flights."
+    },
+    {
+      "mode": "Longest simple path problem",
+      "signature": "An optimal solution cannot be constructed by combining optimal solutions to subproblems.",
+      "cause": "The problem lacks optimal substructure, making subproblem solutions incompatible or non-composable into a globally optimal simple path."
+    },
+    {
+      "mode": "Absence of greedy induction and overlapping subproblems",
+      "signature": "Neither greedy algorithms nor dynamic programming apply, forcing a lengthy search of the full solution space.",
+      "cause": "Inductive optimality fails at individual steps and subproblems do not overlap."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Optimal_substructure"
+  ],
+  "check": {
+    "node_id": "optimal_substructure",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

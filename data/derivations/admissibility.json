@@ -1,0 +1,113 @@
+{
+  "node_id": "admissibility",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A heuristic function h is admissible if for all nodes n, h(n) <= h^*(n), where h(n) is the estimated cost from node n to reach a goal and h^*(n) is the optimal (lowest possible) cost to reach a goal from n.",
+  "symbols": [
+    {
+      "symbol": "n",
+      "meaning": "node in the search space",
+      "dimensions": "node"
+    },
+    {
+      "symbol": "h",
+      "meaning": "heuristic function",
+      "dimensions": "function"
+    },
+    {
+      "symbol": "h(n)",
+      "meaning": "estimated cost from current node n to goal",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "h^*(n)",
+      "meaning": "optimal cost to reach a goal from node n",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f(n)",
+      "meaning": "evaluation function in A* search, defined as f(n) = g(n) + h(n)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "g(n)",
+      "meaning": "cost from the start node to current node n",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "An admissible heuristic acts as a lower bound on the actual cost to reach the goal state.",
+      "why": "The estimated cost h(n) is always less than or equal to the optimal cost h^*(n) for all nodes n.",
+      "cites": [
+        "wikipedia:Admissible_heuristic"
+      ]
+    },
+    {
+      "property": "Guarantees that an informed search algorithm (such as A*) terminates on an optimal path to the goal.",
+      "why": "The heuristic never overestimates the true remaining cost, preventing suboptimal paths from terminating before optimal paths are explored.",
+      "cites": [
+        "wikipedia:Admissible_heuristic"
+      ]
+    },
+    {
+      "property": "All consistent heuristics are admissible, but not all admissible heuristics are consistent.",
+      "why": "Consistency is a related, stronger condition than admissibility.",
+      "cites": [
+        "wikipedia:Admissible_heuristic"
+      ]
+    },
+    {
+      "property": "Guarantee of optimality does not imply search efficiency.",
+      "why": "An admissible heuristic can guarantee final optimality while not necessarily being efficient.",
+      "cites": [
+        "wikipedia:Admissible_heuristic"
+      ]
+    },
+    {
+      "property": "Admissible heuristics can be constructed from problem relaxations, pattern databases of exact subproblem solutions, or inductive learning.",
+      "why": "Relaxed problems or subproblem pattern databases do not overestimate the cost of the original problem.",
+      "cites": [
+        "wikipedia:Admissible_heuristic"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The heuristic function is non-negative and never overestimates the lowest possible cost to reach the goal: h(n) <= h^*(n) for all n.",
+      "breaks_when": "The heuristic returns negative values or overestimates the true optimal cost to reach the goal."
+    },
+    {
+      "assumption": "The search algorithm progresses candidate paths by lowest evaluation f(n) per iteration and closes all optimal paths before terminating.",
+      "breaks_when": "The search algorithm terminates prematurely without exploring or closing all optimal paths."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Suboptimal path return in A* search",
+      "signature": "A* terminates on a path with true cost greater than the optimal path cost.",
+      "cause": "A non-admissible heuristic overestimates remaining cost (h(n) > h^*(n)), causing an overestimation in f(n) that leads the algorithm to overlook the optimal solution."
+    },
+    {
+      "mode": "Search inefficiency",
+      "signature": "The algorithm explores an excessively large number of nodes before terminating.",
+      "cause": "Admissibility guarantees final optimality of the solution path, but does not guarantee computational efficiency."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Admissible_heuristic"
+  ],
+  "check": {
+    "node_id": "admissibility",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

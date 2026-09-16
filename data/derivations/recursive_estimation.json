@@ -1,0 +1,168 @@
+{
+  "node_id": "recursive_estimation",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "Recursive Bayesian estimation (Bayes filter) computes the posterior probability distribution $p(\\mathbf{x}_k | \\mathbf{z}_{1:k})$ over the current unobserved state $\\mathbf{x}_k$ conditioned on all measurements $\\mathbf{z}_{1:k}$ up to time $k$ in a hidden Markov model via a two-step recursion: prediction $p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1}) = \\int p(\\mathbf{x}_k | \\mathbf{x}_{k-1}) p(\\mathbf{x}_{k-1} | \\mathbf{z}_{1:k-1}) \\, d\\mathbf{x}_{k-1}$ and update $p(\\mathbf{x}_k | \\mathbf{z}_{1:k}) = \\frac{p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})}{p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1})} \\propto p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})$, with normalizing denominator $p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1}) = \\int p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1}) \\, d\\mathbf{x}_k$. The source indicates this is achieved by marginalising out previous states and dividing by the measurement set probability, stating these recursive equations directly.",
+  "symbols": [
+    {
+      "symbol": "x_k",
+      "meaning": "true unobserved state at timestep k",
+      "dimensions": "vector"
+    },
+    {
+      "symbol": "z_k",
+      "meaning": "measurement manifestation of the hidden Markov model at timestep k",
+      "dimensions": "vector"
+    },
+    {
+      "symbol": "z_{1:k-1}",
+      "meaning": "set of measurements from timestep 1 up to k-1",
+      "dimensions": "sequence of vectors"
+    },
+    {
+      "symbol": "z_{1:k}",
+      "meaning": "set of measurements from timestep 1 up to k",
+      "dimensions": "sequence of vectors"
+    },
+    {
+      "symbol": "p(x_k | x_{k-1})",
+      "meaning": "probability distribution associated with the transition from timestep k-1 to k",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "p(z_k | x_k)",
+      "meaning": "measurement likelihood of z_k given state x_k",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "p(x_k | z_{1:k-1})",
+      "meaning": "probability distribution associated with the predicted state",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "p(x_k | z_{1:k})",
+      "meaning": "probability distribution of update (posterior state distribution given measurements up to k)",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "p(z_k | z_{1:k-1})",
+      "meaning": "denominator normalizing probability of the measurement set conditioned on past measurements",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "\\alpha",
+      "meaning": "normalizing coefficient substituting 1 / p(z_k | z_{1:k-1}) constant relative to x",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Under the hidden Markov model assumption where the true state x is an unobserved Markov process, the probability of the current true state given the immediately previous one is conditionally independent of earlier states: $p(\\mathbf{x}_k | \\mathbf{x}_{k-1}, \\mathbf{x}_{k-2}, \\dots, \\mathbf{x}_0) = p(\\mathbf{x}_k | \\mathbf{x}_{k-1})$.",
+      "invokes": [
+        "markov_assumption",
+        "conditional_independence"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "The measurement at the $k$-th timestep depends only upon the current state and is conditionally independent of all other states given the current state: $p(\\mathbf{z}_k | \\mathbf{x}_k, \\mathbf{x}_{k-1}, \\dots, \\mathbf{x}_0) = p(\\mathbf{z}_k | \\mathbf{x}_k)$.",
+      "invokes": [
+        "conditional_independence"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Using these assumptions, the joint probability distribution over all states and measurements of the HMM is given by: $p(\\mathbf{x}_0, \\dots, \\mathbf{x}_k, \\mathbf{z}_1, \\dots, \\mathbf{z}_k) = p(\\mathbf{x}_0) \\prod_{i=1}^k p(\\mathbf{z}_i | \\mathbf{x}_i) p(\\mathbf{x}_i | \\mathbf{x}_{i-1})$.",
+      "invokes": [
+        "joint_distribution"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "To estimate the state conditioned on measurements up to the current timestep (by marginalising out previous states and dividing by the measurement set probability), the predicted state distribution is obtained by integrating the product of the state transition distribution from timestep $k-1$ to $k$ and the prior state distribution (recursively substituting $p(\\mathbf{x}_{k-1} | \\mathbf{z}_{1:k-1})$) over all possible $\\mathbf{x}_{k-1}$: $p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1}) = \\int p(\\mathbf{x}_k | \\mathbf{x}_{k-1}) p(\\mathbf{x}_{k-1} | \\mathbf{z}_{1:k-1}) \\, d\\mathbf{x}_{k-1}$.",
+      "invokes": [
+        "marginalization",
+        "integral",
+        "recursive_substitution"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "The update step computes the posterior distribution conditioned on all measurements up to timestep $k$, which is proportional to the product of the measurement likelihood and the predicted state distribution: $p(\\mathbf{x}_k | \\mathbf{z}_{1:k}) = \\frac{p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})}{p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1})} \\propto p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})$.",
+      "invokes": [
+        "bayes_rule",
+        "recursive_substitution"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "The denominator $p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1}) = \\int p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1}) \\, d\\mathbf{x}_k$ is constant relative to $\\mathbf{x}$, which can be substituted for a normalizing coefficient $\\alpha$ since the integral of the updated posterior over all states must be unity.",
+      "invokes": [
+        "marginalization",
+        "integral",
+        "normalization"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The state sequence satisfies the first-order Markov assumption such that p(x_k | x_{k-1}, ..., x_0) = p(x_k | x_{k-1}).",
+      "breaks_when": "The true state process has memory or dynamics depending directly on earlier states prior to x_{k-1}."
+    },
+    {
+      "assumption": "Measurements are conditionally independent of all other states given the current state such that p(z_k | x_k, ..., x_0) = p(z_k | x_k).",
+      "breaks_when": "Measurements depend on historical states or past sensor observations (e.g., correlated measurement noise or sensor hysteresis)."
+    },
+    {
+      "assumption": "The normalization integral in the denominator p(z_k | z_{1:k-1}) = \\int p(z_k | x_k) p(x_k | z_{1:k-1}) dx_k is non-zero and finite.",
+      "breaks_when": "The measurement likelihood and predicted distribution have mutually disjoint support, yielding zero probability for the measurement set."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Intractable posterior distribution",
+      "signature": "Posterior distributions acquire increasingly complex functional forms over successive time steps, preventing closed-form evaluation or storage.",
+      "cause": "Measurement likelihood functions or process models that yield non-conjugate updates, making exact recursive integration intractable and requiring approximations (e.g., assumed density filtering or particle filtering)."
+    },
+    {
+      "mode": "Uncertainty growth / divergence",
+      "signature": "Belief distribution spreads over time with continuously diminishing certainty regarding the true state.",
+      "cause": "Process transitions continuously inject uncertainty while measurements are absent, uninformative, or insufficient to constrain the belief."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Recursive_Bayesian_estimation"
+  ],
+  "check": {
+    "node_id": "recursive_estimation",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

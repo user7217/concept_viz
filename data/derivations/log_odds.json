@@ -1,0 +1,143 @@
+{
+  "node_id": "log_odds",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied source genuinely contains no derivation for log odds, as the concept is introduced directly as a definition. If $p$ is a probability with $p \\in (0, 1)$, the corresponding odds are $\\frac{p}{1-p}$, and the logit (or log-odds) function is defined as the logarithm of the odds: $\\operatorname{logit}(p) = \\sigma^{-1}(p) = \\ln\\left(\\frac{p}{1-p}\\right)$, which is also defined as the inverse of the standard logistic function $\\sigma(x) = 1/(1+e^{-x})$.",
+  "symbols": [
+    {
+      "symbol": "p",
+      "meaning": "probability value",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\operatorname{logit}(p)",
+      "meaning": "logit or log-odds function of probability p",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\frac{p}{1-p}",
+      "meaning": "odds corresponding to probability p",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\sigma(x)",
+      "meaning": "standard logistic function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "input argument to the standard logistic function",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Alternative algebraic expressions: $\\operatorname{logit}(p) = \\ln(p) - \\ln(1-p) = -\\ln\\left(\\frac{1}{p}-1\\right) = 2\\operatorname{atanh}(2p-1)$",
+      "why": "follows from logarithm rules and the definition of inverse hyperbolic tangent",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Inverse logit (standard logistic / expit function): $\\operatorname{logit}^{-1}(\\alpha) = \\operatorname{logistic}(\\alpha) = \\frac{1}{1+e^{-\\alpha}} = \\frac{e^\\alpha}{e^\\alpha+1} = \\frac{\\tanh(\\alpha/2)+1}{2}$",
+      "why": "logit is by definition the inverse of the standard logistic function",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Difference between logits is the logarithm of the odds ratio: $\\operatorname{logit}(p_1) - \\operatorname{logit}(p_2) = \\ln(R) = \\ln\\left(\\frac{p_1/(1-p_1)}{p_2/(1-p_2)}\right)$",
+      "why": "subtracting logits corresponds to taking the logarithm of the ratio of the odds",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Taylor series expansion: $\\operatorname{logit}(x) = 2\\sum_{n=0}^{\\infty} \\frac{(2x-1)^{2n+1}}{2n+1}$",
+      "why": "Taylor series expansion of the logit function about 1/2",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Quantile function: logit is the quantile function (inverse cumulative distribution function) of the standard logistic distribution",
+      "why": "the cumulative distribution function of the standard logistic distribution is the standard logistic function",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Domain and range: maps probability values $p \\in (0,1)$ monotonically to real numbers in $(-\\infty, +\\infty)$",
+      "why": "odds map $(0,1)$ to $(0, +\\infty)$ and the logarithm maps $(0, +\\infty)$ to $(-\\infty, +\\infty)$",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Canonical link function: canonical link function for the Bernoulli distribution and natural parameter for the binomial distribution",
+      "why": "logit is the canonical parameter in the exponential family representation of Bernoulli and binomial distributions",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Derivative relationship: the logit function is the negative of the derivative of the binary entropy function",
+      "why": "direct property relating logit to binary entropy derivative",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Numerical advantage in state estimation: allows summing log-odds rather than multiplying small probabilities",
+      "why": "logarithmic transform converts multiplication of probabilities into addition",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "$p \\in (0, 1)$",
+      "breaks_when": "$p \\le 0$ or $p \\ge 1$, which makes the odds non-positive or undefined, causing the logarithm to be undefined or evaluate to infinite limits"
+    },
+    {
+      "assumption": "The base of the logarithm is strictly greater than 1 (most commonly base $e$)",
+      "breaks_when": "The logarithm base is less than or equal to 1, where the logarithm is non-monotonic or undefined"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zero probability boundary ($p = 0$)",
+      "signature": "Evaluation of $\\ln(0)$, resulting in $-\\infty$ or mathematical singularity / NaN",
+      "cause": "Odds $\\frac{0}{1-0} = 0$, and the natural logarithm approaches $-\\infty$ as its argument approaches 0"
+    },
+    {
+      "mode": "Certainty probability boundary ($p = 1$)",
+      "signature": "Division by zero in denominator $1-p = 0$, resulting in $+\\infty$ or undefined arithmetic error",
+      "cause": "The odds denominator vanishes at $p = 1$, driving odds to $+\\infty$"
+    },
+    {
+      "mode": "Probability outside unit interval ($p < 0$ or $p > 1$)",
+      "signature": "Negative argument to real logarithm, resulting in complex values or NaN in real floating-point arithmetic",
+      "cause": "Odds $\\frac{p}{1-p}$ become strictly negative outside $[0, 1]$, violating the domain of the real logarithm"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Logit"
+  ],
+  "check": {
+    "node_id": "log_odds",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [
+      "expected a derivation, produced a definition"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

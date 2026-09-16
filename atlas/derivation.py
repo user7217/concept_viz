@@ -464,6 +464,18 @@ def check(derivation: Derivation, sources: list[Source], graph: Graph,
     else:
         shape = [] if derivation.steps else ["derivation carries no steps"]
 
+    # A sheet about mathematics names symbols. Measured over 43 sheets the
+    # median is 6 and exactly two have none: relaxation, which was handed
+    # Wikipedia's physics article ("a release of tension, a return to
+    # equilibrium") because its generated name matched that one, and
+    # inverse_sensor_model, whose sources genuinely derive nothing. Both are
+    # defective and every other guard passed them, because every other guard
+    # compares the sheet against the source it was given rather than against
+    # what the node was supposed to be about.
+    if not derivation.symbols:
+        shape.append("sheet names no symbols, so it is probably not about "
+                     "this node's mathematics at all")
+
     # The expectation was only ever a prompt hint. transpose_identities, a
     # technique, came back as a definition and passed every check because
     # check() compared the sheet against itself and never against what was asked.
