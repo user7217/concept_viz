@@ -149,6 +149,8 @@
     "ml": "Perception",
     "geometry": "Perception",
     "control": "Control",
-    "optimization": "Estimation"
+    "optimization": "Estimation",
+    "information_geometry": "Information Geometry",
+    "curriculum_control": "Curriculum & Control"
   }
 }

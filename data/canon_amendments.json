@@ -394,6 +394,270 @@
       "to": "linear_kalman_filter",
       "rel": "requires",
       "why": "the EKF is the linear Kalman filter with F and H replaced by Jacobians, so the derivation it inherits -- the gain that minimises the posterior covariance -- lives there. Without this edge the EKF sheet correctly reports that its sources derive nothing, and the node that does carry the derivation is on no reader's path."
+    },
+    {
+      "from": "score_function",
+      "to": "log_likelihood",
+      "rel": "requires",
+      "why": "the score is the gradient of the log-likelihood, so the log-likelihood must exist first"
+    },
+    {
+      "from": "score_function",
+      "to": "gradient",
+      "rel": "requires",
+      "why": "it is a gradient with respect to the parameters, not the data"
+    },
+    {
+      "from": "fisher_information_matrix",
+      "to": "score_function",
+      "rel": "requires",
+      "why": "F is the covariance of the score, E[s s^T]"
+    },
+    {
+      "from": "fisher_information_matrix",
+      "to": "expectation",
+      "rel": "requires",
+      "why": "both definitions of F are expectations taken under the model"
+    },
+    {
+      "from": "fisher_information_matrix",
+      "to": "log_likelihood",
+      "rel": "requires",
+      "why": "the second form is the negative expected Hessian of the log-likelihood"
+    },
+    {
+      "from": "fisher_information_matrix",
+      "to": "positive_semidefinite_matrix",
+      "rel": "requires",
+      "why": "F is a covariance of scores and so is PSD by construction, which is what lets it be inverted and square-rooted"
+    },
+    {
+      "from": "natural_gradient",
+      "to": "fisher_information_matrix",
+      "rel": "requires",
+      "why": "the natural gradient is F^-1 g; without F there is no metric to be natural with respect to"
+    },
+    {
+      "from": "natural_gradient",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "the step is the solve F x = g, and F is near-singular whenever parameters are degenerate"
+    },
+    {
+      "from": "natural_gradient",
+      "to": "gradient",
+      "rel": "requires",
+      "why": "it rescales an ordinary gradient rather than replacing it"
+    },
+    {
+      "from": "log_determinant",
+      "to": "determinant",
+      "rel": "requires",
+      "why": "it is the log of the determinant, computed as a sum of logs because the determinant itself overflows"
+    },
+    {
+      "from": "log_determinant",
+      "to": "logarithm",
+      "rel": "requires",
+      "why": "the sum-of-logs form is the only numerically usable one"
+    },
+    {
+      "from": "log_determinant",
+      "to": "eigendecomposition",
+      "rel": "requires",
+      "why": "log det F = sum of log eigenvalues, which is how it is actually computed"
+    },
+    {
+      "from": "differential_entropy",
+      "to": "log_determinant",
+      "rel": "requires",
+      "why": "the Gaussian entropy is (n log 2 pi e - log det F)/2, so it is log det in other units"
+    },
+    {
+      "from": "differential_entropy",
+      "to": "gaussian_distribution",
+      "rel": "requires",
+      "why": "the closed form holds for the Gaussian, not in general"
+    },
+    {
+      "from": "differential_entropy",
+      "to": "entropy",
+      "rel": "requires",
+      "why": "it is the continuous analogue, and differs from the discrete one in ways that matter"
+    },
+    {
+      "from": "cramer_rao_bound",
+      "to": "fisher_information_matrix",
+      "rel": "requires",
+      "why": "the bound is F^-1; the whole point of computing F is to read the bound off it"
+    },
+    {
+      "from": "cramer_rao_bound",
+      "to": "estimator_variance",
+      "rel": "requires",
+      "why": "it is a lower bound ON the variance of an unbiased estimator"
+    },
+    {
+      "from": "cramer_rao_bound",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "the bound is the inverse of F, not F"
+    },
+    {
+      "from": "mahalanobis_distance",
+      "to": "quadratic_form",
+      "rel": "requires",
+      "why": "it is the quadratic form (x-mu)^T Sigma^-1 (x-mu)"
+    },
+    {
+      "from": "mahalanobis_distance",
+      "to": "covariance_matrix",
+      "rel": "requires",
+      "why": "the metric is the covariance, which is what makes the distance scale-free"
+    },
+    {
+      "from": "mahalanobis_distance",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "the inverse covariance is the metric, so a near-singular covariance makes the distance meaningless"
+    },
+    {
+      "from": "trust_region",
+      "to": "kl_divergence",
+      "rel": "requires",
+      "why": "the region is a KL ball around the current distribution, not a Euclidean ball"
+    },
+    {
+      "from": "trust_region",
+      "to": "taylor_expansion",
+      "rel": "requires",
+      "why": "the usable form comes from expanding KL to second order, where the first-order term vanishes"
+    },
+    {
+      "from": "trust_region",
+      "to": "quadratic_form",
+      "rel": "requires",
+      "why": "that expansion is the quadratic form d^T F d / 2"
+    },
+    {
+      "from": "condition_number",
+      "to": "eigendecomposition",
+      "rel": "requires",
+      "why": "it is the ratio of extreme eigenvalues, so it needs the spectrum"
+    },
+    {
+      "from": "weighted_least_squares",
+      "to": "normal_equations",
+      "rel": "requires",
+      "why": "it is the normal equations with an inverse-variance weight inserted"
+    },
+    {
+      "from": "weighted_least_squares",
+      "to": "covariance_matrix",
+      "rel": "requires",
+      "why": "the weight is the inverse noise covariance"
+    },
+    {
+      "from": "coverage_probability",
+      "to": "gaussian_distribution",
+      "rel": "requires",
+      "why": "the nominal rate comes from the normal quantiles"
+    },
+    {
+      "from": "coverage_probability",
+      "to": "estimator_variance",
+      "rel": "requires",
+      "why": "coverage asks whether an interval built from the estimated variance contains the truth"
+    },
+    {
+      "from": "logistic_growth",
+      "to": "sigmoid",
+      "rel": "requires",
+      "why": "the logistic curve is the sigmoid, arrived at as the solution of its own growth equation"
+    },
+    {
+      "from": "logistic_growth",
+      "to": "derivative",
+      "rel": "requires",
+      "why": "the growth law is stated as a derivative, W' = W(1 - W/Wmax)"
+    },
+    {
+      "from": "inflection_point",
+      "to": "derivative",
+      "rel": "requires",
+      "why": "it is where the second derivative changes sign, found as the peak of the first"
+    },
+    {
+      "from": "inflection_point",
+      "to": "logistic_growth",
+      "rel": "requires",
+      "why": "in this setting the inflection is of the logistic information curve"
+    },
+    {
+      "from": "matrix_whitening",
+      "to": "eigendecomposition",
+      "rel": "requires",
+      "why": "F^{1/2} and F^{-1/2} are built by applying the function to the eigenvalues"
+    },
+    {
+      "from": "matrix_whitening",
+      "to": "positive_semidefinite_matrix",
+      "rel": "requires",
+      "why": "the square root is only real and unique because F is PSD"
+    },
+    {
+      "from": "matrix_whitening",
+      "to": "matrix_inverse",
+      "rel": "requires",
+      "why": "the inverse square root is the half that makes the loss surface round"
+    },
+    {
+      "from": "kl_trust_region_step",
+      "to": "trust_region",
+      "rel": "requires",
+      "why": "the step length is set by the trust region radius"
+    },
+    {
+      "from": "kl_trust_region_step",
+      "to": "natural_gradient",
+      "rel": "requires",
+      "why": "the direction is the natural gradient; this fixes only how far along it to go"
+    },
+    {
+      "from": "kl_trust_region_step",
+      "to": "quadratic_form",
+      "rel": "requires",
+      "why": "the length solves s^2 Q / 2 = epsilon with Q = g^T F^-1 g"
+    },
+    {
+      "from": "finite_difference_jacobian",
+      "to": "jacobian_matrix",
+      "rel": "requires",
+      "why": "it is how the Jacobian is obtained when the forward model has no derivatives"
+    },
+    {
+      "from": "finite_difference_jacobian",
+      "to": "partial_derivative",
+      "rel": "requires",
+      "why": "each column is one partial derivative approximated by a difference"
+    },
+    {
+      "from": "finite_difference_jacobian",
+      "to": "taylor_expansion",
+      "rel": "requires",
+      "why": "the truncation error and the step-size tradeoff both come from the expansion"
+    },
+    {
+      "from": "isotropic_logdet_rescale",
+      "to": "log_determinant",
+      "rel": "requires",
+      "why": "it multiplies every eigenvalue to hit an exact target log det"
+    },
+    {
+      "from": "isotropic_logdet_rescale",
+      "to": "eigendecomposition",
+      "rel": "requires",
+      "why": "the rescale is applied to the spectrum, leaving the eigenvectors alone"
     }
   ]
 }

@@ -481,6 +481,70 @@
         "multivariate_chain_rule",
         "algebraic_rearrangement"
       ]
+    },
+    {
+      "id": "natural_gradient_descent",
+      "name": "Natural Gradient Descent",
+      "domain": "information_geometry",
+      "concepts": [
+        "fisher_information_matrix",
+        "natural_gradient",
+        "score_function",
+        "log_likelihood",
+        "gradient",
+        "matrix_inverse",
+        "positive_semidefinite_matrix",
+        "condition_number",
+        "quadratic_form",
+        "gaussian_distribution",
+        "expectation"
+      ],
+      "techniques": [
+        "matrix_whitening",
+        "cholesky_factorization",
+        "eigendecomposition"
+      ]
+    },
+    {
+      "id": "fisher_forecast",
+      "name": "Fisher Forecast",
+      "domain": "information_geometry",
+      "concepts": [
+        "fisher_information_matrix",
+        "jacobian_matrix",
+        "covariance_matrix",
+        "cramer_rao_bound",
+        "matrix_inverse",
+        "weighted_least_squares",
+        "estimator_variance",
+        "gaussian_distribution",
+        "coverage_probability",
+        "mahalanobis_distance"
+      ],
+      "techniques": [
+        "finite_difference_jacobian",
+        "matrix_transpose"
+      ]
+    },
+    {
+      "id": "information_scheduled_optimizer",
+      "name": "Information-Scheduled Optimizer",
+      "domain": "curriculum_control",
+      "concepts": [
+        "fisher_information_matrix",
+        "log_determinant",
+        "differential_entropy",
+        "kl_divergence",
+        "trust_region",
+        "logistic_growth",
+        "inflection_point",
+        "trace",
+        "determinant"
+      ],
+      "techniques": [
+        "kl_trust_region_step",
+        "isotropic_logdet_rescale"
+      ]
     }
   ],
   "base": {
