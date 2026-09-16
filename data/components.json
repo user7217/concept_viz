@@ -1,0 +1,60 @@
+{
+  "components": {
+    "ekf_local": {
+      "component": "ekf_local",
+      "project": "agrios_ws",
+      "purpose": "Started by src/agrios_bringup/launch/localization.launch.py, this component executes ekf_node from robot_localization to run an extended_kalman_filter fusing /odom_cov and /imu at 50.0 Hz. It operates in two_d_mode to estimate robot state and publishes transforms with publish_tf enabled. It sets base_link_frame to base_footprint, odom_frame to odom, and world_frame to odom.",
+      "distinguishes": "It is distinguished from its siblings by setting world_frame to odom.",
+      "evidence": [
+        "world_frame",
+        "base_link_frame",
+        "odom_frame",
+        "publish_tf",
+        "two_d_mode",
+        "frequency",
+        "odom0",
+        "imu0"
+      ],
+      "algorithms": [
+        "extended_kalman_filter"
+      ],
+      "invented": {}
+    },
+    "ekf_global": {
+      "component": "ekf_global",
+      "project": "agrios_ws",
+      "purpose": "Started by src/agrios_bringup/launch/localization.launch.py, this component runs the extended_kalman_filter algorithm from the robot_localization package using ekf_node. It operates in two_d_mode at a frequency of 30.0 to fuse sensor data from odom0 (/odom_cov), odom1 (/odometry/gps), and imu0 (/imu). With publish_tf set to true and world_frame set to map, it estimates the robot state and publishes transforms between map_frame (map), odom_frame (odom), and base_link_frame (base_footprint).",
+      "distinguishes": "It is distinguished from its siblings by setting world_frame to map and configuring odom1 to /odometry/gps.",
+      "evidence": [
+        "world_frame",
+        "odom1"
+      ],
+      "algorithms": [
+        "extended_kalman_filter"
+      ],
+      "invented": {}
+    },
+    "ObstacleLayer": {
+      "component": "ObstacleLayer",
+      "project": "agrios_ws",
+      "purpose": "ObstacleLayer is a plugin from the nav2_costmap_2d package that is started by src/agrios_bringup/config/nav2_params.yaml. Within this system, it operates as a plugin rather than a node to run the occupancy_grid_mapping algorithm.",
+      "distinguishes": "",
+      "evidence": [],
+      "algorithms": [
+        "occupancy_grid_mapping"
+      ],
+      "invented": {}
+    },
+    "SmacPlannerHybrid": {
+      "component": "SmacPlannerHybrid",
+      "project": "agrios_ws",
+      "purpose": "SmacPlannerHybrid is a plugin from the nav2_smac_planner package that runs the a_star algorithm. In the agrios_ws project, it is started by src/agrios_bringup/config/nav2_params.yaml. It functions as a plugin rather than an executable node.",
+      "distinguishes": "",
+      "evidence": [],
+      "algorithms": [
+        "a_star"
+      ],
+      "invented": {}
+    }
+  }
+}

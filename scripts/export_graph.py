@@ -93,6 +93,10 @@ def main() -> None:
     # Verified excerpts from the library the project actually runs. The maths
     # the reader is learning is executed there, not in the 146 lines of Python
     # this workspace owns.
+    notes_path = ROOT / "data" / "components.json"
+    component_notes = (json.loads(notes_path.read_text())["components"]
+                       if notes_path.exists() else {})
+
     library_path = ROOT / "data" / "library_code.json"
     library = (json.loads(library_path.read_text()) if library_path.exists()
                else {"spans": {}, "source": {}})
@@ -168,13 +172,18 @@ def main() -> None:
         for node in pgraph.nodes.values():
             if not node.id.startswith(root) or node.id in known_ids:
                 continue
+            note = component_notes.get(node.name, {})
+            purpose = str(note.get("purpose", ""))
+            apart = str(note.get("distinguishes", ""))
             nodes.append({
                 "id": node.id,
                 "name": node.name,
                 "type": node.type.value,
                 "tier": node.tier.value,
                 "depth": 0, "state": "", "onPath": node.id in path,
-                "steps": 0, "exercises": 0, "statement": "", "whyHere": "",
+                "steps": 0, "exercises": 0,
+                "statement": (f"{purpose} {apart}".strip() if purpose else ""),
+                "whyHere": purpose,
                 "code": [], "knobs": [],
                 "measures": {k: 0 for k in ("depth", "reuse", "cost", "tier",
                                             "known", "steps", "exercises")},
