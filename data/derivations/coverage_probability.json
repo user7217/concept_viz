@@ -1,0 +1,96 @@
+{
+  "node_id": "coverage_probability",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The coverage probability of a sample-dependent confidence interval $(T_u, T_v)$ is the probability that the interval includes the true parameter of interest $\\vartheta$, satisfying $P(T_u \\le \\vartheta \\le T_v) \\ge \\gamma$ for any allowed parameter $\\vartheta$ (where $\\gamma$ is the nominal coverage probability), or in statistical prediction, the probability that a prediction interval includes an out-of-sample value of the random variable.",
+  "symbols": [
+    {
+      "symbol": "\\vartheta",
+      "meaning": "true parameter of interest",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "(T_u, T_v)",
+      "meaning": "sample-dependent confidence interval",
+      "dimensions": "interval in R"
+    },
+    {
+      "symbol": "T_u",
+      "meaning": "lower limit of the confidence interval",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "T_v",
+      "meaning": "upper limit of the confidence interval",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\gamma",
+      "meaning": "nominal coverage probability (confidence coefficient or confidence level)",
+      "dimensions": "scalar in [0, 1]"
+    },
+    {
+      "symbol": "P",
+      "meaning": "probability evaluated as long-run frequency over hypothetical repetitions",
+      "dimensions": "scalar in [0, 1]"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Under long-run frequency evaluation, coverage probability is the fraction of intervals computed from independent hypothetical repetitions under the same data distribution that surround the true parameter value.",
+      "why": "the probability is interpreted across repeated data collection and analysis procedures following Neyman construction",
+      "cites": [
+        "wikipedia:Coverage_probability"
+      ]
+    },
+    {
+      "property": "If all assumptions used in deriving a confidence interval are met, the true coverage probability equals the nominal coverage probability, known as probability matching (or predictive probability matching in prediction).",
+      "why": "the theoretical construction assumptions hold exactly without distortion",
+      "cites": [
+        "wikipedia:Coverage_probability"
+      ]
+    },
+    {
+      "property": "When the actual coverage probability exceeds the nominal coverage probability, the interval is conservative; when it is strictly less than nominal, the interval is anti-conservative (permissive).",
+      "why": "unmet assumptions cause true coverage to deviate in either direction from the nominal confidence level",
+      "cites": [
+        "wikipedia:Coverage_probability"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "All distributional and modeling assumptions used in deriving the confidence interval hold exactly.",
+      "breaks_when": "Approximations are introduced (such as approximating a discrete distribution with a continuous one) or underlying model assumptions fail."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Anti-conservative (permissive) undercoverage",
+      "signature": "P(T_u <= \\vartheta <= T_v) < \\gamma",
+      "cause": "Model assumptions fail or continuous approximations break down, leading the interval to fail to cover the true parameter at the nominal rate."
+    },
+    {
+      "mode": "Discrete-continuous approximation discrepancy",
+      "signature": "True coverage probability fluctuates and rarely equals the nominal confidence level across parameter values",
+      "cause": "Approximating a discrete distribution by a continuous distribution, such as in the construction of binomial confidence intervals (e.g., Wald intervals)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Coverage_probability"
+  ],
+  "check": {
+    "node_id": "coverage_probability",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "node_id": "index_notation",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources contain no derivation because index notation (Einstein summation convention) is a notational convention (definition) rather than a derivable theorem. By definition, when an index variable appears twice in a single term and is not otherwise defined, it implies summation of that term over all the values of the index: for an index ranging over {1, 2, 3}, y = \\sum_{i=1}^{3} x^{i} e_{i} is written as y = x^{i} e_{i}.",
+  "symbols": [
+    {
+      "symbol": "y",
+      "meaning": "vector or resulting tensor expressed as a sum of indexed terms",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "x^{i}",
+      "meaning": "i-th component of a contravariant vector (or coordinate coefficient)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "e_{i}",
+      "meaning": "i-th basis vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "i",
+      "meaning": "summation (dummy) index",
+      "dimensions": "index in {1, ..., n}"
+    },
+    {
+      "symbol": "w_{i}",
+      "meaning": "i-th component of a covariant vector (covector)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "e^{i}",
+      "meaning": "i-th dual basis covector",
+      "dimensions": "1 x n"
+    },
+    {
+      "symbol": "{A^{i}}_{j}",
+      "meaning": "matrix element at row i and column j",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "g_{\\mu\\nu}",
+      "meaning": "metric tensor component used for raising and lowering indices",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Summation over repeated indices: an index appearing twice in a single term implies summation over the full range of that index without requiring an explicit summation sign (e.g., y = x^{i} e_{i} simplifies y = \\sum_{i} x^{i} e_{i}).",
+      "why": "defines the core summation convention of Einstein notation to achieve brevity",
+      "cites": [
+        "wikipedia:Einstein_notation"
+      ]
+    },
+    {
+      "property": "Dummy index invariance: a summation index (dummy index) can be renamed to any symbol without changing the value of the term, provided the new symbol does not collide with other index symbols in the term.",
+      "why": "the index variable is bound by the implied summation",
+      "cites": [
+        "wikipedia:Einstein_notation"
+      ]
+    },
+    {
+      "property": "Free index preservation: an index that is not summed over is a free index, appears once per term, and must appear consistently in every term of an equation (e.g., v_{i} = a_{i} b_{j} x^{j}).",
+      "why": "free indices denote the uncontracted components of the resulting tensor equation",
+      "cites": [
+        "wikipedia:Einstein_notation"
+      ]
+    },
+    {
+      "property": "Variance designation by index height: contravariant components (vectors) carry upper indices (v^{i}), while covariant components (covectors) carry lower indices (w_{i}), transforming contravariantly or covariantly under basis change.",
+      "why": "index position encodes geometric transformation behavior under change of basis",
+      "cites": [
+        "wikipedia:Einstein_notation"
+      ]
+    },
+    {
+      "property": "Matrix multiplication representation: matrix multiplication (AB)_{ik} = \\sum_{j} A_{ij} B_{jk} is represented as {C^{i}}_{k} = {A^{i}}_{j} {B^{j}}_{k}.",
+      "why": "the inner dimension index j appears once as an upper index and once as a lower index, implying summation over j",
+      "cites": [
+        "wikipedia:Einstein_notation"
+      ]
+    },
+    {
+      "property": "Index raising and lowering: contraction with the metric tensor g_{\\mu\\sigma} or its inverse g^{\\mu\\sigma} lowers or raises indices (e.g., g_{\\mu\\sigma} {T^{\\sigma}}_{\\beta} = T_{\\mu\\beta}).",
+      "why": "a non-degenerate metric defines an isomorphism between a vector space and its dual space",
+      "cites": [
+        "wikipedia:Einstein_notation"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "An index variable appearing twice in a single term implies summation over all values of the index set.",
+      "breaks_when": "The index variable is explicitly defined otherwise, or when exponents are written in superscripts without a disambiguating convention."
+    },
+    {
+      "assumption": "In coordinate-invariant tensor algebra, summation occurs between one upper (superscript) and one lower (subscript) index.",
+      "breaks_when": "Working in general coordinates with non-orthonormal bases while ignoring covariance/contravariance distinction (e.g., contracting two subscripts)."
+    },
+    {
+      "assumption": "Dummy index symbols are distinct from any other active free or bound indices appearing in the same term.",
+      "breaks_when": "A dummy index symbol is chosen that already appears in the term, producing invalid multiple summations."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Exponent-superscript ambiguity",
+      "signature": "x^{2} is interpreted as the square of x rather than the second coordinate component of x",
+      "cause": "Superscript notation being used simultaneously for exponents and contravariant coordinate indices without contextual distinction."
+    },
+    {
+      "mode": "Index symbol collision / multiple repetition",
+      "signature": "An index symbol appears three or more times within a single term (e.g., a_{i} b_{i} c_{i})",
+      "cause": "Multiplying indexed terms without renaming repeated dummy indices, violating the convention that dummy indices appear exactly twice."
+    },
+    {
+      "mode": "Free index mismatch across equation terms",
+      "signature": "Terms on opposite sides of an equation possess different free indices (e.g., v_{i} = a_{j} b^{j})",
+      "cause": "Omitting a free index or inconsistently labeling uncontracted indices across different terms in an equation."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Einstein_notation"
+  ],
+  "check": {
+    "node_id": "index_notation",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so index_notation is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

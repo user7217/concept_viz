@@ -1,0 +1,116 @@
+{
+  "node_id": "linear_model",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In statistics, a linear model estimates the relationship between a scalar response (dependent variable) $y_i$ and one or more explanatory variables $\\vec{x_i} = [x_1^i, x_2^i, \\ldots, x_m^i]$ via a linear combination of unknown parameters $\\vec{\\beta} = [\\beta_0, \\beta_1, \\ldots, \\beta_m]$: $y_i \\approx \\beta_0 + \\sum_{j=1}^m \\beta_j x_j^i$. When $\\vec{x_i}$ is extended to include an intercept $[1, x_1^i, \\ldots, x_m^i]$, the model prediction is the dot product $y_i \\approx \\vec{\\beta} \\cdot \\vec{x_i}$, or in matrix form for a dataset, $Y \\approx X\\vec{\\beta}$.",
+  "symbols": [
+    {
+      "symbol": "y_i",
+      "meaning": "scalar response or dependent variable for observation $i$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\vec{x_i}",
+      "meaning": "vector of explanatory variables (extended with 1 for the intercept: $[1, x_1^i, \\dots, x_m^i]$)",
+      "dimensions": "(m + 1) x 1"
+    },
+    {
+      "symbol": "\\vec{\\beta}",
+      "meaning": "vector of unknown model parameters $[\\beta_0, \\beta_1, \\dots, \\beta_m]$",
+      "dimensions": "(m + 1) x 1"
+    },
+    {
+      "symbol": "m",
+      "meaning": "number of explanatory variables (predictors)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of observations (data points)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "X",
+      "meaning": "design matrix of independent variables / predictors",
+      "dimensions": "n x (m + 1)"
+    },
+    {
+      "symbol": "Y",
+      "meaning": "vector of dependent variable observations",
+      "dimensions": "n x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "A linear model with exactly one explanatory variable is a simple linear regression, whereas a model with two or more explanatory variables is a multiple linear regression.",
+      "why": "classification based on the number of predictor variables",
+      "cites": [
+        "wikipedia:Linear_regression"
+      ]
+    },
+    {
+      "property": "Linear regression focuses on the conditional probability distribution of the response given the predictors (most commonly modeling the conditional mean as an affine function) rather than the joint distribution.",
+      "why": "characterizes the regression relationship as conditional on predictors",
+      "cites": [
+        "wikipedia:Linear_regression"
+      ]
+    },
+    {
+      "property": "Under least-squares estimation minimizing $L(D, \\vec{\\beta}) = \\|X\\vec{\\beta} - Y\\|^2$, the optimal parameter estimate satisfies $X^{\\textsf{T}}X\\vec{\\beta} = X^{\\textsf{T}}Y$, which yields $\\vec{\\hat{\\beta}} = (X^{\\textsf{T}}X)^{-1}X^{\\textsf{T}}Y$ when $X^{\\textsf{T}}X$ is invertible.",
+      "why": "setting the gradient of the convex squared-error loss function to zero yields the normal equations",
+      "cites": [
+        "wikipedia:Linear_regression"
+      ]
+    },
+    {
+      "property": "Under Gaussian distributed responses with mean $\\vec{\\beta} \\cdot \\vec{x_i}$ and fixed variance $\\sigma^2$, maximum likelihood estimation yields the identical parameter estimate to ordinary least squares.",
+      "why": "maximizing the Gaussian log-likelihood function is equivalent to minimizing the sum of squared residuals",
+      "cites": [
+        "wikipedia:Linear_regression"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The conditional expectation (or relationship) of the response given the predictors is an affine function of the predictors: $\\mathbb{E}[y_i \\mid \\vec{x_i}] = \\vec{\\beta} \\cdot \\vec{x_i}$.",
+      "breaks_when": "The true relationship between the predictors and the response is non-linear."
+    },
+    {
+      "assumption": "The matrix $X^{\\textsf{T}}X$ is non-singular and invertible.",
+      "breaks_when": "Predictors are linearly dependent (perfect multicollinearity) or there are more covariates than observations ($m > n$)."
+    },
+    {
+      "assumption": "For MLE equivalence with OLS, the observations $y_i$ are conditionally independent normal random variables with constant variance $\\sigma^2$.",
+      "breaks_when": "Errors exhibit heavy-tailed distributions, Laplace distributions, heteroscedasticity, or correlation."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular or non-invertible design matrix cross-product",
+      "signature": "$X^{\\textsf{T}}X$ cannot be inverted, preventing direct closed-form computation of $\\vec{\\hat{\\beta}} = (X^{\\textsf{T}}X)^{-1}X^{\\textsf{T}}Y$.",
+      "cause": "Exact multicollinearity among explanatory variables or high-dimensional covariate vectors where $m \\ge n$."
+    },
+    {
+      "mode": "Sensitivity to outliers under least squares",
+      "signature": "Parameter estimates $\\vec{\\hat{\\beta}}$ are substantially distorted by a small number of extreme observations.",
+      "cause": "Least squares uses a quadratic penalty $(y_i - \\vec{\\beta} \\cdot \\vec{x_i})^2$ which disproportionately weights large residuals in the presence of heavy-tailed error distributions."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Linear_regression"
+  ],
+  "check": {
+    "node_id": "linear_model",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "node_id": "trace",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The trace of a square matrix or a linear transformation is the sum of the elements on the main diagonal: \\operatorname{tr}(A) = \\sum_{i=1}^{n} A_{ii}.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "square matrix",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The matrix is square (or the object is a linear transformation)",
+      "breaks_when": "The matrix is non-square"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Non-square matrix",
+      "signature": "Trace is undefined",
+      "cause": "Attempting to evaluate the trace on an m x n matrix where m != n"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Trace"
+  ],
+  "check": {
+    "node_id": "trace",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [
+      "definition lists no properties"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

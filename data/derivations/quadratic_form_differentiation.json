@@ -1,0 +1,172 @@
+{
+  "node_id": "quadratic_form_differentiation",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For constant matrices \\mathbf{A}, \\mathbf{B}, \\mathbf{C} and matrix variable \\mathbf{X}, the derivative of the matrix quadratic trace function \\operatorname{tr}(\\mathbf{AXBX^\\top C}) with respect to \\mathbf{X} is \\frac{\\partial \\operatorname{tr}(\\mathbf{AXBX^\\top C})}{\\partial \\mathbf{X}} = \\mathbf{B^\\top X^\\top A^\\top C^\\top} + \\mathbf{BX^\\top CA} in numerator layout, and \\frac{\\partial \\operatorname{tr}(\\mathbf{AXBX^\\top C})}{\\partial \\mathbf{X}} = \\mathbf{CAXB} + \\mathbf{A^\\top C^\\top XB^\\top} in denominator layout. (Note: the supplied source derives this matrix quadratic trace derivative; it does not contain a derivation for the vector quadratic form \\mathbf{x}^\\top \\mathbf{A} \\mathbf{x}.)",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{X}",
+      "meaning": "matrix variable with respect to which differentiation is performed",
+      "dimensions": "p x q"
+    },
+    {
+      "symbol": "\\mathbf{A}",
+      "meaning": "constant coefficient matrix",
+      "dimensions": "k x p"
+    },
+    {
+      "symbol": "\\mathbf{B}",
+      "meaning": "constant coefficient matrix",
+      "dimensions": "q x q"
+    },
+    {
+      "symbol": "\\mathbf{C}",
+      "meaning": "constant coefficient matrix",
+      "dimensions": "p x k"
+    },
+    {
+      "symbol": "d",
+      "meaning": "matrix differential operator",
+      "dimensions": "matches operand dimensions"
+    },
+    {
+      "symbol": "\\operatorname{tr}",
+      "meaning": "trace operator summing diagonal elements of a square matrix",
+      "dimensions": "k x k -> 1 x 1"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Apply cyclic permutation of the trace \\operatorname{tr}(\\mathbf{ABCD}) = \\operatorname{tr}(\\mathbf{DABC}) to cycle \\mathbf{C} to the front and commute the differential operator with the trace: d\\operatorname{tr}(\\mathbf{AXBX^\\top C}) = d\\operatorname{tr}(\\mathbf{CAXBX^\\top}) = \\operatorname{tr}(d(\\mathbf{CAXBX^\\top})).",
+      "invokes": [
+        "trace_identities"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Apply the product rule for matrix differentials to the product (\\mathbf{CAX})(\\mathbf{BX^\\top}): \\operatorname{tr}(d(\\mathbf{CAXBX^\\top})) = \\operatorname{tr}(\\mathbf{CAX}d(\\mathbf{BX^\\top}) + d(\\mathbf{CAX})\\mathbf{BX^\\top}).",
+      "invokes": [
+        "trace"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Distribute the trace over the sum of differentials by linearity of trace: \\operatorname{tr}(\\mathbf{CAX}d(\\mathbf{BX^\\top}) + d(\\mathbf{CAX})\\mathbf{BX^\\top}) = \\operatorname{tr}(\\mathbf{CAX}d(\\mathbf{BX^\\top})) + \\operatorname{tr}(d(\\mathbf{CAX})\\mathbf{BX^\\top}).",
+      "invokes": [
+        "trace"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Evaluate differentials using constancy of \\mathbf{A}, \\mathbf{B}, \\mathbf{C} and the transpose rule for differentials d(\\mathbf{X^\\top}) = (d\\mathbf{X})^\\top: \\operatorname{tr}(\\mathbf{CAXB}d(\\mathbf{X^\\top})) + \\operatorname{tr}(\\mathbf{CA}(d\\mathbf{X})\\mathbf{BX^\\top}) = \\operatorname{tr}(\\mathbf{CAXB}(d\\mathbf{X})^\\top) + \\operatorname{tr}(\\mathbf{CA}(d\\mathbf{X})\\mathbf{BX^\\top}).",
+      "invokes": [
+        "matrix_transpose",
+        "transpose_identities"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Apply trace transpose invariance \\operatorname{tr}(\\mathbf{M}) = \\operatorname{tr}(\\mathbf{M^\\top}) to the first term, where (\\mathbf{CAXB}(d\\mathbf{X})^\\top)^\\top = (d\\mathbf{X})\\mathbf{B^\\top X^\\top A^\\top C^\\top}: \\operatorname{tr}(((\\mathbf{CAXB}(d\\mathbf{X})^\\top))^\\top) + \\operatorname{tr}(\\mathbf{CA}(d\\mathbf{X})\\mathbf{BX^\\top}) = \\operatorname{tr}((d\\mathbf{X})\\mathbf{B^\\top X^\\top A^\\top C^\\top}) + \\operatorname{tr}(\\mathbf{CA}(d\\mathbf{X})\\mathbf{BX^\\top}).",
+      "invokes": [
+        "trace_identities",
+        "transpose_identities"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Apply cyclic permutation of the trace \\operatorname{tr}(\\mathbf{UV}) = \\operatorname{tr}(\\mathbf{VU}) to move d\\mathbf{X} to the right in both terms: \\operatorname{tr}((d\\mathbf{X})\\mathbf{B^\\top X^\\top A^\\top C^\\top}) + \\operatorname{tr}(\\mathbf{CA}(d\\mathbf{X})\\mathbf{BX^\\top}) = \\operatorname{tr}(\\mathbf{B^\\top X^\\top A^\\top C^\\top}(d\\mathbf{X})) + \\operatorname{tr}(\\mathbf{BX^\\top CA}(d\\mathbf{X})).",
+      "invokes": [
+        "trace_identities"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "Factor out d\\mathbf{X} and express the differential in both canonical forms using linearity and transpose: \\operatorname{tr}((\\mathbf{B^\\top X^\\top A^\\top C^\\top} + \\mathbf{BX^\\top CA})d\\mathbf{X}) = \\operatorname{tr}((\\mathbf{CAXB} + \\mathbf{A^\\top C^\\top XB^\\top})^\\top d\\mathbf{X}).",
+      "invokes": [
+        "trace",
+        "transpose_identities"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 8,
+      "text": "Convert the differential form to derivative form: in numerator layout, \\frac{\\partial \\operatorname{tr}(\\mathbf{AXBX^\\top C})}{\\partial \\mathbf{X}} = \\mathbf{B^\\top X^\\top A^\\top C^\\top} + \\mathbf{BX^\\top CA}; in denominator layout, \\frac{\\partial \\operatorname{tr}(\\mathbf{AXBX^\\top C})}{\\partial \\mathbf{X}} = \\mathbf{CAXB} + \\mathbf{A^\\top C^\\top XB^\\top}.",
+      "invokes": [
+        "matrix_calculus_gradient",
+        "partial_derivative"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "Matrices \\mathbf{A}, \\mathbf{B}, and \\mathbf{C} are constant with respect to \\mathbf{X}.",
+      "breaks_when": "Any of \\mathbf{A}, \\mathbf{B}, or \\mathbf{C} is a function of \\mathbf{X}, requiring additional differential product terms."
+    },
+    {
+      "assumption": "Matrix dimensions are conformable such that \\mathbf{AXBX^\\top C} is well-defined and a square matrix.",
+      "breaks_when": "Inner matrix dimensions do not match for multiplication or the resulting product matrix is non-square, causing the trace operator to be undefined."
+    },
+    {
+      "assumption": "A single layout convention (numerator layout vs denominator layout) is consistently maintained throughout.",
+      "breaks_when": "Formulas from numerator-layout and denominator-layout conventions are mixed without taking the transpose."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Layout convention mismatch",
+      "signature": "Derivative expression appears transposed relative to expected layout (e.g. \\mathbf{CAXB} + \\mathbf{A^\\top C^\\top XB^\\top} instead of \\mathbf{B^\\top X^\\top A^\\top C^\\top} + \\mathbf{BX^\\top CA}).",
+      "cause": "Confusing numerator-layout with denominator-layout definitions without verifying author conventions."
+    },
+    {
+      "mode": "Commutativity assumption failure",
+      "signature": "Terms in the derivative appear in an invalid matrix product order.",
+      "cause": "Assuming matrix multiplication commutes when applying the product rule or cyclic trace rearrangements."
+    },
+    {
+      "mode": "Direct application of scalar chain rule to scalar-by-matrix trace functions",
+      "signature": "Invalid derivative expression failing to account for matrix dimensions or transpositions.",
+      "cause": "Exact equivalents of the scalar chain rule and product rule do not apply directly to matrix-valued functions of matrices without differential forms."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Matrix_calculus"
+  ],
+  "check": {
+    "node_id": "quadratic_form_differentiation",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

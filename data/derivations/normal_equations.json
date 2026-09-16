@@ -1,0 +1,131 @@
+{
+  "node_id": "normal_equations",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The normal equations are the system of linear equations (\\mathbf{X}^{\\operatorname{T}}\\mathbf{X})\\hat{\\boldsymbol{\\beta}} = \\mathbf{X}^{\\operatorname{T}}\\mathbf{y} (equivalently expressed in gradient form as (\\mathbf{y} - \\mathbf{X}\\hat{\\boldsymbol{\\beta}})^{\\top}\\mathbf{X} = \\mathbf{0}) whose solution \\hat{\\boldsymbol{\\beta}} = \\operatorname{arg\\,min}_{\\boldsymbol{\\beta}} S(\\boldsymbol{\\beta}) minimizes the sum of squared residuals objective function S(\\boldsymbol{\\beta}) = \\|\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\beta}\\|^2 = (\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\beta})^{\\operatorname{T}}(\\mathbf{y} - \\mathbf{X}\\boldsymbol{\\beta}). The supplied sources genuinely contain no derivation of this result (the derivation via quadratic form differentiation of S(b) is omitted in the source as '[proof]'), so the normal equations are stated here as a definition.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{X}",
+      "meaning": "matrix of regressors / data matrix",
+      "dimensions": "n x p"
+    },
+    {
+      "symbol": "\\mathbf{y}",
+      "meaning": "vector of observed dependent variable values (regressand)",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\hat{\\boldsymbol{\\beta}}",
+      "meaning": "coefficient vector of the least-squares hyperplane / OLS estimator",
+      "dimensions": "p x 1"
+    },
+    {
+      "symbol": "\\boldsymbol{\\beta}",
+      "meaning": "parameter vector of unknown coefficients",
+      "dimensions": "p x 1"
+    },
+    {
+      "symbol": "S(\\boldsymbol{\\beta})",
+      "meaning": "sum of squared residuals objective function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of observations",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p",
+      "meaning": "number of regressors plus one (including intercept)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbf{X}^{\\operatorname{T}}\\mathbf{X}",
+      "meaning": "normal matrix or Gram matrix",
+      "dimensions": "p x p"
+    },
+    {
+      "symbol": "\\mathbf{X}^{\\operatorname{T}}\\mathbf{y}",
+      "meaning": "moment matrix of regressand by regressors",
+      "dimensions": "p x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "When \\mathbf{X}^{\\operatorname{T}}\\mathbf{X} is invertible, the coefficient vector has the explicit solution \\hat{\\boldsymbol{\\beta}} = (\\mathbf{X}^{\\operatorname{T}}\\mathbf{X})^{-1}\\mathbf{X}^{\\operatorname{T}}\\mathbf{y}.",
+      "why": "multiplying both sides of the normal equations by the inverse Gram matrix (\\mathbf{X}^{\\operatorname{T}}\\mathbf{X})^{-1}",
+      "cites": [
+        "wikipedia:Ordinary_least_squares"
+      ]
+    },
+    {
+      "property": "The normal equations possess a unique solution if and only if the p columns of \\mathbf{X} are linearly independent.",
+      "why": "linear independence of the columns ensures that the Gram matrix \\mathbf{X}^{\\operatorname{T}}\\mathbf{X} is non-singular and invertible",
+      "cites": [
+        "wikipedia:Ordinary_least_squares"
+      ]
+    },
+    {
+      "property": "The residual vector \\mathbf{y} - \\mathbf{X}\\hat{\\boldsymbol{\beta}} is orthogonal to the column space of \\mathbf{X}.",
+      "why": "the normal equations can be written as (\\mathbf{y} - \\mathbf{X}\\hat{\\boldsymbol{\beta}})^{\\top}\\mathbf{X} = \\mathbf{0}, ensuring the dot product with any vector in the column space is zero",
+      "cites": [
+        "wikipedia:Ordinary_least_squares"
+      ]
+    },
+    {
+      "property": "The predicted values satisfy \\hat{\\mathbf{y}} = \\mathbf{X}\\hat{\\boldsymbol{\beta}} = \\mathbf{P}\\mathbf{y}, where \\mathbf{P} = \\mathbf{X}(\\mathbf{X}^{\\operatorname{T}}\\mathbf{X})^{-1}\\mathbf{X}^{\\operatorname{T}} is the orthogonal projection matrix onto the space spanned by the columns of \\mathbf{X}.",
+      "why": "substituting \\hat{\\boldsymbol{\beta}} = (\\mathbf{X}^{\\operatorname{T}}\\mathbf{X})^{-1}\\mathbf{X}^{\\operatorname{T}}\\mathbf{y}$ into $\\hat{\\mathbf{y}} = \\mathbf{X}\\hat{\\boldsymbol{\beta}}",
+      "cites": [
+        "wikipedia:Ordinary_least_squares"
+      ]
+    },
+    {
+      "property": "The matrix (\\mathbf{X}^{\\operatorname{T}}\\mathbf{X})^{-1}\\mathbf{X}^{\\operatorname{T}} appearing in the solution is the Moore\u2013Penrose pseudoinverse matrix of \\mathbf{X}.",
+      "why": "it maps the dependent variable vector \\mathbf{y} directly to the least-squares parameter estimator \\hat{\\boldsymbol{\beta}}",
+      "cites": [
+        "wikipedia:Ordinary_least_squares"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The p columns of the matrix \\mathbf{X} are linearly independent (no perfect multicollinearity).",
+      "breaks_when": "There is perfect multicollinearity between explanatory variables, causing the Gram matrix \\mathbf{X}^{\\operatorname{T}}\\mathbf{X} to have no inverse."
+    },
+    {
+      "assumption": "The number of observations n is greater than or equal to the number of parameters p (overdetermined system, n >= p).",
+      "breaks_when": "The number of parameters exceeds the number of observations (p > n), which forces the columns of \\mathbf{X} to be linearly dependent."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Perfect multicollinearity / Singular Gram matrix",
+      "signature": "The matrix \\mathbf{X}^{\\operatorname{T}}\\mathbf{X} is singular (non-invertible) and has no unique solution via matrix inversion.",
+      "cause": "One or more columns of \\mathbf{X} are exact linear combinations of other columns."
+    },
+    {
+      "mode": "Underdetermined system",
+      "signature": "Degrees of freedom n - p is negative or undefined, and \\mathbf{X}^{\\operatorname{T}}\\mathbf{X} is rank-deficient.",
+      "cause": "Sample size n is strictly less than the number of regression parameters p."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Ordinary_least_squares"
+  ],
+  "check": {
+    "node_id": "normal_equations",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so normal_equations is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

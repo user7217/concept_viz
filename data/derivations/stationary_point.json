@@ -1,0 +1,119 @@
+{
+  "node_id": "stationary_point",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For a differentiable function of one variable f: R -> R, a stationary point is a point on the graph where the derivative is zero (f'(x) = 0). For a differentiable real-valued function of several variables f: R^n -> R, a stationary point is a point x_0 where all partial derivatives are zero, or equivalently, the derivative in every direction equals zero and the gradient is zero (grad f(x_0) = 0).",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "differentiable real-valued function",
+      "dimensions": "R -> R or R^n -> R"
+    },
+    {
+      "symbol": "x",
+      "meaning": "point in the domain of a single-variable function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x_0",
+      "meaning": "point in the domain of a multivariable function",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "f'(x)",
+      "meaning": "first derivative of f at x",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f''(x)",
+      "meaning": "second derivative of f at x",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "grad f(x_0)",
+      "meaning": "gradient of f at x_0",
+      "dimensions": "n x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "At a stationary point of a single-variable function, the tangent line to the graph is horizontal (parallel to the x-axis); for a two-variable function, the tangent plane is parallel to the xy-plane.",
+      "why": "The derivative or partial derivatives vanish at the stationary point",
+      "cites": [
+        "wikipedia:Stationary_point"
+      ]
+    },
+    {
+      "property": "For a C^1 function, global extrema must occur on the boundary or at stationary points.",
+      "why": "Fermat's theorem",
+      "cites": [
+        "wikipedia:Stationary_point"
+      ]
+    },
+    {
+      "property": "An isolated stationary point of a C^1 function is a local extremum (turning point) if the derivative changes sign at the point, and a saddle point (such as a horizontal inflection point) if the derivative does not change sign.",
+      "why": "Classification by the first derivative test",
+      "cites": [
+        "wikipedia:Stationary_point"
+      ]
+    },
+    {
+      "property": "For a twice-differentiable function, a stationary point at x is concave down (maximal extremum) if f''(x) < 0, and concave up (minimal extremum) if f''(x) > 0.",
+      "why": "Classification by the second derivative test",
+      "cites": [
+        "wikipedia:Stationary_point"
+      ]
+    },
+    {
+      "property": "For a real-valued function f: R^n -> R, vanishing of the directional derivative in every direction is equivalent to the gradient being zero.",
+      "why": "All partial derivatives being zero implies the gradient vector has zero norm",
+      "cites": [
+        "wikipedia:Stationary_point"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The function f is differentiable at the point of interest.",
+      "breaks_when": "The derivative does not exist or partial derivatives are undefined at that point."
+    },
+    {
+      "assumption": "The function f is real-valued.",
+      "breaks_when": "The function is complex-valued, where the concept is generalized as critical points instead."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Second derivative test is inconclusive",
+      "signature": "f''(x) = 0 at a stationary point",
+      "cause": "The second derivative vanishing leaves the nature of the stationary point undetermined by the second derivative test; it may be a local extremum, an inflection point, or neither, requiring examination of sign changes or higher-order behavior."
+    },
+    {
+      "mode": "Conflating an inflection point with a stationary point",
+      "signature": "f''(x) = 0 while f'(x) != 0",
+      "cause": "A point where concavity changes is an inflection point, but it is not a stationary point unless the first derivative also equals zero."
+    },
+    {
+      "mode": "Non-isolated stationary points",
+      "signature": "f'(x) = 0 and f''(x) = 0 without isolated zeros or with infinite oscillations near the point",
+      "cause": "Stationary points are not isolated (e.g., f(x) = 0 or f(x) = x^5 sin(1/x) at x = 0), preventing classification into standard local extrema or isolated turning points."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Stationary_point"
+  ],
+  "check": {
+    "node_id": "stationary_point",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

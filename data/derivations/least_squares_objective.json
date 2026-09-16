@@ -1,0 +1,155 @@
+{
+  "node_id": "least_squares_objective",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The least squares objective is the sum of squared residuals\u2014the differences between observed values and the values predicted by a model\u2014to be minimized: S = \\sum_{i} r_i^2 = \\sum_{i} (y_i - f(x_i, \\boldsymbol{\\beta}))^2, where r_i = y_i - f(x_i, \\boldsymbol{\\beta}) is the residual for observation i; in matrix notation for linear regression models with dataset D, it is expressed as L(D, \\boldsymbol{\\beta}) = \\|Y - X\\boldsymbol{\\beta}\\|^2 = (Y - X\\boldsymbol{\\beta})^{\\mathsf{T}}(Y - X\\boldsymbol{\\beta}) = Y^{\\mathsf{T}}Y - 2Y^{\\mathsf{T}}X\\boldsymbol{\\beta} + \\boldsymbol{\\beta}^{\\mathsf{T}}X^{\\mathsf{T}}X\\boldsymbol{\\beta}.",
+  "symbols": [
+    {
+      "symbol": "S",
+      "meaning": "sum of squared residuals (the objective function)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "L(D, \\boldsymbol{\\beta})",
+      "meaning": "least squares loss / objective function in matrix notation",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "r_i",
+      "meaning": "residual for the i-th observation, r_i = y_i - f(x_i, \\boldsymbol{\\beta})",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "y_i",
+      "meaning": "observed value of the dependent variable for the i-th observation",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x_i",
+      "meaning": "independent variable(s) for the i-th observation",
+      "dimensions": "scalar or vector"
+    },
+    {
+      "symbol": "\\boldsymbol{\\beta}",
+      "meaning": "vector of m model parameters to be estimated",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "f(x_i, \\boldsymbol{\\beta})",
+      "meaning": "model predicted value for observation i",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "D",
+      "meaning": "dataset containing all n observations",
+      "dimensions": "set of n observations"
+    },
+    {
+      "symbol": "Y",
+      "meaning": "vector of dependent variable observations",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "X",
+      "meaning": "matrix of independent variables / basis function evaluations (X_{ij} = \\phi_j(x_i))",
+      "dimensions": "n x m"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Stationary condition: The minimum of the sum of squares is found by setting its gradient with respect to each parameter to zero: \\frac{\\partial S}{\\partial \\beta_j} = 2\\sum_i r_i \\frac{\\partial r_i}{\\partial \\beta_j} = -2\\sum_i r_i \\frac{\\partial f(x_i, \\boldsymbol{\\beta})}{\\partial \\beta_j} = 0 for j = 1, \\dots, m.",
+      "why": "The extremum of a differentiable sum-of-squares objective occurs where all partial derivatives vanish.",
+      "cites": [
+        "wikipedia:Least_squares"
+      ]
+    },
+    {
+      "property": "Normal equations for linear least squares: The gradient of the linear loss \\frac{\\partial L(D, \\boldsymbol{\\beta})}{\\partial \\boldsymbol{\\beta}} = -2X^{\\mathsf{T}}Y + 2X^{\\mathsf{T}}X\\boldsymbol{\\beta} vanishes at X^{\\mathsf{T}}X\\boldsymbol{\\beta} = X^{\\mathsf{T}}Y, yielding the closed-form solution \\hat{\\boldsymbol{\\beta}} = (X^{\\mathsf{T}}X)^{-1}X^{\\mathsf{T}}Y = X^+ Y.",
+      "why": "The linear least squares objective is quadratic in \\boldsymbol{\\beta}, producing a linear system of gradient equations with an explicit algebraic inverse.",
+      "cites": [
+        "wikipedia:Least_squares"
+      ]
+    },
+    {
+      "property": "Gauss\u2013Newton normal equations for non-linear models: Linearizing f(x_i, \\boldsymbol{\\beta}) via a first-order Taylor expansion about current iterate \\boldsymbol{\\beta}^k with Jacobian J yields iterative updates via (J^{\\mathsf{T}}J)\\Delta\\boldsymbol{\\beta} = J^{\\mathsf{T}}\\Delta\\mathbf{y}.",
+      "why": "Nonlinear models generally have no closed-form solution and require iterative local linear approximations.",
+      "cites": [
+        "wikipedia:Least_squares"
+      ]
+    },
+    {
+      "property": "Tikhonov regularization (ridge regression): Adds an \\ell_2-norm penalty \\alpha \\|\\boldsymbol{\\beta}\\|_2^2 to the residual sum of squares objective.",
+      "why": "Formulates a constrained minimization on parameter magnitude into unconstrained Lagrangian form, equivalent to placing a zero-mean normal prior on \\boldsymbol{\\beta}.",
+      "cites": [
+        "wikipedia:Least_squares"
+      ]
+    },
+    {
+      "property": "Lasso regularization: Adds an L1-norm penalty \\alpha \\|\\boldsymbol{\\beta}\\|_1 to the residual sum of squares objective.",
+      "why": "Imposes an L1-norm constraint on the parameter vector, equivalent to a zero-mean Laplace prior.",
+      "cites": [
+        "wikipedia:Least_squares"
+      ]
+    },
+    {
+      "property": "Convexity and uniqueness: Linear least squares is globally concave (convex) with a unique solution, whereas non-linear least squares may possess multiple minima.",
+      "why": "The objective Hessian is constant and positive semidefinite (X^{\\mathsf{T}}X) for linear models, but parameter-dependent and non-convex in nonlinear models.",
+      "cites": [
+        "wikipedia:Least_squares"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Errors have expectation zero conditional on independent variables, are uncorrelated, and have equal variance (homoscedasticity)",
+      "breaks_when": "Residual variance depends on the predictor x_i (heteroscedasticity) or errors are correlated, violating the Gauss\u2013Markov theorem conditions."
+    },
+    {
+      "assumption": "The normal equations matrix X^{\\mathsf{T}}X is invertible",
+      "breaks_when": "Predictor variables are linearly dependent (multicollinearity) or the number of parameters exceeds the number of observations (m > n)."
+    },
+    {
+      "assumption": "In non-linear least squares, initial parameter values \\boldsymbol{\\beta}^0 are sufficiently close to the global optimum",
+      "breaks_when": "Poor initial parameter guesses lead the iterative solver to non-convergence or to entrapment in suboptimal local minima."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Non-convergence in non-linear least squares",
+      "signature": "Iterative algorithm fails to terminate or find a parameter update satisfying the stopping threshold",
+      "cause": "Non-linear least squares objective surface is non-convex and lacks global convergence guarantees."
+    },
+    {
+      "mode": "Multiple local minima",
+      "signature": "Algorithm converges to parameter values yielding an unexpectedly large residual sum of squares",
+      "cause": "Nonlinearity in parameters creates multiple stationary points in the sum of squares objective."
+    },
+    {
+      "mode": "Singular matrix in normal equations",
+      "signature": "Matrix inversion (X^{\\mathsf{T}}X)^{-1} fails",
+      "cause": "Columns of design matrix X are collinear or the system has fewer observations than unknowns."
+    },
+    {
+      "mode": "Heteroscedasticity",
+      "signature": "Residual plot exhibits a fanning-out pattern towards larger or smaller Y_i",
+      "cause": "Variance of the dependent variable depends on the predictor variable x_i rather than remaining constant."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Least_squares"
+  ],
+  "check": {
+    "node_id": "least_squares_objective",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

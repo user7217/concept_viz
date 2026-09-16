@@ -1,0 +1,80 @@
+{
+  "node_id": "kl_divergence",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources genuinely contain nothing to derive. Kullback\u2013Leibler (KL) divergence is defined between probability distributions P and Q as D_KL(P || Q) = sum_x P(x) log(P(x) / Q(x)) (or for continuous distributions, integral p(x) log(p(x) / q(x)) dx); the supplied source contains no derivation and states only that cross-entropy and KL divergence are identical up to an additive constant.",
+  "symbols": [
+    {
+      "symbol": "P",
+      "meaning": "reference or true probability distribution",
+      "dimensions": "discrete or continuous distribution"
+    },
+    {
+      "symbol": "Q",
+      "meaning": "approximating or model probability distribution",
+      "dimensions": "discrete or continuous distribution"
+    },
+    {
+      "symbol": "D_KL(P || Q)",
+      "meaning": "Kullback\u2013Leibler divergence from Q to P",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Cross-entropy and KL divergence are identical up to an additive constant.",
+      "why": "Cross-entropy differs from KL divergence only by an additive constant when the reference distribution is fixed.",
+      "cites": [
+        "wikipedia:Cross-entropy#kl_divergence"
+      ]
+    },
+    {
+      "property": "In engineering literature, the principle of minimizing KL divergence (Kullback's 'Principle of Minimum Discrimination Information') is often called the Principle of Minimum Cross-Entropy (MCE), or Minxent.",
+      "why": "Minimizing KL divergence is equivalent to minimizing cross-entropy because they differ only by an additive constant.",
+      "cites": [
+        "wikipedia:Cross-entropy#kl_divergence"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The reference distribution is fixed when comparing cross-entropy and KL divergence.",
+      "breaks_when": "The reference distribution varies with respect to the optimization parameters, so the additive term is no longer constant."
+    },
+    {
+      "assumption": "The support of P is contained in the support of Q (absolute continuity).",
+      "breaks_when": "Q(x) = 0 for some x where P(x) > 0, causing division by zero inside the logarithm."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Equivalence between MCE and minimum KL divergence fails",
+      "signature": "Minimizing cross-entropy yields an optimal distribution different from minimizing KL divergence",
+      "cause": "The reference distribution is not held constant, making the additive difference parameter-dependent."
+    },
+    {
+      "mode": "Undefined divergence or divergence to infinity",
+      "signature": "Evaluation yields infinity or undefined values",
+      "cause": "The approximating distribution assigns zero probability to an event that has non-zero probability under the reference distribution."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Cross-entropy#kl_divergence"
+  ],
+  "check": {
+    "node_id": "kl_divergence",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so kl_divergence is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

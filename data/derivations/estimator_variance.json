@@ -1,0 +1,105 @@
+{
+  "node_id": "estimator_variance",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The variance of a random variable $X$ is defined as the expected value of the squared deviation from the mean of $X$: $\\operatorname{Var}(X) = \\operatorname{E}\\left[{\\left(X - \\operatorname{E}[X]\\right)}^2\\right]$.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "random variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\operatorname{Var}(X)",
+      "meaning": "variance of the random variable X",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\sigma^2",
+      "meaning": "variance parameter / notation for variance",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\operatorname{E}[\\cdot]",
+      "meaning": "expected value operator",
+      "dimensions": "scalar -> scalar"
+    },
+    {
+      "symbol": "\\mu",
+      "meaning": "expected value (mean) of the random variable X",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "\\operatorname{Var}(X) = \\operatorname{E}\\left[X^2\\right] - \\operatorname{E}[X]^2",
+      "why": "the variance of $X$ is equal to the mean of the square of $X$ minus the square of the mean of $X$",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    },
+    {
+      "property": "\\operatorname{Var}(X) \\ge 0",
+      "why": "squares are positive or zero",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    },
+    {
+      "property": "\\operatorname{Var}(a) = 0",
+      "why": "the variance of a constant is zero",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    },
+    {
+      "property": "\\operatorname{Var}(X) = 0 \\iff \\exists a : P(X = a) = 1",
+      "why": "variance is zero if and only if the random variable is almost surely a constant",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    },
+    {
+      "property": "\\operatorname{Var}[X] = \\operatorname{E}(\\operatorname{Var}[X \\mid Y]) + \\operatorname{Var}(\\operatorname{E}[X \\mid Y])",
+      "why": "law of total variance decomposition into expected conditional variance and variance of conditional expectation",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The first and second moments of the random variable exist and are finite",
+      "breaks_when": "The distribution has undefined or infinite moments, such as the Cauchy distribution or a Pareto distribution with index $1 < k \\le 2$"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Catastrophic cancellation",
+      "signature": "Loss of numerical precision or non-positive variance estimate in floating-point arithmetic",
+      "cause": "Computing variance via $\\operatorname{E}[X^2] - \\operatorname{E}[X]^2$ when the two terms are close in magnitude"
+    },
+    {
+      "mode": "Non-finite variance",
+      "signature": "Variance integral or summation diverges",
+      "cause": "The distribution has heavy tails such that the second moment is infinite"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Variance"
+  ],
+  "check": {
+    "node_id": "estimator_variance",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

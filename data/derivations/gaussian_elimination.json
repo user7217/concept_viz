@@ -1,0 +1,135 @@
+{
+  "node_id": "gaussian_elimination",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Gaussian elimination, also known as row reduction, is an algorithm for solving systems of linear equations and analyzing matrices by applying a sequence of elementary row operations (interchanging two rows, multiplying a row by a non-zero scalar, or adding a scalar multiple of one row to another) until the matrix reaches row echelon form (or reduced row echelon form). The supplied sources contain no derivation of Gaussian elimination, as it is an algorithmic definition and operational procedure rather than a derived mathematical result.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "Original coefficient matrix or matrix to be reduced",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "B",
+      "meaning": "Matrix in row echelon form (or reduced row echelon form) obtained after row operations",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "I",
+      "meaning": "Identity matrix augmented to A for computing matrix inversion via [A | I]",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "R_i",
+      "meaning": "The i-th row of a matrix",
+      "dimensions": "1 x n"
+    },
+    {
+      "symbol": "r_{i,k}",
+      "meaning": "Matrix entry in row i and column k",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "d",
+      "meaning": "Cumulative product of scalar factors by which the determinant is multiplied during elementary row operations",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Elementary row operations preserve the solution set of a linear system",
+      "why": "Swapping rows, scaling a row by a nonzero constant, or adding a scalar multiple of a row to another leaves the simultaneous linear equations' solution set invariant",
+      "cites": [
+        "wikipedia:Gaussian_elimination"
+      ]
+    },
+    {
+      "property": "Forward elimination identifies solution existence and uniqueness",
+      "why": "Reducing the system to row echelon form reveals directly whether there are no solutions, a unique solution, or infinitely many solutions",
+      "cites": [
+        "wikipedia:Gaussian_elimination"
+      ]
+    },
+    {
+      "property": "Row reduction produces matrix factorizations such as LU decomposition",
+      "why": "Elementary row operations correspond to left-multiplication by elementary or Frobenius matrices, decomposing the original matrix into an invertible matrix and an echelon matrix",
+      "cites": [
+        "wikipedia:Gaussian_elimination"
+      ]
+    },
+    {
+      "property": "The determinant of a square matrix satisfies det(A) = prod(diag(B)) / d",
+      "why": "Row swaps scale the determinant by -1, row scalings multiply it by the scalar, and row additions leave it unchanged, making det(A) equal the diagonal product of echelon form B divided by the cumulative factor d",
+      "cites": [
+        "wikipedia:Gaussian_elimination"
+      ]
+    },
+    {
+      "property": "Computes the inverse matrix A^{-1} via Gauss\u2013Jordan elimination on [A | I]",
+      "why": "Transforming [A | I] into [I | B] using elementary row operations yields B = A^{-1} when A is invertible because the sequence of operations satisfies BA = I",
+      "cites": [
+        "wikipedia:Gaussian_elimination"
+      ]
+    },
+    {
+      "property": "Determines the rank and a column space basis of an m x n matrix",
+      "why": "The rank equals the count of nonzero rows in row echelon form, and the columns containing leading entries form a basis for the column space of A",
+      "cites": [
+        "wikipedia:Gaussian_elimination"
+      ]
+    },
+    {
+      "property": "Achieves arithmetic complexity O(n^3) for an n x n system",
+      "why": "Row reduction to echelon form combined with back-substitution requires approximately 2n^3/3 arithmetic operations",
+      "cites": [
+        "wikipedia:Gaussian_elimination"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Matrix entries belong to a field",
+      "breaks_when": "The entries belong to an algebraic structure lacking multiplicative inverses for nonzero elements, precluding general division and pivot elimination"
+    },
+    {
+      "assumption": "A nonzero leading entry exists or can be positioned via row interchange",
+      "breaks_when": "All entries at or below the current pivot position in the column are zero, requiring the leading pivot to advance to a subsequent column"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Numerical instability due to small pivots",
+      "signature": "Severe amplification of roundoff errors and catastrophic precision loss in floating-point computation",
+      "cause": "Dividing by a pivot entry with magnitude close to zero without applying pivoting strategies"
+    },
+    {
+      "mode": "Exponential bit complexity growth under exact arithmetic",
+      "signature": "Rapid computational slowdown and memory exhaustion due to exponentially growing numerators and denominators",
+      "cause": "Executing standard elimination with exact rational or integer coefficients without fraction-free techniques such as the Bareiss algorithm"
+    },
+    {
+      "mode": "Inversion failure on singular matrices",
+      "signature": "The left block of augmented matrix [A | I] cannot be reduced to the identity matrix I",
+      "cause": "The matrix A is non-invertible (singular, with rank less than n)"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Gaussian_elimination"
+  ],
+  "check": {
+    "node_id": "gaussian_elimination",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so gaussian_elimination is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

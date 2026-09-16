@@ -90,7 +90,7 @@ class TestEncoding(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            # the second repo's requirements.txt is UTF-16LE with a BOM; read_text() dies on
+            # A real requirements.txt turned up UTF-16LE with a BOM; read_text() dies on
             # it and stage 1 never returned, so nothing downstream could run.
             (root / "requirements.txt").write_bytes(
                 "numpy==2.3.5\nscipy==1.14.0\n".encode("utf-16"))

@@ -1,0 +1,31 @@
+{
+  "node_id": "natural_gradient",
+  "grounded": false,
+  "kind": "definition",
+  "statement": "The natural gradient is not defined or derived in the supplied sources. The sources mention natural gradient descent only in passing as an information-geometric optimization method in machine learning, without providing its mathematical definition, formula, or derivation.",
+  "symbols": [],
+  "steps": [],
+  "properties": [],
+  "assumptions": [],
+  "failure_modes": [],
+  "source_ids": [
+    "wikipedia:Information_geometry",
+    "wikipedia:Fisher_information"
+  ],
+  "check": {
+    "node_id": "natural_gradient",
+    "kind": "definition",
+    "grounded": false,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [
+      "definition lists no properties",
+      "sheet names no symbols, so it is probably not about this node's mathematics at all"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

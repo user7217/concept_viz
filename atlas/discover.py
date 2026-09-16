@@ -2,9 +2,10 @@
 
 The library map only sees dependencies, which works for integration code -- a
 ROS2 project *imports* robot_localization and the EKF arrives with it. Research
-code is the opposite: the maths is written in the repo. a second repo imports only numpy,
-scipy and matplotlib while implementing Fisher information, natural gradient
-and Tikhonov regularisation itself.
+code is the opposite: the maths is written in the repo. A cosmology repo may
+import only numpy,
+scipy and matplotlib while implementing its estimators and regularisers
+itself.
 
 So concepts are read out of the source, not inferred from the manifest.
 

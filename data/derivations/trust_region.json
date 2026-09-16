@@ -1,0 +1,138 @@
+{
+  "node_id": "trust_region",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In mathematical optimization, a trust region is the subset of the region of an objective function that is approximated using a model function (often a quadratic), within which the step size is restricted so that the model is trusted only where it provides a reasonable approximation, with the region dynamically expanded or contracted based on the ratio of predicted improvement to actual improvement.",
+  "symbols": [
+    {
+      "symbol": "x",
+      "meaning": "current estimate point in the domain of the objective function",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\Delta x",
+      "meaning": "step vector updating the estimate",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "f(x)",
+      "meaning": "objective function or cost function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\Delta f_{\\text{pred}}",
+      "meaning": "expected improvement / predicted reduction in the cost function from the model approximation",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\Delta f_{\\text{actual}}",
+      "meaning": "actual improvement observed in the objective function, defined as f(x) - f(x + \\Delta x)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\lambda",
+      "meaning": "parameter controlling the trust-region size (damping parameter)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "A",
+      "meaning": "matrix in the linear solver / quadratic approximation",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "b",
+      "meaning": "right-hand side vector in the linear system A \\Delta x = b",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\operatorname{diag}(A)",
+      "meaning": "diagonal matrix with the same diagonal entries as matrix A",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Model-fit evaluation via reduction ratio",
+      "why": "The fit is evaluated by comparing the ratio of expected improvement from the model approximation to actual improvement observed in the objective function: \\Delta f_{\\text{pred}} / \\Delta f_{\\text{actual}}",
+      "cites": [
+        "wikipedia:Trust_region"
+      ]
+    },
+    {
+      "property": "Adaptive expansion and contraction",
+      "why": "If an adequate model of the objective function is found within the trust region, the region is expanded; conversely, if the approximation is poor, the region is contracted",
+      "cites": [
+        "wikipedia:Trust_region"
+      ]
+    },
+    {
+      "property": "Threshold-based region adjustment rules",
+      "why": "If \\Delta f_{\\text{pred}} / \\Delta f_{\\text{actual}} > 0.5, the step is damped too much so the trust region is expanded (decrease \\lambda); if the ratio is smaller than 0.25, the true function diverges too much from the model so the trust region is shrunk (increase \\lambda)",
+      "cites": [
+        "wikipedia:Trust_region"
+      ]
+    },
+    {
+      "property": "Duality to line-search methods",
+      "why": "Trust-region methods first choose a step size (trust-region size) and then a step direction, whereas line-search methods first choose a step direction and then a step size",
+      "cites": [
+        "wikipedia:Trust_region"
+      ]
+    },
+    {
+      "property": "Damped quadratic step restriction (Levenberg\u2013Marquardt)",
+      "why": "Restricting the step size to prevent stepping too far is operationalized by solving (A + \\lambda \\operatorname{diag}(A)) \\Delta x = b, geometrically adding a paraboloid centered at \\Delta x = 0 to yield a smaller step",
+      "cites": [
+        "wikipedia:Trust_region"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The objective function can be approximated locally by a model function (often a quadratic surface)",
+      "breaks_when": "The objective function diverges substantially from the model surface within the region"
+    },
+    {
+      "assumption": "The actual improvement \\Delta f_{\\text{actual}} = f(x) - f(x + \\Delta x) is non-zero when computing the fit evaluation ratio",
+      "breaks_when": "f(x + \\Delta x) = f(x), leading to division by zero in \\Delta f_{\\text{pred}} / \\Delta f_{\\text{actual}}"
+    },
+    {
+      "assumption": "The step size is restricted to prevent stepping too far from the current estimate",
+      "breaks_when": "Steps are unconstrained and the initial guess is too far from the optimum, causing convergence to fail"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Poor model approximation / divergence",
+      "signature": "\\Delta f_{\\text{pred}} / \\Delta f_{\\text{actual}} < 0.25",
+      "cause": "The trust region is too large, causing the true function to diverge too much from the model approximation"
+    },
+    {
+      "mode": "Over-damping / excessively small trust region",
+      "signature": "\\Delta f_{\\text{pred}} / \\Delta f_{\\text{actual}} > 0.5",
+      "cause": "The trust-region size is too small (parameter \\lambda is too large), damping the step excessively relative to actual reduction"
+    },
+    {
+      "mode": "Non-convergence from unrestricted stepping",
+      "signature": "Failure to converge nicely when solving A \\Delta x = b",
+      "cause": "The initial guess is too far from the optimum and the step is not restricted to a trust region"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Trust_region"
+  ],
+  "check": {
+    "node_id": "trust_region",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

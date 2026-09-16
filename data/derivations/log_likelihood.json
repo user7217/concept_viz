@@ -1,0 +1,149 @@
+{
+  "node_id": "log_likelihood",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied source [wikipedia:Likelihood_function] genuinely contains nothing to derive, as it contains no derivation of the log-likelihood function (such as converting a product of independent likelihoods to a sum via log_of_product_to_sum). Instead, the source provides definitions and properties of the likelihood function: for a continuous random variable X with density f_\u03b8(x), the likelihood is defined as L(\u03b8 | x) = f_\u03b8(x); for a discrete random variable, L(\u03b8 | x) = p_\u03b8(x) = Pr{X = x | \u0398 = \u03b8}; or more generally, any function of \u03b8 equal to c * Pr[x | \u03b8] for some positive constant c. The logarithm of the density, log f(x | \u03b8), is evaluated under regularity conditions for parameter estimation.",
+  "symbols": [
+    {
+      "symbol": "\u03b8",
+      "meaning": "deterministic but unknown model parameter or parameter vector",
+      "dimensions": "k x 1"
+    },
+    {
+      "symbol": "x",
+      "meaning": "observed outcome of the random variable X",
+      "dimensions": "scalar or vector"
+    },
+    {
+      "symbol": "X",
+      "meaning": "random variable representing the observed data",
+      "dimensions": "scalar or vector"
+    },
+    {
+      "symbol": "L(\u03b8 | x)",
+      "meaning": "likelihood function of \u03b8 given observation x",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f_\u03b8(x)",
+      "meaning": "probability density function of continuous random variable X at outcome x given parameter \u03b8",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_\u03b8(x)",
+      "meaning": "probability mass function of discrete random variable X at outcome x given parameter \u03b8",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "H(\u03b8)",
+      "meaning": "Hessian matrix of second partial derivatives of the likelihood function with respect to parameter components",
+      "dimensions": "k x k"
+    },
+    {
+      "symbol": "\u2207L",
+      "meaning": "gradient vector of partial derivatives of the likelihood function with respect to parameter components",
+      "dimensions": "k x 1"
+    },
+    {
+      "symbol": "\u0398",
+      "meaning": "parameter space, an open connected subset of \u211d^k",
+      "dimensions": "subset of \u211d^k"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Maximizing the probability density at observation x_j is equivalent to maximizing the likelihood of the specific observation: argmax_\u03b8 L(\u03b8 | x_j) = argmax_\u03b8 f(x_j | \u03b8).",
+      "why": "the ratio of the interval likelihood over [x_j, x_j + h] to h converges to the density f(x_j | \u03b8) as h -> 0+ by the first fundamental theorem of calculus",
+      "cites": [
+        "wikipedia:Likelihood_function"
+      ]
+    },
+    {
+      "property": "The likelihood function L(\u03b8 | x) is not a probability density or probability mass function over \u03b8, and its integral or sum over the parameter space need not equal one.",
+      "why": "it is a function of the parameter \u03b8 given an observed outcome x rather than a probability distribution over \u03b8",
+      "cites": [
+        "wikipedia:Likelihood_function"
+      ]
+    },
+    {
+      "property": "For an observation from a discrete component of a mixed distribution with discrete probability mass p_k(\u03b8), the likelihood is L(\u03b8 | x) = p_k(\u03b8).",
+      "why": "maximizing the probability mass at x amounts to maximizing the likelihood of the specific discrete observation",
+      "cites": [
+        "wikipedia:Likelihood_function"
+      ]
+    },
+    {
+      "property": "Under regularity conditions for parameter estimation, the partial derivatives \u2202 log f / \u2202\u03b8_r, \u2202\u00b2 log f / \u2202\u03b8_r \u2202\u03b8_s, and \u2202\u00b3 log f / \u2202\u03b8_r \u2202\u03b8_s \u2202\u03b8_t exist for all r, s, t = 1, ..., k for almost all x and all \u03b8 \u2208 \u0398.",
+      "why": "they ensure the existence of a Taylor expansion of the log-density around the parameter vector",
+      "cites": [
+        "wikipedia:Likelihood_function"
+      ]
+    },
+    {
+      "property": "There exists a unique maximum likelihood estimator \u03b8\u0302 \u2208 \u0398 if L(\u03b8) is twice continuously differentiable on open connected \u0398 \u2286 \u211d^k, the Hessian H(\u03b8) = [\u2202\u00b2L / \u2202\u03b8_i \u2202\u03b8_j] is negative definite at every \u03b8 where \u2207L vanishes, and lim_{\u03b8 -> \u2202\u0398} L(\u03b8) = 0.",
+      "why": "negative definiteness of the Hessian at all stationary points ensures uniqueness of the interior maximum under vanishing boundary conditions",
+      "cites": [
+        "wikipedia:Likelihood_function"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The random variable X follows an absolutely continuous distribution with density f_\u03b8(x) or a discrete distribution with probability mass p_\u03b8(x).",
+      "breaks_when": "The probability distribution cannot be dominated by Lebesgue measure or counting measure (e.g., singular distributions lacking a Radon-Nikodym derivative with respect to a common dominating measure)."
+    },
+    {
+      "assumption": "The parameter space \u0398 is an open connected subset of \u211d^k and the likelihood function is twice continuously differentiable on \u0398.",
+      "breaks_when": "The parameter space is discrete, has boundaries where the maximum occurs, or the likelihood function is non-differentiable."
+    },
+    {
+      "assumption": "For repeated coin flip or sample trials, observations are assumed to be independent and identically distributed (i.i.d.).",
+      "breaks_when": "Trials exhibit serial dependence, non-stationarity, or varying parameters across observations."
+    },
+    {
+      "assumption": "Partial derivatives of the density f with respect to \u03b8 up to third order are bounded in absolute value by integrable functions F_r(x), F_rs(x), and H_rst(x).",
+      "breaks_when": "The support of the density f(x | \u03b8) depends on the parameter \u03b8 or the density lacks integrable dominating bounds."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Confusing likelihood with posterior probability P(\u03b8 | x)",
+      "signature": "Treating L(\u03b8 | x) as a probability distribution over \u03b8 that can be integrated or summed to 1.",
+      "cause": "Failing to apply Bayes' theorem; L(\u03b8 | x) evaluates data probability given \u03b8, not parameter probability given data."
+    },
+    {
+      "mode": "Non-existence or non-uniqueness of the maximum likelihood estimate",
+      "signature": "The gradient \u2207L has no vanishing point, multiple vanishing points, or the Hessian H(\u03b8) fails to be negative definite.",
+      "cause": "Non-concavity of the likelihood, non-compact parameter space without boundary vanishing, or stationary points being saddle points or local minima."
+    },
+    {
+      "mode": "Incomparability of likelihoods across different statistical models",
+      "signature": "Likelihood comparisons or likelihood ratios produce invalid or scale-dependent conclusions.",
+      "cause": "Likelihoods are constructed from Radon-Nikodym derivatives with respect to different, non-commensurate dominating measures."
+    },
+    {
+      "mode": "Breakdown of Taylor expansion regularity conditions",
+      "signature": "Asymptotic normality or consistency of maximum likelihood estimators cannot be established.",
+      "cause": "The derivatives of log f fail to exist up to third order or exceed integrable dominating bounds."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Likelihood_function"
+  ],
+  "check": {
+    "node_id": "log_likelihood",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so log_likelihood is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

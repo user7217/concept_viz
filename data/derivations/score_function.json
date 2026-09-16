@@ -1,0 +1,117 @@
+{
+  "node_id": "score_function",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The score is the gradient (the vector of partial derivatives) of the natural logarithm of the likelihood function with respect to an m-dimensional parameter vector \u03b8:\n$$s(\\theta; x) \\equiv \\frac{\\partial \\log \\mathcal{L}(\\theta; x)}{\\partial \\theta}$$\nwhich yields a $(1 \\times m)$ row vector at each value of $\\theta$ and $x$, indicating the sensitivity of the likelihood (its derivative normalized by its value).",
+  "symbols": [
+    {
+      "symbol": "s(\\theta; x)",
+      "meaning": "score function",
+      "dimensions": "1 x m"
+    },
+    {
+      "symbol": "\\theta",
+      "meaning": "parameter vector",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "x",
+      "meaning": "observations vector (x_1, x_2, ..., x_T)",
+      "dimensions": "T x 1"
+    },
+    {
+      "symbol": "\\mathcal{L}(\\theta; x)",
+      "meaning": "likelihood function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f(x; \\theta)",
+      "meaning": "probability density function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathcal{X}",
+      "meaning": "sample space",
+      "dimensions": "domain"
+    },
+    {
+      "symbol": "m",
+      "meaning": "dimension of the parameter vector",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathcal{I}(\\theta)",
+      "meaning": "Fisher information matrix",
+      "dimensions": "m x m"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The expected value of the score evaluated at any parameter value \u03b8 is zero: $\\operatorname{E}(s \\mid \\theta) = 0$.",
+      "why": "under regularity conditions allowing interchange of derivative and integral, $\\frac{\\partial}{\\partial \\theta} \\int_{\\mathcal{X}} f(x; \\theta)\\,dx = \\frac{\\partial}{\\partial \\theta} 1 = 0$",
+      "cites": [
+        "wikipedia:Informant_(statistics)"
+      ]
+    },
+    {
+      "property": "The variance of the score equals the Fisher information matrix, which is the negative expected value of the Hessian of the log-likelihood: $\\operatorname{Var}(s(\\theta)) = \\operatorname{E}(s(\\theta) s(\\theta)^{\\mathsf{T}}) = -\\operatorname{E}\\left(\\frac{\\partial^2 \\log \\mathcal{L}}{\\partial \\theta \\,\\partial \\theta^{\\mathsf{T}}}\\right) = \\mathcal{I}(\\theta)$.",
+      "why": "differentiating $\\operatorname{E}(s \\mid \\theta) = 0$ with respect to $\\theta^{\\mathsf{T}}$ yields the sum of the expected Hessian and the expected outer product of the score",
+      "cites": [
+        "wikipedia:Informant_(statistics)"
+      ]
+    },
+    {
+      "property": "The score represents the derivative of the likelihood normalized by its value: $s = \\frac{1}{\\mathcal{L}} \\frac{\\partial \\mathcal{L}}{\\partial \\theta}$.",
+      "why": "direct application of the derivative of the natural logarithm to the likelihood function",
+      "cites": [
+        "wikipedia:Informant_(statistics)"
+      ]
+    },
+    {
+      "property": "The likelihood-ratio test statistic is expressed as twice the integral of the score function: $-2[\\log \\mathcal{L}(\\theta_0) - \\log \\mathcal{L}(\\hat{\\theta})] = 2\\int_{\\theta_0}^{\\hat{\\theta}} s(\\theta)\\,d\\theta$.",
+      "why": "fundamental theorem of calculus applied to the log-likelihood derivative",
+      "cites": [
+        "wikipedia:Informant_(statistics)"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Regularity conditions on the density function f(x; \u03b8) permit the interchange of integration over the sample space and differentiation with respect to \u03b8 (Leibniz integral rule).",
+      "breaks_when": "The support of the distribution depends on the parameter \u03b8, or f(x; \u03b8) is not differentiable with respect to \u03b8."
+    },
+    {
+      "assumption": "The likelihood function L(\u03b8; x) is strictly positive and differentiable with respect to \u03b8.",
+      "breaks_when": "The likelihood is zero (logarithm is undefined) or non-differentiable at \u03b8."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Non-zero expected score",
+      "signature": "E(s | \u03b8) \u2260 0",
+      "cause": "Failure of regularity conditions permitting differentiation under the integral sign over the sample space (e.g., parameter-dependent support boundaries)."
+    },
+    {
+      "mode": "Undefined or singular score",
+      "signature": "Score vector components are undefined, infinite, or division by zero occurs",
+      "cause": "The likelihood function L(\u03b8; x) reaches zero or is non-differentiable with respect to parameter \u03b8."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Informant_(statistics)"
+  ],
+  "check": {
+    "node_id": "score_function",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

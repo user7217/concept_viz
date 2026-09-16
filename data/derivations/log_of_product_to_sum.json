@@ -1,0 +1,110 @@
+{
+  "node_id": "log_of_product_to_sum",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For any positive real numbers $t$ and $u$, the logarithm of their product is equal to the sum of their individual logarithms: $\\ln(tu) = \\ln(t) + \\ln(u)$ (and more generally, $\\log_b(xy) = \\log_b x + \\log_b y$ for base $b > 0, b \\neq 1$).",
+  "symbols": [
+    {
+      "symbol": "t",
+      "meaning": "first positive real factor",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "u",
+      "meaning": "second positive real factor",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "integration variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "w",
+      "meaning": "scaled integration variable under substitution $w = x/t$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\ln",
+      "meaning": "natural logarithm function defined by $\\ln t = \\int_1^t \\frac{1}{x}\\,dx$",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Express the natural logarithm of the product $tu$ using its integral representation: $\\ln(tu) = \\int_{1}^{tu} \\frac{1}{x}\\,dx$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Logarithm"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Split the definite integral into two adjacent subintervals $[1, t]$ and $[t, tu]$: $\\int_{1}^{tu} \\frac{1}{x}\\,dx = \\int_{1}^{t} \\frac{1}{x}\\,dx + \\int_{t}^{tu} \\frac{1}{x}\\,dx$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Logarithm"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Evaluate the first integral as $\\ln(t)$ and perform the change of variables $w = x/t$ (which gives $dw = dx/t$, hence $dx/x = dw/w$, with limits $x = t \\implies w = 1$ and $x = tu \\implies w = u$) on the second integral: $\\int_{1}^{t} \\frac{1}{x}\\,dx + \\int_{t}^{tu} \\frac{1}{x}\\,dx = \\ln(t) + \\int_{1}^{u} \\frac{1}{w}\\,dw$.",
+      "invokes": [
+        "change_of_variables"
+      ],
+      "cites": [
+        "wikipedia:Logarithm"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Recognize that $\\int_{1}^{u} \\frac{1}{w}\\,dw = \\ln(u)$ by definition of the natural logarithm, yielding $\\ln(tu) = \\ln(t) + \\ln(u)$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Logarithm"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The arguments must be strictly positive real numbers ($t > 0, u > 0$).",
+      "breaks_when": "$t \\le 0$ or $u \\le 0$, where the integral definition $\\int_1^t \\frac{1}{x}\\,dx$ encounters the singularity at $x = 0$ and the real logarithm is undefined."
+    },
+    {
+      "assumption": "When using a general base $b$, the base must be positive and not equal to 1 ($b > 0, b \\neq 1$).",
+      "breaks_when": "$b \\le 0$ or $b = 1$, where the exponential function $f(x) = b^x$ is not a strictly monotonic bijection from $\\mathbb{R}$ to $\\mathbb{R}_{>0}$ and cannot be inverted."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Non-positive argument ($t \\le 0$ or $u \\le 0$)",
+      "signature": "Singularity / undefined value",
+      "cause": "The integrand $1/x$ diverges at $x = 0$, so the domain of the real logarithm is restricted to $\\mathbb{R}_{>0}$."
+    },
+    {
+      "mode": "Base equal to 1 ($b = 1$)",
+      "signature": "Division by zero or non-invertible mapping",
+      "cause": "The function $1^x = 1$ is constant and lacks an inverse; the derivative formula has $\\ln(1) = 0$ in the denominator."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Logarithm"
+  ],
+  "check": {
+    "node_id": "log_of_product_to_sum",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [
+      "change_of_variables"
+    ],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

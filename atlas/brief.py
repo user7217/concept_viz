@@ -1,10 +1,10 @@
 """Stage 1, for a repo that declares nothing.
 
 The repo path reads launch files and plugin config, which works when a project
-*declares* what it runs. Research code does not: a second repo has 93 Python files, no
-launch files, no YAML, no manifest naming anything it does. Stage 1 sees zero
-components, so stage 2 has nothing to classify and the whole pipeline bottoms
-out on a repo full of mathematics.
+*declares* what it runs. Research code does not: a scientific repo can carry
+a hundred source files with no launch files, no YAML and no manifest naming
+anything it does. Stage 1 sees zero components, so stage 2 has nothing to
+classify and the whole pipeline bottoms out on a repo full of mathematics.
 
 A brief is the other input ingest.py always said existed -- a structured
 description of what the project is made of, written by whoever knows. It says

@@ -1,0 +1,183 @@
+{
+  "node_id": "cramer_rao_bound",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "The Cram\u00e9r\u2013Rao bound states that for any estimator $T = t(X)$ with expectation $\\operatorname{E}[T] = \\psi(\\theta)$, its variance satisfies $\\operatorname{var}(t(X)) \\geq \\frac{[\\psi'(\\theta)]^2}{I(\\theta)}$, where $I(\\theta)$ is the Fisher information. For an unbiased estimator of $\\theta$ (where $\\psi(\\theta) = \\theta$), the bound simplifies to $\\operatorname{var}(T) \\geq \\frac{1}{I(\\theta)}$. In the multivariate case, the covariance matrix of an estimator vector $\\boldsymbol{T}(X)$ satisfies $\\operatorname{cov}_{\\boldsymbol{\\theta}}(\\boldsymbol{T}(X)) \\geq \\phi(\\boldsymbol{\\theta}) I(\\boldsymbol{\\theta})^{-1} \\phi(\\boldsymbol{\\theta})^T$, which reduces to $\\operatorname{cov}_{\\boldsymbol{\\theta}}(\\boldsymbol{T}(X)) \\geq I(\\boldsymbol{\\theta})^{-1}$ for unbiased estimators.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "observation / random variable",
+      "dimensions": "scalar or vector"
+    },
+    {
+      "symbol": "\\theta",
+      "meaning": "deterministic parameter to be estimated",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f(x; \\theta)",
+      "meaning": "probability density function of X parameterized by \\theta",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "T = t(X)",
+      "meaning": "estimator statistic for \\psi(\\theta)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\psi(\\theta)",
+      "meaning": "expectation of the estimator T, \\operatorname{E}[T]",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\psi'(\\theta)",
+      "meaning": "derivative of \\psi(\\theta) with respect to \\theta",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "V",
+      "meaning": "score function, defined as \\frac{\\partial}{\\partial \\theta} \\ln f(X;\\theta)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "I(\\theta)",
+      "meaning": "Fisher information",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\operatorname{var}(T)",
+      "meaning": "variance of estimator T",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\boldsymbol{\\theta}",
+      "meaning": "vector of parameters",
+      "dimensions": "p x 1"
+    },
+    {
+      "symbol": "\\boldsymbol{T}(X)",
+      "meaning": "vector of estimators",
+      "dimensions": "d x 1"
+    },
+    {
+      "symbol": "\\boldsymbol{\\psi}(\\boldsymbol{\\theta})",
+      "meaning": "expectation vector \\operatorname{E}[\\boldsymbol{T}(X)]",
+      "dimensions": "d x 1"
+    },
+    {
+      "symbol": "\\phi(\\boldsymbol{\\theta})",
+      "meaning": "Jacobian matrix \\partial \\boldsymbol{\\psi}(\\boldsymbol{\\theta}) / \\partial \\boldsymbol{\\theta}",
+      "dimensions": "d x p"
+    },
+    {
+      "symbol": "I(\\boldsymbol{\\theta})",
+      "meaning": "Fisher information matrix",
+      "dimensions": "p x p"
+    },
+    {
+      "symbol": "\\operatorname{cov}_{\\boldsymbol{\\theta}}(\\boldsymbol{T}(X))",
+      "meaning": "covariance matrix of \\boldsymbol{T}(X)",
+      "dimensions": "d x d"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Define the score function $V$ using the chain rule: $V = \\frac{\\partial}{\\partial \\theta} \\ln f(X;\\theta) = \\frac{1}{f(X;\\theta)} \\frac{\\partial}{\\partial \\theta} f(X;\\theta)$.",
+      "invokes": [
+        "score_function",
+        "partial_derivative",
+        "probability_density_function"
+      ],
+      "cites": [
+        "wikipedia:Cram\u00e9r\u2013Rao_bound"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Evaluate the expectation of $V$: $\\operatorname{E}(V) = \\int f(x;\\theta) \\left[\\frac{1}{f(x;\\theta)} \\frac{\\partial}{\\partial \\theta} f(x;\\theta)\\right] dx = \\frac{\\partial}{\\partial \\theta} \\int f(x;\\theta) dx = \\frac{\\partial}{\\partial \\theta}(1) = 0$, swapping integration and differentiation under the regularity condition.",
+      "invokes": [
+        "expectation",
+        "partial_derivative",
+        "probability_density_function"
+      ],
+      "cites": [
+        "wikipedia:Cram\u00e9r\u2013Rao_bound"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Compute the covariance $\\operatorname{cov}(V, T)$: since $\\operatorname{E}(V) = 0$, $\\operatorname{cov}(V, T) = \\operatorname{E}(VT) = \\int t(x) \\left[\\frac{1}{f(x;\\theta)} \\frac{\\partial}{\\partial \\theta} f(x;\\theta)\\right] f(x;\\theta) dx = \\frac{\\partial}{\\partial \\theta} \\left[\\int t(x) f(x;\\theta) dx\\right] = \\frac{\\partial}{\\partial \\theta} \\operatorname{E}(T) = \\psi'(\\theta)$, where integration and differentiation commute.",
+      "invokes": [
+        "expectation",
+        "partial_derivative"
+      ],
+      "cites": [
+        "wikipedia:Cram\u00e9r\u2013Rao_bound"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Apply the Cauchy\u2013Schwarz inequality: $\\sqrt{\\operatorname{var}(T) \\operatorname{var}(V)} \\geq |\\operatorname{cov}(V, T)| = |\\psi'(\\theta)|$.",
+      "invokes": [
+        "cauchy_schwarz_inequality",
+        "variance"
+      ],
+      "cites": [
+        "wikipedia:Cram\u00e9r\u2013Rao_bound"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Square both sides and note that $\\operatorname{var}(V) = I(\\theta)$ to obtain $\\operatorname{var}(T) \\geq \\frac{[\\psi'(\\theta)]^2}{\\operatorname{var}(V)} = \\frac{[\\psi'(\\theta)]^2}{I(\\theta)}$.",
+      "invokes": [
+        "fisher_information_matrix",
+        "estimator_variance"
+      ],
+      "cites": [
+        "wikipedia:Cram\u00e9r\u2013Rao_bound"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The Fisher information is always defined and finite; equivalently, for all $x$ such that $f(x;\\theta) > 0$, $\\frac{\\partial}{\\partial \\theta} \\log f(x;\\theta)$ exists and is finite.",
+      "breaks_when": "The probability density function is not differentiable with respect to $\\theta$ on its support, or the score variance integral diverges."
+    },
+    {
+      "assumption": "Integration with respect to $x$ and differentiation with respect to $\\theta$ can be interchanged in the expectation of $T(X)$ and in $\\int f(x;\\theta) dx$, i.e. $\\frac{\\partial}{\\partial \\theta}\\left[\\int T(x) f(x;\\theta) dx\\right] = \\int T(x) \\left[\\frac{\\partial}{\\partial \\theta} f(x;\\theta)\\right] dx$.",
+      "breaks_when": "The support of $f(x;\\theta)$ depends on the parameter $\\theta$ (such as $U(0, \\theta)$), or the integral fails to converge uniformly."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Parameter-dependent support",
+      "signature": "Estimators can achieve variance strictly smaller than the Cram\u00e9r\u2013Rao lower bound (e.g. scaling as $O(1/n^2)$ rather than $O(1/n)$).",
+      "cause": "The support bounds of $f(x;\\theta)$ depend on $\\theta$, violating the regularity condition that permits interchanging differentiation and integration."
+    },
+    {
+      "mode": "Bound inachievability / strictly greater variance",
+      "signature": "The minimum variance unbiased (MVU) estimator exists but its variance is strictly greater than the reciprocal of Fisher information, or no unbiased estimator achieves the bound.",
+      "cause": "No estimator achieves equality in the Cauchy\u2013Schwarz inequality with the score function."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Cram\u00e9r\u2013Rao_bound"
+  ],
+  "check": {
+    "node_id": "cramer_rao_bound",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [
+      "cauchy_schwarz_inequality"
+    ],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

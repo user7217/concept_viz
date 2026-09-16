@@ -1,0 +1,147 @@
+{
+  "node_id": "residual",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In statistics, a residual is the difference between an observed value of an element of a statistical sample and the estimated value of the quantity of interest; for an observation $X_i$ in a univariate location model with sample mean $\\overline{X}$, the residual is defined by $r_i = X_i - \\overline{X}$, and in regression analysis, it is the deviation of an observed dependent variable from the fitted function.",
+  "symbols": [
+    {
+      "symbol": "r_i",
+      "meaning": "residual of observation i (observable fitting deviation)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "X_i",
+      "meaning": "observed value of the i-th element of a statistical sample",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\overline{X}",
+      "meaning": "sample mean of the observations, defined as \\frac{X_1 + \\cdots + X_n}{n}",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "sample size (number of observations)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "e_i",
+      "meaning": "statistical error (disturbance) of observation i relative to the population mean \\mu",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\sigma^2",
+      "meaning": "population variance",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p",
+      "meaning": "number of estimated model parameters in a regression (excluding intercept)",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The sum of the residuals within a random sample is necessarily zero: \\sum_{i=1}^n r_i = 0",
+      "why": "follows directly from the definition of the sample mean",
+      "cites": [
+        "wikipedia:Errors_and_residuals"
+      ]
+    },
+    {
+      "property": "The residuals within a sample are necessarily not independent",
+      "why": "their sum is constrained to be zero",
+      "cites": [
+        "wikipedia:Errors_and_residuals"
+      ]
+    },
+    {
+      "property": "A residual is an observable estimate of the unobservable statistical error",
+      "why": "it is computed from observable sample data and estimators rather than unobservable population parameters",
+      "cites": [
+        "wikipedia:Errors_and_residuals"
+      ]
+    },
+    {
+      "property": "For independent observations from a normal population N(\\mu, \\sigma^2), the sum of squared residuals divided by \\sigma^2 follows a chi-squared distribution with n - 1 degrees of freedom: \\frac{1}{\\sigma^2}\\sum_{i=1}^n r_i^2 \\sim \\chi_{n-1}^2",
+      "why": "estimation of the unknown population mean by the sample mean consumes one degree of freedom",
+      "cites": [
+        "wikipedia:Errors_and_residuals"
+      ]
+    },
+    {
+      "property": "The sum of squares of the residuals and the sample mean are independent of each other in normal samples",
+      "why": "established by Basu's theorem",
+      "cites": [
+        "wikipedia:Errors_and_residuals"
+      ]
+    },
+    {
+      "property": "The mean residual is always zero for least-squares estimators",
+      "why": "least-squares estimation selects coefficients such that the sum of squared residuals is minimized",
+      "cites": [
+        "wikipedia:Errors_and_residuals"
+      ]
+    },
+    {
+      "property": "In a linear regression with identically distributed errors, the variability of residuals is higher in the middle of the input domain than at the ends",
+      "why": "linear regressions fit endpoints better and endpoints exert greater influence on regression coefficients",
+      "cites": [
+        "wikipedia:Errors_and_residuals"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "An observable sample of data points and a defined estimator of the quantity of interest (such as a sample mean or fitted regression function) exist",
+      "breaks_when": "The sample size is zero or the estimating function cannot be computed"
+    },
+    {
+      "assumption": "For the chi-squared distribution of normalized sum of squared residuals, the population is normally distributed with independent observations",
+      "breaks_when": "The underlying distribution is non-normal or observations are not chosen independently"
+    },
+    {
+      "assumption": "For linear regression residuals to be random about zero, the linear model specification correctly represents the data-generating process",
+      "breaks_when": "The true relationship is nonlinear (e.g., quadratic or higher-order polynomial)"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Regression model misspecification",
+      "signature": "A scatterplot of residuals plotted against the independent variable exhibits a non-random pattern or trend",
+      "cause": "The true function relating independent and dependent variables is nonlinear or higher-order polynomial rather than linear"
+    },
+    {
+      "mode": "Heteroscedasticity",
+      "signature": "Residuals fan out with increasing or decreasing spread across the range of the independent variable",
+      "cause": "The variance of the unobserved statistical errors is non-constant across data points"
+    },
+    {
+      "mode": "Biased variance estimation",
+      "signature": "Systematic underestimation of the unobserved error variance",
+      "cause": "Dividing the sum of squared residuals by n rather than the residual degrees of freedom n - p - 1"
+    },
+    {
+      "mode": "Spurious outlier detection from raw residuals",
+      "signature": "Incorrectly identifying data points in the middle of the domain as outliers or failing to detect outliers at domain boundaries",
+      "cause": "Comparing raw residuals without studentizing to adjust for non-constant residual variability across input values"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Errors_and_residuals"
+  ],
+  "check": {
+    "node_id": "residual",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

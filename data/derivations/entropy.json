@@ -1,0 +1,159 @@
+{
+  "node_id": "entropy",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Entropy S is a thermodynamic state variable that quantifies the probabilistic distribution of accessible microstates in a system. Thermodynamically, for a closed system of constant volume V and particle number N with heat transfer dQ at absolute temperature T, it is defined differentially by dS = dQ / T; statistically, for accessible microstates with probabilities p_i, it is defined by S = -k_B sum_i p_i ln(p_i) (or H = k ln(W) for W equiprobable microstates, and S = -k_B tr(rho_hat * ln(rho_hat)) for a quantum density matrix rho_hat).",
+  "symbols": [
+    {
+      "symbol": "S",
+      "meaning": "thermodynamic entropy",
+      "dimensions": "energy / temperature (J/K)"
+    },
+    {
+      "symbol": "T",
+      "meaning": "absolute thermodynamic temperature",
+      "dimensions": "temperature (K)"
+    },
+    {
+      "symbol": "Q",
+      "meaning": "heat transferred across the system boundary",
+      "dimensions": "energy (J)"
+    },
+    {
+      "symbol": "k_B",
+      "meaning": "Boltzmann constant",
+      "dimensions": "energy / temperature (J/K)"
+    },
+    {
+      "symbol": "p_i",
+      "meaning": "probability of microstate i",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "W",
+      "meaning": "number of microstates corresponding to a given macrostate",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "rho_hat",
+      "meaning": "quantum density matrix",
+      "dimensions": "dimensionless operator"
+    },
+    {
+      "symbol": "H",
+      "meaning": "information / Shannon entropy",
+      "dimensions": "dimensionless (bits or nats)"
+    },
+    {
+      "symbol": "S_dot_gen",
+      "meaning": "rate of entropy generation within the system",
+      "dimensions": "power / temperature (W/K)"
+    },
+    {
+      "symbol": "M_dot_k",
+      "meaning": "mass flow rate of stream k",
+      "dimensions": "mass / time (kg/s)"
+    },
+    {
+      "symbol": "S_hat_k",
+      "meaning": "entropy per unit mass of stream k",
+      "dimensions": "energy / (mass * temperature) (J/(kg*K))"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The entropy of an isolated system undergoing spontaneous evolution cannot decrease over time (dS/dt >= 0), reaching a maximum at thermodynamic equilibrium.",
+      "why": "isolated systems evolve toward thermodynamic equilibrium where energy is more disordered or dispersed",
+      "cites": [
+        "wikipedia:Entropy"
+      ]
+    },
+    {
+      "property": "For an open thermodynamic system, the rate of entropy change satisfies dS/dt = sum_k(M_dot_k * S_hat_k) + sum_j(Q_dot_j / T_j) + S_dot_gen, where S_dot_gen >= 0.",
+      "why": "entropy is a non-conserved quantity generated internally by irreversible processes such as friction, viscosity, phase transitions, or chemical reactions",
+      "cites": [
+        "wikipedia:Entropy"
+      ]
+    },
+    {
+      "property": "Entropy is a state function, meaning its change between two equilibrium states depends only on the initial and final states and is independent of the process path.",
+      "why": "the total entropy change can be calculated by decomposing the process into convenient reversible paths such as constant-volume heating and isothermal expansion",
+      "cites": [
+        "wikipedia:Entropy"
+      ]
+    },
+    {
+      "property": "For an isothermal expansion or compression of an ideal gas, Delta S = n*R*ln(V / V_0) = -n*R*ln(P / P_0).",
+      "why": "temperature, internal energy, and enthalpy remain constant during isothermal processes of an ideal gas",
+      "cites": [
+        "wikipedia:Entropy"
+      ]
+    },
+    {
+      "property": "For a reversible phase transition at constant temperature and pressure, the entropy change is the transition enthalpy divided by the transition temperature (Delta S_fus = Delta H_fus / T_m, Delta S_vap = Delta H_vap / T_b).",
+      "why": "the reversible heat exchanged during the transition equals the enthalpy change at constant temperature and pressure",
+      "cites": [
+        "wikipedia:Entropy"
+      ]
+    },
+    {
+      "property": "The von Neumann quantum entropy S = -k_B * tr(rho_hat * ln(rho_hat)) reduces to the classical Gibbs/Boltzmann entropy S = -k_B * sum_i(p_i * ln(p_i)) when phases between basis states are purely random.",
+      "why": "purely random phases yield a diagonal density matrix with classical state probabilities along the diagonal",
+      "cites": [
+        "wikipedia:Entropy"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Constant molar heat capacity (C_P or C_V) across the temperature interval for Delta S = n*C*ln(T / T_0)",
+      "breaks_when": "The temperature is near absolute zero where heat capacities drop toward zero, or a phase transition occurs within the temperature range"
+    },
+    {
+      "assumption": "Ideal gas equation of state holds for isothermal entropy change formulas",
+      "breaks_when": "The gas exhibits non-ideal intermolecular forces or non-negligible molecular volume"
+    },
+    {
+      "assumption": "Heat, work, and mass transfers cross boundaries via physically distinct paths in open systems",
+      "breaks_when": "Heat or work transfer occurs through convective coupling inseparable from matter entry or exit"
+    },
+    {
+      "assumption": "Equal a priori probabilities for all accessible microstates (p_i = 1 / W) in Boltzmann's formula H = k * ln(W)",
+      "breaks_when": "Microstates have non-uniform probability distributions"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Low-temperature heat capacity collapse",
+      "signature": "Divergent or incorrect entropy changes computed near 0 K using Delta S = n*C*ln(T / T_0)",
+      "cause": "Heat capacities of solids drop sharply to near zero near absolute zero, violating the assumption of constant heat capacity"
+    },
+    {
+      "mode": "Conservation fallacy in entropy accounting",
+      "signature": "Apparent violation of the entropy balance (rate of entropy accumulation exceeds boundary inputs)",
+      "cause": "Treating entropy as a conserved quantity rather than accounting for internal entropy generation (S_dot_gen > 0) caused by irreversibility"
+    },
+    {
+      "mode": "Ignoring mass convective entropy transport",
+      "signature": "Incorrect system entropy rates in open systems despite accurate heat transfer measurements",
+      "cause": "Omitting the net mass flow entropy term sum_k(M_dot_k * S_hat_k) across system boundaries"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Entropy"
+  ],
+  "check": {
+    "node_id": "entropy",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

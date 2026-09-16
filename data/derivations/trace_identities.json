@@ -1,0 +1,162 @@
+{
+  "node_id": "trace_identities",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The trace of an n \u00d7 n square matrix A, denoted tr(A), is defined as the sum of the elements on its main diagonal: tr(A) = \\sum_{i=1}^{n} a_{ii} = a_{11} + a_{22} + \\dots + a_{nn}, where a_{ii} denotes the entry on the i-th row and i-th column of A. The supplied sources define the trace directly as a primitive matrix operation and genuinely contain no derivation of the trace itself.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "square matrix (or m \u00d7 n matrix in product identities)",
+      "dimensions": "n \u00d7 n (or m \u00d7 n)"
+    },
+    {
+      "symbol": "a_{ii}",
+      "meaning": "entry on the i-th row and i-th column along the main diagonal of matrix A",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "dimension (number of rows and columns) of square matrix A",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "B",
+      "meaning": "matrix compatible with A for addition or multiplication",
+      "dimensions": "n \u00d7 n (or n \u00d7 m)"
+    },
+    {
+      "symbol": "c",
+      "meaning": "scalar coefficient",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "P",
+      "meaning": "invertible change-of-basis matrix",
+      "dimensions": "n \u00d7 n"
+    },
+    {
+      "symbol": "\\lambda_i",
+      "meaning": "i-th eigenvalue of matrix A counted with algebraic multiplicity",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The trace is a linear mapping: tr(A + B) = tr(A) + tr(B) and tr(cA) = c tr(A) for all square matrices A, B and all scalars c.",
+      "why": "Follows directly from the linearity of entry-wise diagonal summation",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    },
+    {
+      "property": "A matrix and its transpose have identical trace: tr(A) = tr(A^T).",
+      "why": "Transposition does not alter elements along the main diagonal",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    },
+    {
+      "property": "Trace of a product / Frobenius inner product: tr(A^T B) = tr(A B^T) = tr(B^T A) = tr(B A^T) = \\sum_{i=1}^m \\sum_{j=1}^n a_{ij} b_{ij} for m \u00d7 n matrices A and B.",
+      "why": "The trace of the product equals the sum of all entry-wise products of their elements",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    },
+    {
+      "property": "Commutativity under trace: tr(AB) = tr(BA) for any m \u00d7 n matrix A and n \u00d7 m matrix B.",
+      "why": "Both expressions evaluate to the symmetric sum of entry-wise products \\sum_{i=1}^m \\sum_{j=1}^n a_{ij} b_{ij}",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    },
+    {
+      "property": "Cyclic property: tr(ABC) = tr(BCA) = tr(CAB) for matrices of compatible dimensions.",
+      "why": "The trace is invariant under circular shifts of matrix factors",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    },
+    {
+      "property": "Similarity invariance: tr(P^{-1}AP) = tr(A) for any square matrix A and any invertible matrix P of the same dimensions.",
+      "why": "Consequence of the cyclic property: tr(P^{-1}(AP)) = tr((AP)P^{-1}) = tr(A)",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    },
+    {
+      "property": "Trace of a Kronecker product: tr(A \\otimes B) = tr(A) tr(B).",
+      "why": "Diagonal elements of the Kronecker product are pairwise products of diagonal entries of A and B",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    },
+    {
+      "property": "Trace equals the sum of eigenvalues: tr(A) = \\sum_{i=1}^n \\lambda_i, where \\lambda_i are the eigenvalues of A counted with algebraic multiplicity.",
+      "why": "A is similar to its Jordan form with eigenvalues on the main diagonal, combined with similarity invariance",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    },
+    {
+      "property": "Trace of commutator vanishes: tr([A, B]) = tr(AB - BA) = 0 for all n \u00d7 n matrices A and B.",
+      "why": "Follows from commutativity tr(AB) = tr(BA) combined with linearity",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Matrix A must be square (n \u00d7 n)",
+      "breaks_when": "A is non-square (m \u00d7 n with m \\neq n), where trace is undefined"
+    },
+    {
+      "assumption": "Matrices in sum tr(A + B) must have identical square dimensions",
+      "breaks_when": "Dimensions of A and B differ or are non-square"
+    },
+    {
+      "assumption": "In product traces tr(AB), inner dimensions must match such that AB and BA are square",
+      "breaks_when": "Matrix dimensions are incompatible for multiplication or yield non-square products"
+    },
+    {
+      "assumption": "The transformation matrix P in similarity invariance must be invertible",
+      "breaks_when": "P is singular (non-invertible)"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Evaluating trace on non-square matrix",
+      "signature": "Dimension mismatch or undefined operation",
+      "cause": "The trace is strictly defined only for square matrices; non-square matrices do not possess a main diagonal in the required sense"
+    },
+    {
+      "mode": "Arbitrary (non-cyclic) permutation of factors",
+      "signature": "tr(ABC) \\neq tr(ACB)",
+      "cause": "Assuming trace invariance under arbitrary permutations rather than strictly cyclic permutations; arbitrary permutations fail in general unless the matrices are symmetric"
+    },
+    {
+      "mode": "Assuming multiplicativity over matrix products",
+      "signature": "tr(AB) \\neq tr(A) tr(B)",
+      "cause": "Incorrectly treating trace as a multiplicative map; trace distributes across matrix sums, not matrix products"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Trace_(linear_algebra)"
+  ],
+  "check": {
+    "node_id": "trace_identities",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so trace_identities is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

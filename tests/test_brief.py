@@ -7,7 +7,7 @@ from atlas.bootstrap import build_graph, load
 from atlas.brief import Brief, propose_from_brief, to_project, unknown
 
 GOOD = {
-    "project": "a second repo",
+    "project": "Rig",
     "subsystems": {"Information Geometry": ["whitening"]},
     "components": {"whitening": {
         "algorithms": ["natural_gradient_descent"],
@@ -64,14 +64,14 @@ class TestBrief(unittest.TestCase):
         self.assertIn("components in a subsystem but never described",
                       unknown(brief, self.graph))
 
-    def test_the_real_v1_brief_is_clean(self) -> None:
-        path = Path(__file__).resolve().parent.parent / "data/briefs/v1.json"
-        if not path.exists():
-            self.skipTest("no v1 brief")
+    def test_any_brief_on_disk_is_clean(self) -> None:
+        # Briefs describe private repositories and are gitignored, so this
+        # checks whichever ones happen to be present and passes when none are.
         from atlas.brief import load_brief
-        # algorithms must resolve even without the repo present
-        problems = unknown(load_brief(path), self.graph)
-        self.assertEqual(problems, {})
+        briefs = Path(__file__).resolve().parent.parent / "data" / "briefs"
+        for path in sorted(briefs.glob("*.json")) if briefs.exists() else []:
+            with self.subTest(brief=path.name):
+                self.assertEqual(unknown(load_brief(path), self.graph), {})
 
 
 if __name__ == "__main__":

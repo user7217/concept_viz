@@ -1,0 +1,94 @@
+{
+  "node_id": "sigmoid",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied source contains no derivation (including any derivation via logarithm_solve). By definition, a sigmoid function is a bounded, differentiable, real function that is defined for all real input values and has a positive derivative at each point, commonly exemplified by the standard logistic function f(x) = 1 / (1 + e^{-x}).",
+  "symbols": [
+    {
+      "symbol": "x",
+      "meaning": "independent real input variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f(x)",
+      "meaning": "sigmoid function response value",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "e",
+      "meaning": "base of the natural logarithm",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "A sigmoid function is monotonic and has a first derivative that is bell-shaped.",
+      "why": "It is defined to have a strictly positive derivative at every point across the real line.",
+      "cites": [
+        "wikipedia:Sigmoid_function"
+      ]
+    },
+    {
+      "property": "A sigmoid function is constrained by a pair of horizontal asymptotes as x -> \u00b1\u221e.",
+      "why": "It is a bounded real function defined for all real inputs, commonly bounded between 0 and 1 or -1 and 1.",
+      "cites": [
+        "wikipedia:Sigmoid_function"
+      ]
+    },
+    {
+      "property": "A sigmoid function is convex for values below an inflection point and concave for values above it.",
+      "why": "The rate of change rises to a peak and subsequently falls as it approaches the asymptotes.",
+      "cites": [
+        "wikipedia:Sigmoid_function"
+      ]
+    },
+    {
+      "property": "The logistic sigmoid function is invertible, with the logit function as its inverse.",
+      "why": "It is strictly monotonically increasing on the real domain.",
+      "cites": [
+        "wikipedia:Sigmoid_function"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The domain is defined for all real input values x \u2208 \u211d.",
+      "breaks_when": "The function is evaluated outside the real numbers or at singularities."
+    },
+    {
+      "assumption": "The function is differentiable with a positive derivative at each point.",
+      "breaks_when": "Discontinuous step functions (such as the Heaviside step function) or non-smooth hard sigmoids are used."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Loss of true sigmoidal transition via multiple inflection points",
+      "signature": "Function exhibits oscillatory behavior or non-monotonic transitions rather than a single inflection point.",
+      "cause": "Free parameters set outside required bounds in parameterized forms (such as m < \u221a3 in the smooth transition function) or using unitary sigmoids of the 2nd or 3rd kind."
+    },
+    {
+      "mode": "Gradient saturation",
+      "signature": "First derivative approaches zero as |x| becomes large.",
+      "cause": "Inputs x -> \u00b1\u221e driving the function into its horizontal asymptotic limits."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Sigmoid_function"
+  ],
+  "check": {
+    "node_id": "sigmoid",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so sigmoid is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

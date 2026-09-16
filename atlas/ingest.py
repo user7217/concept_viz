@@ -306,7 +306,7 @@ PARAM_DIRS = ("config", "params", "param")
 def read_source(path: Path) -> str:
     """Decode a file whose encoding nobody promised.
 
-    the second repo's requirements.txt is UTF-16LE with a BOM, and Path.read_text() defaults
+    A requirements.txt turned up UTF-16LE with a BOM, and Path.read_text() defaults
     to UTF-8, so stage 1 died on the first file it touched and every later
     stage was unreachable. A repo does not owe us UTF-8.
 

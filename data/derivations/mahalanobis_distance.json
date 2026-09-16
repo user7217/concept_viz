@@ -1,0 +1,138 @@
+{
+  "node_id": "mahalanobis_distance",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Given a probability distribution $Q$ on $\\mathbb{R}^N$ with mean vector $\\vec{\\mu} = (\\mu_1, \\mu_2, \\dots, \\mu_N)^\\mathsf{T}$ and positive semi-definite covariance matrix $\\mathbf{\\Sigma}$, the Mahalanobis distance of a point $\\vec{x} = (x_1, x_2, \\dots, x_N)^\\mathsf{T}$ from $Q$ is defined as $d_M(\\vec{x}, Q) = \\sqrt{(\\vec{x} - \\vec{\\mu})^\\mathsf{T} \\mathbf{\\Sigma}^{-1} (\\vec{x} - \\vec{\\mu})}$. Between two points $\\vec{x}, \\vec{y} \\in \\mathbb{R}^N$ with respect to $Q$, it is defined as $d_M(\\vec{x}, \\vec{y}; Q) = \\sqrt{(\\vec{x} - \\vec{y})^\\mathsf{T} \\mathbf{\\Sigma}^{-1} (\\vec{x} - \\vec{y})}$.",
+  "symbols": [
+    {
+      "symbol": "x",
+      "meaning": "observation or test point vector in Euclidean space",
+      "dimensions": "N x 1"
+    },
+    {
+      "symbol": "y",
+      "meaning": "second point vector in Euclidean space",
+      "dimensions": "N x 1"
+    },
+    {
+      "symbol": "Q",
+      "meaning": "probability distribution on R^N",
+      "dimensions": "scalar distribution"
+    },
+    {
+      "symbol": "\\mu",
+      "meaning": "mean vector of the distribution Q",
+      "dimensions": "N x 1"
+    },
+    {
+      "symbol": "\\Sigma",
+      "meaning": "covariance matrix of the distribution Q",
+      "dimensions": "N x N"
+    },
+    {
+      "symbol": "d_M(x, Q)",
+      "meaning": "Mahalanobis distance from point x to distribution Q",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "d_M(x, y; Q)",
+      "meaning": "Mahalanobis distance between points x and y with respect to distribution Q",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "S",
+      "meaning": "factor matrix from decomposition \\Sigma = S^T S (e.g., symmetric standard deviation matrix)",
+      "dimensions": "N x N"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "d_M(\\vec{x}, Q) = d_M(\\vec{x}, \\vec{\\mu}; Q)",
+      "why": "The distance from a point to a distribution Q is equivalent to the two-point distance between the point and the mean vector \\vec{\\mu}",
+      "cites": [
+        "wikipedia:Mahalanobis_distance"
+      ]
+    },
+    {
+      "property": "d_M(\\vec{x}, \\vec{y}; Q) = \\|\\mathbf{S}^{-1}(\\vec{x} - \\vec{y})\\|",
+      "why": "By the spectral theorem \\Sigma can be factored as S^T S, showing Mahalanobis distance is Euclidean distance after a whitening transformation",
+      "cites": [
+        "wikipedia:Mahalanobis_distance"
+      ]
+    },
+    {
+      "property": "Unitless and scale-invariant",
+      "why": "Axes are rescaled to unit variance and whitened to be uncorrelated, taking into account data correlations",
+      "cites": [
+        "wikipedia:Mahalanobis_distance"
+      ]
+    },
+    {
+      "property": "For a normal distribution, Pr[\\vec{x}] d\\vec{x} = \\frac{1}{\\sqrt{\\det(2\\pi \\mathbf{\\Sigma})}} \\exp(-d^2 / 2) d\\vec{x}",
+      "why": "The exponent of the multivariate normal probability density function is proportional to the negative squared Mahalanobis distance -d^2/2",
+      "cites": [
+        "wikipedia:Mahalanobis_distance"
+      ]
+    },
+    {
+      "property": "d^2 follows a chi-squared distribution with n degrees of freedom for an n-dimensional normal distribution",
+      "why": "Squared Mahalanobis distance represents the sum of squares of n independent standard normal variables after whitening",
+      "cites": [
+        "wikipedia:Mahalanobis_distance"
+      ]
+    },
+    {
+      "property": "Invariance under full-rank affine transformations of the affine span of samples",
+      "why": "Linear transformations and translations of coordinates are compensated for by the transformation of the covariance matrix",
+      "cites": [
+        "wikipedia:Mahalanobis_distance"
+      ]
+    },
+    {
+      "property": "D^2 = (N - 1)(h - 1/N)",
+      "why": "Relates the squared Mahalanobis distance directly to the regression leverage statistic h",
+      "cites": [
+        "wikipedia:Mahalanobis_distance"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The covariance matrix \\Sigma is invertible (positive-definite)",
+      "breaks_when": "The affine span of the samples is not the entire R^N, causing \\Sigma to be singular and non-invertible"
+    },
+    {
+      "assumption": "The distribution Q has well-defined, finite mean vector \\vec{\\mu} and covariance matrix \\mathbf{\\Sigma}",
+      "breaks_when": "The underlying distribution lacks finite first or second moments"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular covariance matrix inversion failure",
+      "signature": "Matrix inverse \\Sigma^{-1} does not exist or yields infinite/undefined values",
+      "cause": "Sample size is smaller than the feature dimension, or features exhibit perfect multicollinearity, reducing the rank of the affine span"
+    },
+    {
+      "mode": "Distortion by multivariate outliers",
+      "signature": "Masking or swamping of outliers, or inflated distances for normal observations",
+      "cause": "Sample mean and covariance matrix are sensitive to extreme values; non-robust estimators are pulled by outlier points"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Mahalanobis_distance"
+  ],
+  "check": {
+    "node_id": "mahalanobis_distance",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

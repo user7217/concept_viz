@@ -1,0 +1,167 @@
+{
+  "node_id": "weighted_least_squares",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Weighted least squares (WLS) is a generalization of ordinary linear regression that minimizes the weighted sum of squared residuals: \\hat{\\boldsymbol{\\beta}} = \\operatorname{arg\\,min}_{\\boldsymbol{\\beta}} \\sum_{i=1}^n w_i \\left|y_i - \\sum_{j=1}^m X_{ij}\\beta_j\\right|^2 = \\operatorname{arg\\,min}_{\\boldsymbol{\\beta}} \\left\\|W^{1/2}(\\mathbf{y} - X\\boldsymbol{\\beta})\\right\\|^2, where w_i = W_{ii} > 0 is the weight associated with the ith observation and W is the diagonal matrix of weights.",
+  "symbols": [
+    {
+      "symbol": "y",
+      "meaning": "vector of observed or measured values of the dependent variable",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "X",
+      "meaning": "design matrix of predictor variables",
+      "dimensions": "n x m"
+    },
+    {
+      "symbol": "\\beta",
+      "meaning": "vector of regression model parameters",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "\\hat{\\boldsymbol{\\beta}}",
+      "meaning": "weighted least squares parameter estimate vector minimizing the objective function",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "W",
+      "meaning": "diagonal weight matrix with diagonal entries W_{ii} = w_i",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "w_i",
+      "meaning": "weight of the ith observation, ideally equal to 1/\\sigma_i^2",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "\\sigma_i^2",
+      "meaning": "variance of the ith observation measurement error",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "r_i",
+      "meaning": "residual of the ith data point, r_i(\\boldsymbol{\\beta}) = y_i - f(x_i, \\boldsymbol{\\beta})",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "S",
+      "meaning": "weighted sum of squared residuals objective function, S = \\sum_{i=1}^n W_{ii} r_i^2 = \\mathbf{r}^{\\textsf{T}} W \\mathbf{r}",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "M",
+      "meaning": "variance-covariance matrix of the observations",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "M^\\beta",
+      "meaning": "variance-covariance matrix of the parameter estimates",
+      "dimensions": "m x m"
+    },
+    {
+      "symbol": "H",
+      "meaning": "hat matrix mapping observations to fitted values, H = X(X^{\\textsf{T}}WX)^{-1}X^{\\textsf{T}}W",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "(X^{\\textsf{T}}WX)\\hat{\\boldsymbol{\\beta}} = X^{\\textsf{T}}W\\mathbf{y}",
+      "why": "Stationarity condition obtained by setting the gradient of the weighted sum of squared residuals with respect to the parameters to zero",
+      "cites": [
+        "wikipedia:Weighted_least_squares"
+      ]
+    },
+    {
+      "property": "\\hat{\\boldsymbol{\\beta}} = (X^{\\textsf{T}}WX)^{-1}X^{\\textsf{T}}W\\mathbf{y}",
+      "why": "Explicit closed-form solution for the parameter estimates when X^{\\textsf{T}}WX is invertible",
+      "cites": [
+        "wikipedia:Weighted_least_squares"
+      ]
+    },
+    {
+      "property": "\\hat{\\boldsymbol{\\beta}} is the Best Linear Unbiased Estimator (BLUE) when W_{ii} = 1/\\sigma_i^2",
+      "why": "Aitken's theorem showing that minimizing the weighted sum of squares with weights equal to reciprocal variances yields the BLUE for uncorrelated observations with unequal variances",
+      "cites": [
+        "wikipedia:Weighted_least_squares"
+      ]
+    },
+    {
+      "property": "(X'^{\\textsf{T}}X')\\hat{\\boldsymbol{\\beta}} = X'^{\\textsf{T}}\\mathbf{y}', where X' = \\operatorname{diag}(\\mathbf{w})X and \\mathbf{y}' = \\operatorname{diag}(\\mathbf{w})\\mathbf{y} = \\mathbf{y} \\oslash \\boldsymbol{\\sigma}",
+      "why": "Whitening transformation factoring the diagonal weight matrix via w_{ii} = \\sqrt{W_{ii}} to map the problem into ordinary least squares form",
+      "cites": [
+        "wikipedia:Weighted_least_squares"
+      ]
+    },
+    {
+      "property": "M^\\beta = (X^{\\textsf{T}}WX)^{-1}X^{\\textsf{T}}WMW^{\\textsf{T}}X(X^{\\textsf{T}}W^{\\textsf{T}}X)^{-1}, which simplifies to M^\\beta = (X^{\\textsf{T}}WX)^{-1} when W = M^{-1}",
+      "why": "Error propagation from the observation error covariance matrix M to the parameter estimates",
+      "cites": [
+        "wikipedia:Weighted_least_squares"
+      ]
+    },
+    {
+      "property": "M^{\\mathbf{r}} = (I - H)M(I - H)^{\\textsf{T}} = (I - H)M (when W = M^{-1})",
+      "why": "Linear relation between the residual vector \\hat{\\mathbf{r}} = (I - H)\\mathbf{y} and observations \\mathbf{y} implies residuals are correlated even if observations are uncorrelated",
+      "cites": [
+        "wikipedia:Weighted_least_squares"
+      ]
+    },
+    {
+      "property": "X^{\\textsf{T}}W\\hat{\\mathbf{r}} = \\mathbf{0}, implying \\sum_{i=1}^n W_i \\hat{r}_i = 0 when the model contains a constant term (X_{i1} = 1)",
+      "why": "Left-multiplying the residual expression \\hat{\\mathbf{r}} = \\mathbf{y} - X\\hat{\\boldsymbol{\\beta}} by X^{\\textsf{T}}W identically cancels",
+      "cites": [
+        "wikipedia:Weighted_least_squares"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Observational errors are uncorrelated (off-diagonal entries of the error covariance matrix are zero) when using a diagonal weight matrix W",
+      "breaks_when": "Observations are correlated, in which case a non-diagonal weight matrix equal to the inverse of the full variance-covariance matrix of observations (generalized least squares) must be used"
+    },
+    {
+      "assumption": "Weights are known positive constants equal to the reciprocal of measurement variances (w_i = 1/\\sigma_i^2)",
+      "breaks_when": "Variances are unknown from external sources and must be estimated from data using feasible generalized least squares or iteratively reweighted least squares"
+    },
+    {
+      "assumption": "The matrix X^{\\textsf{T}}WX is non-singular and invertible",
+      "breaks_when": "The design matrix X lacks full column rank (collinear regressors) or weights are zero/negative"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular normal matrix",
+      "signature": "X^{\\textsf{T}}WX is non-invertible and normal equations cannot be uniquely solved",
+      "cause": "Rank deficiency or multicollinearity in the design matrix X"
+    },
+    {
+      "mode": "Suboptimal or biased variance estimation due to misspecified weights",
+      "signature": "Estimator loses the BLUE property and parameter covariance matrix M^\\beta fails to simplify to (X^{\\textsf{T}}WX)^{-1}",
+      "cause": "Weights do not equal the reciprocal measurement variances W \\ne M^{-1}"
+    },
+    {
+      "mode": "Underestimated parameter uncertainty from systematic errors",
+      "signature": "True parameter error exceeds standard confidence limits derived from random error propagation",
+      "cause": "Presence of systematic errors in observations which cannot be quantified by random error propagation"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Weighted_least_squares"
+  ],
+  "check": {
+    "node_id": "weighted_least_squares",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

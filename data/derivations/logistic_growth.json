@@ -1,0 +1,121 @@
+{
+  "node_id": "logistic_growth",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Logistic growth is modeled by the first-order differential equation \\frac{df(x)}{dx} = \\frac{k}{L} f(x)(L - f(x)) with initial condition f(0) = \\frac{L}{1 + e^{k x_0}}, whose solution is the shifted and scaled sigmoid function f(x) = L \\sigma(k(x - x_0)) = \\frac{L}{1 + e^{-k(x - x_0)}}. In standard form (with L = 1, k = 1, x_0 = 0), it satisfies \\frac{d}{dx}f(x) = f(x)(1 - f(x)) with boundary condition f(0) = 1/2 and solution f(x) = \\frac{1}{1 + e^{-x}} = \\frac{e^x}{e^x + 1}.",
+  "symbols": [
+    {
+      "symbol": "f(x)",
+      "meaning": "logistic function representing population or state value",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "x",
+      "meaning": "independent variable (time or input argument)",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "L",
+      "meaning": "carrying capacity or saturation upper limit (L = 1 in standard form)",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "k",
+      "meaning": "growth rate or slope scale parameter (k = 1 in standard form)",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "x_0",
+      "meaning": "location or midpoint parameter (x_0 = 0 in standard form)",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "C",
+      "meaning": "constant of integration from the general Bernoulli differential equation solution f(x) = e^x / (e^x + C)",
+      "dimensions": "1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The first derivative satisfies \\frac{d}{dx}f(x) = f(x)(1 - f(x))",
+      "why": "Differentiating e^x / (1 + e^x) gives e^x / (1 + e^x)^2 = f(x)(1 - f(x))",
+      "cites": [
+        "wikipedia:Logistic_function"
+      ]
+    },
+    {
+      "property": "Rotational symmetry about the midpoint (0, 1/2) via 1 - f(x) = f(-x)",
+      "why": "The sum f(x) + f(-x) = \\frac{e^x}{e^x + 1} + \\frac{1}{e^x + 1} = 1",
+      "cites": [
+        "wikipedia:Logistic_function"
+      ]
+    },
+    {
+      "property": "Phase line equilibria at f = 0 (unstable) and f = 1 (stable)",
+      "why": "The derivative is 0 at f = 0 and f = 1, positive for 0 < f < 1, and negative for f > 1 or f < 0",
+      "cites": [
+        "wikipedia:Logistic_function"
+      ]
+    },
+    {
+      "property": "Relationship to hyperbolic tangent: f(x) = \\frac{1}{2} + \\frac{1}{2}\\tanh(x/2)",
+      "why": "Algebraic manipulation of \\tanh(x) = \\frac{e^x - e^{-x}}{e^x + e^{-x}} shows \\tanh(x) = 2f(2x) - 1",
+      "cites": [
+        "wikipedia:Logistic_function"
+      ]
+    },
+    {
+      "property": "Antiderivative is the softplus function \\int f(x)\\,dx = \\ln(1 + e^x)",
+      "why": "The substitution u = 1 + e^x yields \\int \\frac{1}{u}\\,du = \\ln u",
+      "cites": [
+        "wikipedia:Logistic_function"
+      ]
+    },
+    {
+      "property": "Inverse of the logit function: \\operatorname{logit}(p) = \\log\\frac{p}{1-p} for 0 < p < 1",
+      "why": "The logistic function inverts the logarithm of odds to return probability values",
+      "cites": [
+        "wikipedia:Logistic_function"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "f(x) lies in the interval (0, L) (or (0, 1) for the standard form)",
+      "breaks_when": "f(x) <= 0 or f(x) >= L, where non-physical negative populations occur or solutions decay away from capacity"
+    },
+    {
+      "assumption": "The input argument x remains in a moderate range (such as [-6, +6] for standard parameters)",
+      "breaks_when": "x has large magnitude, causing exponential saturation to 0 or L where derivative approaches 0"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Saturation and vanishing gradient",
+      "signature": "df/dx approaches 0 and f(x) saturates very close to 0 or L",
+      "cause": "Magnitude of k(x - x_0) becomes large, causing the exponential term e^{-k(x - x_0)} to either explode or vanish"
+    },
+    {
+      "mode": "Unphysical state trajectory",
+      "signature": "f(x) < 0 with negative growth derivative df/dx < 0",
+      "cause": "Initial condition f(0) is negative, which does not accord with a physical population model and diverges from the stable equilibrium"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Logistic_function"
+  ],
+  "check": {
+    "node_id": "logistic_growth",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "node_id": "logarithm_solve",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For a fixed base $b > 0$ with $b \\neq 1$ and a positive real number $x > 0$, the solution to the exponential equation $x = b^y$ for the exponent $y$ is given by the base-$b$ logarithm, $y = \\log_b x$, which is the inverse function of exponentiation with base $b$.",
+  "symbols": [
+    {
+      "symbol": "b",
+      "meaning": "base of exponentiation and logarithm",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "x",
+      "meaning": "value produced by exponentiation and argument of the logarithm",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "y",
+      "meaning": "exponent and base-b logarithm of x",
+      "dimensions": "dimensionless"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Express the relationship between the base $b$, exponent $y$, and value $x$ as the exponential equation $x = b^y$, where $b > 0$ and $b \\neq 1$.",
+      "invokes": [
+        "exponential_function"
+      ],
+      "cites": [
+        "wikipedia:Logarithm"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Since the logarithm to base $b$ is defined as the inverse function of exponentiation with base $b$, applying the inverse function $\\log_b$ to both sides of $x = b^y$ yields $y = \\log_b x$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Logarithm"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The base $b$ is a positive real number not equal to 1 ($b > 0$ and $b \\neq 1$)",
+      "breaks_when": "$b \\le 0$ or $b = 1$, where the exponential function $f(y) = b^y$ is not strictly monotonic or invertible"
+    },
+    {
+      "assumption": "The argument $x$ is a strictly positive real number ($x > 0$)",
+      "breaks_when": "$x \\le 0$, since the range of the exponential function $b^y$ on $\\mathbb{R}$ is the positive reals $\\mathbb{R}_{>0}$"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Non-positive argument",
+      "signature": "$\\log_b x$ is undefined for real numbers when $x \\le 0$",
+      "cause": "The range of $b^y$ for real exponents is strictly positive, so no real exponent $y$ satisfies $b^y \\le 0$"
+    },
+    {
+      "mode": "Base equal to 1",
+      "signature": "Base-1 logarithm is undefined; $1^y = x$ has no unique solution",
+      "cause": "The constant function $f(y) = 1^y = 1$ is not bijective and cannot be inverted"
+    },
+    {
+      "mode": "Negative or zero base",
+      "signature": "Base $b \\le 0$ fails to yield a well-defined real logarithmic function",
+      "cause": "Non-positive bases cannot be raised to arbitrary real exponents to form a continuous invertible function on $\\mathbb{R}$"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Logarithm"
+  ],
+  "check": {
+    "node_id": "logarithm_solve",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

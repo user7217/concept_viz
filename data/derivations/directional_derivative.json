@@ -1,0 +1,131 @@
+{
+  "node_id": "directional_derivative",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "If a scalar function $f$ is differentiable at $\\mathbf{x}$, then the directional derivative of $f$ along any vector $\\mathbf{v}$ exists and is given by $\\nabla_{\\mathbf{v}} f(\\mathbf{x}) = \\nabla f(\\mathbf{x}) \\cdot \\mathbf{v}$, where $\\nabla f(\\mathbf{x})$ is the gradient of $f$ at $\\mathbf{x}$ and $\\cdot$ is the dot product.",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "scalar function of several variables",
+      "dimensions": "\\mathbb{R}^n \\to \\mathbb{R}"
+    },
+    {
+      "symbol": "\\mathbf{x}",
+      "meaning": "evaluation point in the domain of f",
+      "dimensions": "n \\times 1"
+    },
+    {
+      "symbol": "\\mathbf{v}",
+      "meaning": "direction vector along which the rate of change is measured",
+      "dimensions": "n \\times 1"
+    },
+    {
+      "symbol": "\\nabla_{\\mathbf{v}} f(\\mathbf{x})",
+      "meaning": "directional derivative of f along v at x",
+      "dimensions": "1 \\times 1"
+    },
+    {
+      "symbol": "\\nabla f(\\mathbf{x})",
+      "meaning": "gradient vector of partial derivatives of f at x",
+      "dimensions": "n \\times 1"
+    },
+    {
+      "symbol": "t",
+      "meaning": "scalar path parameter",
+      "dimensions": "1 \\times 1"
+    },
+    {
+      "symbol": "\\mathbf{h}(t)",
+      "meaning": "parametrized path through x in the direction of v, defined by \\mathbf{x} + t\\mathbf{v}",
+      "dimensions": "n \\times 1"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Define a straight-line path passing through $\\mathbf{x}$ along the vector $\\mathbf{v}$: $\\mathbf{h}(t) = \\mathbf{x} + t\\mathbf{v}$.",
+      "invokes": [
+        "vector"
+      ],
+      "cites": [
+        "wikipedia:Directional_derivative"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Express the directional derivative as the limit of the difference quotient along this path, which corresponds to differentiating the composite function with respect to the path parameter at $t = 0$: $\\nabla_{\\mathbf{v}} f(\\mathbf{x}) = \\lim_{t \\to 0} \\frac{f(\\mathbf{x} + t\\mathbf{v}) - f(\\mathbf{x})}{t} = \\left. \\frac{\\mathrm{d}}{\\mathrm{d}t} f(\\mathbf{x} + t\\mathbf{v}) \\right|_{t=0}$.",
+      "invokes": [
+        "derivative",
+        "composite_function"
+      ],
+      "cites": [
+        "wikipedia:Directional_derivative"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Form the difference between the directional difference quotient limit and the proposed gradient inner product $\\nabla f(\\mathbf{x}) \\cdot \\mathbf{v}$, combining the terms under the limit: $\\nabla_{\\mathbf{v}} f(\\mathbf{x}) - \\nabla f(\\mathbf{x}) \\cdot \\mathbf{v} = \\lim_{t \\to 0} \\frac{f(\\mathbf{x} + t\\mathbf{v}) - f(\\mathbf{x})}{t} - \\nabla f(\\mathbf{x}) \\cdot \\mathbf{v} = \\lim_{t \\to 0} \\frac{f(\\mathbf{x} + t\\mathbf{v}) - f(\\mathbf{x}) - t\\nabla f(\\mathbf{x}) \\cdot \\mathbf{v}}{t}$.",
+      "invokes": [
+        "gradient",
+        "dot_product"
+      ],
+      "cites": [
+        "wikipedia:Directional_derivative"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Because $f$ is differentiable at $\\mathbf{x}$, the numerator satisfies the first-order approximation property $\\lim_{t \\to 0} \\frac{f(\\mathbf{x} + t\\mathbf{v}) - f(\\mathbf{x}) - t\\nabla f(\\mathbf{x}) \\cdot \\mathbf{v}}{t} = 0$, whence $\\nabla_{\\mathbf{v}} f(\\mathbf{x}) - \\nabla f(\\mathbf{x}) \\cdot \\mathbf{v} = 0$, establishing $\\nabla_{\\mathbf{v}} f(\\mathbf{x}) = \\nabla f(\\mathbf{x}) \\cdot \\mathbf{v}$.",
+      "invokes": [
+        "multivariate_chain_rule"
+      ],
+      "cites": [
+        "wikipedia:Directional_derivative"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "$f$ is differentiable at $\\mathbf{x}$",
+      "breaks_when": "$f$ is non-differentiable at $\\mathbf{x}$ (e.g., partial derivatives exist but directional derivatives do not lie in a common tangent plane), causing $\\nabla_{\\mathbf{v}} f(\\mathbf{x})$ to diverge or fail to equal $\\nabla f(\\mathbf{x}) \\cdot \\mathbf{v}$"
+    },
+    {
+      "assumption": "The segment $\\mathbf{x} + t\\mathbf{v}$ remains within the domain of $f$ for all sufficiently small $t$",
+      "breaks_when": "$\\mathbf{x}$ lies on a boundary where perturbation along $\\mathbf{v}$ leaves the domain"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Non-differentiability breakdown",
+      "signature": "$\\nabla_{\\mathbf{v}} f(\\mathbf{x}) \\neq \\nabla f(\\mathbf{x}) \\cdot \\mathbf{v}$, or $\\nabla_{\\mathbf{v}} f(\\mathbf{x})$ depends non-linearly on $\\mathbf{v}$",
+      "cause": "Function $f$ is not differentiable at $\\mathbf{x}$, so directional derivatives do not form a single tangent plane"
+    },
+    {
+      "mode": "Division by zero under normalized vector convention",
+      "signature": "Undefined value due to zero denominator in $\\mathbf{v} / \\|\\mathbf{v}\\|$",
+      "cause": "Attempting to compute the normalized directional derivative $\\nabla_{\\hat{\\mathbf{v}}} f(\\mathbf{x})$ with the zero vector $\\mathbf{v} = \\mathbf{0}$"
+    },
+    {
+      "mode": "Non-existence of limit",
+      "signature": "Difference quotient limit $\\lim_{h \\to 0} \\frac{f(\\mathbf{x} + h\\mathbf{v}) - f(\\mathbf{x})}{h}$ diverges or oscillates",
+      "cause": "Discontinuity, sharp cusp, or oscillation of $f$ at $\\mathbf{x}$ along the line $\\mathbf{x} + t\\mathbf{v}$"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Directional_derivative"
+  ],
+  "check": {
+    "node_id": "directional_derivative",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

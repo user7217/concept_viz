@@ -1,0 +1,99 @@
+{
+  "node_id": "polynomial_root_finding",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources genuinely contain nothing to derive for polynomial root finding (the section 'Roots of polynomials' is empty). A root or zero of a polynomial function f is a number x such that f(x) = 0. Polynomial root finding refers to the class of algorithms\u2014belonging to computer algebra and numerical analysis\u2014that compute approximations, isolating intervals, or disks containing the zeros of a polynomial function f(x) = 0.",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "polynomial function",
+      "dimensions": "scalar function"
+    },
+    {
+      "symbol": "x",
+      "meaning": "root or zero satisfying f(x) = 0",
+      "dimensions": "scalar (real or complex)"
+    },
+    {
+      "symbol": "[a, b]",
+      "meaning": "isolating interval containing a real root",
+      "dimensions": "subset of R"
+    },
+    {
+      "symbol": "\\varepsilon",
+      "meaning": "error bound or approximation tolerance",
+      "dimensions": "scalar > 0"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Computer algebra classification",
+      "why": "The study of root-finding algorithms specifically for polynomials belongs to computer algebra because algebraic properties of polynomials are fundamental for the most efficient algorithms.",
+      "cites": [
+        "wikipedia:Root-finding_algorithm"
+      ]
+    },
+    {
+      "property": "Root certification and isolation",
+      "why": "Algebraic properties allow specific polynomial algorithms to certify that no roots are missed and to isolate roots into small intervals (or complex disks) ensuring numerical method convergence.",
+      "cites": [
+        "wikipedia:Root-finding_algorithm"
+      ]
+    },
+    {
+      "property": "Real-root bounding and isolation theorems",
+      "why": "Theorems such as Descartes' rule of signs, Budan's theorem, and Sturm's theorem determine or bound the number of roots in an interval, yielding efficient real-root isolation algorithms with guaranteed accuracy.",
+      "cites": [
+        "wikipedia:Root-finding_algorithm"
+      ]
+    },
+    {
+      "property": "Approximation representation",
+      "why": "Roots are represented either as floating-point numbers without error bounds or as floating-point values together with error bounds, which are equivalent to small isolating intervals for real roots or disks for complex roots.",
+      "cites": [
+        "wikipedia:Root-finding_algorithm"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "f is a continuous polynomial function",
+      "breaks_when": "The function is undefined or exhibits discontinuities."
+    },
+    {
+      "assumption": "Target roots exist within the specified domain (real or complex numbers)",
+      "breaks_when": "The polynomial has no real roots when restricted to real-root isolation methods."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Root omission by generic numerical solvers",
+      "signature": "The algorithm terminates without finding all roots of the polynomial.",
+      "cause": "General numerical root-finding algorithms provide no guarantee of finding all roots unless specialized algebraic certifying properties of polynomials are used."
+    },
+    {
+      "mode": "Failure of numerical convergence within an interval or disk",
+      "signature": "Iterative methods (such as Newton's method) diverge, cycle, or fail to achieve the required tolerance.",
+      "cause": "The isolating interval or disk is not small enough or the initial guess is too far from the root."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Root-finding_algorithm"
+  ],
+  "check": {
+    "node_id": "polynomial_root_finding",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so polynomial_root_finding is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

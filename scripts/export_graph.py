@@ -133,7 +133,7 @@ def main() -> None:
                 target, known=profile.known(), not_known=profile.not_known))
 
     # Library excerpts belong to the library, so they only apply to a project
-    # that actually depends on it. Otherwise a second repo got eight spans of
+    # that actually depends on it. Otherwise an unrelated repo got eight spans of
     # robot_localization C++.
     library_name = (library.get("source") or {}).get("name", "")
     uses_library = bool(library_name) and (
@@ -148,7 +148,7 @@ def main() -> None:
         sheet = json.loads(sheet_path.read_text()) if sheet_path.exists() else None
         # A sheet's instantiation belongs to ONE project. Using it whatever
         # repo was asked for exported 48 nodes of agrios_ws prose and knobs
-        # pointing at src/agrios_bringup/config/*.yaml under a a second repo filename --
+        # pointing at one project's config under another project's filename --
         # confidently wrong, and indistinguishable from a real result.
         note = (sheet or {}).get("instantiation") or {}
         if note and root and note.get("project") != project.name:

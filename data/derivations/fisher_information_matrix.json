@@ -1,0 +1,129 @@
+{
+  "node_id": "fisher_information_matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The Fisher information $\\mathcal{I}(\\theta)$ is defined as the variance of the score, or equivalently the expected value of the observed information: $\\mathcal{I}(\\theta) = \\operatorname{E}\\left[\\left.\\left(\\frac{\\partial}{\\partial \\theta}\\log f(X;\\theta)\\right)^{2}\\,\\,\\right|\\,\\,\\theta\\right] = \\int_{\\mathbb{R}}\\left(\\frac{\\partial}{\\partial \\theta}\\log f(x;\\theta)\\right)^{2}f(x;\\theta)\\,dx$. If $\\theta$ is a vector, the regularity conditions hold for every component of $\\theta$, and the Fisher information matrix is used to calculate covariance matrices associated with maximum-likelihood estimates.",
+  "symbols": [
+    {
+      "symbol": "\\mathcal{I}(\\theta)",
+      "meaning": "Fisher information (or Fisher information matrix for a parameter vector)",
+      "dimensions": "scalar (or matrix for vector \\theta)"
+    },
+    {
+      "symbol": "\\theta",
+      "meaning": "unknown parameter of the distribution modeling X",
+      "dimensions": "scalar or vector"
+    },
+    {
+      "symbol": "X",
+      "meaning": "observable random variable (single sample or collection of samples)",
+      "dimensions": "scalar or vector"
+    },
+    {
+      "symbol": "f(x; \\theta)",
+      "meaning": "probability density function modeling X given parameter \\theta",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\frac{\\partial}{\\partial \\theta}\\log f(X; \\theta)",
+      "meaning": "score function (partial derivative of the log-likelihood with respect to \\theta)",
+      "dimensions": "scalar or vector"
+    },
+    {
+      "symbol": "l(\\theta; X)",
+      "meaning": "log-likelihood function of \\theta given X",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Non-negativity: $\\mathcal{I}(\\theta) \\geq 0$",
+      "why": "It is defined as the variance of the score, or the expectation of a squared quantity",
+      "cites": [
+        "wikipedia:Fisher_information"
+      ]
+    },
+    {
+      "property": "Zero expectation of the score: $\\operatorname{E}\\left[\\left.\\frac{\\partial}{\\partial \\theta}\\log f(X;\\theta)\\,\\,\\right|\\,\\,\\theta\\right] = 0$",
+      "why": "Differentiating under the integral sign yields $\\frac{\\partial}{\\partial \\theta}\\int_{\\mathbb{R}} f(x;\\theta)\\,dx = \\frac{\\partial}{\\partial \\theta}(1) = 0$",
+      "cites": [
+        "wikipedia:Fisher_information"
+      ]
+    },
+    {
+      "property": "Twice-differentiable representation: $\\mathcal{I}(\\theta) = -\\operatorname{E}\\left[\\left.\\frac{\\partial^{2}}{\\partial \\theta^{2}}\\log f(X;\\theta)\\,\\,\\right|\\,\\,\\theta\\right]$",
+      "why": "Represents the curvature of the support curve (graph of the log-likelihood) under regularity conditions when $\\log f(x;\\theta)$ is twice differentiable",
+      "cites": [
+        "wikipedia:Fisher_information"
+      ]
+    },
+    {
+      "property": "Log-likelihood substitution: log-likelihood $l(\\theta; X)$ can be substituted for $\\log f(X; \\theta)$ in the definition",
+      "why": "Likelihood is proportional to $f(X;\\theta)$, so their logarithms differ by a constant independent of $\\theta$ and have identical derivatives",
+      "cites": [
+        "wikipedia:Fisher_information"
+      ]
+    },
+    {
+      "property": "Additivity across independent samples: for $n$ independent distributions $\\mathcal{I}(\\theta) = \\sum_{i=1}^n \\mathcal{I}_i(\\theta)$, and for $n$ i.i.d. samples $\\mathcal{I}(\\theta) = n \\mathcal{I}_1(\\theta)$",
+      "why": "Fisher information is additive over statistically independent observations",
+      "cites": [
+        "wikipedia:Fisher_information"
+      ]
+    },
+    {
+      "property": "Cram\u00e9r\u2013Rao bound: $\\operatorname{Var}(\\hat{\\theta}) \\geq \\frac{1}{\\mathcal{I}(\\theta)}$ for any unbiased estimator $\\hat{\\theta}(X)$",
+      "why": "Follows from the Cauchy\u2013Schwarz inequality applied to the estimator error and the score function",
+      "cites": [
+        "wikipedia:Fisher_information"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The partial derivative of $f(X; \\theta)$ with respect to $\\theta$ exists almost everywhere on a set not depending on $\\theta$",
+      "breaks_when": "The density fails to be differentiable with respect to $\\theta$ on sets independent of $\\theta$"
+    },
+    {
+      "assumption": "The integral of $f(X; \\theta)$ can be differentiated under the integral sign with respect to $\\theta$",
+      "breaks_when": "Conditions permitting the interchange of integration and differentiation fail, invalidating the zero-mean score identity"
+    },
+    {
+      "assumption": "The support of $f(X; \\theta)$ does not depend on $\\theta$",
+      "breaks_when": "The support boundary varies with $\\theta$, such as for a $\\operatorname{Uniform}(0, \\theta)$ distribution"
+    },
+    {
+      "assumption": "For vector $\\theta$, regularity conditions hold for every component of $\\theta$",
+      "breaks_when": "Regularity conditions fail for any individual component of $\\theta$"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Support dependence on parameter",
+      "signature": "Fisher information computed from the definition fails to satisfy standard properties such as the Cram\u00e9r\u2013Rao bound or standard asymptotic properties",
+      "cause": "Density has parameter-dependent support boundaries (e.g., Uniform(0, \u03b8)), violating regularity conditions 1 and 3"
+    },
+    {
+      "mode": "Invalid differentiation under the integral sign",
+      "signature": "Expected score is non-zero, or the negative expected second derivative does not equal the variance of the score",
+      "cause": "Density violates regularity conditions permitting the exchange of differentiation with respect to \u03b8 and integration over X"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Fisher_information"
+  ],
+  "check": {
+    "node_id": "fisher_information_matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

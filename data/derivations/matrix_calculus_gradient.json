@@ -1,0 +1,207 @@
+{
+  "node_id": "matrix_calculus_gradient",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "The matrix calculus gradient (derivative) of the scalar trace function f(X) = tr(A X B X^\u22a4 C) with respect to matrix X is given in numerator layout by \u2202tr(A X B X^\u22a4 C)/\u2202X = B^\u22a4 X^\u22a4 A^\u22a4 C^\u22a4 + B X^\u22a4 C A, and in denominator layout by \u2202tr(A X B X^\u22a4 C)/\u2202X = C A X B + A^\u22a4 C^\u22a4 X B^\u22a4.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "Matrix variable with respect to which the derivative is evaluated",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "A",
+      "meaning": "Constant coefficient matrix compatible with X",
+      "dimensions": "k x m"
+    },
+    {
+      "symbol": "B",
+      "meaning": "Constant coefficient matrix compatible with X^\u22a4",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "C",
+      "meaning": "Constant coefficient matrix completing the square matrix product",
+      "dimensions": "m x k"
+    },
+    {
+      "symbol": "tr",
+      "meaning": "Trace operator summing diagonal elements of a square matrix",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "d",
+      "meaning": "Matrix differential operator",
+      "dimensions": "same as operand"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Apply the cyclic permutation property of the trace to rearrange the matrix product inside the differential: d tr(A X B X^\u22a4 C) = d tr(C A X B X^\u22a4).",
+      "invokes": [
+        "trace_identities"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Commute the differential operator with the trace operator using trace linearity: d tr(C A X B X^\u22a4) = tr(d(C A X B X^\u22a4)).",
+      "invokes": [
+        "trace"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Apply the product rule for matrix differentials to partition the product (C A X)(B X^\u22a4): tr(d(C A X B X^\u22a4)) = tr(C A X d(B X^\u22a4) + d(C A X) B X^\u22a4).",
+      "invokes": [
+        "matrix_multiplication"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Distribute the trace over the sum by linearity: tr(C A X d(B X^\u22a4) + d(C A X) B X^\u22a4) = tr(C A X d(B X^\u22a4)) + tr(d(C A X) B X^\u22a4).",
+      "invokes": [
+        "trace"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Factor out constant matrices from differentials (d(C A X) = C A (dX) and d(B X^\u22a4) = B d(X^\u22a4)): tr(C A X d(B X^\u22a4)) + tr(d(C A X) B X^\u22a4) = tr(C A X B d(X^\u22a4)) + tr(C A (dX) B X^\u22a4).",
+      "invokes": [
+        "matrix_multiplication"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Apply the property that the differential of a transpose equals the transpose of the differential, d(X^\u22a4) = (dX)^\u22a4: tr(C A X B d(X^\u22a4)) + tr(C A (dX) B X^\u22a4) = tr(C A X B (dX)^\u22a4) + tr(C A (dX) B X^\u22a4).",
+      "invokes": [
+        "matrix_transpose"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "Use the invariance of the trace under transpose (tr(M) = tr(M^\u22a4)) on the first term: tr(C A X B (dX)^\u22a4) + tr(C A (dX) B X^\u22a4) = tr((C A X B (dX)^\u22a4)^\u22a4) + tr(C A (dX) B X^\u22a4).",
+      "invokes": [
+        "trace_identities"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 8,
+      "text": "Apply the transpose-of-a-product identity to expand (C A X B (dX)^\u22a4)^\u22a4: tr((C A X B (dX)^\u22a4)^\u22a4) + tr(C A (dX) B X^\u22a4) = tr((dX) B^\u22a4 X^\u22a4 A^\u22a4 C^\u22a4) + tr(C A (dX) B X^\u22a4).",
+      "invokes": [
+        "transpose_identities"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 9,
+      "text": "Cyclically permute terms under each trace so that dX is positioned on the right: tr((dX) B^\u22a4 X^\u22a4 A^\u22a4 C^\u22a4) + tr(C A (dX) B X^\u22a4) = tr(B^\u22a4 X^\u22a4 A^\u22a4 C^\u22a4 (dX)) + tr(B X^\u22a4 C A (dX)).",
+      "invokes": [
+        "trace_identities"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 10,
+      "text": "Combine terms by linearity of the trace and factor out dX: tr(B^\u22a4 X^\u22a4 A^\u22a4 C^\u22a4 (dX)) + tr(B X^\u22a4 C A (dX)) = tr((B^\u22a4 X^\u22a4 A^\u22a4 C^\u22a4 + B X^\u22a4 C A) dX).",
+      "invokes": [
+        "trace"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 11,
+      "text": "Express the coefficient in transposed form for denominator layout conversion: tr((B^\u22a4 X^\u22a4 A^\u22a4 C^\u22a4 + B X^\u22a4 C A) dX) = tr((C A X B + A^\u22a4 C^\u22a4 X B^\u22a4)^\u22a4 dX).",
+      "invokes": [
+        "transpose_identities"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    },
+    {
+      "n": 12,
+      "text": "Convert from differential form to derivative form: the coefficient of dX in tr(G dX) gives \u2202tr(A X B X^\u22a4 C)/\u2202X = B^\u22a4 X^\u22a4 A^\u22a4 C^\u22a4 + B X^\u22a4 C A in numerator layout, while writing as tr(H^\u22a4 dX) gives \u2202tr(A X B X^\u22a4 C)/\u2202X = C A X B + A^\u22a4 C^\u22a4 X B^\u22a4 in denominator layout.",
+      "invokes": [
+        "gradient",
+        "partial_derivative"
+      ],
+      "cites": [
+        "wikipedia:Matrix_calculus"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "Matrices A, X, B, and C have compatible dimensions such that A X B X^\u22a4 C is square.",
+      "breaks_when": "Inner dimensions mismatch for matrix multiplication or the overall product is non-square, making the trace undefined."
+    },
+    {
+      "assumption": "Matrices A, B, and C are constant with respect to X (dA = 0, dB = 0, dC = 0).",
+      "breaks_when": "A, B, or C depend on X, which would introduce additional differential terms."
+    },
+    {
+      "assumption": "A specific layout convention (numerator vs. denominator layout) is adopted consistently.",
+      "breaks_when": "Numerator and denominator layout conventions are mixed without transposing to maintain compatibility."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Notational convention clash",
+      "signature": "Transposed gradient matrices or dimension mismatches when combining matrix calculus identities.",
+      "cause": "Confusing numerator layout (derivative of scalar with respect to matrix yields dimensions matching the transpose of denominator layout) with denominator layout."
+    },
+    {
+      "mode": "Non-conformable cyclic permutation",
+      "signature": "Matrix dimension incompatibility during trace manipulations.",
+      "cause": "Cyclically shifting matrix factors within trace when individual factor products are non-square or dimensions do not align."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Matrix_calculus",
+    "wikipedia:Gauss\u2013Newton_algorithm#matrix_calculus_gradient",
+    "wikipedia:Gradient_descent#matrix_calculus_gradient",
+    "wikipedia:Ordinary_least_squares#matrix_calculus_gradient"
+  ],
+  "check": {
+    "node_id": "matrix_calculus_gradient",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}
