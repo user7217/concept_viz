@@ -81,3 +81,28 @@ class TestComponent(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestEncoding(unittest.TestCase):
+    def test_a_utf16_manifest_does_not_kill_stage_one(self) -> None:
+        import tempfile
+        from atlas.ingest import ingest_repo
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            # the second repo's requirements.txt is UTF-16LE with a BOM; read_text() dies on
+            # it and stage 1 never returned, so nothing downstream could run.
+            (root / "requirements.txt").write_bytes(
+                "numpy==2.3.5\nscipy==1.14.0\n".encode("utf-16"))
+            project = ingest_repo(root)
+        self.assertIn("numpy", project.dependencies)
+        self.assertIn("scipy", project.dependencies)
+
+    def test_a_latin1_file_is_read_not_crashed_on(self) -> None:
+        import tempfile
+        from atlas.ingest import read_source
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "notes.txt"
+            path.write_bytes("caf\xe9 au lait".encode("latin-1"))
+            self.assertIn("caf", read_source(path))

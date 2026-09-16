@@ -120,16 +120,40 @@ def main() -> None:
                        for c in project.name.lower()).strip("_")
         if len(sys.argv) > 2:
             target = f"{root}__{sys.argv[2].lower()}"
-            if target in pgraph.nodes:
-                path = set(pgraph.learning_path(
-                    target, known=profile.known(), not_known=profile.not_known))
+            if target not in pgraph.nodes:
+                # Silently ignoring it emitted the entire unfiltered canon with
+                # 0 nodes on the path and exit 0, for any subsystem name real
+                # or invented. "Never fail silently" is the house rule.
+                available = sorted(n.id.split("__", 1)[1]
+                                   for n in pgraph.nodes.values()
+                                   if n.id.startswith(root + "__"))
+                raise SystemExit(
+                    f"no subsystem {sys.argv[2]!r} in {project.name}. "
+                    f"Found: {', '.join(available) or 'none at all'}")
+            path = set(pgraph.learning_path(
+                target, known=profile.known(), not_known=profile.not_known))
+
+    # Library excerpts belong to the library, so they only apply to a project
+    # that actually depends on it. Otherwise a second repo got eight spans of
+    # robot_localization C++.
+    library_name = (library.get("source") or {}).get("name", "")
+    uses_library = bool(library_name) and (
+        library_name in project.dependencies
+        or any(c.library == library_name for c in project.components)
+    ) if pgraph is not None else bool(library_name)
 
     states = {n: e.state.value for n, e in profile.entries.items()}
     nodes = []
     for node in graph.nodes.values():
         sheet_path = SHEETS / f"{node.id}.json"
         sheet = json.loads(sheet_path.read_text()) if sheet_path.exists() else None
+        # A sheet's instantiation belongs to ONE project. Using it whatever
+        # repo was asked for exported 48 nodes of agrios_ws prose and knobs
+        # pointing at src/agrios_bringup/config/*.yaml under a a second repo filename --
+        # confidently wrong, and indistinguishable from a real result.
         note = (sheet or {}).get("instantiation") or {}
+        if note and root and note.get("project") != project.name:
+            note = {}
         nodes.append({
             "id": node.id,
             "name": node.name,
@@ -152,7 +176,7 @@ def main() -> None:
             "statement": _trim((sheet or {}).get("statement") or "", 1400),
             "whyHere": _trim(str(note.get("why_here", "")), 900),
             "reading": reading.get(node.id, []),
-            "code": (library["spans"].get(node.id, []) +
+            "code": ((library["spans"].get(node.id, []) if uses_library else []) +
                      ([span.to_dict() for span in
                        evidence_for(node.name, sources, note)]
                       if sources else [])),

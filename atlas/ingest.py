@@ -303,23 +303,47 @@ def dataflow(nodes: list[LaunchNode]) -> list[tuple[str, str, str]]:
 PARAM_DIRS = ("config", "params", "param")
 
 
+def read_source(path: Path) -> str:
+    """Decode a file whose encoding nobody promised.
+
+    the second repo's requirements.txt is UTF-16LE with a BOM, and Path.read_text() defaults
+    to UTF-8, so stage 1 died on the first file it touched and every later
+    stage was unreachable. A repo does not owe us UTF-8.
+
+    UTF-16 is tried only when a BOM says so. Asked to decode arbitrary bytes it
+    succeeds and returns nonsense -- "cafe au lait" in latin-1 came back as
+    CJK -- so guessing it is worse than not reading the file.
+    """
+    raw = path.read_bytes()
+    if raw.startswith((b"\xff\xfe", b"\xfe\xff")):
+        return raw.decode("utf-16", errors="replace")
+    if raw.startswith(b"\xef\xbb\xbf"):
+        return raw.decode("utf-8-sig", errors="replace")
+    for encoding in ("utf-8", "latin-1"):
+        try:
+            return raw.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    return raw.decode("utf-8", errors="replace")
+
+
 def ingest_repo(root: Path) -> Project:
     """Walk a repo and build the Project both input paths converge on."""
     root = Path(root)
     project = Project(name=root.name, origin="repo")
 
     for manifest in root.rglob("package.xml"):
-        name, deps = parse_package_xml(manifest.read_text())
+        name, deps = parse_package_xml(read_source(manifest))
         project.dependencies.update(deps)
     for reqs in root.rglob("requirements.txt"):
-        project.dependencies.update(parse_requirements(reqs.read_text()))
+        project.dependencies.update(parse_requirements(read_source(reqs)))
 
     launch_nodes: list[LaunchNode] = []
     for path in root.rglob("*.launch.py"):
-        launch_nodes += parse_launch_py(path.read_text(), str(path.relative_to(root)))
+        launch_nodes += parse_launch_py(read_source(path), str(path.relative_to(root)))
     for pattern in ("*.launch.xml", "*.launch"):
         for path in root.rglob(pattern):
-            launch_nodes += parse_launch_xml(path.read_text(), str(path.relative_to(root)))
+            launch_nodes += parse_launch_xml(read_source(path), str(path.relative_to(root)))
 
     # Parameter directories are found anywhere in the tree, not just at the
     # root: a ROS2 workspace nests them under src/<package>/config/.
@@ -329,7 +353,7 @@ def ingest_repo(root: Path) -> Project:
             continue
         for path in sorted(directory.rglob("*.y*ml")):
             rel = str(path.relative_to(root))
-            params_by_file[Path(rel).name] = parse_params(path.read_text(), rel)
+            params_by_file[Path(rel).name] = parse_params(read_source(path), rel)
 
     for node in launch_nodes:
         component = project.component(node.name or node.executable)

@@ -194,3 +194,19 @@ class TestPluginAttribution(unittest.TestCase):
             plugin="nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController",
             library="nav2_regulated_pure_pursuit_controller")]
         self.assertIn("rpp", propose(p).unclassified)
+
+
+class TestEmptyProposalIsNotConsent(unittest.TestCase):
+    def test_a_confirmed_proposal_with_no_subsystems_raises(self) -> None:
+        from atlas.architecture import NotConfirmed, apply, propose
+        from atlas.ingest import Project
+
+        # A repo stage 1 cannot see yields an empty proposal whose
+        # `unclassified` list is also empty, which reads exactly like a clean
+        # pass. It silently built a project layer of one bare node.
+        proposal = propose(Project(name="v1", origin="repo"))
+        self.assertEqual(proposal.unclassified, [])
+        proposal.confirmed = True
+        with self.assertRaises(NotConfirmed) as caught:
+            apply(proposal)
+        self.assertIn("no subsystems", str(caught.exception))

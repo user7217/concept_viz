@@ -114,6 +114,17 @@ def apply(proposal: ArchitectureProposal, graph: Graph | None = None) -> Graph:
             f"architecture for {proposal.project!r} is not confirmed; "
             "review the proposal and set confirmed to true"
         )
+    if not proposal.subsystems:
+        # An empty proposal has an empty `unclassified` list, so it reads
+        # exactly like a clean pass. On a repo with 93 Python files and no
+        # launch files it means stage 1 saw nothing, which is the opposite of
+        # consent -- and it silently produced a project layer of one bare node.
+        raise NotConfirmed(
+            f"architecture for {proposal.project!r} has no subsystems at all. "
+            "Stage 1 found no components to classify, so there is nothing to "
+            "attach the canon to. This repo declares no launch files or "
+            "plugin config; try the discover path instead."
+        )
     if proposal.unclassified:
         raise NotConfirmed(
             "unclassified components must be assigned before applying: "
