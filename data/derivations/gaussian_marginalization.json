@@ -2,7 +2,7 @@
   "node_id": "gaussian_marginalization",
   "grounded": true,
   "kind": "definition",
-  "statement": "For an N-dimensional multivariate normal random vector x ~ N(\u03bc, \u03a3) partitioned into x1 (q x 1) and x2 ((N - q) x 1) with mean vector \u03bc = [\u03bc1; \u03bc2] and covariance matrix \u03a3 = [\u03a311, \u03a312; \u03a321, \u03a322], the marginal distribution of the subset x1 is multivariate normal: x1 ~ N_q(\u03bc1, \u03a311), obtained by dropping the marginalized variables x2 from the mean vector and covariance matrix. The supplied sources genuinely contain no derivation (they contain no steps using completing the square or marginalization integrals, noting only that the result follows from definitions of multivariate normal distributions and linear algebra).",
+  "statement": "For an N-dimensional random vector x ~ N(\u03bc, \u03a3) partitioned as x = [x_1; x_2] with sizes [q x 1; (N - q) x 1], mean vector \u03bc = [\u03bc_1; \u03bc_2], and covariance matrix \u03a3 = [\u03a3_11, \u03a3_12; \u03a3_21, \u03a3_22], the marginal distribution of the subset x_1 is multivariate normal x_1 ~ N_q(\u03bc_1, \u03a3_11), obtained by dropping the irrelevant variables x_2 from the mean vector and covariance matrix. The supplied sources contain no derivation of this result, stating only that the proof follows from the definitions of multivariate normal distributions and linear algebra.",
   "symbols": [
     {
       "symbol": "x",
@@ -10,104 +10,92 @@
       "dimensions": "N x 1"
     },
     {
+      "symbol": "x_1",
+      "meaning": "subset of random variables retained in the marginal distribution",
+      "dimensions": "q x 1"
+    },
+    {
+      "symbol": "x_2",
+      "meaning": "subset of random variables marginalized out",
+      "dimensions": "(N - q) x 1"
+    },
+    {
       "symbol": "\u03bc",
-      "meaning": "joint mean vector",
+      "meaning": "mean vector of joint random vector x",
       "dimensions": "N x 1"
     },
     {
+      "symbol": "\u03bc_1",
+      "meaning": "marginal mean vector of x_1",
+      "dimensions": "q x 1"
+    },
+    {
+      "symbol": "\u03bc_2",
+      "meaning": "mean vector of x_2",
+      "dimensions": "(N - q) x 1"
+    },
+    {
       "symbol": "\u03a3",
-      "meaning": "joint covariance matrix",
+      "meaning": "joint covariance matrix of x",
       "dimensions": "N x N"
     },
     {
-      "symbol": "x1",
-      "meaning": "marginal subset of random variables",
-      "dimensions": "q x 1"
-    },
-    {
-      "symbol": "x2",
-      "meaning": "subset of random variables to marginalize out",
-      "dimensions": "(N - q) x 1"
-    },
-    {
-      "symbol": "\u03bc1",
-      "meaning": "marginal mean vector of x1",
-      "dimensions": "q x 1"
-    },
-    {
-      "symbol": "\u03bc2",
-      "meaning": "mean vector of x2",
-      "dimensions": "(N - q) x 1"
-    },
-    {
-      "symbol": "\u03a311",
-      "meaning": "marginal covariance matrix of x1",
+      "symbol": "\u03a3_11",
+      "meaning": "marginal covariance matrix of x_1",
       "dimensions": "q x q"
     },
     {
-      "symbol": "\u03a322",
-      "meaning": "covariance matrix of x2",
-      "dimensions": "(N - q) x (N - q)"
-    },
-    {
-      "symbol": "\u03a312",
-      "meaning": "cross-covariance matrix between x1 and x2",
+      "symbol": "\u03a3_12",
+      "meaning": "cross-covariance matrix between x_1 and x_2",
       "dimensions": "q x (N - q)"
     },
     {
-      "symbol": "\u03a321",
-      "meaning": "cross-covariance matrix between x2 and x1",
+      "symbol": "\u03a3_21",
+      "meaning": "cross-covariance matrix between x_2 and x_1",
       "dimensions": "(N - q) x q"
     },
     {
-      "symbol": "B",
-      "meaning": "constant linear extraction/projection matrix",
-      "dimensions": "q x N"
-    },
-    {
-      "symbol": "q",
-      "meaning": "dimensionality of the marginal random vector x1",
-      "dimensions": "scalar"
+      "symbol": "\u03a3_22",
+      "meaning": "covariance matrix of x_2",
+      "dimensions": "(N - q) x (N - q)"
     },
     {
       "symbol": "N",
-      "meaning": "total dimensionality of the joint random vector x",
-      "dimensions": "scalar"
+      "meaning": "dimension of full random vector x",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "q",
+      "meaning": "dimension of marginal subset x_1",
+      "dimensions": "1 x 1"
     }
   ],
   "steps": [],
   "properties": [
     {
-      "property": "To obtain the marginal distribution over a subset of multivariate normal random variables, one only needs to drop the irrelevant variables from the mean vector and covariance matrix.",
-      "why": "The marginal parameters are directly given by the corresponding subvector \u03bc1 and submatrix \u03a311.",
+      "property": "Any subset of components of a multivariate normal vector has a marginal distribution that is also multivariate normal.",
+      "why": "Extracting a subset of components can be represented as an affine transformation Y = BX using a selection matrix B, which preserves multivariate normality.",
       "cites": [
         "wikipedia:Multivariate_normal_distribution"
       ]
     },
     {
-      "property": "Any subset of components Xi of a multivariate normal vector has a marginal distribution that is also multivariate normal.",
-      "why": "Extracting a subset is an affine transformation Y = BX with a selection matrix B consisting of rows of the identity matrix, which preserves multivariate normality with Y ~ N(B\u03bc, B \u03a3 B^T).",
+      "property": "The marginal distribution of x_1 has mean \u03bc_1 and covariance \u03a3_11, distinct from the conditional distribution (x_1 | x_2 = a).",
+      "why": "Conditioning shifts the mean by \u03a3_12 \u03a3_22^{-1}(a - \u03bc_2) and alters the covariance matrix to the Schur complement \u03a3_11 - \u03a3_12 \u03a3_22^{-1} \u03a3_21, whereas marginalization reflects unobserved x_2.",
       "cites": [
         "wikipedia:Multivariate_normal_distribution"
       ]
     },
     {
-      "property": "Any linear combination Z = b \u00b7 X of a multivariate normal vector X is univariate Gaussian distributed as Z ~ N(b \u00b7 \u03bc, b^T \u03a3 b).",
-      "why": "It is a one-dimensional affine transformation using projection matrix B = b^T.",
+      "property": "Uncorrelated components of a jointly multivariate normal random vector are statistically independent.",
+      "why": "Zero correlation between components of a jointly normal vector implies pairwise and mutual statistical independence.",
       "cites": [
         "wikipedia:Multivariate_normal_distribution"
       ]
     },
     {
-      "property": "The unconditional marginal distribution of x1 is N_q(\u03bc1, \u03a311), whereas knowing that x2 = a yields conditional distribution N(\u03bc1 + \u03a312 \u03a322^-1 (a - \u03bc2), \u03a311 - \u03a312 \u03a322^-1 \u03a321).",
-      "why": "Conditioning shifts the mean and alters covariance via the Schur complement, whereas marginalization leaves the mean at \u03bc1 and covariance at \u03a311 without conditioning on a specific value.",
-      "cites": [
-        "wikipedia:Multivariate_normal_distribution"
-      ]
-    },
-    {
-      "property": "If a random vector has a multivariate normal distribution, any two or more of its components that are uncorrelated are independent.",
-      "why": "Pairwise zero correlation in a joint normal distribution implies pairwise and mutual statistical independence.",
+      "property": "Marginal normality of individual random variables does not imply that they are jointly multivariate normal.",
+      "why": "Counterexamples exist where variables are separately standard normal but their joint distribution is a mixture model rather than multivariate normal.",
       "cites": [
         "wikipedia:Multivariate_normal_distribution"
       ]
@@ -115,24 +103,29 @@
   ],
   "assumptions": [
     {
-      "assumption": "The full random vector x must be jointly multivariate normally distributed x ~ N(\u03bc, \u03a3).",
-      "breaks_when": "The individual variables are marginally normal but not jointly normal (e.g., non-linear dependencies such as Y = X for |X| > c and Y = -X for |X| < c)."
+      "assumption": "The vector x has a joint multivariate normal distribution x ~ N(\u03bc, \u03a3).",
+      "breaks_when": "The components are individually normal but not jointly normal (for instance, if Y = X for |X| > c and Y = -X for |X| < c)."
     },
     {
-      "assumption": "The covariance matrix \u03a3 must be a valid symmetric positive semi-definite matrix.",
-      "breaks_when": "\u03a3 has negative eigenvalues or is not symmetric."
+      "assumption": "The matrix \u03a3 is a valid joint covariance matrix (symmetric and positive semi-definite).",
+      "breaks_when": "\u03a3 is asymmetric, has negative eigenvalues, or contains negative diagonal elements."
     }
   ],
   "failure_modes": [
     {
-      "mode": "Assuming joint normality from marginal normalities",
-      "signature": "Individual variables pass 1D normality tests, but linear combinations or joint subsets fail normality tests.",
-      "cause": "Marginal normality of separate components is necessary but not sufficient to guarantee that the joint distribution is multivariate normal."
+      "mode": "Assuming marginal normality implies joint normality",
+      "signature": "Linear combinations of components are not univariate normal, and joint probability calculations fail.",
+      "cause": "Inferring joint multivariate normality solely from the fact that individual components are marginally normally distributed."
     },
     {
       "mode": "Conflating marginal distribution with conditional distribution",
-      "signature": "Using marginal variance \u03a311 and mean \u03bc1 despite having observed x2 = a.",
-      "cause": "Failing to apply the Schur complement covariance and mean shift induced by conditioning on observed data."
+      "signature": "Using unadjusted marginal mean \u03bc_1 and variance \u03a3_11 when a conditioning realization x_2 = a is known.",
+      "cause": "Ignoring known observation data x_2 = a, omitting the regression term \u03a3_12 \u03a3_22^{-1}(a - \u03bc_2) and the variance reduction from the Schur complement."
+    },
+    {
+      "mode": "Assuming uncorrelatedness implies independence without joint normality",
+      "signature": "Components have zero correlation (\u03c1 = 0) yet are statistically dependent.",
+      "cause": "Zero correlation implies independence only under joint multivariate normality, not when variables are merely marginally normal."
     }
   ],
   "source_ids": [
@@ -151,5 +144,71 @@
     ],
     "vacuous_invocations": false,
     "ok": false
+  },
+  "instantiation": {
+    "node_id": "gaussian_marginalization",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In this project, the ekf_global and ekf_local components run the robot_localization Extended Kalman Filter algorithm to estimate the robot's 15-dimensional state. The connection to Gaussian marginalization is solely that the underlying filter algorithm requires this mathematical result to propagate multivariate normal state distributions and extract marginal distributions of state subsets. The project components depend on this result because the EKF algorithm requires it, rather than exposing parameters that directly configure marginalization.",
+    "concrete": [
+      {
+        "symbol": "x",
+        "in_your_project": "The full 15-dimensional robot state vector [15 x 1] estimated by ekf_global and ekf_local, comprising 3D pose, linear and angular velocities, and linear accelerations."
+      },
+      {
+        "symbol": "N",
+        "in_your_project": "The dimension of the full state vector in robot_localization, which is 15 [1 x 1]."
+      },
+      {
+        "symbol": "\u03bc",
+        "in_your_project": "The 15-dimensional mean vector of the robot state estimate [15 x 1] maintained by the EKF."
+      },
+      {
+        "symbol": "\u03a3",
+        "in_your_project": "The 15 x 15 joint state covariance matrix [15 x 15] tracking estimate uncertainties and cross-correlations across all state variables."
+      },
+      {
+        "symbol": "x_1",
+        "in_your_project": "The subset of q state variables retained in the marginal distribution [q x 1], such as planar position or velocity components."
+      },
+      {
+        "symbol": "q",
+        "in_your_project": "The dimension of the marginal subset of retained state variables [1 x 1]."
+      },
+      {
+        "symbol": "x_2",
+        "in_your_project": "The remaining (15 - q) state variables marginalized out from the full state vector [(15 - q) x 1]."
+      },
+      {
+        "symbol": "\u03bc_1",
+        "in_your_project": "The marginal mean vector for the retained subset of state variables x_1 [q x 1]."
+      },
+      {
+        "symbol": "\u03bc_2",
+        "in_your_project": "The mean vector of the marginalized state variables x_2 [(15 - q) x 1]."
+      },
+      {
+        "symbol": "\u03a3_11",
+        "in_your_project": "The marginal covariance matrix of the retained state variables x_1 [q x q], obtained by dropping unselected rows and columns from \u03a3."
+      },
+      {
+        "symbol": "\u03a3_12",
+        "in_your_project": "The cross-covariance matrix between retained variables x_1 and marginalized variables x_2 [q x (15 - q)]."
+      },
+      {
+        "symbol": "\u03a3_21",
+        "in_your_project": "The cross-covariance matrix between marginalized variables x_2 and retained variables x_1 [(15 - q) x q]."
+      },
+      {
+        "symbol": "\u03a3_22",
+        "in_your_project": "The covariance matrix of the marginalized variables x_2 [(15 - q) x (15 - q)]."
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

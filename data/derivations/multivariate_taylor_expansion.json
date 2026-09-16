@@ -117,5 +117,51 @@
     ],
     "vacuous_invocations": false,
     "ok": false
+  },
+  "instantiation": {
+    "node_id": "multivariate_taylor_expansion",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In this project, the ekf_global and ekf_local nodes use robot_localization to perform robot state estimation via the Extended Kalman Filter algorithm. The algorithm directly requires a first-order multivariate Taylor expansion to linearize nonlinear kinematic motion and sensor measurement functions around the current state estimate. This linearization produces the linear functional (Jacobian) necessary to propagate state uncertainties and compute filter updates, though the connection is purely algorithmic as none of the configured parameters govern the expansion itself.",
+    "concrete": [
+      {
+        "symbol": "f",
+        "in_your_project": "A scalar component of the robot's nonlinear state transition or measurement function, mapping the 15-dimensional state vector to a single predicted coordinate [R^15 -> R]."
+      },
+      {
+        "symbol": "x",
+        "in_your_project": "The 15-dimensional robot state vector [15 x 1] containing 3D pose, orientation, linear velocity, angular velocity, and linear acceleration."
+      },
+      {
+        "symbol": "a",
+        "in_your_project": "The expansion center point [15 x 1], which is the current state estimate (mean vector) around which the nonlinear dynamics or measurement equations are linearized."
+      },
+      {
+        "symbol": "L",
+        "in_your_project": "The differential linear functional df(a) [1 x 15], representing a single row of the process Jacobian matrix F or measurement Jacobian matrix H evaluated at the state estimate a."
+      },
+      {
+        "symbol": "h",
+        "in_your_project": "The remainder scaling function [R^15 -> R] capturing higher-order nonlinear terms that vanish faster than ||x - a||, which the first-order EKF truncates."
+      },
+      {
+        "symbol": "v",
+        "in_your_project": "The displacement or state error vector (x - a) [15 x 1] measuring the deviation of the true state from the linearization center point."
+      },
+      {
+        "symbol": "alpha",
+        "in_your_project": "A multi-index (alpha_1, ..., alpha_15) [15 x 1] specifying partial derivative orders across the 15 state variables, where |alpha| = 1 indexes the Jacobian entries."
+      },
+      {
+        "symbol": "D^alpha f",
+        "in_your_project": "A partial derivative of order |alpha| [scalar] of a motion or measurement function; |alpha| = 1 terms form the Jacobian entries, while higher-order terms (|alpha| >= 2) are dropped in the EKF."
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }
