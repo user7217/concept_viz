@@ -173,5 +173,55 @@
     ],
     "vacuous_invocations": false,
     "ok": false
+  },
+  "instantiation": {
+    "node_id": "taylor_expansion",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "In agrios_ws, ekf_global and ekf_local use the Extended Kalman Filter from robot_localization to fuse odometry and IMU data for robot state estimation. The underlying EKF algorithm requires a first-order Taylor expansion to linearize nonlinear motion and measurement models around the current state estimate. The codebase does not directly expose or parameterize this expansion, but its localization components depend fundamentally on this mathematical result to function.",
+    "concrete": [
+      {
+        "symbol": "f",
+        "in_your_project": "The nonlinear state transition (motion model) or measurement function mapping the robot's state to future states or expected sensor observations"
+      },
+      {
+        "symbol": "x",
+        "in_your_project": "The true evaluation state vector of the robot, an n x 1 vector (15 x 1 in robot_localization representing 3D pose, velocities, and accelerations)"
+      },
+      {
+        "symbol": "a",
+        "in_your_project": "The expansion center point, corresponding to the current state estimate vector (15 x 1) around which the models are linearized"
+      },
+      {
+        "symbol": "k",
+        "in_your_project": "The expansion order, which is 1 because the standard Extended Kalman Filter truncates the Taylor series to a first-order (linear) approximation"
+      },
+      {
+        "symbol": "P_k",
+        "in_your_project": "The first-order Taylor polynomial representing the linearized affine motion or measurement model evaluated at the operating point"
+      },
+      {
+        "symbol": "R_k",
+        "in_your_project": "The linearization truncation remainder representing unmodeled higher-order nonlinear dynamics discarded by the first-order filter"
+      },
+      {
+        "symbol": "v",
+        "in_your_project": "The state error/displacement vector x - a (15 x 1 vector) indicating deviation from the linearization point"
+      },
+      {
+        "symbol": "\\alpha",
+        "in_your_project": "Multi-index indicating first-order partial derivatives (|\\alpha| = 1) corresponding to individual state variables"
+      },
+      {
+        "symbol": "D^\\alpha f",
+        "in_your_project": "The first-order partial derivatives of the system dynamics or measurement equations evaluated at state estimate a, forming the Jacobian matrix entries"
+      }
+    ],
+    "knobs": [],
+    "invented": {},
+    "thin": ""
   }
 }

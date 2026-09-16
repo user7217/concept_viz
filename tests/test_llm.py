@@ -380,7 +380,10 @@ class TestAntigravity(unittest.TestCase):
         from atlas.llm import AntigravityProvider, Dropped
 
         class Result:
-            returncode, stdout, stderr = 0, "", ""
+            returncode, stdout = 0, ""
+            stderr = ('jetski: no output produced -- a tool required the '
+                      '"command" permission that headless mode cannot prompt '
+                      'for, so it was auto-denied.')
 
         real = subprocess.run
         subprocess.run = lambda *a, **k: Result()
@@ -389,8 +392,26 @@ class TestAntigravity(unittest.TestCase):
                 AntigravityProvider(sleeper=lambda _: None).complete("x" * 4000)
         finally:
             subprocess.run = real
-        # the message has to name the size, since that is what predicts it
-        self.assertIn("4000", str(caught.exception))
+        # agy explains itself on stderr even when it exits 0. Reading that only
+        # on a non-zero exit threw away the one line explaining every failure,
+        # and "a tool was auto-denied" was mistaken for a quota for days.
+        self.assertIn("auto-denied", str(caught.exception))
+
+    def test_the_prompt_tells_it_not_to_use_tools(self) -> None:
+        from atlas.llm import AntigravityProvider
+
+        seen = {}
+
+        def runner(command, text):
+            seen["text"] = text
+            return '{"ok": true}'
+
+        AntigravityProvider(runner=runner).complete("derive", system="be terse")
+        # a denied tool call is the whole failure mode, and these prompts never
+        # need one: source text in, JSON out
+        self.assertIn("Do not use any tools", seen["text"])
+        self.assertIn("derive", seen["text"])
+        self.assertIn("be terse", seen["text"])
 
     def test_quota_is_its_own_error(self) -> None:
         import subprocess

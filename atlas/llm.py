@@ -404,16 +404,27 @@ class AntigravityProvider:
     `--disable-slash-commands` alongside it silently voids it, and the CLI
     says so on stderr.
 
-    **`agy -p` drops large prompts silently**: exit 0, empty stdout, nothing
-    on stderr. Measured 2026-09-11 -- a 1.1k prompt answered every time while
-    the same 5k prompt was dropped 8 times running, yet that same 5k prompt
-    had answered 14 of 20 times an hour earlier. Re-measured four days on
-    with well-formed prompts, it is not a ceiling and not a budget that
-    refills: 2353 chars dropped while 2495 and 3448 answered, and 4418
-    dropped. It is stochastic, with the odds of a drop rising with size.
-    Retrying is what gets through; a smaller prompt raises the per-attempt
-    odds. A drop is never a verdict on the prompt.
+    **Empty replies are a denied tool, not a quota.** `agy -p` exits 0 with
+    empty stdout when the model reaches for a tool: headless mode cannot
+    prompt for the permission, so it is auto-denied and the turn produces
+    nothing. It says so on stderr -- and this class read stderr only on a
+    non-zero exit, so the one line explaining every failure was thrown away
+    on every failure.
+
+    That cost a long detour. The symptom really did correlate with prompt
+    size, and the size correlation was measured carefully and explained
+    wrongly: a longer prompt gives the model more to investigate, so it
+    reaches for a tool more often. The conclusion drawn from it -- a
+    stochastic budget that refills -- was invented to fit a number, and no
+    budget was ever involved.
+
+    The fix is to tell it not to use tools. These prompts are self-contained
+    by construction: source text in, JSON out.
     """
+
+    NO_TOOLS = ("Do not use any tools. Everything you need is in this "
+                "message, and a tool call in headless mode is auto-denied "
+                "and produces no answer at all.\n\n")
 
     binary: str = "agy"
     model: str | None = None
@@ -424,9 +435,11 @@ class AntigravityProvider:
     sleeper: Callable[[float], None] = field(default=time.sleep, repr=False)
     runner: Callable[[list[str], str], str] | None = None
     name: str = field(default="antigravity", init=False)
+    _last_stderr: str = field(default="", init=False, repr=False)
 
     def complete(self, prompt: str, *, system: str | None = None) -> str:
-        text = f"{system}\n\n{prompt}" if system else prompt
+        body = f"{system}\n\n{prompt}" if system else prompt
+        text = self.NO_TOOLS + body
         command = [self.binary, "-p", text, "--mode", "plan"]
         if self.model:
             command += ["--model", self.model]
@@ -443,12 +456,10 @@ class AntigravityProvider:
             if attempt < self.attempts:
                 self.sleeper(self.backoff * attempt)
 
+        detail = getattr(self, "_last_stderr", "") or "(nothing on stderr)"
         raise Dropped(
-            f"agy -p dropped the request {self.attempts} times "
-            f"(exit 0, empty stdout, empty stderr). The prompt was "
-            f"{len(text)} chars. Drops are stochastic and get likelier the "
-            f"larger the prompt -- re-running usually gets further, and the "
-            f"run is resumable, so nothing already written is lost."
+            f"agy -p returned nothing {self.attempts} times for a "
+            f"{len(text)}-char prompt. It said: {detail[:300]}"
         )
 
     def _attempt(self, command: list[str]) -> str | None:
@@ -478,6 +489,10 @@ class AntigravityProvider:
                 )
             raise LLMError(f"agy -p exited {result.returncode}: {detail[:400]}")
         if not result.stdout.strip():
+            # Exit 0 and no output: agy explains itself on stderr even though
+            # it succeeded. Carry that out rather than discarding it, which is
+            # how "a tool was auto-denied" got mistaken for a quota.
+            self._last_stderr = result.stderr.strip()
             return None
         return result.stdout
 

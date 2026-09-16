@@ -354,6 +354,12 @@
       "old_to": "graph",
       "new_to": "weighted_graph",
       "why": "an edge weight is defined on a weighted graph, which itself requires graph"
+    },
+    {
+      "from": "gaussian_marginalization",
+      "old_to": "completing_the_square",
+      "new_to": "linear_transformation_of_gaussian",
+      "why": "marginalising a block Gaussian needs no integration and so no completing the square: the marginal is the affine image under a selection matrix A = [I 0], giving N(A mu, A Sigma A') = N(mu1, Sigma11). The old edge demanded a derivation no source performs -- Wikipedia states the result and says you simply drop the irrelevant variables -- so the check failed on every run."
     }
   ],
   "seed_retargets": [

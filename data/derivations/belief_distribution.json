@@ -124,5 +124,77 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "belief_distribution",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local",
+      "obstaclelayer"
+    ],
+    "why_here": "In agrios_ws, the belief distribution represents the recursive probabilistic state estimate and covariance of the robot maintained by ekf_local and ekf_global via robot_localization. It models the unobserved 15-dimensional kinematic state as a Gaussian distribution, predicting motion and updating the distribution using odometry and IMU sensor streams. Downstream components like obstaclelayer do not configure the filter but rely directly on this resulting state belief to position detected obstacles accurately in the navigation costmap.",
+    "concrete": [
+      {
+        "symbol": "\\mathbf{x}_k",
+        "in_your_project": "The unobserved 15-dimensional state vector (x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az) representing the true pose and kinematics of base_link_frame (base_footprint) at timestep k."
+      },
+      {
+        "symbol": "\\mathbf{z}_k",
+        "in_your_project": "The sensor measurement vector at timestep k provided by active sensors such as /imu (imu0, imu1) and odometry (odom0, odom1)."
+      },
+      {
+        "symbol": "\\mathbf{z}_{1:k}",
+        "in_your_project": "The sequence of all sensor measurement vectors received from odometry and IMU topics from initialization through timestep k."
+      },
+      {
+        "symbol": "p(\\mathbf{x}_k | \\mathbf{z}_{1:k})",
+        "in_your_project": "The updated posterior belief distribution over the robot's 15-dimensional state given all sensor measurements up to timestep k, maintained by ekf_local and ekf_global as a Gaussian mean vector and 15x15 covariance matrix."
+      },
+      {
+        "symbol": "p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})",
+        "in_your_project": "The predicted belief distribution over the 15-dimensional state at timestep k prior to measurement updates, propagated according to the filter frequency (30.0 Hz in ekf_global, 50.0 Hz in ekf_local)."
+      },
+      {
+        "symbol": "p(\\mathbf{z}_k | \\mathbf{x}_k)",
+        "in_your_project": "The measurement likelihood distribution evaluating the probability of receiving measurements from /imu and odometry given the current state \\mathbf{x}_k."
+      },
+      {
+        "symbol": "p(\\mathbf{x}_k | \\mathbf{x}_{k-1})",
+        "in_your_project": "The state transition probability distribution from timestep k-1 to k, parameterized by the kinematic process model and process_noise_covariance."
+      },
+      {
+        "symbol": "p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1})",
+        "in_your_project": "The marginal measurement likelihood scalar normalizing the posterior belief update over all potential robot states."
+      },
+      {
+        "symbol": "\\alpha",
+        "in_your_project": "The scalar normalization coefficient equal to 1 / p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1}) ensuring the updated belief distribution integrates to 1."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the initial covariance matrix of the Gaussian belief distribution, determining the starting uncertainty of the estimated state before sensor measurements are fused."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the covariance of the state transition probability distribution p(\\mathbf{x}_k | \\mathbf{x}_{k-1}), controlling the growth of uncertainty in the predicted belief distribution p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1}) over time."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the initial covariance matrix of the Gaussian belief distribution, determining the starting uncertainty of the estimated state before sensor measurements are fused."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the covariance of the state transition probability distribution p(\\mathbf{x}_k | \\mathbf{x}_{k-1}), controlling the growth of uncertainty in the predicted belief distribution p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1}) over time."
+      }
+    ],
+    "invented": {},
+    "thin": ""
   }
 }
