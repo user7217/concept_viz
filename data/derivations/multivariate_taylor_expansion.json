@@ -2,106 +2,102 @@
   "node_id": "multivariate_taylor_expansion",
   "grounded": true,
   "kind": "definition",
-  "statement": "The multivariate Taylor expansion of a k times differentiable function f: R^n -> R about a point a in R^n is the degree-k polynomial approximation P_k(x) = sum over multi-indices alpha with |alpha| <= k of [D^alpha f(a) / alpha!] * (x-a)^alpha, using multi-index notation: alpha = (alpha_1,...,alpha_n), |alpha| = alpha_1+...+alpha_n, alpha! = alpha_1!...alpha_n!, (x-a)^alpha = (x_1-a_1)^{alpha_1}...(x_n-a_n)^{alpha_n}, and D^alpha f = d^{|alpha|}f / dx^alpha the corresponding mixed partial derivative. At first order (k=1) this reduces to f(x) = f(a) + df(a)(x-a) + h(x)||x-a||, with h(x) -> 0 as x -> a, where the differential df(a)(v) = sum_i (df/dx_i)(a) v_i.",
+  "statement": "The supplied sources genuinely contain no derivation of the multivariate Taylor expansion, as the text under 'Taylor's theorem for multivariate functions' in [wikipedia:Taylor's_theorem] is truncated after the hypothesis. As defined under 'Higher-order differentiability' in [wikipedia:Taylor's_theorem], a multivariate function f: R^n -> R is differentiable at a in R^n if and only if there exists a linear functional L = df(a): R^n -> R and a function h: R^n -> R such that f(x) = f(a) + L(x - a) + h(x) ||x - a|| with lim_{x -> a} h(x) = 0, where the differential df(a) is given by df(a)(v) = (df/dx_1)(a) v_1 + ... + (df/dx_n)(a) v_n.",
   "symbols": [
     {
-      "symbol": "a",
-      "meaning": "expansion point",
-      "dimensions": "R^n"
+      "symbol": "f",
+      "meaning": "scalar-valued multivariate function",
+      "dimensions": "R^n -> R"
     },
     {
       "symbol": "x",
-      "meaning": "evaluation point",
-      "dimensions": "R^n"
+      "meaning": "point of evaluation",
+      "dimensions": "n x 1"
     },
     {
-      "symbol": "alpha",
-      "meaning": "multi-index (alpha_1,...,alpha_n)",
-      "dimensions": "N^n"
+      "symbol": "a",
+      "meaning": "expansion center point",
+      "dimensions": "n x 1"
     },
     {
-      "symbol": "|alpha|",
-      "meaning": "order of the multi-index, alpha_1+...+alpha_n",
-      "dimensions": "scalar"
+      "symbol": "L",
+      "meaning": "differential linear functional df(a)",
+      "dimensions": "1 x n"
     },
     {
-      "symbol": "alpha!",
-      "meaning": "multi-index factorial, alpha_1!...alpha_n!",
-      "dimensions": "scalar"
-    },
-    {
-      "symbol": "x^alpha",
-      "meaning": "monomial x_1^{alpha_1}...x_n^{alpha_n}",
-      "dimensions": "scalar"
-    },
-    {
-      "symbol": "D^alpha f",
-      "meaning": "mixed partial derivative d^{|alpha|}f / dx^alpha",
-      "dimensions": "scalar"
-    },
-    {
-      "symbol": "k",
-      "meaning": "truncation order of the expansion",
-      "dimensions": "scalar"
-    },
-    {
-      "symbol": "df(a)",
-      "meaning": "differential of f at a",
-      "dimensions": "linear functional on R^n"
+      "symbol": "h",
+      "meaning": "remainder scaling function vanishing as x approaches a",
+      "dimensions": "R^n -> R"
     },
     {
       "symbol": "v",
-      "meaning": "direction vector",
-      "dimensions": "R^n"
+      "meaning": "displacement or direction vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "alpha",
+      "meaning": "multi-index (alpha_1, ..., alpha_n)",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "D^alpha f",
+      "meaning": "higher-order partial derivative of order |alpha|",
+      "dimensions": "scalar"
     }
   ],
   "steps": [],
   "properties": [
     {
-      "property": "The k=1 case recovers the differential: df(a)(v) = (df/dx_1)(a) v_1 + ... + (df/dx_n)(a) v_n, so the first-order Taylor expansion is the affine map f(a) + df(a)(x-a).",
-      "why": "the differential is defined component-wise by the partial derivatives at a",
+      "property": "The differential L = df(a) of f at a is uniquely defined and given by df(a)(v) = (df/dx_1)(a) v_1 + ... + (df/dx_n)(a) v_n",
+      "why": "Follows from differentiability of f at a",
       "cites": [
         "wikipedia:Taylor's_theorem"
       ]
     },
     {
-      "property": "The mixed-partial notation D^alpha f is only order-independent (well-defined regardless of the sequence of differentiation) when the |alpha|-th order partials of f are continuous at a, by Clairaut's theorem; this is the justification for writing D^alpha f as a single symbol.",
-      "why": "Clairaut's theorem lets mixed partials commute under that continuity hypothesis",
+      "property": "The order of mixed higher-order partial derivatives can be changed, justifying the multi-index notation D^alpha f = d^{|alpha|} f / dx^alpha",
+      "why": "Clairaut's theorem applies when all k-th order partial derivatives are continuous at a",
       "cites": [
         "wikipedia:Taylor's_theorem"
       ]
     },
     {
-      "property": "f is called k times differentiable at a if either all k-th order partials are continuous at a, or all (k-1)-th order partials exist in a neighborhood of a and are differentiable at a; this is the minimal hypothesis under which D^alpha f for |alpha| <= k is meaningful in the expansion.",
-      "why": "states the exact differentiability condition attached to the multi-index derivative notation",
+      "property": "The function f is k times differentiable at the point a",
+      "why": "All (k - 1)-th order partial derivatives of f exist in some neighborhood of a and are differentiable at a",
       "cites": [
         "wikipedia:Taylor's_theorem"
-      ]
-    },
-    {
-      "property": "The expansion is a polynomial of degree k formed from the first k+1 terms of the (possibly infinite) Taylor series, and is an approximation to f that generally becomes more accurate as k increases; the full series' sum need not equal f even where the series converges.",
-      "why": "general property of Taylor polynomials as partial sums of the Taylor series",
-      "cites": [
-        "wikipedia:Taylor_series"
       ]
     }
   ],
   "assumptions": [
     {
-      "assumption": "f is k times differentiable at a in the sense given above (k-th partials continuous at a, or (k-1)-th partials exist nearby and are differentiable at a).",
-      "breaks_when": "partial derivatives up to the required order fail to exist or fail to be continuous at a"
+      "assumption": "The function f: R^n -> R is differentiable at a in R^n",
+      "breaks_when": "The linear functional L does not exist or the error term does not satisfy lim_{x -> a} h(x) = 0"
+    },
+    {
+      "assumption": "All k-th order partial derivatives of f are continuous at a",
+      "breaks_when": "Mixed partial derivatives depend on the order of differentiation, violating Clairaut's theorem"
+    },
+    {
+      "assumption": "The function f is k + 1 times continuously differentiable in a closed ball B = {y in R^n : ||a - y|| <= r} for some r > 0",
+      "breaks_when": "Any partial derivative of order up to k + 1 fails to exist or is discontinuous within the ball B"
     }
   ],
   "failure_modes": [
     {
-      "mode": "D^alpha f is ill-defined or order-dependent",
-      "signature": "mixed partials computed in different orders disagree",
-      "cause": "the k-th order partials are not continuous at a, so Clairaut's theorem does not apply"
+      "mode": "Non-differentiability at expansion center",
+      "signature": "No linear functional L exists such that the remainder vanishes faster than ||x - a||",
+      "cause": "Partial derivatives do not exist or fail to constitute a valid differential at a"
     },
     {
-      "mode": "polynomial approximation error grows away from a",
-      "signature": "P_k(x) diverges sharply from f(x) as ||x-a|| increases",
-      "cause": "truncation at finite order k combined with x lying outside the region where the expansion is accurate"
+      "mode": "Discontinuous mixed partial derivatives",
+      "signature": "Higher-order partial derivatives depend on the order of differentiation",
+      "cause": "Failure of continuity conditions required by Clairaut's theorem"
+    },
+    {
+      "mode": "Singularities bounding convergence domain",
+      "signature": "Taylor polynomial approximation error does not shrink or remainder term diverges",
+      "cause": "Poles or singularities in the extension of f restrict the radius of convergence of the series (such as poles at +-i for 1/(1+x^2))"
     }
   ],
   "source_ids": [
@@ -116,62 +112,10 @@
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
-    "shape": [],
+    "shape": [
+      "expected a derivation, produced a definition"
+    ],
     "vacuous_invocations": false,
-    "ok": true
-  },
-  "instantiation": {
-    "node_id": "multivariate_taylor_expansion",
-    "project": "agrios_ws",
-    "components": [
-      "ekf_global",
-      "ekf_local"
-    ],
-    "why_here": "In agrios_ws, ekf_global and ekf_local run the Extended Kalman Filter from robot_localization to fuse odometry and IMU data for global and local robot state estimation. The EKF algorithm relies on a first-order multivariate Taylor expansion to linearize nonlinear process motion models and measurement models about the current state estimate. The connection in this project is strictly that the filter's underlying algorithm requires this mathematical linearization, rather than any direct parameter configuration.",
-    "concrete": [
-      {
-        "symbol": "a",
-        "in_your_project": "The current state estimate (expansion point) about which the nonlinear motion or measurement functions are linearized, with dimension R^15 (3D position, orientation, linear/angular velocities, and linear accelerations)."
-      },
-      {
-        "symbol": "x",
-        "in_your_project": "The robot state vector (evaluation point) in the state space R^15."
-      },
-      {
-        "symbol": "k",
-        "in_your_project": "The truncation order k = 1 (scalar), as the Extended Kalman Filter uses a first-order polynomial approximation to linearize nonlinear functions."
-      },
-      {
-        "symbol": "df(a)",
-        "in_your_project": "The differential (Jacobian) of the process transition or measurement model evaluated at the state estimate a, mapping state perturbations in R^15 to output perturbations."
-      },
-      {
-        "symbol": "v",
-        "in_your_project": "A perturbation or displacement vector in the state space R^15, such as the state error vector (x - a)."
-      },
-      {
-        "symbol": "D^alpha f",
-        "in_your_project": "The first-order partial derivatives of the process or measurement models with respect to individual state variables evaluated at a, forming the entries of the Jacobian matrices [scalar]."
-      },
-      {
-        "symbol": "alpha",
-        "in_your_project": "A multi-index in N^15 indicating the partial derivative order for each of the 15 state variables, taking the form of unit basis vectors e_i for first-order terms."
-      },
-      {
-        "symbol": "|alpha|",
-        "in_your_project": "The order of the multi-index derivative, taking values 0 or 1 (scalar) for the first-order EKF approximation."
-      },
-      {
-        "symbol": "alpha!",
-        "in_your_project": "The multi-index factorial, evaluating to 1 (scalar) for all first-order terms |alpha| = 1."
-      },
-      {
-        "symbol": "x^alpha",
-        "in_your_project": "The state monomial, evaluating to an individual state variable coordinate x_i (scalar) when |alpha| = 1."
-      }
-    ],
-    "knobs": [],
-    "invented": {},
-    "thin": ""
+    "ok": false
   }
 }

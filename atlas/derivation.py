@@ -201,6 +201,18 @@ EXPECT_DERIVATION = (
     "in a derivation. Restate that derivation. Only call it a definition if the "
     "sources genuinely contain nothing to derive, and say so in the statement."
 )
+# When the canon records no moves but the source derives the node anyway, the
+# evidence is the source, not the graph. Formatting the canon sentence with an
+# empty list produced "reached using , which are manipulation moves" -- a claim
+# about nothing, and both Taylor sheets came back as definitions from a prompt
+# whose one instruction was malformed.
+EXPECT_DERIVATION_FROM_SOURCE = (
+    "This node is expected to be a RESULT with a derivation: the sources below "
+    "carry a derivation of it under a Proof or Derivation heading. Restate that "
+    "derivation, step by step, deriving THIS node rather than a property of it. "
+    "Only call it a definition if the sources genuinely contain nothing to "
+    "derive, and say so in the statement."
+)
 EXPECT_DEFINITION = (
     "This node is expected to be a DEFINITION or object -- the canon records no "
     "manipulation moves under it, so there is likely nothing to derive. State it "
@@ -297,10 +309,12 @@ def build_prompt(node_id: str, name: str, sources: list[Source],
             + ", ".join(sorted(vocabulary))
         )
     kind, moves = expected_kind(graph, node_id, sources)
-    expectation = (
-        EXPECT_DERIVATION.format(moves=", ".join(moves))
-        if kind == "derivation" else EXPECT_DEFINITION
-    )
+    if kind != "derivation":
+        expectation = EXPECT_DEFINITION
+    elif moves:
+        expectation = EXPECT_DERIVATION.format(moves=", ".join(moves))
+    else:
+        expectation = EXPECT_DERIVATION_FROM_SOURCE
     return TEMPLATE.format(
         name=name, node_id=node_id, sources="\n\n".join(blocks) or "(none)",
         expectation=expectation,

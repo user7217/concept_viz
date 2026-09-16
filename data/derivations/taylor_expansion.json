@@ -2,103 +2,163 @@
   "node_id": "taylor_expansion",
   "grounded": true,
   "kind": "definition",
-  "statement": "The Taylor series of a function f at a point a is the infinite sum f(x) = sum_{n=0}^{\\infty} c_n (x-a)^n, where the terms c_n are expressed in terms of the derivatives of f at the single point a (c_n involves f^{(n)}(a)). When a = 0, this is called the Maclaurin series. The partial sum of the first n+1 terms is the nth Taylor polynomial, a degree-n polynomial approximation to f.",
+  "statement": "The supplied source does not contain a derivation of the Taylor expansion (under the Proofs heading, it carries only an incomplete excerpt of a proof of Taylor's theorem regarding the Peano remainder limit via L'H\u00f4pital's rule, which concerns a property of the approximation rather than deriving the expansion itself). By definition, the k-th order Taylor expansion (or Taylor polynomial) of a function f at a center point a (or c) approximates f by P_k(x) = \\sum_{j=0}^k \\frac{f^{(j)}(a)}{j!} (x-a)^j in one variable, or for a multivariate function f: \\mathbb{R}^n \\to \\mathbb{R} at \\mathbf{a} \\in \\mathbb{R}^n by P_k(\\mathbf{x}) = \\sum_{|\\alpha| \\le k} \\frac{D^\\alpha f(\\mathbf{a})}{\\alpha!} (\\mathbf{x}-\\mathbf{a})^\\alpha in multi-index notation, where the function decomposes as f(\\mathbf{x}) = P_k(\\mathbf{x}) + R_k(\\mathbf{x}) with remainder term R_k(\\mathbf{x}).",
   "symbols": [
     {
       "symbol": "f",
-      "meaning": "function being expanded",
-      "dimensions": "scalar-valued function of x"
-    },
-    {
-      "symbol": "a",
-      "meaning": "the single point at which derivatives are evaluated (expansion point)",
-      "dimensions": "scalar"
+      "meaning": "Function being expanded",
+      "dimensions": "scalar-valued function: R -> R, R^n -> R, or U subset C -> C"
     },
     {
       "symbol": "x",
-      "meaning": "the variable of expansion",
-      "dimensions": "scalar (or complex, for a disk)"
+      "meaning": "Evaluation point at which the function is approximated",
+      "dimensions": "1 for scalar variable, or n x 1 vector in R^n"
     },
     {
-      "symbol": "c_n",
-      "meaning": "coefficient of the nth term, expressed via the derivatives of f at a",
+      "symbol": "a",
+      "meaning": "Center point of the expansion",
+      "dimensions": "1 for scalar variable, or n x 1 vector in R^n"
+    },
+    {
+      "symbol": "k",
+      "meaning": "Order or degree of the Taylor polynomial",
+      "dimensions": "scalar non-negative integer (k in N)"
+    },
+    {
+      "symbol": "P_k",
+      "meaning": "k-th order Taylor polynomial",
+      "dimensions": "scalar-valued polynomial"
+    },
+    {
+      "symbol": "R_k",
+      "meaning": "Remainder term of order k satisfying f = P_k + R_k",
       "dimensions": "scalar"
     },
     {
-      "symbol": "n",
-      "meaning": "term/derivative order; the nth Taylor polynomial is the degree-n partial sum",
-      "dimensions": "non-negative integer"
+      "symbol": "\\alpha",
+      "meaning": "Multi-index tuple (\\alpha_1, ..., \\alpha_n) of non-negative integers with |\\alpha| = \\sum \\alpha_i and \\alpha! = \\prod \\alpha_i!",
+      "dimensions": "n x 1 integer vector"
+    },
+    {
+      "symbol": "D^\\alpha f",
+      "meaning": "Higher-order partial derivative \\partial^{|\\alpha|} f / (\\partial x_1^{\\alpha_1} ... \\partial x_n^{\\alpha_n})",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "v",
+      "meaning": "Displacement vector x - a",
+      "dimensions": "n x 1 vector"
+    },
+    {
+      "symbol": "R_\\beta",
+      "meaning": "Remainder coefficient function corresponding to multi-index \\beta of order k+1 in the multivariate integral remainder",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\gamma",
+      "meaning": "Positively oriented Jordan curve parametrizing boundary \\partial W of region W subset U",
+      "dimensions": "1D curve in C"
+    },
+    {
+      "symbol": "M_r",
+      "meaning": "Upper bound of |f(w)| on the boundary contour of disk B(c, r)",
+      "dimensions": "scalar real"
     }
   ],
   "steps": [],
   "properties": [
     {
-      "property": "The nth Taylor polynomial (partial sum of the first n+1 terms) is a degree-n polynomial approximation of f, and these approximations become generally more accurate as n increases.",
-      "why": "Taylor polynomials are defined as truncations of the Taylor series",
+      "property": "The derivatives of the Taylor polynomial P match the derivatives of f at the center point: f^{(j)}(a) = P^{(j)}(a) for each j = 0, 1, ..., k-1.",
+      "why": "The polynomial coefficients are defined directly as f^{(j)}(a) / j!.",
       "cites": [
-        "wikipedia:Taylor_series"
+        "wikipedia:Taylor's_theorem"
       ]
     },
     {
-      "property": "Taylor's theorem gives quantitative estimates on the error introduced by truncating to a Taylor polynomial.",
-      "why": "stated directly as the purpose of Taylor's theorem",
+      "property": "For a multivariate function f: R^n -> R that is k+1 times continuously differentiable on a closed ball B, the remainder is given in exact integral form by \\sum_{|\\beta|=k+1} R_\\beta(\\mathbf{x})(\\mathbf{x}-\\mathbf{a})^\\beta where R_\\beta(\\mathbf{x}) = \\frac{|\\beta|}{\\beta!} \\int_0^1 (1-t)^{|\\beta|-1} D^\\beta f(\\mathbf{a} + t(\\mathbf{x}-\\mathbf{a})) dt.",
+      "why": "Integrating (k+1)-th order partial derivatives along the segment connecting a to x yields the remainder formula.",
       "cites": [
-        "wikipedia:Taylor_series"
+        "wikipedia:Taylor's_theorem"
       ]
     },
     {
-      "property": "If the Taylor series converges, its sum is the limit of the sequence of Taylor polynomials; however, a function may differ from the sum of its own convergent Taylor series.",
-      "why": "convergence of the series does not by itself guarantee equality with f",
+      "property": "On the closed ball B, each multivariate remainder component satisfies the uniform bound |R_\\beta(\\mathbf{x})| \\le \\frac{1}{\\beta!} \\max_{|\\alpha|=|\\beta|} \\max_{\\mathbf{y} \\in B} |D^\\alpha f(\\mathbf{y})|.",
+      "why": "Continuous (k+1)-th order partial derivatives achieve a finite maximum over the compact ball B.",
       "cites": [
-        "wikipedia:Taylor_series"
+        "wikipedia:Taylor's_theorem"
       ]
     },
     {
-      "property": "f is analytic at x if it equals the sum of its Taylor series on some open interval (or open disk, in the complex case) containing x; this implies f is analytic at every point of that interval/disk.",
-      "why": "definition of analyticity in terms of the Taylor series",
+      "property": "For a complex differentiable function on an open set U, the remainder in region W is given exactly by the contour integral R_k(z) = \\frac{(z-c)^{k+1}}{2\\pi i} \\int_\\gamma \\frac{f(w) dw}{(w-c)^{k+1}(w-z)}.",
+      "why": "Applying Cauchy's integral formula to the geometric series tail for 1/(w-z) gives the exact remainder contour integral.",
       "cites": [
-        "wikipedia:Taylor_series"
+        "wikipedia:Taylor's_theorem"
       ]
     },
     {
-      "property": "Within its region of convergence, a Taylor/power series sum_{n=0}^{\\infty} c_n(x-a)^n can be differentiated term by term, d/dx sum c_n(x-a)^n = sum_{n=1}^{\\infty} n c_n (x-a)^{n-1}, and integrated term by term, giving C + sum_{n=0}^{\\infty} c_n/(n+1) (x-a)^{n+1}; the differentiated and integrated series share the original series' radius of convergence (boundary behavior may differ).",
-      "why": "termwise differentiation/integration is valid inside the radius of convergence",
+      "property": "The complex remainder satisfies the uniform Cauchy estimate |R_k(z)| \\le \\frac{M_r}{r^{k+1}} \\frac{|z-c|^{k+1}}{1 - |z-c|/r} \\le \\frac{M_r \\beta^{k+1}}{1 - \\beta} for |z-c|/r \\le \\beta < 1.",
+      "why": "Cauchy's estimates bound the integrand on the circle of radius r by M_r and sum the geometric series tail.",
       "cites": [
-        "wikipedia:Taylor_series"
+        "wikipedia:Taylor's_theorem"
       ]
     },
     {
-      "property": "A Maclaurin series is the special case of a Taylor series taken at a = 0.",
-      "why": "definition given for the named special case",
+      "property": "For k = 1, the first-order Taylor expansion yields the differential L = df(\\mathbf{a}) such that f(\\mathbf{x}) = f(\\mathbf{a}) + df(\\mathbf{a})(\\mathbf{x}-\\mathbf{a}) + h(\\mathbf{x})\\|\\mathbf{x}-\\mathbf{a}\\| where \\lim_{\\mathbf{x} \\to \\mathbf{a}} h(\\mathbf{x}) = 0.",
+      "why": "Differentiability at a point is uniquely defined by the linear functional df(a) representing partial derivatives along displacement coordinates.",
       "cites": [
-        "wikipedia:Taylor_series"
+        "wikipedia:Taylor's_theorem"
+      ]
+    },
+    {
+      "property": "When all k-th order partial derivatives are continuous at a, the order of differentiation in D^\\alpha f = \\frac{\\partial^{|\\alpha|} f}{\\partial x_1^{\\alpha_1} \\cdots \\partial x_n^{\\alpha_n}} can be freely interchanged by Clairaut's theorem.",
+      "why": "Continuity of the partial derivatives guarantees symmetry of mixed partial derivatives.",
+      "cites": [
+        "wikipedia:Taylor's_theorem"
       ]
     }
   ],
   "assumptions": [
     {
-      "assumption": "f possesses derivatives of all orders at a, so every coefficient c_n is defined.",
-      "breaks_when": "f fails to be infinitely differentiable at a"
+      "assumption": "The function f is k times differentiable at the expansion center point a, requiring differentiability up to order k-1 in a neighborhood of a.",
+      "breaks_when": "f is not defined on an open neighborhood of a, any of the lower k-1 derivatives fail to be differentiable, or the k-th order derivative does not exist at a."
     },
     {
-      "assumption": "x lies within the series' region/radius of convergence when using the sum, or its termwise-differentiated/integrated forms.",
-      "breaks_when": "|x-a| exceeds the radius of convergence, or x sits on the boundary where behavior can differ"
+      "assumption": "For the multivariate integral remainder formula, f: R^n -> R is k+1 times continuously differentiable in a closed ball B = {y \\in R^n : ||a - y|| <= r} for some r > 0.",
+      "breaks_when": "Any (k+1)-th order partial derivative fails to exist or is discontinuous within the closed ball B."
+    },
+    {
+      "assumption": "For complex Taylor expansion, f is complex differentiable in an open set U subset C containing the region W and the boundary Jordan curve \\gamma.",
+      "breaks_when": "f has singularities, poles, or branch cuts in region W or on \\gamma."
+    },
+    {
+      "assumption": "For convergence of the series approximation, the evaluation point must satisfy |z - c| < r where disk B(c, r) is free of singularities.",
+      "breaks_when": "|z - c| exceeds the distance from center c to the nearest pole or singularity of the analytic continuation."
     }
   ],
   "failure_modes": [
     {
-      "mode": "Series converges but not to f",
-      "signature": "the Taylor series is convergent at x yet its sum does not equal f(x)",
-      "cause": "f is not analytic at a even though it is infinitely differentiable there (stated directly in the source as a possibility)"
+      "mode": "Divergence outside the disk of analyticity",
+      "signature": "Taylor polynomial approximation error diverges or fails to decrease as degree k increases for points where distance to center exceeds distance to nearest singularity.",
+      "cause": "Presence of poles in the complex plane (such as simple poles at \\pm i for f(x) = 1/(1+x^2)) that bound the radius of convergence (e.g., radius 1 around 0, or radius \\sqrt{2} around 1)."
     },
     {
-      "mode": "Divergence or altered behavior outside the radius of convergence",
-      "signature": "partial sums fail to approach f(x), or termwise differentiated/integrated series behave differently at the boundary",
-      "cause": "x lies outside (or on the boundary of) the radius of convergence shared by the series and its term-by-term derivative/integral"
+      "mode": "Ambiguity of higher-order multi-index derivative notation D^\\alpha f",
+      "signature": "Evaluating mixed partial derivatives in different orders produces conflicting values for Taylor polynomial coefficients.",
+      "cause": "Partial derivatives of order k are not continuous at the expansion point, violating Clairaut's theorem."
+    },
+    {
+      "mode": "Invalidity of the multivariate integral remainder formula",
+      "signature": "The integral remainder R_\\beta(\\mathbf{x}) fails to integrate or fails to equal f(\\mathbf{x}) - P_k(\\mathbf{x}).",
+      "cause": "(k+1)-th order partial derivatives fail to exist or fail to be continuous along the segment connecting center a to x."
+    },
+    {
+      "mode": "Breakdown of Cauchy remainder estimate near domain boundary",
+      "signature": "The error upper bound M_r \\beta^{k+1} / (1 - \\beta) diverges to infinity as \\beta \\to 1.",
+      "cause": "The evaluation point z approaches the boundary curve \\partial W where |z - c| / r approaches 1."
     }
   ],
   "source_ids": [
-    "wikipedia:Taylor_series"
+    "wikipedia:Taylor's_theorem"
   ],
   "check": {
     "node_id": "taylor_expansion",
@@ -108,42 +168,10 @@
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
-    "shape": [],
+    "shape": [
+      "expected a derivation, produced a definition"
+    ],
     "vacuous_invocations": false,
-    "ok": true
-  },
-  "instantiation": {
-    "node_id": "taylor_expansion",
-    "project": "agrios_ws",
-    "components": [
-      "ekf_global",
-      "ekf_local"
-    ],
-    "why_here": "In this project, the ekf_global and ekf_local nodes use an Extended Kalman Filter (EKF) from robot_localization to fuse odometry and IMU data into consistent state estimates. The EKF algorithm relies on a first-order Taylor expansion to linearize non-linear process and measurement models around the current state estimate. The listed components depend on this mathematical result purely through the EKF algorithm itself, rather than through direct parameter configuration.",
-    "concrete": [
-      {
-        "symbol": "f",
-        "in_your_project": "The non-linear motion or measurement model mapping the robot's state to predicted states or expected sensor observations."
-      },
-      {
-        "symbol": "a",
-        "in_your_project": "The operating point or current 15-dimensional state estimate (pose, velocities, accelerations) at which partial derivatives are evaluated."
-      },
-      {
-        "symbol": "x",
-        "in_your_project": "The true or perturbed 15-dimensional robot state vector being estimated."
-      },
-      {
-        "symbol": "c_n",
-        "in_your_project": "The expansion coefficients evaluated at a, where c_0 is the function value f(a) and c_1 corresponds to the first-order partial derivatives forming the Jacobian matrix."
-      },
-      {
-        "symbol": "n",
-        "in_your_project": "The derivative and polynomial order, which is fixed to n = 1 in the Extended Kalman Filter's first-order linearization."
-      }
-    ],
-    "knobs": [],
-    "invented": {},
-    "thin": ""
+    "ok": false
   }
 }

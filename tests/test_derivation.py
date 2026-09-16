@@ -355,3 +355,21 @@ class TestSourceAwareKind(unittest.TestCase):
         from atlas.derivation import source_derives
         self.assertTrue(source_derives([self._source(
             "== Proof of uniqueness ==\nx\n== Derivation ==\nStart from ...")]))
+
+    def test_a_source_flip_never_claims_canon_moves_it_lacks(self) -> None:
+        from atlas.derivation import build_prompt
+        proof = [self._source("== Derivation ==\nStart from f(x) and expand.")]
+        prompt = build_prompt("multivariate_taylor_expansion",
+                              "Multivariate Taylor Expansion", proof,
+                              graph=self.graph)
+        # the bug: "reached using , which are manipulation moves"
+        self.assertNotIn("reached using ,", prompt)
+        self.assertNotIn("using , which", prompt)
+        self.assertIn("RESULT with a derivation", prompt)
+        self.assertIn("sources below", prompt)
+
+    def test_a_canon_flip_still_names_its_moves(self) -> None:
+        from atlas.derivation import build_prompt
+        prompt = build_prompt("gaussian_conditioning", "Gaussian Conditioning",
+                              [self._source("text")], graph=self.graph)
+        self.assertIn("the canon records", prompt)
