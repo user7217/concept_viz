@@ -401,11 +401,35 @@ function valueOf(node, key) {
 function rangeOf(key) {
   let lo = Infinity, hi = -Infinity;
   for (const n of nodes) {
-    const v = n.measures[key];
+    const v = valueOf(n, key);
     if (v < lo) lo = v;
     if (v > hi) hi = v;
   }
+  if (!Number.isFinite(lo) || !Number.isFinite(hi)) {
+    // A measure the nodes do not carry would place every node at NaN and
+    // the whole graph would simply not draw. Fail loudly instead.
+    console.error('no finite range for measure', key);
+    return {lo: 0, hi: 1};
+  }
   return {lo, hi: hi === lo ? lo + 1 : hi};
+}
+
+/* Every one of these measures is savagely skewed -- 140 of 234 nodes share
+   just three reuse values, 219 share three levels -- so placing a node in
+   proportion to its value crushes almost everything into one corner and
+   leaves the rest of the axis empty. Distinct values are spaced evenly
+   instead. Equal values still share a band, which is the part that carries
+   meaning; what is given up is that the gap between bands no longer shows
+   how far apart the numbers are, so the axis is labelled "ordered". */
+const rankCache = new Map();
+function ranksFor(key) {
+  if (rankCache.has(key)) return rankCache.get(key);
+  const distinct = [...new Set(nodes.map(n => valueOf(n, key)))]
+    .filter(Number.isFinite).sort((a, b) => a - b);
+  const table = new Map(distinct.map((v, i) =>
+    [v, distinct.length > 1 ? i / (distinct.length - 1) : 0.5]));
+  rankCache.set(key, table);
+  return table;
 }
 
 function layout() {
@@ -417,9 +441,8 @@ function layout() {
     for (let i = 0; i < 3; i++) {
       if (!ranges[i]) continue;
       const r = ranges[i];
-      const v = valueOf(n, keys[i]);
+      const t = ranksFor(keys[i]).get(valueOf(n, keys[i])) ?? 0.5;
       // level reads downward: the program on top, maths beneath it
-      const t = (v - r.lo) / (r.hi - r.lo);
       c[i] = ((keys[i] === 'level' ? 1 - t : t) - 0.5) * EXTENT;
     }
     n._c = c;
@@ -587,7 +610,15 @@ function colorFor(n) {
   if (n.state) return css('--state');
   return css('--concept');
 }
-const RADIUS_FOR = {system: 20, subsystem: 16, component: 13, algorithm: 12};
+const RADIUS_FOR = {system: 26, subsystem: 21, component: 17, algorithm: 15};
+/* Size carries the hierarchy, so the shape survives without reading a single
+   label. Near-uniform dots made 226 nodes indistinguishable. */
+function radiusFor(n) {
+  if (RADIUS_FOR[n.type]) return RADIUS_FOR[n.type];
+  const span = Math.max(1, (DATA.maxLevel || 7) - 3);
+  const t = Math.min(1, Math.max(0, ((n.level || 0) - 3) / span));
+  return 13 - t * 6;           // 13px just under the algorithms, 7px at the floor
+}
 
 function drawAxes() {
   const keys = [axis.x, axis.y, axis.z];
@@ -607,7 +638,8 @@ function drawAxes() {
     ctx.globalAlpha = 1; ctx.fillStyle = css('--faint');
     ctx.fillText(String(r.lo), a.sx + 6, a.sy - 4);
     ctx.fillStyle = css('--muted');
-    ctx.fillText(MEASURES[keys[i]].label + '  ' + r.hi, b.sx + 6, b.sy - 4);
+    ctx.fillText(MEASURES[keys[i]].label + ' (ordered)  ' + r.hi,
+                 b.sx + 6, b.sy - 4);
   }
   ctx.restore();
 }
@@ -636,7 +668,8 @@ function draw(now) {
     if (!a || !b) continue;
     const hot = e.from === selected || e.to === selected;
     const age = Math.min(ageOf(e.from), ageOf(e.to));
-    ctx.globalAlpha = age * (selected ? (hot ? 1 : 0.08) : 0.34);
+    ctx.globalAlpha = age * (selected ? (hot ? 1 : 0.06)
+      : 0.34 * Math.min(1, Math.max(0.12, 34 / Math.max(ids.length, 1))));
     ctx.lineWidth = hot ? 2 : 1.4;
     ctx.strokeStyle = hot ? css('--ring') : css('--edge');
     ctx.beginPath(); ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy); ctx.stroke();
@@ -655,7 +688,7 @@ function draw(now) {
     const n = byId.get(id);
     let age = ageOf(id);
     if (selected && !related.has(id)) age *= 0.18;
-    const base = RADIUS_FOR[n.type] || (n.onPath ? 11 : 9.5);
+    const base = radiusFor(n) * (n.onPath ? 1.15 : 1);
     const r = base * (0.5 + 0.5 * age) * Math.max(0.55, Math.min(1.7, p.s * view.zoom));
     ctx.globalAlpha = age;
     ctx.fillStyle = colorFor(n);
@@ -679,15 +712,30 @@ function draw(now) {
       ctx.fillText('+' + more, p.sx + r + 5, p.sy - r);
       ctx.textAlign = 'left';
     }
-    if (age > 0.4 && (wantLabels() || id === selected || id === hovered))
-      labels.push([n, p, r, age]);
+    if (age > 0.4 && (wantLabels() || id === selected || id === hovered)) {
+      // Rank first, so when there is not room for every label the ones that
+      // survive are the ones that orient you.
+      const priority = id === selected ? 0 : id === hovered ? 1
+        : RADIUS_FOR[n.type] ? 2 : n.onPath ? 3 : 4;
+      labels.push([n, p, r, age, priority]);
+    }
   }
 
   ctx.font = '12.5px ' + css('--sans').split(',')[0].replace(/"/g, '');
-  for (const [n, p, r, age] of labels) {
+  labels.sort((a, b) => a[4] - b[4]);
+  const taken = [];
+  for (const [n, p, r, age, priority] of labels) {
     const t = n.name, w = ctx.measureText(t).width;
-    ctx.globalAlpha = age * 0.9; ctx.fillStyle = css('--surface');
-    ctx.fillRect(p.sx - w / 2 - 6, p.sy + r + 5, w + 12, 18);
+    const box = [p.sx - w / 2 - 6, p.sy + r + 5, w + 12, 18];
+    // Overlapping labels are worse than missing ones: in the crowded view
+    // every name was struck through by its neighbours and none could be read.
+    const clash = taken.some(q =>
+      box[0] < q[0] + q[2] && box[0] + box[2] > q[0] &&
+      box[1] < q[1] + q[3] && box[1] + box[3] > q[1]);
+    if (clash && priority > 1) continue;
+    taken.push(box);
+    ctx.globalAlpha = age * 0.92; ctx.fillStyle = css('--surface');
+    ctx.fillRect(box[0], box[1], box[2], box[3]);
     ctx.globalAlpha = age; ctx.fillStyle = css('--ink');
     ctx.textAlign = 'center';
     ctx.fillText(t, p.sx, p.sy + r + 18);
