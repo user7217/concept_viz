@@ -1,0 +1,245 @@
+{
+  "node_id": "linear_kalman_filter",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "In the linear Kalman filter, given an a priori state estimate \\hat{\\mathbf{x}}_{k\\mid k-1} with covariance \\mathbf{P}_{k\\mid k-1} and a linear measurement \\mathbf{z}_k = \\mathbf{H}_k \\mathbf{x}_k + \\mathbf{v}_k with uncorrelated measurement noise \\mathbf{v}_k \\sim (\\mathbf{0}, \\mathbf{R}_k), the a posteriori estimate is formed as \\hat{\\mathbf{x}}_{k\\mid k} = \\hat{\\mathbf{x}}_{k\\mid k-1} + \\mathbf{K}_k(\\mathbf{z}_k - \\mathbf{H}_k\\hat{\\mathbf{x}}_{k\\mid k-1}). The optimal Kalman gain that minimizes the mean-squared estimation error \\operatorname{E}[\\|\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k}\\|^2] (or equivalently \\operatorname{tr}(\\mathbf{P}_{k\\mid k})) is \\mathbf{K}_k = \\mathbf{P}_{k\\mid k-1}\\mathbf{H}_k^{\\textsf{T}}\\mathbf{S}_k^{-1}, where \\mathbf{S}_k = \\mathbf{H}_k\\mathbf{P}_{k\\mid k-1}\\mathbf{H}_k^{\\textsf{T}} + \\mathbf{R}_k$. This yields the simplified a posteriori covariance update \\mathbf{P}_{k\\mid k} = (\\mathbf{I} - \\mathbf{K}_k\\mathbf{H}_k)\\mathbf{P}_{k\\mid k-1} (and the general Joseph form \\mathbf{P}_{k\\mid k} = (\\mathbf{I} - \\mathbf{K}_k\\mathbf{H}_k)\\mathbf{P}_{k\\mid k-1}(\\mathbf{I} - \\mathbf{K}_k\\mathbf{H}_k)^{\\textsf{T}} + \\mathbf{K}_k\\mathbf{R}_k\\mathbf{K}_k^{\\textsf{T}}). The supplied source [wikipedia:Kalman_filter] derives this update via trace minimization and does not contain the prediction step derivation or the alternative derivation via block matrix inversion, completing the square, marginalization, or the matrix inversion lemma.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{x}_k",
+      "meaning": "true state vector at time step k",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\hat{\\mathbf{x}}_{k\\mid k}",
+      "meaning": "a posteriori state estimate at time step k",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\hat{\\mathbf{x}}_{k\\mid k-1}",
+      "meaning": "a priori state estimate at time step k given measurements up to k-1",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mathbf{P}_{k\\mid k}",
+      "meaning": "a posteriori estimate error covariance matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\mathbf{P}_{k\\mid k-1}",
+      "meaning": "a priori estimate error covariance matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\mathbf{z}_k",
+      "meaning": "measurement vector at time step k",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "\\mathbf{H}_k",
+      "meaning": "measurement observation matrix",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "\\mathbf{v}_k",
+      "meaning": "measurement noise vector",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "\\mathbf{R}_k",
+      "meaning": "measurement noise covariance matrix",
+      "dimensions": "m x m"
+    },
+    {
+      "symbol": "\\tilde{\\mathbf{y}}_k",
+      "meaning": "measurement residual (innovation) vector",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "\\mathbf{S}_k",
+      "meaning": "innovation (residual) covariance matrix",
+      "dimensions": "m x m"
+    },
+    {
+      "symbol": "\\mathbf{K}_k",
+      "meaning": "optimal Kalman gain matrix",
+      "dimensions": "n x m"
+    },
+    {
+      "symbol": "\\mathbf{I}",
+      "meaning": "identity matrix",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Define the a posteriori error covariance matrix from the estimation error: \\mathbf{P}_{k\\mid k} = \\operatorname{cov}(\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k}).",
+      "invokes": [
+        "covariance_matrix"
+      ],
+      "cites": [
+        "wikipedia:Kalman_filter"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Substitute the linear state estimator update \\hat{\\mathbf{x}}_{k\\mid k} = \\hat{\\mathbf{x}}_{k\\mid k-1} + \\mathbf{K}_k \\tilde{\\mathbf{y}}_k into the covariance definition: \\mathbf{P}_{k\\mid k} = \\operatorname{cov}[\\mathbf{x}_k - (\\hat{\\mathbf{x}}_{k\\mid k-1} + \\mathbf{K}_k \\tilde{\\mathbf{y}}_k)].",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Kalman_filter"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Substitute the measurement pre-fit residual \\tilde{\\mathbf{y}}_k = \\mathbf{z}_k - \\mathbf{H}_k \\hat{\\mathbf{x}}_{k\\mid k-1}: \\mathbf{P}_{k\\mid k} = \\operatorname{cov}(\\mathbf{x}_k - [\\hat{\\mathbf{x}}_{k\\mid k-1} + \\mathbf{K}_k (\\mathbf{z}_k - \\mathbf{H}_k \\hat{\\mathbf{x}}_{k\\mid k-1})]).",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Kalman_filter"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Substitute the linear observation model \\mathbf{z}_k = \\mathbf{H}_k \\mathbf{x}_k + \\mathbf{v}_k: \\mathbf{P}_{k\\mid k} = \\operatorname{cov}(\\mathbf{x}_k - [\\hat{\\mathbf{x}}_{k\\mid k-1} + \\mathbf{K}_k (\\mathbf{H}_k \\mathbf{x}_k + \\mathbf{v}_k - \\mathbf{H}_k \\hat{\\mathbf{x}}_{k\\mid k-1})]).",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Kalman_filter"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Collect the a priori error vector \\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k-1}: \\mathbf{P}_{k\\mid k} = \\operatorname{cov}[(\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)(\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k-1}) - \\mathbf{K}_k \\mathbf{v}_k].",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Kalman_filter"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Use the condition that measurement error \\mathbf{v}_k is uncorrelated with the prior estimation error \\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k-1}, eliminating the cross-covariance terms: \\mathbf{P}_{k\\mid k} = \\operatorname{cov}[(\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)(\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k-1})] + \\operatorname{cov}[\\mathbf{K}_k \\mathbf{v}_k].",
+      "invokes": [
+        "covariance_matrix"
+      ],
+      "cites": [
+        "wikipedia:Kalman_filter"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "Apply the bilinear vector covariance transformation property \\operatorname{cov}(\\mathbf{A}\\mathbf{y}) = \\mathbf{A}\\operatorname{cov}(\\mathbf{y})\\mathbf{A}^{\\textsf{T}}: \\mathbf{P}_{k\\mid k} = (\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)\\operatorname{cov}(\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k-1})(\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)^{\\textsf{T}} + \\mathbf{K}_k \\operatorname{cov}(\\mathbf{v}_k)\\mathbf{K}_k^{\\textsf{T}}.",
+      "invokes": [
+        "covariance_matrix",
+        "transpose_identities"
+      ],
+      "cites": [
+        "wikipedia:Kalman_filter"
+      ]
+    },
+    {
+      "n": 8,
+      "text": "Substitute the definitions \\mathbf{P}_{k\\mid k-1} = \\operatorname{cov}(\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k-1})$ and \\mathbf{R}_k = \\operatorname{cov}(\\mathbf{v}_k)$ to obtain the Joseph form of the covariance update equation, valid for any \\mathbf{K}_k: \\mathbf{P}_{k\\mid k} = (\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)\\mathbf{P}_{k\\mid k-1}(\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)^{\\textsf{T}} + \\mathbf{K}_k \\mathbf{R}_k \\mathbf{K}_k^{\\textsf{T}}.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Kalman_filter"
+      ]
+    },
+    {
+      "n": 9,
+      "text": "Expand the terms in the Joseph form and group by \\mathbf{S}_k = \\mathbf{H}_k \\mathbf{P}_{k\\mid k-1} \\mathbf{H}_k^{\\textsf{T}} + \\mathbf{R}_k: \\mathbf{P}_{k\\mid k} = \\mathbf{P}_{k\\mid k-1} - \\mathbf{K}_k \\mathbf{H}_k \\mathbf{P}_{k\\mid k-1} - \\mathbf{P}_{k\\mid k-1} \\mathbf{H}_k^{\\textsf{T}} \\mathbf{K}_k^{\\textsf{T}} + \\mathbf{K}_k \\mathbf{S}_k \\mathbf{K}_k^{\\textsf{T}}.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Kalman_filter"
+      ]
+    },
+    {
+      "n": 10,
+      "text": "Formulate the MMSE estimation objective to minimize the expected squared error magnitude \\operatorname{E}[\\|\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k}\\|^2], which is equivalent to minimizing the trace of the a posteriori estimate covariance matrix \\operatorname{tr}(\\mathbf{P}_{k\\mid k}).",
+      "invokes": [
+        "expectation"
+      ],
+      "cites": [
+        "wikipedia:Kalman_filter"
+      ]
+    },
+    {
+      "n": 11,
+      "text": "Compute the matrix derivative of \\operatorname{tr}(\\mathbf{P}_{k\\mid k})$ with respect to \\mathbf{K}_k and set it to zero, using gradient matrix rules and matrix symmetry: \\frac{\\partial \\operatorname{tr}(\\mathbf{P}_{k\\mid k})}{\\partial \\mathbf{K}_k} = -2(\\mathbf{H}_k \\mathbf{P}_{k\\mid k-1})^{\\textsf{T}} + 2\\mathbf{K}_k \\mathbf{S}_k = \\mathbf{0}.",
+      "invokes": [
+        "partial_derivative",
+        "symmetric_matrix"
+      ],
+      "cites": [
+        "wikipedia:Kalman_filter"
+      ]
+    },
+    {
+      "n": 12,
+      "text": "Solve for the optimal Kalman gain matrix \\mathbf{K}_k using the transpose property (\\mathbf{H}_k \\mathbf{P}_{k\\mid k-1})^{\\textsf{T}} = \\mathbf{P}_{k\\mid k-1} \\mathbf{H}_k^{\\textsf{T}} and the inverse of \\mathbf{S}_k: \\mathbf{K}_k \\mathbf{S}_k = \\mathbf{P}_{k\\mid k-1}\\mathbf{H}_k^{\\textsf{T}} \\implies \\mathbf{K}_k = \\mathbf{P}_{k\\mid k-1}\\mathbf{H}_k^{\\textsf{T}}\\mathbf{S}_k^{-1}.",
+      "invokes": [
+        "matrix_inverse",
+        "transpose_identities"
+      ],
+      "cites": [
+        "wikipedia:Kalman_filter"
+      ]
+    },
+    {
+      "n": 13,
+      "text": "Multiply the gain formula on the right by \\mathbf{S}_k \\mathbf{K}_k^{\\textsf{T}} to obtain \\mathbf{K}_k \\mathbf{S}_k \\mathbf{K}_k^{\\textsf{T}} = \\mathbf{P}_{k\\mid k-1}\\mathbf{H}_k^{\\textsf{T}}\\mathbf{K}_k^{\\textsf{T}}, and substitute into the expanded covariance expression to arrive at the simplified update equation: \\mathbf{P}_{k\\mid k} = \\mathbf{P}_{k\\mid k-1} - \\mathbf{K}_k \\mathbf{H}_k \\mathbf{P}_{k\\mid k-1} = (\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)\\mathbf{P}_{k\\mid k-1}.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Kalman_filter"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "Measurement error v_k is uncorrelated with the state estimation error and past disturbances.",
+      "breaks_when": "Measurement noise is correlated with process noise or is state-dependent."
+    },
+    {
+      "assumption": "The innovation covariance matrix S_k = H_k P_{k|k-1} H_k^T + R_k is non-singular and invertible.",
+      "breaks_when": "Measurement noise covariance R_k is singular (or zero) and H_k P_{k|k-1} H_k^T is rank-deficient."
+    },
+    {
+      "assumption": "Covariance matrices P_{k|k-1} and R_k are symmetric and positive semi-definite.",
+      "breaks_when": "Finite-precision numerical errors degrade matrix symmetry or cause loss of positive-definiteness."
+    },
+    {
+      "assumption": "The observation model and estimator correction are linear in measurements.",
+      "breaks_when": "System dynamics or measurement relations are nonlinear."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular innovation covariance matrix",
+      "signature": "Matrix inversion failure when evaluating S_k^{-1} to compute Kalman gain K_k.",
+      "cause": "S_k is singular or ill-conditioned due to zero measurement noise and rank-deficient observation geometry."
+    },
+    {
+      "mode": "Covariance asymmetry and loss of positive-definiteness",
+      "signature": "Calculated P_{k|k} develops negative diagonal elements (negative variances) or non-symmetric off-diagonals.",
+      "cause": "Accumulated round-off error using the non-symmetric simplified update P_{k|k} = (I - K_k H_k) P_{k|k-1} rather than the Joseph stabilized form."
+    },
+    {
+      "mode": "Suboptimal estimation from correlated noise",
+      "signature": "Filter residuals deviate systematically from zero-mean white noise, and actual estimation error variance exceeds P_{k|k}.",
+      "cause": "Cross-correlation between measurement noise v_k and estimation error x_k - x\u0302_{k|k-1}, invalidating the Joseph form derivation."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Kalman_filter"
+  ],
+  "check": {
+    "node_id": "linear_kalman_filter",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

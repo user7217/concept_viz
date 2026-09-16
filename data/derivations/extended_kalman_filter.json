@@ -1,0 +1,184 @@
+{
+  "node_id": "extended_kalman_filter",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources genuinely contain no derivation of the Extended Kalman Filter (EKF), defining it directly as the nonlinear extension of the Kalman filter that linearizes about an estimate of the current mean and covariance. For a continuous-time system with discrete-time measurements given by $\\dot{\\mathbf{x}}(t) = f(\\mathbf{x}(t), \\mathbf{u}(t)) + \\mathbf{w}(t)$ with $\\mathbf{w}(t) \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{Q}(t))$ and discrete measurements $\\mathbf{z}_k = h(\\mathbf{x}_k) + \\mathbf{v}_k$ with $\\mathbf{v}_k \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{R}_k)$ at times $t_k$, the first-order EKF is defined by: (1) Initialization: $\\hat{\\mathbf{x}}_{0|0} = \\mathbb{E}[\\mathbf{x}(t_0)]$, $\\mathbf{P}_{0|0} = \\mathbb{E}[(\\mathbf{x}(t_0) - \\hat{\\mathbf{x}}(t_0))(\\mathbf{x}(t_0) - \\hat{\\mathbf{x}}(t_0))^T]$; (2) Prediction: solve $\\dot{\\hat{\\mathbf{x}}}(t) = f(\\hat{\\mathbf{x}}(t), \\mathbf{u}(t))$ and $\\dot{\\mathbf{P}}(t) = \\mathbf{F}(t)\\mathbf{P}(t) + \\mathbf{P}(t)\\mathbf{F}(t)^T + \\mathbf{Q}(t)$ from $t_{k-1}$ to $t_k$ with initial conditions $\\hat{\\mathbf{x}}(t_{k-1}) = \\hat{\\mathbf{x}}_{k-1|k-1}$ and $\\mathbf{P}(t_{k-1}) = \\mathbf{P}_{k-1|k-1}$, yielding $\\hat{\\mathbf{x}}_{k|k-1} = \\hat{\\mathbf{x}}(t_k)$ and $\\mathbf{P}_{k|k-1} = \\mathbf{P}(t_k)$, where $\\mathbf{F}(t) = \\left.\\frac{\\partial f}{\\partial \\mathbf{x}}\\right|_{\\hat{\\mathbf{x}}(t), \\mathbf{u}(t)}$; and (3) Update: $\\mathbf{K}_k = \\mathbf{P}_{k|k-1}\\mathbf{H}_k^T(\\mathbf{H}_k\\mathbf{P}_{k|k-1}\\mathbf{H}_k^T + \\mathbf{R}_k)^{-1}$, $\\hat{\\mathbf{x}}_{k|k} = \\hat{\\mathbf{x}}_{k|k-1} + \\mathbf{K}_k(\\mathbf{z}_k - h(\\hat{\\mathbf{x}}_{k|k-1}))$, and $\\mathbf{P}_{k|k} = (\\mathbf{I} - \\mathbf{K}_k\\mathbf{H}_k)\\mathbf{P}_{k|k-1}$, where $\\mathbf{H}_k = \\left.\\frac{\\partial h}{\\partial \\mathbf{x}}\\right|_{\\hat{\\mathbf{x}}_{k|k-1}}$.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{x}(t)",
+      "meaning": "True system state vector at time t",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\hat{\\mathbf{x}}(t)",
+      "meaning": "State estimate vector at time t",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\hat{\\mathbf{x}}_{k|k-1}",
+      "meaning": "Predicted state estimate at time step k given measurements up to k-1",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\hat{\\mathbf{x}}_{k|k}",
+      "meaning": "Updated (posteriori) state estimate at time step k given measurements up to k",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mathbf{u}(t)",
+      "meaning": "Control input vector at time t",
+      "dimensions": "l x 1"
+    },
+    {
+      "symbol": "\\mathbf{w}(t)",
+      "meaning": "Process noise vector with zero mean and covariance Q(t)",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mathbf{z}_k",
+      "meaning": "Discrete measurement vector observed at step k",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "\\mathbf{v}_k",
+      "meaning": "Measurement noise vector with zero mean and covariance R_k",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "\\mathbf{P}(t)",
+      "meaning": "State error covariance matrix at time t",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\mathbf{P}_{k|k-1}",
+      "meaning": "Predicted state error covariance matrix at step k",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\mathbf{P}_{k|k}",
+      "meaning": "Updated state error covariance matrix at step k",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\mathbf{Q}(t)",
+      "meaning": "Process noise covariance matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\mathbf{R}_k",
+      "meaning": "Measurement noise covariance matrix at step k",
+      "dimensions": "m x m"
+    },
+    {
+      "symbol": "\\mathbf{F}(t)",
+      "meaning": "Jacobian matrix of state transition function f with respect to state x",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\mathbf{H}_k",
+      "meaning": "Jacobian matrix of measurement function h with respect to state x",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "\\mathbf{K}_k",
+      "meaning": "Kalman gain matrix at step k",
+      "dimensions": "n x m"
+    },
+    {
+      "symbol": "\\mathbf{I}",
+      "meaning": "Identity matrix",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "In the continuous-time extended Kalman filter, prediction and update steps are coupled into a continuous differential equation",
+      "why": "The state estimate differential equation includes the innovation term simultaneously with system dynamics",
+      "cites": [
+        "wikipedia:Extended_Kalman_filter"
+      ]
+    },
+    {
+      "property": "The measurement update equations for continuous-time models with discrete-time measurements are identical to those of the discrete-time extended Kalman filter",
+      "why": "Discrete measurements update state and covariance algebraically at discrete measurement times",
+      "cites": [
+        "wikipedia:Extended_Kalman_filter"
+      ]
+    },
+    {
+      "property": "The standard EKF recursion is a first-order filter that can be extended to higher-order filters",
+      "why": "Linearization retains only the first-order terms of Taylor series expansions of f and h",
+      "cites": [
+        "wikipedia:Extended_Kalman_filter"
+      ]
+    },
+    {
+      "property": "Higher-order extended Kalman filters tend to only provide performance benefits when measurement noise is small",
+      "why": "Higher-order Taylor series retention only provides performance advantages under small measurement noise conditions",
+      "cites": [
+        "wikipedia:Extended_Kalman_filter"
+      ]
+    },
+    {
+      "property": "The extended Kalman filter formulation accommodates non-additive process and measurement noise",
+      "why": "General systems can incorporate noise parameters directly inside nonlinear transition and measurement mappings",
+      "cites": [
+        "wikipedia:Extended_Kalman_filter"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Process noise w(t) and measurement noise v_k are zero-mean Gaussian distributed with covariances Q(t) and R_k, respectively",
+      "breaks_when": "Disturbances exhibit heavy-tailed, multimodal, or biased non-Gaussian distributions"
+    },
+    {
+      "assumption": "The nonlinear functions f and h are sufficiently well approximated by their first-order Taylor series expansions evaluated at the state estimate",
+      "breaks_when": "The system dynamics or measurement functions are severely nonlinear across the uncertainty region of the state"
+    },
+    {
+      "assumption": "The innovation covariance matrix (H_k P_{k|k-1} H_k^T + R_k) is positive-definite and invertible",
+      "breaks_when": "Measurement noise covariance R_k is singular and measurement projections are linearly dependent"
+    },
+    {
+      "assumption": "Process noise and measurement noise enter additively in the standard continuous-discrete formulation",
+      "breaks_when": "Physical noise enters nonlinearly through state dynamics or sensor equations"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Filter divergence due to severe nonlinearity",
+      "signature": "State estimation errors grow without bound while estimated covariance P remains optimistically small",
+      "cause": "First-order Taylor series Jacobians F and H fail to accurately represent dynamics far from the expansion point"
+    },
+    {
+      "mode": "Performance degradation in higher-order EKFs under large noise",
+      "signature": "Higher-order EKF achieves worse estimation accuracy than a first-order EKF",
+      "cause": "Higher-order Taylor series expansion terms provide performance benefits only when measurement noise is small"
+    },
+    {
+      "mode": "Numerical loss of covariance positive-definiteness",
+      "signature": "Covariance matrix P develops negative eigenvalues or inversion of innovation covariance fails",
+      "cause": "Finite-precision round-off errors in the algebraic covariance update (I - K_k H_k) P_{k|k-1} or ill-conditioned R_k"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Extended_Kalman_filter",
+    "wikipedia:Kalman_filter"
+  ],
+  "check": {
+    "node_id": "extended_kalman_filter",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [
+      "expected a derivation, produced a definition"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

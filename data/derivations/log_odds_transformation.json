@@ -1,0 +1,125 @@
+{
+  "node_id": "log_odds_transformation",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The logit or log-odds function is defined for a probability p in (0, 1) as the logarithm of the odds p / (1 - p), or equivalently as the inverse of the standard logistic function sigma(x) = 1 / (1 + e^(-x)): logit(p) = sigma^(-1)(p) = ln(p / (1 - p)). The supplied sources define this transformation directly and contain no derivation of it.",
+  "symbols": [
+    {
+      "symbol": "p",
+      "meaning": "probability value",
+      "dimensions": "scalar in (0, 1)"
+    },
+    {
+      "symbol": "logit(p)",
+      "meaning": "logit or log-odds of probability p",
+      "dimensions": "scalar in (-inf, +inf)"
+    },
+    {
+      "symbol": "p / (1 - p)",
+      "meaning": "odds corresponding to probability p",
+      "dimensions": "scalar in (0, +inf)"
+    },
+    {
+      "symbol": "sigma(x)",
+      "meaning": "standard logistic function 1 / (1 + e^(-x))",
+      "dimensions": "scalar in (0, 1)"
+    },
+    {
+      "symbol": "R",
+      "meaning": "odds ratio between two probabilities p_1 and p_2",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Alternative algebraic formulations: logit(p) = ln(p) - ln(1 - p) = -ln(1/p - 1) = 2 * atanh(2p - 1)",
+      "why": "Follows directly from logarithm quotient rules, reciprocal transformation, and hyperbolic function identities",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Inversion via logistic function: logit^(-1)(alpha) = logistic(alpha) = 1 / (1 + e^(-alpha)) = e^alpha / (e^alpha + 1) = (tanh(alpha / 2) + 1) / 2",
+      "why": "The logit function is defined as the functional inverse of the standard logistic function",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Difference between logits equals the logarithm of the odds ratio: logit(p_1) - logit(p_2) = ln(R)",
+      "why": "The difference of the logarithms of the respective odds simplifies to the logarithm of the ratio of the odds",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Domain and range mapping: maps (0, 1) monotonically to (-inf, +inf)",
+      "why": "As p approaches 0 the log-odds tend to -infinity, and as p approaches 1 the log-odds tend to +infinity",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Taylor series expansion: logit(x) = 2 * sum_{n=0}^infty (2x - 1)^(2n + 1) / (2n + 1)",
+      "why": "Power series expansion of the logit function",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Role as canonical link and natural parameter: canonical link for the Bernoulli distribution and natural parameter for the binomial distribution",
+      "why": "Follows from generalized linear models and exponential family formulation",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "Additive updates in state estimation: joint log-odds probabilities can be calculated by summing individual log-odds",
+      "why": "Logarithmic transformation replaces multiplication of small floating-point numbers with addition",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The probability argument p lies strictly within the open interval (0, 1)",
+      "breaks_when": "p <= 0 or p >= 1, causing division by zero in the odds ratio denominator (1 - p) or non-positive arguments to the logarithm"
+    },
+    {
+      "assumption": "The base of the logarithm is strictly greater than 1 (standardly base e)",
+      "breaks_when": "The base is less than or equal to 1 or negative, invalidating information units and monotonic ordering"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Boundary singularity at p = 0 or p = 1",
+      "signature": "Evaluation yields -infinity, +infinity, or division-by-zero / NaN floating-point exceptions",
+      "cause": "The odds denominator (1 - p) vanishes at p = 1 and the numerator vanishes at p = 0, where the natural logarithm diverges"
+    },
+    {
+      "mode": "Numerical underflow and loss of significance near boundaries",
+      "signature": "Catastrophic cancellation or 1 - p rounding to 1.0 (for tiny p) or p rounding to 1.0 (for p near 1)",
+      "cause": "Finite floating-point precision cannot distinguish values arbitrarily close to 0 or 1 from the endpoints"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Logit",
+    "wikipedia:Logistic_function"
+  ],
+  "check": {
+    "node_id": "log_odds_transformation",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [
+      "expected a derivation, produced a definition"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

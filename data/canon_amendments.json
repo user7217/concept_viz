@@ -381,5 +381,13 @@
       "new": "unit_norm_normalization",
       "why": "quaternion renormalisation is division by the norm, not probability normalisation"
     }
+  ],
+  "add_edges": [
+    {
+      "from": "extended_kalman_filter",
+      "to": "linear_kalman_filter",
+      "rel": "requires",
+      "why": "the EKF is the linear Kalman filter with F and H replaced by Jacobians, so the derivation it inherits -- the gain that minimises the posterior covariance -- lives there. Without this edge the EKF sheet correctly reports that its sources derive nothing, and the node that does carry the derivation is on no reader's path."
+    }
   ]
 }

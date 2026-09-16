@@ -1,0 +1,105 @@
+{
+  "node_id": "log_odds",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For a probability $p \\in (0, 1)$, the log-odds (or logit function) is defined as the natural logarithm of the odds $\\frac{p}{1-p}$:\n$$\\operatorname{logit}(p) = \\ln\\left(\\frac{p}{1-p}\\right)$$",
+  "symbols": [
+    {
+      "symbol": "p",
+      "meaning": "probability value",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\frac{p}{1-p}",
+      "meaning": "odds corresponding to probability p",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\operatorname{logit}(p)",
+      "meaning": "logit or log-odds of probability p",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "\\operatorname{logit}(p) = \\ln(p) - \\ln(1-p) = -\\ln\\left(\\frac{1}{p} - 1\\right) = 2\\operatorname{atanh}(2p - 1)",
+      "why": "Alternative algebraic and inverse hyperbolic representations of the logarithm of odds",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "\\operatorname{logit}^{-1}(\\alpha) = \\operatorname{logistic}(\\alpha) = \\frac{1}{1 + e^{-\\alpha}} = \\frac{e^\\alpha}{e^\\alpha + 1} = \\frac{\\tanh\\left(\\frac{\\alpha}{2}\\right) + 1}{2}",
+      "why": "The inverse of the logit function is the standard logistic function",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "\\operatorname{logit}(p_1) - \\operatorname{logit}(p_2) = \\ln(R) = \\ln\\left(\\frac{\\frac{p_1}{1 - p_1}}{\\frac{p_2}{1 - p_2}}\\right)",
+      "why": "The difference between the logits of two probabilities is the logarithm of the odds ratio R",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "\\operatorname{logit}(x) = 2\\sum_{n=0}^{\\infty} \\frac{(2x - 1)^{2n+1}}{2n + 1}",
+      "why": "Taylor series expansion of the logit function",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "\\operatorname{logit}(p) = \\sigma^{-1}(p)",
+      "why": "The logit is the quantile function (inverse CDF) of the standard logistic distribution \\sigma(x) = 1 / (1 + e^{-x})",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    },
+    {
+      "property": "\\operatorname{logit}: (0, 1) \\to (-\\infty, +\\infty)",
+      "why": "Maps probability values from the open unit interval onto the entire real line",
+      "cites": [
+        "wikipedia:Logit"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "p \\in (0, 1)",
+      "breaks_when": "p \\le 0 or p \\ge 1, where odds are non-positive or undefined, causing the real logarithm to be undefined"
+    },
+    {
+      "assumption": "Logarithm base b > 1 (conventionally base e)",
+      "breaks_when": "The base is less than or equal to 0 or equal to 1"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Boundary probability evaluation at p = 0 or p = 1",
+      "signature": "Division by zero or evaluation of ln(0), yielding -\\infty as p \\to 0^+ and +\\infty as p \\to 1^-",
+      "cause": "The odds p/(1-p) tend to 0 as p approaches 0 and diverge to infinity as p approaches 1, falling outside the open interval domain (0, 1)"
+    },
+    {
+      "mode": "Out-of-domain evaluation for p < 0 or p > 1",
+      "signature": "Negative argument to the logarithm function, yielding undefined real values or complex numbers",
+      "cause": "Inputs outside [0, 1] do not represent valid probabilities and yield negative values for the odds ratio p/(1-p)"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Logit"
+  ],
+  "check": {
+    "node_id": "log_odds",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

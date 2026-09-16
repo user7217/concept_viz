@@ -397,3 +397,16 @@ class TestSymbolPresence(unittest.TestCase):
                         symbols=[{"symbol": "d", "meaning": "tentative distance"}])
         report = check(ok, [], graph)
         self.assertFalse(any("names no symbols" in m for m in report["shape"]))
+
+    def test_a_derivation_heading_outranks_equation_density(self) -> None:
+        from atlas.derivation import select_text
+        # The Kalman filter article is 329k chars of equations; without this
+        # the window landed on the summary tables and cut "Derivations" out.
+        article = "\n".join([
+            "intro paragraph",
+            *["P = F P F^T + Q x = A x + B u " * 6] * 40,   # equation-dense
+            "== Derivations ==",
+            "Start from the posterior and minimise the trace ... " * 8,
+        ])
+        window = select_text(article, 2000)
+        self.assertIn("== Derivations ==", window)

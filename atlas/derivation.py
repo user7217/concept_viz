@@ -173,6 +173,14 @@ def select_text(text: str, budget: int) -> str:
         lowered = paragraph.lower()
         score = sum(3 for marker in DERIVATION_MARKERS if marker in lowered)
         score += lowered.count("=") + lowered.count("\\")
+        # An actual "== Derivation ==" heading outranks equation density by a
+        # wide margin. Without this the Kalman filter article -- 329k chars,
+        # equations everywhere -- put its window on the summary tables and cut
+        # "Derivations" and "Deriving the posteriori estimate covariance
+        # matrix" out entirely, so the node the whole Localization path exists
+        # for was restated instead of derived.
+        if DERIVATION_SECTION.match(paragraph):
+            score += 400
         scores.append(score)
 
     head = paragraphs[:2]
