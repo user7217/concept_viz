@@ -1,0 +1,28 @@
+{
+  "node_id": "natural_gradient_descent",
+  "grounded": false,
+  "kind": "derivation",
+  "statement": "",
+  "symbols": [],
+  "steps": [],
+  "properties": [],
+  "assumptions": [],
+  "failure_modes": [],
+  "source_ids": [],
+  "check": {
+    "node_id": "natural_gradient_descent",
+    "kind": "derivation",
+    "grounded": false,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [
+      "derivation carries no steps",
+      "sheet names no symbols, so it is probably not about this node's mathematics at all"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

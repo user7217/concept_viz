@@ -1,31 +1,124 @@
 {
   "node_id": "natural_gradient",
-  "grounded": false,
+  "grounded": true,
   "kind": "definition",
-  "statement": "The natural gradient is not defined or derived in the supplied sources. The sources mention natural gradient descent only in passing as an information-geometric optimization method in machine learning, without providing its mathematical definition, formula, or derivation.",
-  "symbols": [],
+  "statement": "The natural gradient of an objective function J(\u03b8) with respect to the parameters \u03b8 of a probability distribution \u03c0(x|\u03b8) is defined as the plain gradient transformed by the inverse of the Fisher information matrix: \\tilde{\\nabla}_{\u03b8} J(\u03b8) = \\mathbf{F}^{-1} \\nabla_{\u03b8} J(\u03b8), yielding the parameter update \u03b8 \u2190 \u03b8 + \u03b7 \\mathbf{F}^{-1} \\nabla_{\u03b8} J(\u03b8).",
+  "symbols": [
+    {
+      "symbol": "\\tilde{\\nabla}_{\u03b8} J(\u03b8)",
+      "meaning": "natural gradient of the objective function J with respect to \u03b8",
+      "dimensions": "d x 1"
+    },
+    {
+      "symbol": "\u03b8",
+      "meaning": "parameters of the probability distribution",
+      "dimensions": "d x 1"
+    },
+    {
+      "symbol": "J(\u03b8)",
+      "meaning": "expected fitness or objective function under the distribution, E_\u03b8[f(x)]",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "\\nabla_{\u03b8} J(\u03b8)",
+      "meaning": "plain (vanilla) gradient of the objective function J with respect to \u03b8",
+      "dimensions": "d x 1"
+    },
+    {
+      "symbol": "\\mathbf{F}",
+      "meaning": "Fisher information matrix (Riemannian metric tensor g)",
+      "dimensions": "d x d"
+    },
+    {
+      "symbol": "\u03c0(x|\u03b8)",
+      "meaning": "parameterized search / probability distribution",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\u03b7",
+      "meaning": "learning rate / step size",
+      "dimensions": "1 x 1"
+    }
+  ],
   "steps": [],
-  "properties": [],
-  "assumptions": [],
-  "failure_modes": [],
+  "properties": [
+    {
+      "property": "Parameterization invariance",
+      "why": "The natural gradient direction is defined using the Riemannian Fisher information metric, making the update direction invariant to the choice of distribution parameterization",
+      "cites": [
+        "wikipedia:Natural_evolution_strategy",
+        "wikipedia:Fisher_information_metric"
+      ]
+    },
+    {
+      "property": "Uncertainty-normalized updates",
+      "why": "Pre-multiplying by the inverse Fisher matrix renormalizes update magnitudes with respect to uncertainty, mitigating premature convergence and oscillations on ridges and plateaus",
+      "cites": [
+        "wikipedia:Natural_evolution_strategy"
+      ]
+    },
+    {
+      "property": "Covariance of score functions",
+      "why": "The Fisher information matrix is the covariance matrix of the score functions (log-derivatives \u2207_\u03b8 log \u03c0(x|\u03b8)), as the expectation of the score function is zero",
+      "cites": [
+        "wikipedia:Fisher_information_metric",
+        "wikipedia:Natural_evolution_strategy"
+      ]
+    },
+    {
+      "property": "Hessian of the Kullback\u2013Leibler divergence",
+      "why": "The Fisher information metric is symmetric and positive (semi)definite, appearing as the Hessian in the second-order Taylor expansion of D_KL[P(\u03b8_0) || P(\u03b8)] around \u03b8_0",
+      "cites": [
+        "wikipedia:Fisher_information_metric"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The Fisher information matrix F is non-singular and invertible",
+      "breaks_when": "The parameterization is redundant, or the sample estimate of F is rank-deficient due to sample size \u03bb being smaller than parameter dimension d"
+    },
+    {
+      "assumption": "The distribution \u03c0(x|\u03b8) is smooth and continuously differentiable with respect to \u03b8",
+      "breaks_when": "The density function has non-differentiable points or boundaries that depend discontinuously on \u03b8"
+    },
+    {
+      "assumption": "The log-derivatives (score functions) \u2207_\u03b8 log \u03c0(x|\u03b8) exist and have finite second-order moments",
+      "breaks_when": "The distribution has heavy tails or support such that the expected outer product of log-derivatives diverges"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular or ill-conditioned Fisher information matrix",
+      "signature": "Matrix inversion failure, numerical instability, or exploded parameter updates",
+      "cause": "Overparameterization, zero curvature in certain parameter directions, or empirical estimation of F with fewer samples \u03bb than parameter dimension d"
+    },
+    {
+      "mode": "High-dimensional computational intractability",
+      "signature": "Out-of-memory errors and prohibitive per-iteration computational runtime",
+      "cause": "Storing an O(d^2) matrix and performing an O(d^3) matrix inversion when parameter dimension d is very large"
+    },
+    {
+      "mode": "Sampling variance in Monte Carlo estimation",
+      "signature": "Erratic optimization trajectories, noisy updates, or premature convergence",
+      "cause": "Using too small a population/sample size \u03bb to accurately estimate the score-function expectation and Fisher matrix"
+    }
+  ],
   "source_ids": [
-    "wikipedia:Information_geometry",
-    "wikipedia:Fisher_information"
+    "wikipedia:Fisher_information_metric",
+    "wikipedia:Natural_evolution_strategy"
   ],
   "check": {
     "node_id": "natural_gradient",
     "kind": "definition",
-    "grounded": false,
+    "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
     "canon_notes": [],
-    "shape": [
-      "definition lists no properties",
-      "sheet names no symbols, so it is probably not about this node's mathematics at all"
-    ],
+    "shape": [],
     "vacuous_invocations": false,
-    "ok": false
+    "ok": true
   }
 }

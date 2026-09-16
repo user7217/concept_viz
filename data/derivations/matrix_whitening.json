@@ -1,0 +1,140 @@
+{
+  "node_id": "matrix_whitening",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources contain no derivation; they define a whitening transformation as a linear transformation $Y = W X$ (or $Y = W(X - \\mu)$ if $X$ has non-zero mean $\\mu$) of a random vector $X$ with non-singular covariance matrix $\\Sigma$ into a whitened random vector $Y$ with identity covariance matrix (unit diagonal covariance), where the whitening matrix $W$ satisfies the condition $W^{\\mathrm{T}} W = \\Sigma^{-1}$.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "random column vector of variables",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\Sigma",
+      "meaning": "non-singular covariance matrix of X",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\mu",
+      "meaning": "mean vector of X",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "Y",
+      "meaning": "whitened random vector with unit diagonal covariance",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "W",
+      "meaning": "whitening matrix satisfying W^T W = \\Sigma^{-1}",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "L",
+      "meaning": "Cholesky decomposition matrix of \\Sigma^{-1}",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "P",
+      "meaning": "correlation matrix of X",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "V",
+      "meaning": "diagonal variance matrix of X",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The covariance of the transformed vector Y is the identity matrix, meaning its components are uncorrelated and each has variance 1.",
+      "why": "Follows directly from the definition of whitening transformation satisfying W^T W = \\Sigma^{-1}.",
+      "cites": [
+        "wikipedia:Whitening_transformation"
+      ]
+    },
+    {
+      "property": "There exist infinitely many possible whitening matrices W satisfying W^T W = \\Sigma^{-1}.",
+      "why": "Any matrix W satisfying the quadratic condition yields a valid whitening transform.",
+      "cites": [
+        "wikipedia:Whitening_transformation"
+      ]
+    },
+    {
+      "property": "ZCA (Mahalanobis) whitening uses the symmetric choice W = \\Sigma^{-1/2}.",
+      "why": "Commonly used matrix root satisfying W^T W = \\Sigma^{-1}.",
+      "cites": [
+        "wikipedia:Whitening_transformation"
+      ]
+    },
+    {
+      "property": "Cholesky whitening uses W = L^T, where L is the Cholesky decomposition of \\Sigma^{-1}.",
+      "why": "Matrix factorization satisfying W^T W = L L^T = \\Sigma^{-1}.",
+      "cites": [
+        "wikipedia:Whitening_transformation"
+      ]
+    },
+    {
+      "property": "PCA whitening is obtained via the eigen-system of \\Sigma.",
+      "why": "Commonly used choice derived from the eigensystem of the covariance matrix.",
+      "cites": [
+        "wikipedia:Whitening_transformation"
+      ]
+    },
+    {
+      "property": "The unique optimal whitening transformation maximizing component-wise correlation between X and Y is given by W = P^{-1/2} V^{-1/2}.",
+      "why": "Singled out by optimizing cross-covariance and cross-correlation between X and Y.",
+      "cites": [
+        "wikipedia:Whitening_transformation"
+      ]
+    },
+    {
+      "property": "Mahalanobis distance is Euclidean after whitening transformation.",
+      "why": "Transformation maps the covariance structure to the identity matrix.",
+      "cites": [
+        "wikipedia:Whitening_transformation"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The covariance matrix \\Sigma of the random vector X is non-singular (invertible).",
+      "breaks_when": "Variables are collinear or linearly dependent, causing \\Sigma to be singular and \\Sigma^{-1} to be undefined."
+    },
+    {
+      "assumption": "The random vector X resides in a finite-dimensional space.",
+      "breaks_when": "X is an element of an infinite-dimensional Hilbert space where the covariance operator has an unbounded inverse."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular covariance matrix",
+      "signature": "Matrix inverse \\Sigma^{-1}, \\Sigma^{-1/2}, or Cholesky decomposition L fails to exist.",
+      "cause": "Underlying variables have zero variance or are exact linear combinations of each other."
+    },
+    {
+      "mode": "Unbounded inverse in infinite dimensions",
+      "signature": "Only partial standardization is possible rather than full whitening.",
+      "cause": "The covariance operator on an infinite-dimensional Hilbert space H possesses an unbounded inverse."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Whitening_transformation"
+  ],
+  "check": {
+    "node_id": "matrix_whitening",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so matrix_whitening is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}
