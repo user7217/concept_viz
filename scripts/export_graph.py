@@ -110,10 +110,26 @@ def main() -> None:
     root = ""
     if len(sys.argv) > 1:
         from atlas.architecture import apply, propose
+        from atlas.brief import (load_brief, propose_from_brief, to_project,
+                                 unknown)
         from atlas.ingest import ingest_repo
 
-        project = ingest_repo(Path(sys.argv[1]))
-        proposal = propose(project)
+        repo = Path(sys.argv[1])
+        # A repo that declares nothing gets its structure from a brief instead.
+        # Checked, not trusted: a brief naming an algorithm the canon lacks or
+        # a file that is not there is a brief describing a different repo.
+        brief_path = ROOT / "data" / "briefs" / f"{repo.name.lower()}.json"
+        if brief_path.exists():
+            brief = load_brief(brief_path)
+            problems = unknown(brief, build_graph(load()), repo)
+            if problems:
+                raise SystemExit(f"brief {brief_path.name} does not match "
+                                 f"{repo.name}: {problems}")
+            project = to_project(brief, repo)
+            proposal = propose_from_brief(brief)
+        else:
+            project = ingest_repo(repo)
+            proposal = propose(project)
         proposal.unclassified, proposal.confirmed = [], True
         pgraph = apply(proposal)
         root = "".join(c if c.isalnum() else "_"
