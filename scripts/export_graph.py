@@ -15,6 +15,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from collections import deque
+
 from atlas.bootstrap import build_graph, load, load_canon_edges
 from atlas.code import evidence_for, index_repo
 from atlas.exercise import available_count
@@ -96,7 +98,9 @@ def main() -> None:
                else {"spans": {}, "source": {}})
 
     path: set[str] = set()
-    if len(sys.argv) > 2:
+    pgraph = None
+    root = ""
+    if len(sys.argv) > 1:
         from atlas.architecture import apply, propose
         from atlas.ingest import ingest_repo
 
@@ -104,12 +108,13 @@ def main() -> None:
         proposal = propose(project)
         proposal.unclassified, proposal.confirmed = [], True
         pgraph = apply(proposal)
-        pid = "".join(c if c.isalnum() else "_"
-                      for c in project.name.lower()).strip("_")
-        target = f"{pid}__{sys.argv[2].lower()}"
-        if target in pgraph.nodes:
-            path = set(pgraph.learning_path(
-                target, known=profile.known(), not_known=profile.not_known))
+        root = "".join(c if c.isalnum() else "_"
+                       for c in project.name.lower()).strip("_")
+        if len(sys.argv) > 2:
+            target = f"{root}__{sys.argv[2].lower()}"
+            if target in pgraph.nodes:
+                path = set(pgraph.learning_path(
+                    target, known=profile.known(), not_known=profile.not_known))
 
     states = {n: e.state.value for n, e in profile.entries.items()}
     nodes = []
@@ -154,8 +159,57 @@ def main() -> None:
     edges = [{"from": e.src, "to": e.dst, "rel": e.rel.value,
               "why": why.get((e.src, e.dst), "")}
              for e in graph.edges.values()]
+
+    # The project's own hierarchy: system -> subsystem -> component ->
+    # algorithm. Exporting only the canon meant the map opened in the middle
+    # of the thing, with no way to see what the mathematics was for.
+    if pgraph is not None:
+        known_ids = {n["id"] for n in nodes}
+        for node in pgraph.nodes.values():
+            if not node.id.startswith(root) or node.id in known_ids:
+                continue
+            nodes.append({
+                "id": node.id,
+                "name": node.name,
+                "type": node.type.value,
+                "tier": node.tier.value,
+                "depth": 0, "state": "", "onPath": node.id in path,
+                "steps": 0, "exercises": 0, "statement": "", "whyHere": "",
+                "code": [], "knobs": [],
+                "measures": {k: 0 for k in ("depth", "reuse", "cost", "tier",
+                                            "known", "steps", "exercises")},
+            })
+            known_ids.add(node.id)
+        seen = {(e["from"], e["to"]) for e in edges}
+        for edge in pgraph.edges.values():
+            if not edge.src.startswith(root):
+                continue
+            if (edge.src, edge.dst) in seen:
+                continue
+            edges.append({"from": edge.src, "to": edge.dst,
+                          "rel": edge.rel.value, "why": ""})
+
+    # Walkthrough level: how many hops from the project root, following
+    # CONTAINS, then USES, then REQUIRES. It is what lets the view start at
+    # the whole program and descend into the mathematics.
+    down: dict[str, list[str]] = {}
+    for edge in edges:
+        down.setdefault(edge["from"], []).append(edge["to"])
+    level = {root: 0} if root else {}
+    queue = deque([root] if root else [])
+    while queue:
+        current = queue.popleft()
+        for nxt in down.get(current, []):
+            if nxt not in level:
+                level[nxt] = level[current] + 1
+                queue.append(nxt)
+    deepest = max(level.values(), default=0)
+    for node in nodes:
+        node["level"] = level.get(node["id"], deepest + 1)
     json.dump({"nodes": nodes, "edges": edges,
-               "maxDepth": max(level.values(), default=0),
+               "maxDepth": max(n["depth"] for n in nodes) if nodes else 0,
+               "maxLevel": deepest + 1,
+               "root": root,
                "library": library.get("source", {})},
               sys.stdout)
 
