@@ -13,7 +13,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from atlas.architecture import apply, propose
-from atlas.ingest import ingest_repo
+from atlas.brief import resolve
 from atlas.instantiate import instantiate, invented, thin
 from atlas.llm import (AuthFailure, Dropped, LLMError, QuotaExhausted,
                        get_provider)
@@ -25,10 +25,7 @@ SHEETS = ROOT / "data" / "derivations"
 repo = Path(sys.argv[1])
 want = sys.argv[2] if len(sys.argv) > 2 else None
 
-project = ingest_repo(repo)
-proposal = propose(project)
-proposal.unclassified = []
-proposal.confirmed = True
+project, proposal, dropped = resolve(repo)
 graph = apply(proposal)
 profile = Profile.load()
 

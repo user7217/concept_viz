@@ -126,3 +126,45 @@ def unknown(brief: Brief, graph: Graph,
         if missing:
             problems["files not found in the repo"] = missing
     return problems
+
+
+BRIEFS = Path(__file__).resolve().parent.parent / "data" / "briefs"
+
+
+def resolve(repo: Path, graph: Graph | None = None) -> tuple[
+        Project, "ArchitectureProposal", list[str]]:
+    """Stages 1 and 2 for a repo, by whichever input path applies.
+
+    Every entry point needs this and each one was doing it itself, so wiring
+    the brief into the exporter alone left generation, instantiation and the
+    drill still calling ingest_repo directly -- and still failing on a repo
+    that declares nothing. That is the same mistake discover.py has been
+    sitting in: a capability wired into one caller instead of the shared path.
+
+    The proposal comes back confirmed, because the gate exists to stop a
+    *guessed* architecture reaching the canon. A brief is not a guess; it was
+    written deliberately and is checked against the canon and the filesystem
+    before it is used.
+    """
+    from .architecture import propose
+    from .ingest import ingest_repo
+
+    repo = Path(repo)
+    brief_path = BRIEFS / f"{repo.name.lower()}.json"
+    if brief_path.exists():
+        brief = load_brief(brief_path)
+        if graph is None:
+            from .bootstrap import build_graph, load
+            graph = build_graph(load())
+        problems = unknown(brief, graph, repo)
+        if problems:
+            raise ValueError(
+                f"brief {brief_path.name} does not match {repo.name}: {problems}")
+        project = to_project(brief, repo)
+        proposal = propose_from_brief(brief)
+    else:
+        project = ingest_repo(repo)
+        proposal = propose(project)
+    dropped = sorted(proposal.unclassified)
+    proposal.unclassified, proposal.confirmed = [], True
+    return project, proposal, dropped

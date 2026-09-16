@@ -15,16 +15,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from atlas.architecture import apply, propose
 from atlas.component import describe, invented
-from atlas.ingest import ingest_repo
+from atlas.brief import resolve
 from atlas.llm import AuthFailure, Dropped, LLMError, QuotaExhausted, get_provider
 from atlas.schema import Relation
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "components.json"
 
-project = ingest_repo(Path(sys.argv[1]))
-proposal = propose(project)
-proposal.unclassified, proposal.confirmed = [], True
+project, proposal, dropped = resolve(Path(sys.argv[1]))
 graph = apply(proposal)
 slug = "".join(c if c.isalnum() else "_" for c in project.name.lower()).strip("_")
 

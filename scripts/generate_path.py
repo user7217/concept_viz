@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from atlas.architecture import apply, propose
 from atlas.derivation import (candidate_vocabulary, check, generate,
                               needs_better_sources)
-from atlas.ingest import ingest_repo
+from atlas.brief import resolve
 from atlas.llm import (AuthFailure, Dropped, LLMError, QuotaExhausted,
                        get_provider, get_rotating_provider)
 from atlas.profile import Profile
@@ -33,12 +33,10 @@ repo = Path(sys.argv[1])
 want = sys.argv[2] if len(sys.argv) > 2 else None
 delay = float(sys.argv[3]) if len(sys.argv) > 3 else 2.0
 
-proposal = propose(ingest_repo(repo))
-if proposal.unclassified:
-    print(f"note: {len(proposal.unclassified)} components unclassified, dropped: "
-          f"{', '.join(proposal.unclassified[:6])}...")
-    proposal.unclassified = []
-proposal.confirmed = True
+project, proposal, dropped = resolve(repo)
+if dropped:
+    print(f"note: {len(dropped)} components unclassified, dropped: "
+          f"{', '.join(dropped[:6])}...")
 graph = apply(proposal)
 profile = Profile.load()
 

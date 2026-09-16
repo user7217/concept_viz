@@ -1,0 +1,133 @@
+{
+  "node_id": "independent_trials",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Independent trials are repeated random experiments conducted such that the trials are statistically independent of one another; in the context of Bernoulli trials, each trial has exactly two mutually exclusive and exhaustive outcomes ('success' and 'failure') with success probability p and failure probability q satisfying p + q = 1.",
+  "symbols": [
+    {
+      "symbol": "p",
+      "meaning": "probability of success in a single trial",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "q",
+      "meaning": "probability of failure in a single trial",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "fixed number of independent trials",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "k",
+      "meaning": "number of successes among n trials",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "P(k)",
+      "meaning": "probability of exactly k successes in n independent trials",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "B(n, p)",
+      "meaning": "random variable for a binomial experiment counting successes across n independent trials",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "o_f",
+      "meaning": "odds for success, p / q",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "o_a",
+      "meaning": "odds against success, q / p",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Complementary outcome probabilities sum to one: p = 1 - q, q = 1 - p, and p + q = 1.",
+      "why": "Success and failure are mutually exclusive and exhaustive events.",
+      "cites": [
+        "wikipedia:Bernoulli_trial"
+      ]
+    },
+    {
+      "property": "Odds for and odds against are multiplicative inverses: o_f * o_a = 1, o_f = 1 / o_a, o_a = 1 / o_f.",
+      "why": "Odds for (p / q) and odds against (q / p) are reciprocal ratios of complementary probabilities.",
+      "cites": [
+        "wikipedia:Bernoulli_trial"
+      ]
+    },
+    {
+      "property": "The probability of exactly k successes in n independent Bernoulli trials is given by P(k) = {n \\choose k} p^k q^{n-k}.",
+      "why": "The count of successes in n independent trials follows the binomial distribution B(n, p).",
+      "cites": [
+        "wikipedia:Bernoulli_trial"
+      ]
+    },
+    {
+      "property": "Repeated independent Bernoulli trials counting successes until a specified number of failures lead to a negative binomial distribution.",
+      "why": "Trials are conducted independently until a threshold count of failures is reached.",
+      "cites": [
+        "wikipedia:Bernoulli_trial"
+      ]
+    },
+    {
+      "property": "Independent trials where each trial has its own probability of success are Poisson trials.",
+      "why": "The independence structure is preserved while relaxing the identical probability assumption across trials.",
+      "cites": [
+        "wikipedia:Bernoulli_trial"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Trials are statistically independent of each other.",
+      "breaks_when": "The outcome of one trial alters or provides information about the outcome probabilities of subsequent trials."
+    },
+    {
+      "assumption": "Each trial has exactly two mutually exclusive and exhaustive outcomes (success and failure).",
+      "breaks_when": "Outcomes cannot be partitioned into an event and its complement, or more than two mutually non-exclusive outcomes occur."
+    },
+    {
+      "assumption": "The probability of success p remains constant across all trials in a binomial experiment.",
+      "breaks_when": "Success probabilities differ across trials, resulting in Poisson trials rather than a binomial distribution."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Violation of statistical independence",
+      "signature": "Empirical frequencies deviate systematically from binomial probabilities P(k) = {n \\choose k} p^k q^{n-k}, showing clustering or streakiness.",
+      "cause": "Trials influence one another (such as sampling without replacement from a finite set)."
+    },
+    {
+      "mode": "Non-identical success probabilities across trials",
+      "signature": "The total number of successes fails to follow the binomial distribution B(n, p).",
+      "cause": "Success probability changes between trials, converting the process into Poisson trials."
+    },
+    {
+      "mode": "Non-exhaustive or overlapping outcome definitions",
+      "signature": "Probabilities assigned to outcomes fail to satisfy p + q = 1.",
+      "cause": "The outcome categories are not strictly complementary, exhaustive, and mutually exclusive."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Bernoulli_trial"
+  ],
+  "check": {
+    "node_id": "independent_trials",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

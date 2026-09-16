@@ -48,11 +48,9 @@ if only:
     order = [only]
 elif len(argv) >= 2:
     from atlas.architecture import apply, propose
-    from atlas.ingest import ingest_repo
+    from atlas.brief import resolve
 
-    project = ingest_repo(Path(argv[0]))
-    proposal = propose(project)
-    proposal.unclassified, proposal.confirmed = [], True
+    project, proposal, dropped = resolve(Path(argv[0]))
     graph = apply(proposal)
     pid = "".join(c if c.isalnum() else "_"
                   for c in project.name.lower()).strip("_")

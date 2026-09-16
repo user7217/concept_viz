@@ -37,8 +37,17 @@
     "computational_graph": [
       "Automatic differentiation"
     ],
+    "condition_number": [
+      "Condition number"
+    ],
     "consensus_set": [
       "Random sample consensus"
+    ],
+    "coverage_probability": [
+      "Coverage probability"
+    ],
+    "cramer_rao_bound": [
+      "Cramér–Rao bound"
     ],
     "cross_covariance_matrix": [
       "Cross-covariance matrix",
@@ -53,6 +62,9 @@
     "descent_direction": [
       "Gradient descent"
     ],
+    "differential_entropy": [
+      "Differential entropy"
+    ],
     "dijkstra": [
       "Dijkstra's algorithm"
     ],
@@ -65,8 +77,19 @@
     "exponential_map": [
       "Exponential map (Lie theory)"
     ],
+    "extended_kalman_filter": [
+      "Extended Kalman filter",
+      "Kalman filter"
+    ],
+    "finite_difference_jacobian": [
+      "Numerical differentiation",
+      "Finite difference"
+    ],
+    "fisher_information_matrix": [
+      "Fisher information"
+    ],
     "gauss_newton": [
-      "Gauss\u2013Newton algorithm"
+      "Gauss–Newton algorithm"
     ],
     "gaussian_conditioning": [
       "Multivariate normal distribution"
@@ -89,6 +112,9 @@
     "inequality_bounding": [
       "Inequality (mathematics)"
     ],
+    "inflection_point": [
+      "Inflection point"
+    ],
     "information_matrix": [
       "Precision (statistics)"
     ],
@@ -101,11 +127,16 @@
     "iou": [
       "Jaccard index"
     ],
+    "isotropic_logdet_rescale": [],
     "jacobian_vector_product": [
       "Jacobian matrix and determinant"
     ],
     "joint_gaussian": [
       "Multivariate normal distribution"
+    ],
+    "kl_trust_region_step": [
+      "Trust region",
+      "Kullback–Leibler divergence"
     ],
     "lagrange_multipliers": [
       "Lagrange multiplier"
@@ -117,7 +148,7 @@
       "Least squares"
     ],
     "levenberg_marquardt_damping": [
-      "Levenberg\u2013Marquardt algorithm"
+      "Levenberg–Marquardt algorithm"
     ],
     "linear_kalman_filter": [
       "Kalman filter"
@@ -127,6 +158,9 @@
     ],
     "linear_transformation_of_gaussian": [
       "Multivariate normal distribution"
+    ],
+    "log_determinant": [
+      "Determinant"
     ],
     "log_odds": [
       "Logit"
@@ -141,11 +175,17 @@
     "logarithm_solve": [
       "Logarithm"
     ],
+    "logistic_growth": [
+      "Logistic function"
+    ],
     "loss_function": [
       "Loss function"
     ],
     "lqr": [
-      "Linear\u2013quadratic regulator"
+      "Linear–quadratic regulator"
+    ],
+    "mahalanobis_distance": [
+      "Mahalanobis distance"
     ],
     "manifold_retraction": [
       "Riemannian manifold"
@@ -162,6 +202,9 @@
     "matrix_inversion_lemma": [
       "Woodbury matrix identity"
     ],
+    "matrix_whitening": [
+      "Whitening transformation"
+    ],
     "measurement_model": [
       "Observational error"
     ],
@@ -171,6 +214,10 @@
     "multivariate_taylor_expansion": [
       "Taylor's theorem",
       "Taylor series"
+    ],
+    "natural_gradient": [
+      "Information geometry",
+      "Fisher information"
     ],
     "non_max_suppression": [],
     "normalization": [
@@ -214,7 +261,7 @@
       "Importance sampling"
     ],
     "quadratic_cost": [
-      "Linear\u2013quadratic regulator"
+      "Linear–quadratic regulator"
     ],
     "quadratic_form_differentiation": [
       "Matrix calculus"
@@ -240,11 +287,18 @@
     "regression_loss": [
       "Mean squared error"
     ],
+    "relaxation": [
+      "Bellman–Ford algorithm",
+      "Dijkstra's algorithm"
+    ],
     "residual": [
       "Errors and residuals"
     ],
     "sampling": [
       "Sampling (statistics)"
+    ],
+    "score_function": [
+      "Score (statistics)"
     ],
     "se3": [
       "Euclidean group"
@@ -290,22 +344,20 @@
     "transpose_identities": [
       "Transpose"
     ],
+    "trust_region": [
+      "Trust region"
+    ],
     "unit_norm_normalization": [
       "Unit vector"
     ],
     "weighted_average": [
       "Weighted arithmetic mean"
     ],
+    "weighted_least_squares": [
+      "Weighted least squares"
+    ],
     "yolo_detection_loss": [
       "Object detection"
-    ],
-    "relaxation": [
-      "Bellman\u2013Ford algorithm",
-      "Dijkstra's algorithm"
-    ],
-    "extended_kalman_filter": [
-      "Extended Kalman filter",
-      "Kalman filter"
     ]
   }
 }
