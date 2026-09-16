@@ -9,7 +9,7 @@
   --line:#C6D1D8; --line-soft:#D9E1E6;
   --viewport:#E3E9EC; --edge:#9DAEB8; --edge-dim:#BFCBD2;
   --concept:#3F708C; --technique:#A9641F; --algorithm:#6B4F91;
-  --system:#1F5F55; --component:#2E6F8E;
+  --system:#1F6B4F; --component:#A34F63;
   --state:#2F6B48; --ring:#12313F;
   --shadow:0 1px 2px rgba(20,32,42,.08),0 8px 24px rgba(20,32,42,.06);
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -24,8 +24,8 @@
     --line:#26343D; --line-soft:#1D2931;
     --viewport:#0A1014; --edge:#3A4C57; --edge-dim:#26333B;
     --concept:#78A9C6; --technique:#DB9756; --algorithm:#A488CC;
-  --system:#5EBBA8; --component:#77B6D6;
-    --system:#5EBBA8; --component:#77B6D6;
+  --system:#5CC49A; --component:#E08FA2;
+    --system:#5CC49A; --component:#E08FA2;
     --state:#5FA87C; --ring:#CFE0E8;
     --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 30px rgba(0,0,0,.35);
   }
@@ -88,6 +88,14 @@ input[type=search]:focus-visible,button:focus-visible{outline:2px solid var(--co
   border:0;border-radius:4px;background:transparent;color:var(--muted);cursor:pointer}
 .hits button:hover{background:var(--sunk);color:var(--ink)}
 .hint{font-size:11.5px;color:var(--faint);line-height:1.5;margin:0}
+.axdef{display:flex;flex-direction:column;gap:2px;padding:7px 0;
+  border-top:1px solid var(--line-soft)}
+.axdef:first-child{border-top:0;padding-top:2px}
+.axdef-head{font-size:12px;color:var(--ink)}
+.axdef-head b{font-family:var(--mono);color:var(--technique);margin-right:5px}
+.axdef p{margin:0;font-size:11.5px;color:var(--muted);line-height:1.45}
+.axdef-row{font-size:11px;color:var(--faint);line-height:1.45;padding-left:9px;
+  border-left:1px solid var(--line)}
 label.axis{display:grid;grid-template-columns:14px 1fr;gap:8px;align-items:center;
   font-family:var(--mono);font-size:11px;color:var(--faint)}
 label.axis select{font-family:var(--sans);font-size:12.5px;padding:4px 6px;
@@ -496,15 +504,43 @@ document.getElementById('c-depth').textContent = maxDepth + 1;
    mutually exclusive. Once Y counts layers and X counts algorithms, the
    diagonal between two points mixes units and means nothing, so nothing in
    the page invites you to read it. What you read is one axis at a time. */
+/* An axis name alone tells a reader nothing: "tier" on the X axis does not
+   say what tier 2 is. Each measure carries what it counts, and `scale` names
+   the values themselves wherever they are codes rather than counts. */
 const MEASURES = {
-  level:     {label:'walkthrough level', hint:'program → subsystem → component → algorithm → mathematics'},
-  depth:     {label:'prerequisite depth', hint:'how far below the algorithm it sits'},
-  reuse:     {label:'reuse',   hint:'how many of the 20 algorithms need it'},
-  cost:      {label:'cost',    hint:'how many prerequisites it drags in'},
-  tier:      {label:'tier',    hint:'assumed → statement → derivation → claim'},
-  known:     {label:'your profile', hint:'unknown → declared → read → demonstrated'},
-  steps:     {label:'derivation steps', hint:'0 means the sheet is a definition'},
-  exercises: {label:'exercises', hint:'how much it can ask you to reproduce'},
+  level: {label:'walkthrough level', short:'level',
+    hint:'how far the node sits below the program itself',
+    scale:['0 the program', '1 subsystem', '2 component', '3 algorithm',
+           '4+ the mathematics']},
+  depth: {label:'prerequisite depth', short:'depth',
+    hint:'longest chain of prerequisites beneath it',
+    scale:['0 nothing beneath it, the floor you already know',
+           'higher means more stacked underneath']},
+  reuse: {label:'reuse', short:'reuse',
+    hint:'how many of the canon\u2019s 20 algorithms need this node',
+    scale:['0 nothing needs it', '1 one algorithm, a specialist',
+           '15+ nearly everything, learn these first']},
+  cost: {label:'cost', short:'cost',
+    hint:'how many prerequisites it drags in with it',
+    scale:['0 needs nothing', 'high means a long road to reach it']},
+  tier: {label:'tier', short:'tier',
+    hint:'how the claim on this node is backed',
+    scale:['0 assumed, taken as known and never derived',
+           '1 statement, stated from a source',
+           '2 derivation, worked through step by step',
+           '3 claim, asserted and not yet grounded']},
+  known: {label:'your profile', short:'profile',
+    hint:'how well you have shown you know it',
+    scale:['0 unknown', '1 declared, you said so',
+           '2 read, you viewed the sheet',
+           '3 demonstrated, you did the masked exercise']},
+  steps: {label:'derivation steps', short:'steps',
+    hint:'how long the worked derivation is',
+    scale:['0 a definition: nothing to derive, which is not a gap',
+           'higher means a longer argument']},
+  exercises: {label:'exercises', short:'exercises',
+    hint:'how much the sheet can ask you to reproduce',
+    scale:['0 nothing maskable', 'higher means more to drill']},
 };
 const EXTENT = 620, SPREAD = 26;
 let axis = {x:'none', y:'level', z:'none'};
@@ -735,8 +771,61 @@ function radiusFor(n) {
   return 13 - t * 6;           // 13px just under the algorithms, 7px at the floor
 }
 
+/* A CAD-style orientation triad, pinned to a corner. The graph can be turned
+   to any angle, and at most angles you cannot tell which way is which -- this
+   rotates with the camera and names each arm, so "up" is always readable as a
+   measure rather than merely as up. An unbound axis is drawn faintly and
+   labelled "spread" so its meaninglessness is visible too. */
+function drawGizmo() {
+  const keys = [axis.x, axis.y, axis.z];
+  const dirs = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+  const names = ['X', 'Y', 'Z'];
+  const ox = 66, oy = ch - 74, arm = 34;
+
+  ctx.save();
+  ctx.globalAlpha = 0.97;
+  ctx.fillStyle = css('--surface');
+  ctx.strokeStyle = css('--line');
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.roundRect(ox - 52, oy - 52, 104, 104, 9);
+  ctx.fill(); ctx.stroke();
+
+  const arms = [];
+  for (let i = 0; i < 3; i++) {
+    const r = rot({x: dirs[i][0] * arm, y: dirs[i][1] * arm, z: dirs[i][2] * arm});
+    arms.push({i, x: r.x, y: -r.y, z: r.z});
+  }
+  arms.sort((a, b) => b.z - a.z);            // nearer arms drawn last
+
+  ctx.font = '600 10px ' + css('--mono').split(',')[0].replace(/"/g, '');
+  for (const a of arms) {
+    const bound = keys[a.i] !== 'none';
+    ctx.globalAlpha = bound ? 1 : 0.34;
+    ctx.strokeStyle = bound ? css('--technique') : css('--line');
+    ctx.lineWidth = bound ? 1.8 : 1.2;
+    ctx.beginPath();
+    ctx.moveTo(ox, oy); ctx.lineTo(ox + a.x, oy + a.y); ctx.stroke();
+    ctx.fillStyle = bound ? css('--technique') : css('--faint');
+    ctx.beginPath(); ctx.arc(ox + a.x, oy + a.y, 2.6, 0, 6.2832); ctx.fill();
+
+    const label = bound ? MEASURES[keys[a.i]].short : 'spread';
+    ctx.textAlign = a.x > 4 ? 'left' : a.x < -4 ? 'right' : 'center';
+    const pad = a.x > 4 ? 5 : a.x < -4 ? -5 : 0;
+    ctx.fillStyle = bound ? css('--ink') : css('--faint');
+    ctx.fillText(names[a.i], ox + a.x * 1.13 + pad, oy + a.y * 1.13 + 3);
+    ctx.globalAlpha = bound ? 0.85 : 0.3;
+    ctx.font = '9px ' + css('--sans').split(',')[0].replace(/"/g, '');
+    ctx.fillStyle = css('--muted');
+    ctx.fillText(label, ox + a.x * 1.13 + pad, oy + a.y * 1.13 + 13);
+    ctx.font = '600 10px ' + css('--mono').split(',')[0].replace(/"/g, '');
+  }
+  ctx.textAlign = 'left';
+  ctx.restore();
+}
+
 function drawAxes() {
   const keys = [axis.x, axis.y, axis.z];
+  const names = ['X', 'Y', 'Z'];
   const dirs = [[1,0,0],[0,1,0],[0,0,1]];
   ctx.save();
   ctx.font = '11px ' + css('--mono').split(',')[0].replace(/"/g, '');
@@ -753,8 +842,8 @@ function drawAxes() {
     ctx.globalAlpha = 1; ctx.fillStyle = css('--faint');
     ctx.fillText(String(r.lo), a.sx + 6, a.sy - 4);
     ctx.fillStyle = css('--muted');
-    ctx.fillText(MEASURES[keys[i]].label + ' (ordered)  ' + r.hi,
-                 b.sx + 6, b.sy - 4);
+    ctx.fillText(names[i] + ' · ' + MEASURES[keys[i]].label +
+                 ' (ordered, max ' + r.hi + ')', b.sx + 6, b.sy - 4);
   }
   ctx.restore();
 }
@@ -913,6 +1002,8 @@ function draw(now) {
     });
     ctx.textAlign = 'left';
   }
+
+  drawGizmo();
 
   ctx.globalAlpha = 1;
   document.getElementById('dk').textContent =
@@ -1305,11 +1396,32 @@ function buildAxisPickers() {
   describeAxes();
 }
 function describeAxes() {
-  const used = ['x', 'y', 'z'].filter(d => axis[d] !== 'none');
   const el = document.getElementById('axhint');
-  if (!used.length) { el.textContent = 'No axis carries meaning right now.'; return; }
-  el.textContent = used.map(d => d.toUpperCase() + ': ' +
-    MEASURES[axis[d]].hint).join(' · ');
+  el.innerHTML = '';
+  const used = ['x', 'y', 'z'].filter(d => axis[d] !== 'none');
+  if (!used.length) {
+    el.textContent = 'No axis carries meaning right now.';
+    return;
+  }
+  for (const dim of used) {
+    const meta = MEASURES[axis[dim]];
+    const block = document.createElement('div');
+    block.className = 'axdef';
+    const head = document.createElement('div');
+    head.className = 'axdef-head';
+    head.innerHTML = '<b>' + dim.toUpperCase() + '</b> ' + meta.label;
+    const what = document.createElement('p');
+    what.textContent = meta.hint;
+    block.append(head, what);
+    // What the numbers on that axis actually are. Without this, "tier" is a
+    // word on a line and 2 is just a position.
+    for (const row of meta.scale || []) {
+      const li = document.createElement('div');
+      li.className = 'axdef-row'; li.textContent = row;
+      block.appendChild(li);
+    }
+    el.appendChild(block);
+  }
 }
 const zoomBy = f => { zoomAt(f, cw / 2, ch / 2); frame(); };
 document.getElementById('z-in').onclick = () => zoomBy(1.3);
