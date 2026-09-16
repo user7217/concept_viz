@@ -1,0 +1,128 @@
+{
+  "node_id": "null_space",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "The kernel (null space) of an $m \\times n$ matrix $A$, defined as $\\operatorname{Null}(A) = \\{\\mathbf{v} \\in K^n \\mid A\\mathbf{v} = \\mathbf{0}\\}$, has a basis given by the columns of $C$ corresponding to the zero columns of $B$, where $\\begin{bmatrix} B \\\\ C \\end{bmatrix} = \\begin{bmatrix} A \\\\ I \\end{bmatrix} P$ is obtained by reducing $\\begin{bmatrix} A \\\\ I \\end{bmatrix}$ via column operations (Gaussian elimination) until $B$ is in column echelon form.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "matrix whose kernel is to be computed",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "I",
+      "meaning": "identity matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "P",
+      "meaning": "invertible matrix representing the column operations",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "B",
+      "meaning": "upper block matrix in column echelon form ($B = AP$)",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "C",
+      "meaning": "lower block matrix accumulating column operations ($C = IP = P$)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "v",
+      "meaning": "vector in the domain $K^n$",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "w",
+      "meaning": "transformed coordinates vector $\\mathbf{w} = P^{-1}\\mathbf{v} = C^{-1}\\mathbf{v}$",
+      "dimensions": "n x 1"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Construct the row-augmented matrix $\\begin{bmatrix} A \\\\ I \\end{bmatrix}$ where $I$ is the $n \\times n$ identity matrix, and apply column operations via Gaussian elimination to reduce $A$ to a matrix $B$ in column echelon form: $\\begin{bmatrix} A \\\\ I \\end{bmatrix} P = \\begin{bmatrix} B \\\\ C \\end{bmatrix}$ for an invertible matrix $P$.",
+      "invokes": [
+        "gaussian_elimination"
+      ],
+      "cites": [
+        "wikipedia:Kernel_(linear_algebra)"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Multiply blockwise to obtain the relations $AP = B$ and $IP = C = P$, which directly implies $AC = B$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Kernel_(linear_algebra)"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Relate membership in the kernel to $B$: a vector $\\mathbf{v}$ satisfies $A\\mathbf{v} = \\mathbf{0}$ if and only if $B\\mathbf{w} = \\mathbf{0}$, where $\\mathbf{w} = P^{-1}\\mathbf{v} = C^{-1}\\mathbf{v}$ (or equivalently, $\\mathbf{v} = C\\mathbf{w}$).",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Kernel_(linear_algebra)"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Since $B$ is in column echelon form, $B\\mathbf{w} = \\mathbf{0}$ holds if and only if the nonzero entries of $\\mathbf{w}$ correspond exclusively to the zero columns of $B$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Kernel_(linear_algebra)"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Multiplying by $C$ yields $\\mathbf{v} = C\\mathbf{w}$, demonstrating that $\\mathbf{v} \\in \\operatorname{Null}(A)$ if and only if $\\mathbf{v}$ is a linear combination of the columns of $C$ corresponding to the zero columns of $B$, which therefore form a basis for the kernel of $A$.",
+      "invokes": [
+        "basis"
+      ],
+      "cites": [
+        "wikipedia:Kernel_(linear_algebra)"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "Entries of the matrix $A$ belong to a field $K$ over which Gaussian elimination and pivot inversion are defined.",
+      "breaks_when": "The entries are from an arbitrary ring without division or field structure."
+    },
+    {
+      "assumption": "The matrix $A$ represents a linear map between finite-dimensional vector spaces.",
+      "breaks_when": "The linear map acts on infinite-dimensional vector spaces where matrix block reduction is not applicable."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Full column rank (trivial null space)",
+      "signature": "Matrix $B$ has no zero columns, yielding an empty basis set for the kernel.",
+      "cause": "$\\operatorname{rank}(A) = n$, which by the rank-nullity theorem implies $\\operatorname{nullity}(A) = 0$, so $\\operatorname{Null}(A) = \\{\\mathbf{0}\\}$."
+    },
+    {
+      "mode": "Numerical round-off error in floating-point reduction",
+      "signature": "Zero columns in $B$ contain small non-zero residues, leading to misclassification of pivot vs. free columns.",
+      "cause": "Floating-point cancellation and rounding during elimination obscure whether an entry is mathematically zero."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Kernel_(linear_algebra)"
+  ],
+  "check": {
+    "node_id": "null_space",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,221 @@
+{
+  "node_id": "differential_entropy",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For an absolutely continuous probability distribution with probability density function f(x), the differential entropy h(X) (also written h(f)) is defined by h(X) = -\\int f(x) \\log f(x) \\, dx. The supplied sources contain no derivation of differential entropy itself, as it is introduced as a definition generalizing Shannon entropy to continuous distributions; the derivation under the Proof heading in the source derives a property (maximization under a normal distribution) rather than the definition itself.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "continuous random variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbf{X}",
+      "meaning": "continuous random vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "f(x)",
+      "meaning": "probability density function of X",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "h(X)",
+      "meaning": "differential entropy of random variable X",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "h(\\mathbf{X})",
+      "meaning": "differential entropy of random vector X",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "c",
+      "meaning": "constant translation scalar or vector",
+      "dimensions": "scalar or n x 1"
+    },
+    {
+      "symbol": "a",
+      "meaning": "constant scalar multiplier",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbf{A}",
+      "meaning": "invertible square transformation matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "m",
+      "meaning": "vector transformation mapping",
+      "dimensions": "n x 1 -> n x 1"
+    },
+    {
+      "symbol": "|\\partial m / \\partial x|",
+      "meaning": "Jacobian determinant of transformation m",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "K",
+      "meaning": "covariance matrix of random vector X",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "Y",
+      "meaning": "random variable or transformed random vector",
+      "dimensions": "scalar or n x 1"
+    },
+    {
+      "symbol": "h(X | Y)",
+      "meaning": "conditional differential entropy of X given Y",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "I(X; Y)",
+      "meaning": "mutual information between X and Y",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "D_{KL}(f \\parallel g)",
+      "meaning": "Kullback-Leibler divergence between distributions f and g",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\widehat{X}",
+      "meaning": "estimator of random variable X",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Translation invariance: h(X + c) = h(X) for a constant c.",
+      "why": "Rigid translations have a Jacobian determinant equal to 1.",
+      "cites": [
+        "wikipedia:Differential_entropy"
+      ]
+    },
+    {
+      "property": "Scalar scaling: h(aX) = h(X) + \\log |a| for a constant a.",
+      "why": "Linear scaling by a multiplies the density volume element by the absolute Jacobian determinant |a|.",
+      "cites": [
+        "wikipedia:Differential_entropy"
+      ]
+    },
+    {
+      "property": "Linear transformation: h(\\mathbf{A}\\mathbf{X}) = h(\\mathbf{X}) + \\log(|\\det \\mathbf{A}|) for an invertible square matrix \\mathbf{A}.",
+      "why": "The multi-dimensional density transforms under linear maps by scaling with the absolute determinant of \\mathbf{A}.",
+      "cites": [
+        "wikipedia:Differential_entropy"
+      ]
+    },
+    {
+      "property": "General coordinate transformation bound: h(\\mathbf{Y}) \\le h(\\mathbf{X}) + \\int f(x) \\log |\\frac{\\partial m}{\\partial x}| \\, dx for \\mathbf{Y} = m(\\mathbf{X}), with equality if m is a bijection.",
+      "why": "Under coordinate transformation m the density transforms via the Jacobian determinant |\\partial m / \\partial x|.",
+      "cites": [
+        "wikipedia:Differential_entropy"
+      ]
+    },
+    {
+      "property": "Invariance under rigid motions: h(Y) = h(X) when m is a rigid rotation, translation, or combination thereof.",
+      "why": "The Jacobian determinant of any rigid motion is identically 1.",
+      "cites": [
+        "wikipedia:Differential_entropy"
+      ]
+    },
+    {
+      "property": "Conditioning reduces entropy: h(X | Y) \\le h(X) with equality if and only if X and Y are independent.",
+      "why": "Mutual information satisfies I(X; Y) \\ge 0 with equality iff X and Y are independent.",
+      "cites": [
+        "wikipedia:Differential_entropy"
+      ]
+    },
+    {
+      "property": "Chain rule: h(X_1, \\ldots, X_n) = \\sum_{i=1}^n h(X_i | X_1, \\ldots, X_{i-1}) \\le \\sum_{i=1}^n h(X_i).",
+      "why": "Successive decomposition of joint continuous entropy via conditional differential entropies.",
+      "cites": [
+        "wikipedia:Differential_entropy"
+      ]
+    },
+    {
+      "property": "Maximization by Gaussian distribution: For zero-mean \\mathbf{X} \\in \\mathbb{R}^n$ with covariance matrix K, h(\\mathbf{X}) \\le \\frac{1}{2} \\log(\\det(2\\pi e K)) = \\frac{1}{2}\\log[(2\\pi e)^n \\det K], with equality iff \\mathbf{X} is jointly Gaussian.",
+      "why": "Kullback-Leibler divergence D_{KL}(f \\parallel g) \\ge 0 between an arbitrary distribution f and Gaussian g of equal covariance.",
+      "cites": [
+        "wikipedia:Differential_entropy"
+      ]
+    },
+    {
+      "property": "Estimator error lower bound: \\operatorname{E}[(X - \\widehat{X})^2] \\ge \\frac{1}{2\\pi e} e^{2h(X)} for any estimator \\widehat{X}, with equality iff X is Gaussian and \\widehat{X} is its mean.",
+      "why": "Differential entropy provides an information-theoretic lower bound on expected squared estimation error.",
+      "cites": [
+        "wikipedia:Differential_entropy"
+      ]
+    },
+    {
+      "property": "Sign variability: Differential entropy can be negative.",
+      "why": "Continuous probability density functions can exceed 1 over regions of their support.",
+      "cites": [
+        "wikipedia:Differential_entropy"
+      ]
+    },
+    {
+      "property": "Discrete quantization connection: A quantized variable X_h = ih with bin width h has discrete entropy H_h = -\\sum_i h f(ih) \\log(f(ih)) - \\sum h f(ih) \\log(h), where the first term approximates h(X) and the second approximates -\\log(h).",
+      "why": "Partitioning the continuous range into intervals of length h separates the Riemann sum approximating h(X) from the divergent bin-width term.",
+      "cites": [
+        "wikipedia:Differential_entropy"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The random variable or vector possesses an absolutely continuous probability distribution admitting a probability density function f(x).",
+      "breaks_when": "The distribution has discrete point masses or singular components lacking a density with respect to Lebesgue measure."
+    },
+    {
+      "assumption": "The density f(x) satisfies integrability conditions such that -\\int f(x) \\log f(x) \\, dx converges.",
+      "breaks_when": "The distribution has pathological heavy tails or severe local singularities causing the integral to diverge."
+    },
+    {
+      "assumption": "The transformation matrix \\mathbf{A} is invertible and square.",
+      "breaks_when": "\\det \\mathbf{A} = 0, which collapses the dimension and renders the distribution non-absolutely continuous in \\mathbb{R}^n."
+    },
+    {
+      "assumption": "The vector transformation m is a bijection for entropy equality.",
+      "breaks_when": "m is not bijective (many-to-one or non-invertible), yielding only an inequality."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Coordinate system and unit dependence",
+      "signature": "Entropy changes value or sign under change of units or linear scaling: h(aX) = h(X) + \\log |a|.",
+      "cause": "Differential entropy lacks an invariant measure factor, making it non-invariant under arbitrary coordinate transformations."
+    },
+    {
+      "mode": "Negative entropy value",
+      "signature": "h(X) < 0.",
+      "cause": "The probability density function f(x) exceeds 1 over a significant portion of its support, causing \\log f(x) > 0."
+    },
+    {
+      "mode": "Singular linear transformation failure",
+      "signature": "Entropy transformation formula produces -\\infty due to \\log |\\det \\mathbf{A}| when \\det \\mathbf{A} = 0.",
+      "cause": "Singular matrix \\mathbf{A} reduces the dimensionality of the random vector."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Differential_entropy"
+  ],
+  "check": {
+    "node_id": "differential_entropy",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [
+      "expected a derivation, produced a definition"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

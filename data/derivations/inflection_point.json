@@ -1,0 +1,119 @@
+{
+  "node_id": "inflection_point",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "An inflection point is a point on a smooth plane curve at which the curvature changes sign; for the graph of a function, it is a point where the function changes from concave (concave downward) to convex (concave upward) or vice versa, which for a twice-differentiable function corresponds to a point $(x_0, f(x_0))$ where the second derivative $f''(x)$ has an isolated zero and changes sign.",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "real-valued function",
+      "dimensions": "scalar function"
+    },
+    {
+      "symbol": "x_0",
+      "meaning": "abscissa of the inflection point",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f'(x)",
+      "meaning": "first derivative of f",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f''(x)",
+      "meaning": "second derivative of f",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "k",
+      "meaning": "order of the first non-vanishing higher-order derivative at x_0",
+      "dimensions": "scalar integer (k >= 3)"
+    },
+    {
+      "symbol": "\\varepsilon",
+      "meaning": "small positive distance specifying a neighborhood around x_0",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "If all extrema of $f'$ are isolated, the tangent line to the graph of $f$ crosses the curve at the inflection point $(x_0, f(x_0))$.",
+      "why": "the first derivative $f'$ has an isolated local extremum at $x_0$",
+      "cites": [
+        "wikipedia:Inflection_point"
+      ]
+    },
+    {
+      "property": "If $f''(x_0)$ exists and $x_0$ is an inflection point for $f$, then $f''(x_0) = 0$.",
+      "why": "a point of $f'' = 0$ must be passed for a continuous second derivative to change sign between positive and negative",
+      "cites": [
+        "wikipedia:Inflection_point"
+      ]
+    },
+    {
+      "property": "If $f(x)$ is $k$ times continuously differentiable near $x_0$ with $k$ odd and $k \\ge 3$, such that $f^{(n)}(x_0) = 0$ for $n = 2, \\dots, k - 1$ and $f^{(k)}(x_0) \\ne 0$, then $x_0$ is an inflection point.",
+      "why": "the lowest-order non-zero derivative above the second being of odd order ensures that $f''(x)$ changes sign across $x_0$",
+      "cites": [
+        "wikipedia:Inflection_point"
+      ]
+    },
+    {
+      "property": "An inflection point is categorized as stationary if $f'(x_0) = 0$ (which is not a local extremum) and non-stationary if $f'(x_0) \\ne 0$.",
+      "why": "the classification is determined by whether the first derivative vanishes at the point",
+      "cites": [
+        "wikipedia:Inflection_point"
+      ]
+    },
+    {
+      "property": "In algebraic geometry, a non-singular point of an algebraic curve is an inflection point if and only if the intersection number of the tangent line and the curve at the point of tangency is greater than 2.",
+      "why": "the tangent line meets the curve to order at least 3, which corresponds to zeros of the Hessian determinant of its projective completion",
+      "cites": [
+        "wikipedia:Inflection_point"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "$x_0$ belongs to the domain of the function $f$",
+      "breaks_when": "A function changes concavity across a vertical asymptote or discontinuity outside its domain, such as $x \\mapsto 1/x$ across $x = 0$."
+    },
+    {
+      "assumption": "The second derivative $f''(x_0)$ exists and is continuous",
+      "breaks_when": "A continuous function changes concavity at a point where derivatives do not exist, such as $x \\mapsto x^{1/3}$ at the origin."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Undulation point",
+      "signature": "$f''(x_0) = 0$ but $x_0$ is not an inflection point",
+      "cause": "The lowest-order non-zero derivative above the second is of even order (e.g., $f(x) = x^4$ at $x = 0$), so $f''$ vanishes without changing sign."
+    },
+    {
+      "mode": "Discontinuity / vertical asymptote concavity change",
+      "signature": "Concavity changes sign without the existence of an inflection point",
+      "cause": "The concavity change occurs across a point that is not in the domain of the function (e.g., $f(x) = 1/x$ at $x = 0$)."
+    },
+    {
+      "mode": "Inflection point with non-vanishing or non-existent second derivative",
+      "signature": "The condition $f''(x_0) = 0$ fails to identify the inflection point",
+      "cause": "The function possesses an inflection point but fails to have derivatives at that point (e.g., the cube root function at the origin)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Inflection_point"
+  ],
+  "check": {
+    "node_id": "inflection_point",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "node_id": "eigenvalue",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Let V be a vector space over a field K of scalars, and let T: V -> V be a linear transformation. A scalar \\lambda \\in K is called an eigenvalue of T corresponding to an eigenvector v if there exists a nonzero vector v \\in V such that T(v) = \\lambda v. For an n x n square matrix A, \\lambda is an eigenvalue corresponding to nonzero vector v if A v = \\lambda v.",
+  "symbols": [
+    {
+      "symbol": "T",
+      "meaning": "Linear transformation mapping V into V",
+      "dimensions": "V -> V"
+    },
+    {
+      "symbol": "V",
+      "meaning": "Vector space over a field of scalars K",
+      "dimensions": "vector space"
+    },
+    {
+      "symbol": "K",
+      "meaning": "Field of scalars",
+      "dimensions": "scalar field"
+    },
+    {
+      "symbol": "A",
+      "meaning": "Square matrix representing a linear transformation",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "v",
+      "meaning": "Nonzero eigenvector associated with eigenvalue \\lambda",
+      "dimensions": "vector in V (or n x 1)"
+    },
+    {
+      "symbol": "\\lambda",
+      "meaning": "Eigenvalue corresponding to eigenvector v",
+      "dimensions": "scalar in K"
+    },
+    {
+      "symbol": "I",
+      "meaning": "Identity transformation or identity matrix",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The eigenspace E = {v : T(v) = \\lambda v} associated with eigenvalue \\lambda is the kernel of the linear transformation T - \\lambda I.",
+      "why": "Rearranging the defining equation T(v) = \\lambda v gives (T - \\lambda I)v = 0.",
+      "cites": [
+        "wikipedia:Eigenvalues_and_eigenvectors"
+      ]
+    },
+    {
+      "property": "For an n x n matrix A, the eigenvalues are the roots of the characteristic polynomial det(A - \\lambda I) = 0.",
+      "why": "A nontrivial solution v \\neq 0 to (A - \\lambda I)v = 0 exists if and only if the determinant det(A - \\lambda I) vanishes.",
+      "cites": [
+        "wikipedia:Eigenvalues_and_eigenvectors"
+      ]
+    },
+    {
+      "property": "The eigenvalues of a diagonal or triangular matrix are the elements of its main diagonal.",
+      "why": "The characteristic polynomial det(A - \\lambda I) evaluates directly to the product of the diagonal terms (a_{ii} - \\lambda).",
+      "cites": [
+        "wikipedia:Eigenvalues_and_eigenvectors"
+      ]
+    },
+    {
+      "property": "The sum of the algebraic multiplicities of all distinct eigenvalues equals the dimension n of the matrix.",
+      "why": "The algebraic multiplicity of each eigenvalue is its multiplicity as a root of the n-th degree characteristic polynomial.",
+      "cites": [
+        "wikipedia:Eigenvalues_and_eigenvectors"
+      ]
+    },
+    {
+      "property": "Real matrices can yield complex conjugate pairs of eigenvalues and corresponding complex conjugate eigenvectors.",
+      "why": "Roots of a real polynomial can be complex numbers, which appear in conjugate pairs \\lambda and \\lambda^*.",
+      "cites": [
+        "wikipedia:Eigenvalues_and_eigenvectors"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The operator T is a linear transformation mapping a vector space V into itself (or A is a square n x n matrix).",
+      "breaks_when": "The transformation is nonlinear or maps between distinct spaces V -> W where V != W."
+    },
+    {
+      "assumption": "The eigenvector v associated with an eigenvalue must be nonzero (v != 0).",
+      "breaks_when": "v = 0, which satisfies T(0) = \\lambda 0 trivially for every scalar \\lambda without defining an eigenvalue."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Defective matrix (geometric multiplicity strictly less than algebraic multiplicity)",
+      "signature": "The dimension of the eigenspace ker(A - \\lambda I) is strictly smaller than the multiplicity of \\lambda as a root of det(A - \\lambda I) = 0.",
+      "cause": "A repeated eigenvalue does not possess a sufficient number of linearly independent eigenvectors to span an eigenspace matching its algebraic multiplicity."
+    },
+    {
+      "mode": "Absence of eigenvalues within the base scalar field K",
+      "signature": "The characteristic polynomial det(A - \\lambda I) has no roots in K (for example, a real matrix whose characteristic polynomial has strictly complex roots).",
+      "cause": "The base field K is not algebraically closed."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Eigenvalues_and_eigenvectors"
+  ],
+  "check": {
+    "node_id": "eigenvalue",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

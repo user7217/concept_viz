@@ -47,7 +47,7 @@
       "Coverage probability"
     ],
     "cramer_rao_bound": [
-      "Cramér–Rao bound"
+      "Cram\u00e9r\u2013Rao bound"
     ],
     "cross_covariance_matrix": [
       "Cross-covariance matrix",
@@ -89,7 +89,7 @@
       "Fisher information"
     ],
     "gauss_newton": [
-      "Gauss–Newton algorithm"
+      "Gauss\u2013Newton algorithm"
     ],
     "gaussian_conditioning": [
       "Multivariate normal distribution"
@@ -136,7 +136,7 @@
     ],
     "kl_trust_region_step": [
       "Trust region",
-      "Kullback–Leibler divergence"
+      "Kullback\u2013Leibler divergence"
     ],
     "lagrange_multipliers": [
       "Lagrange multiplier"
@@ -148,7 +148,7 @@
       "Least squares"
     ],
     "levenberg_marquardt_damping": [
-      "Levenberg–Marquardt algorithm"
+      "Levenberg\u2013Marquardt algorithm"
     ],
     "linear_kalman_filter": [
       "Kalman filter"
@@ -182,7 +182,7 @@
       "Loss function"
     ],
     "lqr": [
-      "Linear–quadratic regulator"
+      "Linear\u2013quadratic regulator"
     ],
     "mahalanobis_distance": [
       "Mahalanobis distance"
@@ -216,8 +216,8 @@
       "Taylor series"
     ],
     "natural_gradient": [
-      "Information geometry",
-      "Fisher information"
+      "Fisher information metric",
+      "Natural evolution strategy"
     ],
     "non_max_suppression": [],
     "normalization": [
@@ -261,7 +261,7 @@
       "Importance sampling"
     ],
     "quadratic_cost": [
-      "Linear–quadratic regulator"
+      "Linear\u2013quadratic regulator"
     ],
     "quadratic_form_differentiation": [
       "Matrix calculus"
@@ -288,7 +288,7 @@
       "Mean squared error"
     ],
     "relaxation": [
-      "Bellman–Ford algorithm",
+      "Bellman\u2013Ford algorithm",
       "Dijkstra's algorithm"
     ],
     "residual": [

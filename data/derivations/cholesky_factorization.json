@@ -1,0 +1,153 @@
+{
+  "node_id": "cholesky_factorization",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The Cholesky decomposition or Cholesky factorization of a Hermitian, positive-definite matrix A is a decomposition into the product of a lower triangular matrix L and its conjugate transpose L*, such that A = L L* (or A = L L^T for real symmetric matrices). The supplied source defines this decomposition directly and provides algorithmic variants, update formulas, and existence proofs, but genuinely contains no derivation of the Cholesky factorization itself.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "Hermitian, positive-definite matrix (or real symmetric positive-definite matrix)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "L",
+      "meaning": "lower triangular matrix (Cholesky factor)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "L^*",
+      "meaning": "conjugate transpose of lower triangular matrix L",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "L^T",
+      "meaning": "transpose of lower triangular matrix L (for real matrices)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "D",
+      "meaning": "diagonal matrix (or block diagonal matrix in block LDL^T decomposition)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "A_tilde",
+      "meaning": "updated matrix after rank modification or row/column insertion/removal",
+      "dimensions": "n x n or m x m"
+    },
+    {
+      "symbol": "L_tilde",
+      "meaning": "Cholesky factor of the updated matrix A_tilde",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "x",
+      "meaning": "vector used in a rank-one update",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "c",
+      "meaning": "scalar constant in a rank-one update",
+      "dimensions": "1 x 1 (scalar)"
+    },
+    {
+      "symbol": "M",
+      "meaning": "matrix used in a rank-n update",
+      "dimensions": "n x k"
+    },
+    {
+      "symbol": "S_tilde",
+      "meaning": "upper Cholesky factor of the augmented matrix A_tilde",
+      "dimensions": "m x m"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "When applicable, the Cholesky decomposition is roughly twice as efficient as the LU decomposition for solving systems of linear equations.",
+      "why": "it exploits Hermitian symmetry and positive-definiteness to factor A directly into triangular factors",
+      "cites": [
+        "wikipedia:Cholesky_decomposition"
+      ]
+    },
+    {
+      "property": "For a symmetric matrix represented in block form, the block LDL^T decomposition yields recursive relations for diagonal blocks D_j = A_jj - sum_{k=1}^{j-1} L_jk D_k L_jk^T and off-diagonal blocks L_ij = (A_ij - sum_{k=1}^{j-1} L_ik D_k L_jk^T) D_j^{-1}.",
+      "why": "multiplying block L, D, and L^T matrices and equating block entries yields these recurrence relations",
+      "cites": [
+        "wikipedia:Cholesky_decomposition"
+      ]
+    },
+    {
+      "property": "The decomposition can be updated after a rank-one perturbation A_tilde = A + c x x* without recomputing the entire decomposition from scratch, provided A_tilde remains positive-definite.",
+      "why": "the existing factor L can be updated directly to yield the new factor L_tilde",
+      "cites": [
+        "wikipedia:Cholesky_decomposition"
+      ]
+    },
+    {
+      "property": "A rank-n update A_tilde = A + M M* can be computed via successive rank-one updates.",
+      "why": "successive rank-one updates are performed for each of the columns of M",
+      "cites": [
+        "wikipedia:Cholesky_decomposition"
+      ]
+    },
+    {
+      "property": "When rows and columns are inserted into or removed from A, the Cholesky factor of the resulting matrix can be found using triangular back/forward substitution and submatrix Cholesky updates.",
+      "why": "block relations equate submatrix products to triangular solves and Schur-type updates of the form A_tilde = A + c x x*",
+      "cites": [
+        "wikipedia:Cholesky_decomposition"
+      ]
+    },
+    {
+      "property": "Every positive semi-definite matrix admits a Cholesky factorization A = L L* with L lower triangular having non-negative diagonal entries.",
+      "why": "it follows by a limiting argument on A_k = A + (1/k) I_n or by applying QR decomposition to the matrix square root B* = Q R yielding A = R* R",
+      "cites": [
+        "wikipedia:Cholesky_decomposition"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Matrix A is Hermitian (or real symmetric) and positive-definite (or positive semi-definite).",
+      "breaks_when": "A is non-Hermitian or indefinite with negative eigenvalues (or non-positive eigenvalues when strict positive-definiteness is required)."
+    },
+    {
+      "assumption": "In a rank-one update A_tilde = A + c x x*, the scalar c must preserve positive-definiteness.",
+      "breaks_when": "c is negative and large enough in magnitude to make A_tilde singular or indefinite."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Factorization breakdown due to lack of positive-definiteness",
+      "signature": "Algorithm encounters zero or negative pivots, or requires square roots/inversions of non-positive entries",
+      "cause": "The input matrix A is indefinite, negative-definite, or singular when strict positive-definiteness is required"
+    },
+    {
+      "mode": "Rank-one update failure",
+      "signature": "Updated factor cannot be formed as a valid positive-definite Cholesky factor",
+      "cause": "A negative scalar c causes the updated matrix A_tilde to lose positive-definiteness"
+    },
+    {
+      "mode": "Block LDL^T inversion bottleneck or singularity",
+      "signature": "Failure or numerical instability when computing D_j^{-1}",
+      "cause": "A diagonal block D_j is singular, ill-conditioned, or too large for practical explicit inversion"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Cholesky_decomposition"
+  ],
+  "check": {
+    "node_id": "cholesky_factorization",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [
+      "expected a derivation, produced a definition"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "node_id": "log_determinant",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The log determinant of an $n \\times n$ matrix $A$ is the logarithm of its determinant, denoted $\\log \\det(A)$ (or $\\log(\\det(A))$).",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "square matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\log \\det(A)",
+      "meaning": "log determinant of matrix A",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "I",
+      "meaning": "identity matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\operatorname{tr}",
+      "meaning": "trace operator",
+      "dimensions": "n x n -> scalar"
+    },
+    {
+      "symbol": "L",
+      "meaning": "matrix logarithm of A satisfying \\exp(L) = A",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "For a positive definite matrix $A$, $\\operatorname{tr}\\left(I - A^{-1}\\right) \\leq \\log \\det(A) \\leq \\operatorname{tr}(A - I)$, with equality if and only if $A = I$.",
+      "why": "follows from bounds given by the trace operator on positive definite matrices (derivable via Kullback\u2013Leibler divergence between two multivariate normal distributions)",
+      "cites": [
+        "wikipedia:Determinant"
+      ]
+    },
+    {
+      "property": "For real matrices $A$, $\\log(\\det(\\exp(A))) = \\operatorname{tr}(A)$; equivalently, given any logarithm $L$ satisfying $\\exp(L) = A$, $\\det(A) = \\exp(\\operatorname{tr}(L))$.",
+      "why": "every eigenvalue $\\lambda$ of $A$ corresponds to the eigenvalue $\\exp(\\lambda)$ of $\\exp(A)$, with determinant equal to the product of eigenvalues and trace equal to their sum",
+      "cites": [
+        "wikipedia:Determinant"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "$A$ is a square matrix with strictly positive determinant, $\\det(A) > 0$ (e.g., a positive definite matrix).",
+      "breaks_when": "$\\det(A) \\leq 0$, where the real logarithm is undefined."
+    },
+    {
+      "assumption": "$A$ is invertible ($0$ is not an eigenvalue of $A$).",
+      "breaks_when": "$0$ is an eigenvalue of $A$, which implies $\\det(A) = 0$."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular matrix",
+      "signature": "$\\det(A) = 0$, so $\\log \\det(A)$ is undefined (or diverges to $-\\infty$).",
+      "cause": "$0$ is an eigenvalue of $A$."
+    },
+    {
+      "mode": "Non-positive determinant",
+      "signature": "Real logarithm cannot be evaluated without complex logarithm extensions.",
+      "cause": "$\\det(A) < 0$, which occurs when the product of the eigenvalues of $A$ is negative."
+    },
+    {
+      "mode": "Singular matrix in trace bound",
+      "signature": "$A^{-1}$ does not exist, causing the lower bound $\\operatorname{tr}(I - A^{-1})$ to fail.",
+      "cause": "$A$ fails to be positive definite and has a zero eigenvalue."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Determinant"
+  ],
+  "check": {
+    "node_id": "log_determinant",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

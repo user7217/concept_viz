@@ -1,0 +1,195 @@
+{
+  "node_id": "condition_number",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The condition number of a function measures how sensitive the function output is to small changes or errors in the input argument, formally defined as the asymptotic worst-case ratio of the relative change in output to the relative change in input: for a function $f$ at a point $x$, $\\lim_{\\varepsilon \\to 0^+} \\sup_{\\|\\delta x\\| \\le \\varepsilon} \\left[ \\frac{\\|f(x+\\delta x) - f(x)\\|}{\\|f(x)\\|} \\Big/ \\frac{\\|\\delta x\\|}{\\|x\\|} \\right]$; for a linear system $Ax = b$ with a nonsingular matrix $A$, it is the maximum ratio of the relative error in $x$ to the relative error in $b$, given by $\\kappa(A) = \\|A^{-1}\\| \\|A\\|$.",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "function mapping data from a domain to a codomain (Banach spaces)",
+      "dimensions": "mapping m-tuples to n-tuples"
+    },
+    {
+      "symbol": "x",
+      "meaning": "input argument or data vector",
+      "dimensions": "m x 1 (or element of domain)"
+    },
+    {
+      "symbol": "f(x)",
+      "meaning": "function output or solution vector",
+      "dimensions": "n x 1 (or element of codomain)"
+    },
+    {
+      "symbol": "\\delta x",
+      "meaning": "small change or perturbation in the input argument x",
+      "dimensions": "m x 1 (or element of domain)"
+    },
+    {
+      "symbol": "A",
+      "meaning": "square or rectangular matrix defining the linear problem Ax = b",
+      "dimensions": "n x n (or m x n)"
+    },
+    {
+      "symbol": "b",
+      "meaning": "right-hand side data vector in linear system Ax = b",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "e",
+      "meaning": "error or perturbation vector in data vector b",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\kappa(A)",
+      "meaning": "condition number of matrix A",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "A^{-1}",
+      "meaning": "matrix inverse of nonsingular matrix A",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "A^\\dagger",
+      "meaning": "Moore-Penrose pseudoinverse of matrix A",
+      "dimensions": "n x m"
+    },
+    {
+      "symbol": "\\|\\cdot\\|",
+      "meaning": "norm on vector space or induced operator norm on matrices",
+      "dimensions": "functional"
+    },
+    {
+      "symbol": "J(x)",
+      "meaning": "Jacobian matrix of partial derivatives of f evaluated at x",
+      "dimensions": "n x m"
+    },
+    {
+      "symbol": "\\sigma_{\\max}(A), \\sigma_{\\min}(A)",
+      "meaning": "maximal and minimal singular values of matrix A",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\lambda(A)",
+      "meaning": "eigenvalues of matrix A",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "For any consistent matrix norm, $\\kappa(A) = \\|A^{-1}\\| \\|A\\| \\ge \\|A^{-1}A\\| = 1$.",
+      "why": "Consistent matrix norms satisfy submultiplicativity $\\|AB\\| \\le \\|A\\| \\|B\\|$",
+      "cites": [
+        "wikipedia:Condition_number"
+      ]
+    },
+    {
+      "property": "Under the matrix norm induced by the Euclidean $L_2$ norm, $\\kappa(A) = \\frac{\\sigma_{\\max}(A)}{\\sigma_{\\min}(A)}$.",
+      "why": "The induced $L_2$ norm of $A$ is its largest singular value and $\\|A^{-1}\\|_2 = 1/\\sigma_{\\min}(A)$",
+      "cites": [
+        "wikipedia:Condition_number"
+      ]
+    },
+    {
+      "property": "If $A$ is a normal matrix, under the $L_2$ norm $\\kappa(A) = \\frac{\\max\\{|\\lambda(A)|\\}}{\\min\\{|\\lambda(A)|\\}}$.",
+      "why": "Singular values of a normal matrix are the moduli of its eigenvalues",
+      "cites": [
+        "wikipedia:Condition_number"
+      ]
+    },
+    {
+      "property": "If $A$ is unitary, then $\\kappa(A) = 1$.",
+      "why": "All singular values of a unitary matrix equal 1",
+      "cites": [
+        "wikipedia:Condition_number"
+      ]
+    },
+    {
+      "property": "If $f$ is differentiable, the relative condition number at $x$ is $\\frac{\\|J(x)\\|}{\\|f(x)\\| / \\|x\\|}$.",
+      "why": "The infinitesimal limit of the relative perturbation ratio converges to the induced norm of the Jacobian $J(x)$ scaled by $\\|x\\|/\\|f(x)\\|$",
+      "cites": [
+        "wikipedia:Condition_number"
+      ]
+    },
+    {
+      "property": "For a differentiable single-variable function $f$, the relative condition number at $x$ is $|x f'(x) / f(x)| = |(\\log f)' / (\\log x)'|$.",
+      "why": "Taking the infinitesimal limit of relative changes yields the ratio of logarithmic derivatives",
+      "cites": [
+        "wikipedia:Condition_number"
+      ]
+    },
+    {
+      "property": "If $\\|\\cdot\\|$ is induced by the $L^\\infty$ norm and $A$ is lower triangular and nonsingular, $\\kappa(A) \\ge \\frac{\\max_i (|a_{ii}|)}{\\min_i (|a_{ii}|)}$.",
+      "why": "The eigenvalues of a triangular matrix are its diagonal entries $a_{ii}$",
+      "cites": [
+        "wikipedia:Condition_number"
+      ]
+    },
+    {
+      "property": "For rectangular or non-invertible matrices, the condition number can be defined as $\\kappa(A) = \\|A\\| \\|A^\\dagger\\|$.",
+      "why": "Replaces the matrix inverse with the Moore-Penrose pseudoinverse $A^\\dagger$",
+      "cites": [
+        "wikipedia:Condition_number"
+      ]
+    },
+    {
+      "property": "If $\\kappa(A) = 10^k$, up to $k$ digits of accuracy may be lost on top of arithmetic precision loss.",
+      "why": "The condition number bounds the worst-case magnification of relative error from input to output",
+      "cites": [
+        "wikipedia:Condition_number"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The matrix $A$ is nonsingular and invertible for the standard formulation $\\kappa(A) = \\|A^{-1}\\| \\|A\\|$.",
+      "breaks_when": "The matrix $A$ is singular or rectangular, requiring the pseudoinverse formulation $A^\\dagger$ or resulting in $\\kappa(A) = \\infty$."
+    },
+    {
+      "assumption": "The input data $x$ and function output $f(x)$ (or linear system vectors $b$ and $x$) are non-zero.",
+      "breaks_when": "The input $x = 0$ or output $f(x) = 0$, which causes division by zero in relative change ratios."
+    },
+    {
+      "assumption": "The norm $\\|\\cdot\\|$ is consistent (submultiplicative).",
+      "breaks_when": "A non-consistent norm is used, invalidating the lower bound $\\kappa(A) \\ge \\|A^{-1}A\\| = 1$."
+    },
+    {
+      "assumption": "The function $f$ is differentiable at point $x$ for the derivative/Jacobian representations.",
+      "breaks_when": "$f$ is not differentiable at $x$, preventing the reduction of the supremum limit to the Jacobian operator norm."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Severe loss of numerical accuracy (ill-conditioning)",
+      "signature": "Computed solution $x$ exhibits large errors despite small errors in input data $b$, losing up to $k$ digits of precision when $\\kappa(A) = 10^k$.",
+      "cause": "Condition number $\\kappa(A)$ is very large, meaning $A$ is nearly singular and strongly magnifies input inaccuracies."
+    },
+    {
+      "mode": "Infinite condition number (ill-posed problem)",
+      "signature": "$\\kappa(A) = \\infty$, and numerical algorithms fail to reliably determine a solution.",
+      "cause": "The matrix $A$ is non-invertible/singular, meaning the system does not possess a unique, well-defined solution for each choice of data."
+    },
+    {
+      "mode": "Vanishing output denominator (singularity at roots)",
+      "signature": "Relative condition number of $f$ diverges to infinity at $x$.",
+      "cause": "$f(x) = 0$, causing infinitesimal changes in input to produce an infinite relative change in output due to division by zero."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Condition_number"
+  ],
+  "check": {
+    "node_id": "condition_number",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

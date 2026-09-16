@@ -1,0 +1,129 @@
+{
+  "node_id": "characteristic_polynomial",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For an n x n square matrix A, the characteristic polynomial is the monic polynomial of degree n defined by p_A(t) = det(tI - A), whose roots are precisely the eigenvalues of A.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "Square matrix representing a linear transformation",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "v",
+      "meaning": "Non-zero eigenvector corresponding to eigenvalue \u03bb",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\u03bb",
+      "meaning": "Eigenvalue scalar corresponding to eigenvector v",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "I",
+      "meaning": "Identity matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "t",
+      "meaning": "Indeterminate variable of the polynomial",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_A(t)",
+      "meaning": "Characteristic polynomial of matrix A",
+      "dimensions": "degree n polynomial"
+    },
+    {
+      "symbol": "n",
+      "meaning": "Dimension of the square matrix A",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "For a linear transformation represented by a square matrix A, an eigenvector v and the corresponding eigenvalue \u03bb satisfy the equation A v = \u03bb v, with v \u2260 0.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Characteristic_polynomial"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Rewriting \u03bb v as \u03bb I v, the eigenvalue equation is equivalently expressed as (\u03bb I - A) v = 0.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Characteristic_polynomial"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Because the eigenvector must be non-zero (v \u2260 0), the matrix (\u03bb I - A) must be singular, which requires its determinant to vanish: det(\u03bb I - A) = 0.",
+      "invokes": [
+        "determinant"
+      ],
+      "cites": [
+        "wikipedia:Characteristic_polynomial"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Replacing the scalar \u03bb with an indeterminate variable t (or x), the eigenvalues of A are the roots of det(tI - A) = 0, which defines the characteristic polynomial p_A(t) = det(tI - A), a monic polynomial in t of degree n.",
+      "invokes": [
+        "polynomial_root_finding"
+      ],
+      "cites": [
+        "wikipedia:Characteristic_polynomial"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "A is a square matrix (n x n)",
+      "breaks_when": "A is rectangular (m x n with m \u2260 n), making tI - A undefined and preventing determinant computation"
+    },
+    {
+      "assumption": "The eigenvector v is non-zero (v \u2260 0)",
+      "breaks_when": "v = 0, which trivially satisfies (\u03bbI - A)v = 0 for every \u03bb and fails to force singularity of (\u03bbI - A)"
+    },
+    {
+      "assumption": "The scalar field is algebraically closed when full factorization into linear factors is required",
+      "breaks_when": "The matrix entries belong to a field that is not algebraically closed (such as the real numbers) and roots of p_A(t) lie in an extension field"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Non-square matrix input",
+      "signature": "Matrix dimension mismatch in tI - A; determinant cannot be evaluated",
+      "cause": "A has non-equal row and column dimensions (m \u2260 n)"
+    },
+    {
+      "mode": "Inclusion of trivial zero vector",
+      "signature": "Every scalar \u03bb appears as a solution to A v = \u03bb v",
+      "cause": "v = 0 satisfies the linear equation for any \u03bb without requiring det(\u03bbI - A) = 0"
+    },
+    {
+      "mode": "Absence of eigenvalues in the base field",
+      "signature": "p_A(t) has no roots or incomplete linear factorization over the base field",
+      "cause": "The base field is not algebraically closed (e.g., real matrices with complex conjugate eigenvalues)"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Characteristic_polynomial"
+  ],
+  "check": {
+    "node_id": "characteristic_polynomial",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

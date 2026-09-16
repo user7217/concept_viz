@@ -1,0 +1,107 @@
+{
+  "node_id": "eigendecomposition",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The eigendecomposition (or eigenvalue decomposition) of an n x n diagonalizable matrix A is the factorization A = P D P^{-1} (or A = Q \\Lambda Q^{-1}), where P (or Q) is an n x n invertible matrix whose columns are eigenvectors of A, and D (or \\Lambda) is an n x n diagonal matrix whose diagonal entries are the corresponding eigenvalues of A.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "matrix to be decomposed",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "P",
+      "meaning": "matrix whose columns are eigenvectors of A (also denoted Q)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "D",
+      "meaning": "diagonal matrix whose diagonal entries are the eigenvalues of A (also denoted \\Lambda)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "u",
+      "meaning": "eigenvector corresponding to eigenvalue \\lambda",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\lambda",
+      "meaning": "eigenvalue associated with eigenvector u",
+      "dimensions": "1 x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Matrix inverse via eigendecomposition: If A can be eigendecomposed and none of its eigenvalues are zero, then A is invertible and A^{-1} = Q \\Lambda^{-1} Q^{-1}, where [\\Lambda^{-1}]_{ii} = 1 / \\lambda_i.",
+      "why": "diagonal matrices invert by taking reciprocals of diagonal elements and matrix products invert in reverse order",
+      "cites": [
+        "wikipedia:Eigendecomposition_of_a_matrix"
+      ]
+    },
+    {
+      "property": "Matrix powers and functional calculus: For a function given by a power series f(x), f(A) = Q f(\\Lambda) Q^{-1}, where [f(\\Lambda)]_{ii} = f(\\lambda_i), yielding powers A^n = Q \\Lambda^n Q^{-1} and matrix exponential exp(A) = Q exp(\\Lambda) Q^{-1}.",
+      "why": "interior eigenvector matrices cancel via Q^{-1} Q = I and diagonal matrices evaluate functions elementwise on their eigenvalues",
+      "cites": [
+        "wikipedia:Eigendecomposition_of_a_matrix"
+      ]
+    },
+    {
+      "property": "Unitary decomposition of normal matrices: A complex square matrix A is normal (A^* A = A A^*) if and only if A = U \\Lambda U^*, where U is unitary (U^* = U^{-1}) and its columns form an orthonormal basis of eigenvectors.",
+      "why": "normal matrices have a complete orthonormal set of eigenvectors",
+      "cites": [
+        "wikipedia:Eigendecomposition_of_a_matrix"
+      ]
+    },
+    {
+      "property": "Orthogonal decomposition of real symmetric matrices: For every n x n real symmetric matrix A, eigenvalues are real and eigenvectors can be chosen real and orthonormal, yielding A = Q \\Lambda Q^T where Q is an orthogonal matrix (Q^{-1} = Q^T).",
+      "why": "real symmetric matrices are normal with real eigenvalues and orthogonal eigenvectors",
+      "cites": [
+        "wikipedia:Eigendecomposition_of_a_matrix"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The matrix A is diagonalizable (possesses a complete set of n linearly independent eigenvectors).",
+      "breaks_when": "A does not have a complete set of linearly independent eigenvectors, making the eigenvector matrix singular and non-invertible."
+    },
+    {
+      "assumption": "None of the eigenvalues of A are zero when forming the matrix inverse A^{-1} = Q \\Lambda^{-1} Q^{-1}.",
+      "breaks_when": "At least one eigenvalue \\lambda_i = 0, causing division by zero in [\\Lambda^{-1}]_{ii} = 1 / \\lambda_i."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Noise amplification in inversion from empirical/measured data",
+      "signature": "Inverse matrix calculation becomes unstable or dominated by measurement noise, hampering detection or inversion solutions.",
+      "cause": "Eigenvalues near zero or at the measurement noise level produce disproportionately large 1/\\lambda_i terms in \\Lambda^{-1}."
+    },
+    {
+      "mode": "Singular eigenvector matrix",
+      "signature": "det(Q) = 0, so Q^{-1} does not exist.",
+      "cause": "The matrix A is defective and lacks a full set of linearly independent eigenvectors."
+    },
+    {
+      "mode": "Non-orthogonal eigenvectors in general non-normal matrices",
+      "signature": "<u_1, u_2> != 0 for distinct eigenvalues, preventing the use of Q^{-1} = Q^T.",
+      "cause": "The matrix A is not normal or symmetric, so eigenvectors corresponding to distinct eigenvalues are not guaranteed to be orthogonal."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Eigendecomposition_of_a_matrix"
+  ],
+  "check": {
+    "node_id": "eigendecomposition",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

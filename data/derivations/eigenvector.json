@@ -1,0 +1,126 @@
+{
+  "node_id": "eigenvector",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Let V be a vector space over a field K of scalars, and let T: V -> V be a linear transformation. A nonzero vector v in V is an eigenvector of T corresponding to eigenvalue lambda in K if and only if T(v) = lambda * v. In matrix form for an n x n square matrix A, an eigenvector is a nonzero vector v satisfying A * v = lambda * v, or equivalently (A - lambda * I) * v = 0.",
+  "symbols": [
+    {
+      "symbol": "v",
+      "meaning": "eigenvector (a nonzero characteristic vector)",
+      "dimensions": "vector in V (or n x 1)"
+    },
+    {
+      "symbol": "T",
+      "meaning": "linear transformation mapping vector space V to itself",
+      "dimensions": "V -> V"
+    },
+    {
+      "symbol": "A",
+      "meaning": "matrix representation of a linear transformation",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "lambda",
+      "meaning": "eigenvalue associated with the eigenvector",
+      "dimensions": "scalar in K"
+    },
+    {
+      "symbol": "I",
+      "meaning": "identity matrix or identity transformation",
+      "dimensions": "n x n (or operator on V)"
+    },
+    {
+      "symbol": "V",
+      "meaning": "vector space over scalar field K",
+      "dimensions": "vector space"
+    },
+    {
+      "symbol": "K",
+      "meaning": "field of scalars",
+      "dimensions": "field"
+    },
+    {
+      "symbol": "E",
+      "meaning": "eigenspace (characteristic space) associated with lambda, equal to {v : T(v) = lambda * v}",
+      "dimensions": "subspace of V"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Any nonzero scalar multiple of an eigenvector is also an eigenvector corresponding to the same eigenvalue.",
+      "why": "Linearity of T gives T(alpha * v) = alpha * T(v) = alpha * lambda * v = lambda * (alpha * v)",
+      "cites": [
+        "wikipedia:Eigenvalues_and_eigenvectors"
+      ]
+    },
+    {
+      "property": "The set of all eigenvectors associated with an eigenvalue lambda together with the zero vector forms the eigenspace E = {v : T(v) = lambda * v}, which is the kernel of the linear transformation T - lambda * I.",
+      "why": "T(v) = lambda * v is equivalent to (T - lambda * I)v = 0",
+      "cites": [
+        "wikipedia:Eigenvalues_and_eigenvectors"
+      ]
+    },
+    {
+      "property": "For an n x n matrix A, eigenvectors associated with lambda are nontrivial solutions to (A - lambda * I)v = 0, which exist if and only if det(A - lambda * I) = 0.",
+      "why": "Nontrivial solutions to the homogeneous linear system require the matrix (A - lambda * I) to be singular",
+      "cites": [
+        "wikipedia:Eigenvalues_and_eigenvectors"
+      ]
+    },
+    {
+      "property": "For differential operators acting on infinite-dimensional function spaces, functions satisfying D f(t) = lambda * f(t) are eigenvectors commonly called eigenfunctions.",
+      "why": "Differential operators are linear transformations acting on function spaces",
+      "cites": [
+        "wikipedia:Eigenvalues_and_eigenvectors"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The vector v must be nonzero (v != 0).",
+      "breaks_when": "v = 0, which satisfies T(0) = lambda * 0 trivially for every scalar lambda and is explicitly excluded by definition."
+    },
+    {
+      "assumption": "The transformation T maps a vector space into itself (T: V -> V, or matrix A is square n x n).",
+      "breaks_when": "T maps between different spaces V -> W where V != W (or A is rectangular m x n with m != n), making T(v) and lambda * v elements of different spaces that cannot be equated."
+    },
+    {
+      "assumption": "The scalar lambda belongs to the base field K of the vector space V.",
+      "breaks_when": "The roots of the characteristic polynomial lie outside the scalar field K (e.g., complex eigenvalues for a vector space defined strictly over the real field R)."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zero vector chosen as an eigenvector",
+      "signature": "v = 0 is identified as an eigenvector",
+      "cause": "Violating the defining condition that an eigenvector must be a nonzero vector."
+    },
+    {
+      "mode": "No nonzero solutions to (A - lambda * I)v = 0",
+      "signature": "(A - lambda * I)v = 0 yields only the trivial solution v = 0",
+      "cause": "The parameter lambda is not a root of det(A - lambda * I) = 0, meaning (A - lambda * I) is invertible with a trivial kernel."
+    },
+    {
+      "mode": "Absence of real eigenvectors due to complex eigenvalues",
+      "signature": "No vectors with real entries satisfy A * v = lambda * v",
+      "cause": "The matrix has complex conjugate eigenvalues whose corresponding eigenvectors have imaginary components, which do not exist in R^n."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Eigenvalues_and_eigenvectors"
+  ],
+  "check": {
+    "node_id": "eigenvector",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}
