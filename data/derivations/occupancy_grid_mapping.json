@@ -1,0 +1,139 @@
+{
+  "node_id": "occupancy_grid_mapping",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied source contains no derivation (the log-odds update derivation and recursive substitution are absent from the source). Occupancy grid mapping defines a map $m$ as an evenly spaced grid of binary random variables $m_i$ representing obstacle presence at locations in continuous space, approximating the joint posterior probability over maps given sensor measurements $z_{1:t}$ and known robot poses $x_{1:t}$ by the factored product of marginal grid cell probabilities: $p(m \\mid z_{1:t}, x_{1:t}) = \\prod_{i} p(m_i \\mid z_{1:t}, x_{1:t})$.",
+  "symbols": [
+    {
+      "symbol": "m",
+      "meaning": "map of the environment represented as an evenly spaced field of binary random variables",
+      "dimensions": "field of binary cells"
+    },
+    {
+      "symbol": "m_i",
+      "meaning": "binary random variable indicating whether grid cell i is occupied",
+      "dimensions": "binary scalar \\in {0, 1}"
+    },
+    {
+      "symbol": "z_{1:t}",
+      "meaning": "sequence of sensor measurements from time 1 to t",
+      "dimensions": "set of measurements"
+    },
+    {
+      "symbol": "x_{1:t}",
+      "meaning": "sequence of known robot poses from time 1 to t",
+      "dimensions": "set of poses"
+    },
+    {
+      "symbol": "p(m \\mid z_{1:t}, x_{1:t})",
+      "meaning": "posterior probability over maps given measurement data and known robot poses",
+      "dimensions": "scalar \\in [0, 1]"
+    },
+    {
+      "symbol": "p(m_i \\mid z_{1:t}, x_{1:t})",
+      "meaning": "posterior probability that cell i is occupied given measurement data and known robot poses",
+      "dimensions": "scalar \\in [0, 1]"
+    },
+    {
+      "symbol": "p(m_i)",
+      "meaning": "probability that grid cell i is occupied",
+      "dimensions": "scalar \\in [0, 1]"
+    },
+    {
+      "symbol": "i",
+      "meaning": "grid cell index (or pair of indices for two dimensions)",
+      "dimensions": "integer index"
+    },
+    {
+      "symbol": "t",
+      "meaning": "time index",
+      "dimensions": "integer index"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The full map posterior is approximated by factoring into a product of individual cell posteriors: p(m \\mid z_{1:t}, x_{1:t}) = \\prod_{i} p(m_i \\mid z_{1:t}, x_{1:t})",
+      "why": "Breaks down a computationally intractable 2^{N} dimensional estimation problem into N separate binary estimation problems",
+      "cites": [
+        "wikipedia:Occupancy_grid_mapping"
+      ]
+    },
+    {
+      "property": "A binary Bayes filter can be used to estimate the occupancy probability for each individual grid cell",
+      "why": "The factorization decomposes the estimation problem into independent binary problems",
+      "cites": [
+        "wikipedia:Occupancy_grid_mapping"
+      ]
+    },
+    {
+      "property": "Occupancy probabilities for each cell are commonly maintained in a log-odds representation",
+      "why": "It is a standard representation used in conjunction with binary Bayes filters for estimating cell occupancy",
+      "cites": [
+        "wikipedia:Occupancy_grid_mapping"
+      ]
+    },
+    {
+      "property": "Dependencies between neighboring cells are not modeled",
+      "why": "The independent cell breakdown loses spatial correlation structure in exchange for tractability",
+      "cites": [
+        "wikipedia:Occupancy_grid_mapping"
+      ]
+    },
+    {
+      "property": "Controls and odometry data play no part in the mapping algorithm",
+      "why": "The robot path x_{1:t} is assumed to be known",
+      "cites": [
+        "wikipedia:Occupancy_grid_mapping"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The robot pose trajectory x_{1:t} is known exactly",
+      "breaks_when": "Robot localization is noisy, uncertain, or unobserved, requiring controls and odometry to estimate poses jointly with the map"
+    },
+    {
+      "assumption": "The joint map posterior can be factored into a product of independent marginal cell posteriors",
+      "breaks_when": "Dependencies and correlations between neighboring cells are significant and cannot be neglected"
+    },
+    {
+      "assumption": "The environment is discretized into an evenly spaced field of binary static cells",
+      "breaks_when": "The environment contains dynamic moving obstacles or continuous/multi-state occupancy characteristics"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Loss of inter-cell dependency structure",
+      "signature": "Inability to model spatial relationships and correlations across adjacent cells",
+      "cause": "Approximating the joint posterior p(m \\mid z_{1:t}, x_{1:t}) by the independent product factorization \\prod_i p(m_i \\mid z_{1:t}, x_{1:t})"
+    },
+    {
+      "mode": "Combinatorial state space explosion",
+      "signature": "Computational infeasibility with 2^{N} possible map states (e.g., 2^{10,000} for 10,000 cells)",
+      "cause": "Attempting to compute the full posterior over all map configurations directly without factoring into individual cells"
+    },
+    {
+      "mode": "Map inconsistency due to localization error",
+      "signature": "Distorted, blurry, or duplicated obstacles in the generated map",
+      "cause": "Violation of the assumption that robot path and poses x_{1:t} are known exactly"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Occupancy_grid_mapping"
+  ],
+  "check": {
+    "node_id": "occupancy_grid_mapping",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [
+      "expected a derivation, produced a definition"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

@@ -271,7 +271,14 @@ class Graph:
 
         The product query: given a subsystem or the whole system, collect every
         algorithm under it and return the union of their prerequisites in
-        dependency order, cut at the reader's floor.
+        dependency order, cut at the reader's floor -- then the algorithm
+        itself, which is the thing all of it was prerequisite to.
+
+        Leaving the algorithm out is how extended_kalman_filter, a_star and
+        occupancy_grid_mapping ended up as the only three nodes a reader
+        reaches by descending from a component and the only three with no
+        sheet: an algorithm hangs off its component by USES, and a walk over
+        REQUIRES never meets it.
         """
         algorithms = self.algorithms_under(node_id)
         # The assumed tier is a DEFAULT for a reader who has said nothing, not an
@@ -294,6 +301,8 @@ class Graph:
             for prerequisite in self.syllabus(algorithm, known):
                 if prerequisite in wanted and prerequisite not in ordered:
                     ordered.append(prerequisite)
+            if algorithm not in known and algorithm not in ordered:
+                ordered.append(algorithm)
         return ordered
 
     # ---------- validation ----------

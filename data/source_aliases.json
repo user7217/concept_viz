@@ -132,7 +132,8 @@
       "Logit"
     ],
     "log_odds_transformation": [
-      "Logit"
+      "Logit",
+      "Logistic function"
     ],
     "log_of_product_to_sum": [
       "Logarithm"
@@ -301,6 +302,10 @@
     "relaxation": [
       "Bellman\u2013Ford algorithm",
       "Dijkstra's algorithm"
+    ],
+    "extended_kalman_filter": [
+      "Extended Kalman filter",
+      "Kalman filter"
     ]
   }
 }

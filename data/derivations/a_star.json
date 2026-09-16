@@ -1,0 +1,133 @@
+{
+  "node_id": "a_star",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A* is a graph traversal and pathfinding algorithm that finds the shortest path from a given start node to a goal node on a weighted graph by selecting nodes n to expand according to the evaluation function f(n) = g(n) + h(n), where g(n) is the cost of the path from the start node to n, and h(n) is a heuristic estimate of the cost from n to the goal.",
+  "symbols": [
+    {
+      "symbol": "n",
+      "meaning": "a node in the search graph",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "f(n)",
+      "meaning": "total evaluation function value for node n, estimating the cost of the path from the start through n to the goal",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "g(n)",
+      "meaning": "cost of the path from the start node to node n",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "h(n)",
+      "meaning": "heuristic function estimating the distance or cost from node n to the goal node",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "C^*",
+      "meaning": "cost of the optimal path from the start node to the goal node",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "A* is complete and terminates on finite graphs with non-negative edge weights whenever a path to the goal exists.",
+      "why": "finite graphs with non-negative edge weights have a finite number of candidate paths",
+      "cites": [
+        "wikipedia:A*_search_algorithm"
+      ]
+    },
+    {
+      "property": "A* is admissible (guaranteed to return an optimal shortest path) if the heuristic function h(n) is admissible.",
+      "why": "at any time the open set contains a node on an optimal path whose f-value underestimates the optimal goal cost C*",
+      "cites": [
+        "wikipedia:A*_search_algorithm"
+      ]
+    },
+    {
+      "property": "If h(n) is consistent, A* never needs to re-expand closed nodes and is optimally efficient up to tie-breaking among all admissible A*-like algorithms.",
+      "why": "removing a node from the open set under a consistent heuristic guarantees the path to it is already optimal",
+      "cites": [
+        "wikipedia:A*_search_algorithm"
+      ]
+    },
+    {
+      "property": "In the worst case, A* expands all nodes n satisfying f(n) = g(n) + h(n) <= C* and never expands any node with f(n) > C*.",
+      "why": "the goal node has f(goal) = C* and is expanded before any node with a higher evaluation value",
+      "cites": [
+        "wikipedia:A*_search_algorithm"
+      ]
+    },
+    {
+      "property": "Dijkstra's algorithm is a special case of A* with h(x) = 0 for all nodes x.",
+      "why": "setting the heuristic to zero reduces the evaluation function f(n) to the traveled path cost g(n)",
+      "cites": [
+        "wikipedia:A*_search_algorithm"
+      ]
+    },
+    {
+      "property": "On infinite graphs with finite branching factor and edge costs bounded away from zero (d(x, y) > epsilon > 0), A* is guaranteed to terminate if a solution exists.",
+      "why": "strictly positive lower-bounded edge weights prevent infinite paths of finite cost",
+      "cites": [
+        "wikipedia:A*_search_algorithm"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Graph edge weights are non-negative.",
+      "breaks_when": "Edges have negative costs, which invalidates termination and completeness guarantees on finite graphs."
+    },
+    {
+      "assumption": "The heuristic function h(n) is admissible (does not overestimate the true cost to the goal).",
+      "breaks_when": "h(n) overestimates the remaining cost to the goal, which can cause A* to return a suboptimal path."
+    },
+    {
+      "assumption": "For infinite graphs, the branching factor is finite and edge costs are bounded away from zero by some fixed epsilon > 0.",
+      "breaks_when": "An infinite graph has an infinite branching factor or edge costs that can approach zero arbitrarily closely, causing non-termination."
+    },
+    {
+      "assumption": "Nodes reached via cheaper paths are reopened in the open set (graph-search version) unless the heuristic is consistent.",
+      "breaks_when": "The tree-search version without reopening is executed with an admissible but inconsistent heuristic, which fails to guarantee optimality."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Exponential node re-expansions",
+      "signature": "A* performs an exponential number of loop iterations and can be severely outperformed by Dijkstra's algorithm.",
+      "cause": "The heuristic is admissible but not consistent, leading to nodes being repeatedly reopened and expanded when reached by cheaper paths."
+    },
+    {
+      "mode": "Memory exhaustion",
+      "signature": "The search runs out of memory before reaching the goal.",
+      "cause": "A* stores all generated nodes in memory in the open and closed sets."
+    },
+    {
+      "mode": "Non-termination on infinite graphs",
+      "signature": "The algorithm executes indefinitely without returning a path or terminating.",
+      "cause": "The graph is infinite and no path to the goal exists, or edge costs are not bounded away from zero."
+    },
+    {
+      "mode": "Suboptimal path returned",
+      "signature": "The path returned by A* has a total cost strictly greater than the optimal cost C*.",
+      "cause": "The heuristic function is not admissible, or closed nodes are not reopened despite the heuristic being inconsistent."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:A*_search_algorithm"
+  ],
+  "check": {
+    "node_id": "a_star",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

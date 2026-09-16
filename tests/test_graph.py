@@ -184,3 +184,36 @@ class TestAmendmentOrdering(unittest.TestCase):
         closure = self.graph.requires_closure("a_star")
         for stray in ("convexity", "hessian_matrix", "positive_semidefinite_matrix"):
             self.assertNotIn(stray, closure, f"{stray} leaked into A*")
+
+
+class TestPathEndsAtTheAlgorithm(unittest.TestCase):
+    def test_the_algorithm_is_the_last_thing_on_its_own_path(self) -> None:
+        from atlas.architecture import apply, propose
+        from atlas.bootstrap import build_graph, load
+        from atlas.schema import Node, NodeType, Relation, Tier
+
+        graph = build_graph(load())
+        graph.add_node(Node("rig", NodeType.SYSTEM, "rig", Tier.ASSUMED))
+        graph.add_node(Node("rig__loc", NodeType.SUBSYSTEM, "Loc", Tier.ASSUMED))
+        graph.add_node(Node("rig__ekf", NodeType.COMPONENT, "ekf", Tier.ASSUMED))
+        graph.add_edge("rig", "rig__loc", Relation.CONTAINS)
+        graph.add_edge("rig__loc", "rig__ekf", Relation.CONTAINS)
+        graph.add_edge("rig__ekf", "extended_kalman_filter", Relation.USES)
+
+        path = graph.learning_path("rig__loc")
+        self.assertIn("extended_kalman_filter", path)
+        self.assertEqual(path[-1], "extended_kalman_filter")
+        # and every prerequisite still comes before it
+        self.assertTrue(len(path) > 1)
+
+    def test_an_algorithm_the_reader_knows_is_not_re_listed(self) -> None:
+        from atlas.bootstrap import build_graph, load
+        from atlas.schema import Node, NodeType, Relation, Tier
+
+        graph = build_graph(load())
+        graph.add_node(Node("rig2", NodeType.SYSTEM, "rig2", Tier.ASSUMED))
+        graph.add_node(Node("rig2__c", NodeType.COMPONENT, "c", Tier.ASSUMED))
+        graph.add_edge("rig2", "rig2__c", Relation.CONTAINS)
+        graph.add_edge("rig2__c", "extended_kalman_filter", Relation.USES)
+        path = graph.learning_path("rig2", known={"extended_kalman_filter"})
+        self.assertNotIn("extended_kalman_filter", path)

@@ -323,6 +323,11 @@
       "from": "weighted_graph",
       "to": "edge_weight",
       "why": "backwards: a weighted graph is the structure and an edge weight is a property of it, so the dependency runs the other way"
+    },
+    {
+      "from": "log_odds",
+      "to": "log_odds_transformation",
+      "why": "log-odds is the quantity ln(p/(1-p)); inverting it back to p is a move performed ON it, not something the definition depends on. The edge made a definition inherit 'expected: derivation' and fail its shape check forever."
     }
   ],
   "retarget_edges": [
