@@ -1,0 +1,126 @@
+{
+  "node_id": "bernoulli_distribution",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The Bernoulli distribution is the discrete probability distribution of a random variable $X$ that takes the value $1$ with probability $p$ and the value $0$ with probability $q = 1 - p$, having probability mass function $f(k; p) = p^k (1 - p)^{1 - k}$ for $k \\in \\{0, 1\\}$ (equivalently $f(k; p) = pk + (1 - p)(1 - k)$).",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "Bernoulli distributed random variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p",
+      "meaning": "probability of outcome 1 (success probability)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "q",
+      "meaning": "probability of outcome 0, equal to 1 - p (failure probability)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "k",
+      "meaning": "possible outcome value in {0, 1}",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f(k; p)",
+      "meaning": "probability mass function",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The expected value is $\\operatorname{E}[X] = p$",
+      "why": "expectation over binary outcomes gives $\\Pr(X=1) \\cdot 1 + \\Pr(X=0) \\cdot 0 = p \\cdot 1 + q \\cdot 0 = p$",
+      "cites": [
+        "wikipedia:Bernoulli_distribution"
+      ]
+    },
+    {
+      "property": "The variance is $\\operatorname{Var}[X] = pq = p(1 - p)$",
+      "why": "evaluated from $\\operatorname{E}[X^2] - (\\operatorname{E}[X])^2 = p - p^2 = p(1 - p)$",
+      "cites": [
+        "wikipedia:Bernoulli_distribution"
+      ]
+    },
+    {
+      "property": "All raw moments are identical: $\\operatorname{E}[X^k] = p$ for integer $k \\ge 1$",
+      "why": "$1^k = 1$ and $0^k = 0$ for all positive powers $k$",
+      "cites": [
+        "wikipedia:Bernoulli_distribution"
+      ]
+    },
+    {
+      "property": "The skewness is $\\frac{q - p}{\\sqrt{pq}} = \\frac{1 - 2p}{\\sqrt{pq}}$",
+      "why": "computed from the standardized third central moment $\\operatorname{E}[((X - \\operatorname{E}[X])/\\sqrt{\\operatorname{Var}[X]})^3]$",
+      "cites": [
+        "wikipedia:Bernoulli_distribution"
+      ]
+    },
+    {
+      "property": "The entropy is $H(X) = -(q \\ln q + p \\ln p)$",
+      "why": "defined as $\\mathbb{E}_p[\\ln(1/\\Pr(X))] = -\\Pr(X=0)\\ln\\Pr(X=0) - \\Pr(X=1)\\ln\\Pr(X=1)$",
+      "cites": [
+        "wikipedia:Bernoulli_distribution"
+      ]
+    },
+    {
+      "property": "The Fisher information with respect to $p$ is $I(p) = \\frac{1}{pq} = \\frac{1}{p(1 - p)}$",
+      "why": "the negative expected value of the second derivative of the log-likelihood function",
+      "cites": [
+        "wikipedia:Bernoulli_distribution"
+      ]
+    },
+    {
+      "property": "The sum of $n$ i.i.d. Bernoulli random variables follows a binomial distribution $\\sum_{k=1}^n X_k \\sim \\operatorname{B}(n, p)$",
+      "why": "the Bernoulli distribution corresponds to the special case of a binomial trial with $n = 1$",
+      "cites": [
+        "wikipedia:Bernoulli_distribution"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The random variable $X$ has binary support restricted to outcomes $\\{0, 1\\}$",
+      "breaks_when": "The outcomes are arbitrary non-binary values or take values other than 0 and 1"
+    },
+    {
+      "assumption": "The success parameter $p$ lies in the valid probability interval $0 \\le p \\le 1$",
+      "breaks_when": "$p < 0$ or $p > 1$"
+    },
+    {
+      "assumption": "Only a single trial is performed ($n = 1$)",
+      "breaks_when": "Multiple independent trials are performed, which generalizes to a binomial distribution with $n > 1$"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Boundary probability degeneracy",
+      "signature": "Variance becomes 0, while skewness and Fisher information $I(p) = 1/(pq)$ are undefined due to division by zero",
+      "cause": "When $p = 0$ or $p = 1$, the distribution becomes deterministic with zero variance and $pq = 0$"
+    },
+    {
+      "mode": "Kurtosis divergence",
+      "signature": "Excess kurtosis diverges toward infinity",
+      "cause": "Occurs when $p$ approaches either 0 or 1, making one outcome vanishingly rare relative to the other"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Bernoulli_distribution"
+  ],
+  "check": {
+    "node_id": "bernoulli_distribution",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

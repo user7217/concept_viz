@@ -130,9 +130,16 @@ canvas.dragging{cursor:grabbing}
 .edgepanel .pair{font-family:var(--mono);font-size:12px;color:var(--ink);
   word-break:break-word}
 .closebtn.small{top:8px;right:8px;padding:2px 6px;font-size:12px}
-.drawer{position:absolute;top:0;right:0;width:clamp(340px,32vw,470px);max-width:92%;height:100%;
+.drawer{position:absolute;top:0;right:0;width:var(--drawer-w,clamp(360px,34vw,520px));
+  max-width:96%;height:100%;
   background:var(--surface);border-left:1px solid var(--line);box-shadow:var(--shadow);
-  overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px}
+  overflow-y:auto;padding:20px 20px 20px 26px;display:flex;flex-direction:column;gap:14px}
+.grip{position:absolute;left:0;top:0;width:11px;height:100%;cursor:col-resize;
+  background:transparent;z-index:3}
+.grip::after{content:"";position:absolute;left:4px;top:50%;transform:translateY(-50%);
+  width:3px;height:44px;border-radius:2px;background:var(--line)}
+.grip:hover::after,.grip:focus-visible::after{background:var(--concept);height:76px}
+body.resizing{cursor:col-resize;user-select:none}
 .drawer[hidden]{display:none!important}
 .drawer h2{font-family:var(--serif);font-weight:500;font-size:22px;margin:0;
   letter-spacing:-.01em;text-wrap:balance}
@@ -154,8 +161,10 @@ canvas.dragging{cursor:grabbing}
   font-family:var(--mono);font-size:10.5px;color:var(--muted);flex-wrap:wrap}
 .snippet header b{color:var(--ink);font-weight:500;word-break:break-all}
 .snippet pre{margin:0;overflow-x:auto;padding:7px 0;background:var(--surface)}
-.snippet code{font-family:var(--mono);font-size:11.5px;line-height:1.55;
+.snippet code{font-family:var(--mono);font-size:12px;line-height:1.5;
   display:block;white-space:pre}
+.snippet pre::-webkit-scrollbar{height:9px}
+.snippet pre::-webkit-scrollbar-thumb{background:var(--line);border-radius:5px}
 .snippet .ln{display:inline-block;width:34px;text-align:right;padding-right:10px;
   color:var(--faint);user-select:none}
 .snippet .row{display:block;padding:0 9px 0 0}
@@ -259,6 +268,8 @@ canvas.dragging{cursor:grabbing}
       <p class="meta" id="e-why"></p>
     </div>
     <div class="drawer" id="drawer" hidden>
+      <div class="grip" id="grip" role="separator" aria-orientation="vertical"
+           aria-label="Resize panel" tabindex="0"></div>
       <button class="closebtn" id="close" aria-label="Close">✕</button>
       <div>
         <h2 id="d-name"></h2>
@@ -894,14 +905,32 @@ document.getElementById('e-close').onclick = () => {
 /* A trackpad sends pinch as wheel+ctrlKey and two-finger scroll as plain
    wheel with both deltas. Treating every wheel event as zoom made the graph
    impossible to move: the only way to see the left edge was to zoom out. */
+/* Keep the point under the cursor fixed while zooming, the way a browser
+   does. Zooming about the canvas centre sends whatever you were looking at
+   off the edge, which is most of why this felt unusable. */
+function zoomAt(factor, mx, my) {
+  const before = target.zoom;
+  const after = Math.max(0.15, Math.min(8, before * factor));
+  if (after === before) return;
+  target.px += (mx - cw / 2) * (1 / after - 1 / before);
+  target.py += (ch / 2 - my) * (1 / before - 1 / after);
+  target.zoom = after;
+  view.px = target.px; view.py = target.py; view.zoom = target.zoom;
+}
+
 canvas.addEventListener('wheel', e => {
   e.preventDefault();
+  const r = canvas.getBoundingClientRect();
+  const mx = e.clientX - r.left, my = e.clientY - r.top;
   if (e.ctrlKey || e.metaKey) {
-    const factor = Math.exp(-e.deltaY * 0.01);
-    target.zoom = Math.max(0.15, Math.min(8, target.zoom * factor));
+    // macOS reports a trackpad pinch as wheel + ctrlKey
+    zoomAt(Math.exp(-e.deltaY * 0.012), mx, my);
   } else {
+    // Content follows the fingers. `py` grows downward on screen, and macOS
+    // natural scrolling reports a downward swipe as a negative deltaY, so
+    // adding it dragged the graph the wrong way -- up was down.
     target.px -= e.deltaX / target.zoom;
-    target.py += e.deltaY / target.zoom;
+    target.py -= e.deltaY / target.zoom;
   }
   frame();
 }, { passive: false });
@@ -1082,6 +1111,42 @@ function select(id) {
   else { st.textContent = 'No sheet generated for this node yet.'; st.className = 'empty'; }
   frame();
 }
+/* A floating panel would cover the graph you are turning, so the panel is
+   docked and the edge is draggable instead. Width survives a reload. */
+const drawerEl = document.getElementById('drawer');
+const MIN_W = 320;
+function setDrawerWidth(px) {
+  const max = Math.min(window.innerWidth * 0.96, 980);
+  const w = Math.round(Math.max(MIN_W, Math.min(max, px)));
+  document.documentElement.style.setProperty('--drawer-w', w + 'px');
+  try { localStorage.setItem('atlas.drawerWidth', String(w)); } catch (err) { /* private window */ }
+  resize();
+}
+try {
+  const saved = parseInt(localStorage.getItem('atlas.drawerWidth') || '', 10);
+  if (Number.isFinite(saved)) setDrawerWidth(saved);
+} catch (err) { /* storage unavailable; the CSS default stands */ }
+
+const grip = document.getElementById('grip');
+grip.addEventListener('pointerdown', e => {
+  e.preventDefault();
+  grip.setPointerCapture(e.pointerId);
+  document.body.classList.add('resizing');
+  const move = ev => setDrawerWidth(window.innerWidth - ev.clientX);
+  const up = () => {
+    document.body.classList.remove('resizing');
+    window.removeEventListener('pointermove', move);
+    window.removeEventListener('pointerup', up);
+  };
+  window.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', up);
+});
+grip.addEventListener('keydown', e => {
+  const current = drawerEl.getBoundingClientRect().width;
+  if (e.key === 'ArrowLeft') { setDrawerWidth(current + 40); e.preventDefault(); }
+  if (e.key === 'ArrowRight') { setDrawerWidth(current - 40); e.preventDefault(); }
+});
+
 document.getElementById('close').onclick = () => select(null);
 
 /* ---------- controls ---------- */
@@ -1130,10 +1195,7 @@ function describeAxes() {
   el.textContent = used.map(d => d.toUpperCase() + ': ' +
     MEASURES[axis[d]].hint).join(' · ');
 }
-const zoomBy = f => {
-  target.zoom = Math.max(0.15, Math.min(8, target.zoom * f));
-  frame();
-};
+const zoomBy = f => { zoomAt(f, cw / 2, ch / 2); frame(); };
 document.getElementById('z-in').onclick = () => zoomBy(1.3);
 document.getElementById('z-out').onclick = () => zoomBy(1 / 1.3);
 document.getElementById('z-fit').onclick = () => { fit(false); frame(); };
