@@ -576,6 +576,12 @@
       "round": 2,
       "node": "measurement_model",
       "issue": "deliberate omissions, recorded so they are not re-litigated: no edge to sensor_noise or sensor_bias (those point in, per the round-1 flag that both are defined as terms in this equation); no edge to linear_model (z = Hx + v is a specialisation, and specialisation is not a REQUIRES); no edge to likelihood (the model produces p(z|x); likelihood is the generic p(data|parameter) and does not need h). All four of its prerequisites are floor nodes, which is the right shape for a node this many things depend on."
+    },
+    {
+      "node": "gaussian_marginalization",
+      "kind": "expectation_unservable",
+      "round": 3,
+      "note": "Requires the techniques completing_the_square and marginalization, so expected_kind demands a derivation, while the only retrievable source states the result instead of deriving it -- Wikipedia's Multivariate normal distribution says you 'simply drop the irrelevant variables'. The sheet is correct and the check fails on every run. Two candidate resolutions, neither taken without adjudication: retarget the edge at linear_transformation_of_gaussian, since the marginal follows from a selection matrix A = [I 0] giving N(A mu, A Sigma A'), which is three steps and needs no integration; or find a source that performs the integration and alias to it."
     }
   ]
 }
