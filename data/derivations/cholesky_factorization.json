@@ -2,104 +2,50 @@
   "node_id": "cholesky_factorization",
   "grounded": true,
   "kind": "definition",
-  "statement": "The Cholesky decomposition or Cholesky factorization of a Hermitian, positive-definite matrix A is a decomposition into the product of a lower triangular matrix L and its conjugate transpose L*, such that A = L L* (or A = L L^T for real symmetric matrices). The supplied source defines this decomposition directly and provides algorithmic variants, update formulas, and existence proofs, but genuinely contains no derivation of the Cholesky factorization itself.",
+  "statement": "The Cholesky decomposition (or Cholesky factorization) of a Hermitian, positive-definite matrix A is defined as its factorization into the product of a lower triangular matrix L and its conjugate transpose L*, given by A = L L* (or A = L L^T for real symmetric positive-definite matrices). The supplied sources provide this definition, updating procedures, block relations, and existence proofs, but genuinely contain no derivation of the Cholesky factorization itself.",
   "symbols": [
     {
       "symbol": "A",
-      "meaning": "Hermitian, positive-definite matrix (or real symmetric positive-definite matrix)",
+      "meaning": "Hermitian, positive-definite matrix being factorized",
       "dimensions": "n x n"
     },
     {
       "symbol": "L",
-      "meaning": "lower triangular matrix (Cholesky factor)",
+      "meaning": "lower triangular matrix factor (with non-negative diagonal entries)",
       "dimensions": "n x n"
     },
     {
-      "symbol": "L^*",
-      "meaning": "conjugate transpose of lower triangular matrix L",
+      "symbol": "L*",
+      "meaning": "conjugate transpose of the lower triangular factor L",
       "dimensions": "n x n"
-    },
-    {
-      "symbol": "L^T",
-      "meaning": "transpose of lower triangular matrix L (for real matrices)",
-      "dimensions": "n x n"
-    },
-    {
-      "symbol": "D",
-      "meaning": "diagonal matrix (or block diagonal matrix in block LDL^T decomposition)",
-      "dimensions": "n x n"
-    },
-    {
-      "symbol": "A_tilde",
-      "meaning": "updated matrix after rank modification or row/column insertion/removal",
-      "dimensions": "n x n or m x m"
-    },
-    {
-      "symbol": "L_tilde",
-      "meaning": "Cholesky factor of the updated matrix A_tilde",
-      "dimensions": "n x n"
-    },
-    {
-      "symbol": "x",
-      "meaning": "vector used in a rank-one update",
-      "dimensions": "n x 1"
-    },
-    {
-      "symbol": "c",
-      "meaning": "scalar constant in a rank-one update",
-      "dimensions": "1 x 1 (scalar)"
-    },
-    {
-      "symbol": "M",
-      "meaning": "matrix used in a rank-n update",
-      "dimensions": "n x k"
-    },
-    {
-      "symbol": "S_tilde",
-      "meaning": "upper Cholesky factor of the augmented matrix A_tilde",
-      "dimensions": "m x m"
     }
   ],
   "steps": [],
   "properties": [
     {
-      "property": "When applicable, the Cholesky decomposition is roughly twice as efficient as the LU decomposition for solving systems of linear equations.",
-      "why": "it exploits Hermitian symmetry and positive-definiteness to factor A directly into triangular factors",
+      "property": "When applicable, solving systems of linear equations via Cholesky decomposition is roughly twice as efficient as via LU decomposition.",
+      "why": "the decomposition exploits Hermitian positive-definite symmetry to require only a single triangular factor",
       "cites": [
         "wikipedia:Cholesky_decomposition"
       ]
     },
     {
-      "property": "For a symmetric matrix represented in block form, the block LDL^T decomposition yields recursive relations for diagonal blocks D_j = A_jj - sum_{k=1}^{j-1} L_jk D_k L_jk^T and off-diagonal blocks L_ij = (A_ij - sum_{k=1}^{j-1} L_ik D_k L_jk^T) D_j^{-1}.",
-      "why": "multiplying block L, D, and L^T matrices and equating block entries yields these recurrence relations",
+      "property": "For an n x n positive semi-definite matrix, the Cholesky factor L is lower triangular with non-negative diagonal entries.",
+      "why": "it is the entrywise limit of a convergent subsequence of Cholesky factors of perturbed positive-definite matrices A + (1/k)I_n",
       "cites": [
         "wikipedia:Cholesky_decomposition"
       ]
     },
     {
-      "property": "The decomposition can be updated after a rank-one perturbation A_tilde = A + c x x* without recomputing the entire decomposition from scratch, provided A_tilde remains positive-definite.",
-      "why": "the existing factor L can be updated directly to yield the new factor L_tilde",
+      "property": "A rank-one updated matrix A_tilde = A + c * x * x* can have its Cholesky decomposition updated directly from the Cholesky factor of A without recomputing from scratch.",
+      "why": "the updated factor can be efficiently computed directly using rank-one update procedures as long as A_tilde remains positive definite",
       "cites": [
         "wikipedia:Cholesky_decomposition"
       ]
     },
     {
-      "property": "A rank-n update A_tilde = A + M M* can be computed via successive rank-one updates.",
-      "why": "successive rank-one updates are performed for each of the columns of M",
-      "cites": [
-        "wikipedia:Cholesky_decomposition"
-      ]
-    },
-    {
-      "property": "When rows and columns are inserted into or removed from A, the Cholesky factor of the resulting matrix can be found using triangular back/forward substitution and submatrix Cholesky updates.",
-      "why": "block relations equate submatrix products to triangular solves and Schur-type updates of the form A_tilde = A + c x x*",
-      "cites": [
-        "wikipedia:Cholesky_decomposition"
-      ]
-    },
-    {
-      "property": "Every positive semi-definite matrix admits a Cholesky factorization A = L L* with L lower triangular having non-negative diagonal entries.",
-      "why": "it follows by a limiting argument on A_k = A + (1/k) I_n or by applying QR decomposition to the matrix square root B* = Q R yielding A = R* R",
+      "property": "Inserting or removing rows and columns allows block-wise computation of the new Cholesky factor via triangular solves and smaller Cholesky subproblems.",
+      "why": "the partitioned blocks of the factor satisfy explicit triangular substitution and Schur-complement-like Cholesky equations",
       "cites": [
         "wikipedia:Cholesky_decomposition"
       ]
@@ -107,29 +53,28 @@
   ],
   "assumptions": [
     {
-      "assumption": "Matrix A is Hermitian (or real symmetric) and positive-definite (or positive semi-definite).",
-      "breaks_when": "A is non-Hermitian or indefinite with negative eigenvalues (or non-positive eigenvalues when strict positive-definiteness is required)."
+      "assumption": "The matrix A is Hermitian (symmetric in the real case).",
+      "breaks_when": "A != A* (or A != A^T for real matrices)."
     },
     {
-      "assumption": "In a rank-one update A_tilde = A + c x x*, the scalar c must preserve positive-definiteness.",
+      "assumption": "The matrix A is positive-definite (or positive semi-definite).",
+      "breaks_when": "A has negative eigenvalues or x* A x < 0 for some non-zero vector x."
+    },
+    {
+      "assumption": "In rank-one updates A_tilde = A + c * x * x*, the scalar c and vector x must be chosen such that A_tilde remains positive definite.",
       "breaks_when": "c is negative and large enough in magnitude to make A_tilde singular or indefinite."
     }
   ],
   "failure_modes": [
     {
-      "mode": "Factorization breakdown due to lack of positive-definiteness",
-      "signature": "Algorithm encounters zero or negative pivots, or requires square roots/inversions of non-positive entries",
-      "cause": "The input matrix A is indefinite, negative-definite, or singular when strict positive-definiteness is required"
+      "mode": "Loss of positive definiteness",
+      "signature": "Zero or negative diagonal entries encountered during factorization, or failure to compute square roots / Cholesky factors.",
+      "cause": "The input matrix A (or updated matrix A_tilde) is indefinite or negative definite rather than positive definite."
     },
     {
-      "mode": "Rank-one update failure",
-      "signature": "Updated factor cannot be formed as a valid positive-definite Cholesky factor",
-      "cause": "A negative scalar c causes the updated matrix A_tilde to lose positive-definiteness"
-    },
-    {
-      "mode": "Block LDL^T inversion bottleneck or singularity",
-      "signature": "Failure or numerical instability when computing D_j^{-1}",
-      "cause": "A diagonal block D_j is singular, ill-conditioned, or too large for practical explicit inversion"
+      "mode": "Asymmetry / Non-Hermitian matrix",
+      "signature": "A != A* (or A != A^T for real matrices).",
+      "cause": "The matrix does not satisfy Hermitian symmetry, violating the structural requirement for A = L L*."
     }
   ],
   "source_ids": [

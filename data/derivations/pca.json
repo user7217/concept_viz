@@ -2,156 +2,144 @@
   "node_id": "pca",
   "grounded": true,
   "kind": "definition",
-  "statement": "Principal component analysis (PCA) is a linear dimensionality reduction technique that transforms a data matrix X of dimensions n x p into a lower-dimensional representation T = B * W of dimensions n x L (1 <= L <= p), where B = X - h * u^T is the mean-centered data matrix (with u_j = (1/n) sum_{i=1}^n X_{ij} and h a vector of ones) and W consists of the first L columns of the eigenvector matrix V that diagonalizes the empirical covariance matrix C = (1/(n-1)) B^* B such that V^{-1} C V = D, with eigenvalues ordered decreasingly. Equivalently, for a random vector x, PCA seeks an orthonormal linear transformation y = B' x or y = W_L^T x that maximizes variance along orthogonal coordinates. The supplied sources genuinely contain no derivation of PCA: the expected derivation using Lagrange multipliers, quadratic form differentiation, or SVD factorization is entirely absent from the provided text, and the source section titled 'Derivation using the covariance method' is truncated and incomplete.",
+  "statement": "The supplied sources do not contain a derivation of Principal Component Analysis: the expected derivation using Lagrange multipliers, quadratic form differentiation, or SVD factorization is entirely absent from the supplied text, and the covariance derivation section is incomplete and truncated mid-sentence ('Hence (*) holds if and only if cov(X)'). Principal Component Analysis (PCA) is defined as an orthogonal linear dimensionality reduction technique that transforms a centered data matrix B = X - h u^T of size n x p into a lower-dimensional projection T = B W of size n x L (where 1 <= L <= p), or y = W_L^T x (equivalently Y = KLT{X}), where W consists of the first L columns of the eigenvector matrix V that diagonalizes the empirical covariance matrix C = (1 / (n - 1)) B^* B such that V^{-1} C V = D, with D being a diagonal matrix of eigenvalues sorted in decreasing order (D_{kk} = lambda_k) and V containing the corresponding orthonormal eigenvectors.",
   "symbols": [
     {
       "symbol": "X",
-      "meaning": "data matrix containing observations of variables",
+      "meaning": "matrix of source observations arranged as n row vectors of p variables",
       "dimensions": "n x p"
     },
     {
       "symbol": "x_i",
-      "meaning": "row vector representing a single grouped observation of p variables",
+      "meaning": "single grouped observation vector of p variables (row vector of X)",
       "dimensions": "1 x p"
     },
     {
-      "symbol": "n",
-      "meaning": "number of data observations",
-      "dimensions": "1"
-    },
-    {
-      "symbol": "p",
-      "meaning": "number of original variables (features)",
-      "dimensions": "1"
-    },
-    {
-      "symbol": "L",
-      "meaning": "number of retained principal components / reduced variables",
-      "dimensions": "1"
-    },
-    {
       "symbol": "u",
-      "meaning": "empirical mean vector across observations",
+      "meaning": "empirical mean vector across the observations",
       "dimensions": "p x 1"
     },
     {
       "symbol": "h",
-      "meaning": "column vector of ones used for centering",
+      "meaning": "column vector of all ones used for mean centering",
       "dimensions": "n x 1"
     },
     {
       "symbol": "B",
-      "meaning": "mean-subtracted (centered) data matrix",
+      "meaning": "mean-subtracted (centered) data matrix (B = X - h u^T)",
       "dimensions": "n x p"
     },
     {
       "symbol": "C",
-      "meaning": "empirical sample covariance matrix of centered data",
+      "meaning": "empirical covariance matrix of the centered data B",
       "dimensions": "p x p"
     },
     {
       "symbol": "V",
-      "meaning": "matrix of right eigenvectors of covariance matrix C",
+      "meaning": "matrix whose columns are the right eigenvectors of C",
       "dimensions": "p x p"
     },
     {
       "symbol": "D",
-      "meaning": "diagonal matrix of eigenvalues lambda_k of C",
+      "meaning": "diagonal matrix of eigenvalues of C sorted in decreasing order",
       "dimensions": "p x p"
     },
     {
+      "symbol": "lambda_k",
+      "meaning": "k-th eigenvalue of the covariance matrix C",
+      "dimensions": "scalar"
+    },
+    {
       "symbol": "W",
-      "meaning": "basis matrix composed of the first L columns of V",
+      "meaning": "basis matrix formed from the first L columns of V",
       "dimensions": "p x L"
     },
     {
       "symbol": "T",
-      "meaning": "projected data matrix whose columns are projections onto principal components",
+      "meaning": "projected data matrix whose columns are coordinates along principal components",
       "dimensions": "n x L"
     },
     {
       "symbol": "g_j",
-      "meaning": "cumulative energy content across the first j eigenvalues",
-      "dimensions": "1"
+      "meaning": "cumulative energy content of the first j eigenvalues",
+      "dimensions": "scalar"
     },
     {
-      "symbol": "\\Sigma",
+      "symbol": "Sigma",
       "meaning": "variance-covariance matrix of random vector x",
       "dimensions": "p x p"
     },
     {
       "symbol": "y",
-      "meaning": "transformed / dimensionality-reduced output vector",
+      "meaning": "dimensionally reduced output vector",
       "dimensions": "q x 1"
     },
     {
       "symbol": "B'",
-      "meaning": "orthonormal transformation matrix projecting x to y",
+      "meaning": "orthogonal linear transformation matrix projecting x to y",
       "dimensions": "q x p"
     },
     {
-      "symbol": "\\Sigma_y",
-      "meaning": "variance-covariance matrix of transformed vector y",
+      "symbol": "Sigma_y",
+      "meaning": "variance-covariance matrix of transformed vector y (Sigma_y = B' Sigma B)",
       "dimensions": "q x q"
     },
     {
-      "symbol": "\\mu",
-      "meaning": "sample centroid (mean vector)",
-      "dimensions": "p x 1"
+      "symbol": "n",
+      "meaning": "number of data observations",
+      "dimensions": "scalar"
     },
     {
-      "symbol": "Z",
-      "meaning": "centered data matrix in observation decomposition",
-      "dimensions": "n x p"
+      "symbol": "p",
+      "meaning": "number of original variables (dimensions)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "L",
+      "meaning": "number of retained principal components",
+      "dimensions": "scalar"
     }
   ],
   "steps": [],
   "properties": [
     {
-      "property": "Trace maximization: for any orthonormal transformation y = B' x (1 <= q <= p), tr(\\Sigma_y) = tr(B' \\Sigma B) is maximized by choosing B = A_q, the first q columns of eigenvector matrix A",
-      "why": "The leading q principal components capture the largest cumulative variance among all q-dimensional orthonormal linear projections",
+      "property": "For any orthonormal linear transformation y = B' x, tr(Sigma_y) is maximized by taking B = A_q, where A_q consists of the first q columns of the eigenvector matrix A.",
+      "why": "the first q principal components capture the maximal cumulative variance among all q-dimensional orthogonal projections",
       "cites": [
         "wikipedia:Principal_component_analysis"
       ]
     },
     {
-      "property": "Trace minimization: for orthonormal transformation y = B' x, tr(\\Sigma_y) is minimized by choosing B = A_q^*, the last q columns of eigenvector matrix A",
-      "why": "The trailing principal components have minimal variance, enabling the detection of near-constant linear relationships between variables and outliers",
+      "property": "For an orthonormal transformation y = B' x, tr(Sigma_y) is minimized by taking B = A_q^*, where A_q^* consists of the last q columns of A.",
+      "why": "the trailing components have minimal variance and detect near-constant linear relationships or outliers",
       "cites": [
         "wikipedia:Principal_component_analysis"
       ]
     },
     {
-      "property": "Spectral decomposition: the covariance matrix decomposes as \\Sigma = \\sum_{k=1}^p \\lambda_k \\alpha_k \\alpha_k' with Var(x_j) = \\sum_{k=1}^p \\lambda_k \\alpha_{kj}^2 under normalization \\alpha_k' \\alpha_k = 1",
-      "why": "The combined variance and entire covariance matrix decompose into decreasing contributions \\lambda_k \\alpha_k \\alpha_k' from each principal component",
+      "property": "The covariance matrix admits the spectral decomposition Sigma = sum_{k=1}^p lambda_k alpha_k alpha_k', decomposing total variance into Var(x_j) = sum_{k=1}^p lambda_k alpha_{kj}^2.",
+      "why": "orthonormal eigenvectors decouple the covariance matrix into ranked non-increasing variance contributions",
       "cites": [
         "wikipedia:Principal_component_analysis"
       ]
     },
     {
-      "property": "Covariance diagonalization: the eigenvector matrix V diagonalizes empirical covariance matrix C via V^{-1} C V = D, where D is diagonal",
-      "why": "Transforming data via V decorrelates all distinct components of the transformed variables",
+      "property": "Assuming zero mean and unitary P, cov(PX) = P cov(X) P^{-1}, diagonalizing the output covariance when P aligns with the eigenvectors of cov(X).",
+      "why": "orthonormal transformation into the eigenspace of cov(X) renders distinct components pairwise uncorrelated",
       "cites": [
         "wikipedia:Principal_component_analysis"
       ]
     },
     {
-      "property": "Information-theoretic optimality under Gaussian noise: for signal model x = s + n with Gaussian signal s and i.i.d. Gaussian noise n, PCA projection y = W_L^T x maximizes mutual information I(y; s)",
-      "why": "PCA minimizes the upper bound on information loss I(x; s) - I(y; s) when noise is spherical Gaussian",
+      "property": "Under additive Gaussian signal s and i.i.d. Gaussian noise n, the projection y = W_L^T x maximizes mutual information I(y; s) and minimizes information loss I(x; s) - I(y; s).",
+      "why": "PCA achieves information-theoretic optimality for linear dimensionality reduction under Gaussian noise models",
       "cites": [
         "wikipedia:Principal_component_analysis"
       ]
     },
     {
-      "property": "Centroid dominance elimination: uncentered covariance \\Sigma_{unc} = n \\mu \\mu^T + (1/n) Z^T Z contains a rank-one term n \\mu \\mu^T that dominates the leading eigenvector unless mean subtraction is applied",
-      "why": "Subtracting empirical mean \\mu removes the rank-one term so principal axes align with directions of maximal data variance",
-      "cites": [
-        "wikipedia:Principal_component_analysis"
-      ]
-    },
-    {
-      "property": "Scale dependence: scaling variables by diagonal D = diag(\\alpha_1, ..., \\alpha_p) alters covariance to \\Sigma^{(\\alpha)} = D^T \\Sigma D, rotating principal axes toward inflated-variance columns",
-      "why": "Eigenvectors and eigenvalues depend directly on measurement scales unless variables are standardized to unit variance or analyzed via correlation matrices",
+      "property": "A PCA based on the correlation matrix of X is identical to a PCA based on the covariance matrix of standardized variables Z.",
+      "why": "correlations are covariances of normalized variables that have already been mean-centered and scaled to unit variance",
       "cites": [
         "wikipedia:Principal_component_analysis"
       ]
@@ -159,60 +147,65 @@
   ],
   "assumptions": [
     {
-      "assumption": "The underlying structure and correlations among features are linear",
-      "breaks_when": "The true patterns or manifold in the dataset are non-linear, causing linear PCA to steer analysis away from true progress"
+      "assumption": "Linearity of data relationships: features exhibit linear correlations and can be effectively represented by an orthogonal linear coordinate rotation.",
+      "breaks_when": "The underlying data manifold has hidden nonlinear patterns, causing PCA to fail to capture the true structure or misdirect analysis."
     },
     {
-      "assumption": "Variables have comparable measurement scales or have been normalized to unit variance",
-      "breaks_when": "Variables have different units or widely disparate scales, causing principal components to artificially align with inflated-variance features"
+      "assumption": "Mean-centering: the dataset centroid is translated to the origin prior to covariance computation (B = X - h u^T).",
+      "breaks_when": "Mean subtraction is omitted on raw unstandardized data, causing the rank-one term n mu mu^T to dominate the leading eigenvector toward the mean rather than the true variance axes."
     },
     {
-      "assumption": "The data is mean-centered before calculating the covariance matrix",
-      "breaks_when": "Mean-centering is omitted on uncentered data, causing the rank-one term n \\mu \\mu^T to force the leading eigenvector toward the mean"
+      "assumption": "Commensurate feature scaling: variables are measured on comparable units or standardized to unit variance.",
+      "breaks_when": "Features have disparate units (e.g., temperature and mass) or unstandardized variances, causing principal components to arbitrarily rotate toward columns with inflated variance."
     },
     {
-      "assumption": "Data observations are free of unhandled serial correlation or autocorrelation structure",
-      "breaks_when": "Sample size is small (< 30 subjects/blocks) and data exhibits uncorrected serial correlation, biasing components beyond the first"
+      "assumption": "Noise independence and Gaussianity for information optimality: additive noise is independent, identically distributed, and Gaussian.",
+      "breaks_when": "Noise components become dependent or correlated, causing PCA to lose its information-theoretic optimality."
     },
     {
-      "assumption": "Centered signals can physically take negative values",
-      "breaks_when": "Domain signals are strictly non-negative (e.g., astrophysical exposures), where mean removal produces unphysical negative fluxes"
+      "assumption": "Sample size adequacy and lack of serial correlation: sufficient sample observations (n >= 30) without unhandled autocorrelation.",
+      "breaks_when": "Sample size is small (n < 30) or serial correlation is uncorrected, introducing severe sampling bias into estimated principal components beyond the first."
     },
     {
-      "assumption": "Additive noise components are independent, identically distributed, and Gaussian",
-      "breaks_when": "Noise components become dependent or correlated, causing PCA to lose its information-theoretic optimality"
+      "assumption": "Sign neutrality: the data domain admits negative values created during mean-removal.",
+      "breaks_when": "Physical quantities are strictly non-negative (such as astrophysical flux exposures), where mean removal produces unphysical negative values."
     }
   ],
   "failure_modes": [
     {
-      "mode": "Arbitrary scale dominance",
-      "signature": "The first principal component aligns almost completely with the variable possessing the largest numerical scale or arbitrary unit (e.g., Fahrenheit vs Celsius)",
-      "cause": "Performing PCA on unstandardized covariance matrices of variables with disparate measurement units instead of standardizing to unit variance or using the correlation matrix"
+      "mode": "Scale-dependent axis rotation",
+      "signature": "Leading principal components align almost exclusively with individual variables that have numerically large variances or units.",
+      "cause": "Applying PCA directly to unstandardized covariance matrices when variables possess different measurement scales or inflated variances."
     },
     {
-      "mode": "Mean-vector alignment artifact",
-      "signature": "The leading eigenvector points directly toward the data centroid \\mu, obliterating variance structure in the centered data",
-      "cause": "Failing to center the data before diagonalizing the covariance matrix, leaving the dominant rank-one term n \\mu \\mu^T in \\Sigma_{unc}"
+      "mode": "Centroid domination from omitted mean subtraction",
+      "signature": "The first principal component points directly toward the empirical mean vector mu rather than the direction of maximal spread.",
+      "cause": "Diagonalizing the uncentered scatter matrix Sigma_unc where the rank-one term n mu mu^T obliterates centered covariance structure."
     },
     {
-      "mode": "Non-linear pattern misrepresentation",
-      "signature": "Reduced-dimension representations fail to identify key structures or obscure true data clusters",
-      "cause": "Applying a strictly linear subspace projection to data governed by non-linear relationships"
+      "mode": "Distortion on nonlinear structures",
+      "signature": "Low explained cumulative energy across components and poor representation of obvious geometric patterns in the data.",
+      "cause": "PCA relies entirely on linear transformations and cannot capture nonlinear dependencies or curved manifolds."
     },
     {
-      "mode": "Unphysical negative signal values",
-      "signature": "Reconstructed signals or exposures exhibit negative fluxes",
-      "cause": "Applying mean subtraction to strictly non-negative signals, forcing exposure means to zero"
+      "mode": "Unphysical negative values in non-negative data",
+      "signature": "Reconstructed signals exhibit negative values where physical quantities must be strictly non-negative.",
+      "cause": "Mean subtraction forces the sample mean to zero, creating negative values in strictly non-negative physical signals (e.g., astronomy)."
     },
     {
-      "mode": "Autocorrelation bias",
-      "signature": "Seriously biased eigenvectors and eigenvalues for principal components beyond the first",
-      "cause": "Applying PCA to serially correlated data with fewer than 30 subjects or blocks without prior autocorrelation correction"
+      "mode": "Loss of information optimality under dependent noise",
+      "signature": "Suboptimal mutual information preservation and elevated information loss between the source signal and reduced representation.",
+      "cause": "Violation of the i.i.d. noise assumption where noise covariance contains off-diagonal dependence."
     },
     {
-      "mode": "Suboptimal class discrimination",
-      "signature": "Overlapping classes and degraded classification accuracy in principal component space",
-      "cause": "PCA optimizes for overall data variance rather than maximizing class separability"
+      "mode": "Sampling error and serial correlation bias",
+      "signature": "Substantial distortion and bias in the orientation and ordering of components beyond the first principal component.",
+      "cause": "Small sample size (n < 30) or unhandled autocorrelation structure among sequential data observations."
+    },
+    {
+      "mode": "Poor class discrimination in pattern recognition",
+      "signature": "Heavy overlap between classes in the reduced principal component space despite high total variance explained.",
+      "cause": "PCA optimizes total unsupervised variance rather than class separability (unlike linear discriminant analysis)."
     }
   ],
   "source_ids": [

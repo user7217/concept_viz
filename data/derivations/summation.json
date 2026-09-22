@@ -1,0 +1,146 @@
+{
+  "node_id": "summation",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Summation is the addition of a sequence of numbers (called addends or summands) or, more generally, elements of any mathematical type on which an operation denoted '+' is defined (such as functions, vectors, matrices, or polynomials), resulting in their sum or total denoted by the capital sigma notation \\sum.",
+  "symbols": [
+    {
+      "symbol": "\\sum",
+      "meaning": "summation operator denoting repeated addition over an indexed sequence",
+      "dimensions": "operator"
+    },
+    {
+      "symbol": "f(n)",
+      "meaning": "the summand or addend evaluated at index n",
+      "dimensions": "element of a set with an addition operation '+'"
+    },
+    {
+      "symbol": "n",
+      "meaning": "summation index",
+      "dimensions": "integer"
+    },
+    {
+      "symbol": "s",
+      "meaning": "lower bound of the summation index",
+      "dimensions": "integer"
+    },
+    {
+      "symbol": "t",
+      "meaning": "upper bound of the summation index",
+      "dimensions": "integer"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "\\sum_{n=s}^{t} f(n) = \\sum_{n=0}^{t-s} f(t-n)",
+      "why": "the sum from the first term up to the last is equal to the sum from the last down to the first",
+      "cites": [
+        "wikipedia:Summation"
+      ]
+    },
+    {
+      "property": "\\sum_{i=k_0}^{k_1} \\sum_{j=l_0}^{l_1} a_{i,j} = \\sum_{j=l_0}^{l_1} \\sum_{i=k_0}^{k_1} a_{i,j}",
+      "why": "commutativity and associativity of addition permit interchanging the order of summation",
+      "cites": [
+        "wikipedia:Summation"
+      ]
+    },
+    {
+      "property": "\\sum_{k \\leq j \\leq i \\leq n} a_{i,j} = \\sum_{i=k}^n \\sum_{j=k}^i a_{i,j} = \\sum_{j=k}^n \\sum_{i=j}^n a_{i,j} = \\sum_{j=0}^{n-k} \\sum_{i=k}^{n-j} a_{i+j,i}",
+      "why": "commutativity and associativity applied over triangular index domains",
+      "cites": [
+        "wikipedia:Summation"
+      ]
+    },
+    {
+      "property": "\\sum_{n=2s}^{2t+1} f(n) = \\sum_{n=s}^t f(2n) + \\sum_{n=s}^t f(2n+1)",
+      "why": "splitting a sum into its even and odd indexed parts",
+      "cites": [
+        "wikipedia:Summation"
+      ]
+    },
+    {
+      "property": "\\sum_{n=s}^t \\log_b f(n) = \\log_b \\prod_{n=s}^t f(n)",
+      "why": "the logarithm of a product is the sum of the logarithms of the factors",
+      "cites": [
+        "wikipedia:Summation"
+      ]
+    },
+    {
+      "property": "C^{\\sum_{n=s}^t f(n)} = \\prod_{n=s}^t C^{f(n)}",
+      "why": "the exponential of a sum is the product of the exponentials of the summands",
+      "cites": [
+        "wikipedia:Summation"
+      ]
+    },
+    {
+      "property": "\\sum_{i=1}^n c = nc",
+      "why": "the term c does not depend on the summation index i",
+      "cites": [
+        "wikipedia:Summation"
+      ]
+    },
+    {
+      "property": "\\sum_{i=0}^n i = \\sum_{i=1}^n i = \\frac{n(n+1)}{2}",
+      "why": "sum of the simplest arithmetic progression consisting of the first n natural numbers",
+      "cites": [
+        "wikipedia:Summation"
+      ]
+    },
+    {
+      "property": "\\sum_{i=0}^{n-1} a^i = \\frac{1-a^n}{1-a}",
+      "why": "sum of a geometric progression when the common ratio a is different from 1",
+      "cites": [
+        "wikipedia:Summation"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The summands belong to a domain equipped with an operation denoted '+'",
+      "breaks_when": "The terms belong to a set or type without an addition operation defined"
+    },
+    {
+      "assumption": "The sequence being summed is finite",
+      "breaks_when": "The sequence has infinitely many terms, becoming a series requiring limits"
+    },
+    {
+      "assumption": "In geometric progression evaluations, the common ratio a is not equal to 1",
+      "breaks_when": "a = 1, which causes a division-by-zero failure in the formula (1 - a^n)/(1 - a)"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Division by zero in geometric progression sum",
+      "signature": "Denominator 1 - a equals 0",
+      "cause": "Evaluating \\sum_{i=0}^{n-1} a^i via the closed-form formula when a = 1"
+    },
+    {
+      "mode": "Undefined operation on non-additive types",
+      "signature": "Expression cannot be evaluated",
+      "cause": "Attempting to sum elements from a structure on which addition '+' is not defined"
+    },
+    {
+      "mode": "Infinite sequence divergence",
+      "signature": "Sum does not resolve to a well-defined finite total",
+      "cause": "Applying finite summation rules to an infinite sequence without using limits"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Summation"
+  ],
+  "check": {
+    "node_id": "summation",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

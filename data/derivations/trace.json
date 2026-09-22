@@ -2,31 +2,91 @@
   "node_id": "trace",
   "grounded": true,
   "kind": "definition",
-  "statement": "The trace of a square matrix or a linear transformation is the sum of the elements on the main diagonal: \\operatorname{tr}(A) = \\sum_{i=1}^{n} A_{ii}.",
+  "statement": "The trace of an n \u00d7 n square matrix A, denoted tr(A), is defined as the sum of the elements on its main diagonal: tr(A) = \u2211_{i=1}^n a_{ii} = a_{11} + a_{22} + \u22ef + a_{nn}, where a_{ii} denotes the entry on the i-th row and i-th column of A.",
   "symbols": [
     {
       "symbol": "A",
       "meaning": "square matrix",
       "dimensions": "n x n"
+    },
+    {
+      "symbol": "a_{ii}",
+      "meaning": "entry on the i-th row and i-th column of matrix A",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "dimension (number of rows and columns) of square matrix A",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "tr(A)",
+      "meaning": "trace of matrix A",
+      "dimensions": "scalar"
     }
   ],
   "steps": [],
-  "properties": [],
+  "properties": [
+    {
+      "property": "Linearity: tr(A + B) = tr(A) + tr(B) and tr(cA) = c tr(A) for all square matrices A, B and all scalars c.",
+      "why": "Summation over diagonal entries is linear with respect to matrix addition and scalar multiplication",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    },
+    {
+      "property": "Transpose invariance: tr(A) = tr(A^T).",
+      "why": "Transposing a square matrix does not affect elements along the main diagonal",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    },
+    {
+      "property": "Cyclic commutativity of product: tr(AB) = tr(BA) for any m \u00d7 n matrix A and n \u00d7 m matrix B.",
+      "why": "Both expressions equal the sum of entry-wise products \u2211_{i=1}^m \u2211_{j=1}^n a_{ij}b_{ij}",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    },
+    {
+      "property": "Similarity invariance: tr(P^{-1}AP) = tr(A) for any square matrix A and any invertible matrix P.",
+      "why": "Direct consequence of the cyclic property tr(P^{-1}(AP)) = tr((AP)P^{-1})",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    },
+    {
+      "property": "Sum of eigenvalues: tr(A) = \u2211_{i=1}^n \u03bb_i, where \u03bb_i are the eigenvalues of A counted with algebraic multiplicity.",
+      "why": "A is always similar to its Jordan form with eigenvalues on the diagonal, and trace is similarity-invariant",
+      "cites": [
+        "wikipedia:Trace_(linear_algebra)"
+      ]
+    }
+  ],
   "assumptions": [
     {
-      "assumption": "The matrix is square (or the object is a linear transformation)",
-      "breaks_when": "The matrix is non-square"
+      "assumption": "A is a square matrix (number of rows equals number of columns).",
+      "breaks_when": "A is non-square (m \u00d7 n with m \u2260 n)."
+    },
+    {
+      "assumption": "The entries of A belong to a field F (e.g., real or complex numbers).",
+      "breaks_when": "Entries belong to a structure where addition is undefined."
     }
   ],
   "failure_modes": [
     {
-      "mode": "Non-square matrix",
+      "mode": "Application to non-square matrices",
       "signature": "Trace is undefined",
-      "cause": "Attempting to evaluate the trace on an m x n matrix where m != n"
+      "cause": "The trace is explicitly not defined for non-square matrices."
+    },
+    {
+      "mode": "Arbitrary permutation of factors in a product",
+      "signature": "tr(ABC) \u2260 tr(ACB)",
+      "cause": "The trace is invariant only under circular shifts (cyclic property), not under general non-cyclic permutations, unless additional conditions like symmetry hold."
     }
   ],
   "source_ids": [
-    "wikipedia:Trace"
+    "wikipedia:Trace_(linear_algebra)"
   ],
   "check": {
     "node_id": "trace",
@@ -37,10 +97,8 @@
     "unknown_invocations": [],
     "closure_holes": [],
     "canon_notes": [],
-    "shape": [
-      "definition lists no properties"
-    ],
+    "shape": [],
     "vacuous_invocations": false,
-    "ok": false
+    "ok": true
   }
 }

@@ -1,0 +1,127 @@
+{
+  "node_id": "probability_density_function",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For an absolutely continuous random variable X taking values in a sample space, a probability density function (PDF) f_X is a nonnegative function whose integral over any range of values gives the probability that X falls within that range: P(a <= X <= b) = \\int_a^b f_X(x) dx, satisfying f_X(x) >= 0 everywhere and \\int_{-\\infty}^\\infty f_X(x) dx = 1.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "absolutely continuous random variable",
+      "dimensions": "scalar or n-dimensional vector"
+    },
+    {
+      "symbol": "f_X(x)",
+      "meaning": "probability density function of random variable X evaluated at point x",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "a point in the sample space (possible value of X)",
+      "dimensions": "scalar or n-dimensional vector"
+    },
+    {
+      "symbol": "P(a <= X <= b)",
+      "meaning": "probability that X falls within the range [a, b]",
+      "dimensions": "scalar in [0, 1]"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Nonnegativity: f_X(x) >= 0 for all points x in the sample space",
+      "why": "The integral represents a nonnegative area under the curve corresponding to probability",
+      "cites": [
+        "wikipedia:Probability_density_function"
+      ]
+    },
+    {
+      "property": "Normalization: The total area under the entire density curve equals 1, i.e., \\int_{-\\infty}^\\infty f_X(x) dx = 1",
+      "why": "The probability of the random variable falling within the set of all possible values is 100%",
+      "cites": [
+        "wikipedia:Probability_density_function"
+      ]
+    },
+    {
+      "property": "Zero point probability: For any particular individual value x, P(X = x) = 0",
+      "why": "Probability density represents probability per unit length, giving zero area over a single point",
+      "cites": [
+        "wikipedia:Probability_density_function"
+      ]
+    },
+    {
+      "property": "Relative likelihood: The ratio of PDF values f_X(x_1) / f_X(x_2) indicates how much more likely it is that the random variable is close to x_1 compared to x_2",
+      "why": "The PDF value provides the relative probability per unit length at any given point in a draw",
+      "cites": [
+        "wikipedia:Probability_density_function"
+      ]
+    },
+    {
+      "property": "Monotonic scalar transformation: If Y = g(X) with differentiable monotonic g, then f_Y(y) = |(g^{-1})'(y)| * f_X(g^{-1}(y))",
+      "why": "Probability mass is conserved under change of variables scaled by the derivative of the inverse transformation",
+      "cites": [
+        "wikipedia:Probability_density_function"
+      ]
+    },
+    {
+      "property": "Bijective vector transformation: If y = G(x) is bijective and differentiable on R^n, then p_Y(y) = f(G^{-1}(y)) * |det(dG^{-1}(z)/dz |_{z=y})|",
+      "why": "Volume scaling under multivariate change of variables is governed by the Jacobian determinant of the inverse map",
+      "cites": [
+        "wikipedia:Probability_density_function"
+      ]
+    },
+    {
+      "property": "Convolution for independent sums: If U and V are independent random variables with densities, then f_{U+V}(x) = (f_U * f_V)(x) = \\int_{-\\infty}^\\infty f_U(y) f_V(x - y) dy",
+      "why": "Obtained by bivariate change of variables Y = U + V, Z = V followed by marginalizing out Z",
+      "cites": [
+        "wikipedia:Probability_density_function"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The random variable is absolutely continuous",
+      "breaks_when": "The random variable is discrete or mixed, possessing point masses where individual points have non-zero probability."
+    },
+    {
+      "assumption": "The density function is integrable and normalized over the sample space",
+      "breaks_when": "The total integral over the entire domain diverges or differs from 1 (improper or unnormalized distribution)."
+    },
+    {
+      "assumption": "Transformation mappings G are bijective and differentiable when applying standard change of variables",
+      "breaks_when": "The transformation is non-invertible, non-differentiable, or has a singular Jacobian matrix."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Direct point probability interpretation",
+      "signature": "Treating f_X(x) as P(X = x), leading to contradictions when f_X(x) > 1 or expecting point values to sum to 1",
+      "cause": "Confusing probability density (probability per unit length) with discrete probability mass; for continuous variables, P(X = x) = 0."
+    },
+    {
+      "mode": "Omission of multiple preimages under non-monotonic transformations",
+      "signature": "Underestimating the density of transformed variable Y = g(X)",
+      "cause": "Using single-branch inverse formula when g(x) = y has multiple roots, failing to sum over all solutions g_k^{-1}(y)."
+    },
+    {
+      "mode": "Omission of Jacobian determinant in multivariate transformations",
+      "signature": "Incorrect transformed density that does not integrate to 1",
+      "cause": "Failing to account for local volume distortion by omitting |det(dG^{-1}(z)/dz)|."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Probability_density_function"
+  ],
+  "check": {
+    "node_id": "probability_density_function",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

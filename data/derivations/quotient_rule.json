@@ -1,0 +1,157 @@
+{
+  "node_id": "quotient_rule",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "If f and g are differentiable functions at x and g(x) \\neq 0, the derivative of their quotient h(x) = \\frac{f(x)}{g(x)} is given by h'(x) = \\frac{f'(x)g(x) - f(x)g'(x)}{[g(x)]^2}.",
+  "symbols": [
+    {
+      "symbol": "h(x)",
+      "meaning": "quotient function f(x)/g(x)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f(x)",
+      "meaning": "numerator function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "g(x)",
+      "meaning": "denominator function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "point of differentiation",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "k",
+      "meaning": "increment approaching zero in the difference quotient",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "h'(x)",
+      "meaning": "derivative of h with respect to x",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f'(x)",
+      "meaning": "derivative of f with respect to x",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "g'(x)",
+      "meaning": "derivative of g with respect to x",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Apply the definition of the derivative to h(x): h'(x) = \\lim_{k \\to 0} \\frac{h(x+k) - h(x)}{k}",
+      "invokes": [
+        "derivative"
+      ],
+      "cites": [
+        "wikipedia:Quotient_rule"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Substitute h(x) = \\frac{f(x)}{g(x)} into the difference quotient: h'(x) = \\lim_{k \\to 0} \\frac{\\frac{f(x+k)}{g(x+k)} - \\frac{f(x)}{g(x)}}{k}",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Quotient_rule"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Find a common denominator in the numerator: h'(x) = \\lim_{k \\to 0} \\frac{f(x+k)g(x) - f(x)g(x+k)}{k \\cdot g(x)g(x+k)}",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Quotient_rule"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Factor the expression into a product of limits: h'(x) = \\lim_{k \\to 0} \\frac{f(x+k)g(x) - f(x)g(x+k)}{k} \\cdot \\lim_{k \\to 0} \\frac{1}{g(x)g(x+k)}",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Quotient_rule"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Add and subtract f(x)g(x) in the numerator, and evaluate the second limit using continuity of g (implied by differentiability): h'(x) = \\lim_{k \\to 0} \\left[ \\frac{f(x+k)g(x) - f(x)g(x) + f(x)g(x) - f(x)g(x+k)}{k} \\right] \\cdot \\frac{1}{[g(x)]^2}",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Quotient_rule"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Split the numerator into two terms and separate the limits: h'(x) = \\left[ \\lim_{k \\to 0} \\frac{f(x+k)g(x) - f(x)g(x)}{k} - \\lim_{k \\to 0} \\frac{f(x)g(x+k) - f(x)g(x)}{k} \\right] \\cdot \\frac{1}{[g(x)]^2}",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Quotient_rule"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "Factor g(x) out of the first limit and f(x) out of the second limit: h'(x) = \\left[ \\lim_{k \\to 0} \\frac{f(x+k) - f(x)}{k} \\cdot g(x) - f(x) \\cdot \\lim_{k \\to 0} \\frac{g(x+k) - g(x)}{k} \\right] \\cdot \\frac{1}{[g(x)]^2}",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Quotient_rule"
+      ]
+    },
+    {
+      "n": 8,
+      "text": "Evaluate the limits using the definitions f'(x) = \\lim_{k \\to 0} \\frac{f(x+k) - f(x)}{k} and g'(x) = \\lim_{k \\to 0} \\frac{g(x+k) - g(x)}{k}: h'(x) = \\frac{f'(x)g(x) - f(x)g'(x)}{[g(x)]^2}",
+      "invokes": [
+        "derivative"
+      ],
+      "cites": [
+        "wikipedia:Quotient_rule"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "f and g are differentiable at x",
+      "breaks_when": "f'(x) or g'(x) does not exist"
+    },
+    {
+      "assumption": "g(x) \\neq 0",
+      "breaks_when": "g(x) = 0, causing division by zero"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zero denominator",
+      "signature": "Division by zero in [g(x)]^2",
+      "cause": "g(x) = 0 at the evaluation point"
+    },
+    {
+      "mode": "Non-differentiability of constituent functions",
+      "signature": "Derivative limits do not converge",
+      "cause": "f or g is not differentiable at x"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Quotient_rule"
+  ],
+  "check": {
+    "node_id": "quotient_rule",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

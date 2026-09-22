@@ -124,6 +124,7 @@
       "chain_rule",
       "composite_function"
     ],
+    "canon_notes": [],
     "shape": [],
     "vacuous_invocations": false,
     "ok": true

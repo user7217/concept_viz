@@ -237,8 +237,58 @@ DERIVATION_SECTION = re.compile(
 # two definitions agree -- not a derivation *of* it, and taking it as evidence
 # flipped a correct definition into a derivation it cannot support.
 OUT_OF_SCOPE = re.compile(
-    r"(?i)\b(equivalen|existence|uniqueness|convergen|consisten|"
-    r"measurab|asymptotic|unbiased)")
+    r"(?i)(\b(equivalen|existence|uniqueness|convergen|consisten|"
+    r"measurab|asymptotic|unbiased)"
+    # "Proof by limiting argument", "Proof for positive semi-definite
+    # matrices": a proof named after its technique or its hypothesis class is
+    # proving a theorem ABOUT the object -- that it exists for that class --
+    # not deriving the object. Cholesky's three proof sections are all of this
+    # form, and taking them as evidence demanded a derivation the article
+    # never performs. "Proofs" and "Proof of the chain rule" do not match.
+    r"|\bproofs?\s+(by|for)\b)")
+
+
+# The heading says what a section is called; only the body says what it does.
+SECTION = re.compile(r"(?m)^\s*(=+)\s*([^=\n]+?)\s*=+\s*$")
+
+# The verbs of a derivation being performed, as opposed to an object being
+# described. Counted, not merely detected: one "thus" proves nothing.
+DERIVATION_MOVE = re.compile(
+    r"(?i)\b(substitut\w*|rearrang\w*|expand\w*|therefore|hence|it follows|"
+    r"we obtain|we get|yields?|thus|equating|differentiat\w*|integrat\w*|"
+    r"plugging|multiply\w* both sides)\b")
+
+# The counter-signal. In algebra a "derivation" is an object: a linear map
+# obeying the Leibniz rule. Its section reads like a definition because it is
+# one.
+DEFINES_AN_OBJECT = re.compile(
+    r"(?i)\b(is a (linear )?(map|function|homomorphism|operator|transformation)\b"
+    r"|is called (a|an)\b|is defined to be\b)")
+
+
+def derivation_sections(text: str) -> list[tuple[str, str]]:
+    """Headings that promise a derivation, each with everything under it.
+
+    The body runs to the next heading of the same or shallower level, so a
+    section's subsections belong to it. That detail decides the Kalman filter:
+    its "== Derivations ==" carries one sentence of its own and 35,000
+    characters of subsections beneath it, so a body stopping at the next
+    heading of any level would find nothing under the one heading the whole
+    localization path depends on.
+    """
+    marks = list(SECTION.finditer(text))
+    found: list[tuple[str, str]] = []
+    for i, mark in enumerate(marks):
+        heading = mark.group(2)
+        if not DERIVATION_SECTION.match(f"== {heading} =="):
+            continue
+        level, end = len(mark.group(1)), len(text)
+        for later in marks[i + 1:]:
+            if len(later.group(1)) <= level:
+                end = later.start()
+                break
+        found.append((heading, text[mark.end():end]))
+    return found
 
 
 def source_derives(sources: list[Source] | None) -> bool:
@@ -250,8 +300,23 @@ def source_derives(sources: list[Source] | None) -> bool:
     properties of a definition is not an article deriving it.
     """
     for source in sources or []:
-        for heading in DERIVATION_SECTION.findall(source.text):
-            if not OUT_OF_SCOPE.search(heading):
+        for heading, body in derivation_sections(source.text):
+            if OUT_OF_SCOPE.search(heading):
+                continue
+            moves = len(DERIVATION_MOVE.findall(body))
+            defines = len(DEFINES_AN_OBJECT.findall(body))
+            # The heading is taken at its word unless the body reads like a
+            # definition of an object. Requiring the moves instead was measured
+            # and was wrong: the Bellman equation's "Derivation" runs 22,459
+            # characters and contains exactly one verb from the list, as does
+            # BIBO stability's "Proof of sufficiency". Both are real
+            # derivations, and demanding two would have failed two correct
+            # multi-step sheets to fix one wrong one.
+            #
+            # What separates the Lie algebra's "Derivations" is not a shortage
+            # of moves but a surplus of definitions: it says "is a linear map",
+            # "is called a derivation". That is the discriminating signal.
+            if not (defines >= 2 and defines > moves):
                 return True
     return False
 

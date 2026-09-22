@@ -1,0 +1,134 @@
+{
+  "node_id": "skew_symmetric_matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A skew-symmetric (or antisymmetric or antimetric) matrix is a square matrix A whose transpose equals its negative, satisfying A^{\\textsf{T}} = -A.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "skew-symmetric matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "A^{\\textsf{T}}",
+      "meaning": "transpose of matrix A",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "n",
+      "meaning": "dimension of the square matrix",
+      "dimensions": "1 x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Diagonal elements are zero and trace equals zero",
+      "why": "in a field of characteristic not equal to 2, each diagonal element must be its own additive inverse",
+      "cites": [
+        "wikipedia:Skew-symmetric_matrix"
+      ]
+    },
+    {
+      "property": "Vector space dimension of n x n skew-symmetric matrices is (1/2)n(n - 1)",
+      "why": "the sum and scalar multiples of skew-symmetric matrices are skew-symmetric, and each matrix is determined by the entries strictly above the main diagonal",
+      "cites": [
+        "wikipedia:Skew-symmetric_matrix"
+      ]
+    },
+    {
+      "property": "Direct sum decomposition Mat_n = Skew_n \u2295 Sym_n",
+      "why": "every square matrix over a field of characteristic not 2 uniquely decomposes into (1/2)(A - A^T) + (1/2)(A + A^T) with Skew_n \u2229 Sym_n = {0}",
+      "cites": [
+        "wikipedia:Skew-symmetric_matrix"
+      ]
+    },
+    {
+      "property": "Inner product characterization: \u27e8Ax, y\u27e9 = -\u27e8x, Ay\u27e9 and \u27e8x, Ax\u27e9 = 0 for all x, y in R^n",
+      "why": "equivalent coordinate-free characterization via the standard real inner product",
+      "cites": [
+        "wikipedia:Skew-symmetric_matrix"
+      ]
+    },
+    {
+      "property": "Odd-dimensional skew-symmetric matrices are singular with det(A) = 0",
+      "why": "det(A) = det(A^T) = det(-A) = (-1)^n det(A) forces det(A) = 0 for odd n in characteristic not 2 (Jacobi's theorem)",
+      "cites": [
+        "wikipedia:Skew-symmetric_matrix"
+      ]
+    },
+    {
+      "property": "Even-dimensional determinant is the square of the Pfaffian: det(A) = Pf(A)^2",
+      "why": "the determinant can be expressed as the square of a polynomial in the matrix entries",
+      "cites": [
+        "wikipedia:Skew-symmetric_matrix"
+      ]
+    },
+    {
+      "property": "Eigenvalues of a real skew-symmetric matrix are purely imaginary",
+      "why": "eigenvalues come in pairs \u00b1\u03bbi (with an additional 0 eigenvalue if n is odd)",
+      "cites": [
+        "wikipedia:Skew-symmetric_matrix"
+      ]
+    },
+    {
+      "property": "I + A is invertible for real skew-symmetric A",
+      "why": "eigenvalues are purely imaginary so -1 cannot be an eigenvalue",
+      "cites": [
+        "wikipedia:Skew-symmetric_matrix"
+      ]
+    },
+    {
+      "property": "A^2 is symmetric negative semi-definite",
+      "why": "follows from skew-symmetry and purely imaginary spectrum",
+      "cites": [
+        "wikipedia:Skew-symmetric_matrix"
+      ]
+    },
+    {
+      "property": "3 x 3 cross product representation: a \u00d7 b = [a]_\u00d7 b",
+      "why": "the cross product is bilinear and induces a linear map given by a 3 x 3 skew-symmetric matrix",
+      "cites": [
+        "wikipedia:Skew-symmetric_matrix"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Entries belong to a field of characteristic not equal to 2 (1 + 1 != 0)",
+      "breaks_when": "the characteristic of the field is 2, where skew-symmetric matrices coincide with symmetric matrices and diagonal elements are not constrained to zero"
+    },
+    {
+      "assumption": "The matrix A is square (n x n)",
+      "breaks_when": "the matrix is non-square, where the transpose dimension does not match and A^T = -A cannot hold"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Degeneracy under characteristic 2",
+      "signature": "Skew-symmetric matrices are indistinguishable from symmetric matrices; diagonal entries can be non-zero",
+      "cause": "In characteristic 2, -1 = 1, reducing the condition A^T = -A to A^T = A"
+    },
+    {
+      "mode": "Singularity in odd dimensions",
+      "signature": "det(A) = 0; matrix is non-invertible",
+      "cause": "det(A) = (-1)^n det(A) implies det(A) = -det(A) when n is odd, vanishing over fields of characteristic not equal to 2"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Skew-symmetric_matrix"
+  ],
+  "check": {
+    "node_id": "skew_symmetric_matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

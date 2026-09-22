@@ -1,0 +1,162 @@
+{
+  "node_id": "matrix_transpose",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For an $m \\times n$ matrix $\\mathbf{A}$, the transpose $\\mathbf{A}^{\\text{T}}$ is the $n \\times m$ matrix obtained by switching the row and column indices of $\\mathbf{A}$, formally defined elementwise by $[\\mathbf{A}^{\\text{T}}]_{ij} = [\\mathbf{A}]_{ji}$.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{A}",
+      "meaning": "original matrix",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "\\mathbf{A}^{\\text{T}}",
+      "meaning": "transpose of matrix A",
+      "dimensions": "n x m"
+    },
+    {
+      "symbol": "[\\mathbf{A}]_{ji}",
+      "meaning": "entry of matrix A at row j, column i",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "[\\mathbf{A}^{\\text{T}}]_{ij}",
+      "meaning": "entry of transpose matrix A^T at row i, column j",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "m",
+      "meaning": "number of rows in matrix A and columns in matrix A^T",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of columns in matrix A and rows in matrix A^T",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "(\\mathbf{A}^{\\text{T}})^{\\text{T}} = \\mathbf{A}",
+      "why": "Transposition is an involution (self-inverse operation)",
+      "cites": [
+        "wikipedia:Transpose"
+      ]
+    },
+    {
+      "property": "(\\mathbf{A} + \\mathbf{B})^{\\text{T}} = \\mathbf{A}^{\\text{T}} + \\mathbf{B}^{\\text{T}}",
+      "why": "Transposition respects matrix addition",
+      "cites": [
+        "wikipedia:Transpose"
+      ]
+    },
+    {
+      "property": "(c\\mathbf{A})^{\\text{T}} = c(\\mathbf{A}^{\\text{T}})",
+      "why": "Transposing a scalar-multiplied matrix yields the scalar multiplied by the transposed matrix, making transposition a linear map",
+      "cites": [
+        "wikipedia:Transpose"
+      ]
+    },
+    {
+      "property": "(\\mathbf{A}\\mathbf{B})^{\\text{T}} = \\mathbf{B}^{\\text{T}}\\mathbf{A}^{\\text{T}}",
+      "why": "The order of factors in a matrix product reverses under transposition",
+      "cites": [
+        "wikipedia:Transpose"
+      ]
+    },
+    {
+      "property": "\\det(\\mathbf{A}^{\\text{T}}) = \\det(\\mathbf{A})",
+      "why": "The determinant of a square matrix is identical to the determinant of its transpose",
+      "cites": [
+        "wikipedia:Transpose"
+      ]
+    },
+    {
+      "property": "(\\mathbf{A}^{\\text{T}})^{-1} = (\\mathbf{A}^{-1})^{\\text{T}}",
+      "why": "The transpose of an invertible matrix is invertible and its inverse is the transpose of the original inverse",
+      "cites": [
+        "wikipedia:Transpose"
+      ]
+    },
+    {
+      "property": "\\mathbf{a} \\cdot \\mathbf{b} = \\mathbf{a}^{\\text{T}}\\mathbf{b}",
+      "why": "The dot product of column vectors can be evaluated as a matrix product using the transpose",
+      "cites": [
+        "wikipedia:Transpose"
+      ]
+    },
+    {
+      "property": "(\\mathbf{A}\\mathbf{a}) \\cdot \\mathbf{b} = \\mathbf{a} \\cdot (\\mathbf{A}^{\\text{T}}\\mathbf{b})",
+      "why": "Adjoint relationship for matrix-vector multiplication under the standard dot product",
+      "cites": [
+        "wikipedia:Transpose"
+      ]
+    },
+    {
+      "property": "\\mathbf{A}\\mathbf{A}^{\\text{T}} \\text{ and } \\mathbf{A}^{\\text{T}}\\mathbf{A} \\text{ are symmetric matrices}",
+      "why": "Each product is equal to its own transpose since (\\mathbf{A}\\mathbf{A}^{\\text{T}})^{\\text{T}} = \\mathbf{A}\\mathbf{A}^{\\text{T}}",
+      "cites": [
+        "wikipedia:Transpose"
+      ]
+    },
+    {
+      "property": "\\mathbf{A}^{\\text{T}}\\mathbf{A} \\text{ is positive-semidefinite if } \\mathbf{A} \\text{ has real entries}",
+      "why": "A real matrix multiplied by its transpose always forms a positive-semidefinite matrix",
+      "cites": [
+        "wikipedia:Transpose"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "\\mathbf{A} is a well-defined matrix with entries arranged in m rows and n columns over a field or ring",
+      "breaks_when": "The dimensions or entries of the object are undefined or not organized in a 2D matrix structure"
+    },
+    {
+      "assumption": "\\mathbf{A} and \\mathbf{B} have compatible dimensions (e.g. m x k and k x p) for product transposition",
+      "breaks_when": "The number of columns of \\mathbf{A} does not equal the number of rows of \\mathbf{B}"
+    },
+    {
+      "assumption": "\\mathbf{A} is a square matrix (m = n) when evaluating determinants, inverses, or eigenvalues",
+      "breaks_when": "m \\neq n"
+    },
+    {
+      "assumption": "\\mathbf{A} is invertible when computing (\\mathbf{A}^{\\text{T}})^{-1}",
+      "breaks_when": "\\mathbf{A} is singular or has a determinant of zero"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Dimension mismatch in product transposition",
+      "signature": "Shape error or invalid multiplication when computing \\mathbf{B}^{\\text{T}}\\mathbf{A}^{\\text{T}}",
+      "cause": "Attempting to compute (\\mathbf{A}\\mathbf{B})^{\\text{T}} without reversing the order of the matrices, or when the inner dimensions of \\mathbf{A} and \\mathbf{B} do not match"
+    },
+    {
+      "mode": "Singular matrix inverse failure",
+      "signature": "Matrix is singular / non-invertible error",
+      "cause": "Attempting to invert \\mathbf{A}^{\\text{T}} when \\mathbf{A} has determinant zero or lacks full rank"
+    },
+    {
+      "mode": "Non-square determinant or eigenvalue application",
+      "signature": "Determinant or eigenvalue undefined",
+      "cause": "Applying determinant equality \\det(\\mathbf{A}^{\\text{T}}) = \\det(\\mathbf{A}) or eigenvalue properties to a non-square matrix"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Transpose"
+  ],
+  "check": {
+    "node_id": "matrix_transpose",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

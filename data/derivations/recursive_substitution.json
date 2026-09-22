@@ -133,6 +133,7 @@
     "closure_holes": [
       "change_of_variables"
     ],
+    "canon_notes": [],
     "shape": [],
     "vacuous_invocations": false,
     "ok": true

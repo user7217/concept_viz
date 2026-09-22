@@ -1,0 +1,120 @@
+{
+  "node_id": "riccati_equation",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A Riccati equation in the narrowest sense is a first-order ordinary differential equation that is quadratic in the unknown function, having the form y'(x) = q_0(x) + q_1(x) y(x) + q_2(x) y^2(x) where q_0(x) != 0 and q_2(x) != 0. The supplied sources contain no derivation of this equation (such as via backward recursion or quadratic form differentiation), defining it as an object directly.",
+  "symbols": [
+    {
+      "symbol": "x",
+      "meaning": "independent variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "y(x)",
+      "meaning": "unknown function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "q_0(x)",
+      "meaning": "zeroth-order coefficient function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "q_1(x)",
+      "meaning": "linear coefficient function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "q_2(x)",
+      "meaning": "quadratic coefficient function",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Reduction to Bernoulli equation",
+      "why": "If q_0(x) = 0, the equation reduces to y'(x) = q_1(x) y(x) + q_2(x) y^2(x)",
+      "cites": [
+        "wikipedia:Riccati_equation"
+      ]
+    },
+    {
+      "property": "Reduction to first-order linear ODE",
+      "why": "If q_2(x) = 0, the quadratic term vanishes, yielding y'(x) = q_0(x) + q_1(x) y(x)",
+      "cites": [
+        "wikipedia:Riccati_equation"
+      ]
+    },
+    {
+      "property": "Conversion to a second-order linear ODE",
+      "why": "Using substitutions v = y q_2 and u' = -u v transforms the equation into u'' - R(x) u' + S(x) u = 0, where S = q_0 q_2 and R = q_1 + q_2'/q_2",
+      "cites": [
+        "wikipedia:Riccati_equation"
+      ]
+    },
+    {
+      "property": "Solvability by quadrature given a particular solution",
+      "why": "Given a known particular solution y_1, substituting y = y_1 + 1/z yields the linear ODE z' + (q_1 + 2 q_2 y_1) z = -q_2",
+      "cites": [
+        "wikipedia:Riccati_equation"
+      ]
+    },
+    {
+      "property": "Painlev\u00e9 property in the complex plane",
+      "why": "Among first-order complex rational ODEs dw/dz = P(w, z)/Q(w, z), the Riccati equation dw/dz = A_0(z) + A_1(z) w + A_2(z) w^2 is the only one of Painlev\u00e9 type",
+      "cites": [
+        "wikipedia:Riccati_equation"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "q_0(x) != 0",
+      "breaks_when": "q_0(x) = 0, which reduces the Riccati equation to a Bernoulli equation"
+    },
+    {
+      "assumption": "q_2(x) != 0",
+      "breaks_when": "q_2(x) = 0, which reduces the equation to a first-order linear ODE"
+    },
+    {
+      "assumption": "q_2(x) is non-zero and differentiable",
+      "breaks_when": "q_2(x) fails to be differentiable or vanishes, preventing transformation into the standard form v' = S(x) + R(x)v + v^2 and linear ODE"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Loss of quadratic character",
+      "signature": "q_2(x) = 0",
+      "cause": "The quadratic term vanishes, causing degeneration into a linear ODE"
+    },
+    {
+      "mode": "Loss of inhomogeneous term",
+      "signature": "q_0(x) = 0",
+      "cause": "The zeroth-order term vanishes, causing degeneration into a Bernoulli ODE"
+    },
+    {
+      "mode": "Division by zero in linearizing substitution",
+      "signature": "u(x) = 0 or q_2(x) = 0",
+      "cause": "The formula y = -u' / (q_2 u) or y = v / q_2 encounters a zero denominator"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Riccati_equation"
+  ],
+  "check": {
+    "node_id": "riccati_equation",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so riccati_equation is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

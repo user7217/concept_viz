@@ -1,30 +1,168 @@
 {
   "node_id": "multivariate_chain_rule",
-  "grounded": false,
+  "grounded": true,
   "kind": "derivation",
-  "statement": "The supplied source does not contain the multivariate chain rule or its derivation. The provided text from [wikipedia:Chain_rule] only covers single-variable calculus (univariate compositions, quotient rule, inverse functions, higher derivatives via Fa\u00e0 di Bruno's formula, and a brief mention of backpropagation) and does not present the chain rule for functions of several variables, vectors, or Jacobian matrices.",
-  "symbols": [],
-  "steps": [],
+  "statement": "For a composite function f(x, y(x)), the total derivative with respect to x evaluated at x_0 is given by df(x, y(x))/dx (x_0) = (\u2202f/\u2202x)(x_0, y(x_0)) (dx/dx)(x_0) + (\u2202f/\u2202y)(x_0, y(x_0)) (dy/dx)(x_0), or suppressing the evaluation point, df(x, y(x))/dx = (\u2202f/\u2202x)(dx/dx) + (\u2202f/\u2202y)(dy/dx). More generally, for L(t, x_1, ..., x_n) where each x_i depends on time t, the chain rule gives dL/dt = \u2202L/\u2202t + \u2211_{i=1}^n (\u2202L/\u2202x_i)(dx_i/dt) = (\u2202/\u2202t + \u2211_{i=1}^n (dx_i/dt)(\u2202/\u2202x_i))(L).",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "scalar-valued function of several variables",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "independent variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "y",
+      "meaning": "variable depending on x",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x_0",
+      "meaning": "point of evaluation",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "Df_{(x_0, y(x_0))}",
+      "meaning": "derivative matrix (row vector of partial derivatives) of f at (x_0, y(x_0))",
+      "dimensions": "1 x 2"
+    },
+    {
+      "symbol": "D\\gamma_{x_0}",
+      "meaning": "derivative matrix (column vector) of the path \\gamma(x) = (x, y(x)) at x_0",
+      "dimensions": "2 x 1"
+    },
+    {
+      "symbol": "\u2202f/\u2202x",
+      "meaning": "partial derivative of f with respect to x",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\u2202f/\u2202y",
+      "meaning": "partial derivative of f with respect to y",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "df/dx",
+      "meaning": "total derivative of f with respect to x",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "L",
+      "meaning": "function of time t and coordinate variables x_1, ..., x_n",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "t",
+      "meaning": "independent time variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x_i",
+      "meaning": "i-th coordinate variable depending on t",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of dependent coordinate variables",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Express the derivative of f at (x_0, y(x_0)) as the row matrix of its partial derivatives: Df_{(x_0, y(x_0))} = [\u2202f/\u2202x, \u2202f/\u2202y]_{(x_0, y(x_0))}.",
+      "invokes": [
+        "jacobian_matrix",
+        "partial_derivative"
+      ],
+      "cites": [
+        "wikipedia:Derivative_(multivariable_calculus)"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Express the derivative of the path \\gamma(x) = (x, y(x)) at x_0 as the column matrix: D\\gamma_{x_0} = [\u2202x/\u2202x; \u2202y/\u2202x]_{x_0}.",
+      "invokes": [
+        "derivative",
+        "vector"
+      ],
+      "cites": [
+        "wikipedia:Derivative_(multivariable_calculus)"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Multiply the derivative matrices to obtain the total derivative of the composition at x_0: df(x, y(x))/dx (x_0) = Df_{(x_0, y(x_0))} D\\gamma_{x_0} = (\u2202f/\u2202x)(x_0, y(x_0)) (dx/dx)(x_0) + (\u2202f/\u2202y)(x_0, y(x_0)) (dy/dx)(x_0).",
+      "invokes": [
+        "chain_rule",
+        "composite_function",
+        "matrix"
+      ],
+      "cites": [
+        "wikipedia:Derivative_(multivariable_calculus)"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Suppress the evaluation at x_0 for legibility to write the total derivative formula: df(x, y(x))/dx = (\u2202f/\u2202x)(dx/dx) + (\u2202f/\u2202y)(dy/dx).",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Derivative_(multivariable_calculus)"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "For a function L(t, x_1, ..., x_n) where coordinates x_i depend on time t, apply the chain rule to expand the total time derivative dL/dt = (d/dt) L(t, x_1(t), ..., x_n(t)) into partial derivatives and time derivatives: dL/dt = \u2202L/\u2202t + \u2211_{i=1}^n (\u2202L/\u2202x_i)(dx_i/dt) = (\u2202/\u2202t + \u2211_{i=1}^n (dx_i/dt)(\u2202/\u2202x_i))(L).",
+      "invokes": [
+        "chain_rule",
+        "partial_derivative"
+      ],
+      "cites": [
+        "wikipedia:Derivative_(multivariable_calculus)"
+      ]
+    }
+  ],
   "properties": [],
-  "assumptions": [],
-  "failure_modes": [],
+  "assumptions": [
+    {
+      "assumption": "All constituent functions (the multivariable function and the functions providing its arguments) are differentiable at the point of evaluation.",
+      "breaks_when": "Any component function fails to be differentiable at the point of evaluation (e.g., non-differentiability resulting in an undefined derivative or division by zero)."
+    },
+    {
+      "assumption": "All dependencies (both direct dependencies on the independent variable and indirect dependencies through other arguments) are accounted for in the total derivative expansion.",
+      "breaks_when": "An indirect dependency is omitted by assuming an argument is fixed and taking only a partial derivative."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Using partial derivatives in place of the total derivative when indirect dependencies exist",
+      "signature": "The computed derivative does not equal the true rate of change (e.g., \u2202f/\u2202x = y while df/dx = 2x for f(x, y) = xy constrained to y = x).",
+      "cause": "Partial differentiation assumes other variables remain fixed, failing to account for their implicit dependence on the independent variable."
+    },
+    {
+      "mode": "Non-differentiability of a component function",
+      "signature": "Undefined expressions such as division by zero in the derivative formula.",
+      "cause": "One of the composed functions is not differentiable at the evaluation point (e.g., an inverse function whose derivative requires evaluating 1/0 where the original function has derivative zero)."
+    }
+  ],
   "source_ids": [
+    "wikipedia:Derivative_(multivariable_calculus)",
     "wikipedia:Chain_rule"
   ],
   "check": {
     "node_id": "multivariate_chain_rule",
     "kind": "derivation",
-    "grounded": false,
+    "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
     "canon_notes": [],
-    "shape": [
-      "derivation carries no steps",
-      "sheet names no symbols, so it is probably not about this node's mathematics at all"
-    ],
+    "shape": [],
     "vacuous_invocations": false,
-    "ok": false
+    "ok": true
   }
 }

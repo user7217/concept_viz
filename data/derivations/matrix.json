@@ -1,0 +1,111 @@
+{
+  "node_id": "matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A matrix is a rectangular array of numbers or other mathematical objects with elements or entries arranged in rows and columns, denoted $\\mathbf{A} = [a_{i,j}]$ where $1 \\le i \\le m$ denotes the row index and $1 \\le j \\le n$ denotes the column index for an $m \\times n$ matrix.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{A}",
+      "meaning": "matrix",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "a_{i,j}",
+      "meaning": "entry or element of the matrix at the ith row and jth column",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "m",
+      "meaning": "number of rows",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of columns",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Matrix subtraction is defined via scalar multiplication by -1: $\\mathbf{A} - \\mathbf{B} = \\mathbf{A} + (-1) \\cdot \\mathbf{B}$",
+      "why": "subtraction is consistent with the composition of matrix addition and scalar multiplication",
+      "cites": [
+        "wikipedia:Matrix_(mathematics)"
+      ]
+    },
+    {
+      "property": "The transpose $\\mathbf{A}^{\\mathrm{T}}$ of an $m \\times n$ matrix $\\mathbf{A}$ is the $n \\times m$ matrix with $(\\mathbf{A}^{\\mathrm{T}})_{i,j} = \\mathbf{A}_{j,i}$, satisfying $(c\\mathbf{A})^{\\mathrm{T}} = c(\\mathbf{A}^{\\mathrm{T}})$, $(\\mathbf{A} + \\mathbf{B})^{\\mathrm{T}} = \\mathbf{A}^{\\mathrm{T}} + \\mathbf{B}^{\\mathrm{T}}$, and $(\\mathbf{A}^{\\mathrm{T}})^{\\mathrm{T}} = \\mathbf{A}$",
+      "why": "formed by turning rows into columns and vice versa",
+      "cites": [
+        "wikipedia:Matrix_(mathematics)"
+      ]
+    },
+    {
+      "property": "Matrix multiplication $\\mathbf{AB}$ of an $m \\times n$ matrix $\\mathbf{A}$ and an $n \\times p$ matrix $\\mathbf{B}$ produces an $m \\times p$ matrix with entries $[\\mathbf{AB}]_{i,j} = \\sum_{r=1}^{n} a_{i,r} b_{r,j}$",
+      "why": "defined by the dot product of the corresponding row of $\\mathbf{A}$ and column of $\\mathbf{B}$, representing composition of linear transformations",
+      "cites": [
+        "wikipedia:Matrix_(mathematics)"
+      ]
+    },
+    {
+      "property": "Matrix multiplication is associative $((\\mathbf{AB})\\mathbf{C} = \\mathbf{A}(\\mathbf{BC}))$ and distributive, but generally non-commutative $(\\mathbf{AB} \\neq \\mathbf{BA})$",
+      "why": "corresponds to the composition of linear maps whose order of application matters",
+      "cites": [
+        "wikipedia:Matrix_(mathematics)"
+      ]
+    },
+    {
+      "property": "A real $m \\times n$ matrix $\\mathbf{A}$ uniquely represents a linear transformation $f: \\mathbb{R}^n \\to \\mathbb{R}^m$ via $\\mathbf{x} \\mapsto \\mathbf{Ax}$",
+      "why": "the $(i, j)$-entry of $\\mathbf{A}$ is the $i$th coordinate of $f(\\mathbf{e}_j)$",
+      "cites": [
+        "wikipedia:Matrix_(mathematics)"
+      ]
+    },
+    {
+      "property": "Multiplication with the identity matrix leaves a matrix unchanged: $\\mathbf{A}\\mathbf{I}_n = \\mathbf{I}_m\\mathbf{A} = \\mathbf{A}$",
+      "why": "the identity matrix has ones on the main diagonal and zeros elsewhere",
+      "cites": [
+        "wikipedia:Matrix_(mathematics)"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Matrix multiplication $\\mathbf{AB}$ requires the number of columns of the left matrix $\\mathbf{A}$ to equal the number of rows of the right matrix $\\mathbf{B}$",
+      "breaks_when": "The column dimension of $\\mathbf{A}$ is not equal to the row dimension of $\\mathbf{B}$"
+    },
+    {
+      "assumption": "Matrix addition and subtraction require the operand matrices to have identical row and column dimensions",
+      "breaks_when": "Operands have mismatched row or column counts"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Dimension mismatch in multiplication",
+      "signature": "Undefined product $\\mathbf{AB}$",
+      "cause": "$\\mathbf{A}$ has dimensions $m \\times n$ and $\\mathbf{B}$ has dimensions $k \\times p$ with $n \\ne k$"
+    },
+    {
+      "mode": "Matrix non-invertibility",
+      "signature": "Inverse $\\mathbf{A}^{-1}$ does not exist",
+      "cause": "$\\mathbf{A}$ is non-square or there exists no matrix $\\mathbf{B}$ such that $\\mathbf{AB} = \\mathbf{BA} = \\mathbf{I}_n$"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Matrix_(mathematics)"
+  ],
+  "check": {
+    "node_id": "matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

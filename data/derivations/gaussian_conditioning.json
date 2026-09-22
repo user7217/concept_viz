@@ -158,6 +158,7 @@
     "closure_holes": [
       "conditional_independence"
     ],
+    "canon_notes": [],
     "shape": [],
     "vacuous_invocations": false,
     "ok": true

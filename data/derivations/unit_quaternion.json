@@ -1,0 +1,99 @@
+{
+  "node_id": "unit_quaternion",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "The unit quaternion (versor) U q of a non-zero quaternion q is a quaternion with unit norm (||U q|| = 1) occupying the unit 3-sphere in H, derived from q by expressing it in Hamilton's polar coordinate form q = T q U q = ||q|| U q and normalizing q by its norm to yield U q = q / ||q||.",
+  "symbols": [
+    {
+      "symbol": "q",
+      "meaning": "general quaternion",
+      "dimensions": "4"
+    },
+    {
+      "symbol": "U q",
+      "meaning": "versor (unit quaternion) of q",
+      "dimensions": "4"
+    },
+    {
+      "symbol": "T q",
+      "meaning": "Hamilton's tensor (norm) of q, equal to ||q||",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "||q||",
+      "meaning": "norm of quaternion q",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "u",
+      "meaning": "versor (unit quaternion)",
+      "dimensions": "4"
+    },
+    {
+      "symbol": "r",
+      "meaning": "algebraic imaginary unit vector with r^2 = -1",
+      "dimensions": "3"
+    },
+    {
+      "symbol": "a",
+      "meaning": "angle parameter in [0, pi]",
+      "dimensions": "1"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Display a general quaternion q in polar coordinate form as the product of its norm (Hamilton's tensor T q = ||q||) and its versor U q: q = T q U q = ||q|| U q.",
+      "invokes": [
+        "quaternion_multiplication"
+      ],
+      "cites": [
+        "wikipedia:Versor"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Normalize the quaternion q by dividing by its non-zero norm T q = ||q|| to isolate the unit quaternion (versor): U q = q / (T q) = q / ||q||, which satisfies ||U q|| = 1 and occupies the unit 3-sphere in the quaternion algebra H.",
+      "invokes": [
+        "unit_norm_normalization"
+      ],
+      "cites": [
+        "wikipedia:Versor"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The quaternion q is non-zero (q != 0, so ||q|| > 0).",
+      "breaks_when": "q = 0, where the norm ||q|| = 0 and normalization involves division by zero, leaving the versor undefined."
+    },
+    {
+      "assumption": "The quaternion q is an element of the four-dimensional quaternion algebra H equipped with norm T q = ||q||.",
+      "breaks_when": "The algebra lacks a well-defined norm or non-zero elements lack multiplicative inverses."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zero quaternion normalization",
+      "signature": "Division by zero or undefined versor U q (indeterminate form 0/0).",
+      "cause": "Attempting to normalize the zero quaternion q = 0, whose norm T q = ||q|| = 0 lacks a multiplicative inverse."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Versor"
+  ],
+  "check": {
+    "node_id": "unit_quaternion",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

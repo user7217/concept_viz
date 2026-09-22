@@ -1,0 +1,116 @@
+{
+  "node_id": "steady_state_error",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Steady-state error is the discrepancy between the desired target value (setpoint or reference, denoted $\\text{SP}$) and the actual value of the system (process variable, denoted $\\text{PV}$) as the control system drives the system toward its desired state, characterized by the error value equation $e = \\text{SP} - \\text{PV}$.",
+  "symbols": [
+    {
+      "symbol": "e",
+      "meaning": "error value or error signal representing the difference between desired and actual system values",
+      "dimensions": "scalar (units of the process variable)"
+    },
+    {
+      "symbol": "SP",
+      "meaning": "setpoint or reference value representing the desired target state of the system",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "PV",
+      "meaning": "process variable representing the actual measured value of the system under control",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "u(t)",
+      "meaning": "control signal or manipulated variable output by the controller to actuate the system",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "K_p",
+      "meaning": "proportional gain factor",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "K_i",
+      "meaning": "integral gain factor",
+      "dimensions": "s^-1"
+    },
+    {
+      "symbol": "K_d",
+      "meaning": "derivative gain factor",
+      "dimensions": "s"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Inclusion of an integrator in the open-loop chain directly before the system under control achieves rejection of a step disturbance.",
+      "why": "integral action accumulates the persistent error signal over time to provide corrective input until the error is eliminated",
+      "cites": [
+        "wikipedia:Control_theory"
+      ]
+    },
+    {
+      "property": "Minimizing steady-state error is a primary control objective evaluated alongside delay, peak overshoot, and system stability.",
+      "why": "feedback controllers are synthesized to drive the process variable to the setpoint while maintaining closed-loop stability and transient performance",
+      "cites": [
+        "wikipedia:Control_theory"
+      ]
+    },
+    {
+      "property": "The error signal provides the corrective feedback driving proportional, integral, and derivative control terms.",
+      "why": "the controller continuously monitors the difference between the setpoint and process variable to compute the corrective control action $u(t) = K_p e(t) + K_i \\int_0^t e(\\tau)\\,\\mathrm{d}\\tau + K_d \\frac{\\mathrm{d}e(t)}{\\mathrm{d}t} + u_0$",
+      "cites": [
+        "wikipedia:PID_controller",
+        "wikipedia:Control_theory"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "All bad or unstable dynamics of the system states are both controllable and observable (or stabilizable and detectable).",
+      "breaks_when": "An unstable eigenvalue is uncontrollable or unobservable, causing uncontrollable unstable dynamics to persist in the closed-loop system."
+    },
+    {
+      "assumption": "The closed-loop control system is BIBO stable with all poles located strictly in the stability region (e.g., inside the unit circle $|z| < 1$ for discrete-time systems or $\\mathrm{Re}[\\lambda] < 0$ for continuous-time systems).",
+      "breaks_when": "Improper controller tuning or pole placement positions closed-loop poles on or outside the stability boundary (e.g., $|z| \\ge 1$ or $\\mathrm{Re}[\\lambda] \\ge 0$)."
+    },
+    {
+      "assumption": "The control signal and physical actuators operate within their allowable linear operating thresholds without saturation.",
+      "breaks_when": "Control demands exceed physical limits (such as actuator travel limits or valve slew rates), causing degraded tracking, actuator damage, or integrator windup without anti-windup protection."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Closed-loop BIBO instability",
+      "signature": "System output and error signal grow unboundedly (e.g., exponential divergence $x[n] = 1.5^n u[n]$).",
+      "cause": "A pole of the closed-loop transfer function has modulus strictly greater than one ($|z| > 1$) or a positive real part."
+    },
+    {
+      "mode": "Actuator damage or tracking failure from physical constraints",
+      "signature": "Controller requests control signals exceeding actuator rate or magnitude limits, leading to saturation or mechanical breakdown.",
+      "cause": "Neglecting physical input and state constraints during controller synthesis without implementing anti-windup or constraint-handling systems."
+    },
+    {
+      "mode": "Derivative spike response on step setpoint change",
+      "signature": "Severe, sudden spikes in the control signal $u(t)$ immediately following abrupt changes in the reference setpoint.",
+      "cause": "Direct differentiation of a step discontinuity in the error signal $e(t)$ via the $K_d \\frac{\\mathrm{d}e(t)}{\\mathrm{d}t}$ term without low-pass filtering."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:PID_controller",
+    "wikipedia:Control_theory"
+  ],
+  "check": {
+    "node_id": "steady_state_error",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

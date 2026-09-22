@@ -1,0 +1,130 @@
+{
+  "node_id": "complex_number",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A complex number is a number of the form z = x + iy (or a + bi), where x and y are real numbers and i is the imaginary unit.",
+  "symbols": [
+    {
+      "symbol": "z",
+      "meaning": "complex number",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "x",
+      "meaning": "real part of z",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "y",
+      "meaning": "imaginary part of z",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "i",
+      "meaning": "imaginary unit",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "|z|",
+      "meaning": "absolute value (modulus) of z",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\arg z",
+      "meaning": "argument (phase) of z",
+      "dimensions": "1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Triangle inequality: |z_1 + z_2| <= |z_1| + |z_2| for any complex numbers z_1 and z_2",
+      "why": "Follows directly from the definition of the complex modulus",
+      "cites": [
+        "wikipedia:Complex_number"
+      ]
+    },
+    {
+      "property": "Euler's formula: exp(i*phi) = cos(phi) + i*sin(phi) for any real phi, with Euler's identity exp(i*pi) = -1",
+      "why": "Follows from convergent power series expansions of exp, cos, and sin",
+      "cites": [
+        "wikipedia:Complex_number"
+      ]
+    },
+    {
+      "property": "Complex logarithm: log w = ln|w| + i*arg(w) for any non-zero complex number w",
+      "why": "Inverts exp(z) = w, inheriting multivaluedness from arg(w) due to exp(z + 2*pi*i) = exp(z)",
+      "cites": [
+        "wikipedia:Complex_number"
+      ]
+    },
+    {
+      "property": "Complex exponentiation: z^omega = exp(omega * ln(z)), which is multivalued unless omega is an integer",
+      "why": "Defined via the multivalued complex logarithm",
+      "cites": [
+        "wikipedia:Complex_number"
+      ]
+    },
+    {
+      "property": "Algebraic closure: any non-empty complex square matrix has at least one complex eigenvalue, and any nonconstant polynomial has a root in C",
+      "why": "Fundamental algebraic property of the field of complex numbers",
+      "cites": [
+        "wikipedia:Complex_number"
+      ]
+    },
+    {
+      "property": "Cauchy-Riemann equations: a real-differentiable function f: C -> C is complex differentiable (holomorphic) if and only if df/d(z_bar) = 0",
+      "why": "Imposed by the condition that the difference quotient limit exists independent of approaching direction",
+      "cites": [
+        "wikipedia:Complex_number"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "For the complex logarithm log w, the argument must be non-zero (w in C^x)",
+      "breaks_when": "w = 0, where the complex logarithm is undefined"
+    },
+    {
+      "assumption": "For the principal value of the complex logarithm ln z, the domain is restricted to C \\ (-R_>=0)",
+      "breaks_when": "z is a non-positive real number (along the negative real axis branch cut), where continuity fails"
+    },
+    {
+      "assumption": "For trigonometric/hyperbolic quotient functions (e.g., tan z, cot z), denominators must be non-zero",
+      "breaks_when": "Expressions evaluate to infinity or involve division by zero"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Failure of power and logarithm identities",
+      "signature": "a^(bc) != (a^b)^c or ambiguous multiple values under evaluation",
+      "cause": "Complex exponentiation is multivalued when exponents are non-integers; treating multi-valued functions naively as single-valued yields left-hand values that are merely a subset of right-hand values"
+    },
+    {
+      "mode": "Multivalued logarithm ambiguity",
+      "signature": "Logarithm yields infinitely many solutions differing by integer multiples of 2*pi*i (e.g., exp(i*pi) = exp(3*i*pi) = -1)",
+      "cause": "Periodicity of the complex exponential exp(z + 2*pi*i) = exp(z)"
+    },
+    {
+      "mode": "Discontinuity along branch cut",
+      "signature": "Jump discontinuity in imaginary part across the negative real axis",
+      "cause": "Restricting the imaginary part of the logarithm to (-pi, pi] to select a principal value"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Complex_number"
+  ],
+  "check": {
+    "node_id": "complex_number",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

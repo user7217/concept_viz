@@ -1,0 +1,138 @@
+{
+  "node_id": "regression_loss",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The regression loss, specifically the within-sample mean squared error (MSE) of a predictor for a sample of n data points with observed values Y and predicted values hat{Y}, is defined as MSE = (1/n) * sum_{i=1}^n (Y_i - hat{Y}_i)^2 = (1/n) * e^T e, where e_i = Y_i - hat{Y}_i and e is the n x 1 error column vector. The supplied sources define this object directly and genuinely contain nothing to derive for the regression loss itself.",
+  "symbols": [
+    {
+      "symbol": "n",
+      "meaning": "number of data points in the sample",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "Y",
+      "meaning": "vector of observed values of the variable being predicted",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "Y_i",
+      "meaning": "observed value for the i-th observation",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "hat{Y}",
+      "meaning": "vector of predicted values",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "hat{Y}_i",
+      "meaning": "predicted value for the i-th observation",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "e_i",
+      "meaning": "prediction error (residual) Y_i - hat{Y}_i for observation i",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "e",
+      "meaning": "column vector of prediction errors",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "MSE",
+      "meaning": "mean squared error (regression loss)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "q",
+      "meaning": "number of out-of-sample data points used for cross-validation",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "MSE is always a positive value that decreases as the error approaches zero.",
+      "why": "It is derived from the square of Euclidean distance.",
+      "cites": [
+        "wikipedia:Mean_squared_error"
+      ]
+    },
+    {
+      "property": "Within-sample MSE can be written in matrix notation as (1/n) * e^T e.",
+      "why": "The sum of squared scalar errors equals the inner product of the error column vector with itself.",
+      "cites": [
+        "wikipedia:Mean_squared_error"
+      ]
+    },
+    {
+      "property": "MSE can be computed on q out-of-sample data points as test MSE: (1/q) * sum_{i=n+1}^{n+q} (Y_i - hat{Y}_i)^2.",
+      "why": "Cross-validation evaluates the predictor on held-back or newly obtained data.",
+      "cites": [
+        "wikipedia:Mean_squared_error"
+      ]
+    },
+    {
+      "property": "In gradient descent algorithms, a factor of 1/2 is commonly introduced to the MSE.",
+      "why": "It provides ease of computation after taking the derivative.",
+      "cites": [
+        "wikipedia:Mean_squared_error"
+      ]
+    },
+    {
+      "property": "MSE is a consistent estimator of the error variance, given predictor consistency, but is not an unbiased estimator.",
+      "why": "The denominator used is sample size n rather than degrees of freedom (n - p or n - p - 1).",
+      "cites": [
+        "wikipedia:Mean_squared_error"
+      ]
+    },
+    {
+      "property": "In machine learning empirical risk minimization, MSE functions as the empirical risk estimating true risk.",
+      "why": "It measures average loss on an observed dataset as an estimate of average loss on the population distribution.",
+      "cites": [
+        "wikipedia:Mean_squared_error"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Sample size n is a strictly positive integer (n >= 1).",
+      "breaks_when": "The dataset is empty (n = 0), causing division by zero."
+    },
+    {
+      "assumption": "Observed values Y_i and predicted values hat{Y}_i are real-valued numerical quantities.",
+      "breaks_when": "Data points contain missing, non-numeric, or infinite values."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Biased estimation of error variance",
+      "signature": "MSE systematically underestimates error variance in small samples.",
+      "cause": "Dividing the sum of squared errors by n instead of degrees of freedom (n - p or n - p - 1)."
+    },
+    {
+      "mode": "Non-zero minimum error floor",
+      "signature": "MSE remains strictly positive even for the best fitted model.",
+      "cause": "Inherent randomness in the data or missing information that the model does not account for."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Mean_squared_error"
+  ],
+  "check": {
+    "node_id": "regression_loss",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [
+      "expected a derivation, produced a definition"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

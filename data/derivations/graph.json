@@ -1,0 +1,116 @@
+{
+  "node_id": "graph",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A graph (simple undirected graph) is a pair G = (V, E), where V is a set whose elements are called vertices, and E is a set of unordered pairs {v_1, v_2} of vertices, whose elements are called edges.",
+  "symbols": [
+    {
+      "symbol": "G",
+      "meaning": "graph",
+      "dimensions": "ordered pair (V, E)"
+    },
+    {
+      "symbol": "V",
+      "meaning": "set of vertices (nodes or points)",
+      "dimensions": "set"
+    },
+    {
+      "symbol": "E",
+      "meaning": "set of edges (links or lines), where each element is an unordered pair of vertices",
+      "dimensions": "set of 2-element subsets of V"
+    },
+    {
+      "symbol": "n",
+      "meaning": "order of the graph, defined as the number of vertices |V|",
+      "dimensions": "scalar (non-negative integer)"
+    },
+    {
+      "symbol": "m",
+      "meaning": "size of the graph, defined as the number of edges |E|",
+      "dimensions": "scalar (non-negative integer)"
+    },
+    {
+      "symbol": "A",
+      "meaning": "adjacency matrix of the graph, where A_ij specifies the number of connections from vertex i to vertex j",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The edges of a graph define a symmetric adjacency relation on the vertices, where vertices u and v are adjacent if {u, v} is an edge.",
+      "why": "Edges are unordered pairs of vertices",
+      "cites": [
+        "wikipedia:Graph_(discrete_mathematics)"
+      ]
+    },
+    {
+      "property": "In a simple graph of order n, the maximum degree of each vertex is n - 1, and the maximum number of edges is n(n - 1)/2.",
+      "why": "No loops or multiple edges are permitted, bounding connections to distinct other vertices",
+      "cites": [
+        "wikipedia:Graph_(discrete_mathematics)"
+      ]
+    },
+    {
+      "property": "An undirected graph is fully determined by a symmetric adjacency matrix A where A_ij = A_ji (and A_ii = 0 for simple graphs).",
+      "why": "Adjacency is symmetric for undirected edges and simple graphs contain no self-loops",
+      "cites": [
+        "wikipedia:Graph_(discrete_mathematics)"
+      ]
+    },
+    {
+      "property": "The degree or valency of a vertex is the number of edges incident to it.",
+      "why": "It counts the edges that join the vertex to another vertex",
+      "cites": [
+        "wikipedia:Graph_(discrete_mathematics)"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The vertex set V is finite (which implies that the edge set E is also finite).",
+      "breaks_when": "Infinite graphs are considered, which are viewed as special binary relations and where finite graph theorems may fail or require different proofs."
+    },
+    {
+      "assumption": "Edges are unordered pairs of distinct vertices (simple graph with no loops and no multiple edges).",
+      "breaks_when": "Multigraphs (multiple edges sharing the same endpoints) or graphs with loops (edges joining a vertex to itself) are permitted."
+    },
+    {
+      "assumption": "Edges are undirected.",
+      "breaks_when": "Directed graphs (edges are ordered pairs of vertices) or mixed graphs are used."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Empty graph",
+      "signature": "|V| = 0 and |E| = 0.",
+      "cause": "The vertex set is empty, rendering terms requiring vertices or positive order undefined or degenerate."
+    },
+    {
+      "mode": "Ambiguity in graph size metric",
+      "signature": "Discrepancy between size = |E| versus size = |V| + |E|.",
+      "cause": "Standard graph theory defines size as |E|, whereas algorithmic complexity contexts define size as |V| + |E| to avoid non-empty graphs having size 0."
+    },
+    {
+      "mode": "Disconnected or isolated vertices",
+      "signature": "Vertex degree is 0, and no path exists connecting certain pairs of vertices.",
+      "cause": "A vertex in V does not belong to any edge in E."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Graph_(discrete_mathematics)"
+  ],
+  "check": {
+    "node_id": "graph",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

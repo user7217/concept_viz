@@ -1,160 +1,129 @@
 {
   "node_id": "taylor_expansion",
   "grounded": true,
-  "kind": "definition",
-  "statement": "The supplied source does not contain a derivation of the Taylor expansion (under the Proofs heading, it carries only an incomplete excerpt of a proof of Taylor's theorem regarding the Peano remainder limit via L'H\u00f4pital's rule, which concerns a property of the approximation rather than deriving the expansion itself). By definition, the k-th order Taylor expansion (or Taylor polynomial) of a function f at a center point a (or c) approximates f by P_k(x) = \\sum_{j=0}^k \\frac{f^{(j)}(a)}{j!} (x-a)^j in one variable, or for a multivariate function f: \\mathbb{R}^n \\to \\mathbb{R} at \\mathbf{a} \\in \\mathbb{R}^n by P_k(\\mathbf{x}) = \\sum_{|\\alpha| \\le k} \\frac{D^\\alpha f(\\mathbf{a})}{\\alpha!} (\\mathbf{x}-\\mathbf{a})^\\alpha in multi-index notation, where the function decomposes as f(\\mathbf{x}) = P_k(\\mathbf{x}) + R_k(\\mathbf{x}) with remainder term R_k(\\mathbf{x}).",
+  "kind": "derivation",
+  "statement": "Taylor's theorem states that for a function f whose k-th derivative f^{(k)} is absolutely continuous on the closed interval between a and x (or continuous on the closed interval and differentiable on the open interval), f(x) can be expanded as f(x) = \\sum_{j=0}^k \\frac{f^{(j)}(a)}{j!}(x - a)^j + R_k(x), where the remainder in integral form is R_k(x) = \\int_a^x \\frac{f^{(k+1)}(t)}{k!}(x - t)^k\\,dt.",
   "symbols": [
     {
       "symbol": "f",
-      "meaning": "Function being expanded",
-      "dimensions": "scalar-valued function: R -> R, R^n -> R, or U subset C -> C"
+      "meaning": "function being expanded",
+      "dimensions": "scalar"
     },
     {
       "symbol": "x",
-      "meaning": "Evaluation point at which the function is approximated",
-      "dimensions": "1 for scalar variable, or n x 1 vector in R^n"
+      "meaning": "point of evaluation",
+      "dimensions": "scalar"
     },
     {
       "symbol": "a",
-      "meaning": "Center point of the expansion",
-      "dimensions": "1 for scalar variable, or n x 1 vector in R^n"
+      "meaning": "center point of expansion",
+      "dimensions": "scalar"
     },
     {
       "symbol": "k",
-      "meaning": "Order or degree of the Taylor polynomial",
-      "dimensions": "scalar non-negative integer (k in N)"
-    },
-    {
-      "symbol": "P_k",
-      "meaning": "k-th order Taylor polynomial",
-      "dimensions": "scalar-valued polynomial"
-    },
-    {
-      "symbol": "R_k",
-      "meaning": "Remainder term of order k satisfying f = P_k + R_k",
+      "meaning": "order of the Taylor expansion polynomial",
       "dimensions": "scalar"
     },
     {
-      "symbol": "\\alpha",
-      "meaning": "Multi-index tuple (\\alpha_1, ..., \\alpha_n) of non-negative integers with |\\alpha| = \\sum \\alpha_i and \\alpha! = \\prod \\alpha_i!",
-      "dimensions": "n x 1 integer vector"
-    },
-    {
-      "symbol": "D^\\alpha f",
-      "meaning": "Higher-order partial derivative \\partial^{|\\alpha|} f / (\\partial x_1^{\\alpha_1} ... \\partial x_n^{\\alpha_n})",
+      "symbol": "t",
+      "meaning": "dummy integration variable",
       "dimensions": "scalar"
     },
     {
-      "symbol": "v",
-      "meaning": "Displacement vector x - a",
-      "dimensions": "n x 1 vector"
-    },
-    {
-      "symbol": "R_\\beta",
-      "meaning": "Remainder coefficient function corresponding to multi-index \\beta of order k+1 in the multivariate integral remainder",
+      "symbol": "f^{(j)}(a)",
+      "meaning": "j-th derivative of f evaluated at a",
       "dimensions": "scalar"
     },
     {
-      "symbol": "\\gamma",
-      "meaning": "Positively oriented Jordan curve parametrizing boundary \\partial W of region W subset U",
-      "dimensions": "1D curve in C"
+      "symbol": "R_k(x)",
+      "meaning": "remainder term of order k",
+      "dimensions": "scalar"
     },
     {
-      "symbol": "M_r",
-      "meaning": "Upper bound of |f(w)| on the boundary contour of disk B(c, r)",
-      "dimensions": "scalar real"
+      "symbol": "\\xi",
+      "meaning": "point in the open interval between a and x in mean value remainder forms",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "G",
+      "meaning": "auxiliary function used to generate mean value remainder forms",
+      "dimensions": "scalar"
     }
   ],
-  "steps": [],
-  "properties": [
+  "steps": [
     {
-      "property": "The derivatives of the Taylor polynomial P match the derivatives of f at the center point: f^{(j)}(a) = P^{(j)}(a) for each j = 0, 1, ..., k-1.",
-      "why": "The polynomial coefficients are defined directly as f^{(j)}(a) / j!.",
+      "n": 1,
+      "text": "Express f(x) using the fundamental theorem of calculus on the closed interval between a and x: f(x) = f(a) + \\int_a^x f'(t)\\,dt.",
+      "invokes": [
+        "fundamental_theorem_of_calculus"
+      ],
       "cites": [
         "wikipedia:Taylor's_theorem"
       ]
     },
     {
-      "property": "For a multivariate function f: R^n -> R that is k+1 times continuously differentiable on a closed ball B, the remainder is given in exact integral form by \\sum_{|\\beta|=k+1} R_\\beta(\\mathbf{x})(\\mathbf{x}-\\mathbf{a})^\\beta where R_\\beta(\\mathbf{x}) = \\frac{|\\beta|}{\\beta!} \\int_0^1 (1-t)^{|\\beta|-1} D^\\beta f(\\mathbf{a} + t(\\mathbf{x}-\\mathbf{a})) dt.",
-      "why": "Integrating (k+1)-th order partial derivatives along the segment connecting a to x yields the remainder formula.",
+      "n": 2,
+      "text": "Integrate by parts and apply the fundamental theorem of calculus to f'(x) = f'(a) + \\int_a^x f''(t)\\,dt: f(x) = f(a) + (x f'(x) - a f'(a)) - \\int_a^x t f''(t)\\,dt = f(a) + x\\left(f'(a) + \\int_a^x f''(t)\\,dt\\right) - a f'(a) - \\int_a^x t f''(t)\\,dt = f(a) + (x - a)f'(a) + \\int_a^x (x - t)f''(t)\\,dt, which establishes the base case k = 1.",
+      "invokes": [
+        "integration_by_parts",
+        "fundamental_theorem_of_calculus"
+      ],
       "cites": [
         "wikipedia:Taylor's_theorem"
       ]
     },
     {
-      "property": "On the closed ball B, each multivariate remainder component satisfies the uniform bound |R_\\beta(\\mathbf{x})| \\le \\frac{1}{\\beta!} \\max_{|\\alpha|=|\\beta|} \\max_{\\mathbf{y} \\in B} |D^\\alpha f(\\mathbf{y})|.",
-      "why": "Continuous (k+1)-th order partial derivatives achieve a finite maximum over the compact ball B.",
+      "n": 3,
+      "text": "Assume by induction that the formula holds for a positive integer k: f(x) = \\sum_{j=0}^k \\frac{f^{(j)}(a)}{j!}(x - a)^j + \\int_a^x \\frac{f^{(k+1)}(t)}{k!}(x - t)^k\\,dt.",
+      "invokes": [
+        "mathematical_induction"
+      ],
       "cites": [
         "wikipedia:Taylor's_theorem"
       ]
     },
     {
-      "property": "For a complex differentiable function on an open set U, the remainder in region W is given exactly by the contour integral R_k(z) = \\frac{(z-c)^{k+1}}{2\\pi i} \\int_\\gamma \\frac{f(w) dw}{(w-c)^{k+1}(w-z)}.",
-      "why": "Applying Cauchy's integral formula to the geometric series tail for 1/(w-z) gives the exact remainder contour integral.",
+      "n": 4,
+      "text": "Integrate the remainder term by parts: \\int_a^x \\frac{f^{(k+1)}(t)}{k!}(x - t)^k\\,dt = -\\left[\\frac{f^{(k+1)}(t)}{(k+1)k!}(x - t)^{k+1}\\right]_a^x + \\int_a^x \\frac{f^{(k+2)}(t)}{(k+1)k!}(x - t)^{k+1}\\,dt = \\frac{f^{(k+1)}(a)}{(k+1)!}(x - a)^{k+1} + \\int_a^x \\frac{f^{(k+2)}(t)}{(k+1)!}(x - t)^{k+1}\\,dt.",
+      "invokes": [
+        "integration_by_parts"
+      ],
       "cites": [
         "wikipedia:Taylor's_theorem"
       ]
     },
     {
-      "property": "The complex remainder satisfies the uniform Cauchy estimate |R_k(z)| \\le \\frac{M_r}{r^{k+1}} \\frac{|z-c|^{k+1}}{1 - |z-c|/r} \\le \\frac{M_r \\beta^{k+1}}{1 - \\beta} for |z-c|/r \\le \\beta < 1.",
-      "why": "Cauchy's estimates bound the integrand on the circle of radius r by M_r and sum the geometric series tail.",
-      "cites": [
-        "wikipedia:Taylor's_theorem"
-      ]
-    },
-    {
-      "property": "For k = 1, the first-order Taylor expansion yields the differential L = df(\\mathbf{a}) such that f(\\mathbf{x}) = f(\\mathbf{a}) + df(\\mathbf{a})(\\mathbf{x}-\\mathbf{a}) + h(\\mathbf{x})\\|\\mathbf{x}-\\mathbf{a}\\| where \\lim_{\\mathbf{x} \\to \\mathbf{a}} h(\\mathbf{x}) = 0.",
-      "why": "Differentiability at a point is uniquely defined by the linear functional df(a) representing partial derivatives along displacement coordinates.",
-      "cites": [
-        "wikipedia:Taylor's_theorem"
-      ]
-    },
-    {
-      "property": "When all k-th order partial derivatives are continuous at a, the order of differentiation in D^\\alpha f = \\frac{\\partial^{|\\alpha|} f}{\\partial x_1^{\\alpha_1} \\cdots \\partial x_n^{\\alpha_n}} can be freely interchanged by Clairaut's theorem.",
-      "why": "Continuity of the partial derivatives guarantees symmetry of mixed partial derivatives.",
+      "n": 5,
+      "text": "Substitute the integrated remainder term into the induction hypothesis formula to obtain: f(x) = \\sum_{j=0}^{k+1} \\frac{f^{(j)}(a)}{j!}(x - a)^j + \\int_a^x \\frac{f^{(k+2)}(t)}{(k+1)!}(x - t)^{k+1}\\,dt, showing that if the statement holds for k, it holds for k + 1. Since it holds for k = 1, it holds for every positive integer k.",
+      "invokes": [
+        "mathematical_induction"
+      ],
       "cites": [
         "wikipedia:Taylor's_theorem"
       ]
     }
   ],
+  "properties": [],
   "assumptions": [
     {
-      "assumption": "The function f is k times differentiable at the expansion center point a, requiring differentiability up to order k-1 in a neighborhood of a.",
-      "breaks_when": "f is not defined on an open neighborhood of a, any of the lower k-1 derivatives fail to be differentiable, or the k-th order derivative does not exist at a."
+      "assumption": "f^{(k)} is absolutely continuous on the closed interval between a and x (or f^{(k)} is continuous on the closed interval and differentiable on the open interval between a and x)",
+      "breaks_when": "f^{(k)} is not continuous or fails to be absolutely continuous on the closed interval, preventing f^{(k+1)} from existing as an L^1 or Riemann integrable function"
     },
     {
-      "assumption": "For the multivariate integral remainder formula, f: R^n -> R is k+1 times continuously differentiable in a closed ball B = {y \\in R^n : ||a - y|| <= r} for some r > 0.",
-      "breaks_when": "Any (k+1)-th order partial derivative fails to exist or is discontinuous within the closed ball B."
-    },
-    {
-      "assumption": "For complex Taylor expansion, f is complex differentiable in an open set U subset C containing the region W and the boundary Jordan curve \\gamma.",
-      "breaks_when": "f has singularities, poles, or branch cuts in region W or on \\gamma."
-    },
-    {
-      "assumption": "For convergence of the series approximation, the evaluation point must satisfy |z - c| < r where disk B(c, r) is free of singularities.",
-      "breaks_when": "|z - c| exceeds the distance from center c to the nearest pole or singularity of the analytic continuation."
+      "assumption": "For the mean value form of the remainder, G is continuous on the closed interval between a and x and differentiable with non-vanishing derivative on the open interval between a and x",
+      "breaks_when": "G fails to be continuous on [a, x] or G' vanishes at any point in the open interval between a and x"
     }
   ],
   "failure_modes": [
     {
-      "mode": "Divergence outside the disk of analyticity",
-      "signature": "Taylor polynomial approximation error diverges or fails to decrease as degree k increases for points where distance to center exceeds distance to nearest singularity.",
-      "cause": "Presence of poles in the complex plane (such as simple poles at \\pm i for f(x) = 1/(1+x^2)) that bound the radius of convergence (e.g., radius 1 around 0, or radius \\sqrt{2} around 1)."
+      "mode": "Non-integrable or non-existent higher-order derivative",
+      "signature": "The integral remainder term \\int_a^x \\frac{f^{(k+1)}(t)}{k!}(x - t)^k\\,dt is undefined or divergent",
+      "cause": "f^{(k)} fails absolute continuity on [a, x], so f^{(k+1)} does not exist as an L^1-function"
     },
     {
-      "mode": "Ambiguity of higher-order multi-index derivative notation D^\\alpha f",
-      "signature": "Evaluating mixed partial derivatives in different orders produces conflicting values for Taylor polynomial coefficients.",
-      "cause": "Partial derivatives of order k are not continuous at the expansion point, violating Clairaut's theorem."
-    },
-    {
-      "mode": "Invalidity of the multivariate integral remainder formula",
-      "signature": "The integral remainder R_\\beta(\\mathbf{x}) fails to integrate or fails to equal f(\\mathbf{x}) - P_k(\\mathbf{x}).",
-      "cause": "(k+1)-th order partial derivatives fail to exist or fail to be continuous along the segment connecting center a to x."
-    },
-    {
-      "mode": "Breakdown of Cauchy remainder estimate near domain boundary",
-      "signature": "The error upper bound M_r \\beta^{k+1} / (1 - \\beta) diverges to infinity as \\beta \\to 1.",
-      "cause": "The evaluation point z approaches the boundary curve \\partial W where |z - c| / r approaches 1."
+      "mode": "Vanishing auxiliary derivative in mean value remainder",
+      "signature": "Division by zero in remainder expression R_k(x) = \\frac{f^{(k+1)}(\\xi)}{k!}(x - \\xi)^k \\frac{G(x) - G(a)}{G'(\\xi)}",
+      "cause": "The auxiliary function G satisfies G'(\\xi) = 0 for some point \\xi in the open interval between a and x"
     }
   ],
   "source_ids": [
@@ -162,66 +131,20 @@
   ],
   "check": {
     "node_id": "taylor_expansion",
-    "kind": "definition",
+    "kind": "derivation",
     "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
-    "unknown_invocations": [],
-    "closure_holes": [],
-    "shape": [
-      "expected a derivation, produced a definition"
+    "unknown_invocations": [
+      "fundamental_theorem_of_calculus",
+      "mathematical_induction"
     ],
+    "closure_holes": [
+      "integration_by_parts"
+    ],
+    "canon_notes": [],
+    "shape": [],
     "vacuous_invocations": false,
-    "ok": false
-  },
-  "instantiation": {
-    "node_id": "taylor_expansion",
-    "project": "agrios_ws",
-    "components": [
-      "ekf_global",
-      "ekf_local"
-    ],
-    "why_here": "In agrios_ws, ekf_global and ekf_local use the Extended Kalman Filter from robot_localization to fuse odometry and IMU data for robot state estimation. The underlying EKF algorithm requires a first-order Taylor expansion to linearize nonlinear motion and measurement models around the current state estimate. The codebase does not directly expose or parameterize this expansion, but its localization components depend fundamentally on this mathematical result to function.",
-    "concrete": [
-      {
-        "symbol": "f",
-        "in_your_project": "The nonlinear state transition (motion model) or measurement function mapping the robot's state to future states or expected sensor observations"
-      },
-      {
-        "symbol": "x",
-        "in_your_project": "The true evaluation state vector of the robot, an n x 1 vector (15 x 1 in robot_localization representing 3D pose, velocities, and accelerations)"
-      },
-      {
-        "symbol": "a",
-        "in_your_project": "The expansion center point, corresponding to the current state estimate vector (15 x 1) around which the models are linearized"
-      },
-      {
-        "symbol": "k",
-        "in_your_project": "The expansion order, which is 1 because the standard Extended Kalman Filter truncates the Taylor series to a first-order (linear) approximation"
-      },
-      {
-        "symbol": "P_k",
-        "in_your_project": "The first-order Taylor polynomial representing the linearized affine motion or measurement model evaluated at the operating point"
-      },
-      {
-        "symbol": "R_k",
-        "in_your_project": "The linearization truncation remainder representing unmodeled higher-order nonlinear dynamics discarded by the first-order filter"
-      },
-      {
-        "symbol": "v",
-        "in_your_project": "The state error/displacement vector x - a (15 x 1 vector) indicating deviation from the linearization point"
-      },
-      {
-        "symbol": "\\alpha",
-        "in_your_project": "Multi-index indicating first-order partial derivatives (|\\alpha| = 1) corresponding to individual state variables"
-      },
-      {
-        "symbol": "D^\\alpha f",
-        "in_your_project": "The first-order partial derivatives of the system dynamics or measurement equations evaluated at state estimate a, forming the Jacobian matrix entries"
-      }
-    ],
-    "knobs": [],
-    "invented": {},
-    "thin": ""
+    "ok": true
   }
 }

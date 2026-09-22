@@ -2,65 +2,129 @@
   "node_id": "kl_divergence",
   "grounded": true,
   "kind": "definition",
-  "statement": "The supplied sources genuinely contain nothing to derive. Kullback\u2013Leibler (KL) divergence is defined between probability distributions P and Q as D_KL(P || Q) = sum_x P(x) log(P(x) / Q(x)) (or for continuous distributions, integral p(x) log(p(x) / q(x)) dx); the supplied source contains no derivation and states only that cross-entropy and KL divergence are identical up to an additive constant.",
+  "statement": "The supplied sources contain no derivation of the Kullback\u2013Leibler divergence. In mathematical statistics, the Kullback\u2013Leibler (KL) divergence (also called relative entropy and I-divergence), denoted D_KL(P || Q), is an asymmetric statistical divergence on the space of probability distributions measuring the difference between distributions P and Q (the general defining sum/integral is omitted in the source text's truncation, though closed forms are given for specific families, such as exponential families where D_KL(theta_1 || theta_2) = (theta_1 - theta_2)^T mu_1 - A(theta_1) + A(theta_2)).",
   "symbols": [
     {
-      "symbol": "P",
-      "meaning": "reference or true probability distribution",
-      "dimensions": "discrete or continuous distribution"
-    },
-    {
-      "symbol": "Q",
-      "meaning": "approximating or model probability distribution",
-      "dimensions": "discrete or continuous distribution"
-    },
-    {
       "symbol": "D_KL(P || Q)",
-      "meaning": "Kullback\u2013Leibler divergence from Q to P",
+      "meaning": "Kullback\u2013Leibler divergence (relative entropy) of distribution P with respect to Q",
       "dimensions": "scalar"
+    },
+    {
+      "symbol": "P, Q",
+      "meaning": "probability distributions",
+      "dimensions": "distribution"
+    },
+    {
+      "symbol": "theta",
+      "meaning": "canonical natural parameters of an exponential family distribution",
+      "dimensions": "d x 1"
+    },
+    {
+      "symbol": "T(x)",
+      "meaning": "sufficient statistics vector",
+      "dimensions": "d x 1"
+    },
+    {
+      "symbol": "A(theta)",
+      "meaning": "log-partition function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "mu_1",
+      "meaning": "mean parameter vector E_{theta_1}[T(X)] = nabla A(theta_1)",
+      "dimensions": "d x 1"
+    },
+    {
+      "symbol": "g_jk(theta)",
+      "meaning": "Fisher information metric (Hessian of relative entropy at theta = theta_0)",
+      "dimensions": "d x d"
     }
   ],
   "steps": [],
   "properties": [
     {
-      "property": "Cross-entropy and KL divergence are identical up to an additive constant.",
-      "why": "Cross-entropy differs from KL divergence only by an additive constant when the reference distribution is fixed.",
+      "property": "Relative entropy is an asymmetric statistical divergence rather than a metric, such that in general D_KL(P || Q) != D_KL(Q || P).",
+      "why": "It generalizes squared distance rather than linear distance and does not satisfy the triangle inequality or symmetry.",
       "cites": [
-        "wikipedia:Cross-entropy#kl_divergence"
+        "wikipedia:Kullback\u2013Leibler_divergence"
       ]
     },
     {
-      "property": "In engineering literature, the principle of minimizing KL divergence (Kullback's 'Principle of Minimum Discrimination Information') is often called the Principle of Minimum Cross-Entropy (MCE), or Minxent.",
-      "why": "Minimizing KL divergence is equivalent to minimizing cross-entropy because they differ only by an additive constant.",
+      "property": "Relative entropy achieves an absolute minimum of 0 when P = Q.",
+      "why": "The divergence vanishes for identical distributions, causing its first derivatives with respect to distribution parameters to vanish at theta = theta_0.",
       "cites": [
-        "wikipedia:Cross-entropy#kl_divergence"
+        "wikipedia:Kullback\u2013Leibler_divergence"
+      ]
+    },
+    {
+      "property": "Up to second order under small parameter deviations Delta theta, D_KL(P(theta) || P(theta_0)) = (1/2) Delta theta_j Delta theta_k g_jk(theta_0) + ..., where g_jk is the Fisher information metric.",
+      "why": "The vanishing first derivatives at theta = theta_0 leave the positive semi-definite Hessian matrix to define a Riemannian metric on parameter space.",
+      "cites": [
+        "wikipedia:Kullback\u2013Leibler_divergence"
+      ]
+    },
+    {
+      "property": "Convergence in KL divergence (P_n ->^D P) implies convergence in total variation (P_n ->^TV P).",
+      "why": "Pinsker's inequality entails that vanishing relative entropy bounds and forces total variation distance to zero.",
+      "cites": [
+        "wikipedia:Kullback\u2013Leibler_divergence"
+      ]
+    },
+    {
+      "property": "Mutual information between random variables X and Y equals the relative entropy of the joint distribution from the product of marginals: I(X;Y) = D_KL(P_{X,Y} || P_X * P_Y).",
+      "why": "It quantifies the divergence between the joint distribution P_{X,Y}(x,y) and the independent distribution (P_X * P_Y)(x,y) = P_X(x)P_Y(y).",
+      "cites": [
+        "wikipedia:Kullback\u2013Leibler_divergence"
+      ]
+    },
+    {
+      "property": "For distributions in the exponential family, D_KL(theta_1 || theta_2) = (theta_1 - theta_2)^T mu_1 - A(theta_1) + A(theta_2).",
+      "why": "The divergence evaluates directly from canonical parameters theta_1, theta_2, log-partition function values, and mean parameter mu_1 = nabla A(theta_1).",
+      "cites": [
+        "wikipedia:Kullback\u2013Leibler_divergence"
+      ]
+    },
+    {
+      "property": "Self-information of an event m for a discrete random variable can be represented as I(m) = D_KL(delta_im || {p_i}).",
+      "why": "It measures the relative entropy of the distribution from a Kronecker delta representing certainty that i = m.",
+      "cites": [
+        "wikipedia:Kullback\u2013Leibler_divergence"
       ]
     }
   ],
   "assumptions": [
     {
-      "assumption": "The reference distribution is fixed when comparing cross-entropy and KL divergence.",
-      "breaks_when": "The reference distribution varies with respect to the optimization parameters, so the additive term is no longer constant."
+      "assumption": "The support of distribution P is contained within the support of distribution Q (e.g., [A, B] enclosed within [C, D] with C <= A < B <= D for uniform distributions).",
+      "breaks_when": "The support of P extends into regions where Q has zero support or probability density."
     },
     {
-      "assumption": "The support of P is contained in the support of Q (absolute continuity).",
-      "breaks_when": "Q(x) = 0 for some x where P(x) > 0, causing division by zero inside the logarithm."
+      "assumption": "Regularity conditions on the parameter derivatives of p(x, rho) hold (existence of the first three derivatives of log p and integrability of dominated derivative bounds).",
+      "breaks_when": "The density p fails to be thrice differentiable with respect to the parameter or the derivative integrability bounds fail to be finite."
+    },
+    {
+      "assumption": "Both distributions belong to the same exponential family with shared reference measure h(x) and sufficient statistics T(x).",
+      "breaks_when": "The compared distributions have different base measures or incompatible sufficient statistics."
     }
   ],
   "failure_modes": [
     {
-      "mode": "Equivalence between MCE and minimum KL divergence fails",
-      "signature": "Minimizing cross-entropy yields an optimal distribution different from minimizing KL divergence",
-      "cause": "The reference distribution is not held constant, making the additive difference parameter-dependent."
+      "mode": "Support mismatch",
+      "signature": "KL divergence is undefined or infinite",
+      "cause": "Distribution Q assigns zero density or probability to outcomes that have non-zero probability under distribution P."
     },
     {
-      "mode": "Undefined divergence or divergence to infinity",
-      "signature": "Evaluation yields infinity or undefined values",
-      "cause": "The approximating distribution assigns zero probability to an event that has non-zero probability under the reference distribution."
+      "mode": "Symmetry violation error",
+      "signature": "D_KL(P || Q) != D_KL(Q || P)",
+      "cause": "Treating relative entropy as a symmetric distance metric or assuming satisfaction of the triangle inequality."
+    },
+    {
+      "mode": "Fisher information metric degeneracy",
+      "signature": "Metric tensor g_jk(theta) is non-invertible / singular",
+      "cause": "The distribution parameterization theta contains non-identifiable or redundant directions, leaving the Hessian positive semi-definite but not strictly positive definite."
     }
   ],
   "source_ids": [
-    "wikipedia:Cross-entropy#kl_divergence"
+    "wikipedia:Kullback\u2013Leibler_divergence"
   ],
   "check": {
     "node_id": "kl_divergence",

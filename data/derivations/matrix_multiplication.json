@@ -1,0 +1,98 @@
+{
+  "node_id": "matrix_multiplication",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Matrix multiplication is a binary operation producing a matrix product C = AB from two matrices A and B, defined when the number of columns in the first matrix A equals the number of rows in the second matrix B. If A has size m x n and B has size n x p, the resulting matrix product C has size m x p, with entries given by the sum of products of corresponding row and column entries: c_{ij} = \\sum_{k} a_{ik} b_{kj}.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "first factor matrix",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "B",
+      "meaning": "second factor matrix",
+      "dimensions": "n x p"
+    },
+    {
+      "symbol": "AB",
+      "meaning": "resulting matrix product",
+      "dimensions": "m x p"
+    },
+    {
+      "symbol": "c_{ij}",
+      "meaning": "entry of the matrix product C at row i and column j",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "a_{ik}",
+      "meaning": "entry of matrix A at row i and column k",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "b_{kj}",
+      "meaning": "entry of matrix B at row k and column j",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Non-commutativity: in general, AB != BA.",
+      "why": "Products may have different dimensions, one product may be undefined, or even for square matrices of the same size, products generally differ.",
+      "cites": [
+        "wikipedia:Matrix_multiplication"
+      ]
+    },
+    {
+      "property": "Distributivity with respect to matrix addition: A(B + C) = AB + AC and (B + C)D = BD + CD.",
+      "why": "Results directly from coefficient distributivity via \\sum_{k} a_{ik}(b_{kj} + c_{kj}) = \\sum_{k} a_{ik}b_{kj} + \\sum_{k} a_{ik}c_{kj}.",
+      "cites": [
+        "wikipedia:Matrix_multiplication"
+      ]
+    },
+    {
+      "property": "Representation of function composition for linear maps: the matrix representing B \\circ A is the matrix product BA.",
+      "why": "Applying the maps sequentially corresponds to associative matrix-vector multiplication (BA)x = B(Ax) = BAx.",
+      "cites": [
+        "wikipedia:Matrix_multiplication"
+      ]
+    },
+    {
+      "property": "Representation of dot products: the dot product of two column vectors x and y is the unique entry of x^{\\mathsf{T}}y.",
+      "why": "The resulting 1 x 1 matrix is identified with its single scalar entry.",
+      "cites": [
+        "wikipedia:Matrix_multiplication"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Inner dimensions match: the number of columns in the first matrix equals the number of rows in the second matrix.",
+      "breaks_when": "The column dimension of A does not equal the row dimension of B."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Undefined operation / dimension mismatch",
+      "signature": "Matrix product AB is undefined",
+      "cause": "The number of columns of matrix A differs from the number of rows of matrix B."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Matrix_multiplication"
+  ],
+  "check": {
+    "node_id": "matrix_multiplication",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

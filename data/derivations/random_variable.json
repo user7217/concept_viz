@@ -1,0 +1,144 @@
+{
+  "node_id": "random_variable",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A random variable is a mathematical function whose domain is the set of possible outcomes in a sample space $\\Omega$, formalizing a quantity or object that depends on random events, where two random variables $X$ and $Y$ are equal if they are equal as functions on their measurable space: $X(\\omega) = Y(\\omega)$ for all $\\omega \\in \\Omega$.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "random variable, a mathematical function defined on the sample space",
+      "dimensions": "function"
+    },
+    {
+      "symbol": "\\Omega",
+      "meaning": "sample space, the set of possible outcomes",
+      "dimensions": "set"
+    },
+    {
+      "symbol": "\\omega",
+      "meaning": "an outcome in the sample space \\Omega",
+      "dimensions": "element"
+    },
+    {
+      "symbol": "P",
+      "meaning": "probability measure defined on events in the sample space",
+      "dimensions": "scalar in [0, 1]"
+    },
+    {
+      "symbol": "F_X(x)",
+      "meaning": "cumulative distribution function of X, defined as P(X <= x)",
+      "dimensions": "scalar in [0, 1]"
+    },
+    {
+      "symbol": "f_X(x)",
+      "meaning": "probability density function of X",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "If $X$ is a random variable on $\\Omega$ and $g\\colon \\mathbb{R} \\to \\mathbb{R}$ is a Borel measurable function, then $Y = g(X)$ is also a random variable on $\\Omega$.",
+      "why": "The composition of measurable functions is also measurable.",
+      "cites": [
+        "wikipedia:Random_variable"
+      ]
+    },
+    {
+      "property": "For an invertible function $g$ with inverse $h = g^{-1}$, the cumulative distribution function of $Y = g(X)$ is $F_Y(y) = F_X(h(y))$ if $h$ is increasing, and $F_Y(y) = 1 - F_X(h(y))$ if $h$ is decreasing.",
+      "why": "Evaluation of $P(g(X) \\leq y)$ through the inverse function $h$.",
+      "cites": [
+        "wikipedia:Random_variable"
+      ]
+    },
+    {
+      "property": "For an invertible and differentiable function $g$ with inverse $h = g^{-1}$, the probability density function transforms as $f_Y(y) = f_X(h(y)) |\\frac{dh(y)}{dy}|$.",
+      "why": "Differentiating both sides of the cumulative distribution function relation with respect to $y$.",
+      "cites": [
+        "wikipedia:Random_variable"
+      ]
+    },
+    {
+      "property": "If each $y$ admits at most a countable number of roots $x_i = g_i^{-1}(y)$ such that $y = g(x_i)$, the probability density function generalizes to $f_Y(y) = \\sum_i f_X(g_i^{-1}(y)) |\\frac{dg_i^{-1}(y)}{dy}|$.",
+      "why": "Summing the contributions over all local inverse branches via the inverse function theorem.",
+      "cites": [
+        "wikipedia:Random_variable"
+      ]
+    },
+    {
+      "property": "The probability distribution of the sum of two independent random variables is the convolution of each of their distributions.",
+      "why": "Independence of the two random variables.",
+      "cites": [
+        "wikipedia:Random_variable"
+      ]
+    },
+    {
+      "property": "Probability distributions do not form a vector space, but they are closed under convex combinations, forming a convex subset of the space of functions or measures.",
+      "why": "Linear combinations do not generally preserve non-negativity or total integral 1.",
+      "cites": [
+        "wikipedia:Random_variable"
+      ]
+    },
+    {
+      "property": "Random variables admit three notions of equivalence of increasing strength: equality in distribution ($X \\stackrel{d}{=} Y$), almost sure equality ($X \\stackrel{\\text{a.s.}}{=} Y$), and pointwise equality ($X(\\omega) = Y(\\omega)$ for all $\\omega$).",
+      "why": "Distributional equality requires identical CDFs, almost sure equality requires $P(X \\neq Y) = 0$, and equality requires identical function values on all sample space outcomes.",
+      "cites": [
+        "wikipedia:Random_variable"
+      ]
+    },
+    {
+      "property": "Almost sure equality is preserved under joint relationships and operations with other random variables on the same probability space (e.g., $A \\stackrel{\\text{a.s.}}{=} B \\implies A+D \\stackrel{\\text{a.s.}}{=} B+D$ and $\\mathbb{E}(AD) = \\mathbb{E}(BD)$), whereas equality in distribution is not generally preserved.",
+      "why": "Equality in distribution does not require variables to be on the same probability space or preserve joint covariances with other variables.",
+      "cites": [
+        "wikipedia:Random_variable"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The function $g\\colon \\mathbb{R} \\to \\mathbb{R}$ used to construct $Y = g(X)$ is Borel measurable.",
+      "breaks_when": "$g$ is only Lebesgue measurable, where the composition of measurable functions is not guaranteed to be measurable."
+    },
+    {
+      "assumption": "The transformation $g$ is differentiable when relating probability density functions via derivatives of inverse branches.",
+      "breaks_when": "$g$ is non-differentiable or the derivative fails to exist."
+    },
+    {
+      "assumption": "Each outcome $y$ admits at most a countable number of roots under $g$.",
+      "breaks_when": "$g$ is flat or constant over an interval, yielding uncountably many roots for a value $y$."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Assuming joint relationships hold under equality in distribution",
+      "signature": "$A \\stackrel{d}{=} C$ but $A + D \\neq C + D$ or $\\mathbb{E}(AD) \\neq \\mathbb{E}(CD)$",
+      "cause": "Random variables that are equal in distribution are not necessarily defined on the same probability space or jointly distributed identically with third variables."
+    },
+    {
+      "mode": "Applying a single-branch monotonic density formula to a multi-root transformation",
+      "signature": "Underestimated probability density $f_Y(y)$ that fails to integrate to 1",
+      "cause": "Failing to sum over all roots $x_i = g_i^{-1}(y)$ when $g$ is non-monotonic and maps multiple outcomes to the same $y$."
+    },
+    {
+      "mode": "Treating probability distributions as a linear vector space",
+      "signature": "Negative density values or failure of total probability to sum to 1",
+      "cause": "Arbitrary linear combinations do not preserve the required non-negativity and unit integral properties of probability distributions."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Random_variable"
+  ],
+  "check": {
+    "node_id": "random_variable",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

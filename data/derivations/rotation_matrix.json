@@ -1,0 +1,126 @@
+{
+  "node_id": "rotation_matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In linear algebra, a rotation matrix is an n-dimensional transformation matrix R acting on Euclidean space \u211d^n that satisfies R^T = R^(-1) (orthogonality), with det R = 1 for a proper rotation and det R = -1 for an improper rotation (roto-reflection), used to rotate column vectors via premultiplication R x.",
+  "symbols": [
+    {
+      "symbol": "R",
+      "meaning": "rotation matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "I",
+      "meaning": "identity matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "u",
+      "meaning": "unit vector parallel to the rotation axis in \u211d^3",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "\u03b8",
+      "meaning": "rotation angle about the rotation axis",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "vector being rotated in Euclidean space",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "[u]_\u00d7",
+      "meaning": "cross product skew-symmetric matrix of axis u",
+      "dimensions": "3 x 3"
+    },
+    {
+      "symbol": "u \u2297 u",
+      "meaning": "outer product u u^T of axis u with itself",
+      "dimensions": "3 x 3"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "R^T = R^(-1)",
+      "why": "A rotation matrix is an orthogonal matrix on \u211d^n",
+      "cites": [
+        "wikipedia:Rotation_matrix"
+      ]
+    },
+    {
+      "property": "det R = \u00b11 (det R = 1 for proper rotations, det R = -1 for improper rotations)",
+      "why": "Follows from orthogonality and distinguishes pure rotations from reflections",
+      "cites": [
+        "wikipedia:Rotation_matrix"
+      ]
+    },
+    {
+      "property": "R u = u in three dimensions, meaning u is an eigenvector with eigenvalue \u03bb = 1",
+      "why": "A vector along the rotation axis is unchanged by the rotation",
+      "cites": [
+        "wikipedia:Rotation_matrix"
+      ]
+    },
+    {
+      "property": "tr(R) = 1 + 2 cos \u03b8 for a 3 \u00d7 3 rotation matrix",
+      "why": "The trace of R directly relates to the angle of rotation",
+      "cites": [
+        "wikipedia:Rotation_matrix"
+      ]
+    },
+    {
+      "property": "R = (cos \u03b8) I + (sin \u03b8) [u]_\u00d7 + (1 - cos \u03b8) (u \u2297 u)",
+      "why": "Matrix form of Rodrigues' rotation formula parametrizing a 3D rotation by axis u and angle \u03b8",
+      "cites": [
+        "wikipedia:Rotation_matrix"
+      ]
+    },
+    {
+      "property": "Order of operations is right-to-left: R x = R_x(\u03b1) R_y(\u03b2) R_z(\u03b3) x",
+      "why": "Matrix multiplication is non-commutative and rotation matrices premultiply column vectors",
+      "cites": [
+        "wikipedia:Rotation_matrix"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Matrices premultiply column vectors in Euclidean space",
+      "breaks_when": "Row vectors or postmultiplication conventions are used, requiring matrix transposition and reversed multiplication order"
+    },
+    {
+      "assumption": "Axis vector u is a unit vector (u_x^2 + u_y^2 + u_z^2 = 1) for Rodrigues' formula",
+      "breaks_when": "The vector u is not normalized to unit length"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Degenerate axis extraction via skew-symmetric difference R - R^T",
+      "signature": "R - R^T = 0, yielding a zero vector for u",
+      "cause": "R is symmetric, corresponding to a rotation angle of 0\u00b0 or 180\u00b0 where sin \u03b8 = 0"
+    },
+    {
+      "mode": "Angle sign ambiguity when using only matrix trace",
+      "signature": "|\u03b8| = arccos((tr(R) - 1) / 2) only provides the absolute value of the angle",
+      "cause": "Cosine is an even function, requiring cross-product/skew-symmetric terms to determine orientation relative to the chosen axis"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Rotation_matrix"
+  ],
+  "check": {
+    "node_id": "rotation_matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

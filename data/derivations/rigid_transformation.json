@@ -1,0 +1,144 @@
+{
+  "node_id": "rigid_transformation",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A rigid transformation (also called Euclidean transformation or Euclidean isometry) is a geometric transformation g of a Euclidean space that preserves the Euclidean distance between every pair of points, d(g(X), g(Y))^2 = d(X, Y)^2, formally producing for any vector v a transformed vector of the form T(v) = R v + t, where R is an orthogonal transformation matrix satisfying R^T = R^{-1} and t is a translation vector.",
+  "symbols": [
+    {
+      "symbol": "v",
+      "meaning": "vector in the Euclidean vector space",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "T(v)",
+      "meaning": "transformed vector under the rigid transformation",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "R",
+      "meaning": "orthogonal transformation matrix satisfying R^T = R^{-1}",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "t",
+      "meaning": "vector giving the translation of the origin",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "X, Y",
+      "meaning": "points in Euclidean space R^n",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "d(X, Y)",
+      "meaning": "Euclidean distance between points X and Y",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "[I]",
+      "meaning": "identity matrix",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Distance preservation: d(g(X), g(Y))^2 = d(X, Y)^2 for all points X and Y",
+      "why": "a rigid transformation by definition preserves the Euclidean distance between every pair of points",
+      "cites": [
+        "wikipedia:Rigid_transformation"
+      ]
+    },
+    {
+      "property": "Orthogonality condition for linear part: [L]^T [L] = [I], implying det([L]) = \u00b11",
+      "why": "preserving the distance squared requires (v - w)^T [L]^T [L] (v - w) = (v - w)^T (v - w)",
+      "cites": [
+        "wikipedia:Rigid_transformation"
+      ]
+    },
+    {
+      "property": "Proper rigid transformations (rigid motions) satisfy det(R) = +1",
+      "why": "preserves handedness and orientation by excluding reflections",
+      "cites": [
+        "wikipedia:Rigid_transformation"
+      ]
+    },
+    {
+      "property": "Improper rigid transformations have det(R) = -1",
+      "why": "the transformation includes a reflection, transforming a left hand into a right hand",
+      "cites": [
+        "wikipedia:Rigid_transformation"
+      ]
+    },
+    {
+      "property": "Group structure: rigid transformations form E(n), and proper rigid transformations form SE(n)",
+      "why": "rigid transformations form the Euclidean group and rigid motions form the special Euclidean group under composition",
+      "cites": [
+        "wikipedia:Rigid_transformation"
+      ]
+    },
+    {
+      "property": "Rigid transformations are affine transformations",
+      "why": "any rigid transformation is a composition of an orthogonal transformation and a translation",
+      "cites": [
+        "wikipedia:Rigid_transformation"
+      ]
+    },
+    {
+      "property": "Every rigid motion in dimension three can be decomposed as a rototranslation and is a screw motion",
+      "why": "consequence of Chasles' theorem in dimension three",
+      "cites": [
+        "wikipedia:Rigid_transformation"
+      ]
+    },
+    {
+      "property": "Shape and size preservation under proper rigid transformation",
+      "why": "any object retains the same shape and size under distance- and handedness-preserving motions",
+      "cites": [
+        "wikipedia:Rigid_transformation"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Euclidean space R^n equipped with standard Euclidean distance metric",
+      "breaks_when": "space is non-Euclidean or distance metric is not the scalar product distance"
+    },
+    {
+      "assumption": "Linear part R is orthogonal (R^T R = I)",
+      "breaks_when": "transformation introduces non-uniform scaling, stretching, or shear deformations"
+    },
+    {
+      "assumption": "det(R) = +1 when defining a proper rigid transformation / rigid motion",
+      "breaks_when": "transformation contains a reflection (det(R) = -1), which reverses handedness"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Distance distortion / non-rigidity",
+      "signature": "d(g(X), g(Y))^2 != d(X, Y)^2 or [L]^T [L] != [I]",
+      "cause": "Transformation matrix is not orthogonal, introducing scaling or shear"
+    },
+    {
+      "mode": "Handedness inversion (improper transformation)",
+      "signature": "det(R) = -1",
+      "cause": "Orthogonal matrix produces a reflection, inverting the orientation of objects"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Rigid_transformation"
+  ],
+  "check": {
+    "node_id": "rigid_transformation",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

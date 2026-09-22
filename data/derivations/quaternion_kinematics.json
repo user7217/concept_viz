@@ -1,57 +1,150 @@
 {
   "node_id": "quaternion_kinematics",
-  "grounded": false,
-  "kind": "definition",
-  "statement": "Quaternion kinematics describes the continuous-time evolution of an orientation quaternion under angular velocity, defined by the differential equation \\dot{\\mathbf{q}} = \\frac{1}{2} \\mathbf{q} \\otimes \\mathbf{\\omega} (for body-frame angular velocity \\mathbf{\\omega}) or \\dot{\\mathbf{q}} = \\frac{1}{2} \\mathbf{\\omega} \\otimes \\mathbf{q} (for spatial/inertial-frame angular velocity). The supplied source [wikipedia:Quaternions_and_spatial_rotation] does not support this concept and genuinely contains nothing to derive regarding quaternion kinematics; it covers only static rotation matrices, axis-angle conversions, rotation composition, and optimization derivatives of rotated vectors with respect to quaternion components.",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "The composition of two successive spatial rotations R_B and R_A represented by unit quaternions B = cos(beta/2) + B sin(beta/2) and A = cos(alpha/2) + A sin(alpha/2) yields the composite rotation R_C = R_B R_A with associated unit quaternion C = B A = cos(gamma/2) + C sin(gamma/2), where the composite rotation angle gamma is given by gamma = 2 arccos((1 - A . B) cos((beta - alpha)/2) + (1 + A . B) cos((beta + alpha)/2)) and the normalized rotation axis is C = D / (2 sin(gamma/2)) = D / ||D||, with unnormalized axis vector D = (sin((beta + alpha)/2) + sin((beta - alpha)/2)) A + (sin((beta + alpha)/2) - sin((beta - alpha)/2)) B + (cos((beta - alpha)/2) - cos((beta + alpha)/2)) (B x A).",
   "symbols": [
     {
-      "symbol": "\\mathbf{q}",
-      "meaning": "unit orientation quaternion representing attitude",
-      "dimensions": "4 x 1"
+      "symbol": "A",
+      "meaning": "unit quaternion associated with first rotation R_A",
+      "dimensions": "4"
     },
     {
-      "symbol": "\\mathbf{\\omega}",
-      "meaning": "angular velocity vector",
+      "symbol": "B",
+      "meaning": "unit quaternion associated with second rotation R_B",
+      "dimensions": "4"
+    },
+    {
+      "symbol": "C",
+      "meaning": "unit quaternion associated with composite rotation R_C",
+      "dimensions": "4"
+    },
+    {
+      "symbol": "A",
+      "meaning": "unit rotation axis vector of first rotation R_A",
       "dimensions": "3 x 1"
     },
     {
-      "symbol": "\\dot{\\mathbf{q}}",
-      "meaning": "time derivative of the orientation quaternion",
-      "dimensions": "4 x 1"
+      "symbol": "B",
+      "meaning": "unit rotation axis vector of second rotation R_B",
+      "dimensions": "3 x 1"
     },
     {
-      "symbol": "\\mathbf{\\Omega}(\\mathbf{\\omega})",
-      "meaning": "skew-symmetric 4x4 matrix representation of angular velocity",
-      "dimensions": "4 x 4"
+      "symbol": "C",
+      "meaning": "unit rotation axis vector of composite rotation R_C",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "alpha",
+      "meaning": "rotation angle of first rotation R_A",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "beta",
+      "meaning": "rotation angle of second rotation R_B",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "gamma",
+      "meaning": "rotation angle of composite rotation R_C",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "D",
+      "meaning": "unnormalized composite rotation axis vector",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "R_A",
+      "meaning": "spatial rotation operator for first rotation",
+      "dimensions": "3 x 3"
+    },
+    {
+      "symbol": "R_B",
+      "meaning": "spatial rotation operator for second rotation",
+      "dimensions": "3 x 3"
+    },
+    {
+      "symbol": "R_C",
+      "meaning": "composite spatial rotation operator R_B R_A",
+      "dimensions": "3 x 3"
     }
   ],
-  "steps": [],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Represent spatial rotations R_A and R_B with rotation axes A, B and rotation angles alpha, beta as unit quaternions A = cos(alpha/2) + A sin(alpha/2) and B = cos(beta/2) + B sin(beta/2). The composite rotation R_C = R_B R_A has rotation axis C and angle gamma defined by the quaternion product C = B A = (cos(beta/2) + B sin(beta/2)) (cos(alpha/2) + A sin(alpha/2)).",
+      "invokes": [
+        "quaternion_multiplication",
+        "unit_quaternion"
+      ],
+      "cites": [
+        "wikipedia:Quaternions_and_spatial_rotation"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Expand the quaternion product into scalar and vector components: cos(gamma/2) + C sin(gamma/2) = (cos(beta/2) cos(alpha/2) - B . A sin(beta/2) sin(alpha/2)) + (B sin(beta/2) cos(alpha/2) + A sin(alpha/2) cos(beta/2) + B x A sin(beta/2) sin(alpha/2)).",
+      "invokes": [
+        "dot_product",
+        "cross_product"
+      ],
+      "cites": [
+        "wikipedia:Quaternions_and_spatial_rotation"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Equate the scalar part to the spherical law of cosines identity cos(gamma/2) = cos(beta/2) cos(alpha/2) - B . A sin(beta/2) sin(alpha/2), giving composite angle gamma = 2 arccos(cos(beta/2) cos(alpha/2) - B . A sin(beta/2) sin(alpha/2)), and extract the unnormalized vector axis D = C sin(gamma/2) = B sin(beta/2) cos(alpha/2) + A sin(alpha/2) cos(beta/2) + B x A sin(beta/2) sin(alpha/2).",
+      "invokes": [
+        "axis_angle"
+      ],
+      "cites": [
+        "wikipedia:Quaternions_and_spatial_rotation"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Apply angle addition trigonometric substitutions to rewrite gamma and D: gamma = 2 arccos((1 - A . B) cos((beta - alpha)/2) + (1 + A . B) cos((beta + alpha)/2)) and D = (sin((beta + alpha)/2) + sin((beta - alpha)/2)) A + (sin((beta + alpha)/2) - sin((beta - alpha)/2)) B + (cos((beta - alpha)/2) - cos((beta + alpha)/2)) (B x A).",
+      "invokes": [
+        "change_of_variables"
+      ],
+      "cites": [
+        "wikipedia:Quaternions_and_spatial_rotation"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Normalize the composite axis vector D by removing sin(gamma/2) or computing its magnitude to obtain the unit rotation axis C = D / (2 sin(gamma/2)) or C = D / ||D||.",
+      "invokes": [
+        "unit_norm_normalization"
+      ],
+      "cites": [
+        "wikipedia:Quaternions_and_spatial_rotation"
+      ]
+    }
+  ],
   "properties": [],
   "assumptions": [
     {
-      "assumption": "The attitude quaternion maintains unit norm (\\|\\mathbf{q}\\| = 1) along its trajectory.",
-      "breaks_when": "Discrete-time numerical integration causes norm drift away from the unit sphere."
+      "assumption": "A and B are unit quaternions representing pure 3D rotations with unit axis vectors ||A|| = 1 and ||B|| = 1.",
+      "breaks_when": "Quaternions A or B are unnormalized or axis vectors are not unit vectors, distorting composite rotation angles and axes."
     },
     {
-      "assumption": "The angular velocity vector \\mathbf{\\omega} is expressed in the body-fixed reference frame.",
-      "breaks_when": "Angular velocity is resolved in the inertial/world frame, requiring the reversed multiplication order \\dot{\\mathbf{q}} = \\frac{1}{2} \\mathbf{\\omega} \\otimes \\mathbf{q}."
+      "assumption": "The composite rotation angle gamma is not a multiple of 2*pi (gamma != 2*k*pi).",
+      "breaks_when": "gamma = 0 or gamma = 2*k*pi (identity rotation), where the rotation axis vector D vanishes and the axis of rotation is not well-defined due to degeneracy."
     }
   ],
   "failure_modes": [
     {
-      "mode": "Ungrounded source excerpt",
-      "signature": "Supplied source contains no differential equations, angular velocity, or time derivatives.",
-      "cause": "The supplied source [wikipedia:Quaternions_and_spatial_rotation] discusses spatial rotation algebra and static optimization derivatives, omitting time-dependent rotational kinematics."
+      "mode": "Axis degeneracy at identity rotation",
+      "signature": "Division by zero or indeterminate 0/0 when evaluating D / ||D|| or D / (2 sin(gamma/2)).",
+      "cause": "gamma = 0 or gamma = 2*k*pi yields ||D|| = 0 and sin(gamma/2) = 0, reflecting that an identity rotation has no unique axis of rotation."
     },
     {
-      "mode": "Quaternion norm drift",
-      "signature": "\\|\\mathbf{q}(t)\\| \\neq 1 during forward numerical integration.",
-      "cause": "Accumulated truncation and finite-precision roundoff errors in numerical integration without continuous re-normalization."
-    },
-    {
-      "mode": "Frame convention mismatch",
-      "signature": "Incorrect rotation trajectory or inverted rotation axis.",
-      "cause": "Conflating body-frame angular velocity (post-multiplication) with spatial-frame angular velocity (pre-multiplication)."
+      "mode": "Singularity in Rodrigues tangent formulation",
+      "signature": "Divergence or division by zero in tan(gamma/2) or individual tangent terms tan(alpha/2), tan(beta/2).",
+      "cause": "The rotation angle equals pi (180 degrees), causing cos(gamma/2) = 0 and the denominator 1 - B . A tan(beta/2) tan(alpha/2) to evaluate to zero or diverge."
     }
   ],
   "source_ids": [
@@ -59,19 +152,15 @@
   ],
   "check": {
     "node_id": "quaternion_kinematics",
-    "kind": "definition",
-    "grounded": false,
+    "kind": "derivation",
+    "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
-    "canon_notes": [
-      "canon expects a derivation but no source performs one, so quaternion_kinematics is recorded as a definition"
-    ],
-    "shape": [
-      "definition lists no properties"
-    ],
+    "canon_notes": [],
+    "shape": [],
     "vacuous_invocations": false,
-    "ok": false
+    "ok": true
   }
 }

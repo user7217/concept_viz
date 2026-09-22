@@ -1,0 +1,165 @@
+{
+  "node_id": "time_constant",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For a first-order linear time-invariant (LTI) system characterized by the differential equation $\\tau \\frac{dV}{dt} + V = f(t)$, the time constant $\\tau$ is the characteristic parameter representing the time scale over which the system responds to a sudden change in its input $f(t)$, physically corresponding to the time required for an unforced decaying response to decrease to $1/e \\approx 36.8\\%$ of its initial value, or for a step response to reach $1 - 1/e \\approx 63.2\\%$ of its asymptotic value.",
+  "symbols": [
+    {
+      "symbol": "\\tau",
+      "meaning": "time constant (exponential decay constant)",
+      "dimensions": "T"
+    },
+    {
+      "symbol": "t",
+      "meaning": "time",
+      "dimensions": "T"
+    },
+    {
+      "symbol": "V(t)",
+      "meaning": "system response or output function of time",
+      "dimensions": "system-dependent"
+    },
+    {
+      "symbol": "f(t)",
+      "meaning": "forcing function describing external driving input",
+      "dimensions": "system-dependent"
+    },
+    {
+      "symbol": "V_0",
+      "meaning": "initial value of system response at t = 0",
+      "dimensions": "system-dependent"
+    },
+    {
+      "symbol": "A",
+      "meaning": "amplitude of the forcing input",
+      "dimensions": "system-dependent"
+    },
+    {
+      "symbol": "\\omega",
+      "meaning": "angular frequency of sinusoidal forcing",
+      "dimensions": "T^{-1}"
+    },
+    {
+      "symbol": "f_{\\mathrm{3dB}}",
+      "meaning": "-3 dB cutoff bandwidth frequency",
+      "dimensions": "T^{-1}"
+    },
+    {
+      "symbol": "R",
+      "meaning": "electrical resistance",
+      "dimensions": "M L^2 T^{-3} I^{-2}"
+    },
+    {
+      "symbol": "C",
+      "meaning": "electrical capacitance",
+      "dimensions": "M^{-1} L^{-2} T^4 I^2"
+    },
+    {
+      "symbol": "L",
+      "meaning": "electrical inductance",
+      "dimensions": "M L^2 T^{-2} I^{-2}"
+    },
+    {
+      "symbol": "\\lambda",
+      "meaning": "decay constant in radioactive decay (1 / \\tau)",
+      "dimensions": "T^{-1}"
+    },
+    {
+      "symbol": "T_{1/2}",
+      "meaning": "half-life of a decaying system",
+      "dimensions": "T"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "In an unforced exponential decay ($f(t) = 0$), the response is $V(t) = V_0 e^{-t/\\tau}$; at $t = \\tau$, $V(\\tau) = V_0 e^{-1} \\approx 0.37 V_0$ (decayed to ~37%), and at $t = 5\\tau$, $V(5\\tau) = V_0 e^{-5} \\approx 0.0067 V_0$ (less than 1% remaining).",
+      "why": "Direct evaluation of the homogeneous solution $V(t) = V_0 e^{-t/\\tau}$ at integer multiples of $\\tau$.",
+      "cites": [
+        "wikipedia:Time_constant"
+      ]
+    },
+    {
+      "property": "Under a step input $f(t) = A u(t)$ with $V(0) = V_0$, the general solution is $V(t) = V_0 e^{-t/\\tau} + A\\tau (1 - e^{-t/\\tau})$, approaching the steady-state value $V_\\infty = A\\tau$ regardless of starting conditions.",
+      "why": "Integrating the first-order differential equation with a constant step forcing function for $t \\ge 0$.",
+      "cites": [
+        "wikipedia:Time_constant"
+      ]
+    },
+    {
+      "property": "The first-order differential equation corresponds to a single real pole at $-1/\\tau$, and its $-3\\text{ dB}$ bandwidth is given by $f_{\\mathrm{3dB}} = \\frac{1}{2\\pi\\tau}$ (where $\\omega\\tau = 1$).",
+      "why": "The magnitude of the steady-state sinusoidal response $|V_\\infty(t)| = A / \\sqrt{1 + (\\omega\\tau)^2}$ drops by a factor of $1/\\sqrt{2}$ (half-power) when $\\omega\\tau = 1$.",
+      "cites": [
+        "wikipedia:Time_constant"
+      ]
+    },
+    {
+      "property": "For basic first-order electrical circuits, the time constant is $\\tau = RC$ for an RC circuit and $\\tau = L/R$ for an RL circuit.",
+      "why": "Governing differential equations relating voltage and current across ideal resistors, capacitors, and inductors.",
+      "cites": [
+        "wikipedia:Time_constant"
+      ]
+    },
+    {
+      "property": "In lumped thermal systems, the thermal time constant is $\\tau = \\frac{\\rho c_p V}{h A_s}$, leading to Newton's law of cooling $\\Delta T(t) = \\Delta T_0 e^{-t/\\tau}$.",
+      "why": "Equating convective surface heat loss $h A_s (T - T_a)$ to internal thermal energy change $-\\rho c_p V \\frac{dT}{dt}$.",
+      "cites": [
+        "wikipedia:Time_constant"
+      ]
+    },
+    {
+      "property": "In radioactive decay, the time constant $\\tau$ represents the mean lifetime, with decay constant $\\lambda = 1/\\tau$ and half-life $T_{1/2} = \\tau \\ln 2$.",
+      "why": "Relation between the base-$e$ exponential decay constant $\\tau$ and the time required for $50\\%$ decay.",
+      "cites": [
+        "wikipedia:Time_constant"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The physical system can be modeled or approximated as a first-order linear time-invariant (LTI) ordinary differential equation.",
+      "breaks_when": "The system contains multiple reactive energy-storage elements (higher-order system), exhibits non-linear behavior, or has time-varying parameters."
+    },
+    {
+      "assumption": "Excitations in physical electrical circuits remain low in amplitude so that the linear approximation holds.",
+      "breaks_when": "Large-amplitude signals drive components into non-linear regimes."
+    },
+    {
+      "assumption": "In thermal systems, internal temperature gradients within the body are negligible (lumped capacity analysis).",
+      "breaks_when": "The Biot number is greater than approximately 0.1, indicating that internal conductive resistance is significant relative to convective boundary resistance."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Unstable increasing oscillations",
+      "signature": "System response diverges or oscillates with growing amplitude rather than monotonically approaching steady-state.",
+      "cause": "Feedback is present in the system, moving poles into the right half-plane and invalidating the open-loop first-order decay model."
+    },
+    {
+      "mode": "Multi-exponential or higher-order response",
+      "signature": "Response curve cannot be fitted by a single exponential parameter $\\tau$, showing overshoot, ringing, or multiple decay regimes.",
+      "cause": "The circuit or process includes multiple coupled storage mechanisms, pole splitting, or higher-order dynamics."
+    },
+    {
+      "mode": "Dynamic sensor measurement lag and extreme attenuation",
+      "signature": "Smoothing out of rapid fluctuations and severe underestimation of short-lived environmental extremes (e.g., in rapidly ascending radiosondes).",
+      "cause": "Sensor time constant $\\tau$ is too large relative to the rate of change of the true environmental variable."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Time_constant"
+  ],
+  "check": {
+    "node_id": "time_constant",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

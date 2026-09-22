@@ -1,0 +1,111 @@
+{
+  "node_id": "translation_vector",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A translation vector $\\mathbf{v}$ is a fixed vector that specifies the displacement of every point of an object or space under a translation function $T_{\\mathbf{v}}$, defined by $T_{\\mathbf{v}}(\\mathbf{p}) = \\mathbf{p} + \\mathbf{v}$ (or coordinate-wise in three dimensions by $(x, y, z) \\to (x + \\Delta x, y + \\Delta y, z + \\Delta z)$ where $(\\Delta x, \\Delta y, \\Delta z)$ is the translation vector common to all points).",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{v}",
+      "meaning": "fixed translation vector specifying the direction, sense, and length of displacement",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mathbf{p}",
+      "meaning": "initial position vector of an object or point",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "T_{\\mathbf{v}}",
+      "meaning": "translation transformation/function associated with translation vector \\mathbf{v}",
+      "dimensions": "n x 1 -> n x 1"
+    },
+    {
+      "symbol": "A",
+      "meaning": "subset or geometric figure undergoing translation",
+      "dimensions": "subset of Euclidean space"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The composition of translations corresponds to the addition of their translation vectors: $T_{\\mathbf{v}} T_{\\mathbf{w}} = T_{\\mathbf{v} + \\mathbf{w}}$",
+      "why": "consecutive displacements by constant vectors add vectorially",
+      "cites": [
+        "wikipedia:Translation_(geometry)"
+      ]
+    },
+    {
+      "property": "The inverse translation is obtained by negating the translation vector: $T_{\\mathbf{v}}^{-1} = T_{-\\mathbf{v}}$",
+      "why": "reversing the direction of the vector inverts the displacement",
+      "cites": [
+        "wikipedia:Translation_(geometry)"
+      ]
+    },
+    {
+      "property": "Translations commute ($T_{\\mathbf{v}} T_{\\mathbf{w}} = T_{\\mathbf{w}} T_{\\mathbf{v}}$), and the set of all translations forms an abelian group",
+      "why": "vector addition is commutative",
+      "cites": [
+        "wikipedia:Translation_(geometry)"
+      ]
+    },
+    {
+      "property": "A translation is an isometry that preserves lengths of line segments, directions, and amplitudes of angles",
+      "why": "every point is displaced by the exact same distance and direction without rotation",
+      "cites": [
+        "wikipedia:Translation_(geometry)"
+      ]
+    },
+    {
+      "property": "The translate of a subset $A$ by $T_{\\mathbf{v}}$ is given by $A + \\mathbf{v}$",
+      "why": "the translation function applies the constant vector addition to each element of the subset",
+      "cites": [
+        "wikipedia:Translation_(geometry)"
+      ]
+    },
+    {
+      "property": "A translation in $n$ dimensions can be represented linearly as matrix multiplication in $(n+1)$-dimensional homogeneous coordinates",
+      "why": "translations have no fixed points, whereas standard linear matrix multiplication always fixes the origin",
+      "cites": [
+        "wikipedia:Translation_(geometry)"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The displacement vector is uniform and identical for every point of the object or figure",
+      "breaks_when": "different points undergo differing displacements, as occurs in rotational motion or non-rigid body deformations"
+    },
+    {
+      "assumption": "The transformation occurs in a Euclidean space or affine vector space where vector addition is defined",
+      "breaks_when": "the underlying space is curved or non-Euclidean without a well-defined global constant vector addition"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Attempting to represent a non-zero translation using a standard $n \\times n$ matrix in Cartesian coordinates",
+      "signature": "The origin remains fixed ($M \\mathbf{0} = \\mathbf{0}$), failing to translate points away from the origin",
+      "cause": "Linear transformations on $\\mathbb{R}^n$ must fix the origin, whereas translations with $\\mathbf{v} \\neq \\mathbf{0}$ have no fixed points; augmented homogeneous coordinates are required"
+    },
+    {
+      "mode": "Conflating active geometric translation of an object with passive translation of axes",
+      "signature": "Coordinates of the transformed object have the inverted sign ($-\\mathbf{v}$ instead of $+\\mathbf{v}$)",
+      "cause": "A passive translation shifts the coordinate frame while keeping the object stationary, which is inverse to displacing the object within a fixed coordinate frame"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Translation_(geometry)"
+  ],
+  "check": {
+    "node_id": "translation_vector",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

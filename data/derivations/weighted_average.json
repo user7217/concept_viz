@@ -1,0 +1,124 @@
+{
+  "node_id": "weighted_average",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The weighted arithmetic mean $\\bar{x}$ of data points $x_1, \\dots, x_n$ with weights $w_1, \\dots, w_n$ is defined by $\\bar{x} = \\frac{\\sum_{i=1}^{n}\\left(x_{i}\\cdot w_{i}\\right)}{\\sum_{i=1}^{n}w_{i}}$. When weights are inverse variances $w_i = 1/\\sigma_i^2$, it is expressed as $\\bar{x} = \\frac{\\sum_{i=1}^{n}\\left(\\frac{x_{i}}{\\sigma_{i}^{2}}\\right)}{\\sum_{i=1}^{n}\\frac{1}{\\sigma_{i}^{2}}} = \\sigma_{\\bar{x}}^{2}\\sum_{i=1}^{n}\\frac{x_{i}}{\\sigma_{i}^{2}}$.",
+  "symbols": [
+    {
+      "symbol": "\\bar{x}",
+      "meaning": "weighted arithmetic mean of the observations",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x_i",
+      "meaning": "value of observation or data point i",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "w_i",
+      "meaning": "weight assigned to observation i",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "w'_i",
+      "meaning": "normalized weight assigned to observation i (weights summing to 1)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\sigma_i",
+      "meaning": "standard deviation of observation i",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\sigma_{\\bar{x}}",
+      "meaning": "standard error of the weighted mean",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of observations",
+      "dimensions": "scalar (integer)"
+    },
+    {
+      "symbol": "\\mu_i",
+      "meaning": "expected value of observation i",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "If all weights are equal, the weighted arithmetic mean is identical to the ordinary arithmetic mean.",
+      "why": "A constant weight factors out of the numerator and denominator sums, leaving the simple average.",
+      "cites": [
+        "wikipedia:Weighted_arithmetic_mean"
+      ]
+    },
+    {
+      "property": "For normalized weights summing to one, the expected value of the weighted sample mean is $E(\\bar{x}) = \\sum_{i=1}^n w'_i \\mu_i$, which equals $\\mu$ when all observations share a common mean $\\mu_i = \\mu$.",
+      "why": "Expectation is linear over the weighted sum of random variables.",
+      "cites": [
+        "wikipedia:Weighted_arithmetic_mean"
+      ]
+    },
+    {
+      "property": "Under inverse-variance weights $w_i = 1/\\sigma_i^2$, the standard error of the weighted mean is $\\sigma_{\\bar{x}} = \\sqrt{\\frac{1}{\\sum_{i=1}^n \\sigma_i^{-2}}} = \\sqrt{\\frac{1}{\\sum_{i=1}^n w_i}}$.",
+      "why": "It follows as a special case of the variance formula for a linear combination of independent variables.",
+      "cites": [
+        "wikipedia:Weighted_arithmetic_mean"
+      ]
+    },
+    {
+      "property": "The weighted mean with inverse-variance weights is the maximum likelihood estimator of the common mean for independent, normally distributed variables.",
+      "why": "Inverse-variance weighting corresponds to the normal distribution log-likelihood optimum.",
+      "cites": [
+        "wikipedia:Weighted_arithmetic_mean"
+      ]
+    },
+    {
+      "property": "When all observation variances are equal to $\\sigma_0^2$, the variance of the inverse-variance weighted mean reduces to $\\sigma_{\\bar{x}}^2 = \\sigma_0^2 / n$.",
+      "why": "The sum of identical inverse variances simplifies to $n / \\sigma_0^2$.",
+      "cites": [
+        "wikipedia:Weighted_arithmetic_mean"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The sum of the weights is non-zero ($\\sum_{i=1}^n w_i \\neq 0$).",
+      "breaks_when": "All weights are zero or sum to zero, leading to division by zero."
+    },
+    {
+      "assumption": "When using inverse-variance weights $w_i = 1/\\sigma_i^2$, each variance is strictly positive ($\\sigma_i^2 > 0$).",
+      "breaks_when": "Any observation has zero variance ($\\sigma_i = 0$), resulting in undefined or infinite weights."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zero total weight",
+      "signature": "Undefined or indeterminate expression (0/0 or division by zero) when evaluating $\\bar{x}$.",
+      "cause": "The denominator $\\sum_{i=1}^n w_i$ is equal to zero."
+    },
+    {
+      "mode": "Singular weight from zero variance",
+      "signature": "Infinite weight $w_i \\to \\infty$.",
+      "cause": "One or more observations have standard deviation $\\sigma_i = 0$ in inverse-variance weighting."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Weighted_arithmetic_mean"
+  ],
+  "check": {
+    "node_id": "weighted_average",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

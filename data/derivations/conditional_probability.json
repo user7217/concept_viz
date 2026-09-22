@@ -1,0 +1,109 @@
+{
+  "node_id": "conditional_probability",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For events $A$ and $B$ in a sample space, the conditional probability of $A$ given $B$ is defined as $P(A \\mid B) = \\frac{P(A \\cap B)}{P(B)}$ whenever $P(B) > 0$, and $0$ otherwise.",
+  "symbols": [
+    {
+      "symbol": "P(A \\mid B)",
+      "meaning": "Conditional probability of event A given that event B has occurred",
+      "dimensions": "scalar in [0, 1]"
+    },
+    {
+      "symbol": "A",
+      "meaning": "Conditioned event (event of interest)",
+      "dimensions": "subset of sample space"
+    },
+    {
+      "symbol": "B",
+      "meaning": "Conditioning event known or assumed to have occurred",
+      "dimensions": "subset of sample space"
+    },
+    {
+      "symbol": "P(A \\cap B)",
+      "meaning": "Joint probability that both events A and B occur",
+      "dimensions": "scalar in [0, 1]"
+    },
+    {
+      "symbol": "P(B)",
+      "meaning": "Unconditional probability that event B occurs",
+      "dimensions": "scalar in [0, 1]"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The conditional probability measure satisfies all Kolmogorov axioms and is consistent with the original probability measure.",
+      "why": "Restricts the event space to $B$ and normalizes by $P(B)$, preserving relative probability magnitudes.",
+      "cites": [
+        "wikipedia:Conditional_probability"
+      ]
+    },
+    {
+      "property": "Events $A$ and $B$ are statistically independent if and only if $P(B \\mid A) = P(B)$, which is equivalent to $P(A \\cap B) = P(A)P(B)$.",
+      "why": "Occurrence of event $A$ carries no informational value about event $B$ and does not change its probability.",
+      "cites": [
+        "wikipedia:Conditional_probability"
+      ]
+    },
+    {
+      "property": "For a discrete random variable $X$ and fixed event $A$, the conditional probability $Y = P(A \\mid X = x)$ forms a random variable on $[0, 1]$ with expectation $\\operatorname{E}[Y] = P(A)$.",
+      "why": "Follows from the law of total probability.",
+      "cites": [
+        "wikipedia:Conditional_probability"
+      ]
+    },
+    {
+      "property": "Inverse conditional probabilities satisfy Bayes' rule: $P(A \\mid B) = P(B \\mid A) \\frac{P(A)}{P(B)}$.",
+      "why": "Both conditional probabilities are related via the shared joint probability $P(A \\cap B)$.",
+      "cites": [
+        "wikipedia:Conditional_probability"
+      ]
+    },
+    {
+      "property": "Under Jeffrey conditionalization, if conditions $B_1, \\dots, B_m$ form a partition with degrees of belief $b_1, \\dots, b_m$, then $P(A \\mid B_1 \\equiv b_1, \\dots, B_m \\equiv b_m) = \\sum_{i=1}^m b_i P(A \\mid B_i)$.",
+      "why": "Special case of partial conditional probability when the conditioning events partition the space.",
+      "cites": [
+        "wikipedia:Conditional_probability"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The conditioning event $B$ has strictly positive probability ($P(B) > 0$).",
+      "breaks_when": "$P(B) = 0$, causing division by zero in the ratio definition."
+    },
+    {
+      "assumption": "When conditioning on continuous random variables via limits, the marginal probability density $f_X(x_0)$ must be strictly positive.",
+      "breaks_when": "$f_X(x_0) = 0$, leading to a vanishing denominator integral in the density ratio."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Conditioning on zero-probability event",
+      "signature": "Division by zero or indeterminate form $0/0$",
+      "cause": "The conditioning event $B$ has unconditional probability $P(B) = 0$."
+    },
+    {
+      "mode": "Borel-Kolmogorov paradox",
+      "signature": "Non-identical conditional probability limits obtained for identical events depending on the parameterization",
+      "cause": "Attempting to define conditional probability on sets of measure zero for continuous random variables without specifying a consistent limiting coordinate frame."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Conditional_probability"
+  ],
+  "check": {
+    "node_id": "conditional_probability",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

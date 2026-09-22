@@ -1,0 +1,144 @@
+{
+  "node_id": "integral",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "An integral is the continuous analog of a sum, used to calculate areas, volumes, and their generalizations. For a real-valued function f on a closed interval [a, b] with a < b, the definite integral \\int_{a}^{b} f(x)\\,dx computes the signed area of the region bounded by the graph of f between a and b, defined by evaluating upper and lower sums on a partition a = x_0 \\le x_1 \\le \\dots \\le x_n = b, with conventions \\int_{a}^{b} f(x)\\,dx = -\\int_{b}^{a} f(x)\\,dx for a > b and \\int_{a}^{a} f(x)\\,dx = 0.",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "real-valued integrand function",
+      "dimensions": "scalar function"
+    },
+    {
+      "symbol": "x",
+      "meaning": "variable of integration",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "a",
+      "meaning": "lower limit of integration",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "b",
+      "meaning": "upper limit of integration",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\int_{a}^{b} f(x)\\,dx",
+      "meaning": "definite integral of f over [a, b]",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "\\int_{a}^{b} (\\alpha f + \\beta g)(x)\\,dx = \\alpha \\int_{a}^{b} f(x)\\,dx + \\beta \\int_{a}^{b} g(x)\\,dx",
+      "why": "integration is a linear functional on the vector space of integrable functions",
+      "cites": [
+        "wikipedia:Integral"
+      ]
+    },
+    {
+      "property": "\\int_{a}^{b} f(x)\\,dx = -\\int_{b}^{a} f(x)\\,dx",
+      "why": "defines integration when the upper limit is strictly less than the lower limit",
+      "cites": [
+        "wikipedia:Integral"
+      ]
+    },
+    {
+      "property": "\\int_{a}^{a} f(x)\\,dx = 0",
+      "why": "an integral taken over a degenerate interval or single point is zero",
+      "cites": [
+        "wikipedia:Integral"
+      ]
+    },
+    {
+      "property": "\\int_{a}^{b} f(x)\\,dx = \\int_{a}^{c} f(x)\\,dx + \\int_{c}^{b} f(x)\\,dx",
+      "why": "integrability on an interval implies integrability on subintervals and additivity across an intermediate point",
+      "cites": [
+        "wikipedia:Integral"
+      ]
+    },
+    {
+      "property": "m(b - a) \\le \\int_{a}^{b} f(x)\\,dx \\le M(b - a) \\text{ for } m \\le f(x) \\le M",
+      "why": "upper and lower sums of f over [a, b] are bounded by m(b - a) and M(b - a)",
+      "cites": [
+        "wikipedia:Integral"
+      ]
+    },
+    {
+      "property": "\\int_{a}^{b} f(x)\\,dx \\le \\int_{a}^{b} g(x)\\,dx \\text{ when } f(x) \\le g(x)",
+      "why": "upper and lower sums of f are bounded above by the respective sums of g",
+      "cites": [
+        "wikipedia:Integral"
+      ]
+    },
+    {
+      "property": "\\left|\\int_{a}^{b} f(x)\\,dx\\right| \\le \\int_{a}^{b} |f(x)|\\,dx",
+      "why": "Riemann integrability of f implies Riemann integrability of |f|",
+      "cites": [
+        "wikipedia:Integral"
+      ]
+    },
+    {
+      "property": "\\left(\\int_{a}^{b} (fg)(x)\\,dx\\right)^2 \\le \\left(\\int_{a}^{b} f(x)^2\\,dx\\right)\\left(\\int_{a}^{b} g(x)^2\\,dx\\right)",
+      "why": "Cauchy\u2013Schwarz inequality holds for Riemann-integrable functions",
+      "cites": [
+        "wikipedia:Integral"
+      ]
+    },
+    {
+      "property": "F(x) = \\int_{a}^{x} f(t)\\,dt \\implies F'(x) = f(x)",
+      "why": "first fundamental theorem of calculus establishes differentiation and integration as inverse operations for continuous functions",
+      "cites": [
+        "wikipedia:Integral"
+      ]
+    },
+    {
+      "property": "\\int_{a}^{b} f(x)\\,dx = F(b) - F(a) \\text{ where } F'(x) = f(x)",
+      "why": "second fundamental theorem of calculus computes definite integrals from antiderivatives",
+      "cites": [
+        "wikipedia:Integral"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The integrand f is bounded on [a, b]",
+      "breaks_when": "The function f has an infinite singularity in [a, b], requiring an improper integral"
+    },
+    {
+      "assumption": "The domain [a, b] is a closed and bounded interval",
+      "breaks_when": "The interval is unbounded (e.g. extending to infinity), requiring an improper integral defined by limits"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Improper integral due to unbounded domain",
+      "signature": "Integration limit is infinite (e.g., \\int_a^\\infty f(x)\\,dx)",
+      "cause": "Proper Riemann integral assumes a finite closed interval; must be evaluated as \\lim_{b \\to \\infty} \\int_a^b f(x)\\,dx, which may not converge"
+    },
+    {
+      "mode": "Improper integral due to unbounded integrand",
+      "signature": "Integrand f(x) diverges or is undefined at an endpoint or interior point",
+      "cause": "Proper Riemann integral requires f to be finite and defined on [a, b]; must be evaluated via a limit such as \\lim_{\\epsilon \\to 0} \\int_{a+\\epsilon}^b f(x)\\,dx, which may diverge"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Integral"
+  ],
+  "check": {
+    "node_id": "integral",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

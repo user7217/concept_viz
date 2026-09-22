@@ -1,0 +1,106 @@
+{
+  "node_id": "sampling",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Sampling is the selection of a subset of individuals from within a statistical population to estimate characteristics of the whole population. The supplied sources contain no mathematical derivation or change_of_variables derivation, so sampling is treated strictly as a definition.",
+  "symbols": [
+    {
+      "symbol": "\u03b1",
+      "meaning": "significance level used in sample size determination tables",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "\u03b2",
+      "meaning": "type II error probability (related to power) used in sample size determination tables",
+      "dimensions": "dimensionless"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Sampling provides lower costs and faster data collection compared to a full census",
+      "why": "Measuring an entire population is often infeasible or impossible, whereas a representative subset can provide population insights",
+      "cites": [
+        "wikipedia:Sampling_(statistics)"
+      ]
+    },
+    {
+      "property": "Sampling schemes are classified as with replacement (WR) or without replacement (WOR)",
+      "why": "In WR an element may appear multiple times in the sample, whereas in WOR no element can be selected more than once",
+      "cites": [
+        "wikipedia:Sampling_(statistics)"
+      ]
+    },
+    {
+      "property": "Cluster sampling generally increases estimate variability compared to simple random sampling",
+      "why": "Variability increases depending on how clusters differ from one another relative to within-cluster variation, often requiring larger samples for equivalent accuracy",
+      "cites": [
+        "wikipedia:Sampling_(statistics)"
+      ]
+    },
+    {
+      "property": "Probability proportional to size (PPS) sampling concentrates sample selection on larger elements",
+      "why": "Selection probability for each element is set proportional to its size measure (up to 1), improving accuracy for estimates dominated by large elements",
+      "cites": [
+        "wikipedia:Sampling_(statistics)"
+      ]
+    },
+    {
+      "property": "Survey data require weighting when sample designs have unequal selection probabilities or varying stratum fractions",
+      "why": "Weighting compensates for unequal selection probabilities, non-response, or under-represented strata to ensure estimates correctly reflect the target population",
+      "cites": [
+        "wikipedia:Sampling_(statistics)"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The statistical sample is representative of the target population",
+      "breaks_when": "Selection bias, under-coverage, non-response, or nonprobability sampling methods (such as convenience, voluntary, or haphazard sampling) cause the sample to systematically diverge from the population"
+    },
+    {
+      "assumption": "Assumed selection probabilities match the true selection probabilities",
+      "breaks_when": "Selection bias occurs in sample execution, leading to divergences between assumed design probabilities and actual selection probabilities"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Selection bias",
+      "signature": "Systematic divergence between sample estimates and true population parameters",
+      "cause": "True selection probabilities differ from those assumed during design and analysis, or units are selected non-randomly"
+    },
+    {
+      "mode": "Random sampling error",
+      "signature": "Chance variation and dispersion in sample statistics across different draws",
+      "cause": "Inherent variation caused by selecting a random subset rather than enumerating the entire population"
+    },
+    {
+      "mode": "Non-response bias (unit or item)",
+      "signature": "Biased parameter estimates due to incomplete data collection across the selected sample",
+      "cause": "Selected individuals refuse to participate, cannot be contacted, or omit specific items, and non-respondents systematically differ from respondents"
+    },
+    {
+      "mode": "Coverage error (under-coverage or over-coverage)",
+      "signature": "Omission of population sub-groups or inclusion of ineligible units in sample estimates",
+      "cause": "The sampling frame fails to encompass all population members or includes individuals outside the target population"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Sampling_(statistics)"
+  ],
+  "check": {
+    "node_id": "sampling",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so sampling is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

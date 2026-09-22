@@ -1,8 +1,8 @@
 {
   "node_id": "jacobian_vector_product",
-  "grounded": false,
+  "grounded": true,
   "kind": "definition",
-  "statement": "The supplied sources genuinely contain nothing to derive and do not support or define the Jacobian vector product (the source wikipedia:Jacobian_matrix_and_determinant defines only the Jacobian matrix and its determinant, containing no derivation or mention of a Jacobian vector product). By definition, for a differentiable vector-valued function f: R^n -> R^m at a point x in R^n and a vector v in R^n, the Jacobian-vector product (JVP) is the product of the Jacobian matrix J_f(x) and the vector v, given by (J_f(x)) v = sum_{j=1}^n (df/dx_j) v_j, where the Jacobian matrix is the m x n matrix of all first-order partial derivatives [df_i/dx_j].",
+  "statement": "The supplied sources contain no derivation. The Jacobian-vector product is defined as the directional derivative y' = \\nabla f(x) \\cdot x' \\in \\mathbb{R}^m of a differentiable function f: \\mathbb{R}^n \\to \\mathbb{R}^m at a point x \\in \\mathbb{R}^n in the direction x' \\in \\mathbb{R}^n, where \\nabla f(x) denotes the Jacobian matrix of first-order partial derivatives of f evaluated at x.",
   "symbols": [
     {
       "symbol": "f",
@@ -11,44 +11,49 @@
     },
     {
       "symbol": "x",
-      "meaning": "input coordinate vector",
+      "meaning": "evaluation point in the domain",
       "dimensions": "n x 1"
     },
     {
-      "symbol": "J_f(x)",
-      "meaning": "Jacobian matrix of first-order partial derivatives",
+      "symbol": "x'",
+      "meaning": "direction vector / tangent vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\nabla f(x)",
+      "meaning": "Jacobian matrix of first-order partial derivatives of f evaluated at x",
       "dimensions": "m x n"
     },
     {
-      "symbol": "v",
-      "meaning": "vector by which the Jacobian matrix is multiplied",
-      "dimensions": "n x 1"
+      "symbol": "y'",
+      "meaning": "directional derivative / Jacobian-vector product",
+      "dimensions": "m x 1"
     },
     {
-      "symbol": "J_f(x) v",
-      "meaning": "Jacobian-vector product",
-      "dimensions": "m x 1"
+      "symbol": "\\langle u, u' \\rangle",
+      "meaning": "dual number pair representing primal value u and derivative/perturbation u'",
+      "dimensions": "2 x 1"
     }
   ],
   "steps": [],
   "properties": [
     {
-      "property": "The Jacobian matrix is the matrix of all first-order partial derivatives of a vector-valued function of several variables, generalizing the derivative and differential.",
-      "why": "each entry (i, j) is defined as the partial derivative of component f_i with respect to variable x_j",
+      "property": "The Jacobian-vector product y' = \\nabla f(x) \\cdot x' can be computed simultaneously with the function value via dual number arithmetic as (\\langle y_1, y'_1 \\rangle, \\ldots, \\langle y_m, y'_m \\rangle) = f(\\langle x_1, x'_1 \\rangle, \\ldots, \\langle x_n, x'_n \\rangle).",
+      "why": "Adopting the directional derivative operator on dual numbers evaluates derivatives by repeatedly applying the chain rule to elementary operations without computing symbolic derivatives.",
       "cites": [
-        "wikipedia:Jacobian_matrix_and_determinant"
+        "wikipedia:Automatic_differentiation"
       ]
     },
     {
-      "property": "According to the inverse function theorem, the matrix inverse of the Jacobian matrix of an invertible function is the Jacobian matrix of the inverse function: J_{f^{-1}}(p) = J_f^{-1}(f^{-1}(p)).",
-      "why": "f is locally invertible near points where the Jacobian is continuous and nonsingular",
+      "property": "To recover all elements of the full Jacobian matrix \\nabla f, exactly n directional derivative (function) evaluations are required.",
+      "why": "Each directional derivative evaluation computes the Jacobian contracted against a single direction vector x'.",
       "cites": [
-        "wikipedia:Jacobian_matrix_and_determinant"
+        "wikipedia:Automatic_differentiation"
       ]
     },
     {
-      "property": "At a critical point of a differentiable function, the rank of the Jacobian matrix is strictly lower than maximal, meaning all minors of maximal rank are zero.",
-      "why": "the dimension of the differential image drops below its maximal possible value",
+      "property": "The Jacobian matrix J_f(x) is the matrix of all first-order partial derivatives of f, generalizing the derivative and differential of a univariate function to vector-valued functions of several variables.",
+      "why": "Its entries are given by the partial derivatives of each component function f_i with respect to each coordinate x_j.",
       "cites": [
         "wikipedia:Jacobian_matrix_and_determinant"
       ]
@@ -56,38 +61,44 @@
   ],
   "assumptions": [
     {
-      "assumption": "The vector-valued function f must be differentiable at point x, meaning all first-order partial derivatives exist.",
-      "breaks_when": "One or more partial derivatives df_i/dx_j do not exist or are undefined at x."
+      "assumption": "The vector-valued function f: \\mathbb{R}^n \\to \\mathbb{R}^m is differentiable at x.",
+      "breaks_when": "The function contains non-differentiable operations or points where partial derivatives do not exist."
     },
     {
-      "assumption": "The vector v must have dimension matching the number of input variables n of the function f.",
-      "breaks_when": "The dimension of vector v differs from the column dimension n of the Jacobian matrix."
+      "assumption": "The direction vector x' lies in the same domain space \\mathbb{R}^n as the input x.",
+      "breaks_when": "The dimensions of the direction vector x' and input point x do not match."
     }
   ],
   "failure_modes": [
     {
-      "mode": "Undefined or infinite partial derivatives",
-      "signature": "Entries of the Jacobian matrix evaluate to undefined, NaN, or infinity",
-      "cause": "Function components fail to be differentiable at the evaluation point x."
+      "mode": "Division by zero in dual number arithmetic",
+      "signature": "Undefined value or divide-by-zero error in (u'v - uv') / v^2",
+      "cause": "A divisor argument evaluates to v = 0 in the primitive division rule."
     },
     {
-      "mode": "Dimension mismatch",
-      "signature": "Matrix-vector multiplication J_f(x) v is undefined",
-      "cause": "The vector v has length different from the input dimension n of f."
+      "mode": "Logarithm domain violation in dual arithmetic",
+      "signature": "Undefined derivative u'/u or arithmetic domain error",
+      "cause": "The primal argument satisfies u <= 0, violating the u > 0 requirement for log."
     },
     {
-      "mode": "Critical point rank deficiency",
-      "signature": "The rank of the Jacobian matrix is not maximal (det(J_f) = 0 for square systems)",
-      "cause": "Linear dependence among rows or columns of partial derivatives at x."
+      "mode": "Non-differentiability of power or absolute value at zero",
+      "signature": "Discontinuous sign function or undefined derivative in u' sgn(u)",
+      "cause": "The primal argument u = 0, where absolute value and negative/fractional powers fail to be differentiable."
+    },
+    {
+      "mode": "Rank deficiency of the Jacobian",
+      "signature": "Rank of the Jacobian matrix is not maximal (or Jacobian determinant vanishes when m = n)",
+      "cause": "The evaluation point x is a critical point of f where all minors of maximal rank vanish."
     }
   ],
   "source_ids": [
+    "wikipedia:Automatic_differentiation",
     "wikipedia:Jacobian_matrix_and_determinant"
   ],
   "check": {
     "node_id": "jacobian_vector_product",
     "kind": "definition",
-    "grounded": false,
+    "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
     "unknown_invocations": [],
@@ -97,6 +108,6 @@
     ],
     "shape": [],
     "vacuous_invocations": false,
-    "ok": false
+    "ok": true
   }
 }

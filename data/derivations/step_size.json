@@ -1,0 +1,131 @@
+{
+  "node_id": "step_size",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In machine learning and statistics, the learning rate (also referred to as gain) is a tuning parameter in an optimization algorithm that determines the step size taken at each iteration while moving along a descent direction (typically determined from the gradient of a loss function) toward a minimum of the loss function, either as a scalar or as a diagonal matrix across parameters.",
+  "symbols": [
+    {
+      "symbol": "\\eta",
+      "meaning": "learning rate determining the step size",
+      "dimensions": "scalar, or p x p diagonal matrix"
+    },
+    {
+      "symbol": "\\eta_n",
+      "meaning": "learning rate at iteration step n",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\eta_0",
+      "meaning": "initial or original learning rate",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "d",
+      "meaning": "decay parameter",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "iteration step",
+      "dimensions": "scalar (integer)"
+    },
+    {
+      "symbol": "r",
+      "meaning": "drop rate (interval of iterations between learning rate drops)",
+      "dimensions": "scalar (integer)"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Trade-off between rate of convergence and overshooting",
+      "why": "too high a learning rate causes the algorithm to jump over minima, while too low a rate either takes too long to converge or gets stuck in undesirable local minima",
+      "cites": [
+        "wikipedia:Learning_rate"
+      ]
+    },
+    {
+      "property": "Diagonal matrix interpretation across parameters",
+      "why": "when the learning rate and its adjustments differ per parameter, the resulting diagonal matrix can be interpreted as an approximation to the inverse Hessian matrix in Newton's method",
+      "cites": [
+        "wikipedia:Learning_rate"
+      ]
+    },
+    {
+      "property": "Relation to inexact line search",
+      "why": "the learning rate corresponds to the step length determined by inexact line search in quasi-Newton methods and related optimization algorithms",
+      "cites": [
+        "wikipedia:Learning_rate"
+      ]
+    },
+    {
+      "property": "Time-based learning rate schedule: \\eta_{n+1} = \\frac{\\eta_0}{1 + dn}",
+      "why": "factors in a decay parameter d to alter the learning rate based on the iteration count to settle learning and prevent oscillations",
+      "cites": [
+        "wikipedia:Learning_rate"
+      ]
+    },
+    {
+      "property": "Step-based learning rate schedule: \\eta_n = \\eta_0 d^{\\lfloor \\frac{1+n}{r} \\rfloor}",
+      "why": "decreases the learning rate by decay factor d at predefined iteration drop intervals r",
+      "cites": [
+        "wikipedia:Learning_rate"
+      ]
+    },
+    {
+      "property": "Exponential learning rate schedule: \\eta_n = \\eta_0 e^{-dn}",
+      "why": "factors in decay continuously across iteration steps using a decreasing exponential function",
+      "cites": [
+        "wikipedia:Learning_rate"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Optimization progresses along a descent direction (typically determined from the gradient of the loss function) toward a loss function minimum.",
+      "breaks_when": "The loss function does not provide a well-defined descent direction, or the objective does not involve minimizing a loss function."
+    },
+    {
+      "assumption": "Hyperparameters governing learning rate schedules (e.g., initial learning rate \\eta_0, decay d, drop rate r) are suitably tuned for the specific problem and model.",
+      "breaks_when": "Hyperparameters are manually misspecified for the specific problem landscape, causing failure to converge or oscillation."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Overshooting and oscillations",
+      "signature": "Optimization jumps over minima or oscillates back and forth across a minimum without settling",
+      "cause": "Learning rate is set too high"
+    },
+    {
+      "mode": "Slow convergence or stagnation",
+      "signature": "Optimization takes an impractically long time to converge or becomes trapped in an undesirable local minimum",
+      "cause": "Learning rate is set too low"
+    },
+    {
+      "mode": "Overshooting minima via momentum",
+      "signature": "Optimization trajectory rolls past or over the desired minimum",
+      "cause": "Momentum hyperparameter is set too high"
+    },
+    {
+      "mode": "Failure to escape local bumps via momentum",
+      "signature": "Optimization fails to accelerate along sustained gradient directions or gets trapped by small bumps",
+      "cause": "Momentum hyperparameter is set too low to fulfill its purpose"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Learning_rate"
+  ],
+  "check": {
+    "node_id": "step_size",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -129,6 +129,7 @@
     ],
     "isotropic_logdet_rescale": [],
     "jacobian_vector_product": [
+      "Automatic differentiation",
       "Jacobian matrix and determinant"
     ],
     "joint_gaussian": [
@@ -209,6 +210,7 @@
       "Observational error"
     ],
     "multivariate_chain_rule": [
+      "Total derivative",
       "Chain rule"
     ],
     "multivariate_taylor_expansion": [
@@ -420,6 +422,9 @@
     ],
     "trace": [
       "Trace (linear algebra)"
+    ],
+    "high_pass_filter": [
+      "High-pass filter"
     ]
   }
 }

@@ -1,0 +1,32 @@
+{
+  "node_id": "yolo_detection_loss",
+  "grounded": false,
+  "kind": "definition",
+  "statement": "The supplied sources genuinely contain nothing to derive and do not contain a derivation or definition of the YOLO detection loss. The only supplied source, [wikipedia:Object_detection], merely mentions 'You Only Look Once (YOLO)' as an entry in a list of neural network approaches without providing any loss function, mathematical formulation, or derivation.",
+  "symbols": [],
+  "steps": [],
+  "properties": [],
+  "assumptions": [],
+  "failure_modes": [],
+  "source_ids": [
+    "wikipedia:Object_detection"
+  ],
+  "check": {
+    "node_id": "yolo_detection_loss",
+    "kind": "definition",
+    "grounded": false,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so yolo_detection_loss is recorded as a definition"
+    ],
+    "shape": [
+      "definition lists no properties",
+      "sheet names no symbols, so it is probably not about this node's mathematics at all"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "node_id": "svd_factorization",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "Any m x n complex matrix M can be factored into the singular value decomposition M = U \u03a3 V*, where U is an m x m unitary matrix, \u03a3 is an m x n rectangular diagonal matrix with non-negative real entries, and V is an n x n unitary matrix (with V* being its conjugate transpose).",
+  "symbols": [
+    {
+      "symbol": "M",
+      "meaning": "Matrix to be factored",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "U",
+      "meaning": "Left unitary matrix whose columns are orthonormal eigenvectors of M M* (extended to an orthonormal basis)",
+      "dimensions": "m x m"
+    },
+    {
+      "symbol": "\u03a3",
+      "meaning": "Rectangular diagonal matrix containing singular values (non-negative square roots of eigenvalues of D) padded with zeros",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "V",
+      "meaning": "Right unitary matrix whose columns are eigenvectors of M* M",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "V_1",
+      "meaning": "Matrix whose columns are the orthonormal eigenvectors of M* M corresponding to non-zero eigenvalues",
+      "dimensions": "n x \u2113"
+    },
+    {
+      "symbol": "V_2",
+      "meaning": "Matrix whose columns are orthonormal eigenvectors of M* M corresponding to zero eigenvalues",
+      "dimensions": "n x (n - \u2113)"
+    },
+    {
+      "symbol": "D",
+      "meaning": "Diagonal matrix containing the strictly positive eigenvalues of M* M",
+      "dimensions": "\u2113 x \u2113"
+    },
+    {
+      "symbol": "D_bar",
+      "meaning": "Block diagonal matrix [D, 0; 0, 0] containing all eigenvalues of M* M",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "U_1",
+      "meaning": "Matrix with orthonormal columns formed by normalized images M V_1 D^(-1/2)",
+      "dimensions": "m x \u2113"
+    },
+    {
+      "symbol": "U_2",
+      "meaning": "Matrix whose columns complete the columns of U_1 to an orthonormal basis of C^m",
+      "dimensions": "m x (m - \u2113)"
+    },
+    {
+      "symbol": "\u2113",
+      "meaning": "Number of non-zero eigenvalues of M* M (rank of M)",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "m",
+      "meaning": "Number of rows of M",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "n",
+      "meaning": "Number of columns of M",
+      "dimensions": "1 x 1"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Because M* M is positive semi-definite and Hermitian, by the spectral theorem there exists an n x n unitary matrix V such that V* M* M V = D_bar = [D, 0; 0, 0], where D is an \u2113 x \u2113 diagonal and positive definite matrix of the non-zero eigenvalues of M* M, with \u2113 <= min(n, m).",
+      "invokes": [
+        "eigendecomposition",
+        "positive_semidefinite_matrix"
+      ],
+      "cites": [
+        "wikipedia:Singular_value_decomposition"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Partition V as V = [V_1, V_2], where the columns of V_1 (dimension n x \u2113) and V_2 (dimension n x (n - \u2113)) contain the eigenvectors of M* M corresponding to non-zero and zero eigenvalues, respectively. Then [V_1*; V_2*] M* M [V_1, V_2] = [V_1* M* M V_1, V_1* M* M V_2; V_2* M* M V_1, V_2* M* M V_2] = [D, 0; 0, 0], which implies V_1* M* M V_1 = D and V_2* M* M V_2 = 0, the latter implying M V_2 = 0. Unitary-ness of V gives V_1* V_1 = I_1, V_2* V_2 = I_2, and V_1 V_1* + V_2 V_2* = I_12.",
+      "invokes": [
+        "eigenvector",
+        "null_space"
+      ],
+      "cites": [
+        "wikipedia:Singular_value_decomposition"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Define U_1 = M V_1 D^(-1/2). Then U_1 D^(1/2) V_1* = M V_1 D^(-1/2) D^(1/2) V_1* = M (I - V_2 V_2*) = M - (M V_2) V_2* = M, since M V_2 = 0.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Singular_value_decomposition"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Verify that the columns of U_1 are orthonormal: U_1* U_1 = D^(-1/2) V_1* M* M V_1 D^(-1/2) = D^(-1/2) D D^(-1/2) = I_1. Since the columns of U_1 are orthonormal in C^m, choose U_2 such that U = [U_1, U_2] forms an m x m unitary matrix extending U_1 to an orthonormal basis.",
+      "invokes": [
+        "basis",
+        "orthogonal_matrix"
+      ],
+      "cites": [
+        "wikipedia:Singular_value_decomposition"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Define \u03a3 = [[D^(1/2), 0; 0, 0]; 0] of dimension m x n, where zero rows are added or removed to match the number of columns of U_2. Multiplying gives U \u03a3 V* = [U_1, U_2] \u03a3 [V_1, V_2]* = [U_1, U_2] [D^(1/2) V_1*; 0] = U_1 D^(1/2) V_1* = M, yielding the factorization M = U \u03a3 V*.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Singular_value_decomposition"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "M is an m x n matrix with finite dimensions over the real or complex field.",
+      "breaks_when": "M is an infinite-dimensional operator without appropriate compactness properties or defined over an incompatible scalar field."
+    },
+    {
+      "assumption": "M* M is positive semi-definite and Hermitian, permitting spectral decomposition via a unitary matrix.",
+      "breaks_when": "The conjugate transpose / adjoint operation is not defined or the underlying vector space lacks a standard inner product."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zero eigenvalue division in D^(-1/2)",
+      "signature": "Singular matrix inversion error or division by zero.",
+      "cause": "Attempting to include zero eigenvalues of M* M in the diagonal factor D rather than separating them into V_2 and restricting D to strictly positive eigenvalues."
+    },
+    {
+      "mode": "Dimension incompatibility in \u03a3",
+      "signature": "Dimension mismatch during matrix multiplication U \u03a3 V*.",
+      "cause": "Failing to pad or truncate zero blocks in \u03a3 to match dimensions (m - \u2113) x (n - \u2113) so that \u03a3 has overall dimensions m x n."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Singular_value_decomposition"
+  ],
+  "check": {
+    "node_id": "svd_factorization",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

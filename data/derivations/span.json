@@ -1,0 +1,124 @@
+{
+  "node_id": "span",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Given a vector space V over a field K, the linear span (or linear hull) of a set S of vectors (not necessarily finite), denoted span(S) or \u27e8S\u27e9, is defined as the intersection of all linear subspaces of V that contain S. Equivalently, it is the smallest subspace of V containing S and the set of all finite linear combinations of elements of S: span(S) = {\u03bb_1 v_1 + \u03bb_2 v_2 + \u22ef + \u03bb_n v_n \u2223 n \u2208 \u2115, v_1, \u2026, v_n \u2208 S, \u03bb_1, \u2026, \u03bb_n \u2208 K}.",
+  "symbols": [
+    {
+      "symbol": "V",
+      "meaning": "ambient vector space",
+      "dimensions": "vector space over K"
+    },
+    {
+      "symbol": "K",
+      "meaning": "field of scalars",
+      "dimensions": "field"
+    },
+    {
+      "symbol": "S",
+      "meaning": "subset of vectors whose span is formed",
+      "dimensions": "subset of V"
+    },
+    {
+      "symbol": "span(S)",
+      "meaning": "linear span of S",
+      "dimensions": "subspace of V"
+    },
+    {
+      "symbol": "v_i",
+      "meaning": "vector element from S",
+      "dimensions": "element of V"
+    },
+    {
+      "symbol": "\u03bb_i",
+      "meaning": "scalar multiplier from K",
+      "dimensions": "element of K"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of terms in a finite linear combination",
+      "dimensions": "non-negative integer (\u2115)"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "span(S) is the smallest (for set inclusion) linear subspace of V containing S, and equals the intersection of all subspaces of V containing S.",
+      "why": "Any subspace containing S must be closed under addition and scalar multiplication and thus must contain all finite linear combinations of elements of S.",
+      "cites": [
+        "wikipedia:Linear_span"
+      ]
+    },
+    {
+      "property": "span(\u2205) = {0}.",
+      "why": "When S is empty, n = 0 and the expression reduces to the empty sum which by convention evaluates to the zero vector 0.",
+      "cites": [
+        "wikipedia:Linear_span"
+      ]
+    },
+    {
+      "property": "When S = {v_1, \u2026, v_n} is finite, span(S) = {\u03bb_1 v_1 + \u22ef + \u03bb_n v_n \u2223 \u03bb_1, \u2026, \u03bb_n \u2208 K}.",
+      "why": "All finite linear combinations of elements from a finite set can be written with the entire set by allowing coefficients in K.",
+      "cites": [
+        "wikipedia:Linear_span"
+      ]
+    },
+    {
+      "property": "Every spanning set S of a vector space V contains at least as many elements as any linearly independent set of vectors from V.",
+      "why": "Linearly independent vectors adjoined to a spanning set allow successive replacement of vectors while preserving the spanning property without contradiction.",
+      "cites": [
+        "wikipedia:Linear_span"
+      ]
+    },
+    {
+      "property": "Any spanning set of a finite-dimensional vector space V can be reduced to a basis for V by discarding linearly dependent vectors.",
+      "why": "Removing linearly dependent vectors does not reduce the span, leaving a minimal spanning set.",
+      "cites": [
+        "wikipedia:Linear_span"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "V is a vector space over a field of scalars K.",
+      "breaks_when": "The ambient structure lacks field scalar multiplication (e.g., modules over arbitrary rings where linear combinations are module sums)."
+    },
+    {
+      "assumption": "Linear combinations are restricted to finite sums of vectors.",
+      "breaks_when": "Infinite sums are attempted without an ambient topological or normed vector space structure providing convergence."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Proper subspace span / insufficient generators",
+      "signature": "span(S) \u228a V (vectors in V cannot be represented as linear combinations of S).",
+      "cause": "The set S does not contain vectors with non-zero components along all directions of V (e.g., {(1,0,0), (0,1,0), (1,1,0)} spans only vectors with third component zero in \u211d\u00b3)."
+    },
+    {
+      "mode": "Non-minimal spanning set (redundancy)",
+      "signature": "Representations of vectors as linear combinations of S are non-unique.",
+      "cause": "The spanning set contains linearly dependent vectors, meaning it spans the space but fails to be a basis."
+    },
+    {
+      "mode": "Empty set convention confusion",
+      "signature": "Treating span(\u2205) as \u2205 rather than {0}.",
+      "cause": "Overlooking the standard convention that an empty linear combination evaluates to the zero vector 0."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Linear_span"
+  ],
+  "check": {
+    "node_id": "span",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

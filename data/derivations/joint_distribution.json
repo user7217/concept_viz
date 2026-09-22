@@ -1,0 +1,136 @@
+{
+  "node_id": "joint_distribution",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For $N$ random variables $X_1, \\ldots, X_N$ represented as a random vector $\\mathbf{X} = (X_1, \\ldots, X_N)^T$, the joint distribution is defined by the joint cumulative distribution function $F_{\\mathbf{X}}(\\mathbf{x}) = \\operatorname{P}(X_1 \\leq x_1, \\ldots, X_N \\leq x_N)$, which specifies the probability that each random variable $X_i$ simultaneously takes a value less than or equal to $x_i$. For discrete random variables, it is characterized by the joint probability mass function $p_{X_1, \\ldots, X_n}(x_1, \\ldots, x_n) = \\mathrm{P}(X_1=x_1, \\ldots, X_n=x_n)$; for continuous random variables, it is given by the joint probability density function $f_{X_1, \\ldots, X_n}(x_1, \\ldots, x_n)$ defined as the derivative of the joint cumulative distribution function.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{X}",
+      "meaning": "Random vector $(X_1, \\ldots, X_N)^T$ of $N$ random variables",
+      "dimensions": "N x 1"
+    },
+    {
+      "symbol": "\\mathbf{x}",
+      "meaning": "Vector of evaluation points $(x_1, \\ldots, x_N)^T$",
+      "dimensions": "N x 1"
+    },
+    {
+      "symbol": "F_{\\mathbf{X}}(\\mathbf{x})",
+      "meaning": "Joint cumulative distribution function of random vector $\\mathbf{X}$ evaluated at $\\mathbf{x}$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_{X,Y}(x,y)",
+      "meaning": "Joint probability mass function of two discrete random variables $X$ and $Y$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f_{X,Y}(x,y)",
+      "meaning": "Joint probability density function of two continuous random variables $X$ and $Y$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f_X(x)",
+      "meaning": "Marginal probability density function of random variable $X$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f_Y(y)",
+      "meaning": "Marginal probability density function of random variable $Y$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\operatorname{cov}(X,Y)",
+      "meaning": "Covariance between random variables $X$ and $Y$",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "For discrete random variables, the joint probabilities sum to 1 over all possible outcome combinations: $\\sum_i \\sum_j \\dots \\sum_k \\mathrm{P}(X_1=x_{1i}, X_2=x_{2j}, \\dots, X_n=x_{nk}) = 1$.",
+      "why": "The probability of some combination of outcomes occurring across the entire space is necessarily 1.",
+      "cites": [
+        "wikipedia:Joint_probability_distribution"
+      ]
+    },
+    {
+      "property": "For continuous random variables, the integral of the joint probability density function over all coordinates is 1: $\\int_{x_1} \\dots \\int_{x_n} f_{X_1, \\ldots, X_n}(x_1, \\ldots, x_n) \\, dx_n \\ldots dx_1 = 1$.",
+      "why": "The total probability assigned by the density across the continuous domain equals 1.",
+      "cites": [
+        "wikipedia:Joint_probability_distribution"
+      ]
+    },
+    {
+      "property": "Marginal distributions are determined from the joint distribution by integrating or summing over the other variables: $f_X(x) = \\int f_{X,Y}(x,y) \\, dy$ and $f_Y(y) = \\int f_{X,Y}(x,y) \\, dx$.",
+      "why": "Integrating the joint density over all values of $Y$ leaves the unconditional density of $X$.",
+      "cites": [
+        "wikipedia:Joint_probability_distribution"
+      ]
+    },
+    {
+      "property": "The joint distribution expands into conditional and marginal distributions via the chain rule of probability: $p_{X_1, \\ldots, X_n}(x_1, \\ldots, x_n) = \\mathrm{P}(X_1=x_1) \\cdot \\mathrm{P}(X_2=x_2 \\mid X_1=x_1) \\cdots \\mathrm{P}(X_n=x_n \\mid X_1=x_1, \\ldots, X_{n-1}=x_{n-1})$.",
+      "why": "Joint probabilities factor iteratively into successive conditional probabilities.",
+      "cites": [
+        "wikipedia:Joint_probability_distribution"
+      ]
+    },
+    {
+      "property": "Random variables are independent if and only if the joint distribution factorizes into the product of marginal distributions: $F_{X,Y}(x,y) = F_X(x) \\cdot F_Y(y)$ (CDFs), $P(X=x \\text{ and } Y=y) = P(X=x) \\cdot P(Y=y)$ (PMFs), or $f_{X,Y}(x,y) = f_X(x) \\cdot f_Y(y)$ (PDFs).",
+      "why": "Knowledge of the value of one variable leaves the conditional distribution of the other identical to its unconditional marginal distribution.",
+      "cites": [
+        "wikipedia:Joint_probability_distribution"
+      ]
+    },
+    {
+      "property": "For mixed continuous and discrete variables, the mixed joint density $f_{X,Y}(x,y) = f_{X \\mid Y}(x \\mid y)\\mathrm{P}(Y=y) = \\mathrm{P}(Y=y \\mid X=x)f_X(x)$ allows recovering the joint CDF via $F_{X,Y}(x,y) = \\sum_{t \\leq y} \\int_{-\\infty}^x f_{X,Y}(s,t) \\, ds$.",
+      "why": "The density is taken with respect to the product measure on the respective supports of the continuous and discrete variables.",
+      "cites": [
+        "wikipedia:Joint_probability_distribution"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "All random variables in the joint distribution are defined on the same underlying probability space.",
+      "breaks_when": "Variables are defined across disparate or incompatible outcome spaces where joint events $(X_1 \\leq x_1, \\ldots, X_N \\leq x_N)$ are not meaningfully defined."
+    },
+    {
+      "assumption": "For continuous random variables, the joint cumulative distribution function is differentiable.",
+      "breaks_when": "The distribution has discrete mass points or singular continuous parts, causing the derivative $f_{X,Y}$ to not exist everywhere or fail to integrate to 1."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Attempting to assign a pure PMF or PDF to a mixed discrete-continuous pair of variables",
+      "signature": "Cannot collectively assign either a probability density function or a probability mass function to $(X,Y)$",
+      "cause": "One variable is discrete and the other is continuous, requiring a mixed joint density defined with respect to the product measure."
+    },
+    {
+      "mode": "Factoring joint distribution directly into product of marginals for dependent variables",
+      "signature": "$P(X=x \\text{ and } Y=y) \\neq P(X=x)P(Y=y)$ or $f_{X,Y}(x,y) \\neq f_X(x)f_Y(y)$",
+      "cause": "The variables are dependent, so conditioning alters their distributions and the simple product rule fails."
+    },
+    {
+      "mode": "Using covariance to determine dependence structure when relationship is nonlinear",
+      "signature": "$\\operatorname{cov}(X,Y) = 0$ despite $X$ and $Y$ having strong statistical dependence",
+      "cause": "Covariance measures only the linear relationship between variables and may be insensitive to nonlinear dependencies."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Joint_probability_distribution"
+  ],
+  "check": {
+    "node_id": "joint_distribution",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "node_id": "dot_product",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The dot product (or scalar product) is an algebraic operation that takes two equal-length sequences of numbers and returns a single number, defined algebraically as the sum of the products of their corresponding entries: \\mathbf{a} \\cdot \\mathbf{b} = \\sum_{i} a_i b_i = \\mathbf{a}^{\\mathsf{T}}\\mathbf{b}. In Euclidean geometry, for two Euclidean vectors, it is equivalently defined as the product of their magnitudes and the cosine of the angle between them: \\mathbf{a} \\cdot \\mathbf{b} = \\left\\|\\mathbf{a}\\right\\| \\left\\|\\mathbf{b}\\right\\| \\cos \\theta.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{a}",
+      "meaning": "First vector or sequence of numbers",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mathbf{b}",
+      "meaning": "Second vector or sequence of numbers",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "a_i",
+      "meaning": "i-th coordinate/entry of vector \\mathbf{a}",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "b_i",
+      "meaning": "i-th coordinate/entry of vector \\mathbf{b}",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\left\\|\\mathbf{a}\\right\\|",
+      "meaning": "Magnitude (Euclidean length) of vector \\mathbf{a}",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\left\\|\\mathbf{b}\\right\\|",
+      "meaning": "Magnitude (Euclidean length) of vector \\mathbf{b}",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\theta",
+      "meaning": "Angle between vectors \\mathbf{a} and \\mathbf{b}",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Commutativity: \\mathbf{a} \\cdot \\mathbf{b} = \\mathbf{b} \\cdot \\mathbf{a}",
+      "why": "Multiplication of real numbers and vector magnitudes is commutative: \\left\\|\\mathbf{a}\\right\\|\\left\\|\\mathbf{b}\\right\\|\\cos\\theta = \\left\\|\\mathbf{b}\\right\\|\\left\\|\\mathbf{a}\\right\\|\\cos\\theta",
+      "cites": [
+        "wikipedia:Dot_product"
+      ]
+    },
+    {
+      "property": "Bilinearity: (\\alpha \\mathbf{a} + \\beta \\mathbf{b}) \\cdot (\\gamma \\mathbf{c} + \\delta \\mathbf{d}) = \\alpha\\gamma(\\mathbf{a} \\cdot \\mathbf{c}) + \\alpha\\delta(\\mathbf{a} \\cdot \\mathbf{d}) + \\beta\\gamma(\\mathbf{b} \\cdot \\mathbf{c}) + \\beta\\delta(\\mathbf{b} \\cdot \\mathbf{d})",
+      "why": "The dot product is additive, distributive, and homogeneous under scalar multiplication in both arguments",
+      "cites": [
+        "wikipedia:Dot_product"
+      ]
+    },
+    {
+      "property": "Positive definiteness: \\mathbf{a} \\cdot \\mathbf{a} = \\left\\|\\mathbf{a}\\right\\|^2 \\ge 0, with equality if and only if \\mathbf{a} = \\mathbf{0}",
+      "why": "The dot product of a vector with itself equals the square of its Euclidean length",
+      "cites": [
+        "wikipedia:Dot_product"
+      ]
+    },
+    {
+      "property": "Orthogonality: \\mathbf{a} \\cdot \\mathbf{b} = 0 for non-zero vectors if and only if they are orthogonal",
+      "why": "The angle between orthogonal vectors is \\pi/2, where \\cos(\\pi/2) = 0",
+      "cites": [
+        "wikipedia:Dot_product"
+      ]
+    },
+    {
+      "property": "Scalar projection characterization: \\mathbf{a} \\cdot \\mathbf{b} = a_b \\left\\|\\mathbf{b}\\right\\| = b_a \\left\\|\\mathbf{a}\\right\\|",
+      "why": "The scalar projection of \\mathbf{a} along \\mathbf{b} is a_b = \\left\\|\\mathbf{a}\\right\\|\\cos\\theta = \\mathbf{a} \\cdot \\widehat{\\mathbf{b}}",
+      "cites": [
+        "wikipedia:Dot_product"
+      ]
+    },
+    {
+      "property": "Lack of associativity: (\\mathbf{a} \\cdot \\mathbf{b}) \\cdot \\mathbf{c} is undefined",
+      "why": "The dot product yields a scalar and is not defined between a scalar and a vector",
+      "cites": [
+        "wikipedia:Dot_product"
+      ]
+    },
+    {
+      "property": "No cancellation law: \\mathbf{a} \\cdot \\mathbf{b} = \\mathbf{a} \\cdot \\mathbf{c} with \\mathbf{a} \\neq \\mathbf{0} does not imply \\mathbf{b} = \\mathbf{c}",
+      "why": "\\mathbf{a} \\cdot (\\mathbf{b} - \\mathbf{c}) = 0 only requires \\mathbf{a} to be perpendicular to (\\mathbf{b} - \\mathbf{c})",
+      "cites": [
+        "wikipedia:Dot_product"
+      ]
+    },
+    {
+      "property": "Product rule: (\\mathbf{a} \\cdot \\mathbf{b})' = \\mathbf{a}' \\cdot \\mathbf{b} + \\mathbf{a} \\cdot \\mathbf{b}'",
+      "why": "Holds when \\mathbf{a} and \\mathbf{b} are vector-valued differentiable functions",
+      "cites": [
+        "wikipedia:Dot_product"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Equal dimension: vectors have the same number of entries",
+      "breaks_when": "Vectors are of unequal lengths, making pairwise products and summation undefined"
+    },
+    {
+      "assumption": "Euclidean / real vector space setting",
+      "breaks_when": "Working in non-Euclidean geometries or complex vector spaces where conjugate symmetry is required"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Length mismatch",
+      "signature": "Undefined operation / dimension mismatch error",
+      "cause": "Attempting to take the dot product of two sequences or vectors of different dimensions"
+    },
+    {
+      "mode": "False cancellation",
+      "signature": "Erroneously deducing \\mathbf{b} = \\mathbf{c} from \\mathbf{a} \\cdot \\mathbf{b} = \\mathbf{a} \\cdot \\mathbf{c}",
+      "cause": "Overlooking that the difference vector \\mathbf{b} - \\mathbf{c} may be non-zero and perpendicular to \\mathbf{a}"
+    },
+    {
+      "mode": "Associativity error",
+      "signature": "Attempting repeated dot product evaluation (\\mathbf{a} \\cdot \\mathbf{b}) \\cdot \\mathbf{c}",
+      "cause": "Treating the dot product as an associative binary operation on vectors, ignoring that the result of the first dot product is a scalar"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Dot_product"
+  ],
+  "check": {
+    "node_id": "dot_product",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

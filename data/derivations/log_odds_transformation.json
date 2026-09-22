@@ -116,11 +116,12 @@
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
-    "shape": [
-      "expected a derivation, produced a definition"
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so log_odds_transformation is recorded as a definition"
     ],
+    "shape": [],
     "vacuous_invocations": false,
-    "ok": false
+    "ok": true
   },
   "instantiation": {
     "node_id": "log_odds_transformation",

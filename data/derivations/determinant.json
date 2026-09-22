@@ -1,0 +1,111 @@
+{
+  "node_id": "determinant",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For an n \u00d7 n square matrix A with complex entries, the determinant det(A) is a scalar-valued function of its entries equal to the product of its eigenvalues: \\det(A) = \\prod_{i=1}^{n} \\lambda_i = \\lambda_1 \\lambda_2 \\cdots \\lambda_n.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "square matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\det(A)",
+      "meaning": "determinant of matrix A",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "\\lambda_i",
+      "meaning": "i-th eigenvalue of A (counted with algebraic multiplicity)",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "n",
+      "meaning": "size/dimension of the matrix",
+      "dimensions": "1 x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "A matrix A is invertible if and only if \\det(A) \\neq 0",
+      "why": "\\det(A) = 0 if and only if 0 is an eigenvalue of A",
+      "cites": [
+        "wikipedia:Determinant"
+      ]
+    },
+    {
+      "property": "\\det(\\exp(A)) = \\exp(\\operatorname{tr}(A)), and for any logarithm L such that \\exp(L) = A, \\det(A) = \\exp(\\operatorname{tr}(L))",
+      "why": "every eigenvalue \\lambda of A corresponds to eigenvalue \\exp(\\lambda) of \\exp(A)",
+      "cites": [
+        "wikipedia:Determinant"
+      ]
+    },
+    {
+      "property": "\\det \\begin{pmatrix} A & B \\\\ C & D \\end{pmatrix} = \\det(D) \\det(A - BD^{-1}C) when D is invertible",
+      "why": "factoring the 2x2 block matrix using the Schur complement",
+      "cites": [
+        "wikipedia:Determinant"
+      ]
+    },
+    {
+      "property": "\\det(I_m + AB) = \\det(I_n + BA) for m x n matrix A and n x m matrix B (Sylvester's determinant theorem)",
+      "why": "forming square matrices of size m x m and n x n respectively",
+      "cites": [
+        "wikipedia:Determinant"
+      ]
+    },
+    {
+      "property": "\\chi_A(t) = \\det(t \\cdot I - A) defines the characteristic polynomial, whose roots are the eigenvalues of A",
+      "why": "eigenvalues \\lambda are precisely the values satisfying \\chi_A(\\lambda) = 0",
+      "cites": [
+        "wikipedia:Determinant"
+      ]
+    },
+    {
+      "property": "\\operatorname{tr}(I - A^{-1}) \\leq \\log \\det(A) \\leq \\operatorname{tr}(A - I) for positive definite matrix A",
+      "why": "derived via the Kullback\u2013Leibler divergence between two multivariate normal distributions",
+      "cites": [
+        "wikipedia:Determinant"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "A is a square matrix",
+      "breaks_when": "The matrix has dimensions m x n with m != n"
+    },
+    {
+      "assumption": "Matrix entries are defined over the complex or real numbers",
+      "breaks_when": "Matrix entries belong to an algebraic structure where standard eigenvalue decomposition or arithmetic operations are undefined"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular matrix",
+      "signature": "\\det(A) = 0",
+      "cause": "Zero is an eigenvalue of A, indicating the matrix is non-invertible"
+    },
+    {
+      "mode": "Non-square input",
+      "signature": "Determinant undefined",
+      "cause": "Matrix has dimension m x n where m != n"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Determinant"
+  ],
+  "check": {
+    "node_id": "determinant",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

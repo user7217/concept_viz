@@ -1,0 +1,107 @@
+{
+  "node_id": "sensor_bias",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Sensor bias (systematic error or statistical bias) is the non-chance, predictable component of observational error introduced by repeatable processes inherent to the measurement system. In the standard additive statistical model, a measured value $y$ relates to the unknown true value $y_{\\text{true}}$ by $y = y_{\\text{true}} + b + \\epsilon$ (or total measurement error $e = y - y_{\\text{true}} = b + \\epsilon$), where $b$ is the systematic error (bias) and $\\epsilon$ is the random error.",
+  "symbols": [
+    {
+      "symbol": "y",
+      "meaning": "measured value of a quantity",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "y_{\\text{true}}",
+      "meaning": "unknown true value of the quantity",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "e",
+      "meaning": "observational error (measurement error)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "b",
+      "meaning": "sensor bias (systematic error / statistical bias)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\epsilon",
+      "meaning": "random error",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Repeated measurements and averaging do not eliminate or reduce systematic bias.",
+      "why": "Systematic errors arise from causes that constantly act in the same way and alter results in a predictable direction rather than fluctuating randomly.",
+      "cites": [
+        "wikipedia:Observational_error"
+      ]
+    },
+    {
+      "property": "Sensor bias degrades measurement accuracy rather than precision.",
+      "why": "It offsets the observed values consistently from the true value rather than increasing the variability or standard deviation of the repeated readings.",
+      "cites": [
+        "wikipedia:Observational_error"
+      ]
+    },
+    {
+      "property": "Sensor bias can be constant (zero error), proportional to the measured quantity, or time-varying (drift).",
+      "why": "Incorrect zeroing adds a fixed offset, calibration scaling defects scale with the measured quantity, and instrument condition changes (such as warming) introduce temporal drift.",
+      "cites": [
+        "wikipedia:Observational_error"
+      ]
+    },
+    {
+      "property": "Identified sensor bias can be eliminated or compensated by recalibration or subtraction.",
+      "why": "Because systematic errors are predictable and reproducible rather than random, subtracting the known or estimated bias value corrects the measurement.",
+      "cites": [
+        "wikipedia:Observational_error"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Measurement error can be decomposed additively into a systematic error (bias) and a random error.",
+      "breaks_when": "Errors cannot be distinctly separated into purely systematic and random components, such as uncertainty in the calibration of an instrument."
+    },
+    {
+      "assumption": "The systematic error remains constant when the instrument is used in the same way and in the same case.",
+      "breaks_when": "The instrument experiences temporal drift during operation (e.g., due to warming) or the bias varies as a function of the measured quantity or environmental conditions."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Uncalibrated zero error",
+      "signature": "Readings of a zero quantity or known baseline consistently deviate from the true value in one direction across repeated trials.",
+      "cause": "Imperfect calibration or incorrect zeroing of the measurement instrument."
+    },
+    {
+      "mode": "Instrument drift",
+      "signature": "Repeated measurements of a constant quantity display a unidirectional trend over time rather than fluctuating about a constant mean.",
+      "cause": "Internal or environmental changes during operation, such as the instrument warming up."
+    },
+    {
+      "mode": "Proportional systematic error",
+      "signature": "Measurement error scales in magnitude or reverses sign as a function of the true value of the quantity being measured.",
+      "cause": "Percentage-based calibration defects or unmodeled physical effects (e.g., wave slowing in transmission media)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Observational_error"
+  ],
+  "check": {
+    "node_id": "sensor_bias",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

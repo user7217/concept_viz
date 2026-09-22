@@ -1,0 +1,159 @@
+{
+  "node_id": "value_function",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For an optimal control problem with dynamics $\\frac{\\mathrm{d}x(t)}{\\mathrm{d}t} = f(t, x(t), u(t))$, initial condition $x(t_0) = x_0$, and objective functional $J(t_0, x_0; u) = \\int_{t_0}^{t_1} I(t, x(t), u(t))\\,\\mathrm{d}t + \\phi(x(t_1))$ maximized over admissible controls $u \\in U[t_0, t_1]$, the value function $V(t_0, x_0)$ is defined as the supremum of the objective function over the set of admissible controls: $V(t_0, x_0) = \\sup_{u \\in U[t_0, t_1]} J(t_0, x_0; u) = J(t_0, x_0; u^*)$, where $(x^*, u^*)$ is the optimal state and control trajectory pair, with terminal boundary condition $V(t_1, x(t_1)) = \\phi(x(t_1))$.",
+  "symbols": [
+    {
+      "symbol": "V(t, x)",
+      "meaning": "Value function representing the optimal payoff (or cost-to-go) from state $x$ at time $t$ over $[t, t_1]$",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "t",
+      "meaning": "Current time variable",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "t_0",
+      "meaning": "Initial time parameter",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "t_1",
+      "meaning": "Terminal time",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "x(t)",
+      "meaning": "State vector at time $t$",
+      "dimensions": "d x 1"
+    },
+    {
+      "symbol": "x_0",
+      "meaning": "Initial state vector at time $t_0$",
+      "dimensions": "d x 1"
+    },
+    {
+      "symbol": "u(t)",
+      "meaning": "Control vector at time $t$",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "U[t_0, t_1]",
+      "meaning": "Set of admissible controls (Lebesgue measurable functions from $[t_0, t_1]$ to a prescribed subset of $\\mathbb{R}^m$)",
+      "dimensions": "infinite"
+    },
+    {
+      "symbol": "J(t_0, x_0; u)",
+      "meaning": "Objective function to be maximized",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "I(t, x, u)",
+      "meaning": "Running payoff (or cost) rate function",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\phi(x(t_1))",
+      "meaning": "Scrap value (terminal payoff)",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "f(t, x, u)",
+      "meaning": "State dynamics vector field",
+      "dimensions": "d x 1"
+    },
+    {
+      "symbol": "(x^*, u^*)",
+      "meaning": "Optimal pair of state and control trajectories",
+      "dimensions": "(d x 1, m x 1)"
+    },
+    {
+      "symbol": "\\lambda(t)",
+      "meaning": "Costate variable vector $\\partial V(t, x)/\\partial x$",
+      "dimensions": "d x 1"
+    },
+    {
+      "symbol": "H(t, x, u, \\lambda)",
+      "meaning": "Hamiltonian function $I(t, x, u) + \\lambda(t) f(t, x, u)$",
+      "dimensions": "1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Terminal boundary condition: $V(t_1, x(t_1)) = \\phi(x(t_1))$",
+      "why": "At the terminal time $t_1$, the running integral vanishes and the remaining payoff is solely the scrap value",
+      "cites": [
+        "wikipedia:Value_function"
+      ]
+    },
+    {
+      "property": "Hamilton\u2013Jacobi\u2013Bellman (HJB) PDE: If $V(t, x)$ is continuously differentiable, it satisfies $-\\frac{\\partial V(t,x)}{\\partial t} = \\max_u \\left\\{ I(t, x, u) + \\frac{\\partial V(t,x)}{\\partial x} f(t, x, u) \\right\\} = \\max_u H(t, x, u, \\lambda)$",
+      "why": "Derived from Bellman's principle of optimality applied to the remaining problem from state $x(t)$",
+      "cites": [
+        "wikipedia:Value_function"
+      ]
+    },
+    {
+      "property": "Costate equation recovery: Identifying $\\lambda(t) = \\frac{\\partial V(t, x)}{\\partial x}$, differentiating the HJB equation with respect to $x$ yields $-\\dot{\\lambda}(t) = \\frac{\\partial I}{\\partial x} + \\lambda(t) \\frac{\\partial f(x)}{\\partial x} = \\frac{\\partial H}{\\partial x}$",
+      "why": "The total time derivative of $\\lambda(t)$ matches the spatial derivative of the HJB equation",
+      "cites": [
+        "wikipedia:Value_function"
+      ]
+    },
+    {
+      "property": "Viscosity solution: The value function is the unique viscosity solution to the Hamilton\u2013Jacobi\u2013Bellman equation",
+      "why": "Accounts for cases where the value function fails to be continuously differentiable",
+      "cites": [
+        "wikipedia:Value_function"
+      ]
+    },
+    {
+      "property": "Lyapunov function: In online closed-loop approximate optimal control, the value function acts as a Lyapunov function",
+      "why": "Establishes global asymptotic stability of the closed-loop system",
+      "cites": [
+        "wikipedia:Value_function"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Admissible controls $u$ are Lebesgue measurable functions mapping $[t_0, t_1]$ into a prescribed subset of $\\mathbb{R}^m$",
+      "breaks_when": "Controls are non-measurable or fail to satisfy prescribed control constraints"
+    },
+    {
+      "assumption": "Continuous differentiability of $V(t, x)$ for the classical HJB formulation",
+      "breaks_when": "The value function develops non-differentiable points (kinks), requiring weak or viscosity solutions"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Classical differentiability breakdown",
+      "signature": "Partial derivatives $\\frac{\\partial V}{\\partial t}$ or $\\frac{\\partial V}{\\partial x}$ do not exist everywhere",
+      "cause": "Optimal control problems often produce value functions with non-smooth boundaries or shocks, violating the assumption of continuous differentiability"
+    },
+    {
+      "mode": "Non-attainment of the supremum",
+      "signature": "No admissible control achieves $V(t_0, x_0) = J(t_0, x_0; u^*)$",
+      "cause": "The admissible control space $U[t_0, t_1]$ is non-compact or the running payoff/dynamics fail lower/upper semi-continuity requirements"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Value_function"
+  ],
+  "check": {
+    "node_id": "value_function",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

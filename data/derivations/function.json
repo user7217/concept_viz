@@ -1,0 +1,114 @@
+{
+  "node_id": "function",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In mathematics, a function from a set X to a set Y assigns to each element of X exactly one element of Y, denoted f: X -> Y. The set X is called the domain of the function and the set Y is called the codomain of the function.",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "function from set X to set Y",
+      "dimensions": "mapping X -> Y"
+    },
+    {
+      "symbol": "X",
+      "meaning": "domain of the function",
+      "dimensions": "set"
+    },
+    {
+      "symbol": "Y",
+      "meaning": "codomain of the function",
+      "dimensions": "set"
+    },
+    {
+      "symbol": "x",
+      "meaning": "an element of the domain X",
+      "dimensions": "element of X"
+    },
+    {
+      "symbol": "f(x)",
+      "meaning": "the unique element of Y assigned to x by f (image of x under f)",
+      "dimensions": "element of Y"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Given a function f: X -> Y, its graph is formally the set G = {(x, f(x)) | x in X}",
+      "why": "formal set-theoretic specification pairing each domain element with its uniquely assigned codomain value",
+      "cites": [
+        "wikipedia:Function_(mathematics)"
+      ]
+    },
+    {
+      "property": "The image f(x) of any element x in X is always a single element of Y, but the preimage f^{-1}(y) = {x in X | f(x) = y} of an element y in Y may be empty or contain any number of elements",
+      "why": "the uniqueness condition applies directedly from the domain to the codomain",
+      "cites": [
+        "wikipedia:Function_(mathematics)"
+      ]
+    },
+    {
+      "property": "The composition g \u2218 f: X -> Z of functions f: X -> Y and g: Y -> Z is defined by (g \u2218 f)(x) = g(f(x)); it is associative ((h \u2218 g) \u2218 f = h \u2218 (g \u2218 f)) but generally not commutative",
+      "why": "composition is an operation chaining sequential evaluation where codomain of the first equals the domain of the second",
+      "cites": [
+        "wikipedia:Function_(mathematics)"
+      ]
+    },
+    {
+      "property": "The identity functions id_X and id_Y satisfy f \u2218 id_X = id_Y \u2218 f = f",
+      "why": "identity mappings leave elements unchanged under composition",
+      "cites": [
+        "wikipedia:Function_(mathematics)"
+      ]
+    },
+    {
+      "property": "A function f: X -> Y is bijective if and only if it is both injective (f(a) != f(b) for all a != b) and surjective (f(X) = Y), which holds if and only if it admits an inverse function g: Y -> X such that g \u2218 f = id_X and f \u2218 g = id_Y",
+      "why": "bijectivity ensures that every y in Y has exactly one preimage in X",
+      "cites": [
+        "wikipedia:Function_(mathematics)"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Each element x in the domain X must be mapped to exactly one element y in the codomain Y",
+      "breaks_when": "An element of X has no assignment in Y, or is assigned multiple distinct elements in Y"
+    },
+    {
+      "assumption": "Function composition g \u2218 f is defined only if the codomain of f matches the domain of g",
+      "breaks_when": "The codomain of f is not equal to the domain of g"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Multivalued relation",
+      "signature": "A relation associates an input x with more than one output value in Y",
+      "cause": "Failing to select a single value for each element of the domain when working with relations such as x^2 + y^2 = 1 without specifying a branch"
+    },
+    {
+      "mode": "Undefined composition",
+      "signature": "Evaluation of (g \u2218 f)(x) fails",
+      "cause": "The codomain of f does not equal the domain of g"
+    },
+    {
+      "mode": "Lack of two-sided invertibility",
+      "signature": "No function g: Y -> X satisfies both g \u2218 f = id_X and f \u2218 g = id_Y",
+      "cause": "f fails to be injective (multiple inputs map to the same output) or fails to be surjective (some codomain elements have empty preimage)"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Function_(mathematics)"
+  ],
+  "check": {
+    "node_id": "function",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

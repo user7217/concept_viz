@@ -1,0 +1,137 @@
+{
+  "node_id": "partial_derivative",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The partial derivative of a function of several variables is its derivative with respect to one of those variables, with all other variables held constant. For a function $f(x, y)$, holding $y$ constant at $a$ defines a univariate function $f_a(x) = f(x, a)$, and the partial derivative with respect to $x$ is defined by the ordinary univariate derivative: $\\frac{\\partial f}{\\partial x}(x, y) = f_a'(x)$, and more generally for $f(x_1, \\ldots, x_n)$, $\\frac{\\partial f}{\\partial x_j}$ denotes the derivative with respect to coordinate $x_j$ with all $x_{k \\neq j}$ held constant.",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "function of several variables",
+      "dimensions": "scalar-valued function on $\\mathbb{R}^n$"
+    },
+    {
+      "symbol": "x_j",
+      "meaning": "the j-th independent coordinate variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\frac{\\partial f}{\\partial x_j}",
+      "meaning": "partial derivative of f with respect to x_j (also denoted f_{x_j})",
+      "dimensions": "scalar-valued function on $\\mathbb{R}^n$"
+    },
+    {
+      "symbol": "\\nabla f",
+      "meaning": "gradient vector formed by assembling all first-order partial derivatives $(\\frac{\\partial f}{\\partial x_1}, \\ldots, \\frac{\\partial f}{\\partial x_n})$",
+      "dimensions": "vector in $\\mathbb{R}^n$"
+    },
+    {
+      "symbol": "\\partial",
+      "meaning": "rounded d symbol denoting partial differentiation",
+      "dimensions": "differential operator"
+    },
+    {
+      "symbol": "\\frac{\\partial^2 f}{\\partial x^2}, \\frac{\\partial^2 f}{\\partial y \\partial x}",
+      "meaning": "own and cross second-order partial derivatives (also denoted f_{xx}, f_{xy})",
+      "dimensions": "scalar-valued functions on $\\mathbb{R}^n$"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The gradient vector is formed by grouping all first partial derivatives: $\\nabla f(a) = \\left(\\frac{\\partial f}{\\partial x_1}(a), \\ldots, \\frac{\\partial f}{\\partial x_n}(a)\\right)$, producing a vector field if $f$ is differentiable across a domain.",
+      "why": "it collects the rates of change of $f$ along every coordinate direction at a point",
+      "cites": [
+        "wikipedia:Partial_derivative"
+      ]
+    },
+    {
+      "property": "The del operator can be expressed in terms of partial derivative coordinate components: $\\nabla = \\sum_{j=1}^n \\left[\\frac{\\partial}{\\partial x_j}\\right] \\hat{\\mathbf{e}}_j$.",
+      "why": "it decomposes directional rates of change along standard unit basis vectors",
+      "cites": [
+        "wikipedia:Partial_derivative"
+      ]
+    },
+    {
+      "property": "Higher-order partial derivatives are defined by successive partial differentiation, yielding own partials $\\frac{\\partial^2 f}{\\partial x^2} \\equiv \\frac{\\partial}{\\partial x}\\left(\\frac{\\partial f}{\\partial x}\\right)$ and cross partials $\\frac{\\partial^2 f}{\\partial y \\partial x} \\equiv \\frac{\\partial}{\\partial y}\\left(\\frac{\\partial f}{\\partial x}\\right)$.",
+      "why": "higher-order partial differentiation applies the single-variable derivative definition repeatedly to earlier partial derivatives",
+      "cites": [
+        "wikipedia:Partial_derivative"
+      ]
+    },
+    {
+      "property": "By Schwarz's theorem, cross partial derivatives commute ($\\frac{\\partial^2 f}{\\partial x \\partial y} = \\frac{\\partial^2 f}{\\partial y \\partial x}$, or $f_{yx} = f_{xy}$) provided the second partial derivatives are continuous.",
+      "why": "continuity of second-order partial derivatives makes the order of differentiation interchangeable",
+      "cites": [
+        "wikipedia:Partial_derivative"
+      ]
+    },
+    {
+      "property": "Own and cross second-order partial derivatives form the entries of the Hessian matrix.",
+      "why": "they provide the second-order conditions used in multivariable optimization problems",
+      "cites": [
+        "wikipedia:Partial_derivative"
+      ]
+    },
+    {
+      "property": "Partial differentiation eliminates indirect dependencies between variables, unlike the total derivative which accounts for indirect dependencies via the chain rule (e.g., $\\frac{dV}{dr} = \\frac{\\partial V}{\\partial r} + \\frac{\\partial V}{\\partial h}\\frac{dh}{dr}$).",
+      "why": "other variables are held strictly constant during partial differentiation regardless of any underlying coupling",
+      "cites": [
+        "wikipedia:Partial_derivative"
+      ]
+    },
+    {
+      "property": "The partial antiderivative $\\int \\frac{\\partial f}{\\partial x} dx$ recovers $f$ up to an arbitrary function $g(y)$ of the remaining variables rather than a scalar constant.",
+      "why": "any function depending only on non-differentiated variables acts as a constant and vanishes under partial differentiation",
+      "cites": [
+        "wikipedia:Partial_derivative"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The multivariable function $f$ is defined and admits a univariate derivative along the coordinate axis when all other variables are fixed at constant values.",
+      "breaks_when": "The limit defining the univariate derivative along that coordinate slice fails to exist at the evaluated point."
+    },
+    {
+      "assumption": "The coordinate variables are treated as independent parameters held fixed during differentiation.",
+      "breaks_when": "The physical or geometric system imposes active constraints that couple variables (requiring total derivatives rather than partial derivatives to reflect actual variation)."
+    },
+    {
+      "assumption": "Second partial derivatives are continuous when applying symmetry of cross derivatives (Schwarz's theorem).",
+      "breaks_when": "The second partial derivatives are discontinuous, which can lead to $\\frac{\\partial^2 f}{\\partial x \\partial y} \\neq \\frac{\\partial^2 f}{\\partial y \\partial x}$."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Conflating partial derivatives with total derivatives",
+      "signature": "Omission of indirect variation terms (e.g. using $\\frac{\\partial V}{\\partial r}$ instead of $\\frac{dV}{dr} = \\frac{\\partial V}{\\partial r} + \\frac{\\partial V}{\\partial h}\\frac{dh}{dr}$ when $h$ depends on $r$).",
+      "cause": "Failing to account for indirect dependencies between variables that are functionally or geometrically constrained."
+    },
+    {
+      "mode": "Order-dependent mixed partial derivatives",
+      "signature": "$\\frac{\\partial^2 f}{\\partial x \\partial y} \\neq \\frac{\\partial^2 f}{\\partial y \\partial x}$.",
+      "cause": "Applying equality of cross partial derivatives when the second-order partial derivatives fail to satisfy the continuity hypothesis of Schwarz's theorem."
+    },
+    {
+      "mode": "Failure of potential reconstruction from partial derivatives",
+      "signature": "Inability to find a scalar function $f$ whose partial derivatives match a prescribed vector field.",
+      "cause": "Unlike single-variable calculus, not every set of functions forms the gradient of a single scalar function (i.e. the vector field is not conservative)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Partial_derivative"
+  ],
+  "check": {
+    "node_id": "partial_derivative",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

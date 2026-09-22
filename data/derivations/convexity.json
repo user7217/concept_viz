@@ -2,50 +2,109 @@
   "node_id": "convexity",
   "grounded": true,
   "kind": "definition",
-  "statement": "Convexity refers to the mathematical property where a convex set contains the whole line segment that joins points, and a convex function is one where the line segment between any two points on the graph of the function lies above or on the graph.",
-  "symbols": [],
+  "statement": "A set of points is convex if it contains every line segment between two points in the set. Equivalently, a real-valued function is convex if the line segment between any two distinct points on the graph of the function lies above or on the graph of the function between the two points, which is equivalent to its epigraph (the set of points on or above the graph of the function) being a convex set.",
+  "symbols": [
+    {
+      "symbol": "C",
+      "meaning": "convex set of points",
+      "dimensions": "subset of a vector space"
+    },
+    {
+      "symbol": "f",
+      "meaning": "real-valued function",
+      "dimensions": "scalar-valued mapping"
+    },
+    {
+      "symbol": "x, y",
+      "meaning": "distinct points in the set or domain of the function",
+      "dimensions": "elements of a vector space"
+    },
+    {
+      "symbol": "t",
+      "meaning": "scalar parameter interpolating between points",
+      "dimensions": "scalar in [0, 1]"
+    },
+    {
+      "symbol": "tx + (1-t)y",
+      "meaning": "line segment connecting points x and y",
+      "dimensions": "element of a vector space"
+    },
+    {
+      "symbol": "\u2207\u00b2f(x)",
+      "meaning": "Hessian matrix of second partial derivatives of f",
+      "dimensions": "n x n matrix"
+    }
+  ],
   "steps": [],
   "properties": [
     {
-      "property": "A convex set contains the whole line segment that joins points",
-      "why": "definition of convex set",
+      "property": "A real-valued function is convex if and only if its epigraph (the set of points on or above the graph of the function) is a convex set.",
+      "why": "epigraph characterization equates functional convexity with geometric set convexity",
       "cites": [
-        "wikipedia:Convex"
+        "wikipedia:Convex_function"
       ]
     },
     {
-      "property": "The line segment between any two points on the graph of a convex function lies above or on the graph",
-      "why": "definition of convex function",
+      "property": "For a twice continuously differentiable function f, if the Hessian \u2207\u00b2f(x) is positive semidefinite (or f''(x) \u2265 0 on the real line), then f is convex.",
+      "why": "second derivative lower bound with m = 0 implies convexity",
       "cites": [
-        "wikipedia:Convex"
+        "wikipedia:Convex_function"
       ]
     },
     {
-      "property": "A convex polygon encloses a convex set of points",
-      "why": "definition of convex polygon",
+      "property": "The intersection of any collection of convex sets is itself convex.",
+      "why": "convex subsets of a vector space form a complete lattice under intersection and convex hull joins",
       "cites": [
-        "wikipedia:Convex"
+        "wikipedia:Convex_set"
       ]
     },
     {
-      "property": "A convex polytope is characterized by a convex set of points",
-      "why": "definition of convex polytope",
+      "property": "If C is a convex set in a topological vector space, its closure Cl C and its interior Int C are both convex.",
+      "why": "topological closure and interior operations preserve convexity",
       "cites": [
-        "wikipedia:Convex"
+        "wikipedia:Convex_set"
       ]
     },
     {
-      "property": "Convexity generalizes to abstract metric spaces via the notion of a convex metric space",
-      "why": "generalization of convexity",
+      "property": "The convex hull of the Minkowski sum of sets equals the Minkowski sum of their convex hulls: Conv(S\u2081 + S\u2082) = Conv(S\u2081) + Conv(S\u2082).",
+      "why": "Minkowski summation and forming convex hulls are commuting operations",
       "cites": [
-        "wikipedia:Convex"
+        "wikipedia:Convex_set"
+      ]
+    },
+    {
+      "property": "The Minkowski sum of two compact convex sets is compact, and the sum of a compact convex set and a closed convex set is closed.",
+      "why": "compactness and closedness are preserved under Minkowski addition of convex sets",
+      "cites": [
+        "wikipedia:Convex_set"
       ]
     }
   ],
-  "assumptions": [],
-  "failure_modes": [],
+  "assumptions": [
+    {
+      "assumption": "The ambient space is a geometric space or vector space equipped with linear segments {tx + (1-t)y : t \u2208 [0, 1]}.",
+      "breaks_when": "The space lacks linear or affine structure, preventing the definition of straight line segments between points."
+    },
+    {
+      "assumption": "For Hessian-based convexity characterizations, the function must be twice continuously differentiable on its domain.",
+      "breaks_when": "The function lacks first or second derivatives at points in its domain (such as f(x) = |x| at x = 0)."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Domain discontinuity or singularity interrupting global convexity",
+      "signature": "A function is convex on separate intervals but fails to be convex on their union.",
+      "cause": "A singularity (such as at x = 0 for f(x) = 1/x\u00b2) creates a discontinuity preventing line segments from remaining above the graph across the entire domain."
+    },
+    {
+      "mode": "Geometric non-convexity via indents or hollow regions",
+      "signature": "There exist two points in the set such that the line segment connecting them passes outside the set.",
+      "cause": "The set has an indent, hollow, or non-convex boundary geometry (such as a crescent shape)."
+    }
+  ],
   "source_ids": [
-    "wikipedia:Convex"
+    "wikipedia:Convex_function",
+    "wikipedia:Convex_set"
   ],
   "check": {
     "node_id": "convexity",
@@ -56,10 +115,8 @@
     "unknown_invocations": [],
     "closure_holes": [],
     "canon_notes": [],
-    "shape": [
-      "sheet names no symbols, so it is probably not about this node's mathematics at all"
-    ],
+    "shape": [],
     "vacuous_invocations": false,
-    "ok": false
+    "ok": true
   }
 }

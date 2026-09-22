@@ -1,0 +1,112 @@
+{
+  "node_id": "expectation",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For a real-valued random variable $X$ defined on a probability space $(\\Omega, \\Sigma, P)$, the expected value $\\operatorname{E}[X]$ is defined as the Lebesgue integral $\\operatorname{E}[X] = \\int_{\\Omega} X \\, dP$, or in extended real terms via the positive and negative parts $X^+ = \\max(X, 0)$ and $X^- = \\max(-X, 0)$ as $\\operatorname{E}[X] = \\operatorname{E}[X^+] - \\operatorname{E}[X^-]$ provided $\\operatorname{E}[X^+]$ and $\\operatorname{E}[X^-]$ are not both $+\\infty$.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "real-valued random variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "E[X]",
+      "meaning": "expected value (also called expectation, mean, or first moment) of X",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "(\\Omega, \\Sigma, P)",
+      "meaning": "underlying probability space with sample space \\Omega, sigma-algebra \\Sigma, and probability measure P",
+      "dimensions": "not applicable"
+    },
+    {
+      "symbol": "f(x)",
+      "meaning": "probability density function of an absolutely continuous random variable X",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "F(x)",
+      "meaning": "cumulative distribution function of random variable X",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "X^+",
+      "meaning": "positive part of X, defined as max(X, 0)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "X^-",
+      "meaning": "negative part of X, defined as max(-X, 0)",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "For an absolutely continuous random variable $X$ with probability density function $f$, $\\operatorname{E}[X] = \\int_{-\\infty}^{\\infty} x f(x) \\, dx$.",
+      "why": "follows from the change-of-variables formula for Lebesgue integration combined with the law of the unconscious statistician",
+      "cites": [
+        "wikipedia:Expected_value"
+      ]
+    },
+    {
+      "property": "For a discrete random variable taking values $x_i$ with probabilities $p_i$, $\\operatorname{E}[X] = \\sum_i x_i p_i$.",
+      "why": "the Lebesgue integral reduces to weighted summation for random variables with countably many values",
+      "cites": [
+        "wikipedia:Expected_value"
+      ]
+    },
+    {
+      "property": "For any real-valued random variable $X$ with cumulative distribution function $F$, $\\operatorname{E}[X] = \\int_{0}^{\\infty} (1 - F(x)) \\, dx - \\int_{-\\infty}^{0} F(x) \\, dx$ whenever both improper Riemann integrals converge.",
+      "why": "geometric equality of finite areas between the CDF curve and the threshold line in the x-y plane",
+      "cites": [
+        "wikipedia:Expected_value"
+      ]
+    },
+    {
+      "property": "$\\operatorname{E}[X]$ exists and is finite if and only if $\\operatorname{E}[|X|] < \\infty$.",
+      "why": "$|X| = X^+ + X^-$ and finiteness requires both $\\operatorname{E}[X^+] < \\infty$ and $\\operatorname{E}[X^-] < \\infty$",
+      "cites": [
+        "wikipedia:Expected_value"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "At least one of $\\operatorname{E}[X^+]$ or $\\operatorname{E}[X^-]$ is finite.",
+      "breaks_when": "Both $\\operatorname{E}[X^+] = \\infty$ and $\\operatorname{E}[X^-] = \\infty$, producing an indeterminate form $\\infty - \\infty$."
+    },
+    {
+      "assumption": "For continuous random variables evaluated via $\\int_{-\\infty}^{\\infty} x f(x) \\, dx$, the integral converges absolutely.",
+      "breaks_when": "The integral is conditionally convergent or divergent, making the limit sensitive to path constraints (e.g., Cauchy distribution)."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Undefined expectation due to heavy symmetric tails",
+      "signature": "Limit $\\lim_{a \\to -\\infty, b \\to +\\infty} \\int_a^b x f(x) \\, dx$ fails to exist or depends on the arbitrary relation between $a$ and $b$ (e.g., Cauchy(0, pi)).",
+      "cause": "Both positive and negative parts diverge to $+\\infty$, making $\\operatorname{E}[X^+] - \\operatorname{E}[X^-]$ undefined."
+    },
+    {
+      "mode": "Infinite expectation",
+      "signature": "$\\operatorname{E}[X] = +\\infty$ or $\\operatorname{E}[X] = -\\infty$.",
+      "cause": "One of $\\operatorname{E}[X^+]$ or $\\operatorname{E}[X^-]$ equals $+\\infty$ while the other remains finite (as in the St. Petersburg paradox where outcomes $x_i = 2^i$ with $p_i = 2^{-i}$ sum to $\\sum 1 = +\\infty$)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Expected_value"
+  ],
+  "check": {
+    "node_id": "expectation",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "node_id": "norm",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A norm on a real or complex vector space X is a function p: X \u2192 \u211d (commonly denoted \u2016z\u2016 = p(z)) to the non-negative real numbers that commutes with scaling, obeys the triangle inequality, and is zero only at the origin.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "real or complex vector space",
+      "dimensions": "vector space"
+    },
+    {
+      "symbol": "p",
+      "meaning": "norm function mapping vectors to non-negative real numbers",
+      "dimensions": "X \u2192 \u211d"
+    },
+    {
+      "symbol": "z",
+      "meaning": "vector in the vector space X",
+      "dimensions": "element of X"
+    },
+    {
+      "symbol": "\u2016z\u2016",
+      "meaning": "norm of vector z, equal to p(z)",
+      "dimensions": "scalar \u2208 [0, \u221e)"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Every real or complex vector space admits a norm.",
+      "why": "Given a Hamel basis (x_i)_{i \u2208 I} for X, the map sending x = \u2211 s_i x_i to \u2211 |s_i| defines a norm on X.",
+      "cites": [
+        "wikipedia:Norm_(mathematics)"
+      ]
+    },
+    {
+      "property": "All norms on finite-dimensional spaces are equivalent.",
+      "why": "They all define the same topology on finite-dimensional spaces.",
+      "cites": [
+        "wikipedia:Norm_(mathematics)"
+      ]
+    },
+    {
+      "property": "A seminorm relaxes the condition of being zero only at the origin.",
+      "why": "A seminorm satisfies commuting with scaling and the triangle inequality, but may evaluate to zero for vectors other than the origin.",
+      "cites": [
+        "wikipedia:Norm_(mathematics)"
+      ]
+    },
+    {
+      "property": "The Euclidean norm (2-norm) is induced by an inner product.",
+      "why": "For p = 2, \u2016x\u2016_2 = \u221a\u27e8x, x\u27e9, where the inner product can be related to the norm via the polarization identity.",
+      "cites": [
+        "wikipedia:Norm_(mathematics)"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The space X is a vector space over the real or complex numbers.",
+      "breaks_when": "The scalars are drawn from a field where absolute value scaling is not defined."
+    },
+    {
+      "assumption": "For the p-norm formula \u2016x\u2016_p := (\u2211 |x_i|^p)^(1/p), the parameter p satisfies p \u2265 1.",
+      "breaks_when": "0 < p < 1, in which case the triangle inequality is violated and the function is not a norm."
+    },
+    {
+      "assumption": "For the energy norm \u2016x\u2016_A := \u221a(x^T A x), the matrix A is symmetric positive definite.",
+      "breaks_when": "A is not positive definite, which can cause x^T A x to be negative or zero for non-zero vectors."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Triangle inequality violation for p-norm with p < 1",
+      "signature": "Function fails subadditivity (\u2016x + y\u2016 > \u2016x\u2016 + \u2016y\u2016 for some vectors).",
+      "cause": "Using the p-norm formula with parameter 0 < p < 1."
+    },
+    {
+      "mode": "Negative output from un-absoluted summation",
+      "signature": "Function maps a vector to a negative real number, violating non-negativity.",
+      "cause": "Summing vector components directly without taking absolute values (e.g., \u2211 x_i)."
+    },
+    {
+      "mode": "Seminorm degeneration (non-separation of points)",
+      "signature": "\u2016x\u2016 = 0 for some vector x \u2260 0.",
+      "cause": "The function satisfies scalability and triangle inequality but lacks positive definiteness."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Norm_(mathematics)"
+  ],
+  "check": {
+    "node_id": "norm",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "node_id": "softmax_differentiation",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources do not contain a derivation of the derivative of the softmax function; the result is stated directly without intermediate derivation steps. Differentiating the softmax function \\sigma(\\mathbf{z})_i = \\frac{\\exp z_i}{\\sum_{k=1}^K \\exp z_k} with respect to input score z_j yields the partial derivative \\frac{\\partial}{\\partial z_j} \\sigma(\\mathbf{z})_i = \\sigma_i (\\delta_{ij} - \\sigma_j) (equivalently expressed in index notation as \\frac{\\partial}{\\partial q_k} \\sigma(\\mathbf{q}, i) = \\sigma(\\mathbf{q}, i)(\\delta_{ik} - \\sigma(\\mathbf{q}, k))), where \\delta_{ij} is the Kronecker delta equaling 1 if i = j and 0 otherwise.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{z}",
+      "meaning": "input tuple or score vector to the softmax function",
+      "dimensions": "K x 1"
+    },
+    {
+      "symbol": "z_i",
+      "meaning": "i-th component of the input score vector \\mathbf{z}",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "z_j",
+      "meaning": "j-th component of the input score vector \\mathbf{z} with respect to which the partial derivative is taken",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\sigma(\\mathbf{z})",
+      "meaning": "softmax function output probability distribution vector",
+      "dimensions": "K x 1"
+    },
+    {
+      "symbol": "\\sigma_i",
+      "meaning": "i-th component of the softmax output probability distribution, \\sigma(\\mathbf{z})_i",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\sigma_j",
+      "meaning": "j-th component of the softmax output probability distribution, \\sigma(\\mathbf{z})_j",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\delta_{ij}",
+      "meaning": "Kronecker delta, equal to 1 if i = j and 0 otherwise",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "K",
+      "meaning": "total number of classes or possible outcomes",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\beta",
+      "meaning": "temperature scaling parameter / inverse temperature (coldness)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbf{q}",
+      "meaning": "input tuple of action values or network outputs",
+      "dimensions": "K x 1"
+    },
+    {
+      "symbol": "\\text{LSE}(\\mathbf{z})",
+      "meaning": "LogSumExp function of the input vector \\mathbf{z}",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Symmetry in indices: The derivative is symmetric in indices i and k and can be written as \\frac{\\partial}{\\partial q_k} \\sigma(\\mathbf{q}, i) = \\sigma(\\mathbf{q}, k)(\\delta_{ik} - \\sigma(\\mathbf{q}, i)).",
+      "why": "The expression \\sigma(\\mathbf{q}, i)(\\delta_{ik} - \\sigma(\\mathbf{q}, k)) is algebraically symmetric with respect to interchanging indices i and k.",
+      "cites": [
+        "wikipedia:Softmax_function"
+      ]
+    },
+    {
+      "property": "Scaling parameter multiplication: If the softmax function is scaled with parameter \\beta, the derivative expressions must be multiplied by \\beta.",
+      "why": "Scaling the input arguments by \\beta scales the derivative proportionally.",
+      "cites": [
+        "wikipedia:Softmax_function"
+      ]
+    },
+    {
+      "property": "Relationship to LogSumExp gradient: The softmax function \\sigma(\\mathbf{z})_i is the gradient of the LogSumExp function, \\frac{\\partial}{\\partial z_i} \\text{LSE}(\\mathbf{z}) = \\frac{\\exp z_i}{\\sum_{k=1}^K \\exp z_k} = \\sigma(\\mathbf{z})_i.",
+      "why": "Differentiating \\text{LSE}(\\mathbf{z}) = \\log(\\sum_{k=1}^K \\exp z_k) with respect to z_i directly evaluates to the softmax probability \\sigma(\\mathbf{z})_i.",
+      "cites": [
+        "wikipedia:Softmax_function"
+      ]
+    },
+    {
+      "property": "Invariance under maximum subtraction: Subtracting the maximum value m = \\max_i z_i from the input tuple does not alter the output or the derivative theoretically.",
+      "why": "Softmax is invariant under translation by a constant vector along the main diagonal.",
+      "cites": [
+        "wikipedia:Softmax_function"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The input components z_i are real numbers and the number of outcomes K is a finite positive integer.",
+      "breaks_when": "Inputs are undefined, non-real, or the dimension K is non-positive."
+    },
+    {
+      "assumption": "The normalization sum \\sum_{k=1}^K \\exp(z_k) is positive and finite.",
+      "breaks_when": "Extreme input values cause floating-point overflow to infinity or underflow of all terms to zero."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Numerical instability due to large exponentiations",
+      "signature": "Overflow yielding NaN or infinite values in calculated softmax values and gradients",
+      "cause": "Evaluating exponentials \\exp(z_i) directly when input scores z_i are large without subtracting the maximum value m = \\max_i z_i."
+    },
+    {
+      "mode": "Computational complexity bottleneck for large class dimension K",
+      "signature": "High latency and memory bandwidth saturation during gradient backpropagation",
+      "cause": "Full normalization factor summation and gradient calculation scaling as O(K) per example when K is extremely large."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Softmax_function"
+  ],
+  "check": {
+    "node_id": "softmax_differentiation",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so softmax_differentiation is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

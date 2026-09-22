@@ -1,0 +1,150 @@
+{
+  "node_id": "sparse_matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources contain no derivation, as a sparse matrix is a mathematical definition and computational object rather than a derived result. A sparse matrix (or sparse array) is defined as a matrix in which most of the elements are zero, commonly characterized by the criterion that the number of non-zero elements is roughly equal to the number of rows or columns, with sparsity defined as the ratio of the number of zero-valued elements to the total number of elements (m \u00d7 n).",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "sparse matrix",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "m",
+      "meaning": "number of rows in the matrix",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of columns in the matrix",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "a_{i,j}",
+      "meaning": "matrix element at row index i and column index j",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "NNZ",
+      "meaning": "number of non-zero entries in the matrix",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p",
+      "meaning": "bandwidth (lower or upper bandwidth)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "V",
+      "meaning": "array storing the non-zero values of the matrix in CSR format",
+      "dimensions": "NNZ"
+    },
+    {
+      "symbol": "COL_INDEX",
+      "meaning": "array storing the column indices of the non-zero values in CSR format",
+      "dimensions": "NNZ"
+    },
+    {
+      "symbol": "ROW_INDEX",
+      "meaning": "array where entry j encodes the index in V and COL_INDEX where row j starts",
+      "dimensions": "m + 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The sparsity of an m \u00d7 n matrix equals the count of zero-valued elements divided by the total number of elements m \u00d7 n.",
+      "why": "It defines the proportion of zero elements in the matrix.",
+      "cites": [
+        "wikipedia:Sparse_matrix"
+      ]
+    },
+    {
+      "property": "A band matrix has lower bandwidth p if a_{i,j} = 0 whenever i > j + p, and upper bandwidth p if a_{i,j} = 0 whenever i < j - p.",
+      "why": "Non-zero entries are confined within a band around the main diagonal.",
+      "cites": [
+        "wikipedia:Sparse_matrix"
+      ]
+    },
+    {
+      "property": "An n \u00d7 n diagonal matrix is an extreme band matrix with zero upper and lower bandwidth that requires only n memory entries as a 1D array.",
+      "why": "All elements outside the main diagonal vanish.",
+      "cites": [
+        "wikipedia:Sparse_matrix"
+      ]
+    },
+    {
+      "property": "The Compressed Sparse Row (CSR) format represents an m \u00d7 n matrix using three 1D arrays: V of length NNZ, COL_INDEX of length NNZ, and ROW_INDEX of length m + 1.",
+      "why": "Row indices are compressed while allowing efficient row slicing and matrix-vector products.",
+      "cites": [
+        "wikipedia:Sparse_matrix"
+      ]
+    },
+    {
+      "property": "The CSR format saves memory over dense storage only when NNZ < (m(n - 1) - 1) / 2.",
+      "why": "The combined length of the three CSR arrays (2 * NNZ + m + 1) must be strictly less than m * n.",
+      "cites": [
+        "wikipedia:Sparse_matrix"
+      ]
+    },
+    {
+      "property": "The Compressed Sparse Column (CSC) format stores values column-first with arrays (val, row_ind, col_ptr).",
+      "why": "Column index information is compressed relative to COO to allow efficient column slicing and arithmetic.",
+      "cites": [
+        "wikipedia:Sparse_matrix"
+      ]
+    },
+    {
+      "property": "Matrix factorizations can produce fill-in (entries changing from zero to non-zero), which can be reduced by row and column permutations.",
+      "why": "Elimination steps in algorithms such as Cholesky or QR factorization introduce non-zero values into previously zero locations.",
+      "cites": [
+        "wikipedia:Sparse_matrix"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The matrix contains predominantly zero elements, commonly with NNZ roughly on the order of m or n.",
+      "breaks_when": "Most elements are non-zero (dense matrix), which causes sparse structures to incur higher memory and computational overhead than standard dense arrays."
+    },
+    {
+      "assumption": "The number of non-zero entries satisfies NNZ < (m(n - 1) - 1) / 2 when stored in CSR format.",
+      "breaks_when": "NNZ >= (m(n - 1) - 1) / 2, causing CSR storage (2 * NNZ + m + 1 entries) to exceed or match the storage of a dense m \u00d7 n matrix."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Catastrophic fill-in during direct factorizations",
+      "signature": "Memory consumption explodes and operation counts increase drastically during Cholesky or QR decomposition.",
+      "cause": "Zero entries transition to non-zero values during algebraic factorization without bandwidth minimization or row/column permutations."
+    },
+    {
+      "mode": "Memory and performance degradation on insufficiently sparse matrices",
+      "signature": "Sparse matrix algorithms take longer to execute and consume more memory than dense algorithms.",
+      "cause": "Sparse formats like CSR are applied to matrices where the number of non-zeros exceeds efficiency thresholds such as NNZ >= (m(n - 1) - 1) / 2."
+    },
+    {
+      "mode": "Inefficient incremental matrix modification",
+      "signature": "Slow running times during element insertions or matrix assembly.",
+      "cause": "Constructing or modifying the non-zero structure directly in static compressed formats (CSR or CSC) instead of construction formats (DOK, LIL, or COO)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Sparse_matrix"
+  ],
+  "check": {
+    "node_id": "sparse_matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so sparse_matrix is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

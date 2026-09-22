@@ -1,0 +1,135 @@
+{
+  "node_id": "derivative",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The derivative of a function of a single variable at a chosen input value, when it exists, is the slope of the tangent line to the graph of the function at that point, serving as the best linear approximation of the function near that input value and quantifying the instantaneous rate of change of the dependent variable with respect to the independent variable. In higher dimensions, the total derivative of a function $f$ from an open subset of $\\mathbb{R}^n$ to $\\mathbb{R}^m$ at $\\mathbf{a}$ is the unique linear transformation $f'(\\mathbf{a})\\colon \\mathbb{R}^n \\to \\mathbb{R}^m$ such that $\\lim_{\\mathbf{h} \\to 0} \\frac{\\lVert f(\\mathbf{a}+\\mathbf{h}) - (f(\\mathbf{a}) + f'(\\mathbf{a})\\mathbf{h})\\rVert}{\\lVert \\mathbf{h}\\rVert} = 0$.",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "function being differentiated",
+      "dimensions": "scalar or vector-valued map"
+    },
+    {
+      "symbol": "x",
+      "meaning": "independent variable / input value",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f'",
+      "meaning": "derivative (first derivative) of function f",
+      "dimensions": "scalar or linear map"
+    },
+    {
+      "symbol": "\\mathbf{a}",
+      "meaning": "evaluation point in the domain",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mathbf{h}",
+      "meaning": "perturbation vector / increment",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "f'(\\mathbf{a})",
+      "meaning": "total derivative of f at \\mathbf{a}",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "\\operatorname{Jac}_{\\mathbf{a}}",
+      "meaning": "Jacobian matrix composed of partial derivatives (\\partial f_i / \\partial x_j)_{ij}",
+      "dimensions": "m x n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The total derivative can be represented as the Jacobian matrix $\\operatorname{Jac}_{\\mathbf{a}} = \\left(\\frac{\\partial f_i}{\\partial x_j}\\right)_{ij}$",
+      "why": "the function $f$ is expressed in terms of coordinate functions $(f_1, f_2, \\dots, f_m)$",
+      "cites": [
+        "wikipedia:Derivative"
+      ]
+    },
+    {
+      "property": "If the total derivative exists at $\\mathbf{a}$, then all partial and directional derivatives exist at $\\mathbf{a}$, with $f'(\\mathbf{a})\\mathbf{v}$ giving the directional derivative in direction $\\mathbf{v}$",
+      "why": "the total derivative considers all directions at once as the best linear approximation",
+      "cites": [
+        "wikipedia:Derivative"
+      ]
+    },
+    {
+      "property": "If all partial derivatives exist and are continuous at $\\mathbf{x}$, the directional derivative in direction $\\mathbf{v}$ is $D_{\\mathbf{v}}f(\\mathbf{x}) = \\sum_{j=1}^n v_j \\frac{\\partial f}{\\partial x_j}$",
+      "why": "the continuous partial derivatives determine the variation along any direction",
+      "cites": [
+        "wikipedia:Derivative"
+      ]
+    },
+    {
+      "property": "For a vector-valued function $\\mathbf{y}(t) = (y_1(t), \\dots, y_n(t))$, the derivative is the tangent vector $\\mathbf{y}'(t) = \\lim_{h\\to 0} \\frac{\\mathbf{y}(t+h)-\\mathbf{y}(t)}{h}$ whose coordinates are the derivatives of the coordinate functions",
+      "why": "coordinate functions are real-valued functions to which differentiation applies componentwise",
+      "cites": [
+        "wikipedia:Derivative"
+      ]
+    },
+    {
+      "property": "The derivative of a constant function is zero, meaning antiderivatives of $f$ differ by an arbitrary constant $c$",
+      "why": "constants have zero rate of change with respect to inputs",
+      "cites": [
+        "wikipedia:Derivative"
+      ]
+    },
+    {
+      "property": "Higher-order derivatives represent repeated differentiation, where the $n$-th derivative $f^{(n)}$ is the derivative of the $(n-1)$-th derivative",
+      "why": "the differentiation process can be applied iteratively to differentiable functions",
+      "cites": [
+        "wikipedia:Derivative"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The limit defining the derivative or total derivative exists",
+      "breaks_when": "The function is not differentiable at the evaluated point"
+    },
+    {
+      "assumption": "All partial derivatives exist and are continuous at $\\mathbf{x}$ for the directional derivative formula $D_{\\mathbf{v}}f(\\mathbf{x}) = \\sum_{j=1}^n v_j \\frac{\\partial f}{\\partial x_j}$",
+      "breaks_when": "One or more partial derivatives fail to exist or are discontinuous at $\\mathbf{x}$"
+    },
+    {
+      "assumption": "The real derivative is complex linear for functions from $\\mathbb{C}$ to $\\mathbb{C}$",
+      "breaks_when": "The Cauchy-Riemann equations between the partial derivatives are not satisfied"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Classical non-differentiability",
+      "signature": "The limit of the difference quotient does not exist",
+      "cause": "The function lacks differentiability at that point"
+    },
+    {
+      "mode": "Failure of complex differentiability despite real differentiability",
+      "signature": "Function is differentiable as a map from $\\mathbb{R}^2$ to $\\mathbb{R}^2$ but fails to have a complex derivative",
+      "cause": "The real derivative is not complex linear because Cauchy-Riemann equations do not hold"
+    },
+    {
+      "mode": "Directional derivatives failing to capture full multi-variable behavior",
+      "signature": "Single directional derivatives exist along individual axes but fail to give a complete picture of function behavior",
+      "cause": "For $n > 1$, no single directional derivative captures behavior across all directions simultaneously, requiring the total derivative"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Derivative"
+  ],
+  "check": {
+    "node_id": "derivative",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

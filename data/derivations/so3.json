@@ -1,0 +1,104 @@
+{
+  "node_id": "so3",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In mechanics and geometry, the 3D rotation group, denoted $\\mathrm{SO}(3)$, is the group of all rotations about the origin of three-dimensional Euclidean space $\\mathbb{R}^3$, whose matrix representations satisfy the orthogonality condition $A^T A = I$ with $A \\in \\mathrm{SO}(3)$.",
+  "symbols": [
+    {
+      "symbol": "\\mathrm{SO}(3)",
+      "meaning": "3D rotation group of all rotations about the origin",
+      "dimensions": "group"
+    },
+    {
+      "symbol": "A",
+      "meaning": "rotation matrix element in $\\mathrm{SO}(3)$",
+      "dimensions": "3 x 3"
+    },
+    {
+      "symbol": "I",
+      "meaning": "identity matrix",
+      "dimensions": "3 x 3"
+    },
+    {
+      "symbol": "\\mathbb{R}^3",
+      "meaning": "three-dimensional Euclidean space",
+      "dimensions": "3"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The Lie algebra $\\mathfrak{so}(3)$ consists of all skew-symmetric $3 \\times 3$ matrices with Lie bracket given by the commutator $[A_1, A_2] = A_1 A_2 - A_2 A_1$.",
+      "why": "Differentiating the orthogonality condition $A^T A = I$ for $A \\in \\mathrm{SO}(3)$ yields skew-symmetric matrices as the tangent space at the identity.",
+      "cites": [
+        "wikipedia:3D_rotation_group"
+      ]
+    },
+    {
+      "property": "The Lie algebra $\\mathfrak{so}(3)$ (with commutator) is isomorphic to the Lie algebra $\\mathbb{R}^3$ (with cross product).",
+      "why": "The infinitesimal generator action satisfies $\\left.\\frac{\\mathrm{d}}{\\mathrm{d}\\phi}\\right|_{\\phi=0} R(\\phi, \\boldsymbol{n})\\boldsymbol{u} = \\boldsymbol{n} \\times \\boldsymbol{u}$, mapping Euler vector $\\boldsymbol{\\omega} \\in \\mathbb{R}^3$ to the linear map $\\widetilde{\\boldsymbol{\\omega}}(\\boldsymbol{u}) = \\boldsymbol{\\omega} \\times \\boldsymbol{u}$.",
+      "cites": [
+        "wikipedia:3D_rotation_group"
+      ]
+    },
+    {
+      "property": "Under the hat-map $\\boldsymbol{\\omega} \\mapsto \\widehat{\\boldsymbol{\\omega}} = \\boldsymbol{\\omega} \\cdot \\boldsymbol{L}$, the bracket satisfies $[\\widehat{\\boldsymbol{u}}, \\widehat{\\boldsymbol{v}}] = \\widehat{\\boldsymbol{u} \\times \\boldsymbol{v}}$ and $\\widehat{\\boldsymbol{u}}\\boldsymbol{v} = \\boldsymbol{u} \\times \\boldsymbol{v}$.",
+      "why": "The commutation relations $[L_x, L_y] = L_z, [L_z, L_x] = L_y, [L_y, L_z] = L_x$ agree with the cross product of standard unit vectors in $\\mathbb{R}^3$.",
+      "cites": [
+        "wikipedia:3D_rotation_group"
+      ]
+    },
+    {
+      "property": "Rotations $g_\\phi$ about the $z$-axis and $g_\\theta$ about the $x$-axis generate all of $\\mathrm{SO}(3)$ and correspond to M\u00f6bius transformations on $\\mathbb{C}$.",
+      "why": "Bilinear transformations on the stereographic projection plane compose according to matrix multiplication in $\\mathrm{SL}(2, \\mathbb{C})$.",
+      "cites": [
+        "wikipedia:3D_rotation_group"
+      ]
+    },
+    {
+      "property": "There is a smooth, 2:1 surjective group homomorphism $p: \\mathrm{SU}(2) \\to \\mathrm{SO}(3)$.",
+      "why": "Each rotation corresponds to a pair of matrices $\\pm \\Pi_u(g) \\in \\mathrm{SU}(2)$, making $\\mathrm{SU}(2)$ the universal covering group of $\\mathrm{SO}(3)$.",
+      "cites": [
+        "wikipedia:3D_rotation_group"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Transformations are origin-preserving linear maps of three-dimensional Euclidean space $\\mathbb{R}^3$.",
+      "breaks_when": "Transformations include non-zero translations (affine rigid-body motions) or act on curved/non-Euclidean manifolds."
+    },
+    {
+      "assumption": "Matrix representations preserve Euclidean metric orthogonality via $A^T A = I$.",
+      "breaks_when": "Transformations include non-isometric scaling, shear, or non-orthogonal distortions."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Two-to-one sign ambiguity in SU(2) parameterization",
+      "signature": "Two distinct unitary matrices $\\pm \\Pi_u(g)$ represent the identical rotation $g \\in \\mathrm{SO}(3)$.",
+      "cause": "The covering projection $p: \\mathrm{SU}(2) \\to \\mathrm{SO}(3)$ has a two-element kernel $\\{I, -I\\}$."
+    },
+    {
+      "mode": "Axis vector singularity in cross product / hat-map multiplication",
+      "signature": "$\\widehat{\\boldsymbol{u}} \\boldsymbol{u} = \\boldsymbol{0}$.",
+      "cause": "Any vector $\\boldsymbol{u}$ lies in the null space of its corresponding skew-symmetric matrix $\\widehat{\\boldsymbol{u}}$ because $\\boldsymbol{u} \\times \\boldsymbol{u} = \\boldsymbol{0}$."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:3D_rotation_group"
+  ],
+  "check": {
+    "node_id": "so3",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

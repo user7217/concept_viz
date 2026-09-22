@@ -1,0 +1,148 @@
+{
+  "node_id": "linear_independence",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In linear algebra, a set of vectors is said to be linearly independent if there exists no vector in the set that is equal to a linear combination of the other vectors in the set; equivalently, a collection of vectors is linearly dependent if there exists a set of scalars, not all zero, such that their linear combination equals the zero vector. The supplied source does not contain a derivation of linear independence, as it is a foundational definition rather than a derivable result.",
+  "symbols": [
+    {
+      "symbol": "v_i",
+      "meaning": "vectors belonging to a vector space",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "a_i",
+      "meaning": "scalar coefficients in a linear combination",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "0",
+      "meaning": "zero vector of the vector space",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "k",
+      "meaning": "number of vectors in the collection",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "u, v",
+      "meaning": "pair of vectors from a real or complex vector space",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "c",
+      "meaning": "scalar multiplier relating two vectors",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "A",
+      "meaning": "matrix formed by taking the vectors as its columns",
+      "dimensions": "n x m or n x n"
+    },
+    {
+      "symbol": "\\Lambda",
+      "meaning": "column vector of scalar coefficients",
+      "dimensions": "m x 1 or n x 1"
+    },
+    {
+      "symbol": "\\det A",
+      "meaning": "determinant of matrix A",
+      "dimensions": "1 x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The zero vector cannot belong to any collection of vectors that is linearly independent.",
+      "why": "A non-zero scalar multiplying the zero vector produces zero, satisfying the dependence condition with not all scalars equal to zero.",
+      "cites": [
+        "wikipedia:Linear_independence"
+      ]
+    },
+    {
+      "property": "A collection consisting of exactly one vector is linearly independent if and only if that vector is non-zero.",
+      "why": "A single-vector sequence is linearly dependent if and only if the vector equals the zero vector.",
+      "cites": [
+        "wikipedia:Linear_independence"
+      ]
+    },
+    {
+      "property": "Two vectors u and v are linearly independent if and only if neither vector is a scalar multiple of the other.",
+      "why": "Two vectors are linearly dependent if and only if u = c*v or v = c*u for some scalar c.",
+      "cites": [
+        "wikipedia:Linear_independence"
+      ]
+    },
+    {
+      "property": "A collection of n vectors in R^n is linearly independent if and only if the determinant of the matrix formed by taking the vectors as columns is non-zero (det A != 0).",
+      "why": "A non-trivial solution to A*Lambda = 0 exists if and only if det A = 0.",
+      "cites": [
+        "wikipedia:Linear_independence"
+      ]
+    },
+    {
+      "property": "If there are more vectors than dimensions (m > n for vectors in R^n), the vectors are linearly dependent.",
+      "why": "The linear system A*Lambda = 0 has more unknowns than equations, guaranteeing non-zero solutions.",
+      "cites": [
+        "wikipedia:Linear_independence"
+      ]
+    },
+    {
+      "property": "The natural basis vectors e_1 = (1, 0, ..., 0), e_2 = (0, 1, ..., 0), ..., e_n = (0, 0, ..., 1) in R^n are linearly independent.",
+      "why": "No standard unit vector can be formed by a linear combination of the remaining standard unit vectors.",
+      "cites": [
+        "wikipedia:Linear_independence"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Vectors belong to a common vector space over a field of scalars (e.g., real or complex numbers).",
+      "breaks_when": "Elements do not share a common vector space or operations of vector addition and scalar multiplication are undefined."
+    },
+    {
+      "assumption": "For the determinant test, the number of vectors equals the dimension of the coordinate space (m = n in R^n).",
+      "breaks_when": "The matrix formed by taking vectors as columns is rectangular (m != n), meaning a single square determinant cannot be evaluated directly."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Inclusion of the zero vector",
+      "signature": "A set containing 0 is immediately linearly dependent.",
+      "cause": "Setting a non-zero scalar for the zero vector and zero for all others yields a non-trivial linear combination summing to 0."
+    },
+    {
+      "mode": "Collinear vectors in a pair",
+      "signature": "Two vectors satisfy u = c*v or v = c*u.",
+      "cause": "One vector is a scalar multiple of the other, violating mutual independence."
+    },
+    {
+      "mode": "Vector count exceeds space dimension",
+      "signature": "m vectors in R^n with m > n.",
+      "cause": "Any set with more vectors than the dimension of the underlying space is inherently linearly dependent."
+    },
+    {
+      "mode": "Vanishing column matrix determinant",
+      "signature": "det A = 0 for an n x n matrix of column vectors in R^n.",
+      "cause": "A non-zero vector Lambda exists such that A*Lambda = 0, indicating linear dependence of the column vectors."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Linear_independence"
+  ],
+  "check": {
+    "node_id": "linear_independence",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [
+      "expected a derivation, produced a definition"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

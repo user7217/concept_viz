@@ -1,0 +1,106 @@
+{
+  "node_id": "priority_queue",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A priority queue is an abstract data type in which each element has an associated priority drawn from an ordered data type, such that elements are served according to their priority (highest priority items served first, where higher priority may correspond to either the greatest or the least value under the ordering relation), supporting operations including insertion and extraction of the extreme-priority element.",
+  "symbols": [
+    {
+      "symbol": "n",
+      "meaning": "number of elements in the priority queue",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "k",
+      "meaning": "priority key of an element, or batch size in parallel k-element operations",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "C",
+      "meaning": "upper bound of the integer priority key set {1, 2, ..., C}",
+      "dimensions": "dimensionless"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "A priority queue can sort n elements by inserting all elements and sequentially extracting them; conversely, any sorting algorithm that sorts n keys in S(n) time per key yields a linear-space priority queue supporting delete and insert in O(S(n)) time and find-min in O(1) time.",
+      "why": "Sequential extraction of the highest-priority element outputs keys in sorted order, and Thorup's reduction constructs priority queue operations directly from sorting.",
+      "cites": [
+        "wikipedia:Priority_queue"
+      ]
+    },
+    {
+      "property": "A priority queue is conceptually distinct from its underlying implementation, which may be realized via binary heaps, specialized heaps (Fibonacci, pairing, bucket, van Emde Boas), self-balancing binary search trees, or sorted/unsorted lists.",
+      "why": "The abstract data type defines the service interface and priority ordering semantics rather than concrete memory layout or algorithms.",
+      "cites": [
+        "wikipedia:Priority_queue"
+      ]
+    },
+    {
+      "property": "Peek (find-min/find-max) operations can be achieved in O(1) time across tree and heap implementations by caching the highest priority element after every insertion and removal.",
+      "why": "A newly inserted element is compared only to the cached extremum at constant cost, while deletion adds at most a single peek cost.",
+      "cites": [
+        "wikipedia:Priority_queue"
+      ]
+    },
+    {
+      "property": "Standard binary heap implementations achieve O(log n) insert and removal, O(n) build time from n elements, and O(1) minimum lookup.",
+      "why": "Tree-based heap invariants restrict violation restoration to vertical paths of height logarithmic in n.",
+      "cites": [
+        "wikipedia:Priority_queue"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Priority values are instances of an ordered data type with a defined comparison relation.",
+      "breaks_when": "Elements have priorities that cannot be compared or ordered."
+    },
+    {
+      "assumption": "Operations are executed sequentially by a single thread of control.",
+      "breaks_when": "Concurrent processes access the queue simultaneously without explicit synchronization primitives or lock-free mechanisms."
+    },
+    {
+      "assumption": "Greedy algorithms relying on the queue assume single-node extraction preserves monotonicity and label-setting invariants.",
+      "breaks_when": "Batch k-element operations are used in algorithms like Dijkstra's where relaxing edges from one node modifies the priority of another node within the same extracted batch."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Concurrent insertion/deletion race condition in lock-free implementations",
+      "signature": "A newly inserted node is added to the backing structure but becomes unreachable",
+      "cause": "One process inserts a new node while another concurrently deletes the predecessor node in an unsynchronized or improperly guarded pointer update."
+    },
+    {
+      "mode": "Destruction of label-setting property in Dijkstra's algorithm",
+      "signature": "Incorrect shortest path computations or inconsistent node distance labels",
+      "cause": "Using batch k-element extraction (k_extract-min) when evaluating one extracted node updates and alters the distance of other nodes extracted in the same batch."
+    },
+    {
+      "mode": "Traffic starvation of low-priority items in resource/bandwidth management",
+      "signature": "All non-priority traffic is halted, experiencing indefinite latency or buffer rejection",
+      "cause": "Continuous arrival of high-priority packets in a strict priority queue without bandwidth policers or rate limiters."
+    },
+    {
+      "mode": "Non-deterministic tie-breaking for equal-priority items",
+      "signature": "Elements inserted with identical priority are served out of arrival order",
+      "cause": "The priority queue abstract data type and standard library implementations (such as C++ std::priority_queue) do not specify service order for duplicate priority values."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Priority_queue"
+  ],
+  "check": {
+    "node_id": "priority_queue",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

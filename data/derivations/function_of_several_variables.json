@@ -1,0 +1,129 @@
+{
+  "node_id": "function_of_several_variables",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A function of several real variables (or real multivariate function) is a function $f: D \\to \\mathbb{R}$ (or vector-valued $f: D \\to \\mathbb{R}^m$) with more than one argument ($n > 1$), where all input arguments are real variables $\\mathbf{x} = (x_1, x_2, \\dots, x_n) \\in D$ and the domain $D$ is a subset of $\\mathbb{R}^n$.",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "multivariate function",
+      "dimensions": "D subset of R^n -> R (or R^m)"
+    },
+    {
+      "symbol": "x",
+      "meaning": "vector of real input variables (x_1, x_2, ..., x_n)",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of input variables (n > 1)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "D",
+      "meaning": "domain of the function",
+      "dimensions": "subset of R^n"
+    },
+    {
+      "symbol": "m",
+      "meaning": "dimension of the output space for vector-valued multivariate functions",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Separate continuity in each individual argument does not imply multivariate continuity",
+      "why": "a function may be continuous along each coordinate axis while failing to be continuous along arbitrary continuous paths $s(t)$",
+      "cites": [
+        "wikipedia:Multivariable_calculus"
+      ]
+    },
+    {
+      "property": "Differentiability in a neighborhood of a point implies continuity at that point, but the converse is not true",
+      "why": "the linear approximation $f(\\mathbf{x}) = f(\\mathbf{a}) + \\mathbf{A}(\\mathbf{a}) \\cdot (\\mathbf{x} - \\mathbf{a}) + \\alpha(\\mathbf{x})|\\mathbf{x} - \\mathbf{a}|$ with $\\alpha(\\mathbf{x}) \\to 0$ guarantees that $f(\\mathbf{x}) \\to f(\\mathbf{a})$ as $|\\mathbf{x} - \\mathbf{a}| \\to 0$",
+      "cites": [
+        "wikipedia:Function_of_several_real_variables"
+      ]
+    },
+    {
+      "property": "Differentiability at a point implies the existence of all first-order partial derivatives at that point",
+      "why": "the components of the linear approximation vector $A_i(\\mathbf{a})$ equal the partial derivatives $\\left.\\frac{\\partial f(\\mathbf{x})}{\\partial x_i}\\right|_{\\mathbf{x}=\\mathbf{a}}$",
+      "cites": [
+        "wikipedia:Function_of_several_real_variables"
+      ]
+    },
+    {
+      "property": "A partial derivative of a multivariable function is a derivative with respect to one variable with all other variables held constant",
+      "why": "it corresponds to the directional derivative of the function along a coordinate axis",
+      "cites": [
+        "wikipedia:Multivariable_calculus"
+      ]
+    },
+    {
+      "property": "A non-zero gradient vector $\\nabla f(\\mathbf{a})$ is perpendicular to the level hypersurface $f(\\mathbf{x}) = c$",
+      "why": "the total differential along the level set vanishes identically, giving $df = \\nabla f \\cdot d\\mathbf{x} = 0$",
+      "cites": [
+        "wikipedia:Function_of_several_real_variables"
+      ]
+    },
+    {
+      "property": "A function has differentiability class $C^p$ if all order $p$ partial derivatives exist and are continuous throughout the domain",
+      "why": "continuity of all order $p$ partial derivatives defines class $C^p$, with $C^\\infty$ denoting smoothness",
+      "cites": [
+        "wikipedia:Function_of_several_real_variables"
+      ]
+    },
+    {
+      "property": "Definite integration extends to multiple integration over a Cartesian product region $R = R_1 \\times R_2 \\times \\dots \\times R_n \\subseteq \\mathbb{R}^n$",
+      "why": "the multiple integral is evaluated iteratively as $\\int_{R_n} \\dots \\int_{R_1} f(x_1, \\dots, x_n) dx_1 \\dots dx_n \\equiv \\int_R f(\\mathbf{x}) d^n\\mathbf{x}$",
+      "cites": [
+        "wikipedia:Function_of_several_real_variables"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The function possesses multiple real-valued arguments ($n > 1$)",
+      "breaks_when": "The domain is one-dimensional ($n = 1$) or variables are non-real without decomposition into real and imaginary parts"
+    },
+    {
+      "assumption": "Coordinates are defined in an $n$-dimensional rectangular Cartesian coordinate system with unit scale factors and metric tensor equal to the Kronecker delta",
+      "breaks_when": "Curvilinear coordinate systems are used, requiring metric tensor scale factors in the gradient and differential operators"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Failure of multivariate continuity despite existence of separate one-variable continuity",
+      "signature": "Limits along coordinate axes exist and match $f(\\mathbf{x}_0)$, but the multivariate limit along another continuous path $s(t)$ (such as $x=t, y=t$) does not equal $f(\\mathbf{x}_0)$",
+      "cause": "Multivariate continuity requires convergence across all continuous curves through $\\mathbf{x}_0$, which is not implied by continuity along coordinate axes alone"
+    },
+    {
+      "mode": "Failure of differentiability despite existence of all partial derivatives",
+      "signature": "Partial derivatives $\\frac{\\partial f}{\\partial x_i}$ exist at $\\mathbf{a}$, but the error term $\\alpha(\\mathbf{x})|\\mathbf{x} - \\mathbf{a}|$ does not satisfy $\\alpha(\\mathbf{x}) \\to 0$ as $|\\mathbf{x} - \\mathbf{a}| \\to 0$",
+      "cause": "The existence of directional derivatives along coordinate directions does not guarantee the existence of a valid linear approximating hyperplane in a full neighborhood of $\\mathbf{a}$"
+    },
+    {
+      "mode": "Discontinuity in function division $f/g$",
+      "signature": "The quotient function $f/g$ is undefined or fails to be continuous at $\\mathbf{x}_0$",
+      "cause": "The denominator function vanishes at the evaluation point ($g(\\mathbf{x}_0) = 0$)"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Function_of_several_real_variables",
+    "wikipedia:Multivariable_calculus"
+  ],
+  "check": {
+    "node_id": "function_of_several_variables",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

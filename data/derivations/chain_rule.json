@@ -2,7 +2,7 @@
   "node_id": "chain_rule",
   "grounded": true,
   "kind": "definition",
-  "statement": "The supplied sources do not contain a derivation of the chain rule, as the proof section terminates prematurely after introducing the difference quotient. By definition, the chain rule is a formula expressing the derivative of the composition of differentiable functions: for composite differentiable functions y = f(u) and u = g(x), the derivative at x = a is given by (f \u2218 g)'(a) = f'(g(a)) \u00b7 g'(a), or in Leibniz notation, dy/dx = (dy/du) \u00b7 (du/dx). For a three-function composition y = f(u), u = g(v), v = h(x), (f \u2218 g \u2218 h)'(a) = f'((g \u2218 h)(a)) \u00b7 g'(h(a)) \u00b7 h'(a) = (f' \u2218 g \u2218 h)(a) \u00b7 (g' \u2218 h)(a) \u00b7 h'(a), or dy/dx = (dy/du) \u00b7 (du/dv) \u00b7 (dv/dx).",
+  "statement": "In calculus, the chain rule is a formula expressing the derivative of the composition of differentiable functions in terms of their individual derivatives. In Leibniz notation, for $y = f(u)$ and $u = g(x)$, it is given by $\\frac{dy}{dx} = \\frac{dy}{du} \\cdot \\frac{du}{dx}$, and for a three-function composition $y = f(u), u = g(v), v = h(x)$ at $x = a$, by $\\left.\\frac{dy}{dx}\\right|_{x=a} = \\left.\\frac{dy}{du}\\right|_{u=g(h(a))} \\cdot \\left.\\frac{du}{dv}\\right|_{v=h(a)} \\cdot \\left.\\frac{dv}{dx}\\right|_{x=a}$, or in Lagrange notation as $(f \\circ g \\circ h)'(a) = f'((g \\circ h)(a)) \\cdot g'(h(a)) \\cdot h'(a)$. The supplied source text does not contain a derivation of the chain rule itself (the proof section truncates after the opening sentence), so this concept is stated as a definition.",
   "symbols": [
     {
       "symbol": "x",
@@ -10,44 +10,44 @@
       "dimensions": "scalar"
     },
     {
+      "symbol": "y",
+      "meaning": "dependent variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "u",
+      "meaning": "intermediate variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "v",
+      "meaning": "intermediate variable in a three-function composite",
+      "dimensions": "scalar"
+    },
+    {
       "symbol": "a",
-      "meaning": "evaluation point for the derivative",
+      "meaning": "point of evaluation",
       "dimensions": "scalar"
     },
     {
       "symbol": "f",
       "meaning": "outer differentiable function",
-      "dimensions": "function"
+      "dimensions": "1 -> 1"
     },
     {
       "symbol": "g",
       "meaning": "intermediate differentiable function",
-      "dimensions": "function"
+      "dimensions": "1 -> 1"
     },
     {
       "symbol": "h",
-      "meaning": "inner differentiable function",
-      "dimensions": "function"
-    },
-    {
-      "symbol": "u",
-      "meaning": "intermediate variable u = g(v) or u = g(x)",
-      "dimensions": "scalar"
-    },
-    {
-      "symbol": "v",
-      "meaning": "intermediate variable v = h(x)",
-      "dimensions": "scalar"
-    },
-    {
-      "symbol": "y",
-      "meaning": "dependent variable y = f(u)",
-      "dimensions": "scalar"
+      "meaning": "innermost differentiable function",
+      "dimensions": "1 -> 1"
     },
     {
       "symbol": "f_{1..n}",
-      "meaning": "arbitrary composition of n functions f_1 \u2218 f_2 \u2218 ... \u2218 f_n",
-      "dimensions": "function"
+      "meaning": "arbitrary composition of n functions f_1 o ... o f_n",
+      "dimensions": "1 -> 1"
     },
     {
       "symbol": "D",
@@ -58,36 +58,43 @@
   "steps": [],
   "properties": [
     {
-      "property": "Quotient rule: d/dx [f(x)/g(x)] = [f'(x)g(x) - f(x)g'(x)] / g(x)^2",
-      "why": "obtained by rewriting f(x)/g(x) as f(x) \u00b7 (1/g(x)) and combining the product rule with the chain rule applied to the reciprocal function 1/x",
+      "property": "Associativity / composition of three functions: (f o g o h)'(a) = f'((g o h)(a)) * g'(h(a)) * h'(a) = (f o g)'(h(a)) * h'(a)",
+      "why": "Follows from decomposing the composite function as either f o (g o h) or (f o g) o h and applying the chain rule",
       "cites": [
         "wikipedia:Chain_rule"
       ]
     },
     {
-      "property": "Derivative of inverse functions: f'(y) = 1 / g'(f(y)) where x = f(y) is the inverse of y = g(x)",
-      "why": "obtained by differentiating both sides of the identity f(g(x)) = x via the chain rule to get f'(g(x))g'(x) = 1 and substituting x = f(y)",
+      "property": "Arbitrary n-fold composition: f_{1..n}'(x) = prod_{k=1}^n f_k'(f_{(k+1..n)}(x)) and D f_{1..n} = prod_{k=1}^n [D f_k o f_{(k+1..n)}]",
+      "why": "Follows by repeated application of the chain rule to an n-fold function composition",
       "cites": [
         "wikipedia:Chain_rule"
       ]
     },
     {
-      "property": "Arbitrary n-fold composition rule: D f_{1..n} = \u220f_{k=1}^n [D f_k \u2218 f_{(k+1)..n}], or f'_{1..n}(x) = \u220f_{k=1}^n f'_k(f_{(k+1..n)}(x))",
-      "why": "follows from associative grouping and repeated application of the chain rule to a chain of n differentiable functions",
+      "property": "Quotient rule derivation: d/dx [f(x)/g(x)] = (f'(x)g(x) - f(x)g'(x)) / (g(x)^2)",
+      "why": "Follows by expressing f(x)/g(x) as f(x) * (1/g(x)) and combining the product rule with the chain rule applied to the reciprocal function",
       "cites": [
         "wikipedia:Chain_rule"
       ]
     },
     {
-      "property": "Higher derivatives (Fa\u00e0 di Bruno's formula): d^2y/dx^2 = (d^2y/du^2)(du/dx)^2 + (dy/du)(d^2u/dx^2)",
-      "why": "obtained by differentiating the first-order chain rule dy/dx = (dy/du)(du/dx) using the product rule and chain rule",
+      "property": "Inverse function derivative formula: f'(y) = 1 / g'(f(y)) where x = f(y) is the inverse of y = g(x)",
+      "why": "Follows by differentiating the identity f(g(x)) = x using the chain rule to obtain f'(g(x))g'(x) = 1 and substituting x = f(y)",
       "cites": [
         "wikipedia:Chain_rule"
       ]
     },
     {
-      "property": "Foundational mechanism for backpropagation",
-      "why": "forms the mathematical basis of the backpropagation algorithm used for gradient descent in deep neural networks",
+      "property": "Higher derivatives via Fa\u00e0 di Bruno's formula: e.g., d^2y/dx^2 = (d^2y/du^2)(du/dx)^2 + (dy/du)(d^2u/dx^2)",
+      "why": "Follows from generalizing the chain rule to higher-order derivatives through successive differentiation",
+      "cites": [
+        "wikipedia:Chain_rule"
+      ]
+    },
+    {
+      "property": "Algorithmic foundation of backpropagation in deep learning",
+      "why": "Forms the basis of gradient descent optimization in neural networks by propagating derivatives through composite layers",
       "cites": [
         "wikipedia:Chain_rule"
       ]
@@ -95,20 +102,24 @@
   ],
   "assumptions": [
     {
-      "assumption": "Constituent functions are differentiable at the corresponding points of composition evaluation",
-      "breaks_when": "Any component function or its inverse fails to be differentiable at the required intermediate evaluation point"
+      "assumption": "The constituent functions are differentiable at the corresponding points of composition",
+      "breaks_when": "Any component function is non-differentiable at its evaluation point"
+    },
+    {
+      "assumption": "In inverse function differentiation, g is differentiable and its inverse f is differentiable with g'(f(y)) != 0",
+      "breaks_when": "g'(f(y)) = 0, causing division by zero, or the inverse function f is not differentiable at that point (e.g., g(x) = x^3 at x = 0)"
     }
   ],
   "failure_modes": [
     {
-      "mode": "Division by zero in inverse function derivative formula",
+      "mode": "Division by zero in inverse function derivative",
       "signature": "1 / g'(f(y)) evaluates to 1/0 (undefined)",
-      "cause": "The derivative g'(f(y)) equals zero, meaning the inverse function f is not differentiable at y (e.g., g(x) = x^3 at x = 0 with inverse f(y) = y^(1/3))"
+      "cause": "The derivative g'(f(y)) equals zero, occurring when the inverse function f is not differentiable at y (e.g., g(x) = x^3 and f(y) = y^(1/3) at y = 0)"
     },
     {
-      "mode": "Non-differentiability of intermediate composite",
-      "signature": "Derivative is undefined or expression cannot be evaluated",
-      "cause": "A component function is non-differentiable at the value produced by the preceding function in the chain"
+      "mode": "Non-differentiability of a constituent function",
+      "signature": "Derivative does not exist or difference quotient fails to converge",
+      "cause": "One of the component functions in the composition is not differentiable at the evaluated intermediate point"
     }
   ],
   "source_ids": [

@@ -2,74 +2,101 @@
   "node_id": "lie_algebra",
   "grounded": true,
   "kind": "definition",
-  "statement": "The supplied sources genuinely contain no derivation of the concept Lie algebra; the heading 'Derivations' in the source refers to algebraic derivations (linear maps satisfying the Leibniz rule $D(xy) = D(x)y + xD(y)$), not a mathematical derivation of Lie algebra. A Lie algebra is an algebraic object defined as a vector space $\\mathfrak{g}$ over a field $F$ equipped with a Lie bracket operation $[\\cdot, \\cdot]: \\mathfrak{g} \\times \\mathfrak{g} \\to \\mathfrak{g}$ satisfying the Lie algebra axioms (including $[X, X] = 0$ and the Jacobi identity). For matrix Lie algebras, the bracket is the commutator $[X, Y] = XY - YX$.",
+  "statement": "The supplied sources genuinely contain nothing to derive, as a Lie algebra is an algebraic definition and object rather than a derived result (the heading 'Derivations' in the source refers to algebraic derivations D: A -> A satisfying the Leibniz rule, not a mathematical derivation or proof). A Lie algebra g over a field F is a vector space equipped with a bilinear Lie bracket [\u00b7, \u00b7] satisfying the Jacobi identity and vanishing on identical elements ([X, X] = 0). For a matrix Lie group G \u2282 GL(n, R), the corresponding Lie algebra is defined as the tangent space at the identity matrix I: g = {X = c'(0) \u2208 M_n(R) : smooth c: R -> G, c(0) = I}, equipped with the commutator Lie bracket [X, Y] = XY - YX.",
   "symbols": [
     {
-      "symbol": "\\mathfrak{g}",
-      "meaning": "Lie algebra (a vector space over a field $F$ equipped with a Lie bracket)",
-      "dimensions": "vector space over $F$"
+      "symbol": "g",
+      "meaning": "Lie algebra (a vector space over field F or tangent space to G at identity)",
+      "dimensions": "dim(g)"
     },
     {
-      "symbol": "[\\cdot, \\cdot]",
-      "meaning": "Lie bracket operation",
-      "dimensions": "\\mathfrak{g} \\times \\mathfrak{g} \\to \\mathfrak{g}"
+      "symbol": "[\u00b7, \u00b7]",
+      "meaning": "Lie bracket operation (bilinear map g x g -> g)",
+      "dimensions": "dim(g) x dim(g) -> dim(g)"
     },
     {
-      "symbol": "\\mathrm{ad}_x",
-      "meaning": "adjoint mapping (inner derivation) defined by \\mathrm{ad}_x(y) = [x, y]",
-      "dimensions": "linear map \\mathfrak{g} \\to \\mathfrak{g}"
+      "symbol": "G",
+      "meaning": "Matrix Lie group of invertible matrices in GL(n, R)",
+      "dimensions": "subgroup of GL(n, R)"
     },
     {
-      "symbol": "\\mathrm{Der}_F(\\mathfrak{g})",
-      "meaning": "Lie algebra of derivations of \\mathfrak{g} over field $F$",
-      "dimensions": "subspace of linear maps \\mathfrak{g} \\to \\mathfrak{g}"
+      "symbol": "M_n(R)",
+      "meaning": "Space of real n x n matrices",
+      "dimensions": "n x n"
     },
     {
-      "symbol": "[X, Y]",
-      "meaning": "matrix commutator bracket XY - YX in a matrix Lie algebra",
-      "dimensions": "n x n matrix"
+      "symbol": "c",
+      "meaning": "Smooth curve in Lie group G passing through identity at t = 0",
+      "dimensions": "R -> G"
+    },
+    {
+      "symbol": "I",
+      "meaning": "Identity matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "X, Y",
+      "meaning": "Elements (tangent vectors or matrices) in the Lie algebra g",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "ad_x",
+      "meaning": "Adjoint mapping / inner derivation defined by ad_x(y) = [x, y]",
+      "dimensions": "g -> g"
+    },
+    {
+      "symbol": "Der_F(A)",
+      "meaning": "Space of derivations of an algebra A over field F",
+      "dimensions": "linear subspace of End_F(A)"
     }
   ],
   "steps": [],
   "properties": [
     {
-      "property": "For two Lie algebras $\\mathfrak{g}$ and $\\mathfrak{g}'$, the product Lie algebra is $\\mathfrak{g} \\times \\mathfrak{g}'$ with bracket $[(x, x'), (y, y')] = ([x, y], [x', y'])$, where copies of $\\mathfrak{g}$ and $\\mathfrak{g}'$ commute: $[(x, 0), (0, x')] = 0$.",
-      "why": "Defines the product in the category of Lie algebras componentwise.",
+      "property": "Matrix Lie bracket as commutator",
+      "why": "For a matrix Lie algebra g \u2282 gl(n, R), the Lie bracket of tangent vectors at the identity is given by the matrix commutator [X, Y] = XY - YX",
       "cites": [
         "wikipedia:Lie_algebra"
       ]
     },
     {
-      "property": "Every one-dimensional linear subspace of a Lie algebra $\\mathfrak{g}$ is an abelian Lie subalgebra.",
-      "why": "The axioms imply $[X, X] = 0$, so any one-dimensional subspace has a trivial Lie bracket.",
+      "property": "Vanishing on identical elements",
+      "why": "The axioms of a Lie algebra imply that [X, X] = 0 for any element X",
       "cites": [
         "wikipedia:Lie_algebra"
       ]
     },
     {
-      "property": "For any algebra $A$, the space $\\mathrm{Der}_F(A)$ of derivations forms a Lie algebra under the commutator bracket $[D_1, D_2] := D_1 D_2 - D_2 D_1$.",
-      "why": "The commutator of two linear maps satisfying the Leibniz rule is itself a derivation.",
+      "property": "Adjoint mapping is an inner derivation",
+      "why": "The adjoint mapping ad_x(y) := [x, y] satisfies the derivation Leibniz rule ad_x([y, z]) = [ad_x(y), z] + [y, ad_x(z)] as a consequence of the Jacobi identity",
       "cites": [
         "wikipedia:Lie_algebra"
       ]
     },
     {
-      "property": "The adjoint mapping $\\mathrm{ad}_x(y) := [x, y]$ is an inner derivation of $\\mathfrak{g}$, providing a Lie algebra homomorphism $\\mathrm{ad}: \\mathfrak{g} \\to \\mathrm{Der}_F(\\mathfrak{g})$.",
-      "why": "Satisfies the derivation Leibniz rule on brackets as a consequence of the Jacobi identity.",
+      "property": "Derivations of an algebra form a Lie algebra",
+      "why": "The commutator of two derivations [D_1, D_2] := D_1 D_2 - D_2 D_1 is again a derivation, making Der_F(A) into a Lie algebra",
       "cites": [
         "wikipedia:Lie_algebra"
       ]
     },
     {
-      "property": "The inner derivations $\\mathrm{Inn}_F(\\mathfrak{g})$ form an ideal in $\\mathrm{Der}_F(\\mathfrak{g})$, and outer derivations are defined by the quotient $\\mathrm{Out}_F(\\mathfrak{g}) = \\mathrm{Der}_F(\\mathfrak{g}) / \\mathrm{Inn}_F(\\mathfrak{g})$.",
-      "why": "Formed as the quotient Lie algebra of all derivations modulo the ideal of inner derivations.",
+      "property": "One-dimensional subspaces are abelian subalgebras",
+      "why": "Every one-dimensional linear subspace of a Lie algebra g is closed under bracket with [X, X] = 0, though it need not be an ideal",
       "cites": [
         "wikipedia:Lie_algebra"
       ]
     },
     {
-      "property": "For a matrix Lie group $G \\subset \\mathrm{GL}(n, \\mathbb{R})$, the Lie algebra $\\mathfrak{g}$ is the space of tangent vectors $c'(0)$ to smooth curves $c: \\mathbb{R} \\to G$ with $c(0) = I$, equipped with commutator bracket $[X, Y] = XY - YX$.",
-      "why": "Constructs the Lie algebra as the tangent space to a matrix Lie group at the identity.",
+      "property": "Product Lie algebra structure",
+      "why": "For two Lie algebras g and g', the direct product g x g' with bracket [(x, x'), (y, y')] = ([x, y], [x', y']) forms a Lie algebra whose direct summands commute: [(x, 0), (0, x')] = 0",
+      "cites": [
+        "wikipedia:Lie_algebra"
+      ]
+    },
+    {
+      "property": "Semidirect product from a split extension",
+      "why": "If g has an ideal i and the canonical projection g -> g/i admits a section as a Lie algebra homomorphism, g splits as g = g/i \u22c9 i",
       "cites": [
         "wikipedia:Lie_algebra"
       ]
@@ -77,29 +104,29 @@
   ],
   "assumptions": [
     {
-      "assumption": "The underlying space $\\mathfrak{g}$ is a vector space over a field $F$ equipped with a bracket operation satisfying the Lie algebra axioms.",
-      "breaks_when": "The scalar structure fails linearity over a field or the bracket fails the required algebraic relations (e.g. $[X, X] = 0$ or Jacobi identity)."
+      "assumption": "Linear vector space and underlying field structure",
+      "breaks_when": "The underlying set does not admit a vector space structure over a field F or scalar operations fail"
     },
     {
-      "assumption": "For matrix Lie groups, curves $c: \\mathbb{R} \\to G$ passing through $I$ are smooth.",
-      "breaks_when": "Curves fail to be differentiable, preventing the definition of tangent vectors $X = c'(0)$."
+      "assumption": "Smoothness of curves in matrix groups at identity",
+      "breaks_when": "Curves c: R -> G are not differentiable at t = 0, or G is not a Lie group"
     }
   ],
   "failure_modes": [
     {
-      "mode": "Subspace fails to be a Lie subalgebra",
-      "signature": "The bracket of two elements in a linear subspace produces an element outside the subspace.",
-      "cause": "The linear subspace is not closed under the Lie bracket operation."
+      "mode": "Subspace fails bracket closure",
+      "signature": "Bracket [A, B] of elements in a linear subspace produces an element outside the subspace",
+      "cause": "The subspace is merely a linear subspace and not closed under the commutator bracket, failing to be a Lie subalgebra"
     },
     {
       "mode": "Subalgebra fails to be an ideal",
-      "signature": "There exist $x \\in \\mathfrak{g}$ and $y \\in \\mathfrak{h}$ such that $[x, y] \\notin \\mathfrak{h}$.",
-      "cause": "Closure under internal brackets (subalgebra) does not imply stability under brackets with elements of the ambient algebra."
+      "signature": "Bracket [X, Y] with X in the subalgebra and Y in g does not lie in the subalgebra",
+      "cause": "A subalgebra (such as a 1-dimensional abelian subalgebra) is closed under internal brackets but does not absorb brackets with general elements of g"
     },
     {
-      "mode": "Non-trivial outer derivations exist",
-      "signature": "There exists a derivation $D \\in \\mathrm{Der}_F(\\mathfrak{g})$ that cannot be written as $\\mathrm{ad}_x$ for any $x \\in \\mathfrak{g}$.",
-      "cause": "The Lie algebra is not semisimple over characteristic zero (e.g., an abelian Lie algebra where $\\mathrm{Out}_F(V) \\cong \\mathfrak{gl}(V)$)."
+      "mode": "Existence of non-inner (outer) derivations",
+      "signature": "Out_F(g) = Der_F(g) / Inn_F(g) is non-trivial",
+      "cause": "The Lie algebra g is not semisimple over characteristic zero (e.g., an abelian Lie algebra V where Out_F(V) is isomorphic to gl(V))"
     }
   ],
   "source_ids": [

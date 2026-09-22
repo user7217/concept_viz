@@ -1,0 +1,117 @@
+{
+  "node_id": "se3",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The special Euclidean group $\\mathrm{SE}(3)$ (also denoted $\\mathrm{E}^+(3)$) is the Lie group of direct Euclidean isometries (rigid motions) of three-dimensional Euclidean space $\\mathbb{E}^3$ that preserve Euclidean distance and handedness, comprising arbitrary combinations of translations and rotations without reflections, with semidirect product structure $\\mathrm{E}^+(3) = \\mathrm{SO}(3) \\ltimes \\mathrm{T}(3)$ where $\\mathrm{SO}(3) \\cong \\mathrm{E}^+(3)/\\mathrm{T}(3)$.",
+  "symbols": [
+    {
+      "symbol": "\\mathrm{SE}(3)",
+      "meaning": "special Euclidean group in dimension 3 (group of direct isometries / rigid motions)",
+      "dimensions": "group"
+    },
+    {
+      "symbol": "\\mathbb{E}^3",
+      "meaning": "three-dimensional Euclidean space",
+      "dimensions": "3"
+    },
+    {
+      "symbol": "\\mathrm{T}(3)",
+      "meaning": "translational normal subgroup of translations in 3 dimensions",
+      "dimensions": "group"
+    },
+    {
+      "symbol": "\\mathrm{SO}(3)",
+      "meaning": "special orthogonal group of direct orthogonal transformations with determinant 1",
+      "dimensions": "group"
+    },
+    {
+      "symbol": "A",
+      "meaning": "orthogonal rotation matrix with determinant 1",
+      "dimensions": "3 x 3"
+    },
+    {
+      "symbol": "b",
+      "meaning": "real translation column vector",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "x",
+      "meaning": "point in Euclidean space",
+      "dimensions": "3 x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "SE(3) has 6 degrees of freedom, with 3 degrees of freedom attributed to translational symmetry and 3 to rotational symmetry.",
+      "why": "Evaluated from n(n + 1)/2 with n = 3 translational and n(n - 1)/2 rotational degrees of freedom",
+      "cites": [
+        "wikipedia:Euclidean_group"
+      ]
+    },
+    {
+      "property": "SE(3) is a subgroup of index 2 in E(3).",
+      "why": "Indirect isometries form a single coset E-(3) of E+(3)",
+      "cites": [
+        "wikipedia:Euclidean_group"
+      ]
+    },
+    {
+      "property": "E+(3) has semidirect product structure SO(3) \u22c9 T(3), or equivalently T(3) \u22ca SO(3), with SO(3) \u2245 E+(3)/T(3).",
+      "why": "T(3) is a normal subgroup and elements are uniquely an orthogonal transformation with determinant 1 and a translation",
+      "cites": [
+        "wikipedia:Euclidean_group"
+      ]
+    },
+    {
+      "property": "SE(3) is a connected Lie group.",
+      "why": "Any two direct isometries can be connected by a continuous trajectory in E+(3) and calculus notions adapt directly",
+      "cites": [
+        "wikipedia:Euclidean_group"
+      ]
+    },
+    {
+      "property": "Elements can be explicitly represented either by a pair (A, b) where A is a 3 \u00d7 3 orthogonal matrix with determinant 1 and b is a real column vector of size 3 acting by x \u21a6 Ax + c (or x \u21a6 A(x + b)), or by a single square matrix of size 4.",
+      "why": "SE(3) is a subgroup of the affine group respecting the semidirect product structure",
+      "cites": [
+        "wikipedia:Euclidean_group"
+      ]
+    },
+    {
+      "property": "Any element of E+(3) is a screw displacement.",
+      "why": "Asserted by Chasles' theorem for direct isometries in three dimensions",
+      "cites": [
+        "wikipedia:Euclidean_group"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Transformations are direct Euclidean isometries preserving Euclidean distance and orientation/handedness in 3D Euclidean space",
+      "breaks_when": "Transformations include reflections (indirect isometries) or non-isometric operations such as scaling or shearing"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Inclusion of indirect isometries (reflections)",
+      "signature": "det(A) = -1 or handedness of chiral figures is reversed",
+      "cause": "Applying a reflection places the isometry in the coset E-(3) rather than the special Euclidean subgroup SE(3)"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Euclidean_group"
+  ],
+  "check": {
+    "node_id": "se3",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

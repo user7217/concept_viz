@@ -1,30 +1,175 @@
 {
   "node_id": "high_pass_filter",
-  "grounded": false,
+  "grounded": true,
   "kind": "definition",
-  "statement": "The supplied source does not contain a mathematical definition or formulation of a high-pass filter; it describes 'High Pass Filter' as a live electro-dub band formed in Melbourne, Australia.",
-  "symbols": [],
+  "statement": "A high-pass filter is an electronic filter and linear time-invariant system that passes signals with a frequency higher than a cutoff frequency $f_c$ and attenuates signals with frequencies lower than the cutoff frequency, characterized in a continuous-time first-order passive RC realization by the transfer function $\\frac{V_{\\text{out}}(s)}{V_{\\text{in}}(s)} = \\frac{sRC}{1 + sRC}$.",
+  "symbols": [
+    {
+      "symbol": "V_{\\text{in}}(s)",
+      "meaning": "input voltage in the Laplace domain",
+      "dimensions": "V"
+    },
+    {
+      "symbol": "V_{\\text{out}}(s)",
+      "meaning": "output voltage in the Laplace domain",
+      "dimensions": "V"
+    },
+    {
+      "symbol": "s",
+      "meaning": "complex frequency parameter",
+      "dimensions": "s^{-1}"
+    },
+    {
+      "symbol": "R",
+      "meaning": "resistance",
+      "dimensions": "\\Omega"
+    },
+    {
+      "symbol": "C",
+      "meaning": "capacitance",
+      "dimensions": "F"
+    },
+    {
+      "symbol": "\\tau",
+      "meaning": "filter time constant (\\tau = RC)",
+      "dimensions": "s"
+    },
+    {
+      "symbol": "f_c",
+      "meaning": "cutoff frequency",
+      "dimensions": "Hz"
+    },
+    {
+      "symbol": "R_1",
+      "meaning": "input resistor in first-order active filter",
+      "dimensions": "\\Omega"
+    },
+    {
+      "symbol": "R_2",
+      "meaning": "feedback resistor in first-order active filter",
+      "dimensions": "\\Omega"
+    },
+    {
+      "symbol": "\\Delta_T",
+      "meaning": "sampling interval between evenly spaced discrete-time samples",
+      "dimensions": "s"
+    },
+    {
+      "symbol": "\\alpha",
+      "meaning": "discrete-time filter parameter defined as \\frac{RC}{RC + \\Delta_T}",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "x_i",
+      "meaning": "discrete input sample at index i",
+      "dimensions": "V"
+    },
+    {
+      "symbol": "y_i",
+      "meaning": "discrete output sample at index i",
+      "dimensions": "V"
+    },
+    {
+      "symbol": "n",
+      "meaning": "filter order",
+      "dimensions": "dimensionless"
+    }
+  ],
   "steps": [],
-  "properties": [],
-  "assumptions": [],
-  "failure_modes": [],
+  "properties": [
+    {
+      "property": "The cutoff frequency for a first-order passive RC filter is $f_c = \\frac{1}{2\\pi \\tau} = \\frac{1}{2\\pi RC}$, where $\\tau = RC$ is the time constant.",
+      "why": "time constant $\\tau = RC$ is inversely proportional to the cutoff frequency $f_c$",
+      "cites": [
+        "wikipedia:High-pass_filter"
+      ]
+    },
+    {
+      "property": "At the cutoff frequency $f_c$, the filter's frequency response reaches $-3\\text{ dB}$ referenced to the gain at infinite frequency.",
+      "why": "standard cutoff definition marking the half-power threshold relative to high-frequency passband gain",
+      "cites": [
+        "wikipedia:High-pass_filter"
+      ]
+    },
+    {
+      "property": "A first-order active op-amp high-pass filter has transfer function $\\frac{V_{\\text{out}}(s)}{V_{\\text{in}}(s)} = \\frac{-s R_2 C}{1 + s R_1 C}$, with cutoff frequency $f_c = \\frac{1}{2\\pi R_1 C}$ and passband gain $-R_2/R_1$.",
+      "why": "active operational amplifier inverts and scales high frequencies by $-R_2/R_1$",
+      "cites": [
+        "wikipedia:High-pass_filter"
+      ]
+    },
+    {
+      "property": "First-order high-pass filters perform differentiation for signals whose frequency band is well below the cutoff frequency.",
+      "why": "the linear time-invariant transfer function is proportional to $s$ for frequencies well below cutoff",
+      "cites": [
+        "wikipedia:High-pass_filter"
+      ]
+    },
+    {
+      "property": "An $n$-th order high-pass filter has a stopband attenuation slope equal to $20n\\text{ dB}$ per decade.",
+      "why": "cascading $n$ first-order high-pass stages compounds the roll-off slope",
+      "cites": [
+        "wikipedia:High-pass_filter"
+      ]
+    },
+    {
+      "property": "The continuous-time RC filter discretizes to recurrence relation $y_i = \\alpha y_{i-1} + \\alpha (x_i - x_{i-1})$ with $\\alpha = \\frac{RC}{RC + \\Delta_T}$ and cutoff $f_c = \\frac{1-\\alpha}{2\\pi \\alpha \\Delta_T}$.",
+      "why": "Kirchhoff's laws and capacitor constitutive relations yield $V_{\\text{out}}(t) = RC\\left(\\frac{dV_{\\text{in}}}{dt} - \\frac{dV_{\\text{out}}}{dt}\\right)$, which is discretized using differences over interval $\\Delta_T$",
+      "cites": [
+        "wikipedia:High-pass_filter"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The filter operates as a linear time-invariant (LTI) system.",
+      "breaks_when": "Circuit components operate in nonlinear regimes (such as amplifier output clipping/saturation) or component parameters drift over time."
+    },
+    {
+      "assumption": "In cascading passive filter stages, inter-stage loading is negligible or impedance matching is accounted for.",
+      "breaks_when": "Chained passive stages draw current and load prior stages without buffering or impedance matching."
+    },
+    {
+      "assumption": "For discrete-time implementation, input samples are taken at uniformly spaced time intervals $\\Delta_T$.",
+      "breaks_when": "Sampling periods vary due to clock jitter or non-uniform sampling."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Active filter output clipping/saturation",
+      "signature": "Waveform distortion and loss of linear frequency response",
+      "cause": "Input signal amplitude amplified by the active passband gain $-R_2/R_1$ exceeds the operational amplifier supply rails."
+    },
+    {
+      "mode": "Impedance loading in passive cascades",
+      "signature": "Deviation of attenuation slope and cutoff frequency from the expected $20n\\text{ dB}$ per decade curve",
+      "cause": "Cascading passive first-order stages without active buffering or proper impedance matching."
+    },
+    {
+      "mode": "Differentiator distortion on low frequencies",
+      "signature": "Output reflects the time derivative of the signal rather than preserving signal shape",
+      "cause": "Input signal frequency spectrum lies well below the filter cutoff frequency $f_c$."
+    },
+    {
+      "mode": "Digital filter parameter mismatch",
+      "signature": "Excessive response delay and oversensitivity to small inputs (large $\\alpha$) or overly fast decay with broad stopband attenuation (small $\\alpha$)",
+      "cause": "Parameter $\\alpha$ is chosen inappropriately for the sampling interval $\\Delta_T$ relative to the desired cutoff frequency $f_c$."
+    }
+  ],
   "source_ids": [
-    "wikipedia:High_Pass_Filter"
+    "wikipedia:High-pass_filter"
   ],
   "check": {
     "node_id": "high_pass_filter",
     "kind": "definition",
-    "grounded": false,
+    "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
     "canon_notes": [],
-    "shape": [
-      "definition lists no properties",
-      "sheet names no symbols, so it is probably not about this node's mathematics at all"
-    ],
+    "shape": [],
     "vacuous_invocations": false,
-    "ok": false
+    "ok": true
   }
 }

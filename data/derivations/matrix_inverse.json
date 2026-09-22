@@ -1,0 +1,129 @@
+{
+  "node_id": "matrix_inverse",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "An invertible matrix is a square $n \\times n$ matrix $\\mathbf{A}$ that has an inverse matrix $\\mathbf{A}^{-1}$ of the same size such that $\\mathbf{A} \\mathbf{A}^{-1} = \\mathbf{I}_n = \\mathbf{A}^{-1} \\mathbf{A}$, where $\\mathbf{I}_n$ is the $n \\times n$ identity matrix.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{A}",
+      "meaning": "square matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\mathbf{A}^{-1}",
+      "meaning": "inverse matrix of \\mathbf{A}",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\mathbf{I}_n",
+      "meaning": "identity matrix",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Left and right inverses are equal: if $\\mathbf{LA} = \\mathbf{I}$ and $\\mathbf{AR} = \\mathbf{I}$, then $\\mathbf{L} = \\mathbf{R}$",
+      "why": "Associativity gives $\\mathbf{L} = \\mathbf{L}(\\mathbf{AR}) = (\\mathbf{LA})\\mathbf{R} = \\mathbf{R}$",
+      "cites": [
+        "wikipedia:Invertible_matrix"
+      ]
+    },
+    {
+      "property": "Inverse of an inverse: $(\\mathbf{A}^{-1})^{-1} = \\mathbf{A}$",
+      "why": "Multiplying $\\mathbf{A}^{-1}$ by $\\mathbf{A}$ yields the identity matrix",
+      "cites": [
+        "wikipedia:Invertible_matrix"
+      ]
+    },
+    {
+      "property": "Product of invertible matrices: $(\\mathbf{AB})^{-1} = \\mathbf{B}^{-1} \\mathbf{A}^{-1}$",
+      "why": "Inner factors cancel associatively when multiplied by $\\mathbf{AB}$",
+      "cites": [
+        "wikipedia:Invertible_matrix"
+      ]
+    },
+    {
+      "property": "Transpose of an inverse: $(\\mathbf{A}^{\\mathrm{T}})^{-1} = (\\mathbf{A}^{-1})^{\\mathrm{T}}$",
+      "why": "Transposing $\\mathbf{A}\\mathbf{A}^{-1} = \\mathbf{I}$ yields $(\\mathbf{A}^{-1})^{\\mathrm{T}}\\mathbf{A}^{\\mathrm{T}} = \\mathbf{I}$",
+      "cites": [
+        "wikipedia:Invertible_matrix"
+      ]
+    },
+    {
+      "property": "Scalar multiplication inverse: $(k\\mathbf{A})^{-1} = k^{-1}\\mathbf{A}^{-1}$ for nonzero scalar $k$",
+      "why": "Scalar multiplication commutes and associates with matrix multiplication",
+      "cites": [
+        "wikipedia:Invertible_matrix"
+      ]
+    },
+    {
+      "property": "Determinant of an inverse: $\\det(\\mathbf{A}^{-1}) = (\\det \\mathbf{A})^{-1}$",
+      "why": "The determinant of a product is the product of determinants and $\\det(\\mathbf{I}) = 1$",
+      "cites": [
+        "wikipedia:Invertible_matrix"
+      ]
+    },
+    {
+      "property": "Adjugate formula: $\\mathbf{A}^{-1} = \\frac{1}{\\det(\\mathbf{A})} \\operatorname{adj}(\\mathbf{A})$",
+      "why": "The adjugate identity satisfies $\\operatorname{adj}(\\mathbf{A})\\mathbf{A} = \\det(\\mathbf{A})\\mathbf{I}$",
+      "cites": [
+        "wikipedia:Invertible_matrix"
+      ]
+    },
+    {
+      "property": "Derivative with respect to a parameter $t$: $\\frac{\\mathrm{d}}{\\mathrm{d}t}\\mathbf{A}^{-1} = -\\mathbf{A}^{-1} \\frac{\\mathrm{d}\\mathbf{A}}{\\mathrm{d}t} \\mathbf{A}^{-1}$",
+      "why": "Differentiating $\\mathbf{A}^{-1}\\mathbf{A} = \\mathbf{I}$ via the product rule yields $\\frac{\\mathrm{d}(\\mathbf{A}^{-1})}{\\mathrm{d}t}\\mathbf{A} + \\mathbf{A}^{-1}\\frac{\\mathrm{d}\\mathbf{A}}{\\mathrm{d}t} = \\mathbf{0}$",
+      "cites": [
+        "wikipedia:Invertible_matrix"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The matrix $\\mathbf{A}$ is square ($n \\times n$)",
+      "breaks_when": "The matrix is non-square ($m \\times n$ with $m \\neq n$)"
+    },
+    {
+      "assumption": "The determinant is nonzero: $\\det \\mathbf{A} \\neq 0$ (over a field)",
+      "breaks_when": "$\\det \\mathbf{A} = 0$, making the matrix singular or degenerate"
+    },
+    {
+      "assumption": "The determinant is a unit (multiplicatively invertible element) of the ring (over a commutative ring)",
+      "breaks_when": "$\\det \\mathbf{A}$ is not invertible within the commutative ring"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singularity",
+      "signature": "$\\det \\mathbf{A} = 0$, $\\operatorname{rank}(\\mathbf{A}) < n$, or $0$ is an eigenvalue of $\\mathbf{A}$",
+      "cause": "The matrix does not have full rank or its kernel is non-trivial, so no two-sided inverse exists"
+    },
+    {
+      "mode": "Ill-conditioning in numerical calculations",
+      "signature": "$\\mathbf{A}$ is invertible but close to a non-invertible matrix",
+      "cause": "Numerical sensitivity leads to severe error amplification during inversion"
+    },
+    {
+      "mode": "Non-square dimensions",
+      "signature": "$m \\times n$ with $m \\neq n$",
+      "cause": "Rectangular matrices do not admit a standard two-sided matrix inverse"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Invertible_matrix"
+  ],
+  "check": {
+    "node_id": "matrix_inverse",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

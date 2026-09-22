@@ -1,0 +1,137 @@
+{
+  "node_id": "rayleigh_quotient",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For a given complex Hermitian matrix M (or general square matrix M) and a non-zero vector x, the Rayleigh quotient R(M, x) is defined as R(M, x) = (x^* M x) / (x^* x), where x^* is the conjugate transpose of x (or R(M, x) = (x^T M x) / (x^T x) for real symmetric M and vector x).",
+  "symbols": [
+    {
+      "symbol": "M",
+      "meaning": "square matrix (typically complex Hermitian or real symmetric)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "x",
+      "meaning": "non-zero vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "R(M, x)",
+      "meaning": "Rayleigh quotient of matrix M with respect to vector x",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x^*",
+      "meaning": "conjugate transpose of vector x",
+      "dimensions": "1 x n"
+    },
+    {
+      "symbol": "\\lambda_i",
+      "meaning": "i-th eigenvalue of matrix M",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "v_i",
+      "meaning": "i-th eigenvector of matrix M",
+      "dimensions": "n x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Scale invariance: R(M, cx) = R(M, x) for any non-zero scalar c.",
+      "why": "The scalar factor c^* c cancels from both the numerator and denominator: ((cx)^* M (cx)) / ((cx)^* (cx)) = (c^* c / c^* c) * ((x^* M x) / (x^* x)).",
+      "cites": [
+        "wikipedia:Rayleigh_quotient"
+      ]
+    },
+    {
+      "property": "Rayleigh\u2013Ritz bounds: for Hermitian M, R(M, x) in [\\lambda_{\\text{min}}, \\lambda_{\\text{max}}], with equality attained at the corresponding eigenvectors v_{\\text{min}} and v_{\\text{max}}.",
+      "why": "The Rayleigh quotient can be expressed as a weighted average of eigenvalues (\\sum_{i=1}^n \\lambda_i y_i^2) / (\\sum_{i=1}^n y_i^2), where y_i = v_i^* x are coordinates in the orthonormal eigenbasis.",
+      "cites": [
+        "wikipedia:Rayleigh_quotient"
+      ]
+    },
+    {
+      "property": "Critical points are eigenvectors: the stationary points of R(M, x) subject to ||x||^2 = 1 are the eigenvectors of M, and the corresponding stationary values are the eigenvalues.",
+      "why": "Setting the gradient of the Lagrangian L(x) = x^T M x - \\lambda (x^T x - 1) to zero yields Mx = \\lambda x.",
+      "cites": [
+        "wikipedia:Rayleigh_quotient"
+      ]
+    },
+    {
+      "property": "Decomposition as sum of squared cosines: for covariance matrix M = A'A with orthonormal eigenvectors, R(M, x) = \\sum_{i=1}^n \\lambda_i (x' v_i)^2 / (x' x).",
+      "why": "Vector x decomposes on the eigenvector basis as x = \\sum_{i=1}^n \\alpha_i v_i with projection coordinates \\alpha_i = (x' v_i) / (v_i' v_i).",
+      "cites": [
+        "wikipedia:Rayleigh_quotient"
+      ]
+    },
+    {
+      "property": "Range contains the spectrum: for any matrix M, the range of R(M, x) is the numerical range and contains the spectrum of M.",
+      "why": "For Hermitian matrices, the numerical radius equals the spectral norm, and \\lambda_{\\text{max}} is the spectral radius.",
+      "cites": [
+        "wikipedia:Rayleigh_quotient"
+      ]
+    },
+    {
+      "property": "Expectation value in quantum mechanics: R(M, x) represents the expectation value of the observable corresponding to operator M for a system in state x.",
+      "why": "In quantum mechanics, state observable expectation values are evaluated by the normalized inner product (x^* M x) / (x^* x).",
+      "cites": [
+        "wikipedia:Rayleigh_quotient"
+      ]
+    },
+    {
+      "property": "Operator recovery via polarization: for fixed M over the complex field, the map R(M, x) completely determines M via polarization; over real scalars, it determines only the symmetric part of M.",
+      "why": "Quadratic forms over complex vector spaces uniquely determine the underlying matrix, whereas over the reals they only determine the symmetric part.",
+      "cites": [
+        "wikipedia:Rayleigh_quotient"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Vector x is non-zero (x != 0).",
+      "breaks_when": "x = 0, causing division by zero in the denominator x^* x."
+    },
+    {
+      "assumption": "Matrix M is complex Hermitian (or real symmetric) for real-valued bounds and eigenvalue extremization.",
+      "breaks_when": "M is non-Hermitian, which may yield non-real values for x^* M x and non-orthogonal eigenvectors."
+    },
+    {
+      "assumption": "Dimensions of matrix M and vector x are conformable (M is n x n and x is n x 1).",
+      "breaks_when": "Vector dimension does not match matrix dimension, causing inner products and matrix-vector multiplications to fail."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Division by zero",
+      "signature": "Indeterminate 0/0 or NaN result",
+      "cause": "Evaluating the Rayleigh quotient at the zero vector x = 0."
+    },
+    {
+      "mode": "Loss of real eigenvalue bounds",
+      "signature": "R(M, x) produces non-real complex numbers or values outside [\\lambda_{\\text{min}}, \\lambda_{\\text{max}}]",
+      "cause": "Matrix M is non-Hermitian, so x^* M x is not guaranteed to be real."
+    },
+    {
+      "mode": "Dimension mismatch",
+      "signature": "Incompatible matrix-vector multiplication error",
+      "cause": "Length of vector x does not equal the column/row size of matrix M."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Rayleigh_quotient"
+  ],
+  "check": {
+    "node_id": "rayleigh_quotient",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

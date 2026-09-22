@@ -254,7 +254,7 @@ class TestGuardsAgainstVacuousChecks(unittest.TestCase):
         # instead -- see TestUnservableExpectation.
         deriving = [Source(id="wikipedia:OLS", title="OLS", url="u",
                            kind="encyclopedia",
-                           text="== Proof ==\nTake the transpose of both sides.")]
+                           text="== Proof ==\nStart from the definition and expand the product. Substituting the previous expression and rearranging, we obtain the stated form; therefore the result follows.")]
         d = Derivation("transpose_identities", True, kind="definition",
                        statement="s",
                        symbols=[{"symbol": "A", "meaning": "a matrix"}],
@@ -324,7 +324,7 @@ class TestSourceAwareKind(unittest.TestCase):
         self.assertEqual(
             expected_kind(self.graph, "multivariate_taylor_expansion")[0],
             "definition")
-        with_proof = [self._source("== Proof ==\nBy induction on n ...")]
+        with_proof = [self._source("== Proof ==\nStart from the definition and expand the product. Substituting the previous expression and rearranging, we obtain the stated form; therefore the result follows.")]
         self.assertEqual(
             expected_kind(self.graph, "multivariate_taylor_expansion",
                           with_proof)[0],
@@ -349,7 +349,7 @@ class TestSourceAwareKind(unittest.TestCase):
         self.assertFalse(source_derives(
             [self._source("This follows from a proof due to Gauss.")]))
         self.assertTrue(source_derives(
-            [self._source("=== Derivation ===\nStart from ...")]))
+            [self._source("=== Derivation ===\nStart from the definition and expand the product. Substituting the previous expression and rearranging, we obtain the stated form; therefore the result follows.")]))
 
     def test_a_proof_about_the_object_is_not_a_derivation_of_it(self) -> None:
         from atlas.derivation import source_derives
@@ -360,16 +360,16 @@ class TestSourceAwareKind(unittest.TestCase):
         self.assertFalse(source_derives(
             [self._source("== Proof of existence and uniqueness ==\n...")]))
         self.assertTrue(source_derives(
-            [self._source("== Derivation of the density ==\nStart from ...")]))
+            [self._source("== Derivation of the density ==\nStart from the definition and expand the product. Substituting the previous expression and rearranging, we obtain the stated form; therefore the result follows.")]))
 
     def test_a_scoped_heading_among_unscoped_ones_still_counts(self) -> None:
         from atlas.derivation import source_derives
         self.assertTrue(source_derives([self._source(
-            "== Proof of uniqueness ==\nx\n== Derivation ==\nStart from ...")]))
+            "== Proof of uniqueness ==\nx\n== Derivation ==\nStart from the definition and expand the product. Substituting the previous expression and rearranging, we obtain the stated form; therefore the result follows.")]))
 
     def test_a_source_flip_never_claims_canon_moves_it_lacks(self) -> None:
         from atlas.derivation import build_prompt
-        proof = [self._source("== Derivation ==\nStart from f(x) and expand.")]
+        proof = [self._source("== Derivation ==\nStart from the definition and expand the product. Substituting the previous expression and rearranging, we obtain the stated form; therefore the result follows.")]
         prompt = build_prompt("multivariate_taylor_expansion",
                               "Multivariate Taylor Expansion", proof,
                               graph=self.graph)
@@ -454,7 +454,7 @@ class TestUnservableExpectation(unittest.TestCase):
 
     def test_a_source_that_does_derive_still_fails_the_sheet(self) -> None:
         from atlas.derivation import check
-        deriving = [self._source("== Derivation ==\nIntegrate x2 out ...")]
+        deriving = [self._source("== Derivation ==\nStart from the definition and expand the product. Substituting the previous expression and rearranging, we obtain the stated form; therefore the result follows.")]
         report = check(self._sheet("definition",
                                    properties=[{"property": "normal",
                                                 "cites": ["wikipedia:X"]}]),
@@ -462,3 +462,72 @@ class TestUnservableExpectation(unittest.TestCase):
         # the derivation was there to restate and the sheet did not
         self.assertTrue(any("expected a derivation" in m for m in report["shape"]))
         self.assertFalse(report["ok"])
+
+
+class TestDerivationHeadingHomonym(unittest.TestCase):
+    """"Derivation" is two different words, and the heading cannot tell them
+    apart.
+
+    In analysis a derivation is something you perform. In algebra it is an
+    object: a linear map obeying the Leibniz rule. The Lie algebra article's
+    only matching heading is "Derivations", 8,915 characters defining that map,
+    and taking it as evidence demanded a derivation the article never performs
+    -- so a correct definition sheet was failed on shape, every run, forever.
+
+    The plural cannot be used to discriminate: the Kalman filter article's real
+    proof section is also headed "Derivations", and that is the node the whole
+    localization path exists for.
+
+    So the body decides, not the label.
+    """
+
+    ALGEBRA = (
+        "== Derivations ==\n"
+        "For an algebra A over a field F, a derivation of A over F is a linear "
+        "map D: A -> A that satisfies the Leibniz rule D(xy) = D(x)y + xD(y) "
+        "for all x, y in A. The definition makes sense for a possibly "
+        "non-associative algebra. An inner derivation is called a derivation "
+        "of this form.\n"
+    )
+
+    ANALYSIS = (
+        "== Derivations ==\n"
+        "The filter can be derived as a generalized least squares method.\n"
+        "=== Deriving the posteriori estimate covariance matrix ===\n"
+        "Start from the definition and expand the product. Substituting the "
+        "previous expression and rearranging, we obtain the stated form; "
+        "therefore the result follows. Differentiating the trace and equating "
+        "to zero yields the gain.\n"
+    )
+
+    def _source(self, text: str) -> Source:
+        return Source("wikipedia:X", "X", "u", "encyclopedia", text)
+
+    def test_an_algebraic_derivation_is_not_evidence(self) -> None:
+        from atlas.derivation import source_derives
+
+        self.assertFalse(source_derives([self._source(self.ALGEBRA)]))
+
+    def test_a_parent_heading_carries_its_subsections(self) -> None:
+        """The Kalman filter's "== Derivations ==" holds one sentence of its
+        own and 35,000 characters beneath it. A body that stopped at the next
+        heading of any level would find nothing under it."""
+        from atlas.derivation import source_derives
+
+        self.assertTrue(source_derives([self._source(self.ANALYSIS)]))
+
+    def test_a_proof_named_for_its_technique_is_out_of_scope(self) -> None:
+        """Cholesky's three proof sections are "Proof for positive
+        semi-definite matrices", "Proof by limiting argument" and "Proof by QR
+        decomposition" -- each proving the decomposition exists for a class,
+        which is a theorem about the object, not the object."""
+        from atlas.derivation import source_derives
+
+        body = ("Substituting and rearranging, we obtain the bound; therefore "
+                "the claim follows by expanding the product.")
+        self.assertFalse(source_derives([self._source(
+            f"== Proof by limiting argument ==\n{body}")]))
+        self.assertFalse(source_derives([self._source(
+            f"== Proof for positive semi-definite matrices ==\n{body}")]))
+        # but a plain "Proofs" section, or a proof of the thing itself, counts
+        self.assertTrue(source_derives([self._source(f"== Proofs ==\n{body}")]))

@@ -1,0 +1,111 @@
+{
+  "node_id": "exponential_function",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The exponential function $\\exp(x)$ (or $e^x$) is the unique differentiable function satisfying $\\frac{d}{dx}e^x = e^x$ with $e^0 = 1$, equivalently defined as the power series $\\exp(x) = \\sum_{n=0}^{\\infty} \\frac{x^n}{n!}$ or the limit $\\exp(x) = \\lim_{n \\to \\infty} \\left(1 + \\frac{x}{n}\\right)^n$.",
+  "symbols": [
+    {
+      "symbol": "x",
+      "meaning": "argument or exponent variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "e^x",
+      "meaning": "value of the exponential function at x",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "e",
+      "meaning": "Euler's number, defined as exp(1)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "integer index for summation or power limit",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Functional equation: $\\exp(x + y) = \\exp(x) \\cdot \\exp(y)$ with $\\exp(0) = 1$",
+      "why": "Characterizes the exponential map by sending the additive identity to the multiplicative identity",
+      "cites": [
+        "wikipedia:Exponential_function"
+      ]
+    },
+    {
+      "property": "Non-vanishing and reciprocal: $e^x \\neq 0$ for all $x$, and $e^{-x} = \\frac{1}{e^x}$",
+      "why": "Follows directly from the functional equation $e^x e^{-x} = e^0 = 1$",
+      "cites": [
+        "wikipedia:Exponential_function"
+      ]
+    },
+    {
+      "property": "Strict positivity: $e^x > 0$ for every real number $x$",
+      "why": "Follows from the intermediate value theorem since $e^0 = 1$ and $e^x \\neq 0$",
+      "cites": [
+        "wikipedia:Exponential_function"
+      ]
+    },
+    {
+      "property": "Monotonicity: $e^x$ is strictly monotonically increasing on $\\mathbb{R}$",
+      "why": "Its derivative equals $e^x$, which is strictly positive everywhere on $\\mathbb{R}$",
+      "cites": [
+        "wikipedia:Exponential_function"
+      ]
+    },
+    {
+      "property": "Inverse of the natural logarithm: $\\ln(\\exp x) = x$ for all $x \\in \\mathbb{R}$ and $\\exp(\\ln y) = y$ for all $y > 0$",
+      "why": "The exponential function and the natural logarithm are inverse functions of each other",
+      "cites": [
+        "wikipedia:Exponential_function"
+      ]
+    },
+    {
+      "property": "Complex periodicity: $e^{z + 2ik\\pi} = e^z$ for every $k \\in \\mathbb{Z}$",
+      "why": "Follows from Euler's identity $e^{i\\pi} = -1$ and the functional equation",
+      "cites": [
+        "wikipedia:Exponential_function"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Base $b > 0$ when defining general exponentiation $b^x = \\exp(x \\ln b)$",
+      "breaks_when": "$b \\le 0$, where the real natural logarithm $\\ln b$ is undefined"
+    },
+    {
+      "assumption": "Input variable $x$ belongs to a domain where the power series or limit converges (such as $\\mathbb{R}$ or $\\mathbb{C}$)",
+      "breaks_when": "Generalizing to unbounded or non-convergent algebraic elements without appropriate convergence structures"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Inverting non-positive values via the real natural logarithm",
+      "signature": "Domain error or undefined operation",
+      "cause": "The real exponential function has range $(0, \\infty)$, so its inverse $\\ln(y)$ cannot accept $y \\le 0$"
+    },
+    {
+      "mode": "Assuming injectivity when extending to the complex plane",
+      "signature": "Multivalued branch solutions: $\\log(e^z) = \\{z + 2ik\\pi \\mid k \\in \\mathbb{Z}\\}$",
+      "cause": "The complex exponential function is periodic with period $2i\\pi$, rendering it non-injective on $\\mathbb{C}$"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Exponential_function"
+  ],
+  "check": {
+    "node_id": "exponential_function",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

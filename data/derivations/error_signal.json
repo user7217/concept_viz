@@ -1,0 +1,104 @@
+{
+  "node_id": "error_signal",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The error signal $e$ is the positive or negative difference between the actual value $y$ (as measured at the output) and the wanted value $r$ (the control input) of a measurable variable in a closed-loop control system: $e = y - r$ (or $e = r - y$).",
+  "symbols": [
+    {
+      "symbol": "e",
+      "meaning": "error signal, the difference between actual and wanted values",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "y",
+      "meaning": "actual value of the system output as measured by a transducer",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "r",
+      "meaning": "wanted value or control input (reference)",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The error signal is amplified and used via negative feedback to drive the motor/actuator in the direction necessary to reduce or eliminate the error toward zero.",
+      "why": "Closed-loop control uses error-sensing negative feedback to correct mechanism action.",
+      "cites": [
+        "wikipedia:Servomechanism"
+      ]
+    },
+    {
+      "property": "In type 0 servos under steady-state conditions, the system produces a constant value of the output with a constant non-zero error signal.",
+      "why": "Classification of servos by steady-state feedback control performance.",
+      "cites": [
+        "wikipedia:Servomechanism"
+      ]
+    },
+    {
+      "property": "In type 1 servos under steady-state conditions, a constant output produces a null error signal, whereas a constant rate of change of the reference implies a constant error in tracking the reference.",
+      "why": "Classification of servos by steady-state feedback control performance.",
+      "cites": [
+        "wikipedia:Servomechanism"
+      ]
+    },
+    {
+      "property": "In type 2 servos under steady-state conditions, constant output and constant rate of change of reference produce a null error signal, whereas a constant rate of acceleration of reference implies a constant error in tracking.",
+      "why": "Classification of servos by steady-state feedback control performance.",
+      "cites": [
+        "wikipedia:Servomechanism"
+      ]
+    },
+    {
+      "property": "The error signal is defined for measurable physical variables such as position, speed, and attitude.",
+      "why": "Servomechanisms require feedback signals obtained from transducers (e.g., encoders or potentiometers) measuring physical variables.",
+      "cites": [
+        "wikipedia:Servomechanism"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The controlled output variable is continuously or periodically measured by an automatic feedback transducer (such as an encoder or potentiometer).",
+      "breaks_when": "There is no automatic feedback mechanism (e.g., open-loop control as in stepper motors, or manual operator observation)."
+    },
+    {
+      "assumption": "An amplifier or gain mechanism is present to convert and amplify the error signal into corrective actuation.",
+      "breaks_when": "The feedback system lacks an amplifier or gain to drive actuation toward reducing the error (e.g., a windmill fantail)."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Transducer thermal drift",
+      "signature": "Discrepancy between actual physical position and sensed feedback, causing an inaccurate error signal and output offset",
+      "cause": "Temperature changes affecting potentiometer resistance in potentiometer-based feedback sensors"
+    },
+    {
+      "mode": "Steady-state tracking error",
+      "signature": "Persistent non-zero error signal under steady-state or dynamic reference tracking",
+      "cause": "Servo type order is insufficient for the trajectory dynamics (e.g., type 0 with constant output, type 1 tracking a ramp input, or type 2 tracking an accelerating reference)"
+    },
+    {
+      "mode": "Bandwidth limitation tracking lag",
+      "signature": "Large dynamic error signal and inability of the output to follow commanded trajectory",
+      "cause": "Commanded input changes at a frequency exceeding the servo bandwidth"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Servomechanism"
+  ],
+  "check": {
+    "node_id": "error_signal",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

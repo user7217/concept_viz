@@ -1,0 +1,100 @@
+{
+  "node_id": "kronecker_delta",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The Kronecker delta is a function of two variables (usually non-negative integers), or a tensor, defined by \\delta_j^i = \\begin{cases} 1 & \\text{if } i = j \\\\ 0 & \\text{if } i \\neq j \\end{cases}",
+  "symbols": [
+    {
+      "symbol": "\\delta_j^i",
+      "meaning": "Kronecker delta function or tensor component",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "i, j",
+      "meaning": "variables or indices (usually non-negative integers)",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "V",
+      "meaning": "vector space",
+      "dimensions": "vector space of dimension d"
+    },
+    {
+      "symbol": "d",
+      "meaning": "dimension of the vector space",
+      "dimensions": "dimensionless integer"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Represents the identity mapping (or identity matrix) considered as a linear mapping V \\to V or V^* \\to V^*",
+      "why": "acts identically on vectors or dual vectors",
+      "cites": [
+        "wikipedia:Kronecker_delta"
+      ]
+    },
+    {
+      "property": "Represents the trace or tensor contraction considered as a mapping V^* \\otimes V \\to K",
+      "why": "evaluates tensor contraction between dual vectors and vectors",
+      "cites": [
+        "wikipedia:Kronecker_delta"
+      ]
+    },
+    {
+      "property": "Represents the map K \\to V^* \\otimes V representing scalar multiplication as a sum of outer products",
+      "why": "maps field scalars into the tensor product space",
+      "cites": [
+        "wikipedia:Kronecker_delta"
+      ]
+    },
+    {
+      "property": "Contour and trigonometric integral representation: \\delta_{jk} = \\frac{1}{2\\pi i} \\oint_{|z|=1} z^{j-k-1}\\,dz = \\frac{1}{2\\pi} \\int_0^{2\\pi} e^{i(j-k)\\varphi}\\,d\\varphi for integers j, k",
+      "why": "evaluates residue on the counterclockwise unit circle in the complex plane",
+      "cites": [
+        "wikipedia:Kronecker_delta"
+      ]
+    },
+    {
+      "property": "Contraction of generalized Kronecker delta satisfies \\delta_{\\mu_1}^{\\nu_1} \\delta_{\\nu_1 \\nu_2}^{\\mu_1 \\mu_2} = (d - 1)\\delta_{\\nu_2}^{\\mu_2}",
+      "why": "summing repeated indices over the d-dimensional space",
+      "cites": [
+        "wikipedia:Kronecker_delta"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Indices or variables are discrete (usually non-negative integers)",
+      "breaks_when": "Applied over continuous domains where the Dirac delta distribution is required instead"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Generalized Kronecker delta scaling mismatch",
+      "signature": "Expressions differ by factors of p!",
+      "cause": "Two conventions are in use for the generalized Kronecker delta differing by a factor of p!"
+    },
+    {
+      "mode": "Dimension omission in tensor contraction",
+      "signature": "Contraction gives incorrect scalar or tensor magnitude",
+      "cause": "Contractions of generalized Kronecker deltas explicitly depend on the dimension d of the space"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Kronecker_delta"
+  ],
+  "check": {
+    "node_id": "kronecker_delta",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

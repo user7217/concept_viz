@@ -2,68 +2,110 @@
   "node_id": "multivariate_taylor_expansion",
   "grounded": true,
   "kind": "definition",
-  "statement": "The supplied sources genuinely contain no derivation of the multivariate Taylor expansion, as the text under 'Taylor's theorem for multivariate functions' in [wikipedia:Taylor's_theorem] is truncated after the hypothesis. As defined under 'Higher-order differentiability' in [wikipedia:Taylor's_theorem], a multivariate function f: R^n -> R is differentiable at a in R^n if and only if there exists a linear functional L = df(a): R^n -> R and a function h: R^n -> R such that f(x) = f(a) + L(x - a) + h(x) ||x - a|| with lim_{x -> a} h(x) = 0, where the differential df(a) is given by df(a)(v) = (df/dx_1)(a) v_1 + ... + (df/dx_n)(a) v_n.",
+  "statement": "The supplied sources genuinely contain no derivation of the multivariate Taylor expansion (the 'Proofs' section begins with 'Proof for Taylor's theorem in one real variable' and truncates at 'Let'). As stated in the sources, if f: R^n -> R is k + 1 times continuously differentiable in a closed ball B = {y in R^n : ||a - y|| <= r} for some r > 0, the multivariate Taylor expansion of f about a is given by f(x) = sum_{|alpha| <= k} (D^alpha f(a) / alpha!) (x - a)^alpha + sum_{|beta| = k+1} R_beta(x) (x - a)^beta, where R_beta(x) = (|beta| / beta!) int_0^1 (1 - t)^{|beta| - 1} D^beta f(a + t(x - a)) dt.",
   "symbols": [
     {
       "symbol": "f",
-      "meaning": "scalar-valued multivariate function",
+      "meaning": "scalar-valued function of several variables",
       "dimensions": "R^n -> R"
     },
     {
       "symbol": "x",
-      "meaning": "point of evaluation",
+      "meaning": "argument vector at which f is approximated",
       "dimensions": "n x 1"
     },
     {
       "symbol": "a",
-      "meaning": "expansion center point",
+      "meaning": "center point of the Taylor expansion",
       "dimensions": "n x 1"
     },
     {
-      "symbol": "L",
-      "meaning": "differential linear functional df(a)",
-      "dimensions": "1 x n"
-    },
-    {
-      "symbol": "h",
-      "meaning": "remainder scaling function vanishing as x approaches a",
-      "dimensions": "R^n -> R"
-    },
-    {
-      "symbol": "v",
-      "meaning": "displacement or direction vector",
-      "dimensions": "n x 1"
+      "symbol": "k",
+      "meaning": "order of the Taylor polynomial approximation",
+      "dimensions": "scalar"
     },
     {
       "symbol": "alpha",
-      "meaning": "multi-index (alpha_1, ..., alpha_n)",
+      "meaning": "multi-index (alpha_1, ..., alpha_n) in N^n",
       "dimensions": "n x 1"
     },
     {
-      "symbol": "D^alpha f",
-      "meaning": "higher-order partial derivative of order |alpha|",
+      "symbol": "|alpha|",
+      "meaning": "sum of the components of multi-index alpha (alpha_1 + ... + alpha_n)",
       "dimensions": "scalar"
+    },
+    {
+      "symbol": "alpha!",
+      "meaning": "multi-index factorial (alpha_1! * ... * alpha_n!)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "(x - a)^alpha",
+      "meaning": "monomial product (x_1 - a_1)^{alpha_1} * ... * (x_n - a_n)^{alpha_n}",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "D^alpha f",
+      "meaning": "higher-order partial derivative partial^{|alpha|} f / (partial x_1^{alpha_1} ... partial x_n^{alpha_n})",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "beta",
+      "meaning": "multi-index of order |beta| = k + 1",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "R_beta(x)",
+      "meaning": "exact remainder coefficient function for multi-index beta",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "B",
+      "meaning": "closed ball {y in R^n : ||a - y|| <= r}",
+      "dimensions": "subset of R^n"
+    },
+    {
+      "symbol": "r",
+      "meaning": "radius of the closed ball B",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "t",
+      "meaning": "parameter of integration along the line segment between a and x",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "v",
+      "meaning": "displacement vector x - a",
+      "dimensions": "n x 1"
     }
   ],
   "steps": [],
   "properties": [
     {
-      "property": "The differential L = df(a) of f at a is uniquely defined and given by df(a)(v) = (df/dx_1)(a) v_1 + ... + (df/dx_n)(a) v_n",
-      "why": "Follows from differentiability of f at a",
+      "property": "Uniform estimate on the remainder: |R_beta(x)| <= (1 / beta!) * max_{|alpha| = |beta|} max_{y in B} |D^alpha f(y)| for all x in B.",
+      "why": "Follows from the integral formula for R_beta(x) and the continuity of the (k+1)-th order partial derivatives on the compact ball B.",
       "cites": [
         "wikipedia:Taylor's_theorem"
       ]
     },
     {
-      "property": "The order of mixed higher-order partial derivatives can be changed, justifying the multi-index notation D^alpha f = d^{|alpha|} f / dx^alpha",
-      "why": "Clairaut's theorem applies when all k-th order partial derivatives are continuous at a",
+      "property": "Third-order expansion formula in two dimensions (n = 2, k = 3): for v = x - a, P_3(x) = f(a) + (partial f / partial x_1)(a) v_1 + (partial f / partial x_2)(a) v_2 + (partial^2 f / partial x_1^2)(a) (v_1^2 / 2!) + (partial^2 f / partial x_1 partial x_2)(a) v_1 v_2 + (partial^2 f / partial x_2^2)(a) (v_2^2 / 2!) + (partial^3 f / partial x_1^3)(a) (v_1^3 / 3!) + (partial^3 f / partial x_1^2 partial x_2)(a) (v_1^2 v_2 / 2!) + (partial^3 f / partial x_1 partial x_2^2)(a) (v_1 v_2^2 / 2!) + (partial^3 f / partial x_2^3)(a) (v_2^3 / 3!).",
+      "why": "Specializes the multi-index Taylor sum to dimension 2 up to degree 3.",
       "cites": [
         "wikipedia:Taylor's_theorem"
       ]
     },
     {
-      "property": "The function f is k times differentiable at the point a",
-      "why": "All (k - 1)-th order partial derivatives of f exist in some neighborhood of a and are differentiable at a",
+      "property": "Justification of multi-index derivative notation D^alpha f: the order of mixed partial derivatives at a can be changed arbitrarily.",
+      "why": "Follows from Clairaut's theorem because all k-th order partial derivatives of f are continuous at a.",
+      "cites": [
+        "wikipedia:Taylor's_theorem"
+      ]
+    },
+    {
+      "property": "First-order differential formula: df(a)(v) = (partial f / partial x_1)(a) v_1 + ... + (partial f / partial x_n)(a) v_n.",
+      "why": "Follows from the definition of differentiability f(x) = f(a) + L(x - a) + h(x)||x - a|| with lim_{x -> a} h(x) = 0 and L = df(a).",
       "cites": [
         "wikipedia:Taylor's_theorem"
       ]
@@ -71,33 +113,33 @@
   ],
   "assumptions": [
     {
-      "assumption": "The function f: R^n -> R is differentiable at a in R^n",
-      "breaks_when": "The linear functional L does not exist or the error term does not satisfy lim_{x -> a} h(x) = 0"
+      "assumption": "f: R^n -> R is k + 1 times continuously differentiable in a closed ball B = {y in R^n : ||a - y|| <= r} for some r > 0.",
+      "breaks_when": "Any (k+1)-th order partial derivative of f does not exist or fails to be continuous on B."
     },
     {
-      "assumption": "All k-th order partial derivatives of f are continuous at a",
-      "breaks_when": "Mixed partial derivatives depend on the order of differentiation, violating Clairaut's theorem"
+      "assumption": "The evaluation point x lies within the closed ball B centered at a of radius r.",
+      "breaks_when": "||x - a|| > r."
     },
     {
-      "assumption": "The function f is k + 1 times continuously differentiable in a closed ball B = {y in R^n : ||a - y|| <= r} for some r > 0",
-      "breaks_when": "Any partial derivative of order up to k + 1 fails to exist or is discontinuous within the ball B"
+      "assumption": "All k-th order partial derivatives of f are continuous at a (or (k-1)-th order partial derivatives exist in a neighborhood of a and are differentiable at a).",
+      "breaks_when": "Discontinuity of k-th order partial derivatives causes Clairaut's theorem to fail, making mixed partial derivatives dependent on differentiation order."
     }
   ],
   "failure_modes": [
     {
-      "mode": "Non-differentiability at expansion center",
-      "signature": "No linear functional L exists such that the remainder vanishes faster than ||x - a||",
-      "cause": "Partial derivatives do not exist or fail to constitute a valid differential at a"
+      "mode": "Invalid remainder bound or undefined remainder integral",
+      "signature": "R_beta(x) fails to satisfy the uniform bound (1 / beta!) * max_{|alpha| = |beta|} max_{y in B} |D^alpha f(y)| or the integral diverges.",
+      "cause": "(k+1)-th order partial derivatives are discontinuous or unbounded along the segment between a and x, or x is outside B."
     },
     {
-      "mode": "Discontinuous mixed partial derivatives",
-      "signature": "Higher-order partial derivatives depend on the order of differentiation",
-      "cause": "Failure of continuity conditions required by Clairaut's theorem"
+      "mode": "Ambiguous derivative operators in multi-index sum",
+      "signature": "D^alpha f(a) is not well-defined, yielding differing values depending on the order of differentiation.",
+      "cause": "Clairaut's theorem fails when the k-th order partial derivatives are not continuous at a."
     },
     {
-      "mode": "Singularities bounding convergence domain",
-      "signature": "Taylor polynomial approximation error does not shrink or remainder term diverges",
-      "cause": "Poles or singularities in the extension of f restrict the radius of convergence of the series (such as poles at +-i for 1/(1+x^2))"
+      "mode": "Taylor series divergence from function values",
+      "signature": "The sum of the infinite Taylor series does not equal f(x) even if the series converges.",
+      "cause": "The function f is not analytic at a, despite being infinitely differentiable."
     }
   ],
   "source_ids": [
@@ -112,56 +154,11 @@
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
+    "canon_notes": [],
     "shape": [
       "expected a derivation, produced a definition"
     ],
     "vacuous_invocations": false,
     "ok": false
-  },
-  "instantiation": {
-    "node_id": "multivariate_taylor_expansion",
-    "project": "agrios_ws",
-    "components": [
-      "ekf_global",
-      "ekf_local"
-    ],
-    "why_here": "In this project, the ekf_global and ekf_local nodes use robot_localization to perform robot state estimation via the Extended Kalman Filter algorithm. The algorithm directly requires a first-order multivariate Taylor expansion to linearize nonlinear kinematic motion and sensor measurement functions around the current state estimate. This linearization produces the linear functional (Jacobian) necessary to propagate state uncertainties and compute filter updates, though the connection is purely algorithmic as none of the configured parameters govern the expansion itself.",
-    "concrete": [
-      {
-        "symbol": "f",
-        "in_your_project": "A scalar component of the robot's nonlinear state transition or measurement function, mapping the 15-dimensional state vector to a single predicted coordinate [R^15 -> R]."
-      },
-      {
-        "symbol": "x",
-        "in_your_project": "The 15-dimensional robot state vector [15 x 1] containing 3D pose, orientation, linear velocity, angular velocity, and linear acceleration."
-      },
-      {
-        "symbol": "a",
-        "in_your_project": "The expansion center point [15 x 1], which is the current state estimate (mean vector) around which the nonlinear dynamics or measurement equations are linearized."
-      },
-      {
-        "symbol": "L",
-        "in_your_project": "The differential linear functional df(a) [1 x 15], representing a single row of the process Jacobian matrix F or measurement Jacobian matrix H evaluated at the state estimate a."
-      },
-      {
-        "symbol": "h",
-        "in_your_project": "The remainder scaling function [R^15 -> R] capturing higher-order nonlinear terms that vanish faster than ||x - a||, which the first-order EKF truncates."
-      },
-      {
-        "symbol": "v",
-        "in_your_project": "The displacement or state error vector (x - a) [15 x 1] measuring the deviation of the true state from the linearization center point."
-      },
-      {
-        "symbol": "alpha",
-        "in_your_project": "A multi-index (alpha_1, ..., alpha_15) [15 x 1] specifying partial derivative orders across the 15 state variables, where |alpha| = 1 indexes the Jacobian entries."
-      },
-      {
-        "symbol": "D^alpha f",
-        "in_your_project": "A partial derivative of order |alpha| [scalar] of a motion or measurement function; |alpha| = 1 terms form the Jacobian entries, while higher-order terms (|alpha| >= 2) are dropped in the EKF."
-      }
-    ],
-    "knobs": [],
-    "invented": {},
-    "thin": ""
   }
 }

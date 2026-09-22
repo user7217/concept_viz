@@ -1,30 +1,121 @@
 {
   "node_id": "empirical_distribution",
-  "grounded": false,
+  "grounded": true,
   "kind": "definition",
-  "statement": "The supplied source does not provide a mathematical definition or defining equation for empirical distribution, stating only that the term may refer to the empirical distribution function or the empirical measure [wikipedia:Empirical_distribution].",
-  "symbols": [],
+  "statement": "Let (X_1, \\dots, X_n) be independent, identically distributed real random variables with common cumulative distribution function F(t). The empirical distribution function \\widehat{F}_n(t) is defined as \\widehat{F}_n(t) = \\frac{\\text{number of elements in the sample} \\le t}{n} = \\frac{1}{n} \\sum_{i=1}^{n} \\mathbf{1}_{X_i \\le t}, where \\mathbf{1}_A is the indicator of event A.",
+  "symbols": [
+    {
+      "symbol": "\\widehat{F}_n(t)",
+      "meaning": "empirical cumulative distribution function evaluated at t",
+      "dimensions": "scalar in [0, 1]"
+    },
+    {
+      "symbol": "X_i",
+      "meaning": "i-th sample observation (real random variable)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "sample size (number of observations)",
+      "dimensions": "scalar integer >= 1"
+    },
+    {
+      "symbol": "t",
+      "meaning": "evaluation cutoff point",
+      "dimensions": "scalar real"
+    },
+    {
+      "symbol": "F(t)",
+      "meaning": "true common cumulative distribution function evaluated at t",
+      "dimensions": "scalar in [0, 1]"
+    },
+    {
+      "symbol": "\\mathbf{1}_{X_i \\le t}",
+      "meaning": "indicator function of the event X_i <= t",
+      "dimensions": "scalar in {0, 1}"
+    }
+  ],
   "steps": [],
-  "properties": [],
-  "assumptions": [],
-  "failure_modes": [],
+  "properties": [
+    {
+      "property": "Unbiased estimator: \\operatorname{E}[\\widehat{F}_n(t)] = F(t)",
+      "why": "For fixed t, \\mathbf{1}_{X_i \\le t} is a Bernoulli random variable with parameter p = F(t), making n\\widehat{F}_n(t) a binomial random variable with mean nF(t)",
+      "cites": [
+        "wikipedia:Empirical_distribution_function"
+      ]
+    },
+    {
+      "property": "Finite-sample variance: \\operatorname{Var}(\\widehat{F}_n(t)) = \\frac{F(t)(1 - F(t))}{n}",
+      "why": "n\\widehat{F}_n(t) is a binomial random variable with variance nF(t)(1 - F(t))",
+      "cites": [
+        "wikipedia:Empirical_distribution_function"
+      ]
+    },
+    {
+      "property": "Step function structure",
+      "why": "\\widehat{F}_n(t) jumps up by 1/n at each of the n data points",
+      "cites": [
+        "wikipedia:Empirical_distribution_function"
+      ]
+    },
+    {
+      "property": "Pointwise almost sure convergence: \\widehat{F}_n(t) \\xrightarrow{\\text{a.s.}} F(t) as n \\to \\infty",
+      "why": "Follows by the strong law of large numbers applied to the i.i.d. Bernoulli indicator variables",
+      "cites": [
+        "wikipedia:Empirical_distribution_function"
+      ]
+    },
+    {
+      "property": "Pointwise asymptotic normality: \\sqrt{n}(\\widehat{F}_n(t) - F(t)) \\xrightarrow{d} \\mathcal{N}(0, F(t)(1 - F(t)))",
+      "why": "Follows from the central limit theorem applied to the sample mean of Bernoulli indicators",
+      "cites": [
+        "wikipedia:Empirical_distribution_function"
+      ]
+    },
+    {
+      "property": "Alternative textbook definition: \\widehat{F}_n(t) = \\frac{1}{n+1} \\sum_{i=1}^n \\mathbf{1}_{X_i \\le t}",
+      "why": "Has the same asymptotic properties because the ratio (n + 1)/n approaches 1 as n goes to infinity",
+      "cites": [
+        "wikipedia:Empirical_distribution_function"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The sample observations X_1, \\dots, X_n are independent and identically distributed (i.i.d.) draws from common CDF F(t).",
+      "breaks_when": "Observations are statistically dependent, non-identically distributed, or subject to distribution shift."
+    },
+    {
+      "assumption": "The sample size n is a positive integer (n >= 1).",
+      "breaks_when": "The sample is empty (n = 0), causing division by zero in 1/n."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "High variance and coarse discretization at small sample sizes",
+      "signature": "Large discrete jumps of magnitude 1/n and substantial pointwise deviations |\\widehat{F}_n(t) - F(t)|.",
+      "cause": "Variance scales as F(t)(1 - F(t))/n, which is large when n is small."
+    },
+    {
+      "mode": "Estimator inconsistency and bias under non-i.i.d. data",
+      "signature": "\\widehat{F}_n(t) fails to converge to F(t) almost surely or exhibits systematic estimation bias.",
+      "cause": "Violation of the i.i.d. assumption invalidates the Bernoulli/binomial distribution structure and the strong law of large numbers."
+    }
+  ],
   "source_ids": [
-    "wikipedia:Empirical_distribution"
+    "wikipedia:Empirical_distribution_function"
   ],
   "check": {
     "node_id": "empirical_distribution",
     "kind": "definition",
-    "grounded": false,
+    "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
     "canon_notes": [],
-    "shape": [
-      "definition lists no properties",
-      "sheet names no symbols, so it is probably not about this node's mathematics at all"
-    ],
+    "shape": [],
     "vacuous_invocations": false,
-    "ok": false
+    "ok": true
   }
 }

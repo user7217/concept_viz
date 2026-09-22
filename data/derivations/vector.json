@@ -1,0 +1,161 @@
+{
+  "node_id": "vector",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A Euclidean vector (or simply vector) is a geometric object that possesses both magnitude (or length) and direction, commonly depicted as a directed line segment or arrow connecting an initial point $A$ to a terminal point $B$, which can be added together and scaled by numbers (scalars) to form a vector space satisfying vector axioms.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{a}",
+      "meaning": "Euclidean vector",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "\\|\\mathbf{a}\\|",
+      "meaning": "Length, magnitude, or Euclidean norm of vector \\mathbf{a}",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbf{\\hat{a}}",
+      "meaning": "Normalized unit vector pointing in the direction of \\mathbf{a}",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "\\mathbf{0}",
+      "meaning": "Zero vector with length zero and indeterminate direction",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "a_1, a_2, a_3",
+      "meaning": "Scalar components of vector \\mathbf{a} in an orthonormal basis",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbf{e}_1, \\mathbf{e}_2, \\mathbf{e}_3",
+      "meaning": "Standard orthogonal unit basis vectors",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "\\theta",
+      "meaning": "Angle between two vectors",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbf{n}",
+      "meaning": "Unit vector perpendicular to vectors \\mathbf{a} and \\mathbf{b} completing a right-handed system",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "r",
+      "meaning": "Scalar multiplier",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The length (Euclidean norm) of vector \\mathbf{a} is given by \\|\\mathbf{a}\\| = \\sqrt{a_1^2 + a_2^2 + a_3^2} = \\sqrt{\\mathbf{a} \\cdot \\mathbf{a}}.",
+      "why": "it is a consequence of the Pythagorean theorem since basis vectors are orthogonal unit vectors",
+      "cites": [
+        "wikipedia:Euclidean_vector"
+      ]
+    },
+    {
+      "property": "Any non-zero vector \\mathbf{a} can be normalized into a unit vector of length one by scaling by the reciprocal of its length: \\mathbf{\\hat{a}} = \\frac{\\mathbf{a}}{\\|\\mathbf{a}\\|} = \\frac{a_1}{\\|\\mathbf{a}\\|}\\mathbf{e}_1 + \\frac{a_2}{\\|\\mathbf{a}\\|}\\mathbf{e}_2 + \\frac{a_3}{\\|\\mathbf{a}\\|}\\mathbf{e}_3.",
+      "why": "scaling a vector by the reciprocal of its length scales its magnitude to one while preserving direction",
+      "cites": [
+        "wikipedia:Euclidean_vector"
+      ]
+    },
+    {
+      "property": "The zero vector \\mathbf{0} = (0, 0, 0) has length zero, satisfies \\mathbf{0} + \\mathbf{a} = \\mathbf{a} for all \\mathbf{a}, has an indeterminate direction, and cannot be normalized.",
+      "why": "there exists no unit vector that is a scalar multiple of the zero vector",
+      "cites": [
+        "wikipedia:Euclidean_vector"
+      ]
+    },
+    {
+      "property": "Scalar multiplication distributes over vector addition such that r(\\mathbf{a} + \\mathbf{b}) = r\\mathbf{a} + r\\mathbf{b}, with negative scalars flipping vector direction by 180\u00b0 such that \\mathbf{a} - \\mathbf{b} = \\mathbf{a} + (-1)\\mathbf{b}.",
+      "why": "Euclidean vectors satisfy the vector space axioms under addition and scaling",
+      "cites": [
+        "wikipedia:Euclidean_vector",
+        "wikipedia:Vector_space"
+      ]
+    },
+    {
+      "property": "The dot product of two vectors is a scalar defined geometrically as \\mathbf{a} \\cdot \\mathbf{b} = \\|\\mathbf{a}\\| \\|\\mathbf{b}\\| \\cos\\theta and componentwise as \\mathbf{a} \\cdot \\mathbf{b} = a_1 b_1 + a_2 b_2 + a_3 b_3.",
+      "why": "it multiplies the magnitude of \\mathbf{a} by the length of the directional component of \\mathbf{b} along \\mathbf{a}",
+      "cites": [
+        "wikipedia:Euclidean_vector"
+      ]
+    },
+    {
+      "property": "The cross product \\mathbf{a} \\times \\mathbf{b} in three dimensions is a vector perpendicular to both \\mathbf{a} and \\mathbf{b} defined as \\mathbf{a} \\times \\mathbf{b} = \\|\\mathbf{a}\\| \\|\\mathbf{b}\\| \\sin(\\theta)\\,\\mathbf{n} = (a_2 b_3 - a_3 b_2)\\mathbf{e}_1 + (a_3 b_1 - a_1 b_3)\\mathbf{e}_2 + (a_1 b_2 - a_2 b_1)\\mathbf{e}_3.",
+      "why": "it forms a right-handed system whose magnitude corresponds to the area of the parallelogram spanned by \\mathbf{a} and \\mathbf{b}",
+      "cites": [
+        "wikipedia:Euclidean_vector"
+      ]
+    },
+    {
+      "property": "The scalar triple product (\\mathbf{a}\\ \\mathbf{b}\\ \\mathbf{c}) = \\mathbf{a} \\cdot (\\mathbf{b} \\times \\mathbf{c}) equals the determinant of the 3-by-3 matrix formed by the row vectors, is alternating under pairwise swaps, and its absolute value is the volume of the spanned parallelepiped.",
+      "why": "it is zero if and only if the three vectors are linearly dependent (coplanar)",
+      "cites": [
+        "wikipedia:Euclidean_vector"
+      ]
+    },
+    {
+      "property": "A vector \\mathbf{a} is invariant under conversion between multiple Cartesian orthonormal bases (e.g., \\mathbf{a} = \\sum p_i \\mathbf{e}_i = \\sum u_i \\mathbf{n}_i), where components in any orthonormal basis are given by projections p_i = \\mathbf{a} \\cdot \\mathbf{e}_i and u_i = \\mathbf{a} \\cdot \\mathbf{n}_i.",
+      "why": "the vector geometric object exists independently of the coordinate basis chosen to represent it",
+      "cites": [
+        "wikipedia:Euclidean_vector"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The coordinate basis vectors \\mathbf{e}_1, \\mathbf{e}_2, \\mathbf{e}_3 are orthonormal.",
+      "breaks_when": "The basis vectors are non-orthogonal or non-unit length, which causes the Pythagorean component formula for norm and componentwise dot product to fail."
+    },
+    {
+      "assumption": "Space is three-dimensional and equipped with a standard right-handed orientation.",
+      "breaks_when": "The dimension is not 3 (or 7) where cross products are not defined as vectors, or a left-handed orientation is used where cross products produce pseudovectors."
+    },
+    {
+      "assumption": "Vectors subjected to normalization have non-zero length (\\|\\mathbf{a}\\| > 0).",
+      "breaks_when": "The vector is the zero vector \\mathbf{0}, causing division by zero."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zero vector normalization",
+      "signature": "Division by zero / undefined unit vector \\mathbf{\\hat{a}}",
+      "cause": "The zero vector has length zero and indeterminate direction; no unit vector is a multiple of the zero vector."
+    },
+    {
+      "mode": "Cross product dimensionality and chirality failure",
+      "signature": "Undefined operation or sign inversion / pseudovector behavior",
+      "cause": "Cross product is only meaningful in three or seven dimensions and requires a right-handed system convention."
+    },
+    {
+      "mode": "Coplanar degeneration of scalar triple product",
+      "signature": "(\\mathbf{a}\\ \\mathbf{b}\\ \\mathbf{c}) = 0",
+      "cause": "The three vectors are linearly dependent and lie in the same plane, causing the spanned volume to collapse to zero."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Euclidean_vector",
+    "wikipedia:Vector_space"
+  ],
+  "check": {
+    "node_id": "vector",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

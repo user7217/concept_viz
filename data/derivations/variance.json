@@ -1,0 +1,132 @@
+{
+  "node_id": "variance",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The variance of a random variable X is a measure of dispersion defined as the expected value of the squared deviation from the mean: \\operatorname{Var}(X) = \\operatorname{E}\\left[(X - \\operatorname{E}[X])^2\\right].",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "random variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\operatorname{Var}(X)",
+      "meaning": "variance of X (also denoted \\sigma^2)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\operatorname{E}[X]",
+      "meaning": "expected value or mean of X (often denoted \\mu)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\sigma",
+      "meaning": "standard deviation of X",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Computational formula: \\operatorname{Var}(X) = \\operatorname{E}[X^2] - \\operatorname{E}[X]^2",
+      "why": "variance equals the mean of the square minus the square of the mean",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    },
+    {
+      "property": "Non-negativity: \\operatorname{Var}(X) \\ge 0",
+      "why": "squared deviations are positive or zero",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    },
+    {
+      "property": "Variance of a constant: \\operatorname{Var}(a) = 0",
+      "why": "a constant does not deviate from its mean",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    },
+    {
+      "property": "Almost sure constancy: \\operatorname{Var}(X) = 0 \\iff \\exists a : P(X = a) = 1",
+      "why": "a random variable with zero variance always takes the same value almost surely",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    },
+    {
+      "property": "Standard deviation relation: \\sigma = \\sqrt{\\operatorname{Var}(X)}",
+      "why": "standard deviation is defined as the square root of the variance",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    },
+    {
+      "property": "Discrete random variable form: \\operatorname{Var}(X) = \\sum_{i=1}^n p_i (x_i - \\mu)^2",
+      "why": "evaluating expectation with respect to probability mass function p_i",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    },
+    {
+      "property": "Continuous random variable form: \\operatorname{Var}(X) = \\int_{\\mathbb{R}} (x - \\mu)^2 f(x)\\,dx = \\int_{\\mathbb{R}} x^2 f(x)\\,dx - \\mu^2",
+      "why": "evaluating expectation with respect to probability density function f(x)",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    },
+    {
+      "property": "Pairwise difference formulation for n equally likely values: \\operatorname{Var}(X) = \\frac{1}{n^2} \\sum_i \\sum_{j > i} (x_i - x_j)^2",
+      "why": "variance expressed in terms of squared distances of points without referring to the mean",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    },
+    {
+      "property": "Law of total variance: \\operatorname{Var}[X] = \\operatorname{E}(\\operatorname{Var}[X \\mid Y]) + \\operatorname{Var}(\\operatorname{E}[X \\mid Y])",
+      "why": "variance decomposes across conditioning on another random variable Y",
+      "cites": [
+        "wikipedia:Variance"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The expected value \\operatorname{E}[X] is finite",
+      "breaks_when": "The distribution lacks a finite expected value (e.g., Cauchy distribution)"
+    },
+    {
+      "assumption": "The second moment \\operatorname{E}[X^2] is finite",
+      "breaks_when": "The second moment diverges even if the expected value is finite (e.g., Pareto distribution with index 1 < k \\le 2)"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Infinite or undefined variance",
+      "signature": "\\operatorname{Var}(X) fails to exist or diverges to infinity",
+      "cause": "Underlying distribution lacks a finite mean or possesses an infinite second moment"
+    },
+    {
+      "mode": "Catastrophic cancellation in floating-point arithmetic",
+      "signature": "Severe loss of precision or negative variance values",
+      "cause": "Using \\operatorname{E}[X^2] - \\operatorname{E}[X]^2 when the two components are of similar magnitude"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Variance"
+  ],
+  "check": {
+    "node_id": "variance",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

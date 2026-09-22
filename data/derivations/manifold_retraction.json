@@ -2,7 +2,7 @@
   "node_id": "manifold_retraction",
   "grounded": false,
   "kind": "definition",
-  "statement": "The supplied source [wikipedia:Riemannian_manifold] does not contain a definition, derivation, or mention of manifold retraction.",
+  "statement": "The supplied source text does not contain a definition or derivation of a manifold retraction.",
   "symbols": [],
   "steps": [],
   "properties": [],

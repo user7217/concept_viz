@@ -1,0 +1,90 @@
+{
+  "node_id": "vector_space",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A vector space (or linear space) over a field F is a set V whose elements (vectors) can be added together and multiplied (\"scaled\") by numbers called scalars (elements of F), subject to vector addition and scalar multiplication satisfying the vector axioms.",
+  "symbols": [
+    {
+      "symbol": "V",
+      "meaning": "vector space (set of vectors)",
+      "dimensions": "set"
+    },
+    {
+      "symbol": "F",
+      "meaning": "field of scalars (such as R or C)",
+      "dimensions": "field"
+    },
+    {
+      "symbol": "v, w",
+      "meaning": "vectors",
+      "dimensions": "elements of V"
+    },
+    {
+      "symbol": "a",
+      "meaning": "scalar",
+      "dimensions": "element of F"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Any vector space over a given field is characterized, up to isomorphism, by its dimension",
+      "why": "linear algebra completely classifies vector spaces over a given field by their dimension",
+      "cites": [
+        "wikipedia:Vector_space"
+      ]
+    },
+    {
+      "property": "The addition operation allows only finitely many terms to be added",
+      "why": "linear algebra per se is not adapted to deal with infinite series without additional structure",
+      "cites": [
+        "wikipedia:Vector_space"
+      ]
+    },
+    {
+      "property": "Real and complex vector spaces are kinds of vector spaces based on real numbers and complex numbers",
+      "why": "scalars can be elements of any field, commonly chosen to be R or C",
+      "cites": [
+        "wikipedia:Vector_space"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Scalars are elements of a field F",
+      "breaks_when": "The scalar algebraic structure is not a field"
+    },
+    {
+      "assumption": "Vector operations are restricted to finite algebraic combinations",
+      "breaks_when": "Formulating infinite series or limits without endowing the space with a compatible topology"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Undefined convergence of infinite series",
+      "signature": "Limits of vector sequences and infinite sums cannot be evaluated",
+      "cause": "A vector space per se lacks a topology or notion of vectors being close to each other"
+    },
+    {
+      "mode": "Inability to measure lengths or angles",
+      "signature": "Vector magnitudes, distances, and angles are undefined",
+      "cause": "The vector space is not endowed with additional data such as a norm or an inner product"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Vector_space"
+  ],
+  "check": {
+    "node_id": "vector_space",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

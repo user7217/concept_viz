@@ -148,6 +148,7 @@
     "closure_holes": [
       "block_matrix_inversion"
     ],
+    "canon_notes": [],
     "shape": [],
     "vacuous_invocations": false,
     "ok": true

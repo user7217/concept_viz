@@ -1,0 +1,130 @@
+{
+  "node_id": "softmax_function",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The softmax function (also known as softargmax or normalized exponential function) converts a tuple of $K$ real numbers $\\mathbf{z} = (z_1, \\dots, z_K) \\in \\mathbb{R}^K$ into a probability distribution over $K$ possible outcomes, defined component-wise by $\\sigma(\\mathbf{z})_i = \\frac{e^{z_i}}{\\sum_{k=1}^K e^{z_k}}$ for $i = 1, \\dots, K$, or with an inverse temperature scaling factor $\\beta$ (temperature $T = 1/\\beta$) as $\\sigma(\\mathbf{z})_i = \\frac{e^{\\beta z_i}}{\\sum_{j=1}^K e^{\\beta z_j}}$.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{z}",
+      "meaning": "input tuple or vector of real numbers (scores, state energies, or logits)",
+      "dimensions": "K"
+    },
+    {
+      "symbol": "z_i",
+      "meaning": "the i-th input real value or state energy",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "K",
+      "meaning": "number of possible outcomes, classes, or microstates",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\sigma(\\mathbf{z})",
+      "meaning": "output vector representing the normalized probability distribution",
+      "dimensions": "K"
+    },
+    {
+      "symbol": "\\sigma(\\mathbf{z})_i",
+      "meaning": "predicted probability of outcome or class i",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\beta",
+      "meaning": "scaling factor, inverse temperature, coldness, or thermodynamic beta",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "T",
+      "meaning": "temperature parameter (T = 1/\\beta)",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Translation invariance: \\sigma(\\mathbf{z} + \\mathbf{c}) = \\sigma(\\mathbf{z}) for constant vector \\mathbf{c} = (c, \\dots, c)",
+      "why": "Adding c to each coordinate multiplies every exponential term in the numerator and denominator by e^c, leaving the output ratio unchanged",
+      "cites": [
+        "wikipedia:Softmax_function"
+      ]
+    },
+    {
+      "property": "Maps \\mathbb{R}^K to the open standard (K-1)-simplex where all components are positive and sum to 1",
+      "why": "Exponential terms are strictly positive and the denominator normalizes the components such that \\sum_{i=1}^K \\sigma(\\mathbf{z})_i = 1",
+      "cites": [
+        "wikipedia:Softmax_function"
+      ]
+    },
+    {
+      "property": "Gradient of the LogSumExp function: \\frac{\\partial}{\\partial z_i} \\operatorname{LSE}(\\mathbf{z}) = \\sigma(\\mathbf{z})_i",
+      "why": "Differentiating \\operatorname{LSE}(\\mathbf{z}) = \\log(\\sum_{k=1}^K \\exp(z_k)) with respect to z_i yields \\frac{\\exp(z_i)}{\\sum_{k=1}^K \\exp(z_k)}",
+      "cites": [
+        "wikipedia:Softmax_function"
+      ]
+    },
+    {
+      "property": "Jacobian derivative: \\frac{\\partial}{\\partial z_j} \\sigma(\\mathbf{z})_i = \\sigma(\\mathbf{z})_i (\\delta_{ij} - \\sigma(\\mathbf{z})_j) (scaled by \\beta if a scaling parameter is present)",
+      "why": "Differentiating the quotient of exponentials with respect to an input coordinate yields the product of \\sigma_i and (\\delta_{ij} - \\sigma_j)",
+      "cites": [
+        "wikipedia:Softmax_function"
+      ]
+    },
+    {
+      "property": "Uniform distribution along the diagonal: \\sigma(x, x, \\dots, x) = (1/K, \\dots, 1/K)",
+      "why": "Identical input scores produce equal exponential values that divide evenly across all K outcomes",
+      "cites": [
+        "wikipedia:Softmax_function"
+      ]
+    },
+    {
+      "property": "Argmax limit: as \\beta \\to \\infty (temperature T \\to 0), output concentrates on the arg max coordinate",
+      "why": "Differences between the maximum score and other scores become arbitrarily large relative to temperature, driving non-maximal probabilities to zero",
+      "cites": [
+        "wikipedia:Softmax_function"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The input tuple components z_i are finite real numbers",
+      "breaks_when": "Any component z_i is infinite or NaN, making exponentiation undefined or non-finite"
+    },
+    {
+      "assumption": "The number of possible outcomes K is a finite positive integer (K \\ge 1)",
+      "breaks_when": "K = 0, which leaves the denominator summation empty"
+    },
+    {
+      "assumption": "Temperature parameter T > 0 (or inverse temperature \\beta is finite)",
+      "breaks_when": "Temperature T = 0, causing division by zero in exponent scaling"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Numerical overflow due to large exponentiation",
+      "signature": "Intermediate values overflow to infinity, yielding inf / inf = NaN",
+      "cause": "Large positive values in the input vector z cause e^{z_i} to exceed floating-point maximum limits before normalization; mitigated by safe softmax subtracting m = \\max_i z_i"
+    },
+    {
+      "mode": "Computational and memory bandwidth bottleneck at scale",
+      "signature": "Excessive execution time and memory bandwidth saturation during forward and backward passes",
+      "cause": "Computing the denominator normalization sum requires O(K) operations per sample, which becomes a bottleneck when K is very large (such as large language model vocabularies)"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Softmax_function"
+  ],
+  "check": {
+    "node_id": "softmax_function",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

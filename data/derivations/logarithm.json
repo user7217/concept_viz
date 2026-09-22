@@ -1,0 +1,116 @@
+{
+  "node_id": "logarithm",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For a base $b > 0$ with $b \\neq 1$, the logarithm of a number $x > 0$ to base $b$, written $\\log_b x$, is the unique real number $y$ such that $b^y = x$. Equivalently, the logarithm function $\\log_b\\colon \\mathbb{R}_{>0} \\to \\mathbb{R}$ is the inverse function of exponentiation $f(x) = b^x$.",
+  "symbols": [
+    {
+      "symbol": "b",
+      "meaning": "base of the logarithm, a positive real number not equal to 1",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "argument of the logarithm, a positive real number",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "y",
+      "meaning": "logarithm value (the exponent such that b^y = x)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\log_b",
+      "meaning": "base-b logarithm function, inverse to exponentiation with base b",
+      "dimensions": "function R_{>0} -> R"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Inverse of exponentiation: \\log_b(b^x) = x for all x \\in \\mathbb{R} and b^{\\log_b x} = x for all x > 0",
+      "why": "The logarithm to base b is defined as the inverse of exponentiation with base b",
+      "cites": [
+        "wikipedia:Logarithm"
+      ]
+    },
+    {
+      "property": "Product formula: \\log_b(x y) = \\log_b x + \\log_b y for x, y > 0",
+      "why": "Follows from the properties of exponentiation where multiplying powers corresponds to adding exponents",
+      "cites": [
+        "wikipedia:Logarithm"
+      ]
+    },
+    {
+      "property": "Quotient formula: \\log_b(c / d) = \\log_b c - \\log_b d for positive numbers c and d",
+      "why": "Division of arguments corresponds to subtraction of their logarithms",
+      "cites": [
+        "wikipedia:Logarithm"
+      ]
+    },
+    {
+      "property": "Power formula: \\log_b(c^d) = d \\log_b c (and \\ln(t^r) = r \\ln t)",
+      "why": "Exponentiation of the argument reduces to multiplication by the exponent",
+      "cites": [
+        "wikipedia:Logarithm"
+      ]
+    },
+    {
+      "property": "Derivative: \\frac{d}{dx}\\log_b x = \\frac{1}{x \\ln b}",
+      "why": "Follows from the derivative of the exponential function and the chain rule for inverse functions",
+      "cites": [
+        "wikipedia:Logarithm"
+      ]
+    },
+    {
+      "property": "Integral representation of the natural logarithm: \\ln t = \\int_1^t \\frac{1}{x}\\,dx for t > 0",
+      "why": "The natural logarithm ln(x) is the unique antiderivative of 1/x that has the value 0 for x = 1",
+      "cites": [
+        "wikipedia:Logarithm"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Base b is a positive real number unequal to 1 (b > 0, b != 1)",
+      "breaks_when": "b <= 0 (exponential function is not well-defined on all real numbers) or b = 1 (f(x) = 1^x is constant and not bijective)"
+    },
+    {
+      "assumption": "Argument x is a positive real number (x > 0)",
+      "breaks_when": "x <= 0, since the range of the real exponential function b^y is R_{>0}"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Non-positive argument (x <= 0)",
+      "signature": "Divergence as x -> 0+ (to -infinity for b > 1, or +infinity for b < 1); undefined for x <= 0",
+      "cause": "No real exponent y satisfies b^y <= 0 for positive b"
+    },
+    {
+      "mode": "Base b = 1",
+      "signature": "Division by zero in derivative formula (ln 1 = 0); non-invertible mapping",
+      "cause": "f(x) = 1^x = 1 is constant, so it fails the strict monotonicity condition required for bijectivity"
+    },
+    {
+      "mode": "Non-positive base b <= 0",
+      "signature": "Exponentiation cannot be defined as a continuous bijection from R to R_{>0}",
+      "cause": "Powers with non-positive bases are not generally real-valued across the real line"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Logarithm"
+  ],
+  "check": {
+    "node_id": "logarithm",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

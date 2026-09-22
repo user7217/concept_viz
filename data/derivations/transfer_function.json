@@ -1,0 +1,206 @@
+{
+  "node_id": "transfer_function",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In linear time-invariant (LTI) systems theory and engineering, the continuous-time transfer function H(s) is defined as the ratio of the Laplace transform of the output signal Y(s) = L{y(t)} to the Laplace transform of the input signal X(s) = L{x(t)}, giving H(s) = Y(s) / X(s) = L{y(t)} / L{x(t)} (and for discrete-time systems, as the ratio of z-transforms H(z) = Y(z) / X(z) = Z{y[n]} / Z{x[n]}). The supplied sources do not contain a derivation of the transfer function via the Laplace transform of differential equations (e.g., using the Laplace transform of derivatives); rather, the transfer function is established by definition as the ratio of output to input transforms, or defined directly as H(s) = 1 / p_L(s) for linear differential operators with exponential inputs.",
+  "symbols": [
+    {
+      "symbol": "H(s)",
+      "meaning": "continuous-time transfer function (system function or network function)",
+      "dimensions": "scalar ratio of output units to input units"
+    },
+    {
+      "symbol": "s",
+      "meaning": "complex frequency variable, s = \\sigma + j\\omega",
+      "dimensions": "1/T"
+    },
+    {
+      "symbol": "\\sigma",
+      "meaning": "real part of the complex frequency variable s",
+      "dimensions": "1/T"
+    },
+    {
+      "symbol": "\\omega",
+      "meaning": "angular frequency (imaginary part of s)",
+      "dimensions": "rad/T"
+    },
+    {
+      "symbol": "x(t)",
+      "meaning": "continuous-time system input signal",
+      "dimensions": "input units"
+    },
+    {
+      "symbol": "y(t)",
+      "meaning": "continuous-time system output signal",
+      "dimensions": "output units"
+    },
+    {
+      "symbol": "X(s)",
+      "meaning": "Laplace transform of the input signal x(t)",
+      "dimensions": "input units * T"
+    },
+    {
+      "symbol": "Y(s)",
+      "meaning": "Laplace transform of the output signal y(t)",
+      "dimensions": "output units * T"
+    },
+    {
+      "symbol": "H(z)",
+      "meaning": "discrete-time transfer function",
+      "dimensions": "scalar ratio of output units to input units"
+    },
+    {
+      "symbol": "z",
+      "meaning": "complex variable of the z-transform",
+      "dimensions": "dimensionless complex scalar"
+    },
+    {
+      "symbol": "x[n]",
+      "meaning": "discrete-time input signal indexed by integer n",
+      "dimensions": "input units"
+    },
+    {
+      "symbol": "y[n]",
+      "meaning": "discrete-time output signal indexed by integer n",
+      "dimensions": "output units"
+    },
+    {
+      "symbol": "X(z)",
+      "meaning": "z-transform of the discrete-time input signal x[n]",
+      "dimensions": "input units"
+    },
+    {
+      "symbol": "Y(z)",
+      "meaning": "z-transform of the discrete-time output signal y[n]",
+      "dimensions": "output units"
+    },
+    {
+      "symbol": "p_L(s)",
+      "meaning": "characteristic polynomial of the linear differential operator L",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "s_P",
+      "meaning": "pole of the transfer function (root of characteristic polynomial), s_P = \\sigma_P + j\\omega_P",
+      "dimensions": "1/T"
+    },
+    {
+      "symbol": "G(\\omega)",
+      "meaning": "frequency response magnitude (gain) of the system, |H(j\\omega)|",
+      "dimensions": "scalar ratio"
+    },
+    {
+      "symbol": "\\phi(\\omega)",
+      "meaning": "phase shift introduced by the transfer function, arg(H(j\\omega))",
+      "dimensions": "rad"
+    },
+    {
+      "symbol": "\\tau_\\phi(\\omega)",
+      "meaning": "phase delay introduced to the sinusoid by the transfer function",
+      "dimensions": "T"
+    },
+    {
+      "symbol": "\\tau_g(\\omega)",
+      "meaning": "group delay introduced to the sinusoid envelope by the transfer function",
+      "dimensions": "T"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "In the Laplace domain, the system output is the product of the transfer function and the input: Y(s) = H(s) X(s)",
+      "why": "follows directly by algebraic rearrangement of the definition H(s) = Y(s) / X(s)",
+      "cites": [
+        "wikipedia:Transfer_function"
+      ]
+    },
+    {
+      "property": "For discrete-time systems, the transfer function is defined using the z-transform as H(z) = Y(z) / X(z) = Z{y[n]} / Z{x[n]}",
+      "why": "discrete-time signals indexed by integers are represented using the z-transform rather than the continuous Laplace transform",
+      "cites": [
+        "wikipedia:Transfer_function"
+      ]
+    },
+    {
+      "property": "For a constant-coefficient differential operator L[u] = r(t) with characteristic polynomial p_L, the transfer function operator F[r] = u acts as a right inverse L[F[r]] = r with H(s) = 1 / p_L(s) wherever p_L(s) != 0",
+      "why": "substituting the trial solution u(t) = H(s)e^{st} for an exponential forcing function r(t) = e^{st} yields L[H(s)e^{st}] = H(s)p_L(s)e^{st} = e^{st}",
+      "cites": [
+        "wikipedia:Transfer_function"
+      ]
+    },
+    {
+      "property": "The frequency response and gain under sinusoidal excitation are obtained by evaluating the transfer function on the imaginary axis s = j\\omega (setting \\sigma = 0), yielding gain G(\\omega) = |H(j\\omega)| and phase shift \\phi(\\omega) = arg(H(j\\omega))",
+      "why": "setting the real part \\sigma = 0 reduces the bilateral Laplace transform to the Fourier transform for steady-state analysis",
+      "cites": [
+        "wikipedia:Transfer_function"
+      ]
+    },
+    {
+      "property": "A transfer function system is strictly stable if and only if all of its poles have strictly negative real parts (\\sigma_P < 0)",
+      "why": "any pole with a positive real part produces a transient response term diverging to infinity as time tends to infinity",
+      "cites": [
+        "wikipedia:Transfer_function"
+      ]
+    },
+    {
+      "property": "The frequency-dependent delays introduced by the transfer function are given by phase delay \\tau_\\phi(\\omega) = -\\phi(\\omega) / \\omega and group delay \\tau_g(\\omega) = -d\\phi(\\omega) / d\\omega",
+      "why": "phase delay measures the time delay of the carrier sinusoid while group delay measures the derivative of phase shift representing delay to the envelope",
+      "cites": [
+        "wikipedia:Transfer_function"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The system is linear and time-invariant (LTI)",
+      "breaks_when": "The system has nonlinear characteristics or time-varying internal parameters"
+    },
+    {
+      "assumption": "The Laplace transform of the input signal X(s) is non-zero and well-defined on the region of convergence",
+      "breaks_when": "The input signal does not have a valid Laplace transform or X(s) = 0"
+    },
+    {
+      "assumption": "The complex frequency s is not a root of the characteristic polynomial, p_L(s) != 0",
+      "breaks_when": "s coincides with a system pole, causing the denominator to vanish"
+    },
+    {
+      "assumption": "For steady-state sinusoidal response evaluations H(j\\omega), the system is strictly stable and operating in steady state",
+      "breaks_when": "Transient responses do not decay (poles with non-negative real parts) or observation occurs during fleeting turn-on/turn-off transients"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "System instability and unbounded transient growth",
+      "signature": "Temporal output g(t) diverges to infinity as t -> \\infty",
+      "cause": "One or more poles of the transfer function H(s) have positive real parts (\\sigma_P > 0)"
+    },
+    {
+      "mode": "Singularity at transfer function poles",
+      "signature": "H(s) is undefined / division by zero",
+      "cause": "Evaluation of H(s) at s = s_P where characteristic polynomial p_L(s) = 0"
+    },
+    {
+      "mode": "Steady-state sinusoidal formulation breakdown",
+      "signature": "Output does not follow |H(j\\omega)| \\sin(\\omega t + arg(H(j\\omega)))",
+      "cause": "Presence of non-decaying transient response components or lack of strict stability"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Transfer_function"
+  ],
+  "check": {
+    "node_id": "transfer_function",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so transfer_function is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

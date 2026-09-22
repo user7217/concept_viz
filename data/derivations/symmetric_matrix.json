@@ -1,0 +1,137 @@
+{
+  "node_id": "symmetric_matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A symmetric matrix is a square matrix that is equal to its transpose: $A = A^{\\mathsf{T}}$, or equivalently in terms of its entries, $a_{ij} = a_{ji}$ for all row indices $i$ and column indices $j$.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "symmetric matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "A^{\\mathsf{T}}",
+      "meaning": "transpose of matrix A",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "a_{ij}",
+      "meaning": "entry in the i-th row and j-th column of matrix A",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of rows and columns of the matrix",
+      "dimensions": "1 x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Entries across the main diagonal are equal: $a_{ij} = a_{ji}$ for all $1 \\leq i, j \\leq n$.",
+      "why": "Transposition swaps row and column indices while matrix equality requires corresponding entries to match.",
+      "cites": [
+        "wikipedia:Symmetric_matrix"
+      ]
+    },
+    {
+      "property": "An $n \\times n$ symmetric matrix is determined by $\\frac{1}{2}n(n+1)$ scalars.",
+      "why": "Only the entries on or above the main diagonal can be chosen independently.",
+      "cites": [
+        "wikipedia:Symmetric_matrix"
+      ]
+    },
+    {
+      "property": "The sum and difference of two symmetric matrices are symmetric.",
+      "why": "Transposition distributes linearly over matrix addition and subtraction.",
+      "cites": [
+        "wikipedia:Symmetric_matrix"
+      ]
+    },
+    {
+      "property": "The product $AB$ of symmetric matrices $A$ and $B$ is symmetric if and only if $A$ and $B$ commute ($AB = BA$).",
+      "why": "Taking the transpose yields $(AB)^{\\mathsf{T}} = B^{\\mathsf{T}}A^{\\mathsf{T}} = BA$, which equals $AB$ precisely when $AB = BA$.",
+      "cites": [
+        "wikipedia:Symmetric_matrix"
+      ]
+    },
+    {
+      "property": "If $A$ is symmetric, then $A^k$ is symmetric for any integer $k \\geq 0$, and $A^{-1}$ (if it exists) is symmetric.",
+      "why": "Transposition commutes with integer powers and matrix inversion.",
+      "cites": [
+        "wikipedia:Symmetric_matrix"
+      ]
+    },
+    {
+      "property": "Any matrix congruent to a symmetric matrix is symmetric ($PAP^{\\mathsf{T}}$ is symmetric for any matrix $P$).",
+      "why": "$(PAP^{\\mathsf{T}})^{\\mathsf{T}} = (P^{\\mathsf{T}})^{\\mathsf{T}}A^{\\mathsf{T}}P^{\\mathsf{T}} = PAP^{\\mathsf{T}}$.",
+      "cites": [
+        "wikipedia:Symmetric_matrix"
+      ]
+    },
+    {
+      "property": "A real $n \\times n$ matrix $A$ is symmetric if and only if $\\langle Ax, y \\rangle = \\langle x, Ay \\rangle$ for all $x, y \\in \\mathbb{R}^n$ with respect to the standard inner product.",
+      "why": "A real symmetric matrix represents a self-adjoint operator over a real inner product space.",
+      "cites": [
+        "wikipedia:Symmetric_matrix"
+      ]
+    },
+    {
+      "property": "Every real symmetric matrix can be diagonalized by an orthogonal matrix $Q$ such that $D = Q^{\\mathsf{T}}AQ$ is diagonal, and all of its eigenvalues are real.",
+      "why": "Every real symmetric matrix is Hermitian and normal, satisfying the finite-dimensional spectral theorem.",
+      "cites": [
+        "wikipedia:Symmetric_matrix"
+      ]
+    },
+    {
+      "property": "The rank of a symmetric matrix $A$ is equal to the number of non-zero eigenvalues of $A$.",
+      "why": "Symmetric matrices are diagonalizable up to choice of basis.",
+      "cites": [
+        "wikipedia:Symmetric_matrix"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The matrix $A$ is square ($n \\times n$).",
+      "breaks_when": "The matrix has unequal dimensions ($m \\times n$ with $m \\neq n$), because equal matrices must have identical dimensions."
+    },
+    {
+      "assumption": "The underlying scalar field has characteristic different from 2 (for Toeplitz decomposition into symmetric and skew-symmetric parts).",
+      "breaks_when": "The field has characteristic 2, where $1 = -1$ and division by 2 is undefined."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Loss of symmetry under matrix multiplication",
+      "signature": "Product matrix satisfies $AB \\neq (AB)^{\\mathsf{T}}$ despite $A = A^{\\mathsf{T}}$ and $B = B^{\\mathsf{T}}$.",
+      "cause": "The symmetric matrices $A$ and $B$ do not commute ($AB \\neq BA$)."
+    },
+    {
+      "mode": "Defectiveness under similarity for complex symmetric matrices",
+      "signature": "Jordan normal form contains non-trivial Jordan blocks, preventing diagonalization via similarity transformation.",
+      "cause": "A general complex symmetric matrix is not necessarily Hermitian and may lack a complete basis of eigenvectors."
+    },
+    {
+      "mode": "Dimension mismatch upon transposition",
+      "signature": "Dimension error when testing $A = A^{\\mathsf{T}}$.",
+      "cause": "Evaluating symmetry on a rectangular (non-square) matrix."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Symmetric_matrix"
+  ],
+  "check": {
+    "node_id": "symmetric_matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

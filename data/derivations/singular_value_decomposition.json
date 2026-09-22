@@ -1,0 +1,134 @@
+{
+  "node_id": "singular_value_decomposition",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The singular value decomposition (SVD) of an $m \\times n$ complex matrix $\\mathbf{M}$ is a factorization $\\mathbf{M} = \\mathbf{U} \\mathbf{\\Sigma} \\mathbf{V}^*$, where $\\mathbf{U}$ is an $m \\times m$ unitary matrix, $\\mathbf{\\Sigma}$ is an $m \\times n$ rectangular diagonal matrix with non-negative real singular values on the diagonal, and $\\mathbf{V}$ is an $n \\times n$ unitary matrix (with $\\mathbf{V}^*$ denoting its conjugate transpose).",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{M}",
+      "meaning": "matrix to be decomposed",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "\\mathbf{U}",
+      "meaning": "left singular vector matrix",
+      "dimensions": "m x m"
+    },
+    {
+      "symbol": "\\mathbf{\\Sigma}",
+      "meaning": "rectangular diagonal matrix containing singular values",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "\\mathbf{V}",
+      "meaning": "right singular vector matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\mathbf{V}^*",
+      "meaning": "conjugate transpose of V",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "m",
+      "meaning": "row dimension of M",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "n",
+      "meaning": "column dimension of M",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\ell",
+      "meaning": "number of non-zero eigenvalues of M^* M",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\mathbf{D}",
+      "meaning": "diagonal positive definite matrix containing non-zero eigenvalues of M^* M",
+      "dimensions": "\\ell x \\ell"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The singular value decomposition factorizes $\\mathbf{M}$ into a rotation, followed by a scaling, followed by another rotation, generalizing eigendecomposition to non-square matrices.",
+      "why": "Unitary matrices act as rotations/reflections and $\\mathbf{\\Sigma}$ scales along coordinate axes",
+      "cites": [
+        "wikipedia:Singular_value_decomposition"
+      ]
+    },
+    {
+      "property": "The right-singular vectors in $\\mathbf{V}$ are eigenvectors of $\\mathbf{M}^* \\mathbf{M}$, satisfying $\\mathbf{V}^* \\mathbf{M}^* \\mathbf{M} \\mathbf{V} = \\begin{bmatrix} \\mathbf{D} & 0 \\\\ 0 & 0 \\end{bmatrix}$.",
+      "why": "$\\mathbf{M}^* \\mathbf{M}$ is Hermitian and positive semi-definite and thus unitarily diagonalizable by the spectral theorem",
+      "cites": [
+        "wikipedia:Singular_value_decomposition"
+      ]
+    },
+    {
+      "property": "The non-zero singular values of $\\mathbf{M}$ are the square roots of the non-zero eigenvalues of $\\mathbf{M}^* \\mathbf{M}$.",
+      "why": "The diagonal block of non-zero singular values in $\\mathbf{\\Sigma}$ is $\\mathbf{D}^{\\frac{1}{2}}$",
+      "cites": [
+        "wikipedia:Singular_value_decomposition"
+      ]
+    },
+    {
+      "property": "The left-singular vectors corresponding to non-zero singular values satisfy $\\mathbf{U}_1 = \\mathbf{M} \\mathbf{V}_1 \\mathbf{D}^{-\\frac{1}{2}}$ and form an orthonormal set ($\\mathbf{U}_1^* \\mathbf{U}_1 = \\mathbf{I}_1$).",
+      "why": "$\\mathbf{U}_1^* \\mathbf{U}_1 = \\mathbf{D}^{-\\frac{1}{2}} \\mathbf{V}_1^* \\mathbf{M}^* \\mathbf{M} \\mathbf{V}_1 \\mathbf{D}^{-\\frac{1}{2}} = \\mathbf{D}^{-\\frac{1}{2}} \\mathbf{D} \\mathbf{D}^{-\\frac{1}{2}} = \\mathbf{I}_1$",
+      "cites": [
+        "wikipedia:Singular_value_decomposition"
+      ]
+    },
+    {
+      "property": "Vectors $\\mathbf{V}_2$ corresponding to zero eigenvalues of $\\mathbf{M}^* \\mathbf{M}$ lie in the null space of $\\mathbf{M}$, satisfying $\\mathbf{M} \\mathbf{V}_2 = \\mathbf{0}$.",
+      "why": "$\\mathbf{V}_2^* \\mathbf{M}^* \\mathbf{M} \\mathbf{V}_2 = \\mathbf{0}$ implies $\\mathbf{M} \\mathbf{V}_2 = \\mathbf{0}$",
+      "cites": [
+        "wikipedia:Singular_value_decomposition"
+      ]
+    },
+    {
+      "property": "The number of non-zero singular values $\\ell$ satisfies $\\ell \\le \\min(n, m)$.",
+      "why": "$\\ell$ is the dimension of the positive definite diagonal block $\\mathbf{D}$ of eigenvalues of $\\mathbf{M}^* \\mathbf{M}$",
+      "cites": [
+        "wikipedia:Singular_value_decomposition"
+      ]
+    },
+    {
+      "property": "Singular values can be variationally characterized as maxima of $\\sigma(\\mathbf{u}, \\mathbf{v}) = \\mathbf{u}^\\mathsf{T} \\mathbf{M} \\mathbf{v}$ over unit spheres $S^{m-1} \\times S^{n-1}$, and are non-negative.",
+      "why": "Continuous functions attain maxima on compact sets, and flipping vector signs would make any negative value positive and strictly larger",
+      "cites": [
+        "wikipedia:Singular_value_decomposition"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "$\\mathbf{M}$ is a finite-dimensional $m \\times n$ matrix with real or complex entries.",
+      "breaks_when": "The operator is infinite-dimensional or entries are not over the real or complex field."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Rank deficiency / zero singular values",
+      "signature": "Diagonal entries of $\\mathbf{\\Sigma}$ become zero for indices $j > \\ell$, with $\\ell < \\min(n, m)$.",
+      "cause": "$\\mathbf{M}^* \\mathbf{M}$ has non-trivial null space, producing zero eigenvalues and corresponding right singular vectors $\\mathbf{V}_2$ such that $\\mathbf{M} \\mathbf{V}_2 = \\mathbf{0}$."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Singular_value_decomposition"
+  ],
+  "check": {
+    "node_id": "singular_value_decomposition",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

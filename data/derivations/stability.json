@@ -1,0 +1,134 @@
+{
+  "node_id": "stability",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "A discrete-time linear time-invariant (LTI) system with impulse response h[n] is bounded-input, bounded-output (BIBO) stable if its impulse response is absolutely summable (\\|h\\|_1 = \\sum_{n=-\\infty}^{\\infty} |h[n]| \\in \\mathbb{R}$), in which case every bounded input x[n] with $\\|x\\|_\\infty < \\infty$ produces a bounded output y[n] satisfying $|y[n]| \\leq \\|x\\|_\\infty \\|h\\|_1 < \\infty$.",
+  "symbols": [
+    {
+      "symbol": "x[n]",
+      "meaning": "discrete-time input signal",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "y[n]",
+      "meaning": "discrete-time output signal",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "h[n]",
+      "meaning": "impulse response of the discrete-time LTI system",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\|x\\|_\\infty",
+      "meaning": "L-infinity norm (maximum absolute value) of the input signal",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\|h\\|_1",
+      "meaning": "L-1 norm (absolute sum) of the impulse response",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "k",
+      "meaning": "discrete convolution summation index",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "n",
+      "meaning": "discrete time index",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "*",
+      "meaning": "convolution operator",
+      "dimensions": "dimensionless"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "For a discrete-time LTI system with impulse response $h[n]$ and input $x[n]$, express the output $y[n]$ via the definition of convolution: $y[n] = h[n] * x[n] = \\sum_{k=-\\infty}^{\\infty} h[n-k] x[k]$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:BIBO_stability"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Take the absolute value of the output and apply the triangle inequality to the summation: $|y[n]| = \\left|\\sum_{k=-\\infty}^{\\infty} h[n-k] x[k]\\right| \\leq \\sum_{k=-\\infty}^{\\infty} |h[n-k]| |x[k]|$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:BIBO_stability"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Bound $|x[k]|$ by its supremum norm $\\|x\\|_\\infty = \\sup_n |x[n]|$ and factor it out of the summation: $\\sum_{k=-\\infty}^{\\infty} |h[n-k]| |x[k]| \\leq \\sum_{k=-\\infty}^{\\infty} |h[n-k]| \\|x\\|_\\infty = \\|x\\|_\\infty \\sum_{k=-\\infty}^{\\infty} |h[n-k]| = \\|x\\|_\\infty \\sum_{k=-\\infty}^{\\infty} |h[k]|$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:BIBO_stability"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Apply the condition that $h[n]$ is absolutely summable, so $\\sum_{k=-\\infty}^{\\infty} |h[k]| = \\|h\\|_1 \\in \\mathbb{R}$, yielding $|y[n]| \\leq \\|x\\|_\\infty \\sum_{k=-\\infty}^{\\infty} |h[k]| = \\|x\\|_\\infty \\|h\\|_1$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:BIBO_stability"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Conclude that if $h[n]$ is absolutely summable ($\\|h\\|_1 \\in \\mathbb{R}$) and the input is bounded ($|x[n]|$ is bounded, so $\\|x\\|_\\infty \\in \\mathbb{R}$), then the output is bounded ($|y[n]| \\leq \\|x\\|_\\infty \\|h\\|_1 \\in \\mathbb{R}$), establishing BIBO stability.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:BIBO_stability"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The system is a discrete-time linear time-invariant (LTI) system.",
+      "breaks_when": "The system is nonlinear or time-varying, so the relationship between input and output cannot be expressed as convolution with an impulse response."
+    },
+    {
+      "assumption": "The impulse response h[n] is absolutely summable: $\\sum_{n=-\\infty}^{\\infty} |h[n]| = \\|h\\|_1 \\in \\mathbb{R}$.",
+      "breaks_when": "The sum of absolute values of the impulse response diverges ($\\|h\\|_1 = \\infty$)."
+    },
+    {
+      "assumption": "The input signal x[n] is bounded: $\\|x\\|_\\infty < \\infty$.",
+      "breaks_when": "The input signal is unbounded ($\\|x\\|_\\infty = \\infty$)."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "BIBO instability / unbounded output",
+      "signature": "The output y[n] diverges or grows without bound despite a bounded input x[n].",
+      "cause": "The impulse response h[n] is not absolutely summable (\\|h\\|_1 \\notin \\mathbb{R})."
+    },
+    {
+      "mode": "Unbounded input leading to unbounded output",
+      "signature": "Output magnitude |y[n]| is not guaranteed to remain finite.",
+      "cause": "The input signal x[n] is unbounded (\\|x\\|_\\infty \\notin \\mathbb{R})."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Stability_theory",
+    "wikipedia:BIBO_stability"
+  ],
+  "check": {
+    "node_id": "stability",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": true,
+    "ok": false
+  }
+}
