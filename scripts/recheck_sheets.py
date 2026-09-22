@@ -5,8 +5,18 @@ local. Regenerating a sheet because a guard was tightened (or, as happened with
 transpose_identities, because a guard was wrong) wastes a call on work that was
 already correct.
 
-Citation checking compares ids, so the stored source ids stand in for the
-retrieved documents without fetching them again.
+Citation checking compares ids, so the stored ids would be enough on their own
+-- but check() also asks source_derives() whether any retrieved article carries
+a proof or derivation heading, and that reads the text. Standing in for it with
+placeholder text answered "no source derives this" for every sheet on disk,
+which is the branch that turns a kind mismatch into a canon note instead of a
+failure. Every "expected a derivation, produced a definition" would have
+flipped to ok against text that was literally "xxxx...".
+
+So the sources are retrieved for real. It costs a fetch per sheet and no model
+call. A sheet whose sources cannot be fetched is left alone rather than
+rechecked against nothing -- a transport failure is not evidence about an
+article.
 """
 
 import json
@@ -17,12 +27,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from atlas.bootstrap import build_graph, load
 from atlas.derivation import Derivation, Step, check
-from atlas.retrieval import Source
+from atlas.retrieval import RetrievalError, retrieve_node
 
 ROOT = Path(__file__).resolve().parent.parent
 SHEETS = ROOT / "data" / "derivations"
 graph = build_graph(load())
-changed = still_failing = 0
+changed = still_failing = skipped = 0
 
 for path in sorted(SHEETS.glob("*.json")):
     sheet = json.loads(path.read_text())
@@ -41,8 +51,15 @@ for path in sorted(SHEETS.glob("*.json")):
         properties=sheet.get("properties", []),
         source_ids=sheet.get("source_ids", []),
     )
-    sources = [Source(sid, sid, "", "encyclopedia", "x" * 2000)
-               for sid in derivation.source_ids]
+    node = graph.nodes.get(derivation.node_id)
+    try:
+        sources = retrieve_node(node.id, node.name) if node else []
+    except RetrievalError:
+        sources = []
+    if not sources:
+        skipped += 1
+        print(f"  {derivation.node_id:<34} skipped: no source to check against")
+        continue
 
     fresh = check(derivation, sources, graph)
     was = sheet.get("check", {}).get("ok")
@@ -62,4 +79,4 @@ for path in sorted(SHEETS.glob("*.json")):
             reasons.append("not grounded")
         print(f"  {derivation.node_id:<34} FAILS: {', '.join(reasons)}")
 
-print(f"\nrewrote {changed}; {still_failing} still failing")
+print(f"\nrewrote {changed}; {still_failing} still failing; {skipped} skipped")
