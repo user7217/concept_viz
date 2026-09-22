@@ -1,0 +1,30 @@
+{
+  "node_id": "multivariate_chain_rule",
+  "grounded": false,
+  "kind": "derivation",
+  "statement": "The supplied source does not contain the multivariate chain rule or its derivation. The provided text from [wikipedia:Chain_rule] only covers single-variable calculus (univariate compositions, quotient rule, inverse functions, higher derivatives via Fa\u00e0 di Bruno's formula, and a brief mention of backpropagation) and does not present the chain rule for functions of several variables, vectors, or Jacobian matrices.",
+  "symbols": [],
+  "steps": [],
+  "properties": [],
+  "assumptions": [],
+  "failure_modes": [],
+  "source_ids": [
+    "wikipedia:Chain_rule"
+  ],
+  "check": {
+    "node_id": "multivariate_chain_rule",
+    "kind": "derivation",
+    "grounded": false,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [
+      "derivation carries no steps",
+      "sheet names no symbols, so it is probably not about this node's mathematics at all"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

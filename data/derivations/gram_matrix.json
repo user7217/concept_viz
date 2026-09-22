@@ -1,0 +1,92 @@
+{
+  "node_id": "gram_matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Given a set of vectors $v_1, \\dots, v_n$ in an inner product space, the Gram matrix (or Gramian matrix) $G$ is the $n \\times n$ matrix whose entries are given by the inner products $G_{ij} = \\langle v_i, v_j \\rangle$. When the vectors are the columns of a matrix $X$, the Gram matrix is $G = X^{\\dagger}X$ in the general complex case, which simplifies to $G = X^{\\top}X$ when vector coordinates are real numbers.",
+  "symbols": [
+    {
+      "symbol": "G",
+      "meaning": "Gram matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "v_i",
+      "meaning": "i-th vector in the set",
+      "dimensions": "m x 1 (or element of inner product space)"
+    },
+    {
+      "symbol": "X",
+      "meaning": "matrix whose columns are the vectors v_1, ..., v_n",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "G_{ij}",
+      "meaning": "(i, j)-th entry of the Gram matrix",
+      "dimensions": "1 x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The Gram matrix is Hermitian in the complex case (G = G^\u2020) and symmetric in the real case (G = G^\u22a4).",
+      "why": "Follows directly from the conjugate symmetry of the inner product, G_ji = \u27e8v_j, v_i\u27e9 = \u27e8v_i, v_j\u27e9* = G_ij*",
+      "cites": [
+        "wikipedia:Gram_matrix"
+      ]
+    },
+    {
+      "property": "The Gram matrix is positive semidefinite, and is positive definite if and only if the vectors v_1, ..., v_n are linearly independent.",
+      "why": "For any coordinate vector x, x^\u2020 G x = \u2016\u2211_i x_i v_i\u2016^2 \u2265 0, which is strictly positive for x \u2260 0 iff the vectors are linearly independent",
+      "cites": [
+        "wikipedia:Gram_matrix"
+      ]
+    },
+    {
+      "property": "A set of vectors is linearly independent if and only if the Gram determinant det(G) is non-zero.",
+      "why": "The Gram determinant corresponds to the square of the n-dimensional volume of the parallelotope spanned by the vectors, which vanishes iff they are dependent",
+      "cites": [
+        "wikipedia:Gram_matrix"
+      ]
+    },
+    {
+      "property": "The rank of the Gram matrix equals the dimension of the subspace spanned by the vectors.",
+      "why": "Linear dependencies among the vectors correspond to the null space of G",
+      "cites": [
+        "wikipedia:Gram_matrix"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The vectors v_1, ..., v_n belong to a vector space equipped with an inner product (or bilinear form).",
+      "breaks_when": "No inner product or bilinear pairing is defined on the underlying vector space."
+    },
+    {
+      "assumption": "For function spaces, the functions are square-integrable on the interval [t_0, t_f].",
+      "breaks_when": "The functions are not square-integrable, causing the inner product integral to diverge."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular (non-invertible) Gram matrix",
+      "signature": "det(G) = 0 and rank(G) < n",
+      "cause": "The vectors v_1, ..., v_n are linearly dependent (such as when n > m for vectors in R^m or C^m)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Gram_matrix"
+  ],
+  "check": {
+    "node_id": "gram_matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

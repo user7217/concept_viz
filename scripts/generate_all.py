@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from atlas.bootstrap import build_graph, load
 from atlas.derivation import candidate_vocabulary, check, generate
 from atlas.llm import (AuthFailure, Dropped, LLMError, QuotaExhausted,
-                       get_rotating_provider)
+                       get_provider, get_rotating_provider)
 from atlas.retrieval import RetrievalError, ground_from_consumers, retrieve_node
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -28,12 +28,20 @@ DELAY = float(sys.argv[1]) if len(sys.argv) > 1 else 4.0
 
 graph = build_graph(load())
 grounding = {r["id"]: r for r in json.loads((ROOT / "data" / "grounding.json").read_text())["rows"]}
-targets = [nid for nid, row in grounding.items() if row["state"] == "grounded"]
+# "error" is a transport failure during the grounding sweep, not a verdict that
+# no article exists. Retrying costs one retrieval; treating it as absent costs
+# the node permanently.
+targets = [nid for nid, row in grounding.items()
+           if row["state"] in ("grounded", "error") and nid in graph.nodes]
 targets.sort()
 
-provider = get_rotating_provider()
-print(f"{len(targets)} groundable nodes | rotation "
-      f"{[p.model for p in provider.providers]} | {DELAY}s between calls\n", flush=True)
+provider = get_provider()
+if provider.name == "gemini":
+    provider = get_rotating_provider()
+label = (str([p.model for p in provider.providers])
+         if hasattr(provider, "providers") else provider.name)
+print(f"{len(targets)} candidate nodes | {label} | {DELAY}s between calls\n",
+      flush=True)
 
 done = grounded = refused = failed = 0
 for index, node_id in enumerate(targets, 1):

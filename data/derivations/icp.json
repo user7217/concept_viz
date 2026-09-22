@@ -1,0 +1,115 @@
+{
+  "node_id": "icp",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Iterative Closest Point (ICP) is a point cloud registration algorithm that iteratively estimates a rigid transformation (combination of rotation and translation) to align a source point cloud to a fixed reference point cloud by minimizing an error metric, typically the root mean square or sum of squared differences of distances between coordinates of matched point pairs. The supplied source contains no mathematical derivation (such as derivations via Lagrange multipliers, matrix calculus gradients, trace identities, or singular value decomposition).",
+  "symbols": [
+    {
+      "symbol": "P_src",
+      "meaning": "source point cloud (vertices transformed to match the reference)",
+      "dimensions": "set of points in R^2 or R^3"
+    },
+    {
+      "symbol": "P_ref",
+      "meaning": "reference or target point cloud (kept fixed)",
+      "dimensions": "set of points in R^2 or R^3"
+    },
+    {
+      "symbol": "R",
+      "meaning": "rotation transformation component",
+      "dimensions": "2 x 2 or 3 x 3 orthogonal matrix"
+    },
+    {
+      "symbol": "t",
+      "meaning": "translation transformation component",
+      "dimensions": "2 x 1 or 3 x 1 vector"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Iterative rigid alignment",
+      "why": "The algorithm keeps the reference point cloud fixed while iteratively estimating rotation and translation to transform the source point cloud",
+      "cites": [
+        "wikipedia:Iterative_closest_point"
+      ]
+    },
+    {
+      "property": "Distance metric minimization",
+      "why": "The transformation is estimated using a root mean square point-to-point distance metric minimization technique (typically sum of squared differences between coordinates of matched pairs)",
+      "cites": [
+        "wikipedia:Iterative_closest_point"
+      ]
+    },
+    {
+      "property": "Alternating correspondence and transformation refinement",
+      "why": "The algorithm proceeds cyclically: associate each source point with its closest reference point, compute optimal alignment, apply the transformation, and re-associate points until stopping criteria are satisfied",
+      "cites": [
+        "wikipedia:Iterative_closest_point"
+      ]
+    },
+    {
+      "property": "Superiority of point-to-plane variant in structured environments",
+      "why": "While point-to-point and point-to-plane are the most popular variants, point-to-plane typically performs better in structured environments",
+      "cites": [
+        "wikipedia:Iterative_closest_point"
+      ]
+    },
+    {
+      "property": "Non-rigid extension capability",
+      "why": "Non-rigid ICP extends the method to deformable objects by incorporating additional constraints and regularization terms to model local deformations while preserving surface coherence",
+      "cites": [
+        "wikipedia:Iterative_closest_point"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Availability of an adequate initial transformation estimation",
+      "breaks_when": "The initial displacement between source and reference point clouds is too large, causing closest-point associations to be incorrect and trapping the algorithm in false local minima"
+    },
+    {
+      "assumption": "Rigidity of the underlying surface transformation",
+      "breaks_when": "The scanned objects undergo non-rigid deformation, unless non-rigid regularization constraints are explicitly added"
+    },
+    {
+      "assumption": "Point correspondences are reliably approximated by spatial proximity",
+      "breaks_when": "The clouds exhibit heavy occlusions, appearance/disappearance of features, or high outlier rates without robust statistical filtering"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Outlier and occlusion degradation",
+      "signature": "Biased registration and convergence to misaligned surfaces",
+      "cause": "Spurious points from sensor noise or occluded geometry lack true correspondences in the target cloud, skewing the distance metric minimization"
+    },
+    {
+      "mode": "Local minima entrapment from poor initialization",
+      "signature": "Algorithm terminates with high residual error or visibly incorrect alignment",
+      "cause": "Iterative closest-point matching relies on an initial estimation; without a sufficiently close starting guess, initial pairings are incorrect"
+    },
+    {
+      "mode": "Deformation mismatch under rigid assumption",
+      "signature": "Inability to register surface details without distortion",
+      "cause": "Standard ICP restricts transformations strictly to rotation and translation, failing to capture non-rigid shape variations"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Iterative_closest_point"
+  ],
+  "check": {
+    "node_id": "icp",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so icp is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

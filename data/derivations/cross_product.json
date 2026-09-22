@@ -1,0 +1,124 @@
+{
+  "node_id": "cross_product",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The cross product $\\mathbf{a} \\times \\mathbf{b}$ is a binary operation on two vectors in a three-dimensional oriented Euclidean vector space, computed in coordinates as $\\mathbf{a} \\times \\mathbf{b} = \\det \\begin{bmatrix} \\hat{\\mathbf{i}} & \\hat{\\mathbf{j}} & \\hat{\\mathbf{k}} \\\\ a_1 & a_2 & a_3 \\\\ b_1 & b_2 & b_3 \\end{bmatrix} = [\\mathbf{a}]_{\\times} \\mathbf{b} = \\begin{bmatrix} 0 & -a_3 & a_2 \\\\ a_3 & 0 & -a_1 \\\\ -a_2 & a_1 & 0 \\end{bmatrix} \\begin{bmatrix} b_1 \\\\ b_2 \\\\ b_3 \\end{bmatrix}$.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{a}",
+      "meaning": "First vector operand with components (a_1, a_2, a_3)",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "\\mathbf{b}",
+      "meaning": "Second vector operand with components (b_1, b_2, b_3)",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "\\mathbf{a} \\times \\mathbf{b}",
+      "meaning": "Cross product (vector product) of vectors a and b",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "[\\mathbf{a}]_{\\times}",
+      "meaning": "Skew-symmetric matrix representation of vector a",
+      "dimensions": "3 x 3"
+    },
+    {
+      "symbol": "\\hat{\\mathbf{i}}, \\hat{\\mathbf{j}}, \\hat{\\mathbf{k}}",
+      "meaning": "Standard basis unit vectors",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "\\theta",
+      "meaning": "Angle between vectors a and b",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "\\|\\mathbf{a} \\times \\mathbf{b}\\| = \\|\\mathbf{a}\\| \\|\\mathbf{b}\\| |\\sin \\theta|",
+      "why": "Magnitude equals the area of the parallelogram spanned by the two vectors",
+      "cites": [
+        "wikipedia:Cross_product"
+      ]
+    },
+    {
+      "property": "\\mathbf{a} \\times \\mathbf{b} = [\\mathbf{a}]_{\\times} \\mathbf{b} = [\\mathbf{b}]_{\\times}^{\\mathrm{T}} \\mathbf{a}",
+      "why": "Conversion of the cross product to multiplication by a skew-symmetric matrix",
+      "cites": [
+        "wikipedia:Cross_product"
+      ]
+    },
+    {
+      "property": "\\mathbf{a} \\times \\mathbf{b} \\in NS\\left(\\begin{bmatrix} \\mathbf{a} \\\\ \\mathbf{b} \\end{bmatrix}\\right)",
+      "why": "The cross product vector is orthogonal to both vectors a and b",
+      "cites": [
+        "wikipedia:Cross_product"
+      ]
+    },
+    {
+      "property": "\\|\\mathbf{a} \\times \\mathbf{b}\\|^2 = \\|\\mathbf{a}\\|^2 \\|\\mathbf{b}\\|^2 - (\\mathbf{a} \\cdot \\mathbf{b})^2",
+      "why": "Relation to the Gram determinant and Lagrange's identity",
+      "cites": [
+        "wikipedia:Cross_product"
+      ]
+    },
+    {
+      "property": "\\mathbf{a} \\times (\\mathbf{b} \\times \\mathbf{c}) = \\mathbf{b}(\\mathbf{a} \\cdot \\mathbf{c}) - \\mathbf{c}(\\mathbf{a} \\cdot \\mathbf{b})",
+      "why": "Vector triple product expansion formula (BAC minus CAB)",
+      "cites": [
+        "wikipedia:Cross_product"
+      ]
+    },
+    {
+      "property": "(M\\mathbf{a}) \\times (M\\mathbf{b}) = (\\det M)(M^{-1})^{\\mathrm{T}} (\\mathbf{a} \\times \\mathbf{b}) = \\operatorname{cof} M (\\mathbf{a} \\times \\mathbf{b})",
+      "why": "Transformation law of the cross product under a 3x3 matrix M",
+      "cites": [
+        "wikipedia:Cross_product"
+      ]
+    },
+    {
+      "property": "\\frac{d}{dt}(\\mathbf{a} \\times \\mathbf{b}) = \\frac{d\\mathbf{a}}{dt} \\times \\mathbf{b} + \\mathbf{a} \\times \\frac{d\\mathbf{b}}{dt}",
+      "why": "Application of the product rule of differential calculus to bilinear operations",
+      "cites": [
+        "wikipedia:Cross_product"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Vectors lie in a three-dimensional oriented Euclidean vector space",
+      "breaks_when": "The dimension of the vector space is not 3, or the space lacks orientation or Euclidean metric"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Inverting cross product equation a x b = c",
+      "signature": "No solution for b exists",
+      "cause": "Vector a is not orthogonal to vector c (a . c != 0) or a = 0"
+    },
+    {
+      "mode": "Matrix transformation identity with singular matrix",
+      "signature": "Expression (det M)(M^-1)^T (a x b) is undefined",
+      "cause": "Matrix M is singular (det M = 0), meaning M^-1 does not exist"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Cross_product"
+  ],
+  "check": {
+    "node_id": "cross_product",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

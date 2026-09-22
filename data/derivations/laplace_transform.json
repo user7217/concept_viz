@@ -1,0 +1,142 @@
+{
+  "node_id": "laplace_transform",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The Laplace transform is an integral transform that converts a function of a real variable (usually $t$) or a measure $\\mu$ on $[0, \\infty)$ into a function of a complex variable $s$, defined for a measure $\\mu$ on $[0, \\infty)$ by $\\mathcal{L}\\mu(s) = \\int_{0}^{\\infty} e^{-st} \\, d\\mu(t)$, or for a function $A(x)$ on $[0, \\infty)$ by $f(s) = \\int_{0}^{\\infty} A(x) e^{-xs} \\, dx$.",
+  "symbols": [
+    {
+      "symbol": "s",
+      "meaning": "complex transform variable / frequency parameter",
+      "dimensions": "scalar (complex, 1/time)"
+    },
+    {
+      "symbol": "t",
+      "meaning": "real variable / time parameter",
+      "dimensions": "scalar (real, time)"
+    },
+    {
+      "symbol": "\\mathcal{L}",
+      "meaning": "Laplace transform operator",
+      "dimensions": "dimensionless operator"
+    },
+    {
+      "symbol": "\\mu",
+      "meaning": "measure on $[0, \\infty)$",
+      "dimensions": "scalar measure"
+    },
+    {
+      "symbol": "\\mathcal{L}\\mu(s)",
+      "meaning": "Laplace transform of measure \\mu evaluated at s",
+      "dimensions": "scalar (complex)"
+    },
+    {
+      "symbol": "f(s)",
+      "meaning": "Laplace transform of function A(x) evaluated at s",
+      "dimensions": "scalar (complex)"
+    },
+    {
+      "symbol": "\\mathcal{L}^{-1}",
+      "meaning": "inverse Laplace transform operator",
+      "dimensions": "dimensionless operator"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Transform of derivative: for a differentiable function $v(t)$, $\\mathcal{L}\\left\\{\\frac{dv}{dt}\\right\\} = s V(s) - V_0$, where $V(s) = \\mathcal{L}\\{v(t)\\}$ and $V_0 = v(0)$.",
+      "why": "Converts differential equations in the time domain into algebraic equations in $s$ that incorporate initial conditions.",
+      "cites": [
+        "wikipedia:Laplace_transform"
+      ]
+    },
+    {
+      "property": "Linearity: the transform and its inverse are linear operations, satisfying $\\mathcal{L}^{-1}\\{c_1 F_1(s) + c_2 F_2(s)\\} = c_1 \\mathcal{L}^{-1}\\{F_1(s)\\} + c_2 \\mathcal{L}^{-1}\\{F_2(s)\\}$.",
+      "why": "Enables partial fraction expansions to be inverted term-by-term.",
+      "cites": [
+        "wikipedia:Laplace_transform"
+      ]
+    },
+    {
+      "property": "Exponential decay transform: $\\mathcal{L}^{-1}\\left\\{\\frac{1}{s + \\alpha}\\right\\} = e^{-\\alpha t}$.",
+      "why": "Provides the fundamental inverse transform mapping simple real poles to decaying exponentials.",
+      "cites": [
+        "wikipedia:Laplace_transform"
+      ]
+    },
+    {
+      "property": "Convolution theorem: the inverse transform of a product equals the convolution of the individual inverse transforms, $\\mathcal{L}^{-1}\\{F(s)G(s)\\} = \\mathcal{L}^{-1}\\{F(s)\\} * \\mathcal{L}^{-1}\\{G(s)\\} = \\int_{0}^{t} f(x) g(t - x) \\, dx$.",
+      "why": "Converts systems of convolution/integral equations into linear algebraic equations.",
+      "cites": [
+        "wikipedia:Laplace_transform"
+      ]
+    },
+    {
+      "property": "Trigonometric and phase-delay transforms: $\\mathcal{L}^{-1}\\left\\{\\frac{s}{s^2 + \\omega^2}\\right\\} = \\cos(\\omega t)$, $\\mathcal{L}^{-1}\\left\\{\\frac{\\omega}{s^2 + \\omega^2}\\right\\} = \\sin(\\omega t)$, and $\\mathcal{L}^{-1}\\left\\{\\frac{s\\cos\\varphi - \\omega\\sin\\varphi}{s^2 + \\omega^2}\\right\\} = \\cos(\\omega t + \\varphi)$.",
+      "why": "Maps second-order imaginary poles directly to harmonic oscillations with phase shifts.",
+      "cites": [
+        "wikipedia:Laplace_transform"
+      ]
+    },
+    {
+      "property": "Residue evaluation of inverse transform: by the residue theorem, the inverse Laplace transform of a rational transfer function $H(s)$ depends only upon its poles and residues, where $P = \\left.(s + \\alpha)H(s)\\right|_{s = -\\alpha}$.",
+      "why": "Allows computing time-domain responses directly from poles without performing contour integration.",
+      "cites": [
+        "wikipedia:Laplace_transform"
+      ]
+    },
+    {
+      "property": "Bromwich inversion formula: the inverse Laplace transform is given by the complex contour integral $g(E) = \\frac{1}{2\\pi i} \\int_{\\beta_0 - i\\infty}^{\\beta_0 + i\\infty} e^{\\beta E} Z(\\beta) \\, d\\beta$.",
+      "why": "Provides the general inversion integral over a vertical line in the complex plane.",
+      "cites": [
+        "wikipedia:Laplace_transform"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The function or measure is defined on $[0, \\infty)$ (causal/one-sided setting).",
+      "breaks_when": "The process or signal has non-trivial support on $(-\\infty, 0)$ and two-sided transforms are not considered."
+    },
+    {
+      "assumption": "The Laplace integral converges in a half-plane of the complex variable, such as $\\Re(s) > 1$ or $\\Re(s) > s_0$.",
+      "breaks_when": "The function grows faster than exponential rate as $t \\to \\infty$, causing the integral to diverge everywhere."
+    },
+    {
+      "assumption": "Initial conditions are specified at $t = 0$ (e.g., $V_0 = v(0)$) when solving differential equations.",
+      "breaks_when": "Initial conditions are unknown, undefined, or specified at non-zero reference times."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Coincident poles in simple partial fraction expansion",
+      "signature": "Division by zero ($\beta - \\alpha = 0$) in residue coefficients $P = \\frac{1}{\\beta - \\alpha}$ and $R = \\frac{1}{\\alpha - \\beta}$",
+      "cause": "Poles of the transfer function coincide ($\\alpha = \\beta$), violating the simple-pole assumption and requiring higher-order pole expansion."
+    },
+    {
+      "mode": "Non-zero initial state in complex impedance calculation",
+      "signature": "Impedance $Z(s)$ depends on initial voltage $V_0$, yielding an offset term $V_0 / s$",
+      "cause": "The definition $Z(s) = \\left.\\frac{V(s)}{I(s)}\\right|_{V_0 = 0}$ requires holding the initial state $V_0$ at zero; non-zero initial conditions invalidate the direct proportionality $V(s) = I(s)Z(s)$."
+    },
+    {
+      "mode": "Integral divergence outside region of convergence",
+      "signature": "Transform $f(s)$ undefined or unbounded",
+      "cause": "Evaluating the Laplace integral at values of $s$ where $\\Re(s)$ does not satisfy the convergence condition (e.g., $\\Re(s) \\le 1$ in Ikehara Tauberian formulation)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Laplace_transform"
+  ],
+  "check": {
+    "node_id": "laplace_transform",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

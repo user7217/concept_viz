@@ -1,0 +1,203 @@
+{
+  "node_id": "pid",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A proportional\u2013integral\u2013derivative (PID) controller is a feedback control loop mechanism that continuously calculates an error value $e(t) = \\mathrm{SP} - \\mathrm{PV}(t)$ as the difference between a desired setpoint (SP) and a measured process variable (PV), and outputs a control variable $u(t)$. In parallel form, the control law is defined as $u(t) = K_p e(t) + K_i \\int_{0}^{t} e(\\tau)\\,d\\tau + K_d \\frac{d}{dt}e(t) + u_0$, and in standard form as $u(t) = K_p \\left(e(t) + \\frac{1}{T_i} \\int_{0}^{t} e(\\tau)\\,d\\tau + T_d \\frac{d}{dt}e(t)\\right)$, where $K_i = K_p / T_i$ and $K_d = K_p T_d$. The supplied sources genuinely contain nothing to derive for the PID control law itself (nor any derivation using laplace_transform_of_derivative or partial_fractions), so it is presented as a definition.",
+  "symbols": [
+    {
+      "symbol": "u(t)",
+      "meaning": "controller output variable (manipulated variable, MV)",
+      "dimensions": "dimensionless fraction (0 to 100%) or actuator units"
+    },
+    {
+      "symbol": "e(t)",
+      "meaning": "error value between desired setpoint and process variable, SP - PV(t)",
+      "dimensions": "process variable units"
+    },
+    {
+      "symbol": "t",
+      "meaning": "continuous time parameter",
+      "dimensions": "time (s)"
+    },
+    {
+      "symbol": "\\tau",
+      "meaning": "dummy integration variable representing past time",
+      "dimensions": "time (s)"
+    },
+    {
+      "symbol": "K_p",
+      "meaning": "proportional gain",
+      "dimensions": "dimensionless, or output units / error units"
+    },
+    {
+      "symbol": "K_i",
+      "meaning": "integral gain",
+      "dimensions": "s^{-1}, or output units / (error units * s)"
+    },
+    {
+      "symbol": "K_d",
+      "meaning": "derivative gain",
+      "dimensions": "s, or output units * s / error units"
+    },
+    {
+      "symbol": "T_i",
+      "meaning": "integral time",
+      "dimensions": "time (s)"
+    },
+    {
+      "symbol": "T_d",
+      "meaning": "derivative time",
+      "dimensions": "time (s)"
+    },
+    {
+      "symbol": "u_0",
+      "meaning": "constant control output offset independent of time",
+      "dimensions": "output units"
+    },
+    {
+      "symbol": "G(s)",
+      "meaning": "transfer function of the PID controller in the Laplace domain",
+      "dimensions": "output units / error units"
+    },
+    {
+      "symbol": "s",
+      "meaning": "complex frequency variable of the Laplace transform",
+      "dimensions": "s^{-1}"
+    },
+    {
+      "symbol": "K_c",
+      "meaning": "controller gain in series/interacting form",
+      "dimensions": "output units / error units"
+    },
+    {
+      "symbol": "\\tau_i",
+      "meaning": "integral time parameter in series/interacting form",
+      "dimensions": "time (s)"
+    },
+    {
+      "symbol": "\\tau_d",
+      "meaning": "derivative time parameter in series/interacting form",
+      "dimensions": "time (s)"
+    },
+    {
+      "symbol": "\\alpha",
+      "meaning": "interaction parameter relating series and standard forms (1 + \\tau_d / \\tau_i)",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "\\Delta t",
+      "meaning": "discrete sampling period / loop interval time",
+      "dimensions": "time (s)"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Relationship between standard and parallel form parameters: $K_i = K_p / T_i$ and $K_d = K_p T_d$ (or equivalently $T_i = K_p / K_i$ and $T_d = K_d / K_p$).",
+      "why": "Factoring the common gain $K_p$ out of the parallel form yields the standard form where $T_i$ and $T_d$ have physical interpretations as integral and derivative times.",
+      "cites": [
+        "wikipedia:PID_controller"
+      ]
+    },
+    {
+      "property": "Laplace form transfer function: $G(s) = K_p + \\frac{K_i}{s} + K_d s = \\frac{K_d s^2 + K_p s + K_i}{s}$.",
+      "why": "Represents the proportional, integral ($1/s$), and derivative ($s$) actions on the error signal in the frequency domain.",
+      "cites": [
+        "wikipedia:PID_controller"
+      ]
+    },
+    {
+      "property": "Series (interacting) form representation: $G(s) = K_c \\left(\\frac{1}{\\tau_i s} + 1\\right)(\\tau_d s + 1)$ with $K_p = K_c \\alpha$, $T_i = \\tau_i \\alpha$, $T_d = \\tau_d / \\alpha$, and $\\alpha = 1 + \\frac{\\tau_d}{\\tau_i}$.",
+      "why": "Consists of a PI and PD controller in series, enabling tracking of an external bias value for multi-controller schemes.",
+      "cites": [
+        "wikipedia:PID_controller"
+      ]
+    },
+    {
+      "property": "Proportional band representation: proportional gain can be expressed in reciprocal form as the proportional band $100 / K_p$.",
+      "why": "Represents the range of the process variable over which the output changes from 0% to 100% before saturating.",
+      "cites": [
+        "wikipedia:PID_controller"
+      ]
+    },
+    {
+      "property": "Formulation basing derivative and proportional action on PV: $\\mathrm{MV}(t) = K_p \\left(-PV(t) + \\frac{1}{T_i} \\int_{0}^{t} e(\\tau)\\,d\\tau - T_d \\frac{d}{dt}PV(t)\\right)$.",
+      "why": "Eliminates unwanted output spikes and large instant changes caused by step changes in the setpoint.",
+      "cites": [
+        "wikipedia:PID_controller"
+      ]
+    },
+    {
+      "property": "Backward-difference discrete recurrence relation: $u(t_k) = u(t_{k-1}) + \\left(K_p + K_i \\Delta t + \\frac{K_d}{\\Delta t}\\right) e(t_k) + \\left(-K_p - \\frac{2K_d}{\\Delta t}\\right) e(t_{k-1}) + \\frac{K_d}{\\Delta t} e(t_{k-2})$.",
+      "why": "Obtained by differentiating the continuous PID equation with respect to time and replacing continuous derivatives with backward finite differences.",
+      "cites": [
+        "wikipedia:PID_controller"
+      ]
+    },
+    {
+      "property": "Z-transform discrete IIR form: $C(z) = \\frac{\\left(K_p + K_i \\Delta t + \\frac{K_d}{\\Delta t}\\right) + \\left(-K_p - \\frac{2K_d}{\\Delta t}\\right) z^{-1} + \\frac{K_d}{\\Delta t} z^{-2}}{1 - z^{-1}}$.",
+      "why": "Expresses the discrete backward-difference PID algorithm as an infinite impulse response digital filter in the Z-domain.",
+      "cites": [
+        "wikipedia:PID_controller"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The setpoint SP is constant or smooth when derivative action is based directly on error $e(t)$.",
+      "breaks_when": "The setpoint undergoes an abrupt step change, causing a large unwanted derivative spike (derivative kick) in the controller output."
+    },
+    {
+      "assumption": "The controller output operates within the linear, unsaturated range of the actuator (e.g., 0% to 100%).",
+      "breaks_when": "The process variable deviates outside the proportional band $100/K_p$, driving the output into full-off or full-on actuator saturation."
+    },
+    {
+      "assumption": "In discrete implementations, the loop interval time $\\Delta t$ is strictly constant and small relative to process dynamics.",
+      "breaks_when": "Algorithm execution time or system pre-emption delays loop execution beyond $\\Delta t$."
+    },
+    {
+      "assumption": "The actuator and process variable units are dimensionless fractions or are scaled by appropriate conversion factors in $K_p, K_i, K_d$.",
+      "breaks_when": "The actuator and measured values are in different physical units without unit conversion factors applied to the gains."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Derivative kick",
+      "signature": "A large, unwanted spike or impulse in the controller output $u(t)$ immediately upon a setpoint change.",
+      "cause": "Differentiating an error signal $e(t) = \\mathrm{SP} - \\mathrm{PV}$ that contains step discontinuities from changing the setpoint."
+    },
+    {
+      "mode": "Proportional bump",
+      "signature": "An instant, potentially very large step change in output $u(t)$ when the setpoint is altered.",
+      "cause": "Proportional action directly responding to a discontinuous jump in the error signal rather than being based on PV."
+    },
+    {
+      "mode": "Actuator saturation",
+      "signature": "Output clamps at 0% or 100% and ceases to respond linearly to changes in error.",
+      "cause": "The error moves outside the proportional band $100/K_p$ or persistent error integration drives the command to physical limits."
+    },
+    {
+      "mode": "Loop timing jitter / pre-emption delay",
+      "signature": "Erratic or degraded regulation and inaccurate numerical differentiation/integration.",
+      "cause": "Relying on a fixed wait(dt) that fails to account for algorithm execution duration or thread pre-emption delays."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:PID_controller"
+  ],
+  "check": {
+    "node_id": "pid",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so pid is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

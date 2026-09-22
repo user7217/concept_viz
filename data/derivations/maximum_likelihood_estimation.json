@@ -1,0 +1,164 @@
+{
+  "node_id": "maximum_likelihood_estimation",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For a statistical model with parameter vector \\theta \\in \\Theta \\subseteq \\mathbb{R}^k and observed independent and identically distributed data x = (x_1, \\dots, x_n), the maximum likelihood estimator \\widehat{\\theta} is the extremum estimator that maximizes the sample log-likelihood objective function \\widehat{\\ell}(\\theta; x) = \\sum_{i=1}^n \\ln f(x_i \\mid \\theta), obtained when differentiable by solving the first-order stationarity condition \\frac{\\partial \\ell}{\\partial \\theta} = 0 (or restricted likelihood equations \\frac{\\partial \\ell}{\\partial \\theta} - \\frac{\\partial h(\\theta)^\\mathsf{T}}{\\partial \\theta}\\lambda = 0 subject to h(\\theta) = 0) such that the Hessian matrix \\mathbf{H}(\\widehat{\\theta}) is negative semi-definite.",
+  "symbols": [
+    {
+      "symbol": "\\theta",
+      "meaning": "parameter vector",
+      "dimensions": "k x 1"
+    },
+    {
+      "symbol": "\\widehat{\\theta}",
+      "meaning": "maximum likelihood estimate/estimator",
+      "dimensions": "k x 1"
+    },
+    {
+      "symbol": "\\Theta",
+      "meaning": "parameter space",
+      "dimensions": "subset of R^k"
+    },
+    {
+      "symbol": "x",
+      "meaning": "observed sample dataset",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "x_i",
+      "meaning": "i-th observed data observation",
+      "dimensions": "scalar or vector"
+    },
+    {
+      "symbol": "f(x_i \\mid \\theta)",
+      "meaning": "probability density function evaluated at x_i given parameter \\theta",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\widehat{\\ell}(\\theta; x)",
+      "meaning": "sample log-likelihood objective function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\ell(\\theta)",
+      "meaning": "expected log-likelihood function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbf{H}(\\widehat{\\theta})",
+      "meaning": "Hessian matrix of second-order partial derivatives of the log-likelihood at \\widehat{\\theta}",
+      "dimensions": "k x k"
+    },
+    {
+      "symbol": "h(\\theta)",
+      "meaning": "vector-valued constraint function defining restrictions on the parameter space",
+      "dimensions": "r x 1"
+    },
+    {
+      "symbol": "\\lambda",
+      "meaning": "column-vector of Lagrange multipliers",
+      "dimensions": "r x 1"
+    },
+    {
+      "symbol": "\\frac{\\partial h(\\theta)^\\mathsf{T}}{\\partial \\theta}",
+      "meaning": "Jacobian matrix of constraint partial derivatives",
+      "dimensions": "k x r"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "For independent and identically distributed data, specify the objective function to be maximized as the sample log-likelihood \\widehat{\\ell}(\\theta; x) = \\sum_{i=1}^n \\ln f(x_i \\mid \\theta), which is the sample analogue of the expected log-likelihood \\ell(\\theta) = \\mathbb{E}[\\ln f(x_i \\mid \\theta)].",
+      "invokes": [
+        "log_likelihood",
+        "summation",
+        "probability_density_function"
+      ],
+      "cites": [
+        "wikipedia:Maximum_likelihood_estimation"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Assuming the likelihood function is differentiable, apply the derivative test for finding maxima by taking partial derivatives with respect to the parameter vector \\theta and setting them to zero to obtain the first-order stationarity condition: \\frac{\\partial \\ell}{\\partial \\theta} = 0 (or, under constraint h(\\theta) = 0 using the method of Lagrange, \\frac{\\partial \\ell}{\\partial \\theta} - \\frac{\\partial h(\\theta)^\\mathsf{T}}{\\partial \\theta}\\lambda = 0 with \\lambda = 0 when constraints are not binding).",
+      "invokes": [
+        "stationary_point",
+        "partial_derivative"
+      ],
+      "cites": [
+        "wikipedia:Maximum_likelihood_estimation"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Solve the first-order conditions analytically for \\theta to determine the candidate maximum likelihood estimator \\widehat{\\theta} satisfying \\left. \\frac{\\partial \\ell}{\\partial \\theta} \\right|_{\\theta = \\widehat{\\theta}} = 0.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Maximum_likelihood_estimation"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Apply the second-order derivative test by evaluating the Hessian matrix of second partial derivatives \\mathbf{H}(\\widehat{\\theta}) = \\left[ \\left. \\frac{\\partial^2 \\ell}{\\partial \\theta_i \\partial \\theta_j} \\right|_{\\theta = \\widehat{\\theta}} \\right]_{i,j=1}^k and verifying that it is negative semi-definite at \\widehat{\\theta}, confirming local concavity and ensuring that the stationary point is a local maximum.",
+      "invokes": [
+        "matrix",
+        "partial_derivative"
+      ],
+      "cites": [
+        "wikipedia:Maximum_likelihood_estimation"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The likelihood function is differentiable with respect to the parameter vector \\theta across the interior of the parameter space.",
+      "breaks_when": "The distribution has support depending on the parameter or contains cusps/discontinuities where derivatives do not exist."
+    },
+    {
+      "assumption": "The log-likelihood function is locally concave around the estimate, such that the Hessian matrix \\mathbf{H}(\\widehat{\\theta}) is negative semi-definite.",
+      "breaks_when": "The Hessian matrix has positive eigenvalues or is indefinite, indicating a local minimum or saddle point."
+    },
+    {
+      "assumption": "The observations x_1, \\dots, x_n are independent and identically distributed draws from the model density f(x_i \\mid \\theta).",
+      "breaks_when": "Observations are dependent or have non-identical marginal distributions, invalidating the additive sum of marginal log-densities."
+    },
+    {
+      "assumption": "The first-order conditions \\frac{\\partial \\ell}{\\partial \\theta} = 0 can be solved analytically for \\theta.",
+      "breaks_when": "The score equations are highly non-linear or intractable, requiring numerical optimization methods."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Stationary point is not a maximum",
+      "signature": "The Hessian matrix \\mathbf{H}(\\widehat{\\theta}) fails to be negative semi-definite.",
+      "cause": "The objective function lacks local concavity at the stationary point, resulting in a saddle point or local minimum rather than a maximum."
+    },
+    {
+      "mode": "Unconstrained estimate violates parameter restrictions",
+      "signature": "The solved \\widehat{\\theta} lies outside \\Theta = \\{\\theta : h(\\theta) = 0\\} or violates domain properties (e.g., a covariance matrix failing to be positive-definite).",
+      "cause": "Constraints are binding at the maximum but the estimation neglected Lagrange multiplier terms or parameter substitution."
+    },
+    {
+      "mode": "Non-existence of analytical closed-form solution",
+      "signature": "First-order conditions yield transcendental or coupled equations with no closed-form algebraic rearrangement for \\widehat{\\theta}.",
+      "cause": "Non-linear dependency of the score function on parameters outside tractable distributional families."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Maximum_likelihood_estimation"
+  ],
+  "check": {
+    "node_id": "maximum_likelihood_estimation",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

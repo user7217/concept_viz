@@ -1,0 +1,180 @@
+{
+  "node_id": "lqr",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The linear\u2013quadratic regulator (LQR) is an optimal state-feedback controller for a linear dynamical system governed by linear differential equations (continuous-time) or linear difference equations (discrete-time) that minimizes a quadratic cost function. For continuous-time finite-horizon systems \\dot{\\mathbf{x}} = A\\mathbf{x} + B\\mathbf{u} with quadratic cost J = \\mathbf{x}^{\\mathsf{T}}(t_1)F(t_1)\\mathbf{x}(t_1) + \\int_{t_0}^{t_1} (\\mathbf{x}^{\\mathsf{T}}Q\\mathbf{x} + \\mathbf{u}^{\\mathsf{T}}R\\mathbf{u} + 2\\mathbf{x}^{\\mathsf{T}}N\\mathbf{u})\\,dt, the feedback control law is given by \\mathbf{u} = -K\\mathbf{x}, where K = R^{-1}(B^{\\mathsf{T}}P(t) + N^{\\mathsf{T}}), and P(t) satisfies the continuous-time Riccati differential equation A^{\\mathsf{T}}P(t) + P(t)A - [P(t)B + N]R^{-1}[B^{\\mathsf{T}}P(t) + N^{\\mathsf{T}}] + Q = -\\dot{P}(t) with boundary condition P(t_1) = F(t_1). The supplied source contains no derivation of these equations (e.g., via dynamic programming, completing the square, or solving the first-order conditions), but only provides the definitions, problem formulations, and resulting equations.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{x}",
+      "meaning": "state vector of the system",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mathbf{u}",
+      "meaning": "control input vector",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "A",
+      "meaning": "system state matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "B",
+      "meaning": "control input matrix",
+      "dimensions": "n x m"
+    },
+    {
+      "symbol": "J",
+      "meaning": "quadratic cost function / performance index",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "Q",
+      "meaning": "state cost weighting matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "R",
+      "meaning": "control cost weighting matrix",
+      "dimensions": "m x m"
+    },
+    {
+      "symbol": "N",
+      "meaning": "cross-term (state and control) cost weighting matrix",
+      "dimensions": "n x m"
+    },
+    {
+      "symbol": "F(t_1)",
+      "meaning": "terminal state cost weighting matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "K",
+      "meaning": "continuous-time feedback gain matrix",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "P(t)",
+      "meaning": "continuous-time Riccati matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\boldsymbol{\\lambda}",
+      "meaning": "co-state vector in first-order necessary conditions",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "F_k",
+      "meaning": "discrete-time feedback gain matrix at time step k",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "P_k",
+      "meaning": "discrete-time Riccati matrix at time step k",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Inherent robustness with guaranteed gain and phase margins",
+      "why": "LQR controllers possess guaranteed stability margins as an inherent property in optimal control theory",
+      "cites": [
+        "wikipedia:Linear\u2013quadratic_regulator"
+      ]
+    },
+    {
+      "property": "Separation component in Linear\u2013Quadratic\u2013Gaussian (LQG) control",
+      "why": "LQR provides the optimal state feedback law used in the complete solution to the LQG problem",
+      "cites": [
+        "wikipedia:Linear\u2013quadratic_regulator"
+      ]
+    },
+    {
+      "property": "Stationary algebraic Riccati equation (CARE) in infinite-horizon continuous time",
+      "why": "The time derivative of P vanishes as the horizon approaches infinity, yielding A^{\\mathsf{T}}P + PA - (PB + N)R^{-1}(B^{\\mathsf{T}}P + N^{\\mathsf{T}}) + Q = 0",
+      "cites": [
+        "wikipedia:Linear\u2013quadratic_regulator"
+      ]
+    },
+    {
+      "property": "Backward-in-time iteration of the dynamic Riccati equation in finite-horizon discrete time",
+      "why": "P_{k-1} is computed recursively from the terminal condition P_{H_p} = Q_{H_p} using P_{k-1} = A^{\\mathsf{T}}P_k A - (A^{\\mathsf{T}}P_k B + N)(R + B^{\\mathsf{T}}P_k B)^{-1}(B^{\\mathsf{T}}P_k A + N^{\\mathsf{T}}) + Q",
+      "cites": [
+        "wikipedia:Linear\u2013quadratic_regulator"
+      ]
+    },
+    {
+      "property": "Discrete-time algebraic Riccati equation (DARE) solvability via dynamic iteration",
+      "why": "The unique positive definite solution to the DARE can be obtained by iterating the discrete-time dynamic Riccati equation until convergence",
+      "cites": [
+        "wikipedia:Linear\u2013quadratic_regulator"
+      ]
+    },
+    {
+      "property": "Equivalence to model predictive control (MPC) under receding horizon and linear constraints",
+      "why": "Solving finite-horizon LQR repeatedly with a receding horizon under constraints C\\mathbf{x} + D\\mathbf{u} \\le \\mathbf{e}$ constitutes convex MPC",
+      "cites": [
+        "wikipedia:Linear\u2013quadratic_regulator"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "System dynamics are strictly linear differential or difference equations",
+      "breaks_when": "System dynamics are nonlinear, quadratic (QQR), or polynomial (PQR)"
+    },
+    {
+      "assumption": "Cost function is strictly quadratic in state and control vectors",
+      "breaks_when": "Non-quadratic cost criteria, non-convex penalties, or asymmetric performance specifications are used"
+    },
+    {
+      "assumption": "Control weighting matrix R (or R + B^{\\mathsf{T}}P_{k+1}B in discrete-time) is invertible",
+      "breaks_when": "Control effort is unpenalized or R is singular / rank-deficient"
+    },
+    {
+      "assumption": "Full state vector \\mathbf{x} is directly measurable and available for feedback",
+      "breaks_when": "State is only partially observed through noisy output measurements, requiring an observer or Kalman filter (LQG)"
+    },
+    {
+      "assumption": "Unconstrained state and control spaces in the standard Riccati synthesis",
+      "breaks_when": "Physical actuator saturation or state constraints C\\mathbf{x} + D\\mathbf{u} \\le \\mathbf{e} become active"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular control weighting matrix inversion failure",
+      "signature": "Computation of gain matrix K or discrete Riccati step halts or produces numerical overflow",
+      "cause": "R or (R + B^{\\mathsf{T}}P B) is singular or ill-conditioned"
+    },
+    {
+      "mode": "Suboptimal or unacceptable closed-loop dynamic behavior",
+      "signature": "Closed-loop system fails to meet desired transient or tracking design goals despite minimizing J",
+      "cause": "Difficulty in identifying and tuning appropriate weighting matrices Q, R, and N that reflect true operational specifications"
+    },
+    {
+      "mode": "Actuator or state constraint violation",
+      "signature": "Real system exceeds allowable control authority or safety boundaries C\\mathbf{x} + D\\mathbf{u} \\le \\mathbf{e}",
+      "cause": "Standard LQR feedback control law \\mathbf{u} = -K\\mathbf{x} assumes unconstrained operation"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Linear\u2013quadratic_regulator"
+  ],
+  "check": {
+    "node_id": "lqr",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so lqr is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

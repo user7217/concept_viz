@@ -1,0 +1,151 @@
+{
+  "node_id": "final_value_theorem",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources do not contain a derivation of the final value theorem (only conditions, statements, counterexamples, and a proof of an Abelian theorem are given; the derivative-based theorem has no derivation supplied). As stated in the sources, the standard Final Value Theorem relates a frequency-domain Laplace transform F(s) to the asymptotic time-domain behavior of f(t): if every pole of F(s) is in the open left half-plane or at the origin, and F(s) has at most a single pole at the origin, then \\lim_{t \\to \\infty} f(t) = \\lim_{s \\to 0} s F(s). Under the formulation using the Laplace transform of the derivative, if f(t) and f'(t) have Laplace transforms existing for all s > 0, and both \\lim_{t \\to \\infty} f(t) and \\lim_{s \\to 0} s F(s) exist, then \\lim_{t \\to \\infty} f(t) = \\lim_{s \\to 0} s F(s).",
+  "symbols": [
+    {
+      "symbol": "t",
+      "meaning": "time variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "s",
+      "meaning": "complex Laplace frequency variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f(t)",
+      "meaning": "time-domain function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "F(s)",
+      "meaning": "Laplace transform of f(t)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f'(t)",
+      "meaning": "first time-derivative of f(t)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "L",
+      "meaning": "limiting value in C or R",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\alpha",
+      "meaning": "limiting value or asymptotic mean in C",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\lambda",
+      "meaning": "growth exponent in the generalized theorem with \\lambda > -1",
+      "dimensions": "dimensionless scalar"
+    },
+    {
+      "symbol": "\\Gamma(x)",
+      "meaning": "Euler Gamma function",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "If f : (0, \\infty) \\to \\mathbb{C} is bounded and measurable with \\lim_{t \\to \\infty} f(t) = \\alpha \\in \\mathbb{C}, then F(s) exists for all s > 0 and \\lim_{s \\downarrow 0} s F(s) = \\alpha.",
+      "why": "the Abelian Final Value Theorem guarantees that convergence in the time domain induces convergence of the Laplace transform scaled by s as s approaches 0 from above",
+      "cites": [
+        "wikipedia:Final_value_theorem"
+      ]
+    },
+    {
+      "property": "If f : (0, \\infty) \\to \\mathbb{C} is bounded and differentiable, t f'(t) is bounded on (0, \\infty), and s F(s) \\to L \\in \\mathbb{C} as s \\to 0, then \\lim_{t \\to \\infty} f(t) = L.",
+      "why": "the Tauberian converse condition on t f'(t) prevents high-frequency oscillations that would otherwise allow s F(s) to converge while f(t) fails to settle",
+      "cites": [
+        "wikipedia:Final_value_theorem"
+      ]
+    },
+    {
+      "property": "If F(s) is a proper rational function with all poles in the open left half-plane or at the origin, then s F(s) \\to L \\in \\mathbb{R} as s \\downarrow 0 implies f(t) \\to L, while s F(s) \\to \\pm\\infty implies f(t) \\to \\pm\\infty.",
+      "why": "extended rational function analysis accounts for multiple poles at the origin leading to polynomial unbounded divergence",
+      "cites": [
+        "wikipedia:Final_value_theorem"
+      ]
+    },
+    {
+      "property": "If f(t) is Laplace transformable, \\lambda > -1, and both limits exist, then \\lim_{t \\to \\infty} \\frac{f(t)}{t^\\lambda} = \\frac{1}{\\Gamma(\\lambda + 1)} \\lim_{s \\downarrow 0} s^{\\lambda + 1} F(s).",
+      "why": "generalized final value theorems relate polynomial asymptotic growth rates t^\\lambda to frequency-domain scaling by s^{\\lambda + 1}",
+      "cites": [
+        "wikipedia:Final_value_theorem"
+      ]
+    },
+    {
+      "property": "If f is continuously differentiable, f' is absolutely integrable on (0, \\infty), and \\lim_{t \\to \\infty} f(t) exists and is finite, then \\lim_{s \\to 0^+} s F(s) = \\lim_{t \\to \\infty} f(t).",
+      "why": "dominated convergence allows passing the limit as s \\to 0^+ under the integral sign of the derivative's transform",
+      "cites": [
+        "wikipedia:Final_value_theorem"
+      ]
+    },
+    {
+      "property": "If f is continuous and bounded on (0, \\infty) and its Ces\u00e0ro mean limit \\lim_{T \\to \\infty} \\frac{1}{T} \\int_0^T f(t) dt = \\alpha exists, then \\lim_{s \\to 0, s > 0} s F(s) = \\alpha.",
+      "why": "the final value limit of s F(s) extracts the average value over time even when f(t) itself does not converge pointwise",
+      "cites": [
+        "wikipedia:Final_value_theorem"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "All poles of F(s) must lie in the open left half-plane, with at most a single simple pole at the origin s = 0.",
+      "breaks_when": "F(s) has poles in the open right half-plane, imaginary-axis poles other than the origin, or multiple poles at s = 0."
+    },
+    {
+      "assumption": "The time-domain limit \\lim_{t \\to \\infty} f(t) must exist for the standard and derivative-based bidirectional statements.",
+      "breaks_when": "f(t) oscillates persistently as t \\to \\infty (such as sinusoidal signals) without converging."
+    },
+    {
+      "assumption": "Laplace transforms of both f(t) and f'(t) must exist for all s > 0.",
+      "breaks_when": "f(t) or f'(t) exhibits faster-than-exponential growth as t \\to \\infty."
+    },
+    {
+      "assumption": "The derivative f'(t) must be absolutely integrable on (0, \\infty) in the dominated convergence formulation.",
+      "breaks_when": "\\int_0^\\infty |f'(\\tau)| d\\tau diverges."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Undamped persistent oscillations in time domain",
+      "signature": "\\lim_{s \\to 0} s F(s) exists and equals a finite constant, but \\lim_{t \\to \\infty} f(t) does not exist.",
+      "cause": "Poles on the imaginary axis (e.g., f(t) = \\sin(t) with poles at s = \\pm i), where \\lim_{s \\to 0} s F(s) = \\lim_{s \\to 0} \\frac{s^2}{s^2+1} = 0 despite f(t) oscillating indefinitely."
+    },
+    {
+      "mode": "Multiple poles at the origin",
+      "signature": "s F(s) \\to \\pm\\infty as s \\downarrow 0 and f(t) diverges to \\pm\\infty as t \\to \\infty.",
+      "cause": "A pole of order two or higher at s = 0 generates polynomial growth in t (e.g., ramp signals), preventing convergence to a finite value."
+    },
+    {
+      "mode": "False converse inference without Tauberian conditions",
+      "signature": "\\lim_{s \\to 0} s F(s) converges to L, but f(t) fails to converge to L as t \\to \\infty.",
+      "cause": "Rapid oscillations where the derivative condition that t f'(t) is bounded on (0, \\infty) is violated."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Final_value_theorem"
+  ],
+  "check": {
+    "node_id": "final_value_theorem",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so final_value_theorem is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

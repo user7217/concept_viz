@@ -1,0 +1,156 @@
+{
+  "node_id": "monte_carlo_integration",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Monte Carlo integration is a numerical integration technique that approximates a multidimensional definite integral $I = \\int_{\\Omega} f(\\overline{\\mathbf{x}})\\,d\\overline{\\mathbf{x}}$ over a subset $\\Omega \\subset \\mathbb{R}^m$ with volume $V = \\int_{\\Omega} d\\overline{\\mathbf{x}}$ using random sampling. Under naive uniform sampling of $N$ points $\\overline{\\mathbf{x}}_1, \\ldots, \\overline{\\mathbf{x}}_N \\in \\Omega$, the integral is approximated by $Q_N \\equiv V \\frac{1}{N} \\sum_{i=1}^{N} f(\\overline{\\mathbf{x}}_i) = V \\langle f \\rangle$. More generally, when samples $\\overline{\\mathbf{x}}_1, \\ldots, \\overline{\\mathbf{x}}_N$ are drawn from a probability distribution $p(\\overline{\\mathbf{x}})$, the estimator is given by $Q_N \\equiv \\frac{1}{N} \\sum_{i=1}^{N} \\frac{f(\\overline{\\mathbf{x}}_i)}{p(\\overline{\\mathbf{x}}_i)}$.",
+  "symbols": [
+    {
+      "symbol": "I",
+      "meaning": "multidimensional definite integral of $f$ over domain $\\Omega$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\Omega",
+      "meaning": "integration region / domain",
+      "dimensions": "subset of $\\mathbb{R}^m$"
+    },
+    {
+      "symbol": "m",
+      "meaning": "dimension of the integration domain",
+      "dimensions": "integer"
+    },
+    {
+      "symbol": "\\overline{\\mathbf{x}}",
+      "meaning": "integration coordinate vector",
+      "dimensions": "m"
+    },
+    {
+      "symbol": "V",
+      "meaning": "volume of the integration region $\\Omega$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "N",
+      "meaning": "number of random evaluation samples",
+      "dimensions": "integer"
+    },
+    {
+      "symbol": "\\overline{\\mathbf{x}}_i",
+      "meaning": "i-th randomly sampled point",
+      "dimensions": "m"
+    },
+    {
+      "symbol": "f(\\overline{\\mathbf{x}})",
+      "meaning": "integrand function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "Q_N",
+      "meaning": "Monte Carlo estimate of the integral using $N$ samples",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\langle f \\rangle",
+      "meaning": "sample mean of the integrand function evaluations $\\frac{1}{N} \\sum_{i=1}^N f(\\overline{\\mathbf{x}}_i)$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathrm{Var}(f)",
+      "meaning": "variance of the function $f$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\sigma_N^2",
+      "meaning": "sample variance estimator of $f$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathrm{Var}(Q_N)",
+      "meaning": "variance of the estimator $Q_N$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\delta Q_N",
+      "meaning": "estimated error of $Q_N$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p(\\overline{\\mathbf{x}})",
+      "meaning": "sampling probability distribution",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The estimator converges to the true integral in the large sample limit: $\\lim_{N \\to \\infty} Q_N = I$.",
+      "why": "Guaranteed by the law of large numbers.",
+      "cites": [
+        "wikipedia:Monte_Carlo_integration"
+      ]
+    },
+    {
+      "property": "The variance of the naive estimator is $\\mathrm{Var}(Q_N) = \\frac{V^2}{N^2} \\sum_{i=1}^N \\mathrm{Var}(f) = V^2 \\frac{\\mathrm{Var}(f)}{N} = V^2 \\frac{\\mathrm{E}(\\sigma_N^2)}{N}$.",
+      "why": "Follows from summing the variances of $N$ uniformly sampled evaluations scaled by $V/N$.",
+      "cites": [
+        "wikipedia:Monte_Carlo_integration"
+      ]
+    },
+    {
+      "property": "The estimated error $\\delta Q_N \\approx \\sqrt{\\mathrm{Var}(Q_N)} = V \\frac{\\sqrt{\\mathrm{Var}(f)}}{\\sqrt{N}}$ decreases asymptotically as $1/\\sqrt{N}$.",
+      "why": "It equals the standard error of the mean scaled by the domain volume $V$, provided $\\mathrm{Var}(f)$ is finite.",
+      "cites": [
+        "wikipedia:Monte_Carlo_integration"
+      ]
+    },
+    {
+      "property": "The asymptotic convergence rate $O(1/\\sqrt{N})$ is independent of the number of dimensions $m$.",
+      "why": "The estimator's variance depends directly on sample count $N$ rather than exponentially on dimension $m$.",
+      "cites": [
+        "wikipedia:Monte_Carlo_integration"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The variance of the integrand $\\mathrm{Var}(f)$ is finite.",
+      "breaks_when": "The integrand has non-integrable singularities or heavy tails that cause $\\mathrm{Var}(f)$ to diverge, violating the condition for $O(1/\\sqrt{N})$ asymptotic error decrease."
+    },
+    {
+      "assumption": "The volume $V = \\int_{\\Omega} d\\overline{\\mathbf{x}}$ of the integration domain is finite and known.",
+      "breaks_when": "The integration region $\\Omega$ is unbounded or its volume cannot be computed, preventing direct normalization of the uniform sample mean."
+    },
+    {
+      "assumption": "For importance sampling, the probability distribution $p(\\overline{\\mathbf{x}})$ is non-zero wherever $f(\\overline{\\mathbf{x}}) \\neq 0$.",
+      "breaks_when": "$p(\\overline{\\mathbf{x}}) = 0$ on regions where $f(\\overline{\\mathbf{x}}) \\neq 0$, causing the quotient $f/p$ to be undefined or leaving significant portions of the integral unsampled."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Underestimation of integration error",
+      "signature": "The actual error $|Q_N - I|$ significantly exceeds the estimated error bar $\\delta Q_N$.",
+      "cause": "Random sampling fails to encounter localized, high-contribution features or narrow peaks of the integrand within a high-dimensional space."
+    },
+    {
+      "mode": "Impractically slow convergence due to excessive variance",
+      "signature": "High variance and large error bars persist across realizations for achievable sample sizes $N$.",
+      "cause": "Using naive uniform sampling when the integrand is strongly localized in a very small subspace of $\\Omega$ instead of using an adapted sampling distribution."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Monte_Carlo_integration"
+  ],
+  "check": {
+    "node_id": "monte_carlo_integration",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

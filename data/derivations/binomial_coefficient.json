@@ -1,0 +1,188 @@
+{
+  "node_id": "binomial_coefficient",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources contain no derivation of the binomial coefficient, introducing it instead as a foundational mathematical definition and object. For non-negative integers n and k with n >= k >= 0, the binomial coefficient \\binom{n}{k} is defined as the positive integer occurring as the coefficient in the binomial theorem. Algebraically, for an integer or real f and non-negative integer k, it is defined via the falling factorial as \\binom{f}{k} = \\frac{(f)_k}{k!} = \\frac{(f-k+1)\\cdots(f-1)f}{1\\cdot 2\\cdots k}, and generalized to real or complex arguments x, y via the gamma function as \\binom{x}{y} = \\frac{\\Gamma(x+1)}{\\Gamma(y+1)\\Gamma(x-y+1)} = \\frac{1}{(x+1)\\mathrm{B}(y+1,x-y+1)}.",
+  "symbols": [
+    {
+      "symbol": "n",
+      "meaning": "upper index of the binomial coefficient (number of elements or power parameter)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "k",
+      "meaning": "lower index of the binomial coefficient (subset size or term index)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\binom{n}{k}",
+      "meaning": "binomial coefficient indexed by n and k",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f",
+      "meaning": "upper argument in falling factorial form, where f = n",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "(f)_k",
+      "meaning": "falling factorial f^{\\underline{k}} = (f-k+1)\\cdots(f-1)f",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "r^{(k)}",
+      "meaning": "rising factorial r^{\\overline{k}} = r(r+1)\\cdots(r+k-1)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\left(\\!\\!\\binom{n}{k}\\!\\!\\right)",
+      "meaning": "multiset coefficient (multichoose k from n)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "first argument in the continuous/complex generalization",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "y",
+      "meaning": "second argument in the continuous/complex generalization",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\Gamma",
+      "meaning": "gamma function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathrm{B}",
+      "meaning": "beta function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "z",
+      "meaning": "complex or indeterminate argument in generating functions and series",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\alpha",
+      "meaning": "exponent parameter in Newton's binomial series or cardinal number",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "\\binom{1/2}{k} = \\binom{2k}{k} \\frac{(-1)^{k+1}}{2^{2k}(2k-1)} for any non-negative integer k",
+      "why": "specialization of real upper argument n = 1/2 appearing in the series expansion of \\sqrt{1+x}",
+      "cites": [
+        "wikipedia:Binomial_coefficient"
+      ]
+    },
+    {
+      "property": "\\binom{-n}{k} = (-1)^k \\binom{n+k-1}{k} = (-1)^k \\left(\\!\\!\\binom{n}{k}\\!\\!\\right)",
+      "why": "factoring -1 out of each of the k terms in the falling factorial product for negative integer argument",
+      "cites": [
+        "wikipedia:Binomial_coefficient"
+      ]
+    },
+    {
+      "property": "\\left(\\!\\!\\binom{r}{k}\\!\\!\\right) = \\binom{r+k-1}{k} = \\frac{r^{(k)}}{k!}",
+      "why": "characterization of multiset coefficients by replacing falling factorials with rising factorials",
+      "cites": [
+        "wikipedia:Binomial_coefficient"
+      ]
+    },
+    {
+      "property": "(1+z)^\\alpha = \\sum_{n=0}^\\infty \\binom{\\alpha}{n} z^n",
+      "why": "Newton's binomial series generalization satisfying (1+z)f'(z) = \\alpha f(z) for |z| < 1",
+      "cites": [
+        "wikipedia:Binomial_coefficient"
+      ]
+    },
+    {
+      "property": "\\binom{z}{m}\\binom{z}{n} = \\sum_{k=0}^{\\min(m,n)} \\binom{m+n-k}{k, m-k, n-k} \\binom{z}{m+n-k}",
+      "why": "expansion of a product of binomial coefficients into a linear combination with multinomial connection coefficients",
+      "cites": [
+        "wikipedia:Binomial_coefficient"
+      ]
+    },
+    {
+      "property": "\\prod_{k=0}^n \\binom{n}{k} = \\prod_{k=1}^n k^{2k-n-1}",
+      "why": "formula for the product of all binomial coefficients in the nth row of Pascal's triangle",
+      "cites": [
+        "wikipedia:Binomial_coefficient"
+      ]
+    },
+    {
+      "property": "\\frac{1}{\\binom{z}{n}} = \\sum_{i=0}^{n-1} (-1)^{n-1-i} \\binom{n}{i} \\frac{n-i}{z-i}",
+      "why": "partial fraction decomposition of the reciprocal binomial coefficient",
+      "cites": [
+        "wikipedia:Binomial_coefficient"
+      ]
+    },
+    {
+      "property": "\\binom{x}{y} = \\frac{\\sin(y\\pi)}{\\sin(x\\pi)}\\binom{-y-1}{-x-1} = \\frac{\\sin((x-y)\\pi)}{\\sin(x\\pi)}\\binom{y-x-1}{y}",
+      "why": "reflection identity inherited from the gamma function for continuous/complex arguments",
+      "cites": [
+        "wikipedia:Binomial_coefficient"
+      ]
+    },
+    {
+      "property": "\\binom{x}{y}\\binom{y}{x} = \\frac{\\sin((x-y)\\pi)}{(x-y)\\pi}",
+      "why": "product reflection formula derived from gamma function properties",
+      "cites": [
+        "wikipedia:Binomial_coefficient"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "In the standard combinatorial definition, n and k are integers satisfying n >= k >= 0",
+      "breaks_when": "Arguments are negative, non-integers, or k > n, requiring extension to falling factorials or gamma/beta functions"
+    },
+    {
+      "assumption": "In Newton's binomial series (1+z)^\\alpha = \\sum_{n=0}^\\infty \\binom{\\alpha}{n} z^n, |z| < 1",
+      "breaks_when": "|z| >= 1, where the series exceeds its radius of convergence"
+    },
+    {
+      "assumption": "In the gamma function generalization, x+1, y+1, and x-y+1 must not create uncancelled poles",
+      "breaks_when": "x is a negative integer and y is not an integer, leading to singularities"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Series divergence in Newton's binomial series",
+      "signature": "Infinite terms grow without bound and the series fails to converge to (1+z)^\\alpha",
+      "cause": "Evaluating the series for arguments |z| > 1 outside the radius of convergence"
+    },
+    {
+      "mode": "Singularities in continuous/complex argument extension",
+      "signature": "Gamma function evaluates to infinity / division by zero",
+      "cause": "Evaluating \\binom{x}{y} where negative integer poles of \\Gamma(x+1) are not cancelled by denominator poles"
+    },
+    {
+      "mode": "Failure of classical symmetry identity under generalization",
+      "signature": "\\binom{-n}{m} \\neq \\binom{-n}{-n-m} for positive n",
+      "cause": "Applying standard non-negative integer symmetry \\binom{n}{m} = \\binom{n}{n-m} outside its valid domain"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Binomial_coefficient"
+  ],
+  "check": {
+    "node_id": "binomial_coefficient",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so binomial_coefficient is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "node_id": "quaternion",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A quaternion is an element of a four-dimensional number system with four real-number components, expressible in the form q = a + b*i + c*j + d*k = a + v (or as a pair of complex numbers (a + b*i) + (c + d*i)*j in C^2), equipped with addition, subtraction, multiplication, and division, where multiplication is associative, distributive, and non-commutative, governed by j^2 = -1 and i*j = -j*i = k.",
+  "symbols": [
+    {
+      "symbol": "q",
+      "meaning": "quaternion",
+      "dimensions": "4"
+    },
+    {
+      "symbol": "a",
+      "meaning": "scalar part (real component)",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "b, c, d",
+      "meaning": "components of the vector part",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "i, j, k",
+      "meaning": "quaternion imaginary basis elements",
+      "dimensions": "4"
+    },
+    {
+      "symbol": "v",
+      "meaning": "vector part of the quaternion",
+      "dimensions": "3"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Quaternion multiplication is non-commutative (the product depends on the order of the factors)",
+      "why": "The imaginary basis elements satisfy anticommutative relations such as i*j = -j*i",
+      "cites": [
+        "wikipedia:Quaternion"
+      ]
+    },
+    {
+      "property": "Quaternions can be represented as pairs of complex numbers (Cayley\u2013Dickson construction)",
+      "why": "Writing a vector in C^2 in basis {1, j} as (a + b*i)1 + (c + d*i)j with j^2 = -1 and i*j = -j*i = k produces the quaternion multiplication rules",
+      "cites": [
+        "wikipedia:Quaternion"
+      ]
+    },
+    {
+      "property": "Quaternions admit 48 distinct 4x4 real matrix representations in M(4, R)",
+      "why": "Sum and product operations are preserved under homomorphism into quadruples of matrices consisting of a scalar identity matrix and three skew-symmetric matrices",
+      "cites": [
+        "wikipedia:Quaternion"
+      ]
+    },
+    {
+      "property": "The equation q^2 = -1 has infinitely many solutions forming a unit 2-sphere in R^3",
+      "why": "Setting (a + b*i + c*j + d*k)^2 = -1 forces the scalar part a = 0 and b^2 + c^2 + d^2 = 1",
+      "cites": [
+        "wikipedia:Quaternion"
+      ]
+    },
+    {
+      "property": "Quaternions admit an exponential and polar decomposition q = ||q|| * exp(n_hat * phi) = ||q|| * (cos(phi) + n_hat * sin(phi))",
+      "why": "The power series exp(q) = sum_{n=0}^infty q^n / n! separates into scalar e^a * cos(||v||) and unit directional vector (v / ||v||) * sin(||v||)",
+      "cites": [
+        "wikipedia:Quaternion"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Components a, b, c, d are real numbers",
+      "breaks_when": "Components are selected from non-real fields or algebraic structures not satisfying real arithmetic"
+    },
+    {
+      "assumption": "Basis elements satisfy j^2 = -1 and anticommuting relation i*j = -j*i = k",
+      "breaks_when": "Multiplication is assumed commutative, collapsing the structure to commutative algebras or standard complex numbers"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Commutativity assumption failure",
+      "signature": "p * q != q * p",
+      "cause": "Treating quaternion multiplication as commutative when multiplying expressions"
+    },
+    {
+      "mode": "Undefined polar direction for scalar quaternions",
+      "signature": "Division by zero when evaluating v / ||v||",
+      "cause": "The vector part v has norm 0 (||v|| = 0), requiring an arbitrary choice of unit vector n_hat"
+    },
+    {
+      "mode": "Singular quaternion inversion",
+      "signature": "Division by zero in computing p^(-1)",
+      "cause": "Evaluating multiplicative inverse on the zero quaternion where ||q|| = 0"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Quaternion"
+  ],
+  "check": {
+    "node_id": "quaternion",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

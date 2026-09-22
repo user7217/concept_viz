@@ -1,0 +1,120 @@
+{
+  "node_id": "differential_equation",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A differential equation is an equation that relates one or more unknown functions and their derivatives.",
+  "symbols": [
+    {
+      "symbol": "y",
+      "meaning": "unknown function (dependent variable)",
+      "dimensions": "scalar or vector function of independent variable(s)"
+    },
+    {
+      "symbol": "x",
+      "meaning": "independent variable",
+      "dimensions": "scalar or vector in real or complex domain"
+    },
+    {
+      "symbol": "n",
+      "meaning": "order of the differential equation, defined as the highest order derivative appearing in the equation",
+      "dimensions": "positive integer"
+    },
+    {
+      "symbol": "f",
+      "meaning": "given function relating the independent variable(s), the dependent variable(s), and derivatives",
+      "dimensions": "specified by equation form"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Classification by domain into ordinary differential equations (ODEs) and partial differential equations (PDEs)",
+      "why": "an ODE contains an unknown function of a single variable and its ordinary derivatives, whereas a PDE contains unknown multivariable functions and their partial derivatives",
+      "cites": [
+        "wikipedia:Differential_equation"
+      ]
+    },
+    {
+      "property": "Order and degree",
+      "why": "the order is the highest derivative order appearing in the equation, and the degree is the polynomial degree in that highest derivative (or total degree) when written in polynomial form",
+      "cites": [
+        "wikipedia:Differential_equation"
+      ]
+    },
+    {
+      "property": "Linearity classification",
+      "why": "an equation is linear if it is linear in the unknown function and its derivatives; otherwise it is non-linear",
+      "cites": [
+        "wikipedia:Differential_equation"
+      ]
+    },
+    {
+      "property": "Homogeneity in linear equations",
+      "why": "a linear differential equation is homogeneous if every term contains the dependent variable or one of its derivatives, and inhomogeneous otherwise",
+      "cites": [
+        "wikipedia:Differential_equation"
+      ]
+    },
+    {
+      "property": "General solution parameter count matches equation order",
+      "why": "the general solution of an nth-order ODE contains n arbitrary constants of integration, requiring n initial or boundary conditions to determine completely",
+      "cites": [
+        "wikipedia:Differential_equation"
+      ]
+    },
+    {
+      "property": "General lack of closed-form solutions",
+      "why": "only the simplest differential equations have explicit closed-form solutions, making numerical methods standard for practical solutions",
+      "cites": [
+        "wikipedia:Differential_equation"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The independent variables are continuous real or complex variables.",
+      "breaks_when": "The independent variable takes only discrete values, which instead requires formulation as a difference equation."
+    },
+    {
+      "assumption": "The differential equation specifies relations among sufficiently differentiable functions on an interval or domain.",
+      "breaks_when": "Unknown functions fail to possess derivatives up to the order of the differential equation on the domain."
+    },
+    {
+      "assumption": "The number of independent initial or boundary conditions provided matches the order n of the differential equation.",
+      "breaks_when": "Fewer or more conditions are specified, resulting in underdetermined general families or overdetermined inconsistent systems."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Absence of closed-form analytical solutions",
+      "signature": "Integration cannot be performed in terms of elementary or explicit closed-form formulas.",
+      "cause": "Most differential equations, particularly non-linear equations or higher-order coupled systems, lack symmetries or forms amenable to exact integration, requiring numerical approximation."
+    },
+    {
+      "mode": "Breakdown of linear approximations for nonlinear equations",
+      "signature": "Approximate linear solutions diverge significantly from true dynamics or fail to capture nonlinear phenomena such as chaos.",
+      "cause": "Linearization is only valid under restricted conditions (such as small amplitude oscillations in pendulum equations) and fails when system excursions exceed the linear regime."
+    },
+    {
+      "mode": "Non-uniqueness or non-existence of solutions to initial value problems",
+      "signature": "Multiple distinct solution trajectories satisfy the same differential equation and initial condition, or no solution exists locally.",
+      "cause": "Failure of continuity conditions of the defining function or vanishing of the leading coefficient function in an nth-order linear ODE."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Differential_equation"
+  ],
+  "check": {
+    "node_id": "differential_equation",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

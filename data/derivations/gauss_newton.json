@@ -1,0 +1,160 @@
+{
+  "node_id": "gauss_newton",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "Given $m$ residual functions $\\mathbf{r} = (r_1, \\ldots, r_m)^{\\operatorname{T}}$ of $n$ variables $\\boldsymbol{\\beta} = (\\beta_1, \\ldots, \\beta_n)^{\\operatorname{T}}$ with $m \\geq n$, the Gauss\u2013Newton algorithm iteratively minimizes the sum of squares $S(\\boldsymbol{\\beta}) = \\sum_{i=1}^m r_i(\\boldsymbol{\\beta})^2 = \\|\\mathbf{r}(\\boldsymbol{\\beta})\\|_2^2$ via the update $\\boldsymbol{\\beta}^{(s+1)} = \\boldsymbol{\\beta}^{(s)} - (\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{J_r})^{-1}\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{r}(\\boldsymbol{\\beta}^{(s)})$, where $(\\mathbf{J_r})_{ij} = \\frac{\\partial r_i(\\boldsymbol{\\beta}^{(s)})}{\\partial \\beta_j}$, or equivalently by solving the normal equations $\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{J_r}\\Delta = -\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{r}(\\boldsymbol{\\beta}^{(s)})$ for the increment $\\Delta = \\boldsymbol{\\beta}^{(s+1)} - \\boldsymbol{\\beta}^{(s)}$ at each iteration.",
+  "symbols": [
+    {
+      "symbol": "\\boldsymbol{\\beta}",
+      "meaning": "parameter vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mathbf{r}",
+      "meaning": "vector of residual functions",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "m",
+      "meaning": "number of residual functions",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of parameters",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "S",
+      "meaning": "sum of squares objective function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\boldsymbol{\\beta}^{(s)}",
+      "meaning": "parameter vector estimate at iteration s",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mathbf{J_r}",
+      "meaning": "Jacobian matrix of the residual vector with entries (\\mathbf{J_r})_{ij} = \\partial r_i / \\partial \\beta_j",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "\\Delta",
+      "meaning": "parameter update step vector \\boldsymbol{\\beta}^{(s+1)} - \\boldsymbol{\\beta}^{(s)}",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "s",
+      "meaning": "iteration counter",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Using Taylor's theorem, linearly approximate the vector of residual functions $\\mathbf{r}(\\boldsymbol{\\beta})$ at iteration $s$ around the current iterate $\\boldsymbol{\\beta}^{(s)}$: $\\mathbf{r}(\\boldsymbol{\\beta}) \\approx \\mathbf{r}(\\boldsymbol{\\beta}^{(s)}) + \\mathbf{J_r}(\\boldsymbol{\\beta}^{(s)})\\Delta$, where $\\Delta = \\boldsymbol{\\beta} - \\boldsymbol{\\beta}^{(s)}$ and $\\mathbf{J_r}(\\boldsymbol{\\beta}^{(s)})$ is the $m \\times n$ Jacobian matrix with entries $(\\mathbf{J_r})_{ij} = \\frac{\\partial r_i(\\boldsymbol{\\beta}^{(s)})}{\\partial \\beta_j}$.",
+      "invokes": [
+        "linearization"
+      ],
+      "cites": [
+        "wikipedia:Gauss\u2013Newton_algorithm"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Formulate the task of finding the step $\\Delta$ minimizing the sum of squares of the linearized residuals as the linear least-squares problem $\\min_\\Delta \\|\\mathbf{r}(\\boldsymbol{\\beta}^{(s)}) + \\mathbf{J_r}(\\boldsymbol{\\beta}^{(s)})\\Delta\\|_2^2$, which expands via transpose identities into the quadratic form $(\\mathbf{r} + \\mathbf{J_r}\\Delta)^{\\operatorname{T}}(\\mathbf{r} + \\mathbf{J_r}\\Delta) = \\mathbf{r}^{\\operatorname{T}}\\mathbf{r} + 2\\mathbf{r}^{\\operatorname{T}}\\mathbf{J_r}\\Delta + \\Delta^{\\operatorname{T}}\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{J_r}\\Delta$.",
+      "invokes": [
+        "transpose_identities"
+      ],
+      "cites": [
+        "wikipedia:Gauss\u2013Newton_algorithm"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Differentiate the quadratic linear least-squares objective with respect to $\\Delta$ using matrix calculus and set the gradient to zero: $\\nabla_\\Delta \\|\\mathbf{r}(\\boldsymbol{\\beta}^{(s)}) + \\mathbf{J_r}(\\boldsymbol{\\beta}^{(s)})\\Delta\\|_2^2 = 2\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{r}(\\boldsymbol{\\beta}^{(s)}) + 2\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{J_r}\\Delta = \\mathbf{0}$, yielding the normal equations $\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{J_r}\\Delta = -\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{r}(\\boldsymbol{\\beta}^{(s)})$.",
+      "invokes": [
+        "quadratic_form_differentiation",
+        "matrix_calculus_gradient"
+      ],
+      "cites": [
+        "wikipedia:Gauss\u2013Newton_algorithm"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Solve the normal equations $\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{J_r}\\Delta = -\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{r}(\\boldsymbol{\\beta}^{(s)})$ (expressed in standard matrix form $A\\mathbf{x} = \\mathbf{b}$ with $A = \\mathbf{J_r}^{\\operatorname{T}}\\mathbf{J_r}$, $\\mathbf{b} = -\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{r}(\\boldsymbol{\\beta}^{(s)})$, and $\\mathbf{x} = \\Delta$) for $\\Delta$ using Cholesky decomposition, or invert $\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{J_r}$ to yield $\\Delta = -(\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{J_r})^{-1}\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{r}(\\boldsymbol{\\beta}^{(s)})$.",
+      "invokes": [
+        "cholesky_factorization"
+      ],
+      "cites": [
+        "wikipedia:Gauss\u2013Newton_algorithm"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Update the parameter iterate via $\\boldsymbol{\\beta}^{(s+1)} = \\boldsymbol{\\beta}^{(s)} + \\Delta$, resulting in the Gauss\u2013Newton recurrence relation $\\boldsymbol{\\beta}^{(s+1)} = \\boldsymbol{\\beta}^{(s)} - (\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{J_r})^{-1}\\mathbf{J_r}^{\\operatorname{T}}\\mathbf{r}(\\boldsymbol{\\beta}^{(s)})$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Gauss\u2013Newton_algorithm"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The number of residual functions m is greater than or equal to the number of parameters n (m >= n).",
+      "breaks_when": "m < n, causing J_r^T J_r to be non-invertible and preventing unique solution of the normal equations."
+    },
+    {
+      "assumption": "The Jacobian matrix J_r has full column rank n (the columns of J_r are linearly independent).",
+      "breaks_when": "Linear dependence exists between columns of J_r, causing J_r^T J_r to become singular."
+    },
+    {
+      "assumption": "The initial iterate \\beta^{(0)} is close to a local minimum \\hat{\\beta}.",
+      "breaks_when": "The initial guess is far from the minimum, leading to slow convergence or failure to converge."
+    },
+    {
+      "assumption": "The residual sum of squares |S(\\hat{\\beta})| at the local minimum is small.",
+      "breaks_when": "The minimum value |S(\\hat{\\beta})| is large, under which local convergence is not guaranteed and the iteration can fail to converge."
+    },
+    {
+      "assumption": "The residual functions r_1, ..., r_m are twice continuously differentiable in an open convex set containing the local minimum.",
+      "breaks_when": "Residual functions lack twice continuous differentiability, violating regularity conditions required for convergence guarantees."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular normal equations matrix",
+      "signature": "Cholesky decomposition or inversion of J_r^T J_r fails; increment \\Delta cannot be uniquely resolved.",
+      "cause": "Linear dependence among the columns of the Jacobian J_r, or an underdetermined system where m < n."
+    },
+    {
+      "mode": "Slow convergence or numerical stagnation",
+      "signature": "Iterates progress very slowly or error decreases at an asymptotically poor rate.",
+      "cause": "The matrix J_r^T J_r is ill-conditioned or the initial iterate \\beta^{(0)} is far from the minimum."
+    },
+    {
+      "mode": "Divergence on large-residual problems",
+      "signature": "The method fails to converge locally or error grows by a factor |\\lambda| > 1 even near a stationary point.",
+      "cause": "The optimal residual sum of squares |S(\\hat{\\beta})| is large, so omitted second-derivative terms in the Hessian are non-negligible."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Gauss\u2013Newton_algorithm"
+  ],
+  "check": {
+    "node_id": "gauss_newton",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

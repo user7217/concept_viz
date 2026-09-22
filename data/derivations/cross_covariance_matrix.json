@@ -1,0 +1,147 @@
+{
+  "node_id": "cross_covariance_matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For random vectors $\\mathbf{X} = (X_1, \\dots, X_m)^{\\mathrm{T}}$ and $\\mathbf{Y} = (Y_1, \\dots, Y_n)^{\\mathrm{T}}$, the cross-covariance matrix $\\operatorname{K}_{\\mathbf{X}\\mathbf{Y}} = \\operatorname{cov}(\\mathbf{X}, \\mathbf{Y})$ is the $m \\times n$ matrix whose $(i, j)$-th entry is $\\operatorname{cov}(X_i, Y_j) = \\operatorname{E}[(X_i - \\operatorname{E}[X_i])(Y_j - \\operatorname{E}[Y_j])]$. In matrix notation, $\\operatorname{cov}(\\mathbf{X}, \\mathbf{Y}) = \\operatorname{E}[(\\mathbf{X} - \\boldsymbol{\\mu}_{\\mathbf{X}})(\\mathbf{Y} - \\boldsymbol{\\mu}_{\\mathbf{Y}})^{\\mathrm{T}}]$ for real random vectors, and $\\operatorname{K}_{\\mathbf{Z}\\mathbf{W}} = \\operatorname{cov}(\\mathbf{Z}, \\mathbf{W}) = \\operatorname{E}[(\\mathbf{Z} - \\boldsymbol{\\mu}_{\\mathbf{Z}})(\\mathbf{W} - \\boldsymbol{\\mu}_{\\mathbf{W}})^{\\mathrm{H}}]$ for complex random vectors.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{X}",
+      "meaning": "First random vector",
+      "dimensions": "m x 1 (or p x 1)"
+    },
+    {
+      "symbol": "\\mathbf{Y}",
+      "meaning": "Second random vector",
+      "dimensions": "n x 1 (or q x 1)"
+    },
+    {
+      "symbol": "\\operatorname{K}_{\\mathbf{X}\\mathbf{Y}}",
+      "meaning": "Cross-covariance matrix of X and Y, denoted \\operatorname{cov}(\\mathbf{X}, \\mathbf{Y})",
+      "dimensions": "m x n (or p x q)"
+    },
+    {
+      "symbol": "\\boldsymbol{\\mu}_{\\mathbf{X}}",
+      "meaning": "Expected value (mean vector) of X, \\operatorname{E}[\\mathbf{X}]",
+      "dimensions": "m x 1 (or p x 1)"
+    },
+    {
+      "symbol": "\\boldsymbol{\\mu}_{\\mathbf{Y}}",
+      "meaning": "Expected value (mean vector) of Y, \\operatorname{E}[\\mathbf{Y}]",
+      "dimensions": "n x 1 (or q x 1)"
+    },
+    {
+      "symbol": "X_i",
+      "meaning": "The i-th component random variable of X",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "Y_j",
+      "meaning": "The j-th component random variable of Y",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbf{Z}, \\mathbf{W}",
+      "meaning": "Complex random vectors",
+      "dimensions": "vector"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "\\operatorname{cov}(\\mathbf{X}, \\mathbf{Y}) = \\operatorname{E}[\\mathbf{X}\\mathbf{Y}^{\\mathrm{T}}] - \\boldsymbol{\\mu}_{\\mathbf{X}}\\boldsymbol{\\mu}_{\\mathbf{Y}}^{\\mathrm{T}}",
+      "why": "Expansion of centered product and linearity of expectation",
+      "cites": [
+        "wikipedia:Cross-covariance_matrix"
+      ]
+    },
+    {
+      "property": "\\operatorname{cov}(\\mathbf{X}, \\mathbf{Y}) = \\operatorname{cov}(\\mathbf{Y}, \\mathbf{X})^{\\mathrm{T}}",
+      "why": "Transpose of an outer product reverses vector order",
+      "cites": [
+        "wikipedia:Cross-covariance_matrix",
+        "wikipedia:Covariance_matrix"
+      ]
+    },
+    {
+      "property": "\\operatorname{cov}(\\mathbf{X}_1 + \\mathbf{X}_2, \\mathbf{Y}) = \\operatorname{cov}(\\mathbf{X}_1, \\mathbf{Y}) + \\operatorname{cov}(\\mathbf{X}_2, \\mathbf{Y})",
+      "why": "Distributivity of matrix multiplication and linearity of expectation",
+      "cites": [
+        "wikipedia:Cross-covariance_matrix"
+      ]
+    },
+    {
+      "property": "\\operatorname{cov}(A\\mathbf{X} + \\mathbf{a}, B^{\\mathrm{T}}\\mathbf{Y} + \\mathbf{b}) = A \\operatorname{cov}(\\mathbf{X}, \\mathbf{Y}) B",
+      "why": "Constants subtract out in centering and matrix factors factor out of expectation",
+      "cites": [
+        "wikipedia:Cross-covariance_matrix"
+      ]
+    },
+    {
+      "property": "If \\mathbf{X} and \\mathbf{Y} are independent (or every component of \\mathbf{X} is uncorrelated with every component of \\mathbf{Y}), \\operatorname{cov}(\\mathbf{X}, \\mathbf{Y}) = 0_{p \\times q}",
+      "why": "Expectations factor for uncorrelated centered components",
+      "cites": [
+        "wikipedia:Cross-covariance_matrix"
+      ]
+    },
+    {
+      "property": "\\operatorname{var}(\\mathbf{X} + \\mathbf{Y}) = \\operatorname{var}(\\mathbf{X}) + \\operatorname{cov}(\\mathbf{X}, \\mathbf{Y}) + \\operatorname{cov}(\\mathbf{Y}, \\mathbf{X}) + \\operatorname{var}(\\mathbf{Y})",
+      "why": "Expansion of the variance of a vector sum",
+      "cites": [
+        "wikipedia:Covariance_matrix"
+      ]
+    },
+    {
+      "property": "The joint covariance matrix partitions as \\boldsymbol{\\Sigma} = \\begin{bmatrix} \\operatorname{K}_{\\mathbf{X}\\mathbf{X}} & \\operatorname{K}_{\\mathbf{X}\\mathbf{Y}} \\\\ \\operatorname{K}_{\\mathbf{Y}\\mathbf{X}} & \\operatorname{K}_{\\mathbf{Y}\\mathbf{Y}} \\end{bmatrix}",
+      "why": "Off-diagonal blocks of joint covariance matrix are cross-covariance matrices",
+      "cites": [
+        "wikipedia:Covariance_matrix"
+      ]
+    },
+    {
+      "property": "For complex vectors, \\operatorname{K}_{\\mathbf{Z}\\mathbf{W}} = \\operatorname{E}[(\\mathbf{Z} - \\boldsymbol{\\mu}_{\\mathbf{Z}})(\\mathbf{W} - \\boldsymbol{\\mu}_{\\mathbf{W}})^{\\mathrm{H}}] and pseudo-cross-covariance is \\operatorname{J}_{\\mathbf{Z}\\mathbf{W}} = \\operatorname{cov}(\\mathbf{Z}, \\overline{\\mathbf{W}}) = \\operatorname{E}[(\\mathbf{Z} - \\boldsymbol{\\mu}_{\\mathbf{Z}})(\\mathbf{W} - \\boldsymbol{\\mu}_{\\mathbf{W}})^{\\mathrm{T}}]",
+      "why": "Transposition is replaced by Hermitian transposition in complex vector spaces",
+      "cites": [
+        "wikipedia:Cross-covariance_matrix"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "All component random variables of X and Y have finite first and second moments",
+      "breaks_when": "The underlying distributions are heavy-tailed (e.g., Cauchy) such that means or expectations of cross-products do not exist or diverge"
+    },
+    {
+      "assumption": "X and Y are finite-dimensional random vectors",
+      "breaks_when": "Infinite-dimensional stochastic processes without well-defined matrix representations"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Undefined cross-covariance matrix",
+      "signature": "Matrix entries evaluate to NaN or diverge to infinity",
+      "cause": "Non-existent or infinite first or second moments for components of X or Y"
+    },
+    {
+      "mode": "Shape mismatch under commutation",
+      "signature": "Dimension incompatibility error when substituting cov(X, Y) for cov(Y, X)",
+      "cause": "Cross-covariance is generally rectangular and not symmetric; cov(X, Y) has dimension m x n whereas cov(Y, X) has dimension n x m"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Cross-covariance_matrix",
+    "wikipedia:Covariance_matrix"
+  ],
+  "check": {
+    "node_id": "cross_covariance_matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

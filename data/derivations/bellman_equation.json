@@ -1,0 +1,140 @@
+{
+  "node_id": "bellman_equation",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For an infinite-horizon dynamic decision problem with state $x$, available action set $\\Gamma(x)$, deterministic state transition function $T(x, a)$, instantaneous payoff $F(x, a)$, and discount factor $0 < \\beta < 1$, the optimal value function $V(x)$ satisfies the functional equation: $$V(x) = \\max_{a \\in \\Gamma(x)} \\{ F(x, a) + \\beta V(T(x, a)) \\}$$",
+  "symbols": [
+    {
+      "symbol": "x_t",
+      "meaning": "state variable at time t (with x_0 denoting the initial state, or x when time subscripts are omitted)",
+      "dimensions": "state space"
+    },
+    {
+      "symbol": "a_t",
+      "meaning": "action representing values for one or more control variables taken at time t (or a when time subscripts are omitted)",
+      "dimensions": "control space"
+    },
+    {
+      "symbol": "\\Gamma(x)",
+      "meaning": "set of actions available to be taken at state x",
+      "dimensions": "subset of control space"
+    },
+    {
+      "symbol": "T(x, a)",
+      "meaning": "transition function determining the new state when action a is taken in state x",
+      "dimensions": "state space"
+    },
+    {
+      "symbol": "F(x, a)",
+      "meaning": "current payoff from taking action a in state x",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\beta",
+      "meaning": "discount factor representing impatience, where 0 < \\beta < 1",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "V(x)",
+      "meaning": "value function describing the optimal obtainable value of the objective function starting from state x",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "a(x)",
+      "meaning": "policy function describing the optimal action as a function of the state",
+      "dimensions": "control space"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Define the infinite-horizon decision problem for an initial state $x_0$, specifying the value function $V(x_0)$ as the maximum sum of discounted payoffs over all feasible action sequences:\n$$V(x_0) = \\max_{\\{a_t\\}_{t=0}^{\\infty}} \\sum_{t=0}^{\\infty} \\beta^t F(x_t, a_t)$$\nsubject to the constraints $a_t \\in \\Gamma(x_t)$ and $x_{t+1} = T(x_t, a_t)$ for all $t = 0, 1, 2, \\dots$",
+      "invokes": [
+        "value_function"
+      ],
+      "cites": [
+        "wikipedia:Bellman_equation"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Apply Bellman's principle of optimality to isolate the initial choice $a_0$ at time 0 from the subsequent choices starting from time 1 at state $x_1 = T(x_0, a_0)$:\n$$V(x_0) = \\max_{a_0} \\left\\{ F(x_0, a_0) + \\beta \\left[ \\max_{\\{a_t\\}_{t=1}^\\infty} \\sum_{t=1}^\\infty \\beta^{t-1} F(x_t, a_t) : a_t \\in \\Gamma(x_t), x_{t+1} = T(x_t, a_t), \\forall t \\geq 1 \\right] \\right\\}$$\nsubject to $a_0 \\in \\Gamma(x_0)$ and $x_1 = T(x_0, a_0)$.",
+      "invokes": [
+        "optimal_substructure"
+      ],
+      "cites": [
+        "wikipedia:Bellman_equation"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Identify the bracketed expression as the value of the decision problem beginning at time 1 from state $x_1 = T(x_0, a_0)$, which by definition is $V(x_1)$, yielding the recursive definition:\n$$V(x_0) = \\max_{a_0} \\{ F(x_0, a_0) + \\beta V(x_1) \\}$$\nsubject to $a_0 \\in \\Gamma(x_0)$ and $x_1 = T(x_0, a_0)$.",
+      "invokes": [
+        "value_function"
+      ],
+      "cites": [
+        "wikipedia:Bellman_equation"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Drop the time subscripts and substitute the transition law $x_1 = T(x, a)$ directly into the value function argument to obtain the stationary Bellman functional equation:\n$$V(x) = \\max_{a \\in \\Gamma(x)} \\{ F(x, a) + \\beta V(T(x, a)) \\}$$",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Bellman_equation"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "Impatience represented by discount factor 0 < \\beta < 1",
+      "breaks_when": "\\beta \\le 0$ or $\\beta \\ge 1$"
+    },
+    {
+      "assumption": "Algebraic structure has a total ordering",
+      "breaks_when": "The structure has only a partial ordering, requiring the generic Bellman's equation"
+    },
+    {
+      "assumption": "The decision problem satisfies the principle of optimality (optimal substructure)",
+      "breaks_when": "An optimal policy does not have the property that remaining decisions constitute an optimal policy with regard to the state resulting from the first decision"
+    },
+    {
+      "assumption": "State transitions and immediate payoffs are stationary functions of current state and action alone",
+      "breaks_when": "Payoffs or transitions depend on the past history of states and actions"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Curse of dimensionality",
+      "signature": "Numerical backwards induction becomes computationally infeasible",
+      "cause": "Vast number of possible actions and potential state variables that must be considered"
+    },
+    {
+      "mode": "Partial ordering",
+      "signature": "Standard Bellman maximization cannot totally order payoffs",
+      "cause": "Underlying algebraic structure possesses only a partial ordering rather than a total ordering"
+    },
+    {
+      "mode": "Informational difficulties in discount rate",
+      "signature": "Model misspecification or inability to compute the policy function",
+      "cause": "Difficulties in choosing or observing the discount rate \\beta"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Bellman_equation"
+  ],
+  "check": {
+    "node_id": "bellman_equation",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

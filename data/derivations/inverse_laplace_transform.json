@@ -1,0 +1,160 @@
+{
+  "node_id": "inverse_laplace_transform",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The inverse Laplace transform of a function F(s) is a real function f(t) that is piecewise-continuous and exponentially restricted (|f(t)| <= M * e^(alpha * t) for all t >= 0, for constants M > 0 and alpha in R) such that L{f}(s) = F(s), where L denotes the Laplace transform. The supplied source genuinely contains nothing to derive, stating definitions and inversion formulas (Bromwich's and Post's inversion formulas) without derivation steps.",
+  "symbols": [
+    {
+      "symbol": "F(s)",
+      "meaning": "Laplace transform of f(t)",
+      "dimensions": "complex scalar / function"
+    },
+    {
+      "symbol": "f(t)",
+      "meaning": "real function / inverse Laplace transform of F(s)",
+      "dimensions": "real scalar / function"
+    },
+    {
+      "symbol": "L",
+      "meaning": "Laplace transform operator",
+      "dimensions": "operator"
+    },
+    {
+      "symbol": "L^-1",
+      "meaning": "inverse Laplace transform operator",
+      "dimensions": "operator"
+    },
+    {
+      "symbol": "s",
+      "meaning": "complex frequency parameter",
+      "dimensions": "complex scalar"
+    },
+    {
+      "symbol": "t",
+      "meaning": "time parameter (t >= 0)",
+      "dimensions": "real scalar"
+    },
+    {
+      "symbol": "M",
+      "meaning": "positive constant bound on exponential growth",
+      "dimensions": "real scalar"
+    },
+    {
+      "symbol": "alpha",
+      "meaning": "real exponent rate of exponential restriction",
+      "dimensions": "real scalar"
+    },
+    {
+      "symbol": "gamma",
+      "meaning": "real parameter defining the vertical line Re(s) = gamma for the Bromwich contour",
+      "dimensions": "real scalar"
+    },
+    {
+      "symbol": "T",
+      "meaning": "real integration limit along the imaginary axis tending to infinity",
+      "dimensions": "real scalar"
+    },
+    {
+      "symbol": "b",
+      "meaning": "real bound parameter for exponential order in Post's formula",
+      "dimensions": "real scalar"
+    },
+    {
+      "symbol": "k",
+      "meaning": "integer derivative order and limit index in Post's formula",
+      "dimensions": "integer scalar"
+    },
+    {
+      "symbol": "F^(k)",
+      "meaning": "k-th derivative of F with respect to s",
+      "dimensions": "complex scalar / function"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Uniqueness under Lerch's theorem: if F has an inverse Laplace transform f, f is uniquely determined up to a point set of Lebesgue measure zero",
+      "why": "Functions differing only on a set of Lebesgue measure zero possess identical Laplace transforms",
+      "cites": [
+        "wikipedia:Inverse_Laplace_transform"
+      ]
+    },
+    {
+      "property": "Bromwich's inversion formula: f(t) = L^-1{F(s)}(t) = (1 / (2 * pi * i)) * lim_{T -> infinity} int_{gamma - i*T}^{gamma + i*T} e^(s*t) * F(s) ds",
+      "why": "Integrates along a vertical line Re(s) = gamma located to the right of all singularities of F where F is bounded",
+      "cites": [
+        "wikipedia:Inverse_Laplace_transform"
+      ]
+    },
+    {
+      "property": "Equivalence of Bromwich's formula to the inverse Fourier transform when all singularities satisfy Re(s_k) < 0 or F is entire",
+      "why": "The contour line Re(s) = gamma can be set to gamma = 0, which aligns the contour with the imaginary axis",
+      "cites": [
+        "wikipedia:Inverse_Laplace_transform"
+      ]
+    },
+    {
+      "property": "Evaluation via Cauchy residue theorem",
+      "why": "Bromwich's complex line integral is evaluated in practice by closing the contour and summing residues at the enclosed singularities",
+      "cites": [
+        "wikipedia:Inverse_Laplace_transform"
+      ]
+    },
+    {
+      "property": "Post's inversion formula: f(t) = L^-1{F}(t) = lim_{k -> infinity} ((-1)^k / k!) * (k / t)^(k + 1) * F^(k)(k / t) for t > 0",
+      "why": "Expresses the inverse transform as an asymptotic limit of high-order derivatives of F without requiring the locations of poles",
+      "cites": [
+        "wikipedia:Inverse_Laplace_transform"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "f(t) is piecewise-continuous on [0, infinity) and exponentially restricted (|f(t)| <= M * e^(alpha * t) for all t >= 0 with M > 0, alpha in R)",
+      "breaks_when": "f(t) grows super-exponentially (e.g., e^(t^2)) or has infinite/essential discontinuities on [0, infinity)"
+    },
+    {
+      "assumption": "In Bromwich's formula, the vertical line Re(s) = gamma satisfies gamma > Re(s_k) for all singularities s_k of F, and F is bounded on that line",
+      "breaks_when": "gamma is less than or equal to the real part of any singularity of F, the path lies outside the region of convergence, or F is unbounded along the line"
+    },
+    {
+      "assumption": "In Post's formula, f is continuous on [0, infinity) of exponential order (sup_{t > 0} f(t)/e^(b*t) < infinity for some b in R) and s > b",
+      "breaks_when": "f is discontinuous, f grows faster than any exponential function, or evaluation occurs at s <= b"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Contour misplacement or divergence of the Bromwich line integral",
+      "signature": "The complex line integral diverges or fails to recover f(t)",
+      "cause": "gamma is chosen such that gamma <= Re(s_k) for some singularity s_k of F, or F is unbounded along Re(s) = gamma"
+    },
+    {
+      "mode": "Computational and algebraic intractability in Post's inversion formula",
+      "signature": "Inability to analytically or numerically compute the inverse transform",
+      "cause": "Post's formula requires computing derivatives F^(k) of arbitrarily high orders k as k -> infinity"
+    },
+    {
+      "mode": "Indeterminacy on sets of measure zero",
+      "signature": "Values of f(t) at isolated points or jump discontinuities are not uniquely pinned down",
+      "cause": "Lerch's theorem only guarantees uniqueness up to sets having Lebesgue measure zero"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Inverse_Laplace_transform"
+  ],
+  "check": {
+    "node_id": "inverse_laplace_transform",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so inverse_laplace_transform is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "node_id": "ordinary_least_squares",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "The ordinary least squares (OLS) estimator \\hat{\\boldsymbol{\\beta}} for the linear model \\mathbf{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon} minimizes the sum of squared residuals S(b) = \\|\\mathbf{y} - \\mathbf{X}b\\|^2 = (\\mathbf{y} - \\mathbf{X}b)^\\top(\\mathbf{y} - \\mathbf{X}b) and is given by the unique solution to the normal equations (\\mathbf{X}^\\top \\mathbf{X})\\hat{\\boldsymbol{\\beta}} = \\mathbf{X}^\\top \\mathbf{y}, yielding \\hat{\\boldsymbol{\\beta}} = (\\mathbf{X}^\\top \\mathbf{X})^{-1} \\mathbf{X}^\\top \\mathbf{y}, provided the p columns of \\mathbf{X} are linearly independent. Note: The supplied source provides the objective, the gradient equations at the minimum, and the normal equations, while the intermediate matrix calculus expansion of the quadratic form S(b) is omitted in the source behind a '[proof]' marker.",
+  "symbols": [
+    {
+      "symbol": "y",
+      "meaning": "vector of observed values of the dependent variable (regressand)",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "X",
+      "meaning": "design matrix of regressors (independent variables)",
+      "dimensions": "n x p"
+    },
+    {
+      "symbol": "\\beta",
+      "meaning": "unknown parameter vector",
+      "dimensions": "p x 1"
+    },
+    {
+      "symbol": "\\hat{\\beta}",
+      "meaning": "ordinary least squares estimator of \\beta",
+      "dimensions": "p x 1"
+    },
+    {
+      "symbol": "b",
+      "meaning": "candidate parameter vector in \\mathbb{R}^p",
+      "dimensions": "p x 1"
+    },
+    {
+      "symbol": "S(b)",
+      "meaning": "sum of squared residuals (SSR) objective function",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "X^T X",
+      "meaning": "normal matrix or Gram matrix",
+      "dimensions": "p x p"
+    },
+    {
+      "symbol": "X^T y",
+      "meaning": "moment matrix of regressand by regressors",
+      "dimensions": "p x 1"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of observations",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "p",
+      "meaning": "number of parameters / regressors (number of columns of X)",
+      "dimensions": "1 x 1"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "The OLS estimator is defined as the parameter vector b that minimizes the sum of squared residuals (SSR): S(b) = \\sum_{i=1}^n (y_i - x_i^\\top b)^2 = (y - Xb)^\\top (y - Xb) = \\|y - Xb\\|^2, so \\hat{\\beta} = \\operatorname{argmin}_{b \\in \\mathbb{R}^p} S(b).",
+      "invokes": [
+        "least_squares_objective",
+        "residual"
+      ],
+      "cites": [
+        "wikipedia:Ordinary_least_squares"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Because S(b) is quadratic in b with positive-definite Hessian, the unique global minimum occurs where the gradient equations vanish: (y - X\\hat{\\beta})^\\top X = 0.",
+      "invokes": [
+        "matrix_calculus_gradient",
+        "stationary_point"
+      ],
+      "cites": [
+        "wikipedia:Ordinary_least_squares"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Transposing the gradient equations (y - X\\hat{\\beta})^\\top X = 0 yields X^\\top (y - X\\hat{\\beta}) = 0, which expands to the normal equations: (X^\\top X)\\hat{\\beta} = X^\\top y.",
+      "invokes": [
+        "transpose_identities",
+        "normal_equations"
+      ],
+      "cites": [
+        "wikipedia:Ordinary_least_squares"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Provided that the p columns of X are linearly independent, the Gram matrix X^\\top X is invertible, yielding the explicit least-squares estimator: \\hat{\\beta} = (X^\\top X)^{-1} X^\\top y.",
+      "invokes": [
+        "gram_matrix",
+        "linear_independence",
+        "matrix_inverse"
+      ],
+      "cites": [
+        "wikipedia:Ordinary_least_squares"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The p columns of the matrix X are linearly independent (no perfect multicollinearity).",
+      "breaks_when": "There is perfect multicollinearity among explanatory variables, rendering X^T X singular and non-invertible."
+    },
+    {
+      "assumption": "The number of observations n is greater than or equal to the number of parameters p (n >= p).",
+      "breaks_when": "The sample size n is strictly less than p, resulting in an underdetermined system where X^T X cannot have full rank p."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Perfect multicollinearity",
+      "signature": "X^T X is singular (non-invertible) and has no inverse; the normal equations do not possess a unique solution.",
+      "cause": "One or more columns of X are exact linear combinations of other columns, making rank(X) < p."
+    },
+    {
+      "mode": "Underdetermined system (n < p)",
+      "signature": "rank(X^T X) <= n < p, preventing inversion of X^T X; the degrees of freedom n - p is negative.",
+      "cause": "Fewer data observations are available than unknown parameters to estimate."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Ordinary_least_squares"
+  ],
+  "check": {
+    "node_id": "ordinary_least_squares",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

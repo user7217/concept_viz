@@ -1,0 +1,117 @@
+{
+  "node_id": "proposal_distribution",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A proposal distribution (also termed a biased distribution, sample distribution, or biasing density, denoted with density or mass function $g(x)$ or $f_*(x)$, or probability measure $\\mathbb{Q}$) is an alternative distribution from which samples are generated instead of the distribution of interest $f(x)$ (or measure $\\mathbb{P}$), defined such that expectations under $\\mathbb{P}$ are evaluated via likelihood-ratio weighted samples under $\\mathbb{Q}$:\n$$\\mathbb{E}_{\\mathbb{P}}[X] = \\mathbb{E}_{\\mathbb{Q}}\\left[\\frac{X}{Y}\\right] \\quad \\text{or} \\quad \\mathbb{E}[1_{\\{X \\ge t\\}}] = \\int 1_{\\{x \\ge t\\}} \\frac{f(x)}{f_*(x)} f_*(x)\\,dx = \\mathbb{E}_*[1_{\\{X \\ge t\\}} W(X)]$$\nwhere $W(X) \\equiv \\frac{f(X)}{g(X)}$ (or $\\frac{f(X)}{f_*(X)}$) is the likelihood ratio / weighting function.",
+  "symbols": [
+    {
+      "symbol": "g",
+      "meaning": "probability density (or mass) function of the biased, proposal, or sample distribution",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "f",
+      "meaning": "probability density (or mass) function of the desired target distribution",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "f_*",
+      "meaning": "biasing density function for the simulation experiment",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "X",
+      "meaning": "random variable or sample",
+      "dimensions": "scalar or vector"
+    },
+    {
+      "symbol": "W(X)",
+      "meaning": "weighting function / likelihood ratio defined as f(X)/g(X) or f(X)/f_*(X)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbb{P}",
+      "meaning": "original probability measure of interest",
+      "dimensions": "probability measure"
+    },
+    {
+      "symbol": "\\mathbb{Q}",
+      "meaning": "alternative probability measure defined for importance sampling",
+      "dimensions": "probability measure"
+    },
+    {
+      "symbol": "Y",
+      "meaning": "non-negative random variable defining \\mathbb{Q} satisfying \\mathbb{E}_{\\mathbb{P}}[Y] = 1",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Unbiased estimation via likelihood ratio weighting: $\\mathbb{E}_{\\mathbb{P}}[X] = \\mathbb{E}_{\\mathbb{Q}}[X/Y]$ and $\\mathbb{E}[\\hat{p}_t] = p_t$",
+      "why": "Weighting simulation outputs by the likelihood ratio $W(X) = f(X)/g(X)$ corrects for the use of the biased distribution",
+      "cites": [
+        "wikipedia:Importance_sampling"
+      ]
+    },
+    {
+      "property": "Variance reduction condition: estimation precision is improved when $\\operatorname{var}_{\\mathbb{Q}}[X/Y] < \\operatorname{var}_{\\mathbb{P}}[X]$",
+      "why": "The proposal distribution redistributes probability mass to sample more frequently from regions where input variables have greater impact",
+      "cites": [
+        "wikipedia:Importance_sampling"
+      ]
+    },
+    {
+      "property": "Optimal proposal density: $g^*(X) = \\frac{|X|f(X)}{\\int |x|f(x)\\,dx}$ minimizes $\\operatorname{var}_g\\left(X\\frac{f(X)}{g(X)}\\right)$, achieving zero variance when $X \\geq 0$",
+      "why": "Sampling under $g^*(X)$ scales the sample to be constant",
+      "cites": [
+        "wikipedia:Importance_sampling"
+      ]
+    },
+    {
+      "property": "Biasing via scaling: $f_*(x) = \\frac{1}{a} f(x/a)$ with weighting function $W(x) = a \\frac{f(x)}{f(x/a)}$ for $a > 1$",
+      "why": "Positive scaling increases the variance and creates heavier tails, shifting probability mass into the tail event region $X \\ge t$",
+      "cites": [
+        "wikipedia:Importance_sampling"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Non-zero density / support coverage: $Y(\\omega) \\neq 0$ $\\mathbb{P}$-almost everywhere (or $g(x) > 0$ wherever $f(x) > 0$)",
+      "breaks_when": "The proposal distribution assigns zero density/probability to regions where the target distribution has non-zero probability, making the likelihood ratio $f(X)/g(X)$ or $X/Y$ undefined or dividing by zero"
+    },
+    {
+      "assumption": "Proper normalization: $Y \\ge 0$ with $\\mathbb{E}_{\\mathbb{P}}[Y] = 1$, and $g(x)$ is a valid density integrating to 1",
+      "breaks_when": "$Y < 0$ or $\\mathbb{E}_{\\mathbb{P}}[Y] \\neq 1$, which biases the expectation estimate"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Variance inflation and runtime penalty",
+      "signature": "$\\operatorname{var}_{\\mathbb{Q}}[X/Y] \\ge \\operatorname{var}_{\\mathbb{P}}[X]$, resulting in slower convergence and longer simulation run times than standard Monte Carlo",
+      "cause": "Poor choice of proposal distribution $g$ that fails to encourage important regions or assigns low probabilities to high-impact values"
+    },
+    {
+      "mode": "Dimensionality effect under scaling",
+      "signature": "Importance sampling gain decreases as the dimension $n$ grows",
+      "cause": "Scaling spreads probability mass into the complementary non-target region across an $n$-dimensional space when $X$ is a sum of $n$ random variables"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Importance_sampling"
+  ],
+  "check": {
+    "node_id": "proposal_distribution",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

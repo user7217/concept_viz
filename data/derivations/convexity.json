@@ -1,0 +1,65 @@
+{
+  "node_id": "convexity",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Convexity refers to the mathematical property where a convex set contains the whole line segment that joins points, and a convex function is one where the line segment between any two points on the graph of the function lies above or on the graph.",
+  "symbols": [],
+  "steps": [],
+  "properties": [
+    {
+      "property": "A convex set contains the whole line segment that joins points",
+      "why": "definition of convex set",
+      "cites": [
+        "wikipedia:Convex"
+      ]
+    },
+    {
+      "property": "The line segment between any two points on the graph of a convex function lies above or on the graph",
+      "why": "definition of convex function",
+      "cites": [
+        "wikipedia:Convex"
+      ]
+    },
+    {
+      "property": "A convex polygon encloses a convex set of points",
+      "why": "definition of convex polygon",
+      "cites": [
+        "wikipedia:Convex"
+      ]
+    },
+    {
+      "property": "A convex polytope is characterized by a convex set of points",
+      "why": "definition of convex polytope",
+      "cites": [
+        "wikipedia:Convex"
+      ]
+    },
+    {
+      "property": "Convexity generalizes to abstract metric spaces via the notion of a convex metric space",
+      "why": "generalization of convexity",
+      "cites": [
+        "wikipedia:Convex"
+      ]
+    }
+  ],
+  "assumptions": [],
+  "failure_modes": [],
+  "source_ids": [
+    "wikipedia:Convex"
+  ],
+  "check": {
+    "node_id": "convexity",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [
+      "sheet names no symbols, so it is probably not about this node's mathematics at all"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "node_id": "euler_angles",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The Euler angles are three angles $(\\alpha, \\beta, \\gamma)$ that describe the orientation of a rigid body, mobile frame of reference, or general basis with respect to a fixed coordinate system in three-dimensional Euclidean space, defined by decomposing any rotation matrix $R \\in \\mathrm{SO}(3)$ into a composition of three elemental rotations about coordinate axes: $R = X(\\alpha)Y(\\beta)Z(\\gamma)$ (or another valid intrinsic or extrinsic sequence).",
+  "symbols": [
+    {
+      "symbol": "R",
+      "meaning": "rotation matrix representing the 3D orientation",
+      "dimensions": "3 x 3"
+    },
+    {
+      "symbol": "\\alpha, \\beta, \\gamma",
+      "meaning": "three Euler angles specifying the magnitude of successive elemental rotations",
+      "dimensions": "scalar (radians)"
+    },
+    {
+      "symbol": "X(\\alpha), Y(\\beta), Z(\\gamma)",
+      "meaning": "elemental rotation matrices representing rotations about the coordinate axes x, y, z",
+      "dimensions": "3 x 3"
+    },
+    {
+      "symbol": "\\psi, \\theta, \\phi",
+      "meaning": "Tait\u2013Bryan Euler angles (corresponding to yaw, pitch, and roll)",
+      "dimensions": "scalar (radians)"
+    },
+    {
+      "symbol": "(X, Y, Z)",
+      "meaning": "unit vectors describing the orientation of the target frame",
+      "dimensions": "3 x 1 each"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Any 3D orientation or rotation matrix can be decomposed into a product of three elemental rotation matrices.",
+      "why": "three parameters are always required to describe orientations in a 3-dimensional Euclidean space",
+      "cites": [
+        "wikipedia:Euler_angles"
+      ]
+    },
+    {
+      "property": "A composition of intrinsic rotations about rotating axes corresponds to a composition of extrinsic rotations about fixed axes in reverse order.",
+      "why": "constructive evaluation of the rotation matrix multiplies elemental matrices in reverse order",
+      "cites": [
+        "wikipedia:Euler_angles"
+      ]
+    },
+    {
+      "property": "Tait\u2013Bryan angles rotate about three distinct axes, whereas proper Euler angles use the same axis for the first and third elemental rotations.",
+      "why": "proper conventions reuse the initial axis (e.g., Z-X-Z) while Tait\u2013Bryan conventions use three distinct axes (e.g., Z-Y-X)",
+      "cites": [
+        "wikipedia:Euler_angles"
+      ]
+    },
+    {
+      "property": "The Euler angles form a chart on SO(3) that is smooth except for a polar coordinate style singularity along $\\beta = 0$.",
+      "why": "the coordinate representation suffers from a singularity where intermediate axes align",
+      "cites": [
+        "wikipedia:Euler_angles"
+      ]
+    },
+    {
+      "property": "The Haar measure on SO(3) in Euler angles is given by $\\mathrm{d}V \\propto \\sin(\\beta) \\cdot \\mathrm{d}\\alpha \\cdot \\mathrm{d}\\beta \\cdot \\mathrm{d}\\gamma$.",
+      "why": "the angles $(\\beta, \\alpha)$ parametrise the sphere of rotation axes $S^2$ via the Hopf angle parametrisation",
+      "cites": [
+        "wikipedia:Euler_angles"
+      ]
+    },
+    {
+      "property": "Formulas for passive rotations are obtained by transposing the active rotation matrices.",
+      "why": "passive rotations rotate the coordinate reference system rather than rotating the vector itself",
+      "cites": [
+        "wikipedia:Euler_angles"
+      ]
+    },
+    {
+      "property": "The number of Euler angles needed to represent the group SO(n) in n dimensions is $n(n - 1)/2$.",
+      "why": "higher-dimensional rotations occur in coordinate planes and there are $n(n - 1)/2$ planes spanned by pairs of distinct axes",
+      "cites": [
+        "wikipedia:Euler_angles"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Right-handed reference frames are adopted and the right-hand rule determines the sign of the angles.",
+      "breaks_when": "A left-handed coordinate convention or alternative sign definition is used."
+    },
+    {
+      "assumption": "Elemental rotations must be executed in a specific predefined order starting from a frame coincident with the reference frame.",
+      "breaks_when": "Rotations are applied in a different order or the initial frame does not coincide with the reference frame."
+    },
+    {
+      "assumption": "Angle ranges must be bounded (e.g., $2\\pi$ radians for $\\psi, \\phi$ and $\\pi$ radians for $\\theta$, or $0 < \\beta < \\pi$) to establish unique coordinates.",
+      "breaks_when": "Ranges are undefined or exceeded, resulting in non-unique sequences of angles due to multi-valued inverse trigonometric functions."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Gimbal lock / coordinate singularity",
+      "signature": "Vanishing denominator $\\sqrt{1 - Z_3^2} = 0$ (for proper Euler angles) or $\\sqrt{1 - X_3^2} = 0$ (for Tait\u2013Bryan angles), leading to indeterminate angle extraction and loss of one rotational degree of freedom.",
+      "cause": "The orientation reaches the polar coordinate style singularity of the chart (e.g., $\\beta = 0$ or $\\cos(\\theta) = 0$) where rotation axes align."
+    },
+    {
+      "mode": "Inverse trigonometric ambiguity",
+      "signature": "Recovered angles point to the wrong physical quadrant or orientation.",
+      "cause": "Using single-argument inverse sine or cosine functions which yield two possible values instead of using the four-quadrant $\\operatorname{atan2}(y, x)$ function."
+    },
+    {
+      "mode": "Active versus passive matrix transposition error",
+      "signature": "Coordinates are transformed inversely relative to the expected physical frame.",
+      "cause": "Failing to transpose the matrix when transforming between vector rotations (active) and coordinate system rotations (passive)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Euler_angles"
+  ],
+  "check": {
+    "node_id": "euler_angles",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

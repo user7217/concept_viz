@@ -1,0 +1,130 @@
+{
+  "node_id": "loss_function",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In mathematical optimization, decision theory, and statistics, a loss function (or cost function, error function) is a function $L$ that maps an event or values of one or more variables onto a real number intuitively representing some cost associated with the event, which an optimization problem seeks to minimize; in parameter estimation and statistical decision theory, it is typically expressed as $L(\\theta, \\delta(x)) \\in \\mathbb{R}$, where $\\theta$ is a state of nature or parameter and $\\delta(x)$ is a decision rule or estimate based on observation $x$.",
+  "symbols": [
+    {
+      "symbol": "L",
+      "meaning": "Loss function mapping an event or variable values to a real-valued cost",
+      "dimensions": "scalar-valued function"
+    },
+    {
+      "symbol": "\\theta",
+      "meaning": "Fixed but possibly unknown state of nature or true parameter",
+      "dimensions": "scalar or vector"
+    },
+    {
+      "symbol": "X",
+      "meaning": "Vector of observations stochastically drawn from a population",
+      "dimensions": "vector"
+    },
+    {
+      "symbol": "\\delta(X)",
+      "meaning": "Decision rule or estimator producing an action/estimate based on observation X",
+      "dimensions": "matches action or parameter space"
+    },
+    {
+      "symbol": "R(\\theta, \\delta)",
+      "meaning": "Frequentist risk function (expected loss under distribution P_\\theta)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\rho(\\pi^*, a)",
+      "meaning": "Bayes risk (expected loss integrated over prior distribution \\pi^*)",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Optimization role: An optimization problem seeks to minimize a loss function, while an objective function to be maximized (such as reward, profit, or utility) is either a loss function or its opposite.",
+      "why": "defined as representing cost associated with an event",
+      "cites": [
+        "wikipedia:Loss_function"
+      ]
+    },
+    {
+      "property": "Frequentist expected loss (Risk function): When observations X are random, the expected loss under probability distribution P_\\theta is given by R(\\theta, \\delta) = \\operatorname{E}_\\theta [L(\\theta, \\delta(X))] = \\int_X L(\\theta, \\delta(x)) \\, \\mathrm{d}P_\\theta(x).",
+      "why": "evaluates the average performance of a decision rule across population outcomes of X for a fixed parameter \\theta",
+      "cites": [
+        "wikipedia:Loss_function"
+      ]
+    },
+    {
+      "property": "Bayesian expected loss (Bayes risk): Expectation evaluated with respect to the prior distribution \\pi^* of parameter \\theta yields \\rho(\\pi^*, a) = \\int_\\Theta \\int_\\mathbf{X} L(\\theta, a(\\mathbf{x})) \\, \\mathrm{d}P(\\mathbf{x}|\\theta) \\, \\mathrm{d}\\pi^*(\\theta), minimized by the Bayes decision rule.",
+      "why": "minimizes the average loss over all possible states of nature weighted by the prior and posterior distributions",
+      "cites": [
+        "wikipedia:Loss_function"
+      ]
+    },
+    {
+      "property": "Quadratic / Squared error loss (SEL): Expressed as L(\\theta, \\hat{\\theta}) = (\\theta - \\hat{\\theta})^2 or \\lambda(x) = C(t - x)^2; its risk function is the mean squared error and the expected loss is minimized by the posterior mean.",
+      "why": "symmetric and mathematically tractable due to properties of variances and linear first-order conditions",
+      "cites": [
+        "wikipedia:Loss_function"
+      ]
+    },
+    {
+      "property": "0-1 loss function: Defined as L(\\hat{y}, y) = 0 if y = \\hat{y} and 1 if y \\neq \\hat{y}, also known in information theory as Hamming distortion.",
+      "why": "serves as the discrete penalty for incorrect classification",
+      "cites": [
+        "wikipedia:Loss_function"
+      ]
+    },
+    {
+      "property": "Absolute loss vs. squared loss: The median minimizes expected loss under the absolute-difference loss L(a) = |a|, while the mean minimizes expected loss under squared loss L(a) = a^2.",
+      "why": "different loss functions penalize error magnitudes differently",
+      "cites": [
+        "wikipedia:Loss_function"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Scalar cost representation: The cost, penalty, or regret associated with an outcome or decision can be represented by a single real number.",
+      "breaks_when": "Preferences or multidimensional tradeoffs cannot be scalarized into a real-valued utility or cost function."
+    },
+    {
+      "assumption": "Smoothness and continuity: Optimization algorithms typically assume the loss function is globally continuous and differentiable.",
+      "breaks_when": "Loss functions possess non-differentiable points (such as absolute loss at a = 0) or step discontinuities (such as 0-1 loss or hard threshold gate closures)."
+    },
+    {
+      "assumption": "Symmetry in error impact (for quadratic or symmetric losses): An error above the target causes the same loss as an error of the same magnitude below the target.",
+      "breaks_when": "Real-world costs are asymmetric, such as drug dosing (lack of efficacy vs. toxicity) or arriving before vs. after plane gate closure."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Outlier domination with squared error loss",
+      "signature": "Parameter estimates and optimization decisions are excessively sensitive to and dominated by a few large errors.",
+      "cause": "The quadratic growth of squared loss L(a) = a^2 assigns disproportionately high penalty to extreme observations relative to average errors."
+    },
+    {
+      "mode": "Optimization breakdown due to non-differentiability",
+      "signature": "Gradient-based optimization algorithms fail to compute gradients or oscillate around non-smooth points.",
+      "cause": "Loss functions such as absolute loss L(a) = |a| are non-differentiable at a = 0, and 0-1 loss functions have zero gradient almost everywhere with jump discontinuities."
+    },
+    {
+      "mode": "Catastrophic penalty under real-world asymmetric thresholds",
+      "signature": "Severe practical failure when an optimal decision derived from a symmetric loss encounters an irreversible real-world penalty.",
+      "cause": "Empirical costs often feature sharp asymmetric thresholds (e.g. traffic back-up, structural beam collapse, arrival deadlines) where small deviations in one direction lead to catastrophic cost."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Loss_function"
+  ],
+  "check": {
+    "node_id": "loss_function",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

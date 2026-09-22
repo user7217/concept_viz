@@ -1,0 +1,130 @@
+{
+  "node_id": "controllability",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "A discrete-time linear time-invariant system x(k+1) = Ax(k) + Bu(k) is controllable if and only if the n x nr controllability matrix C = [B  AB  A^2B  ...  A^(n-1)B] has full row rank, i.e., rank(C) = n, enabling any target state x(n) to be reached from initial state x(0) in n steps.",
+  "symbols": [
+    {
+      "symbol": "x(k)",
+      "meaning": "state vector at time step k",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "u(k)",
+      "meaning": "input (or control) vector at time step k",
+      "dimensions": "r x 1"
+    },
+    {
+      "symbol": "A",
+      "meaning": "state matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "B",
+      "meaning": "input matrix",
+      "dimensions": "n x r"
+    },
+    {
+      "symbol": "C",
+      "meaning": "controllability matrix [B  AB  A^2B  ...  A^(n-1)B]",
+      "dimensions": "n x nr"
+    },
+    {
+      "symbol": "n",
+      "meaning": "dimension of the state vector",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "r",
+      "meaning": "dimension of the control input vector",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "k",
+      "meaning": "discrete time index",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Given the discrete-time state equation x(k+1) = Ax(k) + Bu(k) with initial state x(0) at k = 0, evaluate at the first step: x(1) = Ax(0) + Bu(0).",
+      "invokes": [
+        "state_space_model"
+      ],
+      "cites": [
+        "wikipedia:Controllability"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Substitute x(1) into the state equation at k = 1: x(2) = Ax(1) + Bu(1) = A(Ax(0) + Bu(0)) + Bu(1) = A^2 x(0) + ABu(0) + Bu(1).",
+      "invokes": [
+        "recursive_substitution"
+      ],
+      "cites": [
+        "wikipedia:Controllability"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Apply repeated back-substitutions of the state variable up to step n: x(n) = B u(n-1) + AB u(n-2) + ... + A^(n-1)B u(0) + A^n x(0).",
+      "invokes": [
+        "recursive_substitution"
+      ],
+      "cites": [
+        "wikipedia:Controllability"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Subtract A^n x(0) from both sides and collect the terms into a block-matrix product with the stacked input vector: x(n) - A^n x(0) = [B  AB  ...  A^(n-1)B] [u^T(n-1)  u^T(n-2)  ...  u^T(0)]^T.",
+      "invokes": [
+        "matrix"
+      ],
+      "cites": [
+        "wikipedia:Controllability"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "For any imposed desired state x(n), the system can always be solved for the stacked vector of control vectors if and only if the matrix C = [B  AB  ...  A^(n-1)B] has full row rank, i.e., rank(C) = n.",
+      "invokes": [
+        "rank"
+      ],
+      "cites": [
+        "wikipedia:Controllability"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The system is a discrete linear time-invariant system governed by x(k+1) = Ax(k) + Bu(k) with constant matrices A and B.",
+      "breaks_when": "System matrices vary with time (time-varying dynamics) or system equations are nonlinear."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "System is uncontrollable",
+      "signature": "rank(C) < n",
+      "cause": "The n x nr controllability matrix C lacks full row rank (i.e., it does not have n linearly independent columns), so its columns do not span the entire n-dimensional state space and arbitrary target states cannot be reached."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Controllability"
+  ],
+  "check": {
+    "node_id": "controllability",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

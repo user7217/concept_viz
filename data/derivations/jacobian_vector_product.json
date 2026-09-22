@@ -1,0 +1,102 @@
+{
+  "node_id": "jacobian_vector_product",
+  "grounded": false,
+  "kind": "definition",
+  "statement": "The supplied sources genuinely contain nothing to derive and do not support or define the Jacobian vector product (the source wikipedia:Jacobian_matrix_and_determinant defines only the Jacobian matrix and its determinant, containing no derivation or mention of a Jacobian vector product). By definition, for a differentiable vector-valued function f: R^n -> R^m at a point x in R^n and a vector v in R^n, the Jacobian-vector product (JVP) is the product of the Jacobian matrix J_f(x) and the vector v, given by (J_f(x)) v = sum_{j=1}^n (df/dx_j) v_j, where the Jacobian matrix is the m x n matrix of all first-order partial derivatives [df_i/dx_j].",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "vector-valued function of several variables",
+      "dimensions": "R^n -> R^m"
+    },
+    {
+      "symbol": "x",
+      "meaning": "input coordinate vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "J_f(x)",
+      "meaning": "Jacobian matrix of first-order partial derivatives",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "v",
+      "meaning": "vector by which the Jacobian matrix is multiplied",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "J_f(x) v",
+      "meaning": "Jacobian-vector product",
+      "dimensions": "m x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The Jacobian matrix is the matrix of all first-order partial derivatives of a vector-valued function of several variables, generalizing the derivative and differential.",
+      "why": "each entry (i, j) is defined as the partial derivative of component f_i with respect to variable x_j",
+      "cites": [
+        "wikipedia:Jacobian_matrix_and_determinant"
+      ]
+    },
+    {
+      "property": "According to the inverse function theorem, the matrix inverse of the Jacobian matrix of an invertible function is the Jacobian matrix of the inverse function: J_{f^{-1}}(p) = J_f^{-1}(f^{-1}(p)).",
+      "why": "f is locally invertible near points where the Jacobian is continuous and nonsingular",
+      "cites": [
+        "wikipedia:Jacobian_matrix_and_determinant"
+      ]
+    },
+    {
+      "property": "At a critical point of a differentiable function, the rank of the Jacobian matrix is strictly lower than maximal, meaning all minors of maximal rank are zero.",
+      "why": "the dimension of the differential image drops below its maximal possible value",
+      "cites": [
+        "wikipedia:Jacobian_matrix_and_determinant"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The vector-valued function f must be differentiable at point x, meaning all first-order partial derivatives exist.",
+      "breaks_when": "One or more partial derivatives df_i/dx_j do not exist or are undefined at x."
+    },
+    {
+      "assumption": "The vector v must have dimension matching the number of input variables n of the function f.",
+      "breaks_when": "The dimension of vector v differs from the column dimension n of the Jacobian matrix."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Undefined or infinite partial derivatives",
+      "signature": "Entries of the Jacobian matrix evaluate to undefined, NaN, or infinity",
+      "cause": "Function components fail to be differentiable at the evaluation point x."
+    },
+    {
+      "mode": "Dimension mismatch",
+      "signature": "Matrix-vector multiplication J_f(x) v is undefined",
+      "cause": "The vector v has length different from the input dimension n of f."
+    },
+    {
+      "mode": "Critical point rank deficiency",
+      "signature": "The rank of the Jacobian matrix is not maximal (det(J_f) = 0 for square systems)",
+      "cause": "Linear dependence among rows or columns of partial derivatives at x."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Jacobian_matrix_and_determinant"
+  ],
+  "check": {
+    "node_id": "jacobian_vector_product",
+    "kind": "definition",
+    "grounded": false,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so jacobian_vector_product is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

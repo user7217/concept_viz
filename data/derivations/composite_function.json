@@ -1,0 +1,98 @@
+{
+  "node_id": "composite_function",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Given two functions f and g, the composite function f \u2218 g is defined by (f \u2218 g)(x) = f(g(x)), where the function f is applied after applying g to x.",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "outer function applied after g",
+      "dimensions": "function"
+    },
+    {
+      "symbol": "g",
+      "meaning": "inner function applied to input x",
+      "dimensions": "function"
+    },
+    {
+      "symbol": "x",
+      "meaning": "input value to the inner function g",
+      "dimensions": "element of the domain of g"
+    },
+    {
+      "symbol": "f \u2218 g",
+      "meaning": "composite function of f and g",
+      "dimensions": "function"
+    },
+    {
+      "symbol": "\u2218",
+      "meaning": "composition operator",
+      "dimensions": "binary operator"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Associativity: if f, g, and h are composable, then f \u2218 (g \u2218 h) = (f \u2218 g) \u2218 h.",
+      "why": "Composition of functions is a special case of composition of relations and inherits associativity from it",
+      "cites": [
+        "wikipedia:Function_composition"
+      ]
+    },
+    {
+      "property": "Non-commutativity: in general, g \u2218 f \u2260 f \u2218 g.",
+      "why": "Commutativity is a special property attained only by particular functions and often in special circumstances",
+      "cites": [
+        "wikipedia:Function_composition"
+      ]
+    },
+    {
+      "property": "Preservation of injectivity, surjectivity, and bijectivity: composition of injective functions is injective, composition of surjective functions is surjective, and composition of bijections is a bijection.",
+      "why": "Directly follows from the mapping properties of the constituent functions",
+      "cites": [
+        "wikipedia:Function_composition"
+      ]
+    },
+    {
+      "property": "Inverse of composition: if a composition is invertible, (f \u2218 g)\u207b\u00b9 = g\u207b\u00b9 \u2218 f\u207b\u00b9.",
+      "why": "The reversal of operations under inversion",
+      "cites": [
+        "wikipedia:Function_composition"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The codomain of the inner function must equal (or be a subset of) the domain of the outer function.",
+      "breaks_when": "The inner function produces values that lie outside the domain of the outer function."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Domain-codomain incompatibility",
+      "signature": "The expression f(g(x)) is undefined for some or all inputs x.",
+      "cause": "The codomain of g is not contained within the domain of f, making composition impossible without domain restriction."
+    },
+    {
+      "mode": "Order reversal / Non-commutativity assumption",
+      "signature": "Evaluating (f \u2218 g)(x) yields an unexpected result or different domain/value compared to (g \u2218 f)(x).",
+      "cause": "Incorrectly assuming that function composition commutes (f \u2218 g = g \u2218 f)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Function_composition"
+  ],
+  "check": {
+    "node_id": "composite_function",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

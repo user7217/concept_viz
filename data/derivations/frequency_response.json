@@ -1,0 +1,113 @@
+{
+  "node_id": "frequency_response",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The frequency response of a system is the quantitative measure of the magnitude and phase of the output as a function of input frequency. In linear systems, it completely describes the system with a one-to-one correspondence to the time-domain impulse response as its Fourier transform, and is equivalent to the Laplace transfer function when the real part $\\sigma$ of the complex variable $s = \\sigma + j\\omega$ is zero.",
+  "symbols": [
+    {
+      "symbol": "s",
+      "meaning": "complex variable of the transfer function, defined as s = \\sigma + j\\omega",
+      "dimensions": "scalar (frequency)"
+    },
+    {
+      "symbol": "\\sigma",
+      "meaning": "real part of the transfer function complex variable s",
+      "dimensions": "scalar (frequency)"
+    },
+    {
+      "symbol": "\\omega",
+      "meaning": "input frequency (imaginary part of s)",
+      "dimensions": "scalar (frequency)"
+    },
+    {
+      "symbol": "j",
+      "meaning": "imaginary unit",
+      "dimensions": "dimensionless"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The frequency response completely describes a linear system and has a one-to-one correspondence with the impulse response.",
+      "why": "the frequency response is the Fourier transform of the time-domain impulse response",
+      "cites": [
+        "wikipedia:Frequency_response"
+      ]
+    },
+    {
+      "property": "The overall frequency response of cascaded systems is obtained by the multiplication of the individual stages' frequency responses.",
+      "why": "frequency-domain multiplication corresponds to time-domain convolution of individual impulse responses",
+      "cites": [
+        "wikipedia:Frequency_response"
+      ]
+    },
+    {
+      "property": "The frequency response is equivalent to the system transfer function evaluated on the imaginary axis ($s = j\\omega$).",
+      "why": "the real part $\\sigma$ of the complex variable $s = \\sigma + j\\omega$ in the Laplace transform is zero",
+      "cites": [
+        "wikipedia:Frequency_response"
+      ]
+    },
+    {
+      "property": "Mathematical analysis of systems is simplified by converting governing differential equations into algebraic equations.",
+      "why": "the frequency response characterizes system input-output behavior directly in the frequency domain",
+      "cites": [
+        "wikipedia:Frequency_response"
+      ]
+    },
+    {
+      "property": "Closed-loop system stability and stability margins can be assessed from the open-loop frequency response via Bode, Nyquist, or Nichols plots.",
+      "why": "the plots parametrically or rectilinearly graph magnitude and phase against frequency",
+      "cites": [
+        "wikipedia:Frequency_response"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The system is linear or can be approximated as linear by neglecting second-order non-linear properties.",
+      "breaks_when": "The system exhibits non-negligible non-linear behavior."
+    },
+    {
+      "assumption": "The real part $\\sigma$ of the complex variable $s = \\sigma + j\\omega$ is zero.",
+      "breaks_when": "The system transfer function is evaluated off the imaginary axis in the complex $s$-plane."
+    },
+    {
+      "assumption": "The system reaches steady-state at each frequency during stepped sinusoidal measurement.",
+      "breaks_when": "The frequency sweep is stepped too fast for the system to reach steady-state at each frequency point of interest."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Spectral leakage in digital systems",
+      "signature": "Frequency response containing a main lobe with multiple periodic sidelobes",
+      "cause": "Discrete digital processes including sampling and windowing"
+    },
+    {
+      "mode": "Transient measurement distortion during sinusoidal sweep",
+      "signature": "Measured output magnitude and phase shift deviate from the true steady-state frequency response",
+      "cause": "Frequency sweep rate is too fast to allow the system to reach steady-state at each test frequency"
+    },
+    {
+      "mode": "Loss of phase information in noise-excited response measurement",
+      "signature": "Magnitude spectrum is captured without phase response",
+      "cause": "Using the power spectral density instead of the cross-spectral density between input and output signals"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Frequency_response"
+  ],
+  "check": {
+    "node_id": "frequency_response",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "node_id": "quadratic_form",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A quadratic form over a field K is a map q : V \u2192 K from a finite-dimensional K-vector space V to K such that q(av) = a^2 q(v) for all a \u2208 K, v \u2208 V and the function (u, v) \u21a6 q(u + v) \u2212 q(u) \u2212 q(v) is a bilinear form; concretely, an n-ary quadratic form in n variables is a homogeneous polynomial of degree 2 given by q(x_1, ..., x_n) = \u2211_{i=1}^n \u2211_{j=1}^n a_{ij} x_i x_j = x^T A x, where A = (a_{ij}) is an n \u00d7 n matrix over K and x is an n \u00d7 1 column vector.",
+  "symbols": [
+    {
+      "symbol": "q",
+      "meaning": "quadratic form map or polynomial",
+      "dimensions": "V \u2192 K or K^n \u2192 K"
+    },
+    {
+      "symbol": "V",
+      "meaning": "finite-dimensional vector space over field K",
+      "dimensions": "n-dimensional"
+    },
+    {
+      "symbol": "K",
+      "meaning": "ground field of scalars",
+      "dimensions": "scalar field"
+    },
+    {
+      "symbol": "x",
+      "meaning": "column vector of coordinates (x_1, ..., x_n)",
+      "dimensions": "n \u00d7 1"
+    },
+    {
+      "symbol": "A",
+      "meaning": "matrix of coefficients determining the quadratic form",
+      "dimensions": "n \u00d7 n"
+    },
+    {
+      "symbol": "b_q",
+      "meaning": "associated symmetric bilinear form",
+      "dimensions": "V \u00d7 V \u2192 K"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Unique symmetric matrix representation: Over a field of characteristic different from 2, every quadratic form q_A(x) = x^T A x is uniquely determined by the symmetric matrix B = (1/2)(A + A^T), so that q_A(x) = x^T B x.",
+      "why": "Cross-terms depend only on the sums a_{ij} + a_{ji}, establishing a one-to-one correspondence between quadratic forms and symmetric matrices when 2 is invertible.",
+      "cites": [
+        "wikipedia:Quadratic_form"
+      ]
+    },
+    {
+      "property": "Change of basis and congruence: Under an invertible linear change of variables x = C y with C \u2208 GL(n, K), the quadratic form transforms with matrix B = C^T A C.",
+      "why": "Substituting the coordinate transformation C into x^T A x yields (Cy)^T A (Cy) = y^T (C^T A C) y.",
+      "cites": [
+        "wikipedia:Quadratic_form"
+      ]
+    },
+    {
+      "property": "Equivalence to diagonal form: Every quadratic form in n variables over a field of characteristic not equal to 2 is equivalent to a diagonal form q(x) = \u2211_{i=1}^n a_i x_i^2.",
+      "why": "Orthogonal or invertible linear transformations diagonalize the representing symmetric matrix.",
+      "cites": [
+        "wikipedia:Quadratic_form"
+      ]
+    },
+    {
+      "property": "Polarization and correspondence with symmetric bilinear forms: When the characteristic of K is not 2, the associated bilinear form b_q(x, y) = (1/2)(q(x + y) \u2212 q(x) \u2212 q(y)) = x^T A y is symmetric and satisfies q(x) = b_q(x, x).",
+      "why": "The processes of polarization and evaluating on the diagonal (x, x) are mutual inverses over fields where 2 is invertible.",
+      "cites": [
+        "wikipedia:Quadratic_form"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The characteristic of the field K is different from 2 (char(K) \u2260 2).",
+      "breaks_when": "char(K) = 2, where 2 is not invertible in K, preventing division by 2 in symmetrizing matrices or recovering the form via polarization."
+    },
+    {
+      "assumption": "The vector space V is finite-dimensional.",
+      "breaks_when": "V is infinite-dimensional, where finite coordinate vectors and finite n \u00d7 n matrix representations are not directly defined."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Degeneration of polarization in characteristic 2",
+      "signature": "The polar form B'(x, y) = Q(x + y) \u2212 Q(x) \u2212 Q(y) satisfies B'(x, x) = 0 for all x (it is alternating), so Q(x) cannot be recovered as B'(x, x)/2.",
+      "cause": "Division by 2 is undefined because 1 + 1 = 0 in characteristic 2."
+    },
+    {
+      "mode": "Singular/degenerate form",
+      "signature": "The kernel of the associated bilinear form contains non-zero vectors, or det(A) = 0.",
+      "cause": "The coefficient matrix A has one or more zero eigenvalues, lowering the rank of the form."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Quadratic_form"
+  ],
+  "check": {
+    "node_id": "quadratic_form",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

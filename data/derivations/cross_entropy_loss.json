@@ -1,0 +1,143 @@
+{
+  "node_id": "cross_entropy_loss",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources genuinely contain nothing to derive for Softmax + Cross-Entropy Loss, as the softmax function is not present in the supplied source; cross-entropy loss is presented directly as a definition. Cross-entropy between a true distribution p and predicted distribution q is defined as H(p, q) = -\\sum_{m} p_m \\log q_m. In machine learning binary classification (logistic regression), with true label y \\in {0, 1} giving true distribution p \\in {y, 1 - y} and model predicted probability \\hat{y} \\equiv g(\\mathbf{w} \\cdot \\mathbf{x}) = 1 / (1 + e^{-\\mathbf{w} \\cdot \\mathbf{x}}) giving predicted distribution q \\in {\\hat{y}, 1 - \\hat{y}}, the cross-entropy loss (log loss) per observation is defined as H(p, q) = -y \\log \\hat{y} - (1 - y) \\log(1 - \\hat{y}). For N samples, the average cross-entropy loss is J(\\mathbf{w}) = \\frac{1}{N} \\sum_{i=1}^N H(p_i, q_i) = -\\frac{1}{N} \\sum_{i=1}^N [y_i \\log \\hat{y}_i + (1 - y_i) \\log(1 - \\hat{y}_i)], and total loss is L(\\mathbf{w}) = -\\sum_{i=1}^N [y_i \\ln \\hat{y}_i + (1 - y_i) \\ln(1 - \\hat{y}_i)].",
+  "symbols": [
+    {
+      "symbol": "p",
+      "meaning": "True probability distribution / reference distribution (or true label distribution)",
+      "dimensions": "discrete probability distribution vector"
+    },
+    {
+      "symbol": "q",
+      "meaning": "Predicted probability distribution from model",
+      "dimensions": "discrete probability distribution vector"
+    },
+    {
+      "symbol": "y",
+      "meaning": "True binary class label (0 or 1)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\hat{y}",
+      "meaning": "Predicted probability of class 1 under the logistic model, g(\\mathbf{w} \\cdot \\mathbf{x})",
+      "dimensions": "scalar \\in (0, 1)"
+    },
+    {
+      "symbol": "\\mathbf{x}",
+      "meaning": "Input feature vector",
+      "dimensions": "(p + 1) \\times 1"
+    },
+    {
+      "symbol": "\\mathbf{w}",
+      "meaning": "Weight vector of the logistic regression model",
+      "dimensions": "(p + 1) \\times 1"
+    },
+    {
+      "symbol": "g(z)",
+      "meaning": "Logistic function 1 / (1 + e^{-z})",
+      "dimensions": "\\mathbb{R} \\to (0, 1)"
+    },
+    {
+      "symbol": "N",
+      "meaning": "Number of sample observations",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "H(p, q)",
+      "meaning": "Cross-entropy between distributions p and q",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "J(\\mathbf{w})",
+      "meaning": "Average cross-entropy loss function over N observations",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "L(\\mathbf{w})",
+      "meaning": "Total cross-entropy loss function over N observations",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "X",
+      "meaning": "Design matrix of input observations with leading 1s for intercept",
+      "dimensions": "N \\times (p + 1)"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Equivalence to maximum likelihood estimation",
+      "why": "The sample log-likelihood satisfies \\log \\mathcal{L}(\\theta; \\mathbf{x}) = -N \\cdot H(p, q_\\theta), so maximizing likelihood is equivalent to minimizing cross-entropy.",
+      "cites": [
+        "wikipedia:Cross-entropy"
+      ]
+    },
+    {
+      "property": "Minimum attained at p = q by Gibbs' inequality",
+      "why": "When comparing against a fixed reference distribution p, cross-entropy differs from KL divergence by the constant H(p), attaining its minimum H(p) precisely when q = p.",
+      "cites": [
+        "wikipedia:Cross-entropy"
+      ]
+    },
+    {
+      "property": "Gradient of cross-entropy loss matches linear regression form",
+      "why": "Differentiating L(\\mathbf{w}) with respect to \\mathbf{w} gives \\nabla_{\\mathbf{w}} L(\\mathbf{w}) = X^{\\mathsf{T}}(\\hat{\\mathbf{y}} - \\mathbf{y}) due to \\frac{\\partial}{\\partial w_j} \\ln \\hat{y}_i = x_{ij}(1 - \\hat{y}_i) and \\frac{\\partial}{\\partial w_j} \\ln(1 - \\hat{y}_i) = -x_{ij}\\hat{y}_i.",
+      "cites": [
+        "wikipedia:Cross-entropy"
+      ]
+    },
+    {
+      "property": "Interchangeability with log loss",
+      "why": "Specializing -\\sum_m p_m \\log q_m to binary distributions p \\in {y, 1 - y} and q \\in {\\hat{y}, 1 - \\hat{y}} yields -y \\log \\hat{y} - (1 - y) \\log(1 - \\hat{y}).",
+      "cites": [
+        "wikipedia:Cross-entropy"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Independent observations across samples",
+      "breaks_when": "Samples are mutually dependent, invalidating the product form of the sample likelihood \\mathcal{L}(\\theta; \\mathbf{x}) = \\prod_i q_\\theta(X = x_i)."
+    },
+    {
+      "assumption": "Predicted probabilities lie strictly in the support where q > 0",
+      "breaks_when": "The model assigns zero probability \\hat{y}_i = 0 when y_i = 1 or \\hat{y}_i = 1 when y_i = 0, causing the logarithm \\log(0) to diverge to -\\infty."
+    },
+    {
+      "assumption": "The reference distribution p is fixed during minimization with respect to q",
+      "breaks_when": "The prior q is fixed and p is optimized subject to constraints, breaking the additive-constant equivalence between cross-entropy and KL divergence."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Numerical divergence from logarithm of zero",
+      "signature": "Loss evaluates to NaN or infinity (\\infty)",
+      "cause": "Model outputs a predicted probability \\hat{y} of exactly 0 for a true positive (y = 1) or 1 for a true negative (y = 0)."
+    },
+    {
+      "mode": "Non-equivalence with KL divergence under variable reference distribution",
+      "signature": "Optimization yields a solution different from relative entropy minimization (Principle of Minimum Discrimination Information)",
+      "cause": "Optimizing p to match a fixed prior q rather than optimizing q against a fixed true distribution p."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Cross-entropy"
+  ],
+  "check": {
+    "node_id": "cross_entropy_loss",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so cross_entropy_loss is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "node_id": "nonlinear_least_squares",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied source does not contain a derivation of the non-linear least squares normal equations from linearization (the derivation steps are omitted in the truncated source text). Non-linear least squares is defined as the form of least squares analysis used to fit a set of m observations with a model that is non-linear in n unknown parameters (m >= n) by approximating the model by a linear one and refining the parameters by successive iterations. The defining normal equations in matrix notation are (J^T J) Delta beta = J^T Delta y, or more generally for weighted least squares minimizing S = sum_{i=1}^m W_{ii} r_i^2, (J^T W J) Delta beta = J^T W Delta y.",
+  "symbols": [
+    {
+      "symbol": "m",
+      "meaning": "number of observations",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of unknown parameters",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "y",
+      "meaning": "vector of observed data points",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "Delta y",
+      "meaning": "vector of differences between observed data and calculated model values",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "beta",
+      "meaning": "vector of unknown parameters",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "Delta beta",
+      "meaning": "shift vector of parameter corrections",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "J",
+      "meaning": "Jacobian matrix of partial derivatives of model values with respect to parameters",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "W",
+      "meaning": "diagonal weight matrix with elements ideally equal to reciprocal error variances",
+      "dimensions": "m x m"
+    },
+    {
+      "symbol": "r",
+      "meaning": "vector of residuals",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "S",
+      "meaning": "objective function (sum of squares or weighted sum of squares of residuals)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "k",
+      "meaning": "iteration number",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f",
+      "meaning": "shift-cutting damping fraction",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "lambda",
+      "meaning": "Marquardt damping parameter",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "I",
+      "meaning": "identity matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "Q",
+      "meaning": "orthogonal matrix from QR decomposition",
+      "dimensions": "m x m"
+    },
+    {
+      "symbol": "R",
+      "meaning": "partitioned upper-trapezoidal matrix containing upper triangular block R_n and zero block",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "R_n",
+      "meaning": "upper triangular n x n submatrix of R",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Iterative parameter refinement",
+      "why": "Parameters are updated iteratively via beta^{k+1} = beta^k + Delta beta where Delta beta solves the normal equations",
+      "cites": [
+        "wikipedia:Non-linear_least_squares"
+      ]
+    },
+    {
+      "property": "Component-form normal equations",
+      "why": "The system expands in index notation to sum_{i=1}^m sum_{s=1}^n J_{ij} J_{is} Delta beta_s = sum_{i=1}^m J_{ij} Delta y_i for j = 1, ..., n",
+      "cites": [
+        "wikipedia:Non-linear_least_squares"
+      ]
+    },
+    {
+      "property": "Extension to weighted normal equations",
+      "why": "Minimizing the weighted sum of squares S = sum_{i=1}^m W_{ii} r_i^2 yields (J^T W J) Delta beta = J^T W Delta y",
+      "cites": [
+        "wikipedia:Non-linear_least_squares"
+      ]
+    },
+    {
+      "property": "Direct solution via QR decomposition",
+      "why": "Decomposing J = Q R avoids forming normal equations and gives the shift vector by solving R_n Delta beta = (Q^T Delta y)_n",
+      "cites": [
+        "wikipedia:Non-linear_least_squares"
+      ]
+    },
+    {
+      "property": "Marquardt parameter modification",
+      "why": "Modifying normal equations to (J^T W J + lambda I) Delta beta = (J^T W) Delta y rotates the shift vector toward the steepest descent vector J^T W Delta y when lambda I >> J^T W J",
+      "cites": [
+        "wikipedia:Non-linear_least_squares"
+      ]
+    },
+    {
+      "property": "Shift-cutting step adjustment",
+      "why": "Updating beta^{k+1} = beta^k + f Delta beta reduces the step length while preserving direction to prevent divergence",
+      "cites": [
+        "wikipedia:Non-linear_least_squares"
+      ]
+    },
+    {
+      "property": "Local elliptical objective geometry",
+      "why": "The objective function is quadratic with respect to parameters with elliptical contours only in a region close to its minimum where truncated Taylor series holds",
+      "cites": [
+        "wikipedia:Non-linear_least_squares"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The number of observations m is greater than or equal to the number of unknown parameters n (m >= n).",
+      "breaks_when": "There are fewer observations than parameters (m < n), making the parameter estimates undetermined."
+    },
+    {
+      "assumption": "The initial parameter estimates are sufficiently close to optimal values that the objective function is approximately quadratic.",
+      "breaks_when": "Initial estimates deviate strongly from optimal values, causing objective contours to depart from elliptical shape and the Gauss-Newton algorithm to diverge."
+    },
+    {
+      "assumption": "The normal equations matrix J^T J (or J^T W J) is positive definite.",
+      "breaks_when": "The parameter set is at or near a stationary point (e.g. saddle point or maximum between multiple minima) where the gradient vanishes and descent direction is undefined."
+    },
+    {
+      "assumption": "For linearizing transformations (e.g., logarithmic transforms of exponential models), experimental errors are multiplicative and log-normally distributed.",
+      "breaks_when": "Errors are additive or not log-normal, causing the linearized objective to yield biased and inconsistent parameter estimates."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Divergence of Gauss-Newton refinement",
+      "signature": "Objective function S increases from one iteration to the next or parameter shifts grow excessively.",
+      "cause": "Initial parameter estimates lie outside the local quadratic region, or shift vector direction is poor."
+    },
+    {
+      "mode": "Ill-conditioning near stationary points",
+      "signature": "Normal equations matrix J^T W J is not positive definite, leading to numerical failure in Cholesky decomposition or undefined search direction.",
+      "cause": "Iterates approach a maximum, saddle point, or point of zero parameter scale (such as zero half-width in Lorentzian fitting) between multiple minima."
+    },
+    {
+      "mode": "Convergence to a false (local) minimum",
+      "signature": "Convergence criteria are satisfied, but the resulting sum of squares S is strictly greater than the global minimum value.",
+      "cause": "The objective surface exhibits multiple minima due to non-linear model structure, parameter powers, or periodicity."
+    },
+    {
+      "mode": "Parameter unidentifiability from symmetry",
+      "signature": "Multiple parameter values yield identical optimal values of the objective function (e.g., sign ambiguity hat{beta} vs -hat{beta}, or periodic shift beta + 2n pi).",
+      "cause": "Model contains parameters raised to even powers, symmetric products (alpha beta = beta alpha), or trigonometric functions."
+    },
+    {
+      "mode": "Transformation bias and error distortion",
+      "signature": "Estimated parameters and standard deviations differ from true values, or fits are heavily biased toward specific data ranges (e.g., Lineweaver-Burk plots).",
+      "cause": "Applying linearizing transformations when errors are additive rather than multiplicative and log-normal."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Non-linear_least_squares"
+  ],
+  "check": {
+    "node_id": "nonlinear_least_squares",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so nonlinear_least_squares is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

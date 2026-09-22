@@ -1,0 +1,125 @@
+{
+  "node_id": "iou",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The Jaccard index, also called intersection over union (IoU), is a statistic used for gauging the similarity and diversity of sample sets, defined in general as the ratio of two sizes (areas or volumes): the intersection size divided by the union size. For attribute sets $A$ and $B$, it is given by $J(A,B) = \\frac{M_{11}}{M_{11} + M_{10} + M_{01}}$, where $M_{11}$ is the number of attributes where both values are 1, $M_{10}$ is the number of attributes where only $A$ is 1, and $M_{01}$ is the number of attributes where only $B$ is 1.",
+  "symbols": [
+    {
+      "symbol": "J(A, B)",
+      "meaning": "Jaccard index or intersection over union between sample sets A and B",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "M_{11}",
+      "meaning": "number of attributes where both values are 1",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "M_{10}",
+      "meaning": "number of attributes where only A is 1",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "M_{01}",
+      "meaning": "number of attributes where only B is 1",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "In binary classification confusion matrices, the Jaccard index is formulated as $\\text{Jaccard index} = \\frac{TP}{TP + FP + FN}$, where $TP$ are true positives, $FP$ are false positives, and $FN$ are false negatives.",
+      "why": "True positives represent mutual positive overlap, while false positives and false negatives account for the remaining non-overlapping predictions and actual cases in the union.",
+      "cites": [
+        "wikipedia:Jaccard_index"
+      ]
+    },
+    {
+      "property": "For bitmap samples $X$ and $Y$, the similarity ratio is $T_s(X, Y) = \\frac{\\sum_i (X_i \\land Y_i)}{\\sum_i (X_i \\lor Y_i)}$, which is equal to the Jaccard index of the two samples modelled as sets of attributes.",
+      "why": "Bitwise AND counts shared bits (intersection) and bitwise OR counts bits set in either sample (union).",
+      "cites": [
+        "wikipedia:Jaccard_index"
+      ]
+    },
+    {
+      "property": "For non-negative vectors $\\mathbf{x}, \\mathbf{y}$ ($x_i, y_i \\geq 0$), the weighted Jaccard similarity (Ruzicka similarity) is defined as $J_{\\mathcal{W}}(\\mathbf{x}, \\mathbf{y}) = \\frac{\\sum_i \\min(x_i, y_i)}{\\sum_i \\max(x_i, y_i)}$.",
+      "why": "Pointwise minimum and maximum operators generalize intersection and union to non-negative continuous vectors.",
+      "cites": [
+        "wikipedia:Jaccard_index"
+      ]
+    },
+    {
+      "property": "The Jaccard distance $d_J = 1 - J$ (or $d_{J\\mathcal{W}} = 1 - J_{\\mathcal{W}}$) is a proper distance metric.",
+      "why": "Subtracting the similarity ratio from 1 yields a complementary distance measuring divergence between sets.",
+      "cites": [
+        "wikipedia:Jaccard_index"
+      ]
+    },
+    {
+      "property": "The Jaccard index $J$ is algebraically related to the S\u00f8rensen\u2013Dice coefficient $S$ by $J = \\frac{S}{2 - S}$ and $S = \\frac{2J}{1 + J}$.",
+      "why": "Both metrics quantify overlap relative to total size and can be transformed directly into one another.",
+      "cites": [
+        "wikipedia:Jaccard_index"
+      ]
+    },
+    {
+      "property": "In graph theory, the Jaccard similarity between two vertices is calculated by dividing the size of the intersection of their neighborhoods by the size of their union.",
+      "why": "The adjacency sets of neighbors serve as the sets compared by the index.",
+      "cites": [
+        "wikipedia:Jaccard_index"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The union of the two sets or sample attributes must not be empty ($M_{11} + M_{10} + M_{01} > 0$, or $\\sum_i (X_i \\lor Y_i) > 0$, or $TP + FP + FN > 0$).",
+      "breaks_when": "Both sets are empty or all attribute values are zero, causing division by zero."
+    },
+    {
+      "assumption": "Vector components must be non-negative ($x_i, y_i \\geq 0$) when evaluating weighted Jaccard similarity.",
+      "breaks_when": "Vectors contain negative components, where min and max no longer represent non-negative overlap and size."
+    },
+    {
+      "assumption": "The inner product formulation $f(A, B) = \\frac{A \\cdot B}{\\|A\\|^2 + \\|B\\|^2 - A \\cdot B}$ assumes inputs are bit vectors ($A_i, B_i \\in \\{0, 1\\}$) or restricted by a positive weighting vector $W$ with $A_i \\in \\{0, W_i\\}$.",
+      "breaks_when": "The formula is applied to general vectors without restriction, causing $1 - f$ to violate the triangle inequality."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Undefined index on empty inputs",
+      "signature": "Division by zero ($0/0$)",
+      "cause": "Both input sets are empty, or $TP = FP = FN = 0$, or all vector entries are zero."
+    },
+    {
+      "mode": "Failure of metric properties in vector Tanimoto distance",
+      "signature": "Triangle inequality fails for $1 - f(A, B)$, disrupting similarity search or clustering algorithms",
+      "cause": "Treating $1 - f(A, B)$ as a proper distance metric over arbitrary continuous vectors without the required binary or weighted binary domain restriction."
+    },
+    {
+      "mode": "Failure of metric properties in logarithmic Tanimoto distance",
+      "signature": "Triangle inequality violation in $T_d(X, Y) = -\\log_2(T_s(X, Y))$",
+      "cause": "The logarithmic distance definition was deliberately chosen to allow two distinct specimens to both be similar to a third, and is not a metric."
+    },
+    {
+      "mode": "Support size distortion on probability distributions under weighted Jaccard",
+      "signature": "$J_{\\mathcal{W}}(x, y) < J(X, Y)$ whenever $|X| > |Y|$",
+      "cause": "Weighted Jaccard scales with distribution height $1/|X|$ rather than continuity across probability distributions and support sets."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Jaccard_index"
+  ],
+  "check": {
+    "node_id": "iou",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

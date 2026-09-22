@@ -1,0 +1,127 @@
+{
+  "node_id": "ransac",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "The number of iterations $k$ required by the RANSAC algorithm to ensure, with desired probability $p$, that at least one sampled subset of $n$ data points contains exclusively inliers is given by $k = \\frac{\\log(1 - p)}{\\log(1 - w^n)}$, where $w$ is the probability of selecting an inlier in a single draw.",
+  "symbols": [
+    {
+      "symbol": "k",
+      "meaning": "Number of iterations (sampling trials) allowed or required",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p",
+      "meaning": "Desired probability that the algorithm selects at least one sample consisting entirely of inliers",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "w",
+      "meaning": "Probability of choosing an inlier in a single draw (inlier ratio in the dataset)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "Minimum number of data points required to determine or fit the model parameters",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Define $w$ as the probability of choosing an inlier each time a single data point is selected: $w = \\frac{\\text{number of inliers in data}}{\\text{number of points in data}}$.",
+      "invokes": [
+        "inlier_ratio"
+      ],
+      "cites": [
+        "wikipedia:Random_sample_consensus"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Assuming that the $n$ points required to estimate model parameters are selected independently, the joint probability that all $n$ selected points are inliers in a given iteration is $w^n$.",
+      "invokes": [
+        "independent_trials"
+      ],
+      "cites": [
+        "wikipedia:Random_sample_consensus"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "The complementary probability that at least one of the $n$ points is an outlier (producing an invalid model) in a single iteration is $1 - w^n$. Over $k$ independent iterations, the probability that the algorithm never selects an all-inlier sample is $(1 - w^n)^k$, which equals the algorithm failure probability $1 - p$: $1 - p = (1 - w^n)^k$.",
+      "invokes": [
+        "independent_trials"
+      ],
+      "cites": [
+        "wikipedia:Random_sample_consensus"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Take the logarithm of both sides of $1 - p = (1 - w^n)^k$ and solve for $k$: $\\log(1 - p) = k \\log(1 - w^n) \\implies k = \\frac{\\log(1 - p)}{\\log(1 - w^n)}$.",
+      "invokes": [
+        "logarithm_solve"
+      ],
+      "cites": [
+        "wikipedia:Random_sample_consensus"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "Independent sampling with replacement of the n model-defining points within each iteration.",
+      "breaks_when": "Data points are sampled without replacement; in that case, the derived $k$ acts as an upper bound."
+    },
+    {
+      "assumption": "Independent iterations across repeated random sub-sampling draws.",
+      "breaks_when": "Sampling is guided or adaptive (e.g., PROSAC) rather than uniformly random and memoryless."
+    },
+    {
+      "assumption": "Constant inlier ratio w across draws.",
+      "breaks_when": "The true fraction of inliers is non-stationary, non-uniform, or heavily misestimated beforehand."
+    },
+    {
+      "assumption": "A sample consisting entirely of n inliers is sufficient to estimate an acceptable model.",
+      "breaks_when": "The n inliers form a degenerate geometric configuration or inlier noise is too high to produce a consensus within threshold t."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Low inlier proportion (< 50%)",
+      "signature": "Exponential explosion in the required number of iterations k, or failure to find a valid consensus set within a practical computational budget.",
+      "cause": "As $w$ decreases, $w^n$ approaches 0, making $1 - w^n$ close to 1 and driving $k = \\frac{\\log(1 - p)}{\\log(1 - w^n)}$ to excessively large numbers."
+    },
+    {
+      "mode": "Multiple model instances present",
+      "signature": "Algorithm fails to locate either instance, produces an unstable mixture, or favors whichever consensus set happens to be marginally larger.",
+      "cause": "Standard RANSAC is a single-model estimator; data belonging to a second valid model instance act as outliers relative to the first."
+    },
+    {
+      "mode": "Improper error threshold t",
+      "signature": "When t is too large, all hypotheses rank equally; when t is too small, parameter estimates become unstable and fluctuate significantly.",
+      "cause": "Threshold t governs whether a point is admitted into the consensus set; miscalibrating t misclassifies inliers as outliers or vice versa."
+    },
+    {
+      "mode": "Premature iteration termination",
+      "signature": "Algorithm returns null or a heavily suboptimal fit that fails to capture the true underlying structure.",
+      "cause": "The maximum iterations budget is reached before any iteration randomly selects an all-inlier sample of size n."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Random_sample_consensus"
+  ],
+  "check": {
+    "node_id": "ransac",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

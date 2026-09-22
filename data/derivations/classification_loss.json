@@ -1,0 +1,137 @@
+{
+  "node_id": "classification_loss",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For binary classification with true class label $y \\in \\{0, 1\\}$ and predicted probability $q_{y=1} = \\hat{y} \\equiv g(\\mathbf{w} \\cdot \\mathbf{x}) = \\frac{1}{1 + e^{-\\mathbf{w} \\cdot \\mathbf{x}}}$, the cross-entropy loss (also known as log loss, logarithmic loss, or logistic loss) between the true label distribution $p \\in \\{y, 1-y\\}$ and the model predicted distribution $q \\in \\{\\hat{y}, 1-\\hat{y}\\}$ is defined as $H(p, q) = -\\sum_m p_m \\log q_m = -y \\log \\hat{y} - (1-y) \\log(1-\\hat{y})$. For a dataset of $N$ observations, the average loss is $J(\\mathbf{w}) = \\frac{1}{N} \\sum_{i=1}^N H(p_i, q_i) = -\\frac{1}{N} \\sum_{i=1}^N [y_i \\log \\hat{y}_i + (1-y_i) \\log(1-\\hat{y}_i)]$, and the total unnormalized loss is $L(\\mathbf{w}) = -\\sum_{i=1}^N [y_i \\ln \\hat{y}_i + (1-y_i) \\ln(1-\\hat{y}_i)]$.",
+  "symbols": [
+    {
+      "symbol": "y",
+      "meaning": "true class label in {0, 1}",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\hat{y}",
+      "meaning": "model predicted probability that y = 1",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p",
+      "meaning": "true probability distribution over binary classes {y, 1 - y}",
+      "dimensions": "2"
+    },
+    {
+      "symbol": "q",
+      "meaning": "predicted probability distribution over binary classes {\\hat{y}, 1 - \\hat{y}}",
+      "dimensions": "2"
+    },
+    {
+      "symbol": "\\mathbf{x}",
+      "meaning": "input feature vector for an observation",
+      "dimensions": "(p + 1) x 1"
+    },
+    {
+      "symbol": "\\mathbf{w}",
+      "meaning": "weight parameter vector",
+      "dimensions": "(p + 1) x 1"
+    },
+    {
+      "symbol": "g(z)",
+      "meaning": "logistic function 1 / (1 + e^{-z})",
+      "dimensions": "scalar -> scalar"
+    },
+    {
+      "symbol": "N",
+      "meaning": "number of training samples",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "H(p, q)",
+      "meaning": "cross-entropy dissimilarity measure / single-sample loss",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "J(\\mathbf{w})",
+      "meaning": "sample-average cross-entropy loss",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "L(\\mathbf{w})",
+      "meaning": "summed cross-entropy loss over N samples using natural logarithm",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "X",
+      "meaning": "design matrix of inputs across N samples",
+      "dimensions": "N x (p + 1)"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Gradient of cross-entropy loss with respect to weights equals the gradient of linear regression squared error",
+      "why": "Differentiating $L(\\mathbf{w})$ with respect to weights $\\mathbf{w}$ produces $\\nabla_{\\mathbf{w}} L(\\mathbf{w}) = X^{\\mathsf{T}}(\\hat{\\mathbf{y}} - \\mathbf{y})$",
+      "cites": [
+        "wikipedia:Cross-entropy"
+      ]
+    },
+    {
+      "property": "Cross-entropy minimization is equivalent to maximum likelihood estimation",
+      "why": "The log-likelihood satisfies $\\log \\mathcal{L}(\\theta; \\mathbf{x}) = -N \\cdot H(p, q_\\theta)$, so maximizing log-likelihood minimizes cross-entropy",
+      "cites": [
+        "wikipedia:Cross-entropy"
+      ]
+    },
+    {
+      "property": "Cross-entropy attains its minimum value when the model distribution matches the true distribution",
+      "why": "By Gibbs' inequality, $H(p, q)$ reaches its minimum value $\\mathrm{H}(p)$ when $p = q$, being identical to KL divergence up to an additive constant when reference distribution $p$ is fixed",
+      "cites": [
+        "wikipedia:Cross-entropy"
+      ]
+    },
+    {
+      "property": "Log loss and cross-entropy loss are interchangeable terms in machine learning",
+      "why": "Cross-entropy between true label $p_i$ and model prediction $q_i$ is also defined as log loss, logarithmic loss, or logistic loss",
+      "cites": [
+        "wikipedia:Cross-entropy"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The true reference distribution p is fixed while the model distribution q is optimized",
+      "breaks_when": "Distribution q is the fixed prior reference and p is optimized under constraints, in which case cross-entropy minimization and KL divergence minimization are no longer equivalent"
+    },
+    {
+      "assumption": "Predicted probabilities \\hat{y} lie strictly in the open interval (0, 1)",
+      "breaks_when": "A prediction reaches 0 or 1 such that \\log(\\hat{y}) or \\log(1 - \\hat{y}) evaluates \\log(0)"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Evaluation of undefined logarithm",
+      "signature": "Loss evaluates to infinity or NaN",
+      "cause": "Predicted probability $\\hat{y}_i = 0$ when true label $y_i = 1$, or $\\hat{y}_i = 1$ when $y_i = 0$, causing computation of $\\log(0)$"
+    },
+    {
+      "mode": "Inconsistent minimization under prior reference optimization",
+      "signature": "Optimization yields solutions that do not correspond to KL divergence minimization",
+      "cause": "Optimizing $p$ relative to a fixed prior distribution $q$, where cross-entropy $H(p, q)$ and relative entropy $D_{\\mathrm{KL}}(p \\parallel q)$ diverge by more than an additive constant"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Cross-entropy"
+  ],
+  "check": {
+    "node_id": "classification_loss",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

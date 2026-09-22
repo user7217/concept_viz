@@ -1,0 +1,135 @@
+{
+  "node_id": "centroid",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The centroid (also known as the geometric center or center of figure) of a plane figure, solid figure, or subset $X \\subset \\mathbb{R}^n$ is the mean position of all the points in the figure. For a subset $X$ with non-zero measure, it is defined by the vector formula $\\mathbf{C} = \\frac{\\int_X \\mathbf{x} \\, d\\mathbf{x}}{\\int_X d\\mathbf{x}} = \\frac{\\int \\mathbf{x} g(\\mathbf{x}) \\, d\\mathbf{x}}{\\int g(\\mathbf{x}) \\, d\\mathbf{x}}$, where $g$ is the characteristic function of $X$ ($g(\\mathbf{x}) = 1$ if $\\mathbf{x} \\in X$ and $g(\\mathbf{x}) = 0$ otherwise). For a finite set of $k$ points $\\mathbf{x}_1, \\mathbf{x}_2, \\dots, \\mathbf{x}_k \\in \\mathbb{R}^n$, the centroid is $\\mathbf{C} = \\frac{\\mathbf{x}_1 + \\mathbf{x}_2 + \\cdots + \\mathbf{x}_k}{k}$.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{C}",
+      "meaning": "centroid / geometric center",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "X",
+      "meaning": "plane figure, solid figure, or subset of Euclidean space",
+      "dimensions": "subset of R^n"
+    },
+    {
+      "symbol": "\\mathbf{x}",
+      "meaning": "position vector of a point in the space",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "g(\\mathbf{x})",
+      "meaning": "characteristic function of the subset X",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "k",
+      "meaning": "number of points in a finite set",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbf{x}_i",
+      "meaning": "position vector of the i-th point in a finite set",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "A",
+      "meaning": "measure (area, volume, or d-dimensional measure) of the figure",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "For a finite set of points in $\\mathbb{R}^n$, the centroid minimizes the sum of squared Euclidean distances between itself and each point in the set.",
+      "why": "Follows from the definition of the centroid as the arithmetic mean position of the finite point set",
+      "cites": [
+        "wikipedia:Centroid"
+      ]
+    },
+    {
+      "property": "By geometric decomposition, the centroid of a figure divided into simpler parts $X_1, \\dots, X_n$ with centroids $\\mathbf{C}_i$ and measures $A_i$ is given by $\\mathbf{C} = \\frac{\\sum_i \\mathbf{C}_i A_i}{\\sum_i A_i}$, where holes, overlaps, or external parts are accommodated using negative measures.",
+      "why": "Additivity of integration over signed partitions of the domain",
+      "cites": [
+        "wikipedia:Centroid"
+      ]
+    },
+    {
+      "property": "The coordinate-wise centroid formula is $C_k = \\frac{\\int z S_k(z) \\, dz}{\\int g(\\mathbf{x}) \\, d\\mathbf{x}}$, where $S_k(z)$ is the measure of the intersection of $X$ with the hyperplane $x_k = z$.",
+      "why": "Slicing the volume integral into parallel hyperplane sections",
+      "cites": [
+        "wikipedia:Centroid"
+      ]
+    },
+    {
+      "property": "For a plane region bounded by continuous functions $f(x) \\ge g(x)$ on $[a, b]$, the centroid coordinates are $\\bar{x} = \\frac{1}{A} \\int_a^b x (f(x) - g(x)) \\, dx$ and $\\bar{y} = \\frac{1}{A} \\int_a^b \\frac{1}{2}(f(x) + g(x))(f(x) - g(x)) \\, dx$, where $A = \\int_a^b (f(x) - g(x)) \\, dx$.",
+      "why": "Direct integration of coordinate moments over the vertically bounded planar region",
+      "cites": [
+        "wikipedia:Centroid"
+      ]
+    },
+    {
+      "property": "The centroid of a triangle is the intersection of its medians, divides each median in a 2:1 ratio (located 1/3 of the distance from each side to the opposite vertex), has Cartesian coordinates $\\frac{1}{3}(L + M + N)$, has barycentric coordinates $1/3 : 1/3 : 1/3$, and divides the triangle into three sub-triangles of equal area.",
+      "why": "Geometric intersection of medians and equal weighting of the three vertices",
+      "cites": [
+        "wikipedia:Centroid"
+      ]
+    },
+    {
+      "property": "For a non-self-intersecting closed polygon with vertices $(x_0, y_0), \\dots, (x_{n-1}, y_{n-1})$, the centroid coordinates are $C_x = \\frac{1}{6A} \\sum_{i=0}^{n-1} (x_i + x_{i+1})(x_i y_{i+1} - x_{i+1} y_i)$ and $C_y = \\frac{1}{6A} \\sum_{i=0}^{n-1} (y_i + y_{i+1})(x_i y_{i+1} - x_{i+1} y_i)$.",
+      "why": "Triangulation into signed triangles with respect to the origin via Green's theorem",
+      "cites": [
+        "wikipedia:Centroid"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The set $X$ has strictly positive, finite measure ($\\int_X d\\mathbf{x} > 0$ and $\\int_X d\\mathbf{x} < \\infty$).",
+      "breaks_when": "The set $X$ has measure zero or infinite measure."
+    },
+    {
+      "assumption": "The integral $\\int_X \\mathbf{x} \\, d\\mathbf{x}$ converges.",
+      "breaks_when": "The figure is unbounded or the first moment integral diverges."
+    },
+    {
+      "assumption": "For a finite set of points, the number of points satisfies $k \\ge 1$.",
+      "breaks_when": "The set of points is empty ($k = 0$)."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zero-measure set",
+      "signature": "Division by zero in the denominator $\\int_X d\\mathbf{x} = 0$",
+      "cause": "The set $X$ has measure zero in $\\mathbb{R}^n$ (e.g., lower-dimensional objects embedded in higher-dimensional space without reparameterization)."
+    },
+    {
+      "mode": "Divergent integral",
+      "signature": "Undefined or infinite coordinates",
+      "cause": "The set $X$ is unbounded such that either the moment integral or the measure integral diverges."
+    },
+    {
+      "mode": "Zero net decomposed measure",
+      "signature": "Division by zero $\\sum_i A_i = 0$",
+      "cause": "Signed areas or volumes in geometric decomposition cancel out completely."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Centroid"
+  ],
+  "check": {
+    "node_id": "centroid",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

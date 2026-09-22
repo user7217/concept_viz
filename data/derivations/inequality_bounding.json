@@ -1,0 +1,132 @@
+{
+  "node_id": "inequality_bounding",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources genuinely contain nothing to derive for inequality bounding. Inequality bounding is defined as using inequality relations to establish limits on mathematical expressions: strict bounds $a < x < b$ (representing the conjunction $a < x$ and $x < b$) or non-strict bounds $a \\le x \\le b$ (representing $a \\le x$ and $x \\le b$), bounding a quantity $x$ between a lower bound $a$ and an upper bound $b$.",
+  "symbols": [
+    {
+      "symbol": "x",
+      "meaning": "quantity or expression being bounded",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "a",
+      "meaning": "lower bound or bounding expression",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "b",
+      "meaning": "upper bound or bounding expression",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "c",
+      "meaning": "scalar constant used in additive or multiplicative operations",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "<, >",
+      "meaning": "strict inequality relations (less than, greater than)",
+      "dimensions": "binary relation"
+    },
+    {
+      "symbol": "\\le, \\ge",
+      "meaning": "non-strict inequality relations (less than or equal to, greater than or equal to)",
+      "dimensions": "binary relation"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Transitivity: for real numbers $a, b, c$, if $a \\le b$ and $b \\le c$, then $a \\le c$ (with strict conclusion if either premise is strict)",
+      "why": "Transitivity allows compound inequalities and bounds to be linked",
+      "cites": [
+        "wikipedia:Inequality_(mathematics)"
+      ]
+    },
+    {
+      "property": "Addition and subtraction invariance: for any real $c$, $a \\le b \\iff a + c \\le b + c$ and $a - c \\le b - c$",
+      "why": "Inequality relations are preserved under addition and subtraction on the real numbers",
+      "cites": [
+        "wikipedia:Inequality_(mathematics)"
+      ]
+    },
+    {
+      "property": "Multiplication and division scaling: for nonzero $c$, $a \\le b$ implies $ac \\le bc$ if $c > 0$, but reverses to $ac \\ge bc$ if $c < 0$",
+      "why": "Inequality relations are preserved by positive multiplication and reversed by negative multiplication in an ordered field",
+      "cites": [
+        "wikipedia:Inequality_(mathematics)"
+      ]
+    },
+    {
+      "property": "Converse symmetry: $a \\le b \\iff b \\ge a$, and $a < b \\iff b > a$",
+      "why": "The relations $\\le$ and $\\ge$ are each other's converse",
+      "cites": [
+        "wikipedia:Inequality_(mathematics)"
+      ]
+    },
+    {
+      "property": "Monotonic function application: for a function $f$, $a \\le b$ implies $f(a) \\le f(b)$ if $f$ is monotonically increasing, and $f(a) \\ge f(b)$ if $f$ is monotonically decreasing",
+      "why": "Preservation or reversal of order follows directly from the definition of monotonic functions",
+      "cites": [
+        "wikipedia:Inequality_(mathematics)"
+      ]
+    },
+    {
+      "property": "Chained notation conjunction: $a_1 \\le a_2 \\le \\dots \\le a_n$ denotes $a_i \\le a_{i+1}$ for all $1 \\le i \\le n-1$, which by transitivity implies $a_i \\le a_j$ for all $1 \\le i \\le j \\le n$",
+      "why": "Chained notation represents the logical conjunction of adjacent order relations",
+      "cites": [
+        "wikipedia:Inequality_(mathematics)"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Quantities being compared belong to an ordered field or totally ordered set (such as $\\mathbb{R}$)",
+      "breaks_when": "Elements belong to a domain where total order compatible with field operations cannot be defined, such as the complex numbers $\\mathbb{C}$"
+    },
+    {
+      "assumption": "Scaling constants $c$ in multiplication and division are nonzero and have a known sign",
+      "breaks_when": "Multiplying or dividing by zero, or by expressions whose sign is indeterminate or changes sign across the domain"
+    },
+    {
+      "assumption": "Functions applied to both sides of an inequality are defined on the expressions and are monotonic over that domain",
+      "breaks_when": "The applied function is non-monotonic on the domain or expressions lie outside the function domain"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Negative multiplier sign omission",
+      "signature": "Reversed or false bounding inequality (e.g., obtaining $-2 < -4$)",
+      "cause": "Multiplying or dividing both sides by a negative number without reversing the inequality symbol"
+    },
+    {
+      "mode": "Invalid multiplicative inversion across zero",
+      "signature": "Incorrect bound direction when inverting expressions",
+      "cause": "Applying the multiplicative inverse rule $1/a \\ge 1/b$ when $a$ and $b$ do not have the same sign"
+    },
+    {
+      "mode": "Ordering in unordered field",
+      "signature": "Contradiction such as $-1 > 0$ or $0 > 0$",
+      "cause": "Assuming $\\mathbb{C}$ can be made an ordered field where $i^2 = -1$"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Inequality_(mathematics)"
+  ],
+  "check": {
+    "node_id": "inequality_bounding",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so inequality_bounding is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

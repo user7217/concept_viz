@@ -1,0 +1,189 @@
+{
+  "node_id": "gradient_descent",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "Gradient descent is a first-order iterative optimization method that minimizes a differentiable multivariate function f(x) by taking successive steps in the direction opposite to the gradient, x_(n+1) = x_n - \u03b7_n \u2207f(x_n). Step sizes and directions can be determined via Lipschitz bounds on \u2207f, and for quadratic functions f(x) = x^\u22a4 A x - 2 x^\u22a4 b associated with linear systems A x = b (where A is symmetric positive-definite), the algorithm takes steepest descent steps along the residual r = b - A x with exact line search step size \u03b7 = (r^\u22a4 r) / (r^\u22a4 A r) and iterative update r := r - \u03b7 A r.",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "Differentiable multivariate objective function to be minimized",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "Current parameter / state vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\u2207f",
+      "meaning": "Gradient of the objective function",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\u03b7",
+      "meaning": "Step size (learning rate)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_n",
+      "meaning": "Descent direction vector at iteration n",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "L",
+      "meaning": "Lipschitz constant of the gradient \u2207f",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "A",
+      "meaning": "System matrix in linear equations or quadratic objective",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "b",
+      "meaning": "Right-hand side vector in linear system",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "r",
+      "meaning": "Residual vector b - A x",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "G(x)",
+      "meaning": "Vector-valued function representing a nonlinear system of equations",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "J_G",
+      "meaning": "Jacobian matrix of G(x)",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "\u03ba(A)",
+      "meaning": "Spectral condition number of the matrix A",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Gradient descent minimizes a differentiable multivariate function f by taking repeated steps in the opposite direction of the gradient \u2207f at the current point, because the negative gradient is the direction of steepest descent: x^(1) = x^(0) - \u03b7_0 \u2207f(x^(0)).",
+      "invokes": [
+        "gradient",
+        "descent_direction"
+      ],
+      "cites": [
+        "wikipedia:Gradient_descent"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Assuming \u2207f is Lipschitz continuous with constant L, the change in the gradient along search direction p_n and step size \u03b7_n is bounded by \u2016\u2207f(a_n - t \u03b7_n p_n) - \u2207f(a_n)\u2016_2 \u2264 L t \u03b7_n \u2016p_n\u2016, enabling the selection of p_n and \u03b7_n by optimizing the step inequality.",
+      "invokes": [
+        "inequality_bounding",
+        "norm"
+      ],
+      "cites": [
+        "wikipedia:Gradient_descent"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "To solve a linear system A x - b = 0 with real symmetric positive-definite A, the problem is formulated as minimizing the quadratic function f(x) = x^\u22a4 A x - 2 x^\u22a4 b, yielding the gradient \u2207f(x) = 2(A x - b) via matrix calculus.",
+      "invokes": [
+        "matrix_calculus_gradient",
+        "quadratic_form"
+      ],
+      "cites": [
+        "wikipedia:Gradient_descent"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "For general real matrix A, linear least squares defines the objective f(x) = \u2016A x - b\u2016^2, which under the Euclidean norm has gradient \u2207f(x) = 2 A^\u22a4 (A x - b).",
+      "invokes": [
+        "matrix_calculus_gradient",
+        "norm"
+      ],
+      "cites": [
+        "wikipedia:Gradient_descent"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "For the symmetric positive-definite quadratic problem, defining the residual r := b - A x identifies the steepest descent direction, and performing analytical line search for the optimal step size yields \u03b7 := (r^\u22a4 r) / (r^\u22a4 A r), with the iterate update x := x + \u03b7 r.",
+      "invokes": [
+        "step_size",
+        "dot_product"
+      ],
+      "cites": [
+        "wikipedia:Gradient_descent"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Because x := x + \u03b7 r implies the recursive residual relation r := r - \u03b7 A r, the residual can be updated directly without performing a second multiplication by A per iteration.",
+      "invokes": [
+        "matrix_multiplication"
+      ],
+      "cites": [
+        "wikipedia:Gradient_descent"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "For a nonlinear system G(x) = 0, minimizing f(x) = (1/2) G^\u22a4(x) G(x) produces the gradient \u2207f(x) = J_G(x)^\u22a4 G(x), yielding the descent step x^(1) = x^(0) - \u03b7_0 J_G(x^(0))^\u22a4 G(x^(0)).",
+      "invokes": [
+        "jacobian_matrix",
+        "gradient"
+      ],
+      "cites": [
+        "wikipedia:Gradient_descent"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The multivariate objective function f is differentiable (or twice-differentiable when using Hessian approximations).",
+      "breaks_when": "The objective function is non-differentiable, causing the gradient \u2207f to be undefined."
+    },
+    {
+      "assumption": "For quadratic minimization of A x = b, the matrix A is real, symmetric, and positive-definite.",
+      "breaks_when": "A is asymmetric, indefinite, or singular, which prevents the quadratic function from having a unique minimizer and can make r^\u22a4 A r non-positive."
+    },
+    {
+      "assumption": "The gradient \u2207f is Lipschitz continuous with constant L for the step-bounding inequality.",
+      "breaks_when": "The gradient exhibits discontinuous or unbounded growth rates, invalidating the upper bound L t \u03b7_n \u2016p_n\u2016."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zig-zagging and slow convergence",
+      "signature": "Successive residual vectors are orthogonal (\u27e8r_(k+1), r_k\u27e9 = 0) and the trajectory alternates between extreme axes of elongated level sets, requiring a number of iterations proportional to \u03ba(A).",
+      "cause": "Poor conditioning / high spectral condition number \u03ba(A) of the system matrix forces each steepest descent step to undo the overshoot from the previous iteration."
+    },
+    {
+      "mode": "Suboptimal convergence to a local minimum",
+      "signature": "The algorithm terminates at a stationary point where \u2207f(x) \u2248 0, but f(x) is strictly greater than the global minimum.",
+      "cause": "The objective function f is non-convex; only convex functions ensure that all local minima are global minima."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Gradient_descent"
+  ],
+  "check": {
+    "node_id": "gradient_descent",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

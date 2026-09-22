@@ -1,0 +1,32 @@
+{
+  "node_id": "complementary_filter",
+  "grounded": false,
+  "kind": "definition",
+  "statement": "The supplied source ([wikipedia:Sensor_fusion]) genuinely contains nothing to derive and does not define or support the complementary filter. While the source discusses sensor fusion in general and mentions a 'complementary configuration' of sensors, it contains no derivation, transfer function, governing equation, or definition for a complementary filter.",
+  "symbols": [],
+  "steps": [],
+  "properties": [],
+  "assumptions": [],
+  "failure_modes": [],
+  "source_ids": [
+    "wikipedia:Sensor_fusion"
+  ],
+  "check": {
+    "node_id": "complementary_filter",
+    "kind": "definition",
+    "grounded": false,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so complementary_filter is recorded as a definition"
+    ],
+    "shape": [
+      "definition lists no properties",
+      "sheet names no symbols, so it is probably not about this node's mathematics at all"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

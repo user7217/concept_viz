@@ -1,0 +1,139 @@
+{
+  "node_id": "particle_filter",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied source text genuinely contains no derivation of the particle filter (such as via importance weight derivation, marginalization, or recursive substitution); rather, it directly defines a particle filter (sequential Monte Carlo method) as a genetic-type Monte Carlo algorithm approximating the posterior distributions of a Markov process in a nonlinear state-space system using empirical particle measures. Specifically, the filtering distribution at step k is defined and approximated by \\widehat{p}(dx_k|y_0,\\dots,y_k) := \\frac{1}{N} \\sum_{i=1}^N \\delta_{\\widehat{\\xi}_k^i}(dx_k) \\approx \\sum_{i=1}^N \\frac{p(y_k|\\xi_k^i)}{\\sum_{j=1}^N p(y_k|\\xi_k^j)} \\delta_{\\xi_k^i}(dx_k), evolving sequentially via selection-updating transitions \\xi_k \\mapsto \\widehat{\\xi}_k sampled with common distribution \\sum_{i=1}^N \\frac{p(y_k|\\xi_k^i)}{\\sum_{j=1}^N p(y_k|\\xi_k^j)} \\delta_{\\xi_k^i}(dx_k) and mutation-prediction transitions \\widehat{\\xi}_k \\mapsto \\xi_{k+1} sampled independently as \\xi_{k+1}^i \\sim p(x_{k+1}|\\widehat{\\xi}_k^i).",
+  "symbols": [
+    {
+      "symbol": "N",
+      "meaning": "number of particles/samples",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x_k",
+      "meaning": "internal state of the Markov process at time step k",
+      "dimensions": "d_x x 1"
+    },
+    {
+      "symbol": "y_k",
+      "meaning": "observation at time step k",
+      "dimensions": "d_y x 1"
+    },
+    {
+      "symbol": "\\xi_k^i",
+      "meaning": "i-th particle prior to selection (prediction particle) at time step k",
+      "dimensions": "d_x x 1"
+    },
+    {
+      "symbol": "\\widehat{\\xi}_k^i",
+      "meaning": "i-th selected/updated particle at time step k",
+      "dimensions": "d_x x 1"
+    },
+    {
+      "symbol": "\\delta_a",
+      "meaning": "Dirac measure concentrated at state a",
+      "dimensions": "measure"
+    },
+    {
+      "symbol": "p(y_k|x_k)",
+      "meaning": "likelihood function of observation y_k evaluated at state x_k",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p(x_{k+1}|x_k)",
+      "meaning": "conditional state transition probability density from x_k to x_{k+1}",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\widehat{p}(dx_k|y_0,\\dots,y_k)",
+      "meaning": "empirical particle approximation of the filtering posterior distribution",
+      "dimensions": "probability measure"
+    },
+    {
+      "symbol": "\\widehat{p}(dx_k|y_0,\\dots,y_{k-1})",
+      "meaning": "empirical particle approximation of the one-step optimal predictor distribution",
+      "dimensions": "probability measure"
+    },
+    {
+      "symbol": "\\eta_n",
+      "meaning": "probability distribution of the one-step optimal predictor at time n",
+      "dimensions": "probability measure"
+    },
+    {
+      "symbol": "\\Phi_{n+1}",
+      "meaning": "mapping operator from the set of probability distributions into itself",
+      "dimensions": "operator"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Approximation of filtering expectations for bounded test functions",
+      "why": "The empirical measure converges as N \\to \\infty, allowing expectations of bounded functions f under the posterior to be approximated by particle averages with bounded Monte Carlo error.",
+      "cites": [
+        "wikipedia:Particle_filter"
+      ]
+    },
+    {
+      "property": "Approximation of path-space joint distributions via ancestral lines",
+      "why": "Tracking ancestral lines (\\widehat{\\xi}_{0,k}^i, \\dots, \\widehat{\\xi}_{k,k}^i) yields an empirical measure that approximates the full trajectory posterior p(d(x_0,\\dots,x_k)|y_0,\\dots,y_k) as N \\to \\infty.",
+      "cites": [
+        "wikipedia:Particle_filter"
+      ]
+    },
+    {
+      "property": "Mean-field dynamical system representation",
+      "why": "The nonlinear filtering evolution is expressed as a dynamical system \\eta_{n+1} = \\Phi_{n+1}(\\eta_n) approximated by sampling conditionally independent particles from \\Phi_{n+1}(\\frac{1}{N} \\sum_{i=1}^N \\delta_{\\xi_n^i}).",
+      "cites": [
+        "wikipedia:Particle_filter"
+      ]
+    },
+    {
+      "property": "Proportional selection mechanism",
+      "why": "The selection-updating transition resamples particles with weights proportional to the observation likelihood p(y_k|\\xi_k^i).",
+      "cites": [
+        "wikipedia:Particle_filter"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Strictly positive normalizing constant \\sum_{j=1}^N p(y_k|\\xi_k^j) > 0",
+      "breaks_when": "All particles evaluate to zero observation likelihood p(y_k|\\xi_k^i) = 0, causing division by zero in proportional selection weights."
+    },
+    {
+      "assumption": "Markov process dynamics and partial/noisy observation structure",
+      "breaks_when": "State dynamics have unmodeled history dependence not captured by the Markov transition density p(x_{k+1}|x_k)."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Curse of dimensionality / High-dimensional degradation",
+      "signature": "Poor approximation accuracy and sample degeneracy",
+      "cause": "Particle filtering methods do not perform well when applied to very high-dimensional systems."
+    },
+    {
+      "mode": "Normalizing constant collapse",
+      "signature": "Undefined selection probabilities due to zero denominator",
+      "cause": "Observation y_k falls completely outside the support of the predicted particle cloud \\xi_k^i."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Particle_filter"
+  ],
+  "check": {
+    "node_id": "particle_filter",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so particle_filter is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

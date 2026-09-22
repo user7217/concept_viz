@@ -1,0 +1,114 @@
+{
+  "node_id": "bayes_rule",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For events A and B, provided that P(B) \u2260 0, Bayes' theorem (or Bayes' rule) is given by P(A|B) = \\frac{P(B|A)P(A)}{P(B)}.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "proposition or event of interest",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "B",
+      "meaning": "observed evidence or conditioning event",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "P(A)",
+      "meaning": "prior probability of event A",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "P(B)",
+      "meaning": "marginal probability of event B",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "P(B|A)",
+      "meaning": "conditional probability or likelihood of B given A",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "P(A|B)",
+      "meaning": "posterior probability of A given B",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Proportionality form: P(A|B) \u221d P(A) \u22c5 P(B|A)",
+      "why": "When the conditioning event B is fixed, its probability P(B) in the denominator is constant with respect to varying A.",
+      "cites": [
+        "wikipedia:Bayes'_theorem"
+      ]
+    },
+    {
+      "property": "Denominator expansion via law of total probability: P(B) = P(B|A)P(A) + P(B|\u00acA)P(\u00acA)",
+      "why": "The denominator probability of the evidence can be calculated by summing over a partition of the space.",
+      "cites": [
+        "wikipedia:Bayes'_theorem"
+      ]
+    },
+    {
+      "property": "Odds form: O(A|B) = O(A) \\frac{P(B|A)}{P(B|\u00acA)}",
+      "why": "Dividing P(A|B) by P(\u00acA|B) cancels out P(B), relating posterior odds to prior odds multiplied by the likelihood ratio (Bayes factor).",
+      "cites": [
+        "wikipedia:Bayes'_theorem"
+      ]
+    },
+    {
+      "property": "Continuous random variable density form: f_{X|Y=y}(x) = \\frac{f_{Y|X=x}(y)f_X(x)}{f_Y(y)}",
+      "why": "Analogously derived from the definitions of conditional density f_{X|Y=y}(x) = f_{X,Y}(x,y)/f_Y(y) and f_{Y|X=x}(y) = f_{X,Y}(x,y)/f_X(x).",
+      "cites": [
+        "wikipedia:Bayes'_theorem"
+      ]
+    },
+    {
+      "property": "Three-event conditioned form: P(A|B \u2229 C) = \\frac{P(B|A \u2229 C)P(A|C)}{P(B|C)}",
+      "why": "Obtained by expanding P(A \u2229 B \u2229 C) via the chain rule conditioned on C with P(C) > 0.",
+      "cites": [
+        "wikipedia:Bayes'_theorem"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "P(B) \u2260 0",
+      "breaks_when": "The conditioning event B has zero probability, making the denominator zero and conditional probability undefined."
+    },
+    {
+      "assumption": "x and y lie within the support of continuous random variables X and Y, with f_X(x) > 0 and f_Y(y) > 0",
+      "breaks_when": "Evaluating outside the support where marginal density f_Y(y) = 0."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zero-probability conditioning / Division by zero",
+      "signature": "Division by zero resulting in an undefined posterior probability.",
+      "cause": "The evidence event B has probability P(B) = 0 (or density f_Y(y) = 0)."
+    },
+    {
+      "mode": "Base rate fallacy / False positive paradox",
+      "signature": "Posterior probability P(A|B) remains surprisingly low despite a high true positive rate P(B|A).",
+      "cause": "Extremely low prior probability P(A) relative to the false positive rate P(B|\u00acA), causing the denominator to be dominated by false positives."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Bayes'_theorem"
+  ],
+  "check": {
+    "node_id": "bayes_rule",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

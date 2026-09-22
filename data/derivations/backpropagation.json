@@ -1,0 +1,243 @@
+{
+  "node_id": "backpropagation",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "Backpropagation computes the gradient of the loss function with respect to the network weights for an input\u2013output sample by propagating error sensitivities backward layer by layer: $\\frac{\\partial E}{\\partial w_{ij}} = o_i \\delta_j$, where $\\delta_j = \\frac{\\partial L(t, o_j)}{\\partial o_j} \\frac{d\\varphi(\\text{net}_j)}{d\\text{net}_j}$ if $j$ is an output neuron, and $\\delta_j = \\left(\\sum_{\\ell \\in L} w_{j\\ell} \\delta_\\ell\\right) \\frac{d\\varphi(\\text{net}_j)}{d\\text{net}_j}$ if $j$ is an inner neuron; or in layerwise vector form, $\\delta^L = (f^L)' \\circ \\nabla_{a^L} C$ and $\\delta^{l-1} = (f^{l-1})' \\circ (W^l)^T \\cdot \\delta^l$.",
+  "symbols": [
+    {
+      "symbol": "E",
+      "meaning": "error or discrepancy loss function for a training example",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "L(t, y)",
+      "meaning": "loss function measuring discrepancy between target output t and actual output y",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "t",
+      "meaning": "target output for a training sample",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "y",
+      "meaning": "computed output of the output neuron",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "w_{ij}",
+      "meaning": "weight on the connection from neuron i to neuron j",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "o_j",
+      "meaning": "output activation of neuron j",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\text{net}_j",
+      "meaning": "weighted sum of inputs to neuron j",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\varphi",
+      "meaning": "activation function mapping net input to output",
+      "dimensions": "scalar -> scalar"
+    },
+    {
+      "symbol": "x_i",
+      "meaning": "input signal to the network for unit i",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "L",
+      "meaning": "set of downstream neurons receiving input from neuron j",
+      "dimensions": "set of indices"
+    },
+    {
+      "symbol": "\\delta_j",
+      "meaning": "error sensitivity term for neuron j defined by (\\partial E / \\partial o_j)(\\partial o_j / \\partial \\text{net}_j)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\delta^l",
+      "meaning": "error sensitivity vector at layer l",
+      "dimensions": "vector"
+    },
+    {
+      "symbol": "W^l",
+      "meaning": "weight matrix at layer l",
+      "dimensions": "matrix"
+    },
+    {
+      "symbol": "(f^l)'",
+      "meaning": "vector of derivatives of activation functions at layer l",
+      "dimensions": "vector"
+    },
+    {
+      "symbol": "C",
+      "meaning": "cost function over activations",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "a^L",
+      "meaning": "activation vector of output layer L",
+      "dimensions": "vector"
+    },
+    {
+      "symbol": "\\eta",
+      "meaning": "learning rate parameter (\\eta > 0)",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Apply the chain rule twice to expand the partial derivative of the error function $E$ with respect to weight $w_{ij}$ connecting neuron $i$ to neuron $j$: $\\frac{\\partial E}{\\partial w_{ij}} = \\frac{\\partial E}{\\partial o_j} \\frac{\\partial o_j}{\\partial \\text{net}_j} \\frac{\\partial \\text{net}_j}{\\partial w_{ij}}$.",
+      "invokes": [
+        "chain_rule",
+        "partial_derivative"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Differentiate the net input $\\text{net}_j = \\sum_{k=1}^n w_{kj} o_k$ with respect to weight $w_{ij}$. Since only the single term corresponding to $k=i$ depends on $w_{ij}$, the derivative evaluates to: $\\frac{\\partial \\text{net}_j}{\\partial w_{ij}} = o_i$ (where $o_i = x_i$ if neuron $i$ is an input unit).",
+      "invokes": [
+        "summation",
+        "partial_derivative"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Differentiate the output of neuron $j$, $o_j = \\varphi(\\text{net}_j)$, with respect to its input net: $\\frac{\\partial o_j}{\\partial \\text{net}_j} = \\frac{\\partial}{\\partial \\text{net}_j} \\varphi(\\text{net}_j) = \\frac{d\\varphi(\\text{net}_j)}{d\\text{net}_j}$ (which for the logistic function $\\varphi(z) = \\frac{1}{1+e^{-z}}$ evaluates to $o_j(1 - o_j)$).",
+      "invokes": [
+        "derivative",
+        "partial_derivative"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Evaluate $\\frac{\\partial E}{\\partial o_j}$ for the case where neuron $j$ is in the output layer ($o_j = y$): $\\frac{\\partial E}{\\partial o_j} = \\frac{\\partial L(t, o_j)}{\\partial o_j}$ (which for squared error $E = \\frac{1}{2}(t-y)^2$ gives $\\frac{\\partial E}{\\partial y} = y - t$).",
+      "invokes": [
+        "loss_function",
+        "partial_derivative"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Evaluate $\\frac{\\partial E}{\\partial o_j}$ for an arbitrary inner layer neuron $j$ by treating $E$ as a function of the inputs $\\text{net}_\\ell$ of all neurons $\\ell \\in L = \\{u, v, \\dots, w\\}$ receiving connections from $j$, and taking the total derivative with respect to $o_j$: $\\frac{\\partial E}{\\partial o_j} = \\sum_{\\ell \\in L} \\frac{\\partial E}{\\partial \\text{net}_\\ell} \\frac{\\partial \\text{net}_\\ell}{\\partial o_j} = \\sum_{\\ell \\in L} \\delta_\\ell w_{j\\ell}$, where $\\delta_\\ell = \\frac{\\partial E}{\\partial \\text{net}_\\ell}$ and $\\frac{\\partial \\text{net}_\\ell}{\\partial o_j} = w_{j\\ell}$.",
+      "invokes": [
+        "multivariate_chain_rule",
+        "summation",
+        "partial_derivative"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Define the error sensitivity $\\delta_j = \\frac{\\partial E}{\\partial o_j} \\frac{\\partial o_j}{\\partial \\text{net}_j}$ and substitute the output layer and inner layer evaluations into it: $\\delta_j = \\begin{cases} \\frac{\\partial L(t, o_j)}{\\partial o_j} \\frac{d\\varphi(\\text{net}_j)}{d\\text{net}_j} & \\text{if } j \\text{ is an output neuron}, \\\\ \\left(\\sum_{\\ell \\in L} w_{j\\ell} \\delta_\\ell\\right) \\frac{d\\varphi(\\text{net}_j)}{d\\text{net}_j} & \\text{if } j \\text{ is an inner neuron}. \\end{cases}$",
+      "invokes": [
+        "derivative",
+        "summation"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "Substitute the net input derivative $\\frac{\\partial \\text{net}_j}{\\partial w_{ij}} = o_i$ and the definition of $\\delta_j$ back into the original chain rule equation to obtain the gradient of the error with respect to weight $w_{ij}$: $\\frac{\\partial E}{\\partial w_{ij}} = \\frac{\\partial E}{\\partial o_j} \\frac{\\partial o_j}{\\partial \\text{net}_j} \\frac{\\partial \\text{net}_j}{\\partial w_{ij}} = o_i \\delta_j$.",
+      "invokes": [
+        "partial_derivative"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 8,
+      "text": "Express the layerwise backward error propagation in matrix notation starting from the output layer: $\\delta^L = (f^L)' \\circ \\nabla_{a^L} C$, with the recursive step $\\delta^{l-1} = (f^{l-1})' \\circ (W^l)^T \\cdot \\delta^l$. Propagating error backward computes vector-matrix products with transposed weight matrices $(W^l)^T$ and activation derivative vectors $(f^{l-1})'$, avoiding redundant matrix-matrix multiplications.",
+      "invokes": [
+        "vector",
+        "transpose_identities",
+        "jacobian_vector_product",
+        "matrix_multiplication"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    },
+    {
+      "n": 9,
+      "text": "Compute the gradient descent weight adjustment $\\Delta w_{ij} = -\\eta \\frac{\\partial E}{\\partial w_{ij}} = -\\eta o_i \\delta_j$ along the direction of steepest descent to decrease $E$, where $\\eta > 0$ is the learning rate.",
+      "invokes": [
+        "gradient"
+      ],
+      "cites": [
+        "wikipedia:Backpropagation"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The activation function \u03c6 is differentiable over the activation region.",
+      "breaks_when": "The activation function has points of non-differentiability (such as ReLU at 0) where classical derivatives are undefined."
+    },
+    {
+      "assumption": "The error/loss function L(t, y) is differentiable with respect to the network outputs.",
+      "breaks_when": "The loss function is non-differentiable with respect to y, preventing evaluation of \u2202E/\u2202y or \u2207_{a^L} C."
+    },
+    {
+      "assumption": "The network has a feedforward directed structure allowing layer-by-layer reverse propagation of error signals.",
+      "breaks_when": "Cyclic dependencies exist without being unrolled into feedforward stages, breaking the topological backward pass."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Underconstrained non-unique solution",
+      "signature": "The loss function forms a degenerate valley (e.g., a parabolic cylinder along w1 = -w2) where multiple weight configurations give minimal error.",
+      "cause": "Too few training examples or lack of additional constraints/regularization on synaptic weights."
+    },
+    {
+      "mode": "Derivative breakdown at points of non-differentiability",
+      "signature": "Computation of \u2202oj/\u2202netj is undefined.",
+      "cause": "Evaluation at non-differentiable points of non-smooth activation functions (such as ReLU at origin)."
+    },
+    {
+      "mode": "Convergence stalling or slow optimization in complex loss landscapes",
+      "signature": "First-order gradient descent fails to converge or requires excessive iterations compared to second-order methods.",
+      "cause": "Complicated loss function topology requiring curvature information (e.g., Hessian approximation via Levenberg-Marquardt)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Backpropagation"
+  ],
+  "check": {
+    "node_id": "backpropagation",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

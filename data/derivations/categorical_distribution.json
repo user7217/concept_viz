@@ -1,0 +1,121 @@
+{
+  "node_id": "categorical_distribution",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A categorical distribution is a discrete probability distribution that describes the possible results of a random variable that can take on one of K possible categories, parameterized by a probability vector p = (p_1, ..., p_K) where 0 <= p_i <= 1 and sum_{i=1}^K p_i = 1, with p_i = P(X = i). Its probability mass function can be expressed using the Iverson bracket as f(x | p) = prod_{i=1}^K p_i^[x=i], or equivalently for a 1-of-K encoded random vector x as f(x | p) = prod_{i=1}^K p_i^(x_i).",
+  "symbols": [
+    {
+      "symbol": "K",
+      "meaning": "number of possible categories or outcomes",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p",
+      "meaning": "parameter vector of category probabilities",
+      "dimensions": "K"
+    },
+    {
+      "symbol": "p_i",
+      "meaning": "probability of observing category i",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "outcome represented as a category label in {1, ..., K} or a 1-of-K encoded vector",
+      "dimensions": "scalar or K"
+    },
+    {
+      "symbol": "f(x | p)",
+      "meaning": "probability mass function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "[x=i]",
+      "meaning": "Iverson bracket evaluating to 1 if x = i and 0 otherwise",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Parameter simplex constraint",
+      "why": "The parameters p lie on the standard (K - 1)-dimensional simplex defined by sum_{i=1}^K p_i = 1 and 0 <= p_i <= 1",
+      "cites": [
+        "wikipedia:Categorical_distribution"
+      ]
+    },
+    {
+      "property": "Mean of 1-of-K encoded outcome",
+      "why": "E[x] = p for a 1-of-K encoded random vector x",
+      "cites": [
+        "wikipedia:Categorical_distribution"
+      ]
+    },
+    {
+      "property": "Indicator distribution",
+      "why": "The indicator function [x = i] (or Kronecker delta delta_{xi}) of category i is Bernoulli distributed with parameter p_i",
+      "cites": [
+        "wikipedia:Categorical_distribution"
+      ]
+    },
+    {
+      "property": "Relation to Multinomial distribution",
+      "why": "The categorical distribution is a special case of the multinomial distribution with n = 1; the sum of n i.i.d. categorical random vectors is multinomially distributed with parameters n and p",
+      "cites": [
+        "wikipedia:Categorical_distribution"
+      ]
+    },
+    {
+      "property": "Sufficient statistics",
+      "why": "The set of counts (or proportions) of observations in each category from n independent trials is the sufficient statistic",
+      "cites": [
+        "wikipedia:Categorical_distribution"
+      ]
+    },
+    {
+      "property": "Conjugate prior",
+      "why": "The Dirichlet distribution Dir(K, alpha) is the conjugate prior for the parameter vector p, yielding posterior Dir(K, c + alpha) given observation counts c",
+      "cites": [
+        "wikipedia:Categorical_distribution"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Probabilities must be non-negative and sum to 1: sum_{i=1}^K p_i = 1 and p_i >= 0 for all i",
+      "breaks_when": "Any p_i < 0, p_i > 1, or sum_{i=1}^K p_i != 1"
+    },
+    {
+      "assumption": "Categories are mutually exclusive and exhaustive (exactly one outcome chosen per draw)",
+      "breaks_when": "Multiple categories occur simultaneously or no category occurs, violating sum_{i=1}^K x_i = 1 in the 1-of-K formulation"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Unnormalized probability vector",
+      "signature": "Total probability across the sample space does not equal 1",
+      "cause": "Parameter components p_i do not sum to 1 or fall outside [0, 1]"
+    },
+    {
+      "mode": "Invalid MAP estimate under Dirichlet prior",
+      "signature": "Mode of the posterior distribution is undefined or falls outside the open simplex",
+      "cause": "Condition alpha_i + c_i > 1 fails for one or more categories i"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Categorical_distribution"
+  ],
+  "check": {
+    "node_id": "categorical_distribution",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

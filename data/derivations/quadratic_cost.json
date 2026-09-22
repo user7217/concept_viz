@@ -1,0 +1,132 @@
+{
+  "node_id": "quadratic_cost",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In optimal control theory, a quadratic cost function (or performance index) $J$ evaluates system performance by penalizing deviations of the state $\\mathbf{x}$ from desired values along with the magnitude of the control action $\\mathbf{u}$. For a finite-horizon continuous-time system on $t \\in [t_0, t_1]$, the quadratic cost is defined as:\n$$J = \\mathbf{x}^\\mathsf{T}(t_1) F(t_1) \\mathbf{x}(t_1) + \\int_{t_0}^{t_1} \\left(\\mathbf{x}^\\mathsf{T} Q \\mathbf{x} + \\mathbf{u}^\\mathsf{T} R \\mathbf{u} + 2\\mathbf{x}^\\mathsf{T} N \\mathbf{u}\\right) dt$$\nwhere $F(t_1)$ is the terminal cost matrix, $Q$ is the state cost matrix, $R$ is the control cost matrix, and $N$ is the cross-term (control and state) cost matrix. In finite-horizon discrete time over horizon $H_p$, it is defined as:\n$$J = \\mathbf{x}_{H_p}^\\mathsf{T} Q_{H_p} \\mathbf{x}_{H_p} + \\sum_{k=0}^{H_p-1} \\left(\\mathbf{x}_k^\\mathsf{T} Q \\mathbf{x}_k + \\mathbf{u}_k^\\mathsf{T} R \\mathbf{u}_k + 2\\mathbf{x}_k^\\mathsf{T} N \\mathbf{u}_k\\right)$$\nFor infinite-horizon problems, the terminal weighting term is omitted and the accumulation extends to $\\infty$.",
+  "symbols": [
+    {
+      "symbol": "J",
+      "meaning": "quadratic cost function or performance index",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\mathbf{x}",
+      "meaning": "state vector of the system",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mathbf{u}",
+      "meaning": "control input vector",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "Q",
+      "meaning": "state cost matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "R",
+      "meaning": "control cost matrix",
+      "dimensions": "m x m"
+    },
+    {
+      "symbol": "N",
+      "meaning": "cross-term (state and control) cost matrix",
+      "dimensions": "n x m"
+    },
+    {
+      "symbol": "F(t_1)",
+      "meaning": "terminal cost matrix at final time t_1",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "Q_{H_p}",
+      "meaning": "terminal state cost matrix at discrete horizon H_p",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "H_p",
+      "meaning": "time horizon for discrete-time system",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "t_0, t_1",
+      "meaning": "initial and terminal times for continuous-time system",
+      "dimensions": "1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Linear state-feedback optimality",
+      "why": "Minimizing the quadratic cost subject to linear system dynamics yields an optimal linear state-feedback control law $\\mathbf{u} = -K\\mathbf{x}$ (continuous-time) or $\\mathbf{u}_k = -F_k\\mathbf{x}_k$ (discrete-time) governed by a Riccati equation.",
+      "cites": [
+        "wikipedia:Linear\u2013quadratic_regulator"
+      ]
+    },
+    {
+      "property": "First-order stationary condition",
+      "why": "First-order conditions for minimizing $J$ yield the stationarity condition $\\mathbf{0} = R\\mathbf{u} + N^\\mathsf{T}\\mathbf{x} + B^\\mathsf{T}\\boldsymbol{\\lambda}$, which couples the optimal input directly to state and co-state via cost weights $R$ and $N$.",
+      "cites": [
+        "wikipedia:Linear\u2013quadratic_regulator"
+      ]
+    },
+    {
+      "property": "Infinite-horizon formulation",
+      "why": "Over an infinite horizon ($t_1 \\to \\infty$ or $H_p \\to \\infty$), the terminal cost term vanishes and the cost accumulates indefinitely as an integral or infinite series.",
+      "cites": [
+        "wikipedia:Linear\u2013quadratic_regulator"
+      ]
+    },
+    {
+      "property": "Convex optimization under linear constraints",
+      "why": "When linear inequality constraints $C\\mathbf{x} + D\\mathbf{u} \\le \\mathbf{e}$ are imposed on states and controls, minimizing the finite-horizon quadratic cost is a convex optimization problem.",
+      "cites": [
+        "wikipedia:Linear\u2013quadratic_regulator"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The control cost matrix $R$ (and the term $R + B^\\mathsf{T} P B$ in discrete time) is invertible.",
+      "breaks_when": "$R$ is singular or non-invertible, preventing computation of the stationary control input and the Riccati equation solutions."
+    },
+    {
+      "assumption": "Weighting factors ($Q, R, N, F$) accurately reflect the operator's physical design objectives.",
+      "breaks_when": "Weighting factors are poorly chosen or difficult to tune, causing the mathematical minimizer of $J$ to yield undesirable closed-loop controller behavior."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular control weighting matrix",
+      "signature": "Failure to compute $R^{-1}$ or $(R + B^\\mathsf{T} P_{k+1} B)^{-1}$ when solving for the feedback gain or evaluating stationarity.",
+      "cause": "The matrix $R$ assigned to penalize control input is singular or lacks full rank."
+    },
+    {
+      "mode": "State and control constraint violation",
+      "signature": "States $\\mathbf{x}$ or control actions $\\mathbf{u}$ exceed physical system limits (such as $C\\mathbf{x} + D\\mathbf{u} \\le \\mathbf{e}$).",
+      "cause": "The standard quadratic cost formulation is unconstrained and does not enforce hard limits without embedding in a constrained framework like MPC."
+    },
+    {
+      "mode": "Design goal mismatch from parameter selection",
+      "signature": "Controller achieves low mathematical cost $J$ but exhibits poor or unexpected transient physical behavior.",
+      "cause": "Difficulty in finding the right weighting factors $(Q, R, N)$ due to lack of a direct relationship between cost parameters and closed-loop behavior."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Linear\u2013quadratic_regulator"
+  ],
+  "check": {
+    "node_id": "quadratic_cost",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "node_id": "quaternion_multiplication",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Quaternion multiplication is a non-commutative bilinear arithmetic operation on the four-dimensional real algebra of quaternions. The supplied sources define quaternion multiplication directly rather than deriving it: viewing a quaternion as a pair of complex numbers $(a + bi)1 + (c + di)\\mathbf{j} \\in \\mathbb{C}^2$ with basis $\\{1, \\mathbf{j}\\}$, multiplication is defined by the distributive law subject to the relations $j^2 = -1$, $ij = -ji$, and $k = ij$, producing $a + bi + cj + dk$; equivalently, it is defined via an algebra homomorphism into $M(4, \\mathbb{R})$ mapping $1, i, j, k$ to quadruples of $4 \\times 4$ matrices such that quaternion multiplication corresponds to matrix multiplication. Because the supplied sources introduce these relations by definition, they contain no derivation of quaternion multiplication.",
+  "symbols": [
+    {
+      "symbol": "q",
+      "meaning": "quaternion represented as a + bi + cj + dk or (r, v)",
+      "dimensions": "4 x 1"
+    },
+    {
+      "symbol": "p",
+      "meaning": "quaternion operand in multiplication",
+      "dimensions": "4 x 1"
+    },
+    {
+      "symbol": "a, b, c, d",
+      "meaning": "real-number components of a quaternion",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "1, i, j, k",
+      "meaning": "quaternion basis elements",
+      "dimensions": "4 x 1"
+    },
+    {
+      "symbol": "v",
+      "meaning": "vector part of a quaternion",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "r",
+      "meaning": "scalar part of a quaternion",
+      "dimensions": "1 x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Quaternion multiplication is non-commutative in general ($pq \\neq qp$).",
+      "why": "The multiplication of basis elements satisfies anticommutativity $ij = -ji = k$.",
+      "cites": [
+        "wikipedia:Quaternion"
+      ]
+    },
+    {
+      "property": "Two quaternions $p$ and $q$ commute ($pq = qp$) only if they lie in the same complex subplane of $\\mathbb{H}$.",
+      "why": "Every non-real quaternion generates a planar subalgebra isomorphic to $\\mathbb{C}$, and $\\mathbb{H}$ can be viewed as a union of these complex planes intersecting on the real line.",
+      "cites": [
+        "wikipedia:Quaternion"
+      ]
+    },
+    {
+      "property": "Quaternion multiplication is isomorphic to matrix multiplication in $M(4, \\mathbb{R})$ across 48 distinct matrix representations.",
+      "why": "There exist 48 quadruples of $4 \\times 4$ matrices (one identity/scalar matrix and three skew-symmetric matrices) that form an algebra homomorphism mapping quaternion products to matrix products.",
+      "cites": [
+        "wikipedia:Quaternion"
+      ]
+    },
+    {
+      "property": "The fourth power of the norm of a quaternion equals the determinant of its $4 \\times 4$ matrix representation.",
+      "why": "Quaternion multiplication is preserved under the matrix homomorphism where quaternion conjugation corresponds to matrix transpose.",
+      "cites": [
+        "wikipedia:Quaternion"
+      ]
+    },
+    {
+      "property": "A quaternion squares to $-1$ if and only if it is a pure vector quaternion with norm 1.",
+      "why": "Evaluating $q^2 = -1$ for $q = a + bi + cj + dk$ yields $a^2 - b^2 - c^2 - d^2 = -1$ and $2ab = 2ac = 2ad = 0$, which forces $a = 0$ and $b^2 + c^2 + d^2 = 1$.",
+      "cites": [
+        "wikipedia:Quaternion"
+      ]
+    },
+    {
+      "property": "The multiplicative group of nonzero quaternions acts by conjugation $a \\mapsto rar^{-1}$ on $\\mathbb{R}^3$.",
+      "why": "Conjugation by any nonzero quaternion $r$ preserves the real scalar part and the norm of the vector part.",
+      "cites": [
+        "wikipedia:Quaternion"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Quaternion components $a, b, c, d$ are real numbers.",
+      "breaks_when": "Coefficients are drawn from non-real or non-commutative algebraic structures."
+    },
+    {
+      "assumption": "Multiplication satisfies distributivity and the fundamental basis relations $j^2 = -1$, $ij = -ji = k$.",
+      "breaks_when": "Basis relations or distributive multiplication are modified or violated."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Assuming multiplication commutes ($pq = qp$).",
+      "signature": "Incorrect sign in the vector/imaginary components of the product.",
+      "cause": "Basis units anticommute ($ij = -ji = k$), making order of multiplication significant."
+    },
+    {
+      "mode": "Assuming $q^2 = -1$ has only two solutions as in $\\mathbb{C}$.",
+      "signature": "Omission of the continuous two-sphere of square roots of $-1$.",
+      "cause": "Every unit vector quaternion satisfies $q^2 = -1$, yielding an entire 2-sphere of roots."
+    },
+    {
+      "mode": "Attempting conjugation $rar^{-1}$ with a zero quaternion $r = 0$.",
+      "signature": "Division by zero / undefined multiplicative inverse.",
+      "cause": "The conjugation action is defined only for elements of the multiplicative group of nonzero quaternions."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Quaternion"
+  ],
+  "check": {
+    "node_id": "quaternion_multiplication",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so quaternion_multiplication is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

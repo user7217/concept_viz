@@ -1,0 +1,131 @@
+{
+  "node_id": "importance_weight_derivation",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "The probability of an event $p_t = \\mathbb{E}[1_{\\{X \\geq t\\}}]$ under target density $f$ can be expressed as an expectation under an alternate biasing density $f_*$ weighted by the weighting function (likelihood ratio) $W(\\cdot) \\equiv \\frac{f(\\cdot)}{f_*(\\cdot)}$, giving $p_t = \\mathbb{E}_*[1_{\\{X \\geq t\\}} W(X)]$.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "random variable under target distribution",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "t",
+      "meaning": "threshold parameter defining the event of interest",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_t",
+      "meaning": "probability of the event X >= t",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f",
+      "meaning": "probability density function of the target distribution",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f_*",
+      "meaning": "biasing (proposal) probability density function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "1_{X >= t}",
+      "meaning": "indicator function of the event X >= t",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "W",
+      "meaning": "weighting function defined as the likelihood ratio f / f_*",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbb{E}",
+      "meaning": "expectation operator under the original distribution with density f",
+      "dimensions": "operator"
+    },
+    {
+      "symbol": "\\mathbb{E}_*",
+      "meaning": "expectation operator under the biasing distribution with density f_*",
+      "dimensions": "operator"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Express the target probability $p_t$ of the event $X \\geq t$ as the expectation of the indicator function $1_{\\{X \\geq t\\}}$ under the original distribution.",
+      "invokes": [
+        "expectation"
+      ],
+      "cites": [
+        "wikipedia:Importance_sampling"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Represent the expectation as an integral against density $f(x)$ and introduce the biasing density $f_*(x)$ by multiplying and dividing the integrand by $f_*(x)$: $p_t = \\int 1_{\\{x \\geq t\\}} \\frac{f(x)}{f_*(x)} f_*(x) \\, dx$.",
+      "invokes": [
+        "integral",
+        "probability_density_function",
+        "proposal_distribution"
+      ],
+      "cites": [
+        "wikipedia:Importance_sampling"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Identify the weighting function $W(\\cdot) \\equiv \\frac{f(\\cdot)}{f_*(\\cdot)}$ as the likelihood ratio and rewrite the integral with respect to $f_*(x)\\,dx$ as the expectation under the biasing distribution $f_*$: $p_t = \\mathbb{E}_*[1_{\\{X \\geq t\\}} W(X)]$.",
+      "invokes": [
+        "expectation"
+      ],
+      "cites": [
+        "wikipedia:Importance_sampling"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The biasing density $f_*(x)$ must be non-zero wherever $1_{\\{x \\geq t\\}} f(x) > 0$ (corresponding to $Y(\\omega) \\neq 0$ almost everywhere).",
+      "breaks_when": "$f_*(x) = 0$ at points where the target integrand $1_{\\{x \\geq t\\}} f(x) \\neq 0$, causing division by zero in the likelihood ratio $W(x) = f(x)/f_*(x)$."
+    },
+    {
+      "assumption": "The biasing function $f_*$ must be a valid probability density function such that $f_*(x) \\geq 0$ and $\\int f_*(x)\\,dx = 1$ (analogously $Y \\geq 0$ with $\\mathbb{E}_{\\mathbb{P}}[Y] = 1$).",
+      "breaks_when": "$f_*$ takes negative values or does not integrate to unity, rendering expectation $\\mathbb{E}_*$ invalid."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Estimator variance inflation",
+      "signature": "Estimator variance under biasing distribution exceeds variance under the conventional distribution (var_*[p_hat_t] >= var[p_hat_t]), resulting in longer run times.",
+      "cause": "A poor choice of biasing distribution $f_*$ produces extreme or heavy-tailed values of the likelihood ratio $W(X) = f(X)/f_*(X)$."
+    },
+    {
+      "mode": "Dimensionality effect in scaling",
+      "signature": "Decreasing importance sampling gain as the dimensionality $n$ grows.",
+      "cause": "When $X$ is a sum of $n$ random variables, scaling shifts probability mass across an $n$-dimensional space and pushes mass into the undesired complementary region $X < t$."
+    },
+    {
+      "mode": "Undefined likelihood ratio",
+      "signature": "Division by zero during evaluation of the sample weight $W(X)$.",
+      "cause": "Generating or evaluating samples in a region where target density $f(x) > 0$ but proposal density $f_*(x) = 0$."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Importance_sampling"
+  ],
+  "check": {
+    "node_id": "importance_weight_derivation",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "node_id": "law_of_large_numbers",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "Given an infinite sequence of independent and identically distributed random variables $X_1, X_2, \\dots$ with finite mean $\\operatorname{E}(X_i) = \\mu < \\infty$ and finite variance $\\operatorname{Var}(X_i) = \\sigma^2$, the sample average $\\overline{X}_n = \\frac{1}{n}(X_1 + \\dots + X_n)$ converges in probability to $\\mu$: for any $\\varepsilon > 0$, $\\lim_{n\\to\\infty} \\operatorname{P}(|\\overline{X}_n - \\mu| < \\varepsilon) = 1$.",
+  "symbols": [
+    {
+      "symbol": "X_i",
+      "meaning": "i-th random variable in the i.i.d. sequence",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\overline{X}_n",
+      "meaning": "sample average of the first n random variables, (1/n)(X_1 + ... + X_n)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mu",
+      "meaning": "common expected value (mean) of each random variable X_i",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\sigma^2",
+      "meaning": "common variance of each random variable X_i",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of observations / sample size",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\varepsilon",
+      "meaning": "positive deviation threshold",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Using the assumption of finite variance $\\operatorname{Var}(X_i) = \\sigma^2$ and independence of the random variables (which implies no correlation between them), compute the variance of the sample average: $\\operatorname{Var}(\\overline{X}_n) = \\operatorname{Var}\\left(\\frac{1}{n}(X_1 + \\dots + X_n)\\right) = \\frac{1}{n^2}\\operatorname{Var}(X_1 + \\dots + X_n) = \\frac{n\\sigma^2}{n^2} = \\frac{\\sigma^2}{n}$.",
+      "invokes": [
+        "variance",
+        "independent_trials"
+      ],
+      "cites": [
+        "wikipedia:Law_of_large_numbers"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Compute the expectation of the sample average from the common mean $\\mu$: $\\operatorname{E}(\\overline{X}_n) = \\mu$.",
+      "invokes": [
+        "expectation"
+      ],
+      "cites": [
+        "wikipedia:Law_of_large_numbers"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Apply Chebyshev's inequality to $\\overline{X}_n$ using its mean $\\mu$ and variance $\\frac{\\sigma^2}{n}$: $\\operatorname{P}(|\\overline{X}_n - \\mu| \\geq \\varepsilon) \\leq \\frac{\\sigma^2}{n\\varepsilon^2}$.",
+      "invokes": [
+        "inequality_bounding"
+      ],
+      "cites": [
+        "wikipedia:Law_of_large_numbers"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Express the probability of the complementary event and evaluate the limit as $n \\to \\infty$: $\\operatorname{P}(|\\overline{X}_n - \\mu| < \\varepsilon) = 1 - \\operatorname{P}(|\\overline{X}_n - \\mu| \\geq \\varepsilon) \\geq 1 - \\frac{\\sigma^2}{n\\varepsilon^2} \\to 1$, which by definition establishes convergence in probability.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Law_of_large_numbers"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "Independent and identically distributed (i.i.d.) random variables with finite expectation $\\operatorname{E}(X_i) = \\mu < \\infty$",
+      "breaks_when": "The expected value does not exist, is infinite, or variables have differing means."
+    },
+    {
+      "assumption": "Finite variance $\\operatorname{Var}(X_i) = \\sigma^2 < \\infty$",
+      "breaks_when": "The random variables have infinite or undefined variance, invalidating the Chebyshev bound $\\frac{\\sigma^2}{n\\varepsilon^2}$."
+    },
+    {
+      "assumption": "Large number of observations ($n \\to \\infty$)",
+      "breaks_when": "Only a small number of observations are considered; the sample mean is not guaranteed to coincide with the expected value for small $n$."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Small-sample fallacy (Gambler's fallacy)",
+      "signature": "Sample mean deviates substantially from $\\mu$ and does not balance out over a small sequence of observations.",
+      "cause": "Assuming the law applies to small sample sizes; the law guarantees convergence only asymptotically as $n \\to \\infty$."
+    },
+    {
+      "mode": "Non-existent or infinite true mean",
+      "signature": "Sample averages fail to stabilize to a fixed constant value as $n$ increases.",
+      "cause": "Underlying distribution lacks a finite expected value $\\mu$."
+    },
+    {
+      "mode": "Infinite variance invalidating variance-based bound",
+      "signature": "The Chebyshev bound $\\frac{\\sigma^2}{n\\varepsilon^2}$ is undefined or fails to bound deviation probabilities.",
+      "cause": "Underlying distribution has heavy tails with infinite or undefined variance $\\sigma^2$."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Law_of_large_numbers"
+  ],
+  "check": {
+    "node_id": "law_of_large_numbers",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

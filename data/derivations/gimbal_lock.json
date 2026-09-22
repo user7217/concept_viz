@@ -1,0 +1,112 @@
+{
+  "node_id": "gimbal_lock",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Gimbal lock is the loss of one degree of freedom in a multi-dimensional mechanism or coordinate system occurring at certain alignments of axes. In Euler angle representations of rotations in three dimensions, it occurs because the map from the 3-torus $\\mathbb{T}^3$ to the rotation space $\\mathrm{SO}(3) \\cong \\mathbb{RP}^3$ is not a local homeomorphism at every point, causing the rank (degrees of freedom) to drop below 3; for instance, in the X-Y-Z convention when $\\beta = \\pi/2$, the rotation matrix degenerates to $R = \\begin{bmatrix} 0 & 0 & 1 \\\\ \\sin(\\alpha+\\gamma) & \\cos(\\alpha+\\gamma) & 0 \\\\ -\\cos(\\alpha+\\gamma) & \\sin(\\alpha+\\gamma) & 0 \\end{bmatrix}$, locking rotation to the single combined angle $\\alpha + \\gamma$ about the $Z$ axis.",
+  "symbols": [
+    {
+      "symbol": "R",
+      "meaning": "3D rotation matrix",
+      "dimensions": "3 x 3"
+    },
+    {
+      "symbol": "\\alpha",
+      "meaning": "first Euler rotation angle",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\beta",
+      "meaning": "second Euler rotation angle",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\gamma",
+      "meaning": "third Euler rotation angle",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbb{T}^3",
+      "meaning": "3-torus, the source space of Euler angles",
+      "dimensions": "3-dimensional manifold"
+    },
+    {
+      "symbol": "\\mathrm{SO}(3)",
+      "meaning": "space of rotations for three-dimensional rigid bodies",
+      "dimensions": "3-dimensional manifold"
+    },
+    {
+      "symbol": "\\mathbb{RP}^3",
+      "meaning": "three-dimensional real projective space, homeomorphic to SO(3)",
+      "dimensions": "3-dimensional manifold"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "For mechanisms or coordinate systems with three or fewer nested gimbals, gimbal lock inevitably occurs at some point",
+      "why": "topological constraints dictate that there is no covering map from the 3-torus to 3-dimensional real projective space",
+      "cites": [
+        "wikipedia:Gimbal_lock"
+      ]
+    },
+    {
+      "property": "At the locked orientation $\\beta = \\pi/2$, varying $\\alpha$ and $\\gamma$ produces identical rotational effects",
+      "why": "the rotation angle becomes $\\alpha + \\gamma$ while the rotation axis remains fixed in the $Z$ direction",
+      "cites": [
+        "wikipedia:Gimbal_lock"
+      ]
+    },
+    {
+      "property": "Continuous tracking of an arbitrary trajectory near or through gimbal lock requires arbitrarily fast or discontinuous gimbal motions",
+      "why": "the ratio of surrounding gimbal motion to platform rotation approaches infinity at the singular point",
+      "cites": [
+        "wikipedia:Gimbal_lock"
+      ]
+    },
+    {
+      "property": "Gimbal lock does not invalidate Euler angles as a coordinate system, but restricts their suitability for practical numerical tracking",
+      "why": "Euler angles remain a well-defined coordinate system despite losing local homeomorphism with SO(3) at singular points",
+      "cites": [
+        "wikipedia:Gimbal_lock"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Orientation in 3D is parameterized using three Euler angles or three nested mechanical gimbals",
+      "breaks_when": "Orientation is represented with quaternions, rotation matrices, or a fourth redundant gimbal"
+    },
+    {
+      "assumption": "The intermediate rotation axis remains non-perpendicular to the outer and inner gimbal axes",
+      "breaks_when": "The intermediate angle reaches $\\pm \\pi/2$, causing the outer and inner axes to align collinearly"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Loss of a rotational degree of freedom",
+      "signature": "Two rotational parameters collapse into a single sum (e.g. $\\alpha + \\gamma$), leaving rotations about the perpendicular axis unachievable",
+      "cause": "Parallel alignment of two gimbal axes"
+    },
+    {
+      "mode": "Wrist flip / tracking rate saturation",
+      "signature": "Gimbal or joint motors demand infinite velocity (or attempt to flip 180 degrees in zero time) or freeze the platform",
+      "cause": "Mechanical limits on angular velocity and acceleration encountering the infinite kinematic velocity ratio near singular axes"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Gimbal_lock"
+  ],
+  "check": {
+    "node_id": "gimbal_lock",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

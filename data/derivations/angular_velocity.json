@@ -1,0 +1,176 @@
+{
+  "node_id": "angular_velocity",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In kinematics, angular velocity is a vector or pseudovector \\boldsymbol{\\omega} (or scalar \\omega in two dimensions) representing the rate of rotation and the orientation of the instantaneous axis of rotation. For a point particle with position vector \\mathbf{r} relative to a chosen origin and velocity \\mathbf{v}, the orbital angular velocity in three dimensions is defined as \\boldsymbol{\\omega} = \\frac{\\mathbf{r} \\times \\mathbf{v}}{r^2} = \\frac{v \\sin(\\theta)}{r} \\mathbf{u} = \\frac{d\\phi}{dt} \\mathbf{u}, where r = \\|\\mathbf{r}\\|, \\theta is the angle between \\mathbf{r} and \\mathbf{v}, and \\mathbf{u} is the unit vector normal to the instantaneous plane of rotation specified by the right-hand rule. In two dimensions, orbital angular velocity is defined as \\omega = \\frac{d\\phi}{dt} = \\frac{v_\\perp}{r}.",
+  "symbols": [
+    {
+      "symbol": "\\boldsymbol{\\omega}",
+      "meaning": "angular velocity pseudovector (orbital or spin)",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "\\omega",
+      "meaning": "angular speed (magnitude of angular velocity vector)",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\mathbf{u}",
+      "meaning": "unit vector normal to the instantaneous plane of rotation satisfying the right-hand rule",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "\\mathbf{r}",
+      "meaning": "position vector of the particle from the origin",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "r",
+      "meaning": "scalar distance to origin or orbital radius (r = \\|\\mathbf{r}\\|)",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\mathbf{v}",
+      "meaning": "linear velocity vector (d\\mathbf{r}/dt)",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "v",
+      "meaning": "linear speed (\\|\\mathbf{v}\\|)",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\phi",
+      "meaning": "angular displacement or swept angle",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "t",
+      "meaning": "time parameter",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "v_\\perp",
+      "meaning": "cross-radial (tangential) component of linear velocity",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\theta",
+      "meaning": "angle between position vector \\mathbf{r} and linear velocity vector \\mathbf{v}",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\mathbf{e}_i",
+      "meaning": "orthonormal basis unit vectors fixed in a rotating frame (i = 1, 2, 3)",
+      "dimensions": "3 x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Tangential velocity is recovered from angular velocity via \\mathbf{v}_\\perp = \\boldsymbol{\\omega} \\times \\mathbf{r}",
+      "why": "cross-radial velocity is orthogonal to both the rotation axis and position vector with magnitude r\\omega",
+      "cites": [
+        "wikipedia:Angular_velocity"
+      ]
+    },
+    {
+      "property": "For a rigid body rotating about origin O with body-fixed orthonormal basis \\mathbf{e}_1, \\mathbf{e}_2, \\mathbf{e}_3, spin angular velocity is \\boldsymbol{\\omega} = (\\dot{\\mathbf{e}}_1 \\cdot \\mathbf{e}_2)\\mathbf{e}_3 + (\\dot{\\mathbf{e}}_2 \\cdot \\mathbf{e}_3)\\mathbf{e}_1 + (\\dot{\\mathbf{e}}_3 \\cdot \\mathbf{e}_1)\\mathbf{e}_2",
+      "why": "time derivatives of the body-fixed orthonormal vectors define the single instantaneous axis and rate of rotation common to all particles",
+      "cites": [
+        "wikipedia:Angular_velocity"
+      ]
+    },
+    {
+      "property": "The velocity of any point \\mathbf{r} in a rotating frame with fixed reference point \\mathbf{r}_0 is \\dot{\\mathbf{r}} = \\dot{\\mathbf{r}}_0 + \\boldsymbol{\\omega} \\times (\\mathbf{r} - \\mathbf{r}_0)",
+      "why": "all points in a rigid frame share a common instantaneous spin angular velocity about the rotation axis",
+      "cites": [
+        "wikipedia:Angular_velocity"
+      ]
+    },
+    {
+      "property": "In circular motion of radius r, linear speed relates to angular speed by v = r\\omega",
+      "why": "arc-length is \\ell = r\\phi, so differentiating with respect to time gives v = d\\ell/dt = r(d\\phi/dt) = r\\omega",
+      "cites": [
+        "wikipedia:Angular_velocity"
+      ]
+    },
+    {
+      "property": "Angular velocity behaves as a pseudoscalar in two dimensions and as a pseudovector in three dimensions",
+      "why": "parity inversion preserves magnitude but flips the sign or reverses axis orientation under the right-hand rule convention",
+      "cites": [
+        "wikipedia:Angular_velocity"
+      ]
+    },
+    {
+      "property": "Angular velocity vectors of reference frames add commutatively: \\boldsymbol{\\omega}_1 + \\boldsymbol{\\omega}_2 = \\boldsymbol{\\omega}_2 + \\boldsymbol{\\omega}_1",
+      "why": "composition of linear movements defines standard vector addition for rotating frames",
+      "cites": [
+        "wikipedia:Angular_velocity"
+      ]
+    },
+    {
+      "property": "Spin angular velocity decomposes along Euler angle axes as \\boldsymbol{\\omega} = \\dot{\\alpha}\\mathbf{u}_1 + \\dot{\\beta}\\mathbf{u}_2 + \\dot{\\gamma}\\mathbf{u}_3",
+      "why": "projections of the angular velocity pseudovector onto precession, nutation, and intrinsic rotation axes equal the time derivatives of the corresponding Euler angles",
+      "cites": [
+        "wikipedia:Angular_velocity"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The particle's position vector in three dimensions is twice-continuously differentiable with respect to time",
+      "breaks_when": "The trajectory lacks required differentiability, leaving linear velocity or the center of curvature undefined"
+    },
+    {
+      "assumption": "The distance from the reference origin is non-zero (r = \\|\\mathbf{r}\\| \\neq 0)",
+      "breaks_when": "The particle is located at or passes through the origin, causing division by zero in \\boldsymbol{\\omega} = (\\mathbf{r} \\times \\mathbf{v})/r^2"
+    },
+    {
+      "assumption": "The spatial dimension is exactly three for pseudovector characterization",
+      "breaks_when": "The motion takes place in spatial dimensions d > 3, where spin angular velocity cannot be represented as a vector and must instead be described by an antisymmetric rank-2 tensor"
+    },
+    {
+      "assumption": "The body or frame is rigid",
+      "breaks_when": "The body deforms or particles move relative to one another, preventing a single common spin angular velocity across all points"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Coordinate origin singularity",
+      "signature": "Division by zero yielding undefined angular velocity",
+      "cause": "Evaluating orbital angular velocity at r = 0 where the denominator r^2 vanishes"
+    },
+    {
+      "mode": "Collinear or purely radial velocity",
+      "signature": "Angular velocity vanishes (\\boldsymbol{\\omega} = \\mathbf{0}) despite non-zero linear speed (v > 0)",
+      "cause": "Linear velocity is parallel or antiparallel to the position vector (\\mathbf{r} \\times \\mathbf{v} = \\mathbf{0}), sweeping zero angle relative to the origin"
+    },
+    {
+      "mode": "Application of single-particle formula to rigid bodies",
+      "signature": "Varying angular velocity across points in a body instead of a single uniform rigid-body angular velocity",
+      "cause": "Using the single-point orbital expression (\\mathbf{r} \\times \\mathbf{v})/r^2, which is incompatible with rigid body motion where a single \\boldsymbol{\\omega} must account for all particles"
+    },
+    {
+      "mode": "Higher-dimensional pseudovector breakdown",
+      "signature": "Vector cross product is undefined or fails to specify an axis of rotation",
+      "cause": "Working in spatial dimensions greater than 3 where rotations occur in 2D planes without a unique normal vector axis"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Angular_velocity"
+  ],
+  "check": {
+    "node_id": "angular_velocity",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

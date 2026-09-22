@@ -1,0 +1,163 @@
+{
+  "node_id": "dijkstra",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For a weighted graph with non-negative edge weights, Dijkstra's algorithm finds the shortest path distance dist[v] from a given source node to every other node v by maintaining the invariant that dist[v] is minimal for all visited nodes and dist[u] is minimal through visited paths for unvisited nodes.",
+  "symbols": [
+    {
+      "symbol": "Graph",
+      "meaning": "input graph consisting of vertices and weighted edges",
+      "dimensions": "N/A"
+    },
+    {
+      "symbol": "source",
+      "meaning": "designated source vertex from which shortest paths are computed",
+      "dimensions": "scalar (node)"
+    },
+    {
+      "symbol": "dist[v]",
+      "meaning": "distance label representing the shortest or tentative distance from source to vertex v",
+      "dimensions": "scalar (real)"
+    },
+    {
+      "symbol": "prev[v]",
+      "meaning": "predecessor of vertex v on the shortest path from source",
+      "dimensions": "scalar (node)"
+    },
+    {
+      "symbol": "Q",
+      "meaning": "min-priority queue storing vertices keyed by tentative distance dist[\u00b7]",
+      "dimensions": "collection of vertices"
+    },
+    {
+      "symbol": "u",
+      "meaning": "vertex extracted from Q having the minimum tentative distance",
+      "dimensions": "scalar (node)"
+    },
+    {
+      "symbol": "w",
+      "meaning": "unvisited node or predecessor node on an alternate candidate path",
+      "dimensions": "scalar (node)"
+    },
+    {
+      "symbol": "k",
+      "meaning": "number of visited nodes in the induction hypothesis",
+      "dimensions": "integer"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "State the induction invariant: for each visited node v, dist[v] is the shortest distance from source to v; for each unvisited node u, dist[u] is the shortest distance from source to u when traveling via visited nodes only, or infinity if no such path exists.",
+      "invokes": [
+        "shortest_path",
+        "path"
+      ],
+      "cites": [
+        "wikipedia:Dijkstra's_algorithm"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Base case (k = 1 visited node): The only visited node is source, with dist[source] = 0. Since negative edge weights are not allowed, 0 is the shortest possible distance to source, and the induction hypothesis holds.",
+      "invokes": [
+        "edge_weight",
+        "shortest_path"
+      ],
+      "cites": [
+        "wikipedia:Dijkstra's_algorithm"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Inductive step setup: Assume the invariant holds for k visited nodes. Let u be the next node selected for visiting by extracting the vertex from priority queue Q with minimum dist[u]. The claim is that dist[u] is the true shortest distance from source to u.",
+      "invokes": [
+        "greedy_choice",
+        "priority_queue"
+      ],
+      "cites": [
+        "wikipedia:Dijkstra's_algorithm"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Formulate proof by contradiction: Suppose a shorter path from source to u exists with total cost strictly less than dist[u]. This alternative shorter path either contains another unvisited node or consists only of visited nodes prior to u.",
+      "invokes": [
+        "path",
+        "path_cost"
+      ],
+      "cites": [
+        "wikipedia:Dijkstra's_algorithm"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Case 1 (shorter path contains another unvisited node): Let w be the first unvisited node on this shorter path. By induction, the subpath from source to w through visited nodes only has cost dist[w]. The cost of the path to u via w is at least dist[w] plus the minimal cost of going from w to u. Because edge costs are positive, the minimal cost from w to u is positive, meaning dist[w] + (positive number) < dist[u], implying dist[w] < dist[u]. However, u was extracted from the priority queue with minimum distance, so dist[u] <= dist[w], which is a contradiction.",
+      "invokes": [
+        "edge_weight",
+        "path_cost",
+        "greedy_choice"
+      ],
+      "cites": [
+        "wikipedia:Dijkstra's_algorithm"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Case 2 (shorter path contains no other unvisited node): Let w be the last but one node on the shortest path, which is necessarily a visited node. That implies dist[w] + Graph.Distance(w, u) < dist[u]. This is a contradiction because by the time w was visited, edge relaxation set dist[u] to at most dist[w] + Graph.Distance(w, u).",
+      "invokes": [
+        "relaxation",
+        "optimal_substructure"
+      ],
+      "cites": [
+        "wikipedia:Dijkstra's_algorithm"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "Inductive maintenance and conclusion: For all other visited nodes v, dist[v] remains the known shortest distance. For each unvisited node w, relaxing outgoing edges (u, w) via alt = dist[u] + Graph.Distance(u, w) maintains that dist[w] is the shortest distance through visited nodes. After all nodes are visited, the shortest path from source to any node v consists only of visited nodes, hence dist[v] is the true shortest distance.",
+      "invokes": [
+        "relaxation",
+        "shortest_path"
+      ],
+      "cites": [
+        "wikipedia:Dijkstra's_algorithm"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "Edge weights are non-negative (strictly positive for the contradiction step in the induction)",
+      "breaks_when": "The graph contains negative edge weights or negative cycles, which invalidates the greedy step dist[u] <= dist[w] + cost(w, u)"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Negative edge weights",
+      "signature": "Computed dist values fail to equal the true shortest path distance",
+      "cause": "Greedy choice assumption that visited nodes have finalized minimal distances is broken when negative edges allow later path extensions to reduce cost"
+    },
+    {
+      "mode": "Premature stopping in bidirectional variant",
+      "signature": "Returned path between source and target is suboptimal",
+      "cause": "Halting search as soon as forward and backward frontiers touch rather than checking whether the sum of minimum priorities in both queues is at least the best full path length \u03bc"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Dijkstra's_algorithm"
+  ],
+  "check": {
+    "node_id": "dijkstra",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

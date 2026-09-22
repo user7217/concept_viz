@@ -1,0 +1,30 @@
+{
+  "node_id": "high_pass_filter",
+  "grounded": false,
+  "kind": "definition",
+  "statement": "The supplied source does not contain a mathematical definition or formulation of a high-pass filter; it describes 'High Pass Filter' as a live electro-dub band formed in Melbourne, Australia.",
+  "symbols": [],
+  "steps": [],
+  "properties": [],
+  "assumptions": [],
+  "failure_modes": [],
+  "source_ids": [
+    "wikipedia:High_Pass_Filter"
+  ],
+  "check": {
+    "node_id": "high_pass_filter",
+    "kind": "definition",
+    "grounded": false,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [
+      "definition lists no properties",
+      "sheet names no symbols, so it is probably not about this node's mathematics at all"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

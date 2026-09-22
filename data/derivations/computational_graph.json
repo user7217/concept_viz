@@ -1,0 +1,134 @@
+{
+  "node_id": "computational_graph",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "In automatic differentiation over a computational graph representing a calculation decomposed into intermediate sub-expressions $w_i$, the propagation of derivatives is governed by the multivariate chain rule: forward accumulation propagates derivatives as $\\dot{w}_i = \\sum_{j \\in \\{\\text{predecessors of } i\\}} \\frac{\\partial w_i}{\\partial w_j} \\dot{w}_j$ with seed $\\dot{x} = 1$, while reverse accumulation propagates adjoints as $\\bar{w}_i = \\sum_{j \\in \\{\\text{successors of } i\\}} \\bar{w}_j \\frac{\\partial w_j}{\\partial w_i}$ backward with seed $\\bar{y} = 1$.",
+  "symbols": [
+    {
+      "symbol": "w_i",
+      "meaning": "intermediate variable or sub-expression at node i of the computational graph",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\dot{w}_i",
+      "meaning": "derivative of intermediate variable w_i with respect to an independent variable x (\\partial w_i / \\partial x)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\bar{w}_i",
+      "meaning": "adjoint of intermediate variable w_i with respect to dependent variable y (\\partial y / \\partial w_i)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "independent variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "y",
+      "meaning": "dependent variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\frac{\\partial w_i}{\\partial w_j}",
+      "meaning": "elementary partial derivative of node w_i with respect to predecessor node w_j",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\frac{\\partial w_j}{\\partial w_i}",
+      "meaning": "elementary partial derivative of successor node w_j with respect to node w_i",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Decompose a computer calculation $y = f(x_1, \\dots, x_n)$ into a sequence of elementary arithmetic operations and elementary functions, labeling each sub-expression as an intermediate variable $w_i$ to form a directed computational graph from inputs to output.",
+      "invokes": [
+        "composite_function"
+      ],
+      "cites": [
+        "wikipedia:Automatic_differentiation"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "In forward accumulation, fix the independent variable $x$ and compute the derivative of each sub-expression recursively by repeatedly substituting the derivative of inner functions using the chain rule: $\\frac{\\partial y}{\\partial x} = \\frac{\\partial y}{\\partial w_{n-1}} \\frac{\\partial w_{n-1}}{\\partial x} = \\frac{\\partial y}{\\partial w_{n-1}} \\left(\\frac{\\partial w_{n-1}}{\\partial w_{n-2}} \\frac{\\partial w_{n-2}}{\\partial x}\\right) = \\cdots$, yielding the single-variable recursive relation $\\frac{\\partial w_i}{\\partial x} = \\frac{\\partial w_i}{\\partial w_{i-1}} \\frac{\\partial w_{i-1}}{\\partial x}$.",
+      "invokes": [
+        "chain_rule"
+      ],
+      "cites": [
+        "wikipedia:Automatic_differentiation"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "For an intermediate variable $w_i$ that has multiple predecessors in the computational graph, apply the multivariate chain rule across all incoming edges to compute the augmented derivative: $\\dot{w}_i = \\sum_{j \\in \\{\\text{predecessors of } i\\}} \\frac{\\partial w_i}{\\partial w_j} \\dot{w}_j$, where $\\dot{w}_i = \\frac{\\partial w_i}{\\partial x}$ and the pass is initialized with seed $\\dot{x} = 1$ and zeros for all other independent variables.",
+      "invokes": [
+        "multivariate_chain_rule"
+      ],
+      "cites": [
+        "wikipedia:Automatic_differentiation"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "In reverse accumulation, fix the dependent variable $y$ and recursively compute the derivative with respect to each sub-expression from outside to inside using the chain rule: $\\frac{\\partial y}{\\partial x} = \\left(\\left(\\frac{\\partial y}{\\partial w_3} \\frac{\\partial w_3}{\\partial w_2}\\right) \\frac{\\partial w_2}{\\partial w_1}\\right) \\frac{\\partial w_1}{\\partial x} = \\cdots$, giving the single-variable adjoint relation $\\frac{\\partial y}{\\partial w_i} = \\frac{\\partial y}{\\partial w_{i+1}} \\frac{\\partial w_{i+1}}{\\partial w_i}$.",
+      "invokes": [
+        "chain_rule"
+      ],
+      "cites": [
+        "wikipedia:Automatic_differentiation"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "For an intermediate variable $w_i$ that has multiple successors in the computational graph, apply the multivariate chain rule to accumulate the adjoints from all paths that depend on $w_i$: $\\bar{w}_i = \\sum_{j \\in \\{\\text{successors of } i\\}} \\bar{w}_j \\frac{\\partial w_j}{\\partial w_i}$, where $\\bar{w}_i = \\frac{\\partial y}{\\partial w_i}$ and the reverse traversal is initialized with seed $\\bar{y} = \\frac{\\partial y}{\\partial y} = 1$.",
+      "invokes": [
+        "multivariate_chain_rule"
+      ],
+      "cites": [
+        "wikipedia:Automatic_differentiation"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The computer calculation can be decomposed into elementary arithmetic operations (+, -, *, /) and elementary functions (exp, log, sin, cos, etc.) that are differentiable.",
+      "breaks_when": "The calculation contains operations or functions whose partial derivatives are undefined or non-differentiable at the evaluation point."
+    },
+    {
+      "assumption": "Intermediate variables and their dependencies form a directed acyclic graph structure permitting well-ordered topological forward and reverse sweeps.",
+      "breaks_when": "Evaluation dependencies contain cycles or cannot be resolved into an acyclic predecessor-successor structure."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Memory exhaustion during reverse accumulation tape storage",
+      "signature": "High memory consumption or out-of-memory error during execution",
+      "cause": "Storing intermediate variables $w_i$ and the instructions producing them on a tape (Wengert list) consumes significant memory when the computational graph is very large and neither checkpointing nor rematerialization is applied."
+    },
+    {
+      "mode": "Computational inefficiency from suboptimal accumulation direction",
+      "signature": "High runtime due to excessive sweep counts",
+      "cause": "Performing forward accumulation on functions $f: \\mathbb{R}^n \\to \\mathbb{R}^m$ where $n \\gg m$ requires $n$ sweeps instead of $m$, or performing reverse accumulation when $n \\ll m$ incurs unnecessary reverse sweeps and tape overhead."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Automatic_differentiation"
+  ],
+  "check": {
+    "node_id": "computational_graph",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

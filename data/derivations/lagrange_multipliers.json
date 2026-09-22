@@ -1,0 +1,108 @@
+{
+  "node_id": "lagrange_multipliers",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources do not contain a derivation of the method of Lagrange multipliers. The method of Lagrange multipliers is defined as a strategy for finding local maxima and minima of an objective function f subject to equation constraints g = 0 by finding stationary points of the Lagrangian function, defined by the condition \\nabla_{x, \\lambda} \\mathcal{L}(x, \\lambda) = \\nabla_{x, \\lambda} (f(x) + \\lambda \\cdot g(x)) = 0.",
+  "symbols": [
+    {
+      "symbol": "\\mathcal{L}",
+      "meaning": "Lagrangian function combining the objective function and constraint equations",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f",
+      "meaning": "objective function to be maximized or minimized",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "g",
+      "meaning": "constraint function defining the equation constraint g = 0",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\lambda",
+      "meaning": "Lagrange multiplier associated with the constraint",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\nabla_{x, \\lambda}",
+      "meaning": "gradient operator with respect to variables and multipliers",
+      "dimensions": "vector"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Stationary points of the Lagrangian satisfy the original constraint equations.",
+      "why": "Differentiating the Lagrangian with respect to the multiplier lambda yields the constraint equation g = 0.",
+      "cites": [
+        "wikipedia:Lagrange_multiplier"
+      ]
+    },
+    {
+      "property": "Critical points of the Lagrangian occur at saddle points rather than local maxima or minima of the Lagrangian.",
+      "why": "The Hessian matrix of the Lagrangian evaluated at the critical points is indefinite.",
+      "cites": [
+        "wikipedia:Lagrange_multiplier"
+      ]
+    },
+    {
+      "property": "The stationarity condition identifies constrained extrema even where objective level sets are not tangent to constraints.",
+      "why": "Extrema can occur where lambda = 0 and level curves of f are not tangent to the constraint.",
+      "cites": [
+        "wikipedia:Lagrange_multiplier"
+      ]
+    },
+    {
+      "property": "Standard numerical extremum-seeking algorithms cannot be applied directly to the Lagrangian function.",
+      "why": "Techniques like gradient descent or hill climbing search for local extrema rather than saddle points.",
+      "cites": [
+        "wikipedia:Lagrange_multiplier"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Constraints are equality equation constraints that must be satisfied exactly.",
+      "breaks_when": "Constraints are inequalities or cannot be expressed as exact equations."
+    },
+    {
+      "assumption": "The objective function and constraint functions are differentiable with respect to their variables.",
+      "breaks_when": "The objective f or constraint g is non-differentiable or has undefined partial derivatives."
+    },
+    {
+      "assumption": "The numerical solver used directly on the Lagrangian locates general stationary points rather than extrema.",
+      "breaks_when": "An algorithm designed strictly for local minimization or maximization (such as gradient descent) is run directly on the Lagrangian."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Numerical optimization divergence on the Lagrangian",
+      "signature": "Optimization fails to converge or diverges when using local extremum seekers directly on the Lagrangian.",
+      "cause": "Critical points of the Lagrangian are saddle points with indefinite Hessian matrices rather than local extrema."
+    },
+    {
+      "mode": "Division by zero during algebraic solving of stationary conditions",
+      "signature": "Singular expressions or omitted solutions when solving equations where coordinates are expressed with lambda in the denominator.",
+      "cause": "Assuming lambda != 0 when isolating variables, which fails to capture candidate extrema where lambda = 0."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Lagrange_multiplier"
+  ],
+  "check": {
+    "node_id": "lagrange_multipliers",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so lagrange_multipliers is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

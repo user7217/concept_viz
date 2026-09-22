@@ -1,0 +1,228 @@
+{
+  "node_id": "backward_recursion",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "Backward recursion is the dynamic programming procedure that determines the optimal value function and optimal policy by breaking a multi-stage decision problem into recursive sub-problems and solving the Bellman recurrence relation backwards from terminal boundary conditions: for a discrete system at the k-th stage of n intervals, J_k^*(x_{n-k}) = min_{u_{n-k}} { f_hat(x_{n-k}, u_{n-k}) + J_{k-1}^*(g_hat(x_{n-k}, u_{n-k})) } (or V_t(k_t) = max_{c_t} { ln(c_t) + b * V_{t+1}(k_{t+1}) }), initialized by terminal boundary condition J_0^*(x_n) = b(x(t_1), t_1) (or V_{T+1} = 0). Computing sequentially backwards from V_i yields V_{i-1} until reaching initial state V_1 (or V_0), after which optimal decision variables are recovered one by one by tracking back.",
+  "symbols": [
+    {
+      "symbol": "x(t)",
+      "meaning": "continuous system state vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "x_{n-k}",
+      "meaning": "discrete system state vector at stage n-k",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "u(t)",
+      "meaning": "control input vector",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "u^*",
+      "meaning": "optimal control law or policy",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "u_{n-k}",
+      "meaning": "control vector at stage n-k",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "g",
+      "meaning": "continuous system transition dynamics",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "g_hat",
+      "meaning": "discrete approximation of system transition dynamics",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "J",
+      "meaning": "total cost functional",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "J^*",
+      "meaning": "optimal cost-to-go function",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "J_k^*",
+      "meaning": "optimal cost-to-go at the k-th backward stage",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "f",
+      "meaning": "instantaneous continuous cost function",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "f_hat",
+      "meaning": "discrete approximation of instantaneous cost",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "b",
+      "meaning": "terminal boundary cost function in control theory, or discount factor in Ramsey saving problem",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "t_0, t_1",
+      "meaning": "initial and terminal continuous time bounds",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "V_t",
+      "meaning": "value function representing optimal remaining value at time t",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "c_t",
+      "meaning": "consumption choice variable at time t",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "k_t",
+      "meaning": "capital stock state variable at time t",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "A",
+      "meaning": "production technology scaling constant",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "a",
+      "meaning": "capital elasticity parameter (0 < a < 1)",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "T",
+      "meaning": "finite time horizon length",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "k",
+      "meaning": "stage index of backward recursion",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "n",
+      "meaning": "total number of discrete intervals",
+      "dimensions": "1 x 1"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "A dynamic optimization problem spanning multiple points in time is broken down into recursive sub-problems. If the problem can be solved optimally by combining optimal solutions to sub-problems, it possesses optimal substructure, formulated in continuous control as minimizing J = b(x(t_1), t_1) + int_{t_0}^{t_1} f(x(t), u(t), t) dt subject to dx/dt = g(x(t), u(t), t), or in discrete time as maximizing sum_{t=0}^T b^t ln(c_t) subject to k_{t+1} = A k_t^a - c_t >= 0.",
+      "invokes": [
+        "optimal_substructure"
+      ],
+      "cites": [
+        "wikipedia:Dynamic_programming"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Decompose the sequential decision process by defining a sequence of value functions (cost-to-go functions) that represent the optimal value of being in any state at each time. For continuous control, the optimal policy u^* = h(x(t), t) yields cost-to-go function J^*(x(t), t) with boundary condition J(t_1) = b(x(t_1), t_1). For discrete time, define value functions V_t(k) for t = 0, 1, ..., T+1, with terminal condition V_{T+1}(k) = 0 representing zero utility after the terminal horizon.",
+      "invokes": [
+        "value_function"
+      ],
+      "cites": [
+        "wikipedia:Dynamic_programming"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Express the stage-to-stage transition via the Bellman recurrence relation. Approximating the continuous control process by a discrete system of n equally spaced intervals yields the recurrence relation analog to the Hamilton\u2013Jacobi\u2013Bellman equation at the k-th stage: J_k^*(x_{n-k}) = min_{u_{n-k}} { f_hat(x_{n-k}, u_{n-k}) + J_{k-1}^*(g_hat(x_{n-k}, u_{n-k})) }. Analogously, for discrete Ramsey savings, the Bellman equation is V_t(k_t) = max { ln(c_t) + b * V_{t+1}(k_{t+1}) } subject to k_{t+1} = A k_t^a - c_t >= 0.",
+      "invokes": [
+        "bellman_equation"
+      ],
+      "cites": [
+        "wikipedia:Dynamic_programming"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Solve the recurrence relation backwards from the terminal boundary condition. Initializing with known terminal value V_{T+1}(k) = 0 (or stage k = 0 with J_0^*(x_n) = b(x(t_1), t_1)), application of the Bellman equation yields V_T(k) (or J_1^*). In general, once V_{T-j+1}(k) (or V_i) has already been calculated for the needed states, the operation yields V_{T-j}(k) (or V_{i-1}) by solving V_{T-j}(k) = max_{c_{T-j}} { ln(c_{T-j}) + b * V_{T-j+1}(A k^a - c_{T-j}) }, iterating backwards until reaching V_0(k) (or V_1 at the initial state).",
+      "invokes": [
+        "bellman_equation",
+        "value_function"
+      ],
+      "cites": [
+        "wikipedia:Dynamic_programming"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Recover the optimal trajectory and decision variables by tracking back the calculations already performed from the initial state forward, giving closed-form optimal consumption c_{T-j}(k) = (1 / sum_{i=0}^j a^i b^i) A k^a, simplifying from c_T(k) = A k^a to c_0(k) = (A k^a) / (1 + ab + ... + a^T b^T).",
+      "invokes": [
+        "summation"
+      ],
+      "cites": [
+        "wikipedia:Dynamic_programming"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "Optimal substructure: an optimal solution to the overall optimization problem is composed of optimal solutions to its recursive sub-problems.",
+      "breaks_when": "Decisions cannot be separated recursively across time points, or path costs depend globally on trajectory history in a non-separable manner."
+    },
+    {
+      "assumption": "Overlapping sub-problems: the sub-problem state space is small enough that intermediate solutions can be tabulated and reused.",
+      "breaks_when": "Sub-problems do not overlap (reducing to divide-and-conquer) or state space is continuous without a valid discrete approximation, leading to an intractable state space."
+    },
+    {
+      "assumption": "Known terminal boundary condition: the terminal cost or valuation at the end of the horizon is well-defined and known (e.g., J(t_1) = b(x(t_1), t_1) or V_{T+1}(k) = 0).",
+      "breaks_when": "The planning horizon is undefined or terminal value is unknown or unbounded without convergence."
+    },
+    {
+      "assumption": "Feasible state transitions: admissible controls exist such that state trajectories satisfy system transition constraints at every backward stage.",
+      "breaks_when": "State constraints become infeasible (e.g., k_{t+1} = A k_t^a - c_t < 0 when capital is constrained to be non-negative)."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Curse of dimensionality in discretization",
+      "signature": "Exponential computational complexity and memory exhaustion when computing J_k^*(x_{n-k}) across state grids.",
+      "cause": "High-dimensional continuous state and control spaces require fine discretization grids whose size grows exponentially with dimension."
+    },
+    {
+      "mode": "Sub-problem non-separability / lack of optimal substructure",
+      "signature": "Backward recursive solution fails to achieve the global optimum of the original problem.",
+      "cause": "The objective function or constraints couple decision variables across time in a way that cannot be factored into stage-wise Bellman transitions."
+    },
+    {
+      "mode": "Misspecified terminal condition",
+      "signature": "Calculated value functions V_t and recovered controls systematically diverge from true optimal values.",
+      "cause": "Incorrectly assigned terminal boundary value b(x(t_1), t_1) or V_{T+1}, which propagates errors backward through every stage."
+    },
+    {
+      "mode": "State constraint violation / empty control set",
+      "signature": "Optimization at stage n-k or time t returns no feasible solution.",
+      "cause": "Preceding choices or state transitions force the state into a region where the admissible control constraint set is empty (e.g., A k_t^a - c_t < 0)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Dynamic_programming"
+  ],
+  "check": {
+    "node_id": "backward_recursion",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "node_id": "feedback_loop",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources genuinely contain nothing to derive, as no mathematical derivation of a feedback loop is provided. A feedback loop is defined as a closed-loop system configuration formed when all or some portion of the output of a system, process, or device is routed back, sampled, and applied as an input as part of a chain of cause and effect; in an amplifier where the fed-back signal is subtracted from the input, the loop gain around the loop is defined by the product $-AB$, where $A$ is the open-loop gain and $B$ is the feedback network gain.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "open-loop gain of the amplifier",
+      "dimensions": "dimensionless (ratio or dB)"
+    },
+    {
+      "symbol": "B",
+      "meaning": "gain of the feedback network",
+      "dimensions": "dimensionless (ratio or dB)"
+    },
+    {
+      "symbol": "-AB",
+      "meaning": "loop gain around the feedback loop with subtractive feedback",
+      "dimensions": "dimensionless (ratio or dB)"
+    },
+    {
+      "symbol": "\\omega",
+      "meaning": "angular frequency of the input signal",
+      "dimensions": "rad/s"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "In a feedback amplifier with subtractive feedback, the loop gain is the product of the amplifier gain and feedback network gain, $-AB$.",
+      "why": "loop gain is the product of all gains around the loop with a minus sign representing subtraction at the input",
+      "cites": [
+        "wikipedia:Feedback"
+      ]
+    },
+    {
+      "property": "Negative feedback occurs when the fed-back signal is out of phase by 180\u00b0 with respect to the input signal, reducing gain and increasing stability and accuracy.",
+      "why": "subtractive out-of-phase feedback counteracts errors and desensitizes the system to unwanted fluctuations",
+      "cites": [
+        "wikipedia:Feedback"
+      ]
+    },
+    {
+      "property": "Positive feedback occurs when the fed-back signal is in phase with the input signal, increasing amplifier gain and reinforcing the input.",
+      "why": "in-phase feedback reinforces the input signal under sufficient gain conditions",
+      "cites": [
+        "wikipedia:Feedback"
+      ]
+    },
+    {
+      "property": "On a decibel scale, amplifier loop gain equals the difference between the open-loop gain curve and the closed-loop gain curve (1/B curve).",
+      "why": "gains vary with angular frequency $\\omega$ and subtraction in decibels represents the ratio of gains",
+      "cites": [
+        "wikipedia:Feedback"
+      ]
+    },
+    {
+      "property": "A device operates in closed loop when output feedback is employed, and in open loop when no output feedback is employed.",
+      "why": "a feedback loop is created only when all or some portion of the output is routed back to the input",
+      "cites": [
+        "wikipedia:Feedback"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The system response time is sufficiently fast relative to changes in the input signal.",
+      "breaks_when": "The input changes faster than the system can respond, creating phase lag in the arrival of the corrective signal."
+    },
+    {
+      "assumption": "The feedback system can be analyzed as isolated loops without unmodeled cross-coupling.",
+      "breaks_when": "The number of interacting parts increases such that mutual cross-couplings generate numerous intertwined circuits whose individual properties do not determine the whole system's behavior."
+    },
+    {
+      "assumption": "Loop gain and phase shift remain within stability boundaries across operational frequencies.",
+      "breaks_when": "Loop gain is sufficient in the presence of in-phase feedback or 180\u00b0 response lag, leading to instability or oscillation."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Hunting and over-correction oscillation",
+      "signature": "The system output oscillates or hunts continuously around the target value rather than settling.",
+      "cause": "The input changes faster than the system can respond, causing lag in the arrival of the corrective feedback signal."
+    },
+    {
+      "mode": "Output latching",
+      "signature": "The output becomes locked or frozen at its maximum or minimum operational limit.",
+      "cause": "Positive feedback reinforces the signal until the device reaches and locks into a saturation state."
+    },
+    {
+      "mode": "Acoustic feedback howling",
+      "signature": "Loud, sustained squeal or howl emitted at the maximum power capability of the amplifier.",
+      "cause": "A microphone picks up the acoustic output from a connected loudspeaker and re-amplifies it with sufficient loop gain."
+    },
+    {
+      "mode": "Disruption of tissue integrity and immune coordination",
+      "signature": "Loss of tissue architecture and failure of coordinated cellular immune response.",
+      "cause": "Failure of cellular and molecular feedback interactions mediated by adhesion and signaling molecules (such as in cancer)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Feedback"
+  ],
+  "check": {
+    "node_id": "feedback_loop",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so feedback_loop is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

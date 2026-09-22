@@ -1,0 +1,30 @@
+{
+  "node_id": "manifold_retraction",
+  "grounded": false,
+  "kind": "definition",
+  "statement": "The supplied source [wikipedia:Riemannian_manifold] does not contain a definition, derivation, or mention of manifold retraction.",
+  "symbols": [],
+  "steps": [],
+  "properties": [],
+  "assumptions": [],
+  "failure_modes": [],
+  "source_ids": [
+    "wikipedia:Riemannian_manifold"
+  ],
+  "check": {
+    "node_id": "manifold_retraction",
+    "kind": "definition",
+    "grounded": false,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [
+      "definition lists no properties",
+      "sheet names no symbols, so it is probably not about this node's mathematics at all"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

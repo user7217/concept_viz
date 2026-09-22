@@ -1,0 +1,143 @@
+{
+  "node_id": "levenberg_marquardt_damping",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Levenberg\u2013Marquardt damping is the modification of the Gauss\u2013Newton normal equations by adding a non-negative damping term proportional to the identity matrix or to the diagonal of the Hessian approximation, yielding the damped linear system (\\mathbf{J}^{\\mathrm{T}}\\mathbf{J} + \\lambda \\mathbf{I})\\boldsymbol{\\delta} = \\mathbf{J}^{\\mathrm{T}}[\\mathbf{y} - \\mathbf{f}(\\boldsymbol{\\beta})] or [\\mathbf{J}^{\\mathrm{T}}\\mathbf{J} + \\lambda \\operatorname{diag}(\\mathbf{J}^{\\mathrm{T}}\\mathbf{J})]\\boldsymbol{\\delta} = \\mathbf{J}^{\\mathrm{T}}[\\mathbf{y} - \\mathbf{f}(\\boldsymbol{\\beta})], where \\lambda \\ge 0$ is the damping factor determining the increment \\boldsymbol{\\delta}$ to the parameter vector \\boldsymbol{\\beta}.",
+  "symbols": [
+    {
+      "symbol": "\\boldsymbol{\\beta}",
+      "meaning": "parameter vector of the model curve",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\boldsymbol{\\delta}",
+      "meaning": "increment/step vector to the estimated parameter vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mathbf{y}",
+      "meaning": "vector of dependent variable observations y_i",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "\\mathbf{f}(\\boldsymbol{\\beta})",
+      "meaning": "vector of model predictions f(x_i, \\boldsymbol{\\beta})",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "\\mathbf{J}",
+      "meaning": "Jacobian matrix with i-th row \\mathbf{J}_i = \\partial f(x_i, \\boldsymbol{\\beta}) / \\partial \\boldsymbol{\\beta}",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "\\lambda",
+      "meaning": "non-negative damping factor adjusted at each iteration",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\mathbf{I}",
+      "meaning": "identity matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\operatorname{diag}(\\mathbf{J}^{\\mathrm{T}}\\mathbf{J})",
+      "meaning": "diagonal matrix containing the diagonal elements of \\mathbf{J}^{\\mathrm{T}}\\mathbf{J}",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "m",
+      "meaning": "number of empirical data pairs",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "number of model parameters",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Interpolation between Gauss\u2013Newton and gradient descent",
+      "why": "A small \\lambda brings the step closer to Gauss\u2013Newton, while a large \\lambda directs the step opposite to the gradient -2(\\mathbf{J}^{\\mathrm{T}}[\\mathbf{y}-\\mathbf{f}(\\boldsymbol{\\beta})])^{\\mathrm{T}}",
+      "cites": [
+        "wikipedia:Levenberg\u2013Marquardt_algorithm"
+      ]
+    },
+    {
+      "property": "Asymptotic small gradient step approximation",
+      "why": "When \\lambda is large relative to \\|\\mathbf{J}^{\\mathrm{T}}\\mathbf{J}\\|, the update is well-approximated by \\lambda^{-1}\\mathbf{J}^{\\mathrm{T}}[\\mathbf{y}-\\mathbf{f}(\\boldsymbol{\\beta})] without matrix inversion",
+      "cites": [
+        "wikipedia:Levenberg\u2013Marquardt_algorithm"
+      ]
+    },
+    {
+      "property": "Scale invariance via diagonal damping",
+      "why": "Replacing \\mathbf{I} with \\operatorname{diag}(\\mathbf{J}^{\\mathrm{T}}\\mathbf{J}) scales each gradient component according to curvature, avoiding slow convergence in directions of small gradient",
+      "cites": [
+        "wikipedia:Levenberg\u2013Marquardt_algorithm"
+      ]
+    },
+    {
+      "property": "Adaptive iteration-dependent damping control",
+      "why": "The parameter \\lambda is reduced when residual sum of squares decreases rapidly and increased when an iteration gives insufficient residual reduction",
+      "cites": [
+        "wikipedia:Levenberg\u2013Marquardt_algorithm"
+      ]
+    },
+    {
+      "property": "Equivalence to Tikhonov regularization and ridge regression",
+      "why": "A mathematically identical damping factor appears in Tikhonov regularization for linear ill-posed problems and ridge regression in statistics",
+      "cites": [
+        "wikipedia:Levenberg\u2013Marquardt_algorithm"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The damping factor \\lambda is non-negative (\\lambda \\ge 0)",
+      "breaks_when": "\\lambda is negative, which can destroy positive semi-definiteness and cause \\mathbf{J}^{\\mathrm{T}}\\mathbf{J} + \\lambda \\mathbf{I} to become singular or indefinite"
+    },
+    {
+      "assumption": "The model function f(x_i, \\boldsymbol{\\beta}) is differentiable with respect to the parameter vector \\boldsymbol{\\beta}",
+      "breaks_when": "f is non-differentiable or the partial derivatives \\mathbf{J}_i do not exist"
+    },
+    {
+      "assumption": "An initial parameter guess \\boldsymbol{\\beta} is provided that is sufficiently close to the global minimum in multi-minima problems",
+      "breaks_when": "The objective function possesses multiple local minima and the initial guess is far from the global minimum"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Convergence to a local minimum",
+      "signature": "Optimization terminates at a suboptimal parameter estimate with high residual sum of squares",
+      "cause": "Presence of multiple minima combined with an initial guess located outside the basin of attraction of the global minimum"
+    },
+    {
+      "mode": "Slow convergence near the optimum under steepest descent regime",
+      "signature": "Very small residual reductions per iteration despite being near the optimum",
+      "cause": "Heuristic damping factor selection excessively increases \\lambda, causing the method to suffer from slow convergence characteristic of steepest descent"
+    },
+    {
+      "mode": "Premature termination",
+      "signature": "Iteration stops before reaching the minimum because step length \\|\\boldsymbol{\\delta}\\| or reduction in sum of squares falls below predefined thresholds",
+      "cause": "Successive unsuccessful uphill steps cause repeated multiplications of \\lambda, shrinking the step size \\boldsymbol{\\delta} below numerical tolerance"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Levenberg\u2013Marquardt_algorithm"
+  ],
+  "check": {
+    "node_id": "levenberg_marquardt_damping",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

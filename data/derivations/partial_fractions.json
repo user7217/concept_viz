@@ -1,0 +1,125 @@
+{
+  "node_id": "partial_fractions",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources do not contain a derivation of partial fractions, as partial fraction decomposition is an algebraic operation and representation definition rather than a derived result. In algebra, the partial fraction decomposition (or partial fraction expansion) of a rational fraction (a fraction such that the numerator and denominator are both polynomials) is an operation that consists of expressing the fraction as a sum of a polynomial (possibly zero) and one or several fractions with simpler denominators. For a proper rational function P(x)/Q(x) with \\deg(P) < \\deg(Q) where Q(x) = \\prod_{j=1}^r (x - \\lambda_j)^{\\nu_j}, the defining representation is P(x)/Q(x) = \\sum_{j=1}^r A_j(x)/(x - \\lambda_j)^{\\nu_j} subject to \\deg(A_j) < \\nu_j for each j.",
+  "symbols": [
+    {
+      "symbol": "P(x)",
+      "meaning": "Numerator polynomial of the rational fraction",
+      "dimensions": "degree < deg(Q)"
+    },
+    {
+      "symbol": "Q(x)",
+      "meaning": "Denominator polynomial of the rational fraction",
+      "dimensions": "degree = \\sum_{j=1}^r \\nu_j"
+    },
+    {
+      "symbol": "\\lambda_j",
+      "meaning": "j-th distinct root or pole of Q(x)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\nu_j",
+      "meaning": "Multiplicity of the root \\lambda_j",
+      "dimensions": "integer"
+    },
+    {
+      "symbol": "A_j(x)",
+      "meaning": "Numerator polynomial corresponding to the j-th partial fraction term",
+      "dimensions": "degree < \\nu_j"
+    },
+    {
+      "symbol": "Q_i(x)",
+      "meaning": "Quotient polynomial defined as Q(x)/(x - \\lambda_i)^{\\nu_i} = \\prod_{j \\neq i} (x - \\lambda_j)^{\\nu_j}",
+      "dimensions": "degree = deg(Q) - \\nu_i"
+    },
+    {
+      "symbol": "r",
+      "meaning": "Number of distinct roots of Q(x)",
+      "dimensions": "integer"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Facilitates explicit computation of antiderivatives, Taylor series expansions, inverse Z-transforms, and inverse Laplace transforms",
+      "why": "Decomposing a complex rational function into fractions with simpler denominators enables term-by-term integration or transformation",
+      "cites": [
+        "wikipedia:Partial_fraction_decomposition"
+      ]
+    },
+    {
+      "property": "Component numerators A_i(x) are given by the Taylor polynomials of P(x)/Q_i(x) of order \\nu_i - 1 at \\lambda_i",
+      "why": "P(x)/Q_i(x) equals A_i(x) + O((x - \\lambda_i)^{\\nu_i}) as x approaches \\lambda_i",
+      "cites": [
+        "wikipedia:Partial_fraction_decomposition"
+      ]
+    },
+    {
+      "property": "For simple poles (\\nu_i = 1), decomposition coefficients are the residues given by P(z_i)/Q'(z_i)",
+      "why": "Multiplying the decomposition by (z - z_i) and taking the limit as z approaches z_i isolates P(z_i)/Q'(z_i)",
+      "cites": [
+        "wikipedia:Partial_fraction_decomposition"
+      ]
+    },
+    {
+      "property": "Coefficients can be evaluated by multiplying by denominator factors and taking limits or evaluating derivatives",
+      "why": "Multiplying by a factor clears the denominator for that component while causing terms containing the factor to vanish at the pole",
+      "cites": [
+        "wikipedia:Partial_fraction_decomposition"
+      ]
+    },
+    {
+      "property": "The partial fraction concept extends to other integral domains such as the ring of integers",
+      "why": "Prime numbers take the role of irreducible denominators in integral domains",
+      "cites": [
+        "wikipedia:Partial_fraction_decomposition"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Strictly proper rational fraction: deg(P) < deg(Q)",
+      "breaks_when": "deg(P) >= deg(Q), requiring polynomial long division first to separate out a non-zero polynomial quotient"
+    },
+    {
+      "assumption": "The denominator Q(x) is factored into powers of linear factors (x - \\lambda_j)^{\\nu_j}",
+      "breaks_when": "Roots \\lambda_j cannot be found or factoring is not performed over the base field"
+    },
+    {
+      "assumption": "The numerator and denominator are polynomials",
+      "breaks_when": "The expression contains non-polynomial, fractional power, or transcendental functions"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Omission of polynomial long division for improper fractions",
+      "signature": "Degrees of partial fraction terms fail to account for the polynomial part, leading to inconsistent coefficient equations",
+      "cause": "Applying the proper partial fraction template directly when deg(P) >= deg(Q)"
+    },
+    {
+      "mode": "Direct evaluation at poles without clearing denominators or taking limits",
+      "signature": "Division by zero or indeterminate 0/0 expressions",
+      "cause": "Evaluating the original fraction at roots of the denominator where it is undefined"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Partial_fraction_decomposition"
+  ],
+  "check": {
+    "node_id": "partial_fractions",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so partial_fractions is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

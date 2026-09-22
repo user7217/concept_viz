@@ -1,0 +1,77 @@
+{
+  "node_id": "quaternion_kinematics",
+  "grounded": false,
+  "kind": "definition",
+  "statement": "Quaternion kinematics describes the continuous-time evolution of an orientation quaternion under angular velocity, defined by the differential equation \\dot{\\mathbf{q}} = \\frac{1}{2} \\mathbf{q} \\otimes \\mathbf{\\omega} (for body-frame angular velocity \\mathbf{\\omega}) or \\dot{\\mathbf{q}} = \\frac{1}{2} \\mathbf{\\omega} \\otimes \\mathbf{q} (for spatial/inertial-frame angular velocity). The supplied source [wikipedia:Quaternions_and_spatial_rotation] does not support this concept and genuinely contains nothing to derive regarding quaternion kinematics; it covers only static rotation matrices, axis-angle conversions, rotation composition, and optimization derivatives of rotated vectors with respect to quaternion components.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{q}",
+      "meaning": "unit orientation quaternion representing attitude",
+      "dimensions": "4 x 1"
+    },
+    {
+      "symbol": "\\mathbf{\\omega}",
+      "meaning": "angular velocity vector",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "\\dot{\\mathbf{q}}",
+      "meaning": "time derivative of the orientation quaternion",
+      "dimensions": "4 x 1"
+    },
+    {
+      "symbol": "\\mathbf{\\Omega}(\\mathbf{\\omega})",
+      "meaning": "skew-symmetric 4x4 matrix representation of angular velocity",
+      "dimensions": "4 x 4"
+    }
+  ],
+  "steps": [],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The attitude quaternion maintains unit norm (\\|\\mathbf{q}\\| = 1) along its trajectory.",
+      "breaks_when": "Discrete-time numerical integration causes norm drift away from the unit sphere."
+    },
+    {
+      "assumption": "The angular velocity vector \\mathbf{\\omega} is expressed in the body-fixed reference frame.",
+      "breaks_when": "Angular velocity is resolved in the inertial/world frame, requiring the reversed multiplication order \\dot{\\mathbf{q}} = \\frac{1}{2} \\mathbf{\\omega} \\otimes \\mathbf{q}."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Ungrounded source excerpt",
+      "signature": "Supplied source contains no differential equations, angular velocity, or time derivatives.",
+      "cause": "The supplied source [wikipedia:Quaternions_and_spatial_rotation] discusses spatial rotation algebra and static optimization derivatives, omitting time-dependent rotational kinematics."
+    },
+    {
+      "mode": "Quaternion norm drift",
+      "signature": "\\|\\mathbf{q}(t)\\| \\neq 1 during forward numerical integration.",
+      "cause": "Accumulated truncation and finite-precision roundoff errors in numerical integration without continuous re-normalization."
+    },
+    {
+      "mode": "Frame convention mismatch",
+      "signature": "Incorrect rotation trajectory or inverted rotation axis.",
+      "cause": "Conflating body-frame angular velocity (post-multiplication) with spatial-frame angular velocity (pre-multiplication)."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Quaternions_and_spatial_rotation"
+  ],
+  "check": {
+    "node_id": "quaternion_kinematics",
+    "kind": "definition",
+    "grounded": false,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so quaternion_kinematics is recorded as a definition"
+    ],
+    "shape": [
+      "definition lists no properties"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

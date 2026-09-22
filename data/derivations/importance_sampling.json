@@ -1,0 +1,180 @@
+{
+  "node_id": "importance_sampling",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "Importance sampling evaluates the expectation of an event or random variable under a target probability distribution with density $f$ by drawing samples from an alternative biasing (proposal) distribution with density $f_*$ and weighting each sample by the likelihood ratio $W(x) = f(x)/f_*(x)$, yielding the representation $p_t = \\mathbb{E}[1_{\\{X \\geq t\\}}] = \\mathbb{E}_*[1_{\\{X \\geq t\\}} W(X)]$ (or $\\mathbb{E}_\\mathbb{P}[X] = \\mathbb{E}_\\mathbb{Q}[X/Y]$) and the unbiased empirical estimator $\\hat{p}_t = \\frac{1}{K} \\sum_{i=1}^K 1_{\\{X_i \\geq t\\}} W(X_i)$ where $X_i \\sim f_*$.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "random variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "P",
+      "meaning": "target probability measure",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "Q",
+      "meaning": "alternate (biased/proposal) probability measure",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f(x)",
+      "meaning": "probability density function of the target distribution",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f_*(x)",
+      "meaning": "biasing (proposal) probability density function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "W(x)",
+      "meaning": "likelihood ratio weighting function defined as f(x) / f_*(x)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "t",
+      "meaning": "threshold defining the target event X >= t",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "1_{X >= t}",
+      "meaning": "indicator function evaluating to 1 if X >= t and 0 otherwise",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p_t",
+      "meaning": "probability of event X >= t under the target distribution",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "K",
+      "meaning": "number of independent simulation trials (sample size)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "X_i",
+      "meaning": "i-th random sample generated according to the biasing distribution f_*",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\hat{p}_t",
+      "meaning": "importance sampling estimator of p_t",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "E[.]",
+      "meaning": "expectation operator under the target distribution",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "E_*[.]",
+      "meaning": "expectation operator under the biasing distribution f_*",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "Y",
+      "meaning": "non-negative random variable with E_P[Y] = 1 defining the change of measure Q",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Express the probability $p_t$ of the event $X \\geq t$ under the target distribution as the expected value of its indicator function: $p_t = \\mathbb{E}[1_{\\{X \\geq t\\}}]$.",
+      "invokes": [
+        "expectation",
+        "random_variable"
+      ],
+      "cites": [
+        "wikipedia:Importance_sampling"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Express the expected value as an integral with respect to the target density $f(x)$, and introduce the alternate biasing density $f_*(x)$ by multiplying and dividing inside the integrand: $p_t = \\int 1_{\\{x \\geq t\\}} \\frac{f(x)}{f_*(x)} f_*(x)\\,dx$.",
+      "invokes": [
+        "importance_weight_derivation",
+        "integral",
+        "probability_density_function",
+        "proposal_distribution"
+      ],
+      "cites": [
+        "wikipedia:Importance_sampling"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Define the weighting function as the likelihood ratio $W(\\cdot) \\equiv \\frac{f(\\cdot)}{f_*(\\cdot)}$ and express the integral as an expectation under the biasing distribution $f_*$: $p_t = \\mathbb{E}_*[1_{\\{X \\geq t\\}} W(X)]$.",
+      "invokes": [
+        "expectation",
+        "proposal_distribution"
+      ],
+      "cites": [
+        "wikipedia:Importance_sampling"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Construct the empirical importance sampling estimator by averaging over $K$ independent and identically distributed samples $X_i$ generated from $f_*: \\hat{p}_t = \\frac{1}{K} \\sum_{i=1}^K 1_{\\{X_i \\geq t\\}} W(X_i), \\quad X_i \\sim f_*$.",
+      "invokes": [
+        "monte_carlo_integration",
+        "empirical_distribution",
+        "sampling"
+      ],
+      "cites": [
+        "wikipedia:Importance_sampling"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The biasing distribution density $f_*(x)$ is non-zero wherever $1_{\\{x \\geq t\\}} f(x) > 0$ (or $Y(\\omega) \\neq 0$ $\\mathbb{P}$-almost everywhere).",
+      "breaks_when": "The proposal distribution has zero density ($f_*(x) = 0$ or $Y(\\omega) = 0$) in a region where the target integrand has positive mass, causing division by zero or resulting in a biased estimate."
+    },
+    {
+      "assumption": "The proposal density $f_*(x)$ is a valid probability density function (or $Y \\geq 0$ with $\\mathbb{E}_\\mathbb{P}[Y] = 1$).",
+      "breaks_when": "The biasing function is negative or unnormalized such that it fails to integrate to 1."
+    },
+    {
+      "assumption": "Samples $X_1, \\ldots, X_K$ are independent and identically distributed draws from $f_*$.",
+      "breaks_when": "Samples are correlated, non-identically distributed, or generated from a density other than $f_*$."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Estimator variance inflation",
+      "signature": "The estimator variance $\\operatorname{var}_*[\\hat{p}_t]$ is greater than the standard Monte Carlo variance $\\operatorname{var}[k_t/K]$, requiring larger sample sizes and longer simulation run times.",
+      "cause": "A poor choice of biasing distribution $f_*$ that does not encourage important regions or assigns very small probabilities to regions where $f(x)$ is substantial, causing extreme variance in the weights $W(X)$."
+    },
+    {
+      "mode": "Dimensionality effect",
+      "signature": "A decreasing importance sampling efficiency gain as the dimension $n$ increases.",
+      "cause": "When $X$ is a sum of $n$ random variables, scaling shifts probability mass across an $n$-dimensional space, pushing mass into undesirable regions."
+    },
+    {
+      "mode": "Support mismatch",
+      "signature": "Biased estimation or undefined likelihood ratios.",
+      "cause": "The support of the proposal distribution $f_*$ fails to cover regions of non-zero target probability density $f$ relevant to the estimated event."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Importance_sampling"
+  ],
+  "check": {
+    "node_id": "importance_sampling",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "node_id": "column_space",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For an m \u00d7 n matrix A over a field of scalars K with column vectors v_1, v_2, ..., v_n, the column space of A is the set of all linear combinations of its column vectors, defined as {c_1 v_1 + c_2 v_2 + ... + c_n v_n | c_1, ..., c_n \u2208 K} = span(v_1, ..., v_n), which equivalently consists of all products A x for x \u2208 K^n (the image or range of the matrix transformation).",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "Matrix whose column space is being defined",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "K",
+      "meaning": "Field of scalars",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "v_i",
+      "meaning": "The i-th column vector of matrix A",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "c_i",
+      "meaning": "Scalar coefficients in the linear combination",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "Vector of scalar coefficients [c_1, ..., c_n]^T",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "m",
+      "meaning": "Number of rows of matrix A",
+      "dimensions": "scalar (integer)"
+    },
+    {
+      "symbol": "n",
+      "meaning": "Number of columns of matrix A",
+      "dimensions": "scalar (integer)"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Transformation Image Equivalence",
+      "why": "Any linear combination c_1 v_1 + ... + c_n v_n equals the matrix-vector product A x, making the column space identical to the image or range of the transformation x \u21a6 A x.",
+      "cites": [
+        "wikipedia:Row_and_column_spaces"
+      ]
+    },
+    {
+      "property": "Basis via Row Reduction",
+      "why": "Elementary row operations preserve linear dependence relations between columns, so the columns of A corresponding to the pivot columns of its echelon form constitute a basis for the column space.",
+      "cites": [
+        "wikipedia:Row_and_column_spaces"
+      ]
+    },
+    {
+      "property": "Dimension Equals Rank",
+      "why": "The dimension of the column space is the rank of A, which is the maximum number of linearly independent columns and equals the number of pivots in reduced row echelon form.",
+      "cites": [
+        "wikipedia:Row_and_column_spaces"
+      ]
+    },
+    {
+      "property": "Rank-Nullity Relation",
+      "why": "The dimension of the column space (rank) and the dimension of the null space (nullity) satisfy rank(A) + nullity(A) = n, where n is the number of columns.",
+      "cites": [
+        "wikipedia:Row_and_column_spaces"
+      ]
+    },
+    {
+      "property": "Orthogonal Complement is the Left Null Space",
+      "why": "A^T x = 0 if and only if x is orthogonal to every column vector v_i of A, meaning the null space of A^T is the orthogonal complement to the column space of A.",
+      "cites": [
+        "wikipedia:Row_and_column_spaces"
+      ]
+    },
+    {
+      "property": "Equivalence to Transpose Row Space",
+      "why": "The column space of A is equal to the row space of its transpose A^T.",
+      "cites": [
+        "wikipedia:Row_and_column_spaces"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The scalars c_1, ..., c_n and matrix entries belong to a field K.",
+      "breaks_when": "The scalars belong to a general ring rather than a field, which requires treating the space as a right free module with scalar multiplication written in vector-scalar order v_k c_k."
+    },
+    {
+      "assumption": "The matrix A has finite dimensions m \u00d7 n.",
+      "breaks_when": "The dimensions are infinite or undefined, preventing standard matrix-vector multiplication A x."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Columns fail to form a basis",
+      "signature": "The set of all n column vectors contains non-trivial linear dependencies (rank(A) < n).",
+      "cause": "Columns of A are linearly dependent, meaning only a proper subset corresponding to pivot columns forms a basis."
+    },
+    {
+      "mode": "Inconsistency of linear system A x = b",
+      "signature": "No vector x exists such that A x = b.",
+      "cause": "The vector b does not lie in the column space (span of the columns) of A."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Row_and_column_spaces"
+  ],
+  "check": {
+    "node_id": "column_space",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

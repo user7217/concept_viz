@@ -1,0 +1,104 @@
+{
+  "node_id": "inlier_ratio",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The inlier ratio $w$ is the proportion of inliers in the observed dataset, representing the probability of choosing an inlier when a single data point is selected: $w = \\frac{\\text{number of inliers in data}}{\\text{number of points in data}}$.",
+  "symbols": [
+    {
+      "symbol": "w",
+      "meaning": "inlier ratio, or the probability of choosing an inlier each time a single data point is selected",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "minimum number of data points required to estimate model parameters",
+      "dimensions": "scalar (integer)"
+    },
+    {
+      "symbol": "k",
+      "meaning": "number of iterations (sample trials) allowed or required in the algorithm",
+      "dimensions": "scalar (integer)"
+    },
+    {
+      "symbol": "p",
+      "meaning": "desired probability that the algorithm provides at least one successful result",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Under independent point selection, the probability that a randomly selected sample subset of $n$ points consists entirely of inliers is $w^n$",
+      "why": "Each data point in the sample of size $n$ is an inlier independently with probability $w$",
+      "cites": [
+        "wikipedia:Random_sample_consensus"
+      ]
+    },
+    {
+      "property": "The probability that at least one of the $n$ selected points is an outlier is $1 - w^n$",
+      "why": "Complementary event to drawing an all-inlier sample subset of size $n$",
+      "cites": [
+        "wikipedia:Random_sample_consensus"
+      ]
+    },
+    {
+      "property": "The number of iterations $k$ required to achieve a desired success probability $p$ satisfies $k = \\frac{\\log(1-p)}{\\log(1-w^n)}$",
+      "why": "The probability that all $k$ iterations fail to draw an all-inlier sample is $(1-w^n)^k = 1-p$",
+      "cites": [
+        "wikipedia:Random_sample_consensus"
+      ]
+    },
+    {
+      "property": "The standard deviation of the required iteration count $k$ is given by $\\operatorname{SD}(k) = \\frac{\\sqrt{1-w^n}}{w^n}$",
+      "why": "Defined as the standard deviation of the sampling trials required to achieve success",
+      "cites": [
+        "wikipedia:Random_sample_consensus"
+      ]
+    },
+    {
+      "property": "Standard RANSAC usually performs poorly when the inlier ratio is below 50% ($w < 0.5$)",
+      "why": "The probability of obtaining an all-inlier subset decreases substantially, requiring specialized variants such as Optimal RANSAC for heavily contaminated datasets",
+      "cites": [
+        "wikipedia:Random_sample_consensus"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Data points are selected independently with replacement when forming model hypotheses",
+      "breaks_when": "Points are sampled without replacement from a small dataset, making each selection alter the remaining inlier proportion"
+    },
+    {
+      "assumption": "A rough estimate or bound of the inlier ratio $w$ is available prior to execution",
+      "breaks_when": "The level of outlier contamination is completely unknown, precluding a principled determination of the iteration budget $k$"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Combinatorial iteration explosion / low success probability",
+      "signature": "Algorithm requires an impractically large iteration count $k$ or fails to find a valid model within allowed iterations",
+      "cause": "The inlier ratio $w$ is low (e.g., $w < 0.5$), making $w^n$ exceedingly small and driving $k = \\frac{\\log(1-p)}{\\log(1-w^n)}$ to extreme values"
+    },
+    {
+      "mode": "Premature algorithm termination with poor fit",
+      "signature": "RANSAC exhausts $k$ iterations without sampling an all-inlier subset, returning a null or corrupted model estimate",
+      "cause": "The actual inlier ratio is substantially lower than the assumed value of $w$ used to calculate the iteration count $k$"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Random_sample_consensus"
+  ],
+  "check": {
+    "node_id": "inlier_ratio",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

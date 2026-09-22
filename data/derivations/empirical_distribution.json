@@ -1,0 +1,30 @@
+{
+  "node_id": "empirical_distribution",
+  "grounded": false,
+  "kind": "definition",
+  "statement": "The supplied source does not provide a mathematical definition or defining equation for empirical distribution, stating only that the term may refer to the empirical distribution function or the empirical measure [wikipedia:Empirical_distribution].",
+  "symbols": [],
+  "steps": [],
+  "properties": [],
+  "assumptions": [],
+  "failure_modes": [],
+  "source_ids": [
+    "wikipedia:Empirical_distribution"
+  ],
+  "check": {
+    "node_id": "empirical_distribution",
+    "kind": "definition",
+    "grounded": false,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [
+      "definition lists no properties",
+      "sheet names no symbols, so it is probably not about this node's mathematics at all"
+    ],
+    "vacuous_invocations": false,
+    "ok": false
+  }
+}

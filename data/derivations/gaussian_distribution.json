@@ -1,0 +1,131 @@
+{
+  "node_id": "gaussian_distribution",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A continuous probability distribution for a real-valued random variable X with expected value (mean) \u03bc and standard deviation \u03c3 (or variance \u03c3\u00b2), denoted X ~ N(\u03bc, \u03c3\u00b2), defined by the probability density function f(x | \u03bc, \u03c3\u00b2) = (1 / \u03c3) * \u03c6((x - \u03bc) / \u03c3) = (1 / (\u03c3 * \u221a(2\u03c0))) * e^(-(x - \u03bc)\u00b2 / (2\u03c3\u00b2)), where \u03c6(z) = (1 / \u221a(2\u03c0)) * e^(-z\u00b2 / 2) is the standard normal density.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "normally distributed continuous random variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "x",
+      "meaning": "real-valued argument / realization of the random variable",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\u03bc",
+      "meaning": "mean or expected value of the distribution",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\u03c3",
+      "meaning": "standard deviation of the distribution",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\u03c3\u00b2",
+      "meaning": "variance of the distribution",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\u03c6",
+      "meaning": "standard normal probability density function (mean 0, variance 1)",
+      "dimensions": "scalar -> scalar"
+    },
+    {
+      "symbol": "f",
+      "meaning": "generic normal probability density function",
+      "dimensions": "scalar -> scalar"
+    },
+    {
+      "symbol": "Z",
+      "meaning": "standard normal deviate, Z = (X - \u03bc) / \u03c3",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Standardization and affine transformation: X = \u03c3Z + \u03bc where Z is a standard normal deviate with mean 0 and variance 1, and conversely Z = (X - \u03bc) / \u03c3.",
+      "why": "Scaling the standard normal variate by \u03c3 and shifting by \u03bc yields a normal distribution with mean \u03bc and standard deviation \u03c3.",
+      "cites": [
+        "wikipedia:Normal_distribution"
+      ]
+    },
+    {
+      "property": "Cumulative distribution function: F(x) = \u03a6((x - \u03bc) / \u03c3) = (1/2) * [1 + erf((x - \u03bc) / (\u03c3 * \u221a2))].",
+      "why": "The generic cumulative distribution function relates directly to the standard normal CDF \u03a6 and the error function erf.",
+      "cites": [
+        "wikipedia:Normal_distribution"
+      ]
+    },
+    {
+      "property": "Alternative precision parameterization: f(x) = \u221a(\u03c4 / (2\u03c0)) * e^(-\u03c4(x - \u03bc)\u00b2 / 2), where precision \u03c4 = 1 / \u03c3\u00b2.",
+      "why": "Precision defined as the reciprocal of the variance simplifies certain numerical and Bayesian computations.",
+      "cites": [
+        "wikipedia:Normal_distribution"
+      ]
+    },
+    {
+      "property": "Symmetry of the standard normal CDF: \u03a6(-x) = 1 - \u03a6(x).",
+      "why": "The graph of \u03a6 has 2-fold rotational symmetry around the point (0, 1/2).",
+      "cites": [
+        "wikipedia:Normal_distribution"
+      ]
+    },
+    {
+      "property": "Empirical 68\u201395\u201399.7 rule: P(\u03bc - n\u03c3 \u2264 X \u2264 \u03bc + n\u03c3) = \u03a6(n) - \u03a6(-n) = erf(n / \u221a2), yielding ~68% for n=1, ~95% for n=2, and ~99.7% for n=3.",
+      "why": "Coverage probabilities for symmetric standard deviation intervals around the mean.",
+      "cites": [
+        "wikipedia:Normal_distribution"
+      ]
+    },
+    {
+      "property": "Quantile function: F\u207b\u00b9(p) = \u03bc + \u03c3 * \u03a6\u207b\u00b9(p) = \u03bc + \u03c3 * \u221a2 * erf\u207b\u00b9(2p - 1) for p \u2208 (0, 1).",
+      "why": "Inverting the cumulative distribution function yields the quantiles in terms of the inverse error function.",
+      "cites": [
+        "wikipedia:Normal_distribution"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The scale parameter \u03c3 is strictly positive (\u03c3 > 0).",
+      "breaks_when": "\u03c3 \u2264 0, which makes 1/\u03c3 undefined or introduces division by zero in standardization."
+    },
+    {
+      "assumption": "The random variable X is continuous and real-valued (X \u2208 \u211d).",
+      "breaks_when": "The variable is discrete or restricted to complex or non-Euclidean spaces."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zero scale / degenerate variance",
+      "signature": "Division by zero in normalization factor 1/\u03c3 and exponent (x - \u03bc) / \u03c3.",
+      "cause": "\u03c3 = 0 or variance \u03c3\u00b2 = 0, collapsing the continuous density to a degenerate point mass."
+    },
+    {
+      "mode": "Taylor series divergence / slow convergence in practical calculation",
+      "signature": "Ineffective or slow calculation when computing the CDF \u03a6(x) using its Taylor series expansion.",
+      "cause": "Evaluating the Taylor series of \u03a6(x) at large values of x instead of small x."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Normal_distribution"
+  ],
+  "check": {
+    "node_id": "gaussian_distribution",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

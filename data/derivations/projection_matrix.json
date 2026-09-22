@@ -1,0 +1,177 @@
+{
+  "node_id": "projection_matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The projection matrix (or hat matrix) $\\mathbf{P}$ maps the vector of response values $\\mathbf{y}$ to the vector of fitted values $\\hat{\\mathbf{y}}$ such that $\\hat{\\mathbf{y}} = \\mathbf{P}\\mathbf{y}$. For a linear model $\\mathbf{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}$ estimated via ordinary least squares, it is given by $\\mathbf{P} := \\mathbf{X}(\\mathbf{X}^{\\textsf{T}}\\mathbf{X})^{-1}\\mathbf{X}^{\\textsf{T}}$.",
+  "symbols": [
+    {
+      "symbol": "P",
+      "meaning": "projection matrix (hat matrix)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "y",
+      "meaning": "vector of response values (dependent variable values)",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\hat{y}",
+      "meaning": "vector of fitted values (predicted values)",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "X",
+      "meaning": "design matrix of explanatory variables",
+      "dimensions": "n x r"
+    },
+    {
+      "symbol": "\\beta",
+      "meaning": "vector of unknown parameters to be estimated",
+      "dimensions": "r x 1"
+    },
+    {
+      "symbol": "\\hat{\\beta}",
+      "meaning": "vector of estimated parameters",
+      "dimensions": "r x 1"
+    },
+    {
+      "symbol": "\\varepsilon",
+      "meaning": "error vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "r",
+      "meaning": "vector of residuals",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "I",
+      "meaning": "identity matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "M",
+      "meaning": "residual maker matrix (annihilator matrix) I - P",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\Sigma",
+      "meaning": "covariance matrix of the error vector",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\sigma^2",
+      "meaning": "error variance",
+      "dimensions": "1 x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "$\\mathbf{P}$ is symmetric: $\\mathbf{P}^{\\textsf{T}} = \\mathbf{P}$ in ordinary least squares linear models.",
+      "why": "follows directly from $(\\mathbf{X}(\\mathbf{X}^{\\textsf{T}}\\mathbf{X})^{-1}\\mathbf{X}^{\\textsf{T}})^{\\textsf{T}} = \\mathbf{X}(\\mathbf{X}^{\\textsf{T}}\\mathbf{X})^{-1}\\mathbf{X}^{\\textsf{T}}$",
+      "cites": [
+        "wikipedia:Projection_matrix"
+      ]
+    },
+    {
+      "property": "$\\mathbf{P}$ is idempotent: $\\mathbf{P}^{2} = \\mathbf{P}$.",
+      "why": "orthogonal projection onto the column space of $\\mathbf{X}$ satisfies $\\mathbf{P}\\mathbf{P} = \\mathbf{P}$",
+      "cites": [
+        "wikipedia:Projection_matrix"
+      ]
+    },
+    {
+      "property": "$\\mathbf{X}$ is invariant under $\\mathbf{P}$: $\\mathbf{PX} = \\mathbf{X}$, which implies $(\\mathbf{I} - \\mathbf{P})\\mathbf{X} = \\mathbf{0}$.",
+      "why": "the columns of $\\mathbf{X}$ already lie within the column space of $\\mathbf{X}$",
+      "cites": [
+        "wikipedia:Projection_matrix"
+      ]
+    },
+    {
+      "property": "The residual vector $\\mathbf{u} = (\\mathbf{I} - \\mathbf{P})\\mathbf{y}$ is orthogonal to $\\mathbf{X}$: $\\mathbf{u} \\perp \\mathbf{X}$.",
+      "why": "subtraction of the orthogonal projection leaves a component lying in the orthogonal complement of the column space",
+      "cites": [
+        "wikipedia:Projection_matrix"
+      ]
+    },
+    {
+      "property": "If $\\mathbf{X}$ is an $n \\times r$ matrix with $\\operatorname{rank}(\\mathbf{X}) = r$, then $\\operatorname{rank}(\\mathbf{P}) = r$ and $\\operatorname{tr}(\\mathbf{P}) = r$.",
+      "why": "the rank and trace equal the number of independent parameters in the linear model",
+      "cites": [
+        "wikipedia:Projection_matrix"
+      ]
+    },
+    {
+      "property": "The eigenvalues of $\\mathbf{P}$ consist of $r$ ones and $n - r$ zeros.",
+      "why": "symmetric idempotent matrices have eigenvalues restricted to 0 and 1, with the number of ones equal to the rank",
+      "cites": [
+        "wikipedia:Projection_matrix"
+      ]
+    },
+    {
+      "property": "The residual maker matrix $\\mathbf{M} := \\mathbf{I} - \\mathbf{P}$ is symmetric and idempotent, with $\\mathbf{MP} = \\mathbf{PM} = \\mathbf{0}$.",
+      "why": "algebraic consequence of $\\mathbf{P}^2 = \\mathbf{P}$ and the symmetry of $\\mathbf{P}$",
+      "cites": [
+        "wikipedia:Projection_matrix"
+      ]
+    },
+    {
+      "property": "For uncorrelated and homoskedastic errors $\\mathbf{\\Sigma} = \\sigma^2 \\mathbf{I}$, the residual covariance matrix is $\\mathbf{\\Sigma}_{\\mathbf{r}} = (\\mathbf{I} - \\mathbf{P})\\sigma^2$.",
+      "why": "error propagation gives $\\mathbf{\\Sigma}_{\\mathbf{r}} = (\\mathbf{I} - \\mathbf{P})^{\\textsf{T}}\\mathbf{\\Sigma}(\\mathbf{I} - \\mathbf{P})$",
+      "cites": [
+        "wikipedia:Projection_matrix"
+      ]
+    },
+    {
+      "property": "The diagonal elements of $\\mathbf{P}$ are leverages describing the influence of each observation $y_i$ on its fitted value $\\hat{y}_i$.",
+      "why": "the fitted value is a linear combination of all responses weighted by the entries in the row of $\\mathbf{P}$",
+      "cites": [
+        "wikipedia:Projection_matrix"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The design matrix $\\mathbf{X}$ has full column rank ($\\operatorname{rank}(\\mathbf{X}) = r$).",
+      "breaks_when": "Columns of $\\mathbf{X}$ are linearly dependent, causing $\\mathbf{X}^{\\textsf{T}}\\mathbf{X}$ to be singular and non-invertible."
+    },
+    {
+      "assumption": "Observations have identical weights and uncorrelated errors ($\\mathbf{\\Sigma} = \\sigma^2 \\mathbf{I}$) in ordinary least squares.",
+      "breaks_when": "Errors are correlated or have heteroskedastic variances, requiring generalized least squares where $\\mathbf{H} = \\mathbf{X}(\\mathbf{X}^{\\textsf{T}}\\mathbf{\\Sigma}^{-1}\\mathbf{X})^{-1}\\mathbf{X}^{\\textsf{T}}\\mathbf{\\Sigma}^{-1}$."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular matrix inversion in ordinary least squares formulation",
+      "signature": "Inability to invert $\\mathbf{X}^{\\textsf{T}}\\mathbf{X}$",
+      "cause": "Multicollinearity or rank deficiency in the explanatory columns of design matrix $\\mathbf{X}$"
+    },
+    {
+      "mode": "Singular error covariance in generalized least squares",
+      "signature": "Inability to invert $\\mathbf{\\Sigma}$ or $\\mathbf{X}^{\\textsf{T}}\\mathbf{\\Sigma}^{-1}\\mathbf{X}$",
+      "cause": "Error covariance matrix $\\mathbf{\\Sigma}$ is singular or ill-conditioned"
+    },
+    {
+      "mode": "Non-symmetry and non-idempotence in non-OLS smoothing techniques",
+      "signature": "$\\mathbf{P}^2 \\ne \\mathbf{P}$ or $\\mathbf{P}^{\\textsf{T}} \\ne \\mathbf{P}$",
+      "cause": "Using techniques such as LOESS or generalized least squares where the hat matrix is not an orthogonal projection"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Projection_matrix"
+  ],
+  "check": {
+    "node_id": "projection_matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "node_id": "laplace_transform_of_derivative",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The supplied sources do not contain a derivation of the Laplace transform of a derivative. As stated and applied in the context of the capacitor constitutive differential equation i = C dv/dt, the Laplace transform of the derivative dv/dt is given by the relation \\mathcal{L}\\{dv/dt\\} = s V(s) - V_0, where V(s) = \\mathcal{L}\\{v(t)\\} and V_0 = v(0).",
+  "symbols": [
+    {
+      "symbol": "t",
+      "meaning": "time variable",
+      "dimensions": "scalar (time)"
+    },
+    {
+      "symbol": "s",
+      "meaning": "complex frequency variable of the Laplace transform",
+      "dimensions": "scalar (1 / time)"
+    },
+    {
+      "symbol": "v(t)",
+      "meaning": "voltage across the capacitor terminals as a function of time",
+      "dimensions": "scalar (voltage)"
+    },
+    {
+      "symbol": "dv/dt",
+      "meaning": "rate of change of electrical potential with respect to time",
+      "dimensions": "scalar (voltage / time)"
+    },
+    {
+      "symbol": "V(s)",
+      "meaning": "Laplace transform of voltage v(t), denoted \\mathcal{L}\\{v(t)\\}",
+      "dimensions": "scalar (voltage * time)"
+    },
+    {
+      "symbol": "V_0",
+      "meaning": "initial value of voltage at time t = 0, equal to v(0)",
+      "dimensions": "scalar (voltage)"
+    },
+    {
+      "symbol": "C",
+      "meaning": "capacitance of the capacitor",
+      "dimensions": "scalar (capacitance)"
+    },
+    {
+      "symbol": "i(t)",
+      "meaning": "electric current through the capacitor as a function of time",
+      "dimensions": "scalar (current)"
+    },
+    {
+      "symbol": "I(s)",
+      "meaning": "Laplace transform of electric current i(t), denoted \\mathcal{L}\\{i(t)\\}",
+      "dimensions": "scalar (current * time)"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Converts the capacitor differential equation i = C dv/dt into the algebraic relation I(s) = C(s V(s) - V_0)",
+      "why": "direct substitution of the Laplace transform of the first derivative \\mathcal{L}\\{dv/dt\\} = s V(s) - V_0 into the constitutive differential equation",
+      "cites": [
+        "wikipedia:Laplace_transform"
+      ]
+    },
+    {
+      "property": "Allows solving for the transformed potential as V(s) = I(s)/(s C) + V_0/s",
+      "why": "algebraic rearrangement of the transformed equation I(s) = C(s V(s) - V_0)",
+      "cites": [
+        "wikipedia:Laplace_transform"
+      ]
+    },
+    {
+      "property": "Yields the complex impedance of a capacitor Z(s) = 1/(s C)",
+      "why": "evaluating the ratio V(s)/I(s) under zero initial condition V_0 = 0",
+      "cites": [
+        "wikipedia:Laplace_transform"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The initial value V_0 = v(0) is well-defined and finite at t = 0.",
+      "breaks_when": "The function v(t) exhibits an undefined value, singularity, or impulse at the origin."
+    },
+    {
+      "assumption": "The voltage function v(t) is differentiable on [0, \\infty).",
+      "breaks_when": "The function v(t) is non-differentiable or has jump discontinuities."
+    },
+    {
+      "assumption": "The Laplace transforms V(s) = \\mathcal{L}\\{v(t)\\} and \\mathcal{L}\\{dv/dt\\} converge in a common region of the complex s-plane.",
+      "breaks_when": "The function v(t) or its derivative grows faster than exponential order as t \\to \\infty."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Omission of the initial condition term V_0",
+      "signature": "I(s) is equated to s C V(s), failing to account for stored charge/energy at t = 0.",
+      "cause": "Incorrectly assuming initial state is zero (V_0 = 0) in non-quiescent systems."
+    },
+    {
+      "mode": "Jump discontinuity at t = 0",
+      "signature": "Inconsistency between the time-domain derivative and transform-domain solution due to boundary ambiguity.",
+      "cause": "Failure to distinguish between v(0^-) and v(0^+) when switching events or delta distributions occur at the origin."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Laplace_transform"
+  ],
+  "check": {
+    "node_id": "laplace_transform_of_derivative",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [
+      "canon expects a derivation but no source performs one, so laplace_transform_of_derivative is recorded as a definition"
+    ],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

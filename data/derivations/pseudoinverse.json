@@ -1,0 +1,86 @@
+{
+  "node_id": "pseudoinverse",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Given a matrix A in R^{m x n}, the pseudoinverse of A (also known as the Moore\u2013Penrose inverse, denoted by A^+) is the n x m matrix satisfying all four Penrose conditions: (1) A A^+ A = A, (2) A^+ A A^+ = A^+, (3) (A A^+)^* = A A^+, and (4) (A^+ A)^* = A^+ A, where * denotes the conjugate transpose.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "matrix to be inverted",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "A^+",
+      "meaning": "pseudoinverse (Moore\u2013Penrose inverse) of A",
+      "dimensions": "n x m"
+    },
+    {
+      "symbol": "*",
+      "meaning": "conjugate transpose operator",
+      "dimensions": "operator"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "For any matrix A, the Moore\u2013Penrose inverse A^+ is unique, and when A is non-singular, A^+ = A^{-1}",
+      "why": "all four Penrose conditions uniquely determine A^+, coinciding with the regular inverse when non-singular",
+      "cites": [
+        "wikipedia:Generalized_inverse"
+      ]
+    },
+    {
+      "property": "A^+ = V \\begin{bmatrix} \\Sigma_1^{-1} & 0 \\\\ 0 & 0 \\end{bmatrix} U^{\\operatorname{T}}",
+      "why": "the pseudoinverse is obtained from the singular-value decomposition A = U \\begin{bmatrix} \\Sigma_1 & 0 \\\\ 0 & 0 \\end{bmatrix} V^{\\operatorname{T}} by setting parameters X = Y = Z = 0",
+      "cites": [
+        "wikipedia:Generalized_inverse"
+      ]
+    },
+    {
+      "property": "A^{(1,4)} A A^{(1,3)} = A^+",
+      "why": "product relation between a {1,4}-inverse, A, and a {1,3}-inverse yields the Moore\u2013Penrose inverse",
+      "cites": [
+        "wikipedia:Generalized_inverse"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "A is a matrix over a field (such as R^{m x n}) equipped with conjugate transposition and singular-value decomposition",
+      "breaks_when": "Generalizing to arbitrary algebraic structures like semigroups or rings where generalized inverses may not exist for some elements (e.g., element 2 in Z/12Z)"
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Absence of generalized inverse in general algebraic structures",
+      "signature": "No element b exists satisfying a * b * a = a",
+      "cause": "Structure lacks required division or field properties, as seen with element 2 in Z/12Z"
+    },
+    {
+      "mode": "Failure of two-sided identity property",
+      "signature": "A A^+ != I_m or A^+ A != I_n",
+      "cause": "Matrix A is rectangular (m != n) or singular (det(A) = 0), meaning A lacks a regular two-sided inverse"
+    },
+    {
+      "mode": "Singularity in one-sided inverse closed-form formulas",
+      "signature": "Non-invertibility of A A^T or A^T A",
+      "cause": "Matrix A lacks full row rank (rank(A) < m) for the right inverse formula A^T (A A^T)^{-1}, or lacks full column rank (rank(A) < n) for the left inverse formula (A^T A)^{-1} A^T"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Generalized_inverse"
+  ],
+  "check": {
+    "node_id": "pseudoinverse",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

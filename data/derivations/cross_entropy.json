@@ -1,0 +1,102 @@
+{
+  "node_id": "cross_entropy",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The cross-entropy $H(p, q)$ between two probability distributions $p$ and $q$ over discrete events is defined as $H(p, q) = -\\sum_{m} p_m \\log q_m$.",
+  "symbols": [
+    {
+      "symbol": "H(p, q)",
+      "meaning": "cross-entropy between probability distributions p and q",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p",
+      "meaning": "true or reference probability distribution",
+      "dimensions": "probability vector / discrete distribution"
+    },
+    {
+      "symbol": "q",
+      "meaning": "predicted or approximating probability distribution",
+      "dimensions": "probability vector / discrete distribution"
+    },
+    {
+      "symbol": "p_m",
+      "meaning": "probability of event m under distribution p",
+      "dimensions": "scalar in [0, 1]"
+    },
+    {
+      "symbol": "q_m",
+      "meaning": "probability of event m under distribution q",
+      "dimensions": "scalar in [0, 1]"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "When comparing distribution q against a fixed reference distribution p, minimizing cross-entropy H(p, q) with respect to q is equivalent to minimizing the Kullback-Leibler divergence D_KL(p || q), attaining its minimum value H(p) when p = q.",
+      "why": "Cross-entropy and KL divergence are identical up to the additive constant H(p) when p is fixed, and Gibbs' inequality shows both are minimized at p = q",
+      "cites": [
+        "wikipedia:Cross-entropy"
+      ]
+    },
+    {
+      "property": "Maximizing the empirical likelihood L(theta; x) of an i.i.d. sample under model q_theta is equivalent to minimizing the cross-entropy H(p, q_theta).",
+      "why": "Taking the logarithm gives log L(theta; x) = -N * H(p, q_theta), and the logarithm is a monotonically increasing function",
+      "cites": [
+        "wikipedia:Cross-entropy"
+      ]
+    },
+    {
+      "property": "For a binary classification task where p in {y, 1 - y} and q in {y_hat, 1 - y_hat}, the cross-entropy evaluates to the binary log loss H(p, q) = -y log(y_hat) - (1 - y) log(1 - y_hat).",
+      "why": "Evaluating the definition -sum_m p_m log q_m across the two outcome classes {0, 1}",
+      "cites": [
+        "wikipedia:Cross-entropy"
+      ]
+    },
+    {
+      "property": "For logistic regression parameterized by weights w with y_hat_i = g(w . X^i), the gradient of the total cross-entropy loss L(w) is nabla_w L(w) = X^T (y_hat - y).",
+      "why": "The derivative of the logistic function simplifies each partial derivative dL/dw_j to sum_{i=1}^N X_ij (y_hat_i - y_i)",
+      "cites": [
+        "wikipedia:Cross-entropy"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The distributions p and q share the same event space, with q_m > 0 whenever p_m > 0.",
+      "breaks_when": "The predicted model assigns probability q_m = 0 to an outcome where p_m > 0, causing log(q_m) to be undefined (-infinity)."
+    },
+    {
+      "assumption": "The reference distribution p is fixed when treating cross-entropy minimization as equivalent to KL divergence minimization.",
+      "breaks_when": "The reference distribution q is fixed and p is optimized, making H(p, q) minimization and D_KL(p || q) minimization non-equivalent because H(p) varies."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zero predicted probability on a positive-probability event",
+      "signature": "Cross-entropy loss diverges to infinity or produces numerical NaN/overflow in gradient computation.",
+      "cause": "Evaluation of log(q_m) when q_m = 0 for an event with p_m > 0."
+    },
+    {
+      "mode": "Non-equivalence between cross-entropy and relative entropy minimization under varying reference",
+      "signature": "Optimizing p to approximate a fixed prior q yields a different optimal distribution than minimizing KL divergence.",
+      "cause": "Cross-entropy H(p, q) differs from D_KL(p || q) by the entropy H(p), which is not constant when p is being optimized."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Cross-entropy"
+  ],
+  "check": {
+    "node_id": "cross_entropy",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

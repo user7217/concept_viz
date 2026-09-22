@@ -1,0 +1,167 @@
+{
+  "node_id": "dynamic_programming",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For a multi-stage dynamic optimization problem exhibiting optimal substructure, the optimal cost-to-go (or value function) and optimal policy are determined recursively by backward induction using the Bellman recurrence relation $J_k^*(\\mathbf{x}_{n-k}) = \\min_{\\mathbf{u}_{n-k}} \\left\\{ \\hat{f}(\\mathbf{x}_{n-k}, \\mathbf{u}_{n-k}) + J_{k-1}^*\\left(\\hat{\\mathbf{g}}(\\mathbf{x}_{n-k}, \\mathbf{u}_{n-k})\\right) \\right\\}$, starting from the terminal boundary condition and stepping backward stage by stage to obtain the optimal solution value $V_1$ at the initial state and recover the optimal decision variables.",
+  "symbols": [
+    {
+      "symbol": "x(t)",
+      "meaning": "state vector of the system at time t",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "x_{n-k}",
+      "meaning": "discrete system state at stage n - k",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "u(t)",
+      "meaning": "control vector / decision variable at time t",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "u_{n-k}",
+      "meaning": "discrete control / decision variable at stage n - k",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "J",
+      "meaning": "total cost functional to be minimized",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "J^*",
+      "meaning": "optimal cost-to-go function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "J_k^*",
+      "meaning": "optimal cost-to-go function at the k-th stage of n discrete intervals",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "f",
+      "meaning": "running cost function",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "\\hat{f}",
+      "meaning": "discrete approximation to the running cost function f",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "g",
+      "meaning": "continuous state transition function",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\hat{\\mathbf{g}}",
+      "meaning": "discrete approximation to the state transition function g",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "b(x(t_1), t_1)",
+      "meaning": "terminal boundary cost at terminal time t_1",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "V_i",
+      "meaning": "value function representing the optimal value of being in a state at stage i",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "k",
+      "meaning": "stage index in the backward recurrence",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "total number of discrete time intervals",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "By optimal substructure, simplify the multi-stage decision problem by decomposing it into simpler sub-problems recursively over time, defining a sequence of value functions (or cost-to-go functions) $V_t$ or $J_k^*$ representing the value of the state at each stage, anchored by the terminal condition $J(t_1) = b(\\mathbf{x}(t_1), t_1)$ (or $V_{T+1} = 0$).",
+      "invokes": [
+        "optimal_substructure",
+        "value_function"
+      ],
+      "cites": [
+        "wikipedia:Dynamic_programming"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Express the optimal cost-to-go at stage $k$ via the discrete recurrence relation analog to the continuous Hamilton\u2013Jacobi\u2013Bellman equation (the Bellman equation): $J_k^*(\\mathbf{x}_{n-k}) = \\min_{\\mathbf{u}_{n-k}} \\left\\{ \\hat{f}(\\mathbf{x}_{n-k}, \\mathbf{u}_{n-k}) + J_{k-1}^*\\left(\\hat{\\mathbf{g}}(\\mathbf{x}_{n-k}, \\mathbf{u}_{n-k})\\right) \\right\\}$, which relates the current decision and stage cost to the subsequent optimal cost-to-go.",
+      "invokes": [
+        "bellman_equation"
+      ],
+      "cites": [
+        "wikipedia:Dynamic_programming"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Compute the value functions by backward recursion: initializing from the terminal condition, use the recurrence at each step so that once $V_i$ (or $J_{k-1}^*$) has been calculated for the needed states, the operation yields $V_{i-1}$ (or $J_k^*$) for those states, proceeding backwards until $V_1$ (or $J_n^*$) at the initial state of the system is obtained as the value of the optimal solution.",
+      "invokes": [
+        "backward_recursion"
+      ],
+      "cites": [
+        "wikipedia:Dynamic_programming"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Recover the optimal values of the decision variables $\\mathbf{u}^*$ one by one by tracking back through the calculations already performed from the initial state.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Dynamic_programming"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The decision problem exhibits optimal substructure.",
+      "breaks_when": "An optimal solution to the overall problem cannot be constructed from optimal solutions to its sub-problems."
+    },
+    {
+      "assumption": "The problem can be decomposed into a discrete sequence of stages with well-defined transitions and boundary conditions.",
+      "breaks_when": "Decisions cannot be separated sequentially over time or the terminal boundary condition is undefined."
+    },
+    {
+      "assumption": "Sub-problems are overlapping across stages.",
+      "breaks_when": "Sub-problems do not overlap (e.g., standard divide-and-conquer where sub-problems are completely independent and disjoint), making table reuse inapplicable."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Lack of optimal substructure",
+      "signature": "Sub-problem optimization does not lead to a globally optimal solution.",
+      "cause": "Decisions spanning multiple points in time do not break apart recursively or stage costs depend non-separably on past decision trajectories."
+    },
+    {
+      "mode": "Curse of dimensionality in continuous state approximation",
+      "signature": "Discrete approximation requires intractable computation or memory.",
+      "cause": "Discretizing continuous state space $\\mathbf{x}$ and control space $\\mathbf{u}$ over $n$ intervals leads to exponential growth in the number of states needed to evaluate $J_k^*$."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Dynamic_programming"
+  ],
+  "check": {
+    "node_id": "dynamic_programming",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

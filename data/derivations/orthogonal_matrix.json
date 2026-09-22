@@ -1,0 +1,106 @@
+{
+  "node_id": "orthogonal_matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A real-valued square matrix $Q$ of size $n \\times n$ is an orthogonal matrix (or orthonormal matrix) if its columns and rows form an orthonormal basis of the Euclidean space $\\mathbb{R}^n$ under the ordinary Euclidean dot product, satisfying $Q^{\\mathrm{T}}Q = QQ^{\\mathrm{T}} = I$, or equivalently $Q^{-1} = Q^{\\mathrm{T}}$.",
+  "symbols": [
+    {
+      "symbol": "Q",
+      "meaning": "orthogonal matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "I",
+      "meaning": "identity matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "n",
+      "meaning": "dimension of the Euclidean space and matrix order",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The determinant of any orthogonal matrix is +1 or -1 (\\det(Q) = \\pm 1).",
+      "why": "1 = \\det(I) = \\det(Q^{\\mathrm{T}}Q) = \\det(Q^{\\mathrm{T}})\\det(Q) = (\\det(Q))^2",
+      "cites": [
+        "wikipedia:Orthogonal_matrix"
+      ]
+    },
+    {
+      "property": "An orthogonal matrix is invertible, and its inverse equals its transpose (Q^{-1} = Q^{\\mathrm{T}}), which is also an orthogonal matrix.",
+      "why": "Direct consequence of Q^{\\mathrm{T}}Q = I and the group properties under matrix inversion",
+      "cites": [
+        "wikipedia:Orthogonal_matrix"
+      ]
+    },
+    {
+      "property": "All eigenvalues of an orthogonal matrix have complex modulus 1.",
+      "why": "Any orthogonal matrix can be diagonalized over the complex numbers into 2 x 2 rotation blocks and \\pm 1 real entries lying on the unit circle",
+      "cites": [
+        "wikipedia:Orthogonal_matrix"
+      ]
+    },
+    {
+      "property": "The set of all n x n orthogonal matrices forms a compact Lie group O(n) of dimension n(n - 1)/2.",
+      "why": "Matrix multiplication and inversion preserve orthogonality, and SO(n) has (n-1) + (n-2) + ... + 1 = n(n-1)/2 degrees of freedom",
+      "cites": [
+        "wikipedia:Orthogonal_matrix"
+      ]
+    },
+    {
+      "property": "The condition number of an orthogonal matrix is 1 (the minimum possible), preserving numerical stability.",
+      "why": "Having determinant \\pm 1 and all eigenvalues of magnitude 1 prevents magnification of errors under multiplication",
+      "cites": [
+        "wikipedia:Orthogonal_matrix"
+      ]
+    },
+    {
+      "property": "The Lie algebra of the orthogonal matrix group consists of skew-symmetric matrices (\\dot{Q}^{\\mathrm{T}} = -\\dot{Q}).",
+      "why": "Differentiating Q^{\\mathrm{T}}Q = I at t = 0 (where Q = I) yields \\dot{Q}^{\\mathrm{T}}Q + Q^{\\mathrm{T}}\\dot{Q} = 0",
+      "cites": [
+        "wikipedia:Orthogonal_matrix"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The matrix Q is square and real-valued.",
+      "breaks_when": "The matrix is rectangular (m != n) or complex-valued (where unitary matrices U*U = I apply)."
+    },
+    {
+      "assumption": "Orthonormality of vectors is defined under the standard Euclidean dot product on R^n.",
+      "breaks_when": "The space is equipped with an indefinite or non-standard metric tensor."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Confusing orthogonal columns with an orthogonal matrix",
+      "signature": "M^{\\mathrm{T}}M = D where D is a diagonal matrix with D != I",
+      "cause": "The columns of the matrix are mutually orthogonal but not normalized to unit length."
+    },
+    {
+      "mode": "Assuming determinant of +/-1 guarantees orthogonality",
+      "signature": "\\det(M) = \\pm 1 but M^{\\mathrm{T}}M != I",
+      "cause": "Having determinant +/-1 is a necessary consequence of orthogonality but not a sufficient condition (e.g., diag(2, 1/2))."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Orthogonal_matrix"
+  ],
+  "check": {
+    "node_id": "orthogonal_matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

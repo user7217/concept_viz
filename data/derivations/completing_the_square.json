@@ -1,0 +1,150 @@
+{
+  "node_id": "completing_the_square",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "Completing the square converts a quadratic polynomial $ax^2 + bx + c$ (with $a \\neq 0$) into the vertex form $a(x - h)^2 + k$, where $h = -\\frac{b}{2a}$ and $k = c - ah^2 = c - \\frac{b^2}{4a}$ (and $x^2 + bx + c = (x + \\frac{1}{2}b)^2 + (c - \\frac{b^2}{4})$ in the monic case $a = 1$). In the matrix formulation, a quadratic form $x^{\\mathrm{T}}Ax + x^{\\mathrm{T}}b + c$ with symmetric $A$ is rewritten as $(x - h)^{\\mathrm{T}}A(x - h) + k$ with $h = -\\frac{1}{2}A^{-1}b$ and $k = c - \\frac{1}{4}b^{\\mathrm{T}}A^{-1}b$ (or $h = -(A + A^{\\mathrm{T}})^{-1}b$ and $k = c - h^{\\mathrm{T}}Ah$ if $A$ is non-symmetric; the matrix case formulae are stated without derivation in the source).",
+  "symbols": [
+    {
+      "symbol": "x",
+      "meaning": "Variable of the quadratic expression (scalar variable, or $n \\times 1$ vector in the matrix case)",
+      "dimensions": "scalar or n x 1"
+    },
+    {
+      "symbol": "a",
+      "meaning": "Leading coefficient of the quadratic term",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "b",
+      "meaning": "Coefficient of the linear term (scalar, or $n \\times 1$ vector in the matrix case)",
+      "dimensions": "scalar or n x 1"
+    },
+    {
+      "symbol": "c",
+      "meaning": "Constant term of the quadratic expression",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p",
+      "meaning": "Binomial offset parameter in $(x + p)^2$",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "h",
+      "meaning": "Horizontal coordinate / shift parameter of the vertex form",
+      "dimensions": "scalar or n x 1"
+    },
+    {
+      "symbol": "k",
+      "meaning": "Vertical coordinate / constant remainder of the vertex form",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "A",
+      "meaning": "Coefficient matrix of the quadratic form in the matrix formulation",
+      "dimensions": "n x n"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Recall the formula for the square of a binomial: $(x + p)^2 = x^2 + 2px + p^2$, where the coefficient of $x$ is twice $p$ and the constant term is $p^2$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Completing_the_square"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "For any monic quadratic $x^2 + bx + c$, construct a perfect square having the same first two terms by setting $p = \\frac{1}{2}b$: $(x + \\frac{1}{2}b)^2 = x^2 + bx + \\frac{1}{4}b^2$.",
+      "invokes": [
+        "completing_the_square"
+      ],
+      "cites": [
+        "wikipedia:Completing_the_square"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Express the original monic quadratic as the sum of this square and a constant $k$: $x^2 + bx + c = (x + \\frac{1}{2}b)^2 + k$. Equating constant terms yields $k = c - \\frac{b^2}{4}$, so $x^2 + bx + c = (x + \\frac{1}{2}b)^2 + (c - \\frac{b^2}{4})$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Completing_the_square"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "For a general non-monic quadratic polynomial $ax^2 + bx + c$ with $a \\neq 0$, factor out the coefficient $a$ from the first two terms: $ax^2 + bx + c = a\\left[x^2 + \\frac{b}{a}x\\right] + c$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Completing_the_square"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Complete the square for the monic quadratic inside the bracket by matching the linear coefficient $\\frac{b}{a}$ to $2p$ (giving $p = \\frac{b}{2a}$): $x^2 + \\frac{b}{a}x = \\left(x + \\frac{b}{2a}\\right)^2 - \\frac{b^2}{4a^2}$.",
+      "invokes": [
+        "completing_the_square"
+      ],
+      "cites": [
+        "wikipedia:Completing_the_square"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Substitute the completed square back into the expression and distribute $a$: $ax^2 + bx + c = a\\left[\\left(x + \\frac{b}{2a}\\right)^2 - \\frac{b^2}{4a^2}\\right] + c = a\\left(x + \\frac{b}{2a}\\right)^2 - \\frac{b^2}{4a} + c = a(x - h)^2 + k$, where $h = -\\frac{b}{2a}$ and $k = c - ah^2 = c - \\frac{b^2}{4a}$.",
+      "invokes": [],
+      "cites": [
+        "wikipedia:Completing_the_square"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The quadratic coefficient $a$ is non-zero ($a \\neq 0$).",
+      "breaks_when": "$a = 0$, in which case the polynomial is linear rather than quadratic, and division by $a$ or $2a$ is undefined."
+    },
+    {
+      "assumption": "In the symmetric matrix formulation, matrix $A$ is symmetric ($A = A^{\\mathrm{T}}$) and invertible.",
+      "breaks_when": "$A$ is singular ($\\det(A) = 0$, so $A^{-1}$ does not exist) or $A$ is asymmetric ($A \\neq A^{\\mathrm{T}}$)."
+    },
+    {
+      "assumption": "In the general non-symmetric matrix formulation, the symmetrized matrix $A + A^{\\mathrm{T}}$ is invertible.",
+      "breaks_when": "$\\det(A + A^{\\mathrm{T}}) = 0$, making $(A + A^{\\mathrm{T}})^{-1}$ undefined."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zero leading coefficient",
+      "signature": "Division by zero when computing $h = -\\frac{b}{2a}$ or factoring $a$ out of $ax^2 + bx$.",
+      "cause": "The polynomial degree is less than 2 ($a = 0$), so completing the square is inapplicable."
+    },
+    {
+      "mode": "Singular matrix in matrix quadratic form",
+      "signature": "Matrix inversion failure when evaluating $A^{-1}$ or $(A + A^{\\mathrm{T}})^{-1}$.",
+      "cause": "The matrix $A$ (or its symmetric part $A + A^{\\mathrm{T}}$) is rank-deficient."
+    },
+    {
+      "mode": "Asymmetric matrix evaluated with symmetric formula",
+      "signature": "The completed expression $(x - h)^{\\mathrm{T}}A(x - h) + k$ does not equal the original quadratic form $x^{\\mathrm{T}}Ax + x^{\\mathrm{T}}b + c$.",
+      "cause": "Applying $h = -\\frac{1}{2}A^{-1}b$ to a non-symmetric matrix $A$ instead of using the generalized formula $h = -(A + A^{\\mathrm{T}})^{-1}b$."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Completing_the_square"
+  ],
+  "check": {
+    "node_id": "completing_the_square",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

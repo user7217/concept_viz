@@ -1,0 +1,121 @@
+{
+  "node_id": "local_minimum",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Let $(X, d_X)$ be a metric space and $f: X \\to \\mathbb{R}$ be a real-valued function. A point $x_0 \\in X$ is a local (or relative) minimum point of $f$ if there exists some $\\varepsilon > 0$ such that $(\\forall x \\in X)\\, d_X(x, x_0) < \\varepsilon \\implies f(x_0) \\le f(x)$. The value $f(x_0)$ is called the minimum value of the function within that neighborhood.",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "domain space of the function",
+      "dimensions": "set"
+    },
+    {
+      "symbol": "d_X",
+      "meaning": "metric on the domain space X",
+      "dimensions": "X x X -> R"
+    },
+    {
+      "symbol": "f",
+      "meaning": "real-valued function defined on domain X",
+      "dimensions": "X -> R"
+    },
+    {
+      "symbol": "x_0",
+      "meaning": "local minimum point in the domain",
+      "dimensions": "element of X"
+    },
+    {
+      "symbol": "\\varepsilon",
+      "meaning": "radius of the distance neighborhood around x_0",
+      "dimensions": "scalar > 0"
+    },
+    {
+      "symbol": "x",
+      "meaning": "arbitrary point in the domain within distance \\varepsilon of x_0",
+      "dimensions": "element of X"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "For differentiable functions, local extrema in the interior of a domain must occur at critical points where the derivative (or first partial derivatives) equals zero (Fermat's theorem).",
+      "why": "necessary condition for interior local extrema of differentiable functions",
+      "cites": [
+        "wikipedia:Maximum_and_minimum"
+      ]
+    },
+    {
+      "property": "Critical points can often be distinguished as local minima, local maxima, or neither using the first derivative test, second derivative test, or higher-order derivative test, given sufficient differentiability.",
+      "why": "sufficient conditions and classification criteria for critical points",
+      "cites": [
+        "wikipedia:Maximum_and_minimum"
+      ]
+    },
+    {
+      "property": "A point $x^*$ is a strict local minimum point if there exists $\\varepsilon > 0$ such that for all $x \\in X$ within distance $\\varepsilon$ of $x^*$ with $x \\neq x^*$, $f(x^*) < f(x)$.",
+      "why": "strict local extremum definition in a metric space",
+      "cites": [
+        "wikipedia:Maximum_and_minimum"
+      ]
+    },
+    {
+      "property": "A global minimum continuous on a closed interval must either be a local minimum in the interior of the domain, or must lie on the boundary of the domain.",
+      "why": "relationship between global extrema, interior local extrema, and boundaries",
+      "cites": [
+        "wikipedia:Maximum_and_minimum"
+      ]
+    },
+    {
+      "property": "The definition extends to topological spaces by rephrasing the metric distance condition in terms of neighbourhoods.",
+      "why": "topological generalization of local extrema",
+      "cites": [
+        "wikipedia:Maximum_and_minimum"
+      ]
+    },
+    {
+      "property": "If a bounded differentiable function defined on a closed interval in $\\mathbb{R}$ has a single critical point that is a local minimum, it is also a global minimum; however, in two and more dimensions, this single critical point property fails to imply global minimality.",
+      "why": "one-dimensional uniqueness argument via Rolle's and intermediate value theorems does not extend to higher dimensions",
+      "cites": [
+        "wikipedia:Maximum_and_minimum"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The domain $X$ is endowed with a metric $d_X$ (or a topological space structure with neighbourhoods).",
+      "breaks_when": "The domain has no metric or topological structure defining proximity or neighborhoods."
+    },
+    {
+      "assumption": "The function $f: X \\to \\mathbb{R}$ is real-valued.",
+      "breaks_when": "Function values belong to a set without a total order where $\\le$ cannot be evaluated."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Critical point is not a local minimum",
+      "signature": "Derivative or first partial derivatives vanish at a point, but the function takes both strictly smaller and larger values in every neighborhood.",
+      "cause": "A vanishing derivative is only a necessary condition for interior extrema, admitting saddle points or local maxima."
+    },
+    {
+      "mode": "Local minimum is not a global minimum",
+      "signature": "The function attains values strictly less than $f(x_0)$ outside the distance $\\varepsilon$ neighborhood.",
+      "cause": "The inequality $f(x_0) \\le f(x)$ holds only locally within an $\\varepsilon$-neighborhood, not over the entire domain $X$."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Maximum_and_minimum"
+  ],
+  "check": {
+    "node_id": "local_minimum",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

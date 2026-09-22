@@ -1,0 +1,109 @@
+{
+  "node_id": "consensus_set",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Given a dataset of observed data points and a model instantiated by estimated model parameters, the consensus set (the set of confirmed inliers) is the subset of data points from the dataset that fit the model within a specified error threshold: $S_{\\text{consensus}} = \\{ x \\in \\text{data} \\mid \\text{error}(x, \\text{model}) < t \\}$.",
+  "symbols": [
+    {
+      "symbol": "S_{\\text{consensus}}",
+      "meaning": "consensus set (set of inliers confirmed for the instantiated model)",
+      "dimensions": "subset of data"
+    },
+    {
+      "symbol": "\\text{data}",
+      "meaning": "input set of observed data points containing inliers and outliers",
+      "dimensions": "set of data elements"
+    },
+    {
+      "symbol": "\\text{model}",
+      "meaning": "mathematical model instantiated with parameters estimated from a minimal sample subset",
+      "dimensions": "model parameter vector"
+    },
+    {
+      "symbol": "t",
+      "meaning": "error threshold value defining the maximum data deviation for inliers",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "d",
+      "meaning": "threshold number of inliers required to assert that the model fits well to the data",
+      "dimensions": "scalar integer"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "In the original RANSAC formulation, candidate models are evaluated and ranked by the cardinality of their consensus set.",
+      "why": "Higher cardinality indicates that more data features consistently agree on the model.",
+      "cites": [
+        "wikipedia:Random_sample_consensus"
+      ]
+    },
+    {
+      "property": "If the consensus set cardinality exceeds threshold $d$, the model parameters are re-estimated using all members of the consensus set.",
+      "why": "Re-estimating over all confirmed inliers refines and sharpens model fitting quality compared to estimating from only the minimal sample subset.",
+      "cites": [
+        "wikipedia:Random_sample_consensus"
+      ]
+    },
+    {
+      "property": "In M-estimator variants (MSAC and MLESAC), consensus set quality is evaluated using likelihood rather than simple cardinality.",
+      "why": "Likelihood evaluation mitigates the drawback of treating all data points within the error threshold equally.",
+      "cites": [
+        "wikipedia:Random_sample_consensus"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Data elements consist of inliers that fit the model parameters subject to noise, and outliers that do not fit the model.",
+      "breaks_when": "Noise is indistinguishable from outlier deviations, or non-inlier points fit the model due to ambiguity."
+    },
+    {
+      "assumption": "Noisy outlier features will not vote consistently for any single model, whereas sufficient inlier features agree on a good model.",
+      "breaks_when": "Outliers exhibit structured patterns or collinearity that vote consistently for a spurious model, or the inlier proportion is insufficient."
+    },
+    {
+      "assumption": "A problem-specific error threshold $t$ exists that adequately separates inliers from outliers.",
+      "breaks_when": "The noise scale is unknown, non-uniform, or improperly tuned."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Threshold too large",
+      "signature": "All generated model hypotheses tend to be ranked equally good.",
+      "cause": "The error threshold $t$ is set too large, causing outliers to be admitted into the consensus set."
+    },
+    {
+      "mode": "Threshold too small",
+      "signature": "Estimated model parameters fluctuate unstably upon the addition or removal of a single datum.",
+      "cause": "The error threshold $t$ is set too small, excluding valid noisy inliers from the consensus set."
+    },
+    {
+      "mode": "Consensus set size rejection",
+      "signature": "Candidate model is rejected because the consensus set contains $d$ or fewer points.",
+      "cause": "The initial sample subset contained outliers or the dataset has a low inlier ratio (e.g., below 50%), yielding too few points within threshold $t$."
+    },
+    {
+      "mode": "Multi-model ambiguity failure",
+      "signature": "The algorithm fails to recover either model instance correctly.",
+      "cause": "Multiple valid model instances exist in the data, whereas RANSAC constructs a single consensus set for one model."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Random_sample_consensus"
+  ],
+  "check": {
+    "node_id": "consensus_set",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

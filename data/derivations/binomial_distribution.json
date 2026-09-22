@@ -1,0 +1,123 @@
+{
+  "node_id": "binomial_distribution",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The binomial distribution with parameters $n$ and $p$ is the discrete probability distribution of the number of successes in a sequence of $n$ independent experiments (Bernoulli trials), each asking a yes\u2013no question with a Boolean-valued outcome of success (with probability $p$) or failure (with probability $q = 1 - p$), defined by the probability mass function $f(k) = \\binom{n}{k} p^k q^{n-k}$ for $k \\in \\{0, 1, \\dots, n\\}$.",
+  "symbols": [
+    {
+      "symbol": "n",
+      "meaning": "number of independent trials / sample size",
+      "dimensions": "scalar (integer)"
+    },
+    {
+      "symbol": "p",
+      "meaning": "probability of success on each trial",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "q",
+      "meaning": "probability of failure on each trial, equal to 1 - p",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "k",
+      "meaning": "number of successes observed",
+      "dimensions": "scalar (integer)"
+    },
+    {
+      "symbol": "f(k)",
+      "meaning": "probability mass function of observing k successes",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "X",
+      "meaning": "discrete random variable representing the number of successes",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "For a single trial ($n = 1$), the binomial distribution is a Bernoulli distribution.",
+      "why": "A single success/failure trial defines a Bernoulli experiment.",
+      "cites": [
+        "wikipedia:Binomial_distribution"
+      ]
+    },
+    {
+      "property": "The expectation is $\\operatorname{E}[X] = np$ and the variance (second central moment) is $\\mu_2 = np(1 - p)$.",
+      "why": "Follows from the summation of $n$ independent Bernoulli trials.",
+      "cites": [
+        "wikipedia:Binomial_distribution"
+      ]
+    },
+    {
+      "property": "The moment-generating function is $M_X(t) = \\mathbb{E}[e^{tX}] = (1 - p + pe^t)^n$.",
+      "why": "Follows from evaluating the expectation of $e^{tX}$ over the distribution.",
+      "cites": [
+        "wikipedia:Binomial_distribution"
+      ]
+    },
+    {
+      "property": "The mode is $\\lfloor (n+1)p \\rfloor$ if $(n+1)p$ is 0 or a noninteger; $(n+1)p$ and $(n+1)p - 1$ if $(n+1)p \\in \\{1, \\dots, n\\}$; and $n$ if $(n+1)p = n+1$.",
+      "why": "Determined by evaluating the consecutive probability ratio $\\frac{f(k+1)}{f(k)} = \\frac{(n-k)p}{(k+1)(1-p)}$.",
+      "cites": [
+        "wikipedia:Binomial_distribution"
+      ]
+    },
+    {
+      "property": "Non-central moments satisfy $\\operatorname{E}[X^c] = \\sum_{k=0}^c \\left\\{{c \\atop k}\\right\\} n^{\\underline{k}} p^k$, where $\\left\\{{c \\atop k}\\right\\}$ are Stirling numbers of the second kind and $n^{\\underline{k}}$ is the falling power.",
+      "why": "Expresses higher-order moments through falling factorials.",
+      "cites": [
+        "wikipedia:Binomial_distribution"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The sequence consists of $n$ independent trials.",
+      "breaks_when": "Sampling is performed without replacement from a finite population of size $N$ (producing a hypergeometric distribution instead, unless $N \\gg n$)."
+    },
+    {
+      "assumption": "Each trial has an identical probability of success $p$ and failure $q = 1 - p$.",
+      "breaks_when": "Success probabilities change or vary between trials."
+    },
+    {
+      "assumption": "Each trial produces a Boolean-valued outcome (success or failure).",
+      "breaks_when": "Trials have more than two potential outcomes."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Dependent sampling from finite populations",
+      "signature": "The observed count distribution diverges from the binomial distribution and follows a hypergeometric distribution.",
+      "cause": "Sampling without replacement from a population of size $N$ that is not significantly larger than the sample size $n$."
+    },
+    {
+      "mode": "Hoeffding tail bound looseness at boundary values",
+      "signature": "Hoeffding's bound evaluates to a positive constant when the true cumulative tail probability $F(k; n, p) = 0$.",
+      "cause": "Applying the inequality for $p = 1$ and fixed $k < n$ where the bound is not tight."
+    },
+    {
+      "mode": "Degradation of standard parameter estimation for rare events with small samples",
+      "signature": "The maximum likelihood estimator yields $\\widehat{p} = 0$ and zero variance, resulting in an unrealistic estimate.",
+      "cause": "Small sample size $n$ with zero observed successes ($x = 0$), requiring Bayesian alternatives such as Laplace's rule of succession or Jeffreys prior."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Binomial_distribution"
+  ],
+  "check": {
+    "node_id": "binomial_distribution",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

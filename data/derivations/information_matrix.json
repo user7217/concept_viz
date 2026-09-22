@@ -1,0 +1,99 @@
+{
+  "node_id": "information_matrix",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The precision matrix (or concentration matrix) P is defined as the matrix inverse of the covariance matrix (or dispersion matrix) \\Sigma: P = \\Sigma^{-1}. For univariate distributions, it degenerates into a scalar precision p = 1 / \\sigma^2, defined as the reciprocal of the variance.",
+  "symbols": [
+    {
+      "symbol": "P",
+      "meaning": "precision matrix (or concentration matrix)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "\\Sigma",
+      "meaning": "covariance matrix (or dispersion matrix)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "p",
+      "meaning": "scalar precision",
+      "dimensions": "1 x 1"
+    },
+    {
+      "symbol": "\\sigma^2",
+      "meaning": "variance",
+      "dimensions": "1 x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "As the inverse of a Hermitian matrix, the precision matrix of real-valued random variables, if it exists, is symmetric and positive definite.",
+      "why": "It is the matrix inverse of the symmetric (Hermitian) covariance matrix.",
+      "cites": [
+        "wikipedia:Precision_(statistics)"
+      ]
+    },
+    {
+      "property": "If two dimensions i and j of a multivariate normal distribution are conditionally independent, the ij and ji elements of the precision matrix are 0.",
+      "why": "Elements of the precision matrix are directly related to partial correlation.",
+      "cites": [
+        "wikipedia:Precision_(statistics)"
+      ]
+    },
+    {
+      "property": "In Bayesian analysis of the multivariate normal distribution with Gaussian prior and Gaussian likelihood whose covariance matrices are full rank, the posterior precision matrix is the sum of the prior precision matrix and likelihood precision matrix.",
+      "why": "Parameterizing the multivariate normal distribution in terms of the precision matrix simplifies Gaussian conjugate updates into addition.",
+      "cites": [
+        "wikipedia:Precision_(statistics)"
+      ]
+    },
+    {
+      "property": "The precision matrix serves as the weighting matrix P in generalized least squares, reducing to a diagonal matrix in weighted least squares and the identity matrix in ordinary least squares.",
+      "why": "It weights observations inversely according to their dispersion matrix.",
+      "cites": [
+        "wikipedia:Precision_(statistics)"
+      ]
+    },
+    {
+      "property": "For univariate distributions, the precision degenerates into the scalar reciprocal of the variance: p = 1 / \\sigma^2.",
+      "why": "A 1x1 covariance matrix consists solely of the scalar variance.",
+      "cites": [
+        "wikipedia:Precision_(statistics)"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The covariance matrix \\Sigma is full rank and invertible.",
+      "breaks_when": "The covariance matrix is singular (rank-deficient), e.g., when random variables are collinear or have zero variance."
+    },
+    {
+      "assumption": "The random variables are real-valued.",
+      "breaks_when": "The underlying random variables are complex-valued or non-numeric."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Singular covariance matrix",
+      "signature": "Matrix inverse \\Sigma^{-1} does not exist (or division by zero for scalar p = 1 / \\sigma^2).",
+      "cause": "Covariance matrix is rank-deficient due to linear dependence among variables or zero variance."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Precision_(statistics)"
+  ],
+  "check": {
+    "node_id": "information_matrix",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

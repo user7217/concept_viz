@@ -1,0 +1,158 @@
+{
+  "node_id": "low_pass_filter",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "A low-pass filter is a filter that passes signals with a frequency lower than a selected cutoff frequency and attenuates signals with frequencies higher than the cutoff frequency, characterized in the first-order continuous-time case by the Laplace transform transfer function $H(s) = \\frac{V_{\\text{out}}(s)}{V_{\\text{in}}(s)} = K \\frac{1}{\\tau s + 1} = K \\frac{\\alpha}{s + \\alpha}$, where $\\tau$ is the time constant, $\\alpha = \\frac{1}{\\tau}$ is the cutoff frequency, and $K$ is the passband gain.",
+  "symbols": [
+    {
+      "symbol": "H(s)",
+      "meaning": "transfer function in the Laplace domain",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "s",
+      "meaning": "Laplace transform complex angular frequency variable",
+      "dimensions": "1/s"
+    },
+    {
+      "symbol": "\\tau",
+      "meaning": "filter time constant ($RC$ for an RC filter)",
+      "dimensions": "s"
+    },
+    {
+      "symbol": "\\alpha",
+      "meaning": "cutoff frequency in continuous-time Laplace notation, or smoothing factor in discrete time",
+      "dimensions": "1/s (continuous) or dimensionless (discrete)"
+    },
+    {
+      "symbol": "\\omega_0",
+      "meaning": "cutoff angular frequency ($\\omega_0 = 1/RC$)",
+      "dimensions": "rad/s"
+    },
+    {
+      "symbol": "f_c",
+      "meaning": "cutoff frequency in hertz ($f_c = \\frac{1}{2\\pi RC}$)",
+      "dimensions": "Hz"
+    },
+    {
+      "symbol": "K",
+      "meaning": "filter passband gain",
+      "dimensions": "dimensionless"
+    },
+    {
+      "symbol": "v_{\\text{in}}(t)",
+      "meaning": "input voltage or signal at time $t$",
+      "dimensions": "V"
+    },
+    {
+      "symbol": "v_{\\text{out}}(t)",
+      "meaning": "output voltage or signal at time $t$",
+      "dimensions": "V"
+    },
+    {
+      "symbol": "R",
+      "meaning": "resistance",
+      "dimensions": "\\Omega"
+    },
+    {
+      "symbol": "C",
+      "meaning": "capacitance",
+      "dimensions": "F"
+    },
+    {
+      "symbol": "\\Delta_T",
+      "meaning": "sampling interval between successive discrete samples",
+      "dimensions": "s"
+    },
+    {
+      "symbol": "n",
+      "meaning": "filter order",
+      "dimensions": "dimensionless"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "At the cutoff frequency, the filter attenuates input power by half (3 dB).",
+      "why": "universal definition of the cutoff frequency across low-pass filter realizations",
+      "cites": [
+        "wikipedia:Low-pass_filter"
+      ]
+    },
+    {
+      "property": "For an order-n all-pole filter, the high-frequency power rolloff asymptotically approaches 6n dB per octave (20n dB per decade).",
+      "why": "scaling of frequency attenuation steepness with filter order",
+      "cites": [
+        "wikipedia:Low-pass_filter"
+      ]
+    },
+    {
+      "property": "For a first-order RC filter, the cutoff frequency is $\\omega_c = \\frac{1}{\\tau} = \\frac{1}{RC}$ rad/s or $f_c = \\frac{1}{2\\pi RC}$ Hz.",
+      "why": "circuit parameter relation for the turnover frequency",
+      "cites": [
+        "wikipedia:Low-pass_filter"
+      ]
+    },
+    {
+      "property": "The first-order differential equation $v_{\\text{in}}(t) - v_{\\text{out}}(t) = RC \\frac{\\operatorname{d} v_{\\text{out}}}{\\operatorname{d} t}$ discretizes to the exponentially weighted moving average $y_i = \\alpha x_i + (1 - \\alpha) y_{i-1}$ with smoothing factor $\\alpha = \\frac{\\Delta_T}{RC + \\Delta_T}$.",
+      "why": "discrete-time infinite impulse response implementation via finite-difference sampling",
+      "cites": [
+        "wikipedia:Low-pass_filter"
+      ]
+    },
+    {
+      "property": "A low-pass filter is the complement of a high-pass filter.",
+      "why": "frequency-band complementarity",
+      "cites": [
+        "wikipedia:Low-pass_filter"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Filter circuit behavior is linear and time-invariant, permitting Laplace-domain transfer function analysis.",
+      "breaks_when": "Components behave non-linearly or parameters vary over time."
+    },
+    {
+      "assumption": "The filter transfer function is an all-pole system without zeroes.",
+      "breaks_when": "A zero exists in the transfer function (such as from signal leakage around the one-pole filter), causing the Bode plot rolloff to flatten out at high frequencies."
+    },
+    {
+      "assumption": "In the discrete difference equation model, the input is time-invariant (constant step).",
+      "breaks_when": "The input varies with time (e.g., sinusoidal inputs), approximating the signal as piecewise constant over sample interval T and introducing error unless $T \\to 0$."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Time-variant reconstruction error in sampled difference model",
+      "signature": "Discrepancy between discrete reconstructed output and true continuous response",
+      "cause": "Approximating time-varying inputs as a sequence of step functions over sampling interval T without taking $T \\to 0$."
+    },
+    {
+      "mode": "Rolloff flattening from transfer function zeros",
+      "signature": "Attenuation stops increasing at 20 dB/decade and levels off at a maximum attenuation floor",
+      "cause": "Parasitic pathways or component topologies that introduce a zero into the transfer function (e.g., input leaking around the filter pole)."
+    },
+    {
+      "mode": "High-frequency signal shunting via capacitive reactance drop",
+      "signature": "Severe attenuation of high-frequency components at the output load",
+      "cause": "Capacitive reactance decreases inversely with frequency, acting as an effective short circuit to ground for high frequencies."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Low-pass_filter"
+  ],
+  "check": {
+    "node_id": "low_pass_filter",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

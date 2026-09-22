@@ -1,0 +1,143 @@
+{
+  "node_id": "axis_angle",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "The axis\u2013angle representation parameterizes a rotation in a three-dimensional Euclidean space by an ordered pair $(\\mathbf{e}, \\theta)$, where $\\mathbf{e} = [e_x, e_y, e_z]^\\mathsf{T} \\in \\mathbb{R}^3$ is a unit vector ($\\|\\mathbf{e}\\| = 1$) rooted at the origin indicating the direction of an axis of rotation, and $\\theta \\in \\mathbb{R}$ is an angle of rotation describing the magnitude and sense of rotation about the axis according to the right-hand rule; equivalently, it is represented by a rotation vector (Euler vector) $\\boldsymbol{\\theta} = \\theta \\mathbf{e}$.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{e}",
+      "meaning": "unit vector rooted at the origin indicating the direction of the rotation axis (also denoted \\boldsymbol{\\omega})",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "\\theta",
+      "meaning": "angle of rotation describing the magnitude and sense of rotation about the axis",
+      "dimensions": "1"
+    },
+    {
+      "symbol": "\\boldsymbol{\\theta}",
+      "meaning": "rotation vector (Euler vector) codirectional with the axis whose length is \\theta",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "R",
+      "meaning": "three-dimensional orthogonal rotation matrix in SO(3)",
+      "dimensions": "3 x 3"
+    },
+    {
+      "symbol": "\\mathbf{K}",
+      "meaning": "skew-symmetric cross product matrix associated with unit axis \\boldsymbol{\\omega} such that \\mathbf{K}\\mathbf{v} = \\boldsymbol{\\omega} \\times \\mathbf{v}",
+      "dimensions": "3 x 3"
+    },
+    {
+      "symbol": "\\mathbf{v}",
+      "meaning": "Euclidean vector being rotated",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "\\mathbf{q}",
+      "meaning": "unit quaternion (versor) representation of the rotation",
+      "dimensions": "4 x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "The axis\u2013angle representation is equivalent to the rotation vector (Euler vector) $\\boldsymbol{\\theta} = \\theta \\mathbf{e}$.",
+      "why": "both the axis and angle are encoded by a vector codirectional with the axis whose magnitude equals the rotation angle",
+      "cites": [
+        "wikipedia:Axis\u2013angle_representation"
+      ]
+    },
+    {
+      "property": "The representation is non-unique: a rotation vector of length $\\theta + 2\\pi M$ (for any integer $M$) encodes the same rotation as $\\theta$, and $(-\\mathbf{e}, -\\theta)$ encodes the same rotation as $(\\mathbf{e}, \\theta)$.",
+      "why": "rotations are invariant under angle shifts by multiples of $2\\pi$ and simultaneous reversal of axis direction and angle sense",
+      "cites": [
+        "wikipedia:Axis\u2013angle_representation"
+      ]
+    },
+    {
+      "property": "A vector $\\mathbf{v} \\in \\mathbb{R}^3$ is rotated by angle $\\theta$ about unit axis $\\mathbf{e}$ via Rodrigues' rotation formula: $\\mathbf{v}_{\\mathrm{rot}} = \\mathbf{v} + (\\sin \\theta)(\\mathbf{e} \\times \\mathbf{v}) + (1 - \\cos \\theta)(\\mathbf{e} \\times (\\mathbf{e} \\times \\mathbf{v}))$.",
+      "why": "the formula computes the exponential map action on a 3D vector directly without evaluating a full matrix exponential",
+      "cites": [
+        "wikipedia:Axis\u2013angle_representation"
+      ]
+    },
+    {
+      "property": "The rotation matrix $R \\in \\mathrm{SO}(3)$ is given by the matrix exponential $R = \\exp(\\theta \\mathbf{K}) = I + (\\sin \\theta)\\mathbf{K} + (1 - \\cos \\theta)\\mathbf{K}^2$, where $\\mathbf{K}$ is the skew-symmetric cross-product matrix of $\\boldsymbol{\\omega}$.",
+      "why": "the Cayley\u2013Hamilton identity $\\mathbf{K}^3 = -\\mathbf{K}$ reduces the infinite Taylor expansion of $\\exp(\\theta \\mathbf{K})$ to the Taylor series of sine and cosine",
+      "cites": [
+        "wikipedia:Axis\u2013angle_representation"
+      ]
+    },
+    {
+      "property": "The rotation angle and axis can be retrieved from a rotation matrix $R$ via $\\theta = \\arccos((\\operatorname{Tr}(R) - 1)/2)$ and $\\boldsymbol{\\omega} = \\frac{1}{2\\sin \\theta} [R_{32} - R_{23}, R_{13} - R_{31}, R_{21} - R_{12}]^\\mathsf{T}$, or consistently via $\\theta = \\operatorname{atan2}(-\\operatorname{Tr}(\\mathbf{K}R), \\operatorname{Tr}(R) - 1)$.",
+      "why": "the trace determines the cosine of the angle while the antisymmetric part of $R$ isolates the rotation axis scaled by sine",
+      "cites": [
+        "wikipedia:Axis\u2013angle_representation"
+      ]
+    },
+    {
+      "property": "The axis\u2013angle coordinates transform to unit quaternions (versors) via $\\mathbf{q} = (\\cos(\\theta/2), \\boldsymbol{\\omega} \\sin(\\theta/2))$.",
+      "why": "versor components directly correspond to half-angle cosine for scalar and half-angle sine along the rotation axis for vector parts",
+      "cites": [
+        "wikipedia:Axis\u2013angle_representation"
+      ]
+    },
+    {
+      "property": "The unit vector $\\mathbf{e}$ rooted at the origin requires only two independent numbers (such as elevation and azimuth) to specify its direction.",
+      "why": "the Euclidean norm constraint $\\|\\mathbf{e}\\| = 1$ removes one degree of freedom from three Cartesian coordinates",
+      "cites": [
+        "wikipedia:Axis\u2013angle_representation"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The rotation axis $\\mathbf{e}$ (or $\\boldsymbol{\\omega}$) is a unit vector in $\\mathbb{R}^3$ ($\\|\\mathbf{e}\\| = 1$) rooted at the origin.",
+      "breaks_when": "$\\mathbf{e}$ is unnormalized ($\\mathbf{e} = \\mathbf{0}$ or $\\|\\mathbf{e}\\| \\neq 1$), which invalidates Rodrigues' formula and the matrix exponential identities."
+    },
+    {
+      "assumption": "The motion is a rigid-body rotation in three-dimensional Euclidean space predicated on Euler's rotation theorem.",
+      "breaks_when": "The transformation includes non-rigid motion (scaling, shear, deformation) or takes place in dimensions other than three."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Division by zero in axis extraction from symmetric rotation matrix",
+      "signature": "Division by zero when evaluating $\\boldsymbol{\\omega} = \\frac{1}{2\\sin \\theta} [R_{32} - R_{23}, R_{13} - R_{31}, R_{21} - R_{12}]^\\mathsf{T}$.",
+      "cause": "$R$ is symmetric, which occurs when $\\theta = k\\pi$ for integer $k$, causing $\\sin \\theta = 0$ and the off-diagonal skew-symmetric terms $R - R^\\mathsf{T}$ to vanish."
+    },
+    {
+      "mode": "Singularity / axis sign ambiguity at $\\theta = \\pi$",
+      "signature": "Off-axis terms of $R - R^\\mathsf{T}$ vanish, providing no information about the rotation axis direction.",
+      "cause": "At $\\theta = \\pi$, $R = 2\\boldsymbol{\\omega} \\otimes \\boldsymbol{\\omega} - I$, requiring extraction of $\\boldsymbol{\\omega}$ via $B = \\boldsymbol{\\omega} \\otimes \\boldsymbol{\\omega} = \\frac{1}{2}(R + I)$ where the axis is defined only up to sign."
+    },
+    {
+      "mode": "Numerical inaccuracy of angle extraction for small angles",
+      "signature": "High sensitivity and loss of numerical precision when evaluating $\\theta = \\arccos((\\operatorname{Tr}(R) - 1)/2)$ as $\\theta \\to 0$.",
+      "cause": "The derivative of $\\arccos(x)$ approaches infinity as $x \\to 1$."
+    },
+    {
+      "mode": "Non-uniqueness and many-to-one mapping in exponential coordinates",
+      "signature": "Infinitely many rotation vectors correspond to the same physical rotation matrix under the log map.",
+      "cause": "The exponential map $\\exp: \\mathfrak{so}(3) \\to \\mathrm{SO}(3)$ is surjective but not injective: rotation vectors differing in length by $2\\pi M$ represent the identical rotation, and all rotation vectors of length $2\\pi M$ in all directions map to the identity matrix."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Axis\u2013angle_representation"
+  ],
+  "check": {
+    "node_id": "axis_angle",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "node_id": "homogeneous_coordinates",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In an n-dimensional projective space, homogeneous coordinates are an (n+1)-tuple of coordinates (x_1, ..., x_{n+1}), not all zero, representing an equivalence class in R^{n+1} \\ {0} under the equivalence relation (x_1, ..., x_{n+1}) ~ (lambda * x_1, ..., lambda * x_{n+1}) for any non-zero scalar lambda. For the projective plane (n = 2), a point is represented by a non-zero triple (X, Y, Z); when Z != 0, it corresponds to the Euclidean plane point (X/Z, Y/Z), and when Z = 0, it represents a point at infinity.",
+  "symbols": [
+    {
+      "symbol": "(X, Y, Z)",
+      "meaning": "homogeneous coordinates of a point in the projective plane",
+      "dimensions": "3 x 1"
+    },
+    {
+      "symbol": "(x_1, ..., x_{n+1})",
+      "meaning": "homogeneous coordinates of a point in n-dimensional projective space",
+      "dimensions": "(n+1) x 1"
+    },
+    {
+      "symbol": "(X/Z, Y/Z)",
+      "meaning": "Cartesian coordinates of a point in the Euclidean plane when Z != 0",
+      "dimensions": "2 x 1"
+    },
+    {
+      "symbol": "Z",
+      "meaning": "homogenizing coordinate (depth/scaling coordinate)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "lambda",
+      "meaning": "non-zero scalar factor relating equivalent representations",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "n",
+      "meaning": "dimension of the projective space",
+      "dimensions": "scalar (integer)"
+    },
+    {
+      "symbol": "(s, t, u)",
+      "meaning": "homogeneous line coordinates in the projective plane",
+      "dimensions": "3 x 1"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Scale equivalence: Two sets of homogeneous coordinates represent the same projective point if and only if one is obtained from the other by multiplying all coordinates by the same non-zero scalar lambda.",
+      "why": "Points in projective space are defined as equivalence classes of non-zero coordinate tuples under scalar scaling.",
+      "cites": [
+        "wikipedia:Homogeneous_coordinates"
+      ]
+    },
+    {
+      "property": "Euclidean correspondence: When Z != 0, the homogeneous triple (X, Y, Z) corresponds to the Cartesian coordinates (X/Z, Y/Z) in the Euclidean plane, with the Euclidean origin given by (0, 0, 1).",
+      "why": "Dividing each coordinate by Z normalizes the representative to (X/Z, Y/Z, 1).",
+      "cites": [
+        "wikipedia:Homogeneous_coordinates"
+      ]
+    },
+    {
+      "property": "Representation of points at infinity: When Z = 0, the triple (X, Y, 0) represents a point at infinity corresponding to the direction of a parallel family of lines.",
+      "why": "Taking the limit as the distance t along the line nx + my = 0 approaches infinity makes Z = 1/t approach 0, yielding direction coordinates (m, -n, 0).",
+      "cites": [
+        "wikipedia:Homogeneous_coordinates"
+      ]
+    },
+    {
+      "property": "Dimension extension: An n-dimensional projective space requires (n + 1) homogeneous coordinates.",
+      "why": "One additional coordinate is required to allow the finite representation of points at infinity.",
+      "cites": [
+        "wikipedia:Homogeneous_coordinates"
+      ]
+    },
+    {
+      "property": "Linear transformation representation: A change of coordinate system or projective transformation is represented by matrix multiplication (X, Y, Z)^T = A (x, y, z)^T for an invertible (n+1) x (n+1) matrix A.",
+      "why": "Invertible matrix multiplication preserves non-zeroness and commutes with non-zero scalar multiplication.",
+      "cites": [
+        "wikipedia:Homogeneous_coordinates"
+      ]
+    },
+    {
+      "property": "Well-defined curve conditions: A condition f(x, y, z) = 0 is well-defined on projective points if and only if f is a homogeneous polynomial satisfying f(lambda*x, lambda*y, lambda*z) = lambda^k * f(x, y, z).",
+      "why": "Homogeneity ensures that f(x, y, z) = 0 if and only if f(lambda*x, lambda*y, lambda*z) = 0 for every non-zero lambda.",
+      "cites": [
+        "wikipedia:Homogeneous_coordinates"
+      ]
+    },
+    {
+      "property": "Projective duality: A line sx + ty + uz = 0 can be represented by homogeneous line coordinates (s, t, u), which share identical algebraic and logical properties with point coordinates.",
+      "why": "The incidence relation sx + ty + uz = 0 is symmetric in the point coordinates (x, y, z) and line coordinates (s, t, u).",
+      "cites": [
+        "wikipedia:Homogeneous_coordinates"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The coordinate tuple cannot be all zeros; (0, ..., 0) is excluded.",
+      "breaks_when": "All coordinates evaluate to 0, which does not belong to R^{n+1} \\ {0} and represents no point in projective space."
+    },
+    {
+      "assumption": "The scaling constant lambda relating equivalent coordinates must be non-zero.",
+      "breaks_when": "lambda = 0, which collapses valid coordinates to the excluded all-zero tuple."
+    },
+    {
+      "assumption": "Coordinates are drawn from a field (e.g., R, C) or a division ring where multiplication order is respected.",
+      "breaks_when": "The underlying ring contains zero divisors or non-commutative multiplication without specifying left/right action."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "All-zero coordinate tuple",
+      "signature": "(0, 0, ..., 0)",
+      "cause": "Attempting to assign all zeros or multiplying coordinates by scalar lambda = 0."
+    },
+    {
+      "mode": "Division by zero during dehomogenization",
+      "signature": "Undefined Cartesian coordinates (X/0, Y/0)",
+      "cause": "Attempting to map a point at infinity (where Z = 0) directly into finite Euclidean Cartesian coordinates."
+    },
+    {
+      "mode": "Inhomogeneous polynomial evaluation",
+      "signature": "Truth value of f(x, y, z) = 0 depends on the specific choice of representative coordinates",
+      "cause": "Evaluating an inhomogeneous function where f(lambda*x, lambda*y, lambda*z) != lambda^k * f(x, y, z), making the zero set ill-defined on equivalence classes."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Homogeneous_coordinates"
+  ],
+  "check": {
+    "node_id": "homogeneous_coordinates",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

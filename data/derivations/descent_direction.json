@@ -1,0 +1,111 @@
+{
+  "node_id": "descent_direction",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "In unconstrained mathematical optimization of a differentiable multivariate function $f$, a descent direction at point $\\mathbf{x}$ is a vector direction along which steps are taken to decrease the function value, canonically defined by the opposite direction of the gradient (or approximate gradient): $\\mathbf{d} = -\\nabla f(\\mathbf{x})$, which is the direction of steepest descent (or $-\\mathbf{p}_n$ in step updates $\\mathbf{a}_n - \\eta_n \\mathbf{p}_n$).",
+  "symbols": [
+    {
+      "symbol": "f",
+      "meaning": "differentiable multivariate objective function to be minimized",
+      "dimensions": "scalar-valued"
+    },
+    {
+      "symbol": "\\mathbf{x}",
+      "meaning": "current position vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\nabla f(\\mathbf{x})",
+      "meaning": "gradient of f evaluated at \\mathbf{x}",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mathbf{d}",
+      "meaning": "descent direction vector",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\mathbf{p}_n",
+      "meaning": "search direction vector at iteration n",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "\\eta_n",
+      "meaning": "step size / learning rate parameter",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Stepping in the opposite direction of the gradient $-\\nabla f(\\mathbf{x})$ is the direction of steepest descent.",
+      "why": "Repeated steps opposite to the gradient decrease a differentiable function toward a local minimum.",
+      "cites": [
+        "wikipedia:Gradient_descent"
+      ]
+    },
+    {
+      "property": "Stepping in the positive direction of the gradient produces gradient ascent, maximizing the function.",
+      "why": "The gradient points in the direction of function increase.",
+      "cites": [
+        "wikipedia:Gradient_descent"
+      ]
+    },
+    {
+      "property": "For quadratic minimization $f(\\mathbf{x}) = \\mathbf{x}^\\top \\mathbf{A}\\mathbf{x} - 2\\mathbf{x}^\\top \\mathbf{b}$ with symmetric positive-definite $\\mathbf{A}$, successive steepest descent directions (residuals $\\mathbf{r}_k = \\mathbf{b} - \\mathbf{A}\\mathbf{x}_k$) are mutually orthogonal: $\\langle \\mathbf{r}_{k+1}, \\mathbf{r}_k \\rangle = 0$.",
+      "why": "Line search chooses the locally optimal step size along the current steepest descent direction.",
+      "cites": [
+        "wikipedia:Gradient_descent"
+      ]
+    },
+    {
+      "property": "In infinite-dimensional function spaces, the descent direction is determined from the Fr\u00e9chet derivative of the functional.",
+      "why": "Optimization search spaces can be infinite-dimensional function spaces.",
+      "cites": [
+        "wikipedia:Gradient_descent"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "The objective function $f$ is differentiable at the evaluation point.",
+      "breaks_when": "The function is non-differentiable or the gradient cannot be evaluated."
+    },
+    {
+      "assumption": "A step size $\\eta_n$ can be chosen such that $f(\\mathbf{a}_{n} - \\eta_n \\mathbf{p}_n) \\le f(\\mathbf{a}_n)$.",
+      "breaks_when": "The step size is chosen too large without line search or curvature bounds, causing the objective function value to increase."
+    },
+    {
+      "assumption": "The objective function $f$ is convex (for convergence to a global solution).",
+      "breaks_when": "The function is non-convex, so descent directions can lead to local minima rather than global minima."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Zig-zag trajectory and slow convergence",
+      "signature": "Descent directions alternate between extreme axes of elongated level sets with $\\langle \\mathbf{r}_{k+1}, \\mathbf{r}_k \\rangle = 0$",
+      "cause": "High condition number $\\kappa(\\mathbf{A})$ of the system matrix forces each new direction to undo overshoot from the previous step"
+    },
+    {
+      "mode": "Convergence to a non-global local minimum",
+      "signature": "Gradient norm reaches zero at a point with objective value strictly greater than the global minimum",
+      "cause": "Non-convexity of the objective function"
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Gradient_descent"
+  ],
+  "check": {
+    "node_id": "descent_direction",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}

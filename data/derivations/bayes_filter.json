@@ -1,0 +1,169 @@
+{
+  "node_id": "bayes_filter",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "The Recursive Bayes Filter computes the posterior probability density function of an unobserved state $\\mathbf{x}_k$ conditioned on all measurements up to time $k$, denoted $p(\\mathbf{x}_k | \\mathbf{z}_{1:k})$, recursively through two alternating stages: a prediction step $p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1}) = \\int p(\\mathbf{x}_k | \\mathbf{x}_{k-1}) p(\\mathbf{x}_{k-1} | \\mathbf{z}_{1:k-1}) d\\mathbf{x}_{k-1}$ and an update (innovation) step $p(\\mathbf{x}_k | \\mathbf{z}_{1:k}) = \\frac{p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})}{p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1})} \\propto p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})$, where the normalizing denominator is given by $p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1}) = \\int p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1}) d\\mathbf{x}_k$.",
+  "symbols": [
+    {
+      "symbol": "\\mathbf{x}_k",
+      "meaning": "true state at timestep k (unobserved Markov process)",
+      "dimensions": "state dimension"
+    },
+    {
+      "symbol": "\\mathbf{z}_k",
+      "meaning": "measurement manifestation at timestep k",
+      "dimensions": "measurement dimension"
+    },
+    {
+      "symbol": "\\mathbf{z}_{1:k}",
+      "meaning": "sequence of measurements from timestep 1 up to timestep k",
+      "dimensions": "measurement history dimension"
+    },
+    {
+      "symbol": "p(\\mathbf{x}_k | \\mathbf{x}_{k-1})",
+      "meaning": "state transition probability distribution from timestep k-1 to k",
+      "dimensions": "scalar probability density"
+    },
+    {
+      "symbol": "p(\\mathbf{z}_k | \\mathbf{x}_k)",
+      "meaning": "measurement likelihood at timestep k",
+      "dimensions": "scalar probability density"
+    },
+    {
+      "symbol": "p(\\mathbf{x}_{k-1} | \\mathbf{z}_{1:k-1})",
+      "meaning": "posterior state distribution at timestep k-1 (previous belief)",
+      "dimensions": "scalar probability density"
+    },
+    {
+      "symbol": "p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})",
+      "meaning": "predicted state probability distribution at timestep k",
+      "dimensions": "scalar probability density"
+    },
+    {
+      "symbol": "p(\\mathbf{x}_k | \\mathbf{z}_{1:k})",
+      "meaning": "updated posterior state probability distribution at timestep k",
+      "dimensions": "scalar probability density"
+    },
+    {
+      "symbol": "p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1})",
+      "meaning": "marginal measurement likelihood (normalization denominator)",
+      "dimensions": "scalar probability density"
+    },
+    {
+      "symbol": "\\alpha",
+      "meaning": "normalization factor substituting 1 / p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1})",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "By the Markov assumption on the true hidden state process, the probability distribution of the current true state given all preceding states is conditionally independent of all earlier states except the immediately preceding one: $p(\\mathbf{x}_k | \\mathbf{x}_{k-1}, \\mathbf{x}_{k-2}, \\dots, \\mathbf{x}_0) = p(\\mathbf{x}_k | \\mathbf{x}_{k-1})$.",
+      "invokes": [
+        "markov_assumption",
+        "conditional_independence"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "The measurement $\\mathbf{z}_k$ at timestep $k$ depends only upon the current state $\\mathbf{x}_k$, making it conditionally independent of all other earlier states: $p(\\mathbf{z}_k | \\mathbf{x}_k, \\mathbf{x}_{k-1}, \\dots, \\mathbf{x}_0) = p(\\mathbf{z}_k | \\mathbf{x}_k)$.",
+      "invokes": [
+        "conditional_independence"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Combining the Markov state process and measurement conditional independence yields the joint probability distribution over all states and measurements: $p(\\mathbf{x}_0, \\dots, \\mathbf{x}_k, \\mathbf{z}_1, \\dots, \\mathbf{z}_k) = p(\\mathbf{x}_0) \\prod_{i=1}^k p(\\mathbf{z}_i | \\mathbf{x}_i) p(\\mathbf{x}_i | \\mathbf{x}_{i-1})$.",
+      "invokes": [
+        "joint_distribution"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "To obtain the predicted state distribution $p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})$, the previous state $\\mathbf{x}_{k-1}$ is marginalized out by integrating the product of the state transition distribution from timestep $k-1$ to $k$ and the prior posterior distribution at timestep $k-1$ over all possible $\\mathbf{x}_{k-1}$: $p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1}) = \\int p(\\mathbf{x}_k | \\mathbf{x}_{k-1}) p(\\mathbf{x}_{k-1} | \\mathbf{z}_{1:k-1}) d\\mathbf{x}_{k-1}$.",
+      "invokes": [
+        "marginalization",
+        "recursive_substitution",
+        "integral"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Applying Bayes' rule to condition on the new measurement $\\mathbf{z}_k$ updates the predicted state distribution to form the posterior, which is proportional to the product of the measurement likelihood and the predicted state: $p(\\mathbf{x}_k | \\mathbf{z}_{1:k}) = \\frac{p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})}{p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1})} \\propto p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})$.",
+      "invokes": [
+        "bayes_rule",
+        "conditional_probability"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "The normalizing denominator is computed by marginalizing out the current state $\\mathbf{x}_k$ from the joint likelihood-prior product: $p(\\mathbf{z}_k | \\mathbf{z}_{1:k-1}) = \\int p(\\mathbf{z}_k | \\mathbf{x}_k) p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1}) d\\mathbf{x}_k$. Since this denominator is constant relative to $\\mathbf{x}_k$, it can be substituted by a normalizing coefficient $\\alpha$ ensuring the posterior integrates to unity.",
+      "invokes": [
+        "marginalization",
+        "normalization",
+        "integral"
+      ],
+      "cites": [
+        "wikipedia:Recursive_Bayesian_estimation"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The true state process is an unobserved first-order Markov process such that p(x_k | x_{k-1}, ..., x_0) = p(x_k | x_{k-1}).",
+      "breaks_when": "The state transition dynamics depend directly on a longer history of past states (e.g., x_{k-2}, x_{k-3}) or non-Markovian process memory."
+    },
+    {
+      "assumption": "Measurements z_k are conditionally independent of all past states and past measurements given the current state x_k: p(z_k | x_k, x_{k-1}, ..., x_0) = p(z_k | x_k).",
+      "breaks_when": "Measurement noise is time-correlated (colored noise) or sensor observations depend directly on past states or past observations."
+    },
+    {
+      "assumption": "The measurement likelihood p(z_k | x_k) and predicted distribution p(x_k | z_{1:k-1}) yield a finite, non-zero normalizing integral over the state space.",
+      "breaks_when": "The evidence integral p(z_k | z_{1:k-1}) equals zero (completely conflicting observations with zero likelihood support) or diverges."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Intractable posterior distribution",
+      "signature": "Posterior distribution p(x_k | z_{1:k}) exhibits an increasingly complex functional form over time that cannot be represented or computed in closed form.",
+      "cause": "Measurement likelihoods or transition models that do not preserve a parametric family under multiplication and integration across successive recursive updates."
+    },
+    {
+      "mode": "Analytical integration intractability under non-Gaussian / nonlinear dynamics",
+      "signature": "Prediction integral or normalization integral cannot be evaluated analytically in closed form, requiring numerical or approximate filtering methods.",
+      "cause": "Transitions or measurement models are nonlinear, or variables are non-normally distributed, preventing reduction to the exact linear-Gaussian Kalman filter."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Recursive_Bayesian_estimation"
+  ],
+  "check": {
+    "node_id": "bayes_filter",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  }
+}
