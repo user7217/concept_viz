@@ -306,3 +306,35 @@ class TestGroundFromConsumers(unittest.TestCase):
             cited_but_not_retrieved(["Some Textbook, 1999"], [derived]),
             {"Some Textbook, 1999"},
         )
+
+
+class DisambiguationIsNotASource(unittest.TestCase):
+    """A page that lists meanings is not an article about any of them.
+
+    The canon's floor is `matrix`, `function`, `basis`, `span`, `norm`,
+    `vector` -- the most ambiguous words in mathematics. Every one resolved to
+    a page of links, and nothing downstream could tell: the title matched, the
+    extract was non-empty, so it was handed on as a source. `expectation` came
+    back as 1,370 characters of "may refer to" and the refusal that followed
+    read as the concept being ungroundable.
+    """
+
+    def test_wikipedia_metadata_settles_it(self) -> None:
+        from atlas.retrieval import is_disambiguation
+
+        self.assertTrue(is_disambiguation(
+            {"pageprops": {"disambiguation": ""}}, "Matrix may refer to: ..."))
+        self.assertFalse(is_disambiguation({"pageprops": {}}, "x" * 40000))
+
+    def test_a_set_index_page_is_caught_without_the_property(self) -> None:
+        from atlas.retrieval import is_disambiguation
+
+        self.assertTrue(is_disambiguation({}, "Norm may refer to:\n* Norm (mathematics)"))
+
+    def test_a_long_article_discussing_ambiguity_survives(self) -> None:
+        from atlas.retrieval import is_disambiguation
+
+        # The phrase alone must not be enough. A real article is allowed to
+        # say it, and throwing one away costs a node its only source.
+        long_article = "The term may refer to several related ideas. " + "x" * 9000
+        self.assertFalse(is_disambiguation({}, long_article))

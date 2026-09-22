@@ -358,6 +358,50 @@
     ],
     "yolo_detection_loss": [
       "Object detection"
+    ],
+    "matrix": [
+      "Matrix (mathematics)"
+    ],
+    "function": [
+      "Function (mathematics)"
+    ],
+    "graph": [
+      "Graph (discrete mathematics)"
+    ],
+    "span": [
+      "Linear span"
+    ],
+    "norm": [
+      "Norm (mathematics)"
+    ],
+    "basis": [
+      "Basis (linear algebra)"
+    ],
+    "vector": [
+      "Euclidean vector",
+      "Vector space"
+    ],
+    "expectation": [
+      "Expected value"
+    ],
+    "function_of_several_variables": [
+      "Function of several real variables",
+      "Multivariable calculus"
+    ],
+    "translation_vector": [
+      "Translation (geometry)"
+    ],
+    "matrix_inverse": [
+      "Invertible matrix"
+    ],
+    "matrix_transpose": [
+      "Transpose"
+    ],
+    "determinant": [
+      "Determinant"
+    ],
+    "variance": [
+      "Variance"
     ]
   }
 }

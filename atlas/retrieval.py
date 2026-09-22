@@ -159,6 +159,31 @@ def search_arxiv(query: str, limit: int = 3, transport: Transport | None = None)
     return sources
 
 
+def is_disambiguation(page: dict, extract: str) -> bool:
+    """A page that lists meanings instead of stating one is not a source.
+
+    The canon's floor is made of the most ambiguous words in mathematics.
+    `matrix`, `function`, `basis`, `span`, `norm` and `vector` are each a dozen
+    different things, and Wikipedia answers every one of them with a page of
+    links. Retrieval matched the title, got 1,400 characters of "may refer
+    to", and handed it on as an article; the model was then asked to derive
+    mathematics from a list of hyperlinks and refused, which read as the
+    concept being ungroundable rather than the page being the wrong one.
+
+    Wikipedia's own metadata is the independent evidence: a disambiguation
+    page carries pageprops.disambiguation whatever its prose looks like. The
+    text test is kept as a second line for set-index pages, which serve the
+    same non-article role without the property, and is deliberately bounded by
+    length so a real article discussing ambiguity is not thrown away.
+    """
+    if "disambiguation" in (page.get("pageprops") or {}):
+        return True
+    head = extract[:400].lower()
+    return len(extract) < 6000 and ("may refer to" in head
+                                    or "may also refer to" in head
+                                    or "commonly refers to" in head)
+
+
 def fetch_wikipedia(title: str, transport: Transport | None = None) -> Source | None:
     """Full plaintext extract, not the summary.
 
@@ -169,7 +194,7 @@ def fetch_wikipedia(title: str, transport: Transport | None = None) -> Source | 
     params = urllib.parse.urlencode(
         {
             "action": "query",
-            "prop": "extracts",
+            "prop": "extracts|pageprops",
             "explaintext": 1,
             "redirects": 1,
             "format": "json",
@@ -188,6 +213,8 @@ def fetch_wikipedia(title: str, transport: Transport | None = None) -> Source | 
             continue
         extract = page["extract"].strip()
         if not extract:
+            continue
+        if is_disambiguation(page, extract):
             continue
         return Source(
             id=f"wikipedia:{page['title'].replace(' ', '_')}",
