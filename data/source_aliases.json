@@ -47,7 +47,7 @@
       "Coverage probability"
     ],
     "cramer_rao_bound": [
-      "Cram\u00e9r\u2013Rao bound"
+      "Cramér–Rao bound"
     ],
     "cross_covariance_matrix": [
       "Cross-covariance matrix",
@@ -89,7 +89,7 @@
       "Fisher information"
     ],
     "gauss_newton": [
-      "Gauss\u2013Newton algorithm"
+      "Gauss–Newton algorithm"
     ],
     "gaussian_conditioning": [
       "Multivariate normal distribution"
@@ -136,7 +136,7 @@
     ],
     "kl_trust_region_step": [
       "Trust region",
-      "Kullback\u2013Leibler divergence"
+      "Kullback–Leibler divergence"
     ],
     "lagrange_multipliers": [
       "Lagrange multiplier"
@@ -148,7 +148,7 @@
       "Least squares"
     ],
     "levenberg_marquardt_damping": [
-      "Levenberg\u2013Marquardt algorithm"
+      "Levenberg–Marquardt algorithm"
     ],
     "linear_kalman_filter": [
       "Kalman filter"
@@ -182,7 +182,7 @@
       "Loss function"
     ],
     "lqr": [
-      "Linear\u2013quadratic regulator"
+      "Linear–quadratic regulator"
     ],
     "mahalanobis_distance": [
       "Mahalanobis distance"
@@ -261,7 +261,7 @@
       "Importance sampling"
     ],
     "quadratic_cost": [
-      "Linear\u2013quadratic regulator"
+      "Linear–quadratic regulator"
     ],
     "quadratic_form_differentiation": [
       "Matrix calculus"
@@ -288,7 +288,7 @@
       "Mean squared error"
     ],
     "relaxation": [
-      "Bellman\u2013Ford algorithm",
+      "Bellman–Ford algorithm",
       "Dijkstra's algorithm"
     ],
     "residual": [
@@ -402,6 +402,24 @@
     ],
     "variance": [
       "Variance"
+    ],
+    "convexity": [
+      "Convex function",
+      "Convex set"
+    ],
+    "empirical_distribution": [
+      "Empirical distribution function"
+    ],
+    "kl_divergence": [
+      "Kullback–Leibler divergence",
+      "Kullback-Leibler divergence"
+    ],
+    "stability": [
+      "Stability theory",
+      "BIBO stability"
+    ],
+    "trace": [
+      "Trace (linear algebra)"
     ]
   }
 }

@@ -17,6 +17,7 @@ rather than quietly falling back to recall.
 from __future__ import annotations
 
 import json
+import os
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -35,7 +36,11 @@ ATOM = "{http://www.w3.org/2005/Atom}"
 
 Transport = Callable[[str], bytes]
 
-MIN_INTERVAL = 0.5  # polite floor between live requests
+# Polite floor between live requests. A sweep over the whole canon is 240
+# of them and Wikipedia starts answering 429 well before the end, which
+# reaches the pipeline as "this node has no article" unless every caller
+# is careful. Bulk passes raise it: ATLAS_MIN_INTERVAL=2 recheck_sheets.py
+MIN_INTERVAL = float(os.environ.get("ATLAS_MIN_INTERVAL", "0.5"))
 _last_request = 0.0
 
 
