@@ -263,7 +263,7 @@ body.resizing{cursor:col-resize;user-select:none}
       <span class="eyebrow">View</span>
       <div class="btns">
         <button id="reset" type="button">Start over</button>
-        <button id="all" type="button">Show all 226</button>
+        <button id="all" type="button">Show all</button>
       </div>
       <label class="row"><input type="checkbox" id="pathonly"> Localization path only</label>
       <label class="row"><input type="checkbox" id="showlabels" checked> Labels</label>
@@ -1541,7 +1541,12 @@ document.getElementById('z-in').onclick = () => zoomBy(1.3);
 document.getElementById('z-out').onclick = () => zoomBy(1 / 1.3);
 document.getElementById('z-fit').onclick = () => { fit(false); frame(); };
 document.getElementById('reset').onclick = reset;
-document.getElementById('all').onclick = expandAll;
+const allBtn = document.getElementById('all');
+// The canon grows. A count written into the markup goes stale silently,
+// and this one read 226 while the map drew 246.
+allBtn.textContent = `Show all ${DATA.nodes.filter(n => n.type !== 'system'
+  && n.type !== 'subsystem' && n.type !== 'component').length}`;
+allBtn.onclick = expandAll;
 /* Step through the graph rather than fly a camera over it: down goes to what
    this node needs, up to what needs it, left and right along its siblings.
    Revealing as it goes, so arrowing down is itself a way to descend. */
