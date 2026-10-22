@@ -365,6 +365,21 @@ def expected_kind(graph: Graph | None, node_id: str,
     return "definition", []
 
 
+def statement_suffices(graph: Graph | None, node_id: str) -> bool:
+    """The canon itself asks only for this node's statement.
+
+    True when nothing structural demands a derivation -- not a technique, no
+    technique among its requirements -- and its tier is below derivation.
+    The tier is the independent thing: it was set when the canon was built,
+    before any source was read or any sheet generated.
+    """
+    if graph is None or node_id not in graph.nodes:
+        return False
+    from .schema import Tier
+    structural, _ = expected_kind(graph, node_id)
+    return structural == "definition" and graph.nodes[node_id].tier is not Tier.DERIVATION
+
+
 def build_prompt(node_id: str, name: str, sources: list[Source],
                  vocabulary: list[str] | None = None,
                  graph: Graph | None = None) -> str:
@@ -572,6 +587,18 @@ def check(derivation: Derivation, sources: list[Source], graph: Graph,
                 f"canon expects a derivation but no source performs one, so "
                 f"{derivation.node_id} is recorded as a definition"
             )
+        elif (expected == "derivation" and derivation.is_definition
+              and statement_suffices(graph, derivation.node_id)):
+            # Only the article asked for a derivation, and what it held was a
+            # proof ABOUT the object: "Proof that every vector space has a
+            # basis", "Proof of variance and bias relationship". The canon
+            # tier, set before any sheet existed, asks only for the statement.
+            # A derivation is still welcome -- 18 statement-tier sheets give
+            # one and pass -- but a statement is not a defect.
+            canon_notes.append(
+                f"{derivation.node_id} is {graph.nodes[derivation.node_id].tier.value}-tier, "
+                f"so its statement is what the canon asks for; the source's "
+                f"proof section was not required")
         else:
             shape.append(f"expected a {expected}, produced a {derivation.kind}")
 

@@ -337,6 +337,29 @@ class TestSourceAwareKind(unittest.TestCase):
             expected_kind(self.graph, "covariance_matrix", descriptive)[0],
             "definition")
 
+    def _definition_of(self, node_id: str) -> Derivation:
+        return Derivation(node_id=node_id, grounded=True, kind="definition",
+                          statement="A set of vectors.", symbols=["v"],
+                          properties=[{"text": "spans", "cites": ["s"]}])
+
+    def test_a_proof_about_a_statement_tier_node_does_not_demand_one(self) -> None:
+        """basis failed for not deriving itself: its article's only proof is
+        "Proof that every vector space has a basis", a theorem about it. The
+        canon put basis in the assumed tier, which asks for the statement."""
+        proof = [self._source("== Proof that every vector space has a basis ==\n"
+                              "Expand the chain; therefore by Zorn's lemma we obtain a maximal set.")]
+        result = check(self._definition_of("basis"), proof, self.graph)
+        self.assertNotIn("expected a derivation, produced a definition", result["shape"])
+        self.assertTrue(any("assumed-tier" in n for n in result["canon_notes"]))
+
+    def test_a_derivation_tier_algorithm_still_has_to_be_derived(self) -> None:
+        """The EKF sheet came back as a definition. Its tier asks for the
+        derivation, so that stays a failure."""
+        proof = [self._source("== Derivation ==\nSubstituting the linearization and "
+                              "expanding, we obtain the update; therefore the gain follows.")]
+        result = check(self._definition_of("extended_kalman_filter"), proof, self.graph)
+        self.assertIn("expected a derivation, produced a definition", result["shape"])
+
     def test_a_technique_is_still_always_a_derivation(self) -> None:
         from atlas.derivation import expected_kind
         self.assertEqual(

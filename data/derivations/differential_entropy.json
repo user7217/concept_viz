@@ -156,11 +156,11 @@
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
-    "canon_notes": [],
-    "shape": [
-      "expected a derivation, produced a definition"
+    "canon_notes": [
+      "differential_entropy is statement-tier, so its statement is what the canon asks for; the source's proof section was not required"
     ],
+    "shape": [],
     "vacuous_invocations": false,
-    "ok": false
+    "ok": true
   }
 }
