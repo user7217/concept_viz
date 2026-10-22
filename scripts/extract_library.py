@@ -7,12 +7,22 @@
 The spans below were located by an agent reading the source and then checked
 line by line against the files before being written here; every range was
 opened and compared. Storing the excerpt rather than the tree is deliberate:
-a vendored copy makes this repo a redistributor of someone else's code and
-goes stale in silence, while a path plus a pinned commit can be re-verified
-by anyone with `git clone`.
+a vendored copy goes stale in silence, while a path plus a pinned commit can
+be re-verified by anyone with `git clone`.
+
+An excerpt is still a redistribution of those lines, though, and the BSD
+licence asks that redistributed source "retain the above copyright notice,
+this list of conditions and the following disclaimer". So each file's own
+header notice is captured verbatim and travels with its excerpts -- into this
+repo and onto the published map. The notice is read from the file, not
+written here from memory: src/ekf.cpp names a second holder, Locus Robotics,
+that the repository-level LICENSE does not, and a hand-written credit line
+had already left it out. A file with no notice stops the extraction rather
+than publishing code without one.
 """
 
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -29,7 +39,6 @@ SOURCE = {
         "2014-2016). package.xml line 12 declares Apache License 2.0, which "
         "contradicts it; the LICENSE file governs."
     ),
-    "copyright": "Copyright (c) 2014, 2015, 2016, Charles River Analytics, Inc.",
 }
 
 # node id -> (path, first line, last line, enclosing function, what it does)
@@ -69,6 +78,19 @@ SPANS = [
 # nearly-right evidence this project keeps having to delete.
 
 
+def header_notice(text: str, rel: str) -> str:
+    """The licence block a source file opens with, without comment markers."""
+    stripped = text.lstrip()
+    if not stripped.startswith("/*") or "*/" not in stripped:
+        raise SystemExit(f"{rel} has no header notice; refusing to excerpt it")
+    block = stripped[2:stripped.index("*/")]
+    lines = [re.sub(r"^\s*\* ?", "", line).rstrip() for line in block.splitlines()]
+    notice = "\n".join(lines).strip()
+    if "Copyright" not in notice:
+        raise SystemExit(f"{rel} opens with a comment that names no copyright holder")
+    return notice
+
+
 def main() -> None:
     root = Path(sys.argv[1])
     if not root.exists():
@@ -81,9 +103,13 @@ def main() -> None:
         capture_output=True, text=True, check=False).stdout.strip()
 
     out: dict[str, list[dict]] = {}
+    notices: dict[str, str] = {}
     for node_id, rel, start, end, function, note in SPANS:
         path = root / rel
-        lines = path.read_text(errors="replace").splitlines()
+        text = path.read_text(errors="replace")
+        if rel not in notices:
+            notices[rel] = header_notice(text, rel)
+        lines = text.splitlines()
         if not 1 <= start <= end <= len(lines):
             raise SystemExit(f"{rel}:{start}-{end} is outside the file")
         out.setdefault(node_id, []).append({
@@ -95,11 +121,24 @@ def main() -> None:
     OUT.write_text(json.dumps({
         "_note": "Verified excerpts from a third-party library. Regenerate "
                  "with scripts/extract_library.py after re-cloning.",
-        "source": {**SOURCE, "commit": commit, "tag": tag},
+        "source": {**SOURCE, "commit": commit, "tag": tag,
+                   "copyright": _holders(notices)},
+        "notices": notices,
         "spans": out,
     }, indent=2) + "\n")
     print(f"wrote {OUT.name}: {sum(len(v) for v in out.values())} spans "
           f"across {len(out)} nodes, from {tag or commit[:7]}")
+
+
+def _holders(notices: dict[str, str]) -> str:
+    """Every copyright line across the excerpted files, each once."""
+    seen: list[str] = []
+    for notice in notices.values():
+        for line in notice.splitlines():
+            line = re.sub(r"\s+", " ", line.strip())
+            if line.startswith("Copyright") and line not in seen:
+                seen.append(line)
+    return "; ".join(seen)
 
 
 if __name__ == "__main__":

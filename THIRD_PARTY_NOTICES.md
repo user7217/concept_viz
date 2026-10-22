@@ -1,0 +1,132 @@
+# Third-party notices
+
+Derivation Atlas has no runtime dependencies beyond the Python standard
+library. It does use other people's work in four ways, listed here with what
+each licence asks and how this repository meets it.
+
+## Graphify
+
+- **Project:** https://github.com/Graphify-Labs/graphify (https://graphify.com)
+- **Licence:** Apache-2.0. Portions were contributed under MIT before
+  relicensing; Graphify ships both texts (`LICENSE`, `LICENSE-MIT`) and a
+  `NOTICE`. Copyright 2026 Safi Shamsi and the Graphify contributors.
+- **Version used:** 0.9.90 (PyPI package `graphifyy`)
+- **How it is used:** run separately, on the repo being studied. Atlas reads
+  the `graphify-out/graph.json` it leaves behind (`atlas/codegraph.py`).
+- **What that means:** no Graphify code is copied, vendored, modified,
+  imported or redistributed here. A test (`tests/test_codegraph.py`) fails if
+  anything in `atlas/` or `scripts/` imports it. Apache-2.0's conditions
+  attach to redistributing Graphify or works derived from it, and this repo
+  does neither, so none apply; it is credited here because the workflow
+  depends on it. Install it yourself, under its own licence. Derivation Atlas
+  is not affiliated with or endorsed by the Graphify project.
+
+## robot_localization
+
+- **Project:** https://github.com/cra-ros-pkg/robot_localization
+- **Version:** 3.10.1, commit `7dfb6aa97b2082185d2fac3420888ae8474bfc1a`
+- **Licence:** BSD-3-Clause, per the repository's `LICENSE` file. Its
+  `package.xml` declares Apache License 2.0; the two disagree, and the source
+  files themselves carry the BSD header reproduced below.
+- **How it is used:** `data/library_code.json` holds 8 verbatim excerpts
+  (152 lines) from `src/ekf.cpp` and
+  `include/robot_localization/filter_common.hpp`, shown on the published map
+  beside the mathematics they implement.
+- **What that means:** an excerpt is a redistribution of those lines, and the
+  licence asks that redistributed source keep the copyright notice, the
+  conditions and the disclaimer. Each file's own notice is captured verbatim
+  by `scripts/extract_library.py`, stored alongside the excerpts, and shown
+  on the map under every excerpt from that file. `tests/test_third_party.py`
+  fails if an excerpt arrives without its notice. The project's and its
+  contributors' names are used only to attribute the code, never to endorse
+  anything here.
+- `data/library_topics.json` records the default topic names two of its nodes
+  open, with the file and line each was read from. Those are facts about the
+  software, not its code.
+
+### Notice: `src/ekf.cpp`
+
+```
+Copyright (c) 2014, 2015, 2016 Charles River Analytics, Inc.
+Copyright (c) 2017, Locus Robotics, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided
+with the distribution.
+3. Neither the name of the copyright holder nor the names of its
+contributors may be used to endorse or promote products derived
+from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+```
+
+### Notice: `include/robot_localization/filter_common.hpp`
+
+```
+Copyright (c) 2014, 2015, 2016  Charles River Analytics, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided
+with the distribution.
+3. Neither the name of the copyright holder nor the names of its
+contributors may be used to endorse or promote products derived
+from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+```
+
+## Wikipedia
+
+- **Licence:** text is CC BY-SA 4.0
+  (https://creativecommons.org/licenses/by-sa/4.0/).
+- **How it is used:** the sheets in `data/derivations/` restate mathematics
+  retrieved from Wikipedia articles: paraphrased, condensed and re-ordered by
+  a model, then checked against the source. Each sheet records the articles
+  it was restated from in `source_ids`.
+- **What that means:** attribution. The published map names and links every
+  article a statement was restated from, states the licence, and says the
+  text was paraphrased. CC BY-SA also asks that adaptations be shared under
+  the same or a compatible licence; see the note in the README.
+
+## Other retrieved sources
+
+Further-reading links (`data/reading.json`) are links only; nothing from the
+linked pages is reproduced.

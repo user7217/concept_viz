@@ -200,6 +200,12 @@ body.resizing{cursor:col-resize;user-select:none}
 .snote{margin:0;padding:8px 10px;font-size:12.5px;line-height:1.5;
   color:var(--muted);border-bottom:1px solid var(--line)}
 .credit{margin:0;font-size:11px;line-height:1.5;color:var(--faint)}
+.credit a{color:inherit}
+.notice{font-size:11px;color:var(--faint)}
+.notice summary{cursor:pointer}
+.notice pre{white-space:pre-wrap;font-family:var(--mono);font-size:10.5px;
+  line-height:1.45;margin:6px 0 0;padding:8px;background:var(--sunk);
+  border-radius:5px;max-height:220px;overflow-y:auto}
 .snippet header{display:flex;gap:8px;align-items:baseline;padding:5px 9px;
   background:var(--sunk);border-bottom:1px solid var(--line);
   font-family:var(--mono);font-size:10.5px;color:var(--muted);flex-wrap:wrap}
@@ -438,6 +444,7 @@ body.resizing{cursor:col-resize;user-select:none}
       <div id="d-stwrap">
         <span class="eyebrow">Statement</span>
         <p class="body" id="d-statement"></p>
+        <p class="credit" id="d-attrib"></p>
       </div>
     </div>
   </div>
@@ -1406,17 +1413,64 @@ function select(id) {
     code.appendChild(box);
   }
 
-  if (n.code && n.code.some(c => c.strength === 'library') && DATA.library.name) {
+  // Library excerpts are someone else's code. Each carries its own file's
+  // copyright notice, conditions and disclaimer, as the licence requires of
+  // redistributed source -- not just the project's name.
+  const libPaths = [...new Set((n.code || [])
+    .filter(c => c.strength === 'library').map(c => c.path))];
+  if (libPaths.length && DATA.library.name) {
     const credit = document.createElement('p');
     credit.className = 'credit';
+    const notices = DATA.library.notices || {};
+    const holders = [...new Set(libPaths.flatMap(p => (notices[p] || '')
+      .split('\n').filter(l => l.startsWith('Copyright'))))];
     credit.textContent = DATA.library.name + ' ' + (DATA.library.tag || '') +
-      ' — ' + DATA.library.license + '. ' + (DATA.library.copyright || '');
+      ' — ' + DATA.library.license + '. ' +
+      (holders.length ? holders.join('; ') : (DATA.library.copyright || ''));
     code.appendChild(credit);
+    const seen = new Set();
+    libPaths.forEach(p => {
+      const text = notices[p];
+      if (!text || seen.has(text)) return;
+      seen.add(text);
+      const det = document.createElement('details');
+      det.className = 'notice';
+      const sum = document.createElement('summary');
+      sum.textContent = 'Licence for ' + p;
+      const pre = document.createElement('pre');
+      pre.textContent = text;
+      det.append(sum, pre);
+      code.appendChild(det);
+    });
   }
 
   const st = document.getElementById('d-statement');
   if (n.statement) { st.innerHTML = tex(n.statement); st.className = 'body'; }
   else { st.textContent = 'No sheet generated for this node yet.'; st.className = 'empty'; }
+  // A restatement of Wikipedia text is an adaptation under CC BY-SA 4.0, and
+  // shown publicly it must name its source, link it, and give the licence.
+  const attr = document.getElementById('d-attrib');
+  attr.textContent = '';
+  const wiki = (n.statement ? (n.sources || []) : [])
+    .filter(s => s.startsWith('wikipedia:'));
+  if (wiki.length) {
+    attr.append('Restated from Wikipedia: ');
+    wiki.forEach((s, i) => {
+      const title = s.slice('wikipedia:'.length);
+      const a = document.createElement('a');
+      a.href = 'https://en.wikipedia.org/wiki/' + encodeURI(title);
+      a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = title.replace(/_/g, ' ').replace('#', ' § ');
+      if (i) attr.append(', ');
+      attr.append(a);
+    });
+    attr.append(' — text licensed ');
+    const lic = document.createElement('a');
+    lic.href = 'https://creativecommons.org/licenses/by-sa/4.0/';
+    lic.target = '_blank'; lic.rel = 'noopener';
+    lic.textContent = 'CC BY-SA 4.0';
+    attr.append(lic, '. Paraphrased and condensed; errors are ours.');
+  }
   frame();
 }
 /* A floating panel would cover the graph you are turning, so the panel is

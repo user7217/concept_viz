@@ -173,6 +173,9 @@ def main() -> None:
             "steps": len((sheet or {}).get("steps", [])),
             "exercises": available_count(sheet) if sheet else 0,
             "statement": _trim((sheet or {}).get("statement") or "", 1400),
+            # What the statement was restated from. Wikipedia text is CC BY-SA:
+            # a restatement shown publicly must name and link its source.
+            "sources": list((sheet or {}).get("source_ids") or []),
             "whyHere": _trim(str(note.get("why_here", "")), 900),
             "reading": reading.get(node.id, []),
             "code": ((library["spans"].get(node.id, []) if uses_library else []) +
@@ -247,7 +250,11 @@ def main() -> None:
                "maxDepth": max(n["depth"] for n in nodes) if nodes else 0,
                "maxLevel": deepest + 1,
                "root": root,
-               "library": library.get("source", {})},
+               # Each excerpted file's own notice travels with its code: the
+               # BSD licence asks redistributed source to keep the copyright
+               # notice, the conditions and the disclaimer, not just a name.
+               "library": {**library.get("source", {}),
+                           "notices": library.get("notices", {})}},
               sys.stdout)
 
 

@@ -1,138 +1,148 @@
 # Derivation Atlas
 
 Maps the mathematics you must be able to derive on paper to understand — not
-merely operate — the libraries a specific project depends on.
+merely operate — the libraries a specific project depends on, and shows it as
+a 3D map joined to the project's own code.
 
-Design doc: https://claude.ai/code/artifact/87787bf4-2df0-4916-8b2c-48cce3d703dd
-
-The governing constraint is **derive the object, don't prove theorems about it**:
-deep enough to reproduce the mechanics on paper and know when they fail, not so
-deep it becomes theory. Existence proofs, convergence theorems and
+The governing constraint is **derive the object, don't prove theorems about
+it**: deep enough to reproduce the mechanics on paper and know when they fail,
+not so deep it becomes theory. Existence proofs, convergence theorems and
 measure-theoretic framing are out of scope by construction.
 
-## Status
+Nothing is generated from memory. Every sheet is restated from a retrieved
+source, and every citation is checked against what was actually fetched.
 
-Stages 1–4 build and run end to end. Nothing is generated from memory: a
-derivation must be located in a retrieved source and restated, and every
-citation is checked against what was actually fetched.
-
-```
-atlas/schema.py       node/edge types, four tiers, layer membership
-atlas/graph.py        DAG enforcement, cycle demotion, closure, syllabus,
-                      learning_path, alias resolution, transitive reduction
-atlas/bootstrap.py    canon assembly from seeds + edges + amendments
-atlas/merge.py        merges independently-authored edge proposals
-atlas/ingest.py       stage 1 — repo and brief ingest, leak detection
-atlas/architecture.py stage 2 — architecture layer behind a confirmation gate
-atlas/retrieval.py    stage 4a — grounded sources + the citation guard
-atlas/derivation.py   stage 4b — restate a derivation, then check it
-atlas/llm.py          provider seam: Gemini, model rotation, headless Claude
-```
-
-Run:
+## How it works
 
 ```
-python3 scripts/report.py            # canon bootstrap + saturation
-python3 scripts/merge_report.py DIR  # merge edge proposals
-python3 scripts/grounding.py         # which nodes have a source
-python3 scripts/generate_all.py      # derivations across the canon (resumable)
-python3 -m unittest discover -s tests
+your repo ──► Graphify (separate tool)     code structure, rationale, communities
+          ──► Atlas ingest                 launched nodes, package.xml, parameter values
+          ──► Atlas topics                 who publishes and reads which topic
+                     │
+                     ▼  joined per component
+          architecture   components → subsystems → algorithms   (human gate)
+          canon          246-node prerequisite DAG, shared by every project
+          path           the nodes one algorithm needs, cut at what you know
+          retrieval      a source for each node (Wikipedia, checked)
+          generation     the sheet: statement, steps, symbols   (the only LLM step)
+          project notes  what each node means in *your* config
+          map            3D, drill-down, with code and licences attached
 ```
 
-No dependencies. Python 3.11+. Copy `.env.example` to `.env` for an API key.
+The **canon** is the product: mathematics and its prerequisites, shared by
+every project. The **project layer** is cheap and disposable, rebuilt whenever
+the code changes. The two meet at algorithm nodes.
 
-## The canon
+[Graphify](https://github.com/Graphify-Labs/graphify) reads the code. Atlas
+keeps its own deterministic extractor for what the maths hangs on — which nodes
+a launch file starts and the exact values of the parameters they set — and
+states the links between components from code, parameters and launch files
+rather than inferring them. See `ARCHITECTURE.md` for every module.
 
-Grown from derivations rather than authored top-down: 20 seed algorithms were
-expanded with no floor, and the union of what their derivations invoke became
-the canon.
+## Setup
+
+Python 3.11+. No packages to install; Atlas uses the standard library only.
+
+```bash
+git clone <this repo> && cd concept_viz
+python3 -m unittest discover -s tests      # should end in OK
+cp .env.example .env                       # only if you generate sheets
+cp profile.example.json profile.json       # what you already know
+```
+
+**A model, only for generating sheets.** Set `ATLAS_PROVIDER` in `.env`:
+
+| Provider | Needs |
+|---|---|
+| `antigravity` (recommended) | the `agy` CLI, signed in once interactively |
+| `claude_code` | `claude setup-token`, then `CLAUDE_CODE_OAUTH_TOKEN` |
+| `gemini` | `GEMINI_API_KEY` (free tier, 20 requests/day/model) |
+
+**Graphify, for the code layer.** A separate project with its own licence,
+installed on its own:
+
+```bash
+uv tool install graphifyy        # or: pip install graphifyy
+```
+
+## Run
+
+**Study a repo**
+
+```bash
+REPO=~/path/to/your_ws
+
+/graphify $REPO                                  # in Claude Code: builds graphify-out/
+python3 scripts/graphify_join.py $REPO           # what the graph adds, both sides' misses
+python3 scripts/topics.py $REPO                  # every topic link, with file:line evidence
+
+python3 scripts/generate_path.py $REPO localization      # sheets for one subsystem (LLM)
+python3 scripts/instantiate_path.py $REPO localization   # what each means in your config
+python3 scripts/drill.py $REPO localization              # masked-step exercises
+```
+
+**Build the map**
+
+```bash
+python3 scripts/export_graph.py $REPO localization > /tmp/graph.json
+python3 scripts/build_map.py /tmp/graph.json viz/canon_map.html
+open viz/canon_map.html
+```
+
+Pass the subsystem. Without it no learning path is computed and the map's
+path rings and filter are empty.
+
+**Keep it current**
+
+```bash
+graphify update $REPO              # re-extract changed code; no LLM
+python3 scripts/recheck_sheets.py  # re-run every guard on stored sheets; no LLM
+```
+
+Use `ATLAS_MIN_INTERVAL=3` for anything that fetches across the whole canon:
+Wikipedia rate-limits long runs, and a throttled request must never read as a
+missing article. Long generation runs need the machine plugged in with the lid
+open; a sleeping Mac stalls them silently.
+
+## State
 
 | | |
 |---|---|
-| Nodes | **226** — 173 concepts, 33 techniques, 20 algorithms |
-| Edges | **851**, depth 6–11 below each seed algorithm |
-| Saturation | growth crossed 5% at k=15 seeds |
-| Source coverage | **179/191** nodes have a retrievable source |
+| Canon | **246** nodes (186 concepts, 37 techniques, 23 algorithms), **926** edges, 23 seeds |
+| Sheets | **241** of 246 nodes; 221 pass every check; 47 carry worked derivations |
+| Reference project | `agrios_ws`: 26 components, 196 parameters, 15 topic links |
+| Tests | 395, all passing |
 
-Internal prerequisite edges were authored in eight independent cluster passes
-and merged under a single writer, then a second round filled the gaps the first
-found. 473 + 92 proposed, 2 demoted to `related_to` where two clusters picked
-opposite directions on a genuine co-definition.
-
-All 64 round-1 flags are adjudicated in `data/canon_amendments.json`, with a
-reason recorded for every decision including the eight rejected.
+The five nodes without a sheet have nothing to restate: four are vision
+conventions with no article, and `greedy_choice` appears only in passing
+inside Dijkstra's. The failing sheets are listed by
+`recheck_sheets.py`; most fail because the retrieved article states a result
+without deriving it, which the guards report rather than paper over.
 
 ## What is enforced in code, not trusted to prompts
 
-- `REQUIRES` is strictly acyclic. An edge closing a cycle is **demoted** to
-  `related_to`, so the information survives and topological sort stays valid.
-- Unknown node ids are rejected, never auto-created.
-- Branching is capped at 5; drops apply at merge time so an edge removed to free
-  a slot actually frees it.
-- Amendments **fail loudly**. One that cannot be applied raises rather than
-  no-opping — this caught a merge that silently never happened because a
-  retarget had deleted its survivor node.
-- Node ids are never reassigned. A merged id stays resolvable through an alias.
-- Citations are checked against sources retrieved in that run
-  (`cited_but_not_retrieved`). A plausible reference nobody fetched is worse
-  than none, because the reader cannot tell.
-- `closure_holes` is the completeness criterion: what a derivation invoked, minus
-  what the node's closure reaches, minus the floor. It must be empty.
+- `REQUIRES` is strictly acyclic; an edge closing a cycle is demoted to
+  `related_to`, so the information survives.
+- Citations are checked against sources retrieved in that run. A plausible
+  reference nobody fetched is worse than none.
+- A sheet's shape is checked against what the article actually performs, read
+  from the body of its sections, not from their headings.
+- A disambiguation page is not a source. `matrix`, `span` and `norm` all
+  resolved to one before this was checked.
+- A transport failure is never recorded as a missing article.
+- Model-inferred links are kept apart from stated ones and never feed a guard.
+- Third-party code carries its licence notice, or the tests fail.
 
-`Graph.transitive_reduction` exists but is deliberately **not applied**: it would
-remove 145 individually-justified edges, and edges out of ALGORITHM nodes must
-never be reduced because they record what a derivation invokes.
+## Third-party work and licences
 
-## Grounding
+Atlas uses [Graphify](https://github.com/Graphify-Labs/graphify) (Apache-2.0)
+as a separate tool, shows excerpts of
+[robot_localization](https://github.com/cra-ros-pkg/robot_localization)
+(BSD-3-Clause) with each file's full notice, and restates mathematics from
+Wikipedia (CC BY-SA 4.0) with every source named and linked. What each
+licence asks, and how it is met, is in `THIRD_PARTY_NOTICES.md`.
 
-Coverage went 7% → 47% → 70% → 94% across four measurements. Every jump was a
-measurement defect, not a coverage gain:
-
-- HTTP errors were swallowed as missing articles, so rate limiting read as
-  "cannot be grounded" — the state that would licence a fallback to recall.
-- Wikipedia titles are sentence case; generated title-case names missed.
-- Node ids are not what sources call things (100 alias entries now).
-
-**Techniques ground at 100%** (32/32) — 27 by alias, 5 by extracting the passages
-where their consumers perform the move, with provenance preserved so the citation
-guard still holds. `transpose_identities` draws 2546 chars from three articles
-that each perform the identity.
-
-Four nodes are correctly marked `known_absent`: `anchor_box`, `objectness`,
-`bounding_box_parameterization`, `non_max_suppression` are engineering
-conventions with no derivation to ground, so under the grounding rule they get
-no sheet.
-
-**Coverage is not derivability.** 94% means a source exists; it does not mean the
-source contains a derivation. Asked to derive the EKF from its Wikipedia article,
-the model correctly returned `grounded: false` — the article states the equations
-and Jacobians but never derives them. Of the first 9 nodes generated, 7 grounded
-and 2 refused, both graph-search nodes that get described rather than derived.
-
-## Generation cost
-
-Each call sends ~6,500 input tokens (a windowed extract of a reference article).
-Two independent bottlenecks:
-
-- **Hosted**: quota, not latency. Gemini free tier allows 20 requests per *day*
-  per model. `RotatingProvider` combines several models' separate daily buckets;
-  billing removes the wall entirely for a few dollars over the whole canon.
-- **Local**: memory bandwidth. Generation requires reading every weight per
-  token, so a 7B-Q4 ceiling is ~27 tok/s on an M4 and ~23 tok/s on a Jetson Orin
-  NX 16GB (102 GB/s). Prefill of a 6.5k-token prompt dominates per-call latency.
-
-The lever is prompt size, which is a choice rather than a requirement: most of a
-reference article is irrelevant to the derivation it contains.
-
-Derivations are global and cached, so this is a one-time cost paid once for all
-users and projects — which is also what makes human verification of a core set
-affordable.
-
-## Next
-
-- Trim prompt size and re-measure whether the grounding rate holds.
-- Run generation across the canon and count how many come back grounded. That
-  number, not source coverage, is the real ceiling on how much of the atlas can
-  exist.
-- 32 round-2 flags remain unadjudicated in `data/canon_flags.json`, mostly
-  combinatorics and sampling primitives.
+This repository does not yet declare a licence of its own. Until it does, no
+one else has permission to reuse it. If you add one, note that CC BY-SA asks
+for the restated sheets in `data/derivations/` to be shared under CC BY-SA 4.0
+or a compatible licence, whatever licence the code takes.
