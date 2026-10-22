@@ -404,10 +404,12 @@ def build_prompt(node_id: str, name: str, sources: list[Source],
     else:
         expectation = EXPECT_DERIVATION_FROM_SOURCE
     from .notation import convention_for, prompt_block
+    from . import sections
     return TEMPLATE.format(
         name=name, node_id=node_id, sources="\n\n".join(blocks) or "(none)",
         expectation=expectation,
-    ) + vocab + prompt_block(convention_for(graph, node_id))
+    ) + vocab + prompt_block(convention_for(graph, node_id)) + sections.prompt_block(
+        sections.owners(graph, node_id), {source.id for source in sources})
 
 
 def candidate_vocabulary(graph: Graph, node_id: str, limit: int = 60) -> list[str]:
@@ -609,6 +611,14 @@ def check(derivation: Derivation, sources: list[Source], graph: Graph,
     from .notation import conflicts, convention_for
     for clash in conflicts(derivation.symbols, convention_for(graph, derivation.node_id)):
         shape.append(f"notation: {clash}")
+
+    # A pointer to a section another sheet derives, judged against the alias
+    # table that pins that section to the sheet -- not against this sheet.
+    from . import sections
+    texts = [derivation.statement] + [step.text for step in derivation.steps]
+    for problem in sections.dangling(texts, set(derivation.citations) | set(derivation.source_ids),
+                                     sections.owners(graph, derivation.node_id)):
+        shape.append(f"hand-off: {problem}")
 
     # A closure built only from "this step rearranges something" is vacuously
     # complete. Judged against UNINFORMATIVE, not against the floor: excluding

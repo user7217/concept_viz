@@ -2,160 +2,132 @@
   "node_id": "extended_kalman_filter",
   "grounded": true,
   "kind": "derivation",
-  "statement": "For a discrete-time nonlinear state-space model with motion model $\\mathbf{x}_t = \\mathbf{f}(\\mathbf{x}_{t-1}, \\mathbf{u}_t, \\mathbf{w}_t)$ where $\\mathbf{w}_t \\sim \\mathcal{N}(0, \\mathbf{Q}_t)$ and observation model $\\mathbf{z}_t = \\mathbf{h}(\\mathbf{x}_t, \\mathbf{v}_t)$ where $\\mathbf{v}_t \\sim \\mathcal{N}(0, \\mathbf{R}_t)$, the Extended Kalman Filter (EKF) linearizes $\\mathbf{f}$ and $\\mathbf{h}$ via first-order Taylor expansion around the current state estimates $\\hat{\\mathbf{x}}_{t-1|t-1}$ and $\\hat{\\mathbf{x}}_{t|t-1}$ (with $\\mathbf{w}_t=0, \\mathbf{v}_t=0$) to propagate and update a Gaussian belief $\\text{bel}(\\mathbf{x}_t) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t}, \\mathbf{P}_{t|t})$. Its prediction step is $\\hat{\\mathbf{x}}_{t|t-1} = \\mathbf{f}(\\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{u}_t, 0)$, $\\mathbf{P}_{t|t-1} = \\mathbf{F}_t \\mathbf{P}_{t-1|t-1} \\mathbf{F}_t^{\\intercal} + \\mathbf{F}_{\\mathbf{w}} \\mathbf{Q}_t \\mathbf{F}_{\\mathbf{w}}^{\\intercal}$, and its correction step is $\\mathbf{K}_t = \\mathbf{P}_{t|t-1} \\mathbf{H}_t^{\\intercal}(\\mathbf{H}_t \\mathbf{P}_{t|t-1} \\mathbf{H}_t^{\\intercal} + \\mathbf{H}_{\\mathbf{v}} \\mathbf{R}_t \\mathbf{H}_{\\mathbf{v}}^{\\intercal})^{-1}$, $\\hat{\\mathbf{x}}_{t|t} = \\hat{\\mathbf{x}}_{t|t-1} + \\mathbf{K}_t(\\mathbf{z}_t - \\mathbf{h}(\\hat{\\mathbf{x}}_{t|t-1}, 0))$, $\\mathbf{P}_{t|t} = (\\mathbf{I} - \\mathbf{K}_t \\mathbf{H}_t)\\mathbf{P}_{t|t-1}$. (Note: the supplied excerpt of [arxiv:2406.06427] derives the linearization and Gaussian transition/observation densities in full, while referring the closed-form evaluation of the resulting linear-Gaussian integral and product in Eq. 38 to Section 8, which is not included in the excerpt.)",
+  "statement": "Extended Kalman Filter. For the nonlinear system x_t = f(x_{t-1}, u_t, w_t), z_t = h(x_t, v_t), with w_t ~ N(0, Q_t) and v_t ~ N(0, R_t), linearize f around the previous posterior mean and h around the predicted mean using a first-order Taylor expansion. Then run the linear Kalman filter on the linearized model. Prediction: x\u0302_{t|t-1} = f(x\u0302_{t-1|t-1}, u_t, 0) and P_{t|t-1} = F_t P_{t-1|t-1} F_t^T + F_w Q_t F_w^T. Correction: K_t = P_{t|t-1} H_t^T (H_t P_{t|t-1} H_t^T + H_v R_t H_v^T)^{-1}, x\u0302_{t|t} = x\u0302_{t|t-1} + K_t (z_t \u2212 h(x\u0302_{t|t-1}, 0)), and P_{t|t} = (I \u2212 K_t H_t) P_{t|t-1}. Here F_t = \u2202f/\u2202x_{t-1} and F_w = \u2202f/\u2202w_t, both evaluated at (x\u0302_{t-1|t-1}, w_t = 0). H_t = \u2202h/\u2202x_t and H_v = \u2202h/\u2202v_t, both evaluated at (x\u0302_{t|t-1}, v_t = 0). The mean is propagated through the full nonlinear f and h. Only the covariance and the gain use the Jacobians. When the noise is additive (F_w = I, H_v = I), these reduce to the textbook form K_k = P_{k|k-1} H_k^T (H_k P_{k|k-1} H_k^T + R_k)^{-1}. The sources already use the sheet notation (Q, R, P, F, H, K), so no symbols are renamed.",
   "symbols": [
     {
-      "symbol": "\\mathbf{x}_t",
-      "meaning": "state variable of the model at time step t",
-      "dimensions": "n \\times 1"
+      "symbol": "x_t",
+      "meaning": "state at time t",
+      "dimensions": "n x 1"
     },
     {
-      "symbol": "\\mathbf{u}_t",
-      "meaning": "control input of the model at time step t",
-      "dimensions": "p \\times 1"
+      "symbol": "u_t",
+      "meaning": "control input at time t",
+      "dimensions": "l x 1"
     },
     {
-      "symbol": "\\mathbf{z}_t",
-      "meaning": "measurement (observation) of the model at time step t",
-      "dimensions": "m \\times 1"
+      "symbol": "z_t",
+      "meaning": "measurement at time t",
+      "dimensions": "m x 1"
     },
     {
-      "symbol": "\\mathbf{f}(\\cdot)",
-      "meaning": "non-linear motion model function",
-      "dimensions": "\\mathbb{R}^n \\times \\mathbb{R}^p \\times \\mathbb{R}^q \\to \\mathbb{R}^n"
+      "symbol": "w_t",
+      "meaning": "process noise, N(0, Q_t)",
+      "dimensions": "q x 1"
     },
     {
-      "symbol": "\\mathbf{h}(\\cdot)",
-      "meaning": "non-linear observation model function",
-      "dimensions": "\\mathbb{R}^n \\times \\mathbb{R}^r \\to \\mathbb{R}^m"
+      "symbol": "v_t",
+      "meaning": "measurement noise, N(0, R_t)",
+      "dimensions": "r x 1"
     },
     {
-      "symbol": "\\mathbf{w}_t",
-      "meaning": "zero-mean Gaussian process noise in the motion model, \\mathbf{w}_t \\sim \\mathcal{N}(0, \\mathbf{Q}_t)",
-      "dimensions": "q \\times 1"
+      "symbol": "f",
+      "meaning": "nonlinear motion model",
+      "dimensions": "R^n x R^l x R^q -> R^n"
     },
     {
-      "symbol": "\\mathbf{Q}_t",
-      "meaning": "covariance matrix of the motion noise \\mathbf{w}_t",
-      "dimensions": "q \\times q"
+      "symbol": "h",
+      "meaning": "nonlinear observation model",
+      "dimensions": "R^n x R^r -> R^m"
     },
     {
-      "symbol": "\\mathbf{v}_t",
-      "meaning": "zero-mean Gaussian observation noise, \\mathbf{v}_t \\sim \\mathcal{N}(0, \\mathbf{R}_t)",
-      "dimensions": "r \\times 1"
+      "symbol": "Q_t",
+      "meaning": "process noise covariance",
+      "dimensions": "q x q"
     },
     {
-      "symbol": "\\mathbf{R}_t",
-      "meaning": "covariance matrix of the observation noise \\mathbf{v}_t",
-      "dimensions": "r \\times r"
+      "symbol": "R_t",
+      "meaning": "measurement noise covariance",
+      "dimensions": "r x r"
     },
     {
-      "symbol": "\\hat{\\mathbf{x}}_{t-1|t-1}",
-      "meaning": "posterior state mean estimate at step t-1",
-      "dimensions": "n \\times 1"
+      "symbol": "F_t",
+      "meaning": "Jacobian of f with respect to the state, evaluated at x\u0302_{t-1|t-1}",
+      "dimensions": "n x n"
     },
     {
-      "symbol": "\\mathbf{P}_{t-1|t-1}",
-      "meaning": "posterior state error covariance matrix at step t-1",
-      "dimensions": "n \\times n"
+      "symbol": "F_w",
+      "meaning": "Jacobian of f with respect to the process noise, evaluated at x\u0302_{t-1|t-1}, w_t = 0",
+      "dimensions": "n x q"
     },
     {
-      "symbol": "\\hat{\\mathbf{x}}_{t|t-1}",
-      "meaning": "predicted (prior) state mean estimate at step t",
-      "dimensions": "n \\times 1"
+      "symbol": "H_t",
+      "meaning": "Jacobian of h with respect to the state, evaluated at x\u0302_{t|t-1}",
+      "dimensions": "m x n"
     },
     {
-      "symbol": "\\mathbf{P}_{t|t-1}",
-      "meaning": "predicted (prior) state error covariance matrix at step t",
-      "dimensions": "n \\times n"
+      "symbol": "H_v",
+      "meaning": "Jacobian of h with respect to the measurement noise, evaluated at x\u0302_{t|t-1}, v_t = 0",
+      "dimensions": "m x r"
     },
     {
-      "symbol": "\\hat{\\mathbf{x}}_{t|t}",
-      "meaning": "corrected (posterior) state mean estimate at step t",
-      "dimensions": "n \\times 1"
+      "symbol": "x\u0302_{t|t-1}, P_{t|t-1}",
+      "meaning": "predicted (prior) mean and state error covariance",
+      "dimensions": "n x 1, n x n"
     },
     {
-      "symbol": "\\mathbf{P}_{t|t}",
-      "meaning": "corrected (posterior) state error covariance matrix at step t",
-      "dimensions": "n \\times n"
+      "symbol": "x\u0302_{t|t}, P_{t|t}",
+      "meaning": "corrected (posterior) mean and state error covariance",
+      "dimensions": "n x 1, n x n"
     },
     {
-      "symbol": "\\mathbf{F}_t",
-      "meaning": "Jacobian matrix of the motion model \\mathbf{f} with respect to \\mathbf{x}_{t-1} evaluated at \\hat{\\mathbf{x}}_{t-1|t-1}",
-      "dimensions": "n \\times n"
+      "symbol": "\u0169_t",
+      "meaning": "effective input of the linearized motion model, f(x\u0302_{t-1|t-1}, u_t, 0) \u2212 F_t x\u0302_{t-1|t-1}",
+      "dimensions": "n x 1"
     },
     {
-      "symbol": "\\mathbf{F}_{\\mathbf{w}}",
-      "meaning": "Jacobian matrix of the motion model \\mathbf{f} with respect to \\mathbf{w}_t evaluated at \\hat{\\mathbf{x}}_{t-1|t-1} and \\mathbf{w}_t = 0",
-      "dimensions": "n \\times q"
+      "symbol": "z\u0303_t",
+      "meaning": "effective offset of the linearized observation model, h(x\u0302_{t|t-1}, 0) \u2212 H_t x\u0302_{t|t-1}",
+      "dimensions": "m x 1"
     },
     {
-      "symbol": "\\mathbf{H}_t",
-      "meaning": "Jacobian matrix of the observation model \\mathbf{h} with respect to \\mathbf{x}_t evaluated at \\hat{\\mathbf{x}}_{t|t-1}",
-      "dimensions": "m \\times n"
+      "symbol": "K_t",
+      "meaning": "Kalman gain",
+      "dimensions": "n x m"
     },
     {
-      "symbol": "\\mathbf{H}_{\\mathbf{v}}",
-      "meaning": "Jacobian matrix of the observation model \\mathbf{h} with respect to \\mathbf{v}_t evaluated at \\hat{\\mathbf{x}}_{t|t-1} and \\mathbf{v}_t = 0",
-      "dimensions": "m \\times r"
-    },
-    {
-      "symbol": "\\mathbf{K}_t",
-      "meaning": "Kalman gain matrix at step t",
-      "dimensions": "n \\times m"
-    },
-    {
-      "symbol": "\\overline{\\text{bel}}(\\mathbf{x}_t)",
-      "meaning": "predicted belief distribution over \\mathbf{x}_t before incorporating measurement \\mathbf{z}_t",
-      "dimensions": "scalar density"
-    },
-    {
-      "symbol": "\\text{bel}(\\mathbf{x}_t)",
-      "meaning": "corrected posterior belief distribution over \\mathbf{x}_t after incorporating measurement \\mathbf{z}_t",
-      "dimensions": "scalar density"
-    },
-    {
-      "symbol": "\\eta",
-      "meaning": "Bayes rule normalization constant",
-      "dimensions": "scalar"
+      "symbol": "bel, bel-bar",
+      "meaning": "posterior and predicted belief over x_t",
+      "dimensions": "density over R^n"
     }
   ],
   "steps": [
     {
       "n": 1,
-      "text": "Define the discrete-time non-linear motion model and non-linear observation model with Gaussian process and measurement noises: $$\\mathbf{x}_t = \\mathbf{f}(\\mathbf{x}_{t-1}, \\mathbf{u}_t, \\mathbf{w}_t), \\quad \\mathbf{w}_t \\sim \\mathcal{N}(0, \\mathbf{Q}_t)$$ $$\\mathbf{z}_t = \\mathbf{h}(\\mathbf{x}_t, \\mathbf{v}_t), \\quad \\mathbf{v}_t \\sim \\mathcal{N}(0, \\mathbf{R}_t)$$ with initial belief $\\text{bel}(\\mathbf{x}_0) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_0, \\mathbf{P}_0)$.",
+      "text": "Start from the nonlinear models x_t = f(x_{t-1}, u_t, w_t) and z_t = h(x_t, v_t), with w_t ~ N(0, Q_t) and v_t ~ N(0, R_t) (eq. 30). The linear Kalman filter cannot be applied directly because f and h are not linear.",
       "invokes": [
-        "state_space_model",
-        "gaussian_distribution",
-        "covariance_matrix",
-        "belief_distribution"
+        "state_space_model"
       ],
       "cites": [
-        "arxiv:2406.06427",
-        "wikipedia:Extended_Kalman_filter"
+        "arxiv:2406.06427"
       ]
     },
     {
       "n": 2,
-      "text": "Perform a first-order Taylor approximation of $\\mathbf{f}(\\mathbf{x}_{t-1}, \\mathbf{u}_t, \\mathbf{w}_t)$ around $(\\mathbf{x}_{t-1} = \\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{w}_t = 0)$ and of $\\mathbf{h}(\\mathbf{x}_t, \\mathbf{v}_t)$ around $(\\mathbf{x}_t = \\hat{\\mathbf{x}}_{t|t-1}, \\mathbf{v}_t = 0)$: $$\\mathbf{x}_t \\approx \\mathbf{f}(\\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{u}_t, 0) + \\mathbf{F}_t(\\mathbf{x}_{t-1} - \\hat{\\mathbf{x}}_{t-1|t-1}) + \\mathbf{F}_{\\mathbf{w}}\\mathbf{w}_t$$ $$\\mathbf{z}_t \\approx \\mathbf{h}(\\hat{\\mathbf{x}}_{t|t-1}, 0) + \\mathbf{H}_t(\\mathbf{x}_t - \\hat{\\mathbf{x}}_{t|t-1}) + \\mathbf{H}_{\\mathbf{v}}\\mathbf{v}_t$$ where the Jacobian matrices are defined by partial derivatives evaluated at the operating points: $$\\mathbf{F}_t = \\frac{\\partial \\mathbf{f}}{\\partial \\mathbf{x}_{t-1}}\\bigg|_{\\mathbf{x}_{t-1}=\\hat{\\mathbf{x}}_{t-1|t-1}}, \\quad \\mathbf{F}_{\\mathbf{w}} = \\frac{\\partial \\mathbf{f}}{\\partial \\mathbf{w}_t}\\bigg|_{\\mathbf{x}_{t-1}=\\hat{\\mathbf{x}}_{t-1|t-1},\\, \\mathbf{w}_t=0}$$ $$\\mathbf{H}_t = \\frac{\\partial \\mathbf{h}}{\\partial \\mathbf{x}_t}\\bigg|_{\\mathbf{x}_t=\\hat{\\mathbf{x}}_{t|t-1}}, \\quad \\mathbf{H}_{\\mathbf{v}} = \\frac{\\partial \\mathbf{h}}{\\partial \\mathbf{v}_t}\\bigg|_{\\mathbf{x}_t=\\hat{\\mathbf{x}}_{t|t-1},\\, \\mathbf{v}_t=0}$$",
+      "text": "Take the first-order Taylor expansion of f about (x\u0302_{t-1|t-1}, w_t = 0) and of h about (x\u0302_{t|t-1}, v_t = 0) (eq. 31): x_t \u2248 f(x\u0302_{t-1|t-1}, u_t, 0) + F_t (x_{t-1} \u2212 x\u0302_{t-1|t-1}) + F_w w_t, and z_t \u2248 h(x\u0302_{t|t-1}, 0) + H_t (x_t \u2212 x\u0302_{t|t-1}) + H_v v_t. The expansion point for h is the predicted mean, not the previous posterior mean.",
       "invokes": [
-        "linearization",
         "multivariate_taylor_expansion",
-        "jacobian_matrix",
-        "partial_derivative"
+        "linearization"
       ],
       "cites": [
-        "arxiv:2406.06427",
-        "wikipedia:Extended_Kalman_filter"
+        "arxiv:2406.06427"
       ]
     },
     {
       "n": 3,
-      "text": "Expand and group terms in the linearized models into linear state terms, known deterministic offsets, and transformed zero-mean Gaussian noise terms: $$\\mathbf{x}_t = \\mathbf{F}_t \\mathbf{x}_{t-1} + \\tilde{\\mathbf{u}}_t + \\tilde{\\mathbf{w}}_t$$ where $\\tilde{\\mathbf{u}}_t = \\mathbf{f}(\\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{u}_t, 0) - \\mathbf{F}_t \\hat{\\mathbf{x}}_{t-1|t-1}$ and $\\tilde{\\mathbf{w}}_t = \\mathbf{F}_{\\mathbf{w}}\\mathbf{w}_t \\sim \\mathcal{N}(0, \\mathbf{F}_{\\mathbf{w}}\\mathbf{Q}_t\\mathbf{F}_{\\mathbf{w}}^{\\intercal})$, and $$\\mathbf{z}_t = \\mathbf{H}_t \\mathbf{x}_t + \\tilde{\\mathbf{z}}_t + \\tilde{\\mathbf{v}}_t$$ where $\\tilde{\\mathbf{z}}_t = \\mathbf{h}(\\hat{\\mathbf{x}}_{t|t-1}, 0) - \\mathbf{H}_t \\hat{\\mathbf{x}}_{t|t-1}$ and $\\tilde{\\mathbf{v}}_t = \\mathbf{H}_{\\mathbf{v}}\\mathbf{v}_t \\sim \\mathcal{N}(0, \\mathbf{H}_{\\mathbf{v}}\\mathbf{R}_t\\mathbf{H}_{\\mathbf{v}}^{\\intercal})$.",
+      "text": "The coefficients are Jacobians evaluated at the expansion points (eqs. 32\u201333): F_t = \u2202f/\u2202x_{t-1} at x\u0302_{t-1|t-1}; F_w = \u2202f/\u2202w_t at (x\u0302_{t-1|t-1}, w_t = 0); H_t = \u2202h/\u2202x_t at x\u0302_{t|t-1}; H_v = \u2202h/\u2202v_t at (x\u0302_{t|t-1}, v_t = 0).",
       "invokes": [
-        "linear_transformation_of_gaussian",
-        "covariance_matrix",
-        "matrix_transpose"
+        "jacobian_matrix",
+        "partial_derivative"
       ],
       "cites": [
         "arxiv:2406.06427"
@@ -163,14 +135,9 @@
     },
     {
       "n": 4,
-      "text": "Write the resulting conditional Gaussian probability density functions for state transition and observation under the linearized models: $$p(\\mathbf{x}_t | \\mathbf{x}_{t-1}, \\mathbf{u}_t) \\sim \\mathcal{N}(\\mathbf{F}_t \\mathbf{x}_{t-1} + \\tilde{\\mathbf{u}}_t, \\mathbf{F}_{\\mathbf{w}}\\mathbf{Q}_t\\mathbf{F}_{\\mathbf{w}}^{\\intercal}) = \\frac{1}{\\sqrt{\\det(2\\pi \\mathbf{F}_{\\mathbf{w}}\\mathbf{Q}_t\\mathbf{F}_{\\mathbf{w}}^{\\intercal})}} \\exp\\!\\left(-\\frac{1}{2}(\\mathbf{x}_t - \\mathbf{F}_t \\mathbf{x}_{t-1} - \\tilde{\\mathbf{u}}_t)^{\\intercal}(\\mathbf{F}_{\\mathbf{w}}\\mathbf{Q}_t\\mathbf{F}_{\\mathbf{w}}^{\\intercal})^{-1}(\\mathbf{x}_t - \\mathbf{F}_t \\mathbf{x}_{t-1} - \\tilde{\\mathbf{u}}_t)\\right)$$ $$p(\\mathbf{z}_t | \\mathbf{x}_t) \\sim \\mathcal{N}(\\mathbf{H}_t \\mathbf{x}_t + \\tilde{\\mathbf{z}}_t, \\mathbf{H}_{\\mathbf{v}}\\mathbf{R}_t\\mathbf{H}_{\\mathbf{v}}^{\\intercal}) = \\frac{1}{\\sqrt{\\det(2\\pi \\mathbf{H}_{\\mathbf{v}}\\mathbf{R}_t\\mathbf{H}_{\\mathbf{v}}^{\\intercal})}} \\exp\\!\\left(-\\frac{1}{2}(\\mathbf{z}_t - \\mathbf{H}_t \\mathbf{x}_t - \\tilde{\\mathbf{z}}_t)^{\\intercal}(\\mathbf{H}_{\\mathbf{v}}\\mathbf{R}_t\\mathbf{H}_{\\mathbf{v}}^{\\intercal})^{-1}(\\mathbf{z}_t - \\mathbf{H}_t \\mathbf{x}_t - \\tilde{\\mathbf{z}}_t)\\right)$$",
+      "text": "Expand the motion linearization into the linear-Gaussian form (eq. 34): x_t = F_t x_{t-1} + \u0169_t + w\u0303_t, where \u0169_t = f(x\u0302_{t-1|t-1}, u_t, 0) \u2212 F_t x\u0302_{t-1|t-1} is known and plays the role of the control term. The noise w\u0303_t = F_w w_t is a linear map of a zero-mean Gaussian, so w\u0303_t ~ N(0, F_w Q_t F_w^T).",
       "invokes": [
-        "conditional_probability",
-        "probability_density_function",
-        "gaussian_distribution",
-        "determinant",
-        "quadratic_form",
-        "matrix_inverse"
+        "linear_transformation_of_gaussian"
       ],
       "cites": [
         "arxiv:2406.06427"
@@ -178,15 +145,9 @@
     },
     {
       "n": 5,
-      "text": "Formulate the recursive Bayesian belief propagation equations for the predicted belief $\\overline{\\text{bel}}(\\mathbf{x}_t)$ via marginalization over $\\mathbf{x}_{t-1}$ and the corrected belief $\\text{bel}(\\mathbf{x}_t)$ via Bayes' rule: $$\\overline{\\text{bel}}(\\mathbf{x}_t) = \\int p(\\mathbf{x}_t | \\mathbf{x}_{t-1}, \\mathbf{u}_t)\\,\\text{bel}(\\mathbf{x}_{t-1})\\,d\\mathbf{x}_{t-1} \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t-1}, \\mathbf{P}_{t|t-1})$$ $$\\text{bel}(\\mathbf{x}_t) = \\eta \\cdot p(\\mathbf{z}_t | \\mathbf{x}_t)\\,\\overline{\\text{bel}}(\\mathbf{x}_t) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t}, \\mathbf{P}_{t|t})$$",
+      "text": "Do the same for the observation linearization (eq. 35): z_t = H_t x_t + z\u0303_t + \u1e7d_t, where z\u0303_t = h(x\u0302_{t|t-1}, 0) \u2212 H_t x\u0302_{t|t-1}, and \u1e7d_t = H_v v_t ~ N(0, H_v R_t H_v^T).",
       "invokes": [
-        "belief_distribution",
-        "total_probability",
-        "marginalization",
-        "gaussian_marginalization",
-        "bayes_rule",
-        "normalization",
-        "gaussian_conditioning"
+        "linear_transformation_of_gaussian"
       ],
       "cites": [
         "arxiv:2406.06427"
@@ -194,12 +155,11 @@
     },
     {
       "n": 6,
-      "text": "Substitute the linearized Gaussian transition density $p(\\mathbf{x}_t | \\mathbf{x}_{t-1}, \\mathbf{u}_t)$ and prior belief $\\text{bel}(\\mathbf{x}_{t-1}) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{P}_{t-1|t-1})$ into the prediction integral (noting that $\\mathbf{F}_t \\hat{\\mathbf{x}}_{t-1|t-1} + \\tilde{\\mathbf{u}}_t = \\mathbf{f}(\\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{u}_t, 0)$) to obtain the EKF prediction step equations (where the detailed Gaussian integral algebra is cross-referenced to Section 8 in [arxiv:2406.06427]): $$\\hat{\\mathbf{x}}_{t|t-1} = \\mathbf{f}(\\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{u}_t, 0)$$ $$\\mathbf{P}_{t|t-1} = \\mathbf{F}_t \\mathbf{P}_{t-1|t-1} \\mathbf{F}_t^{\\intercal} + \\mathbf{F}_{\\mathbf{w}} \\mathbf{Q}_t \\mathbf{F}_{\\mathbf{w}}^{\\intercal}$$",
+      "text": "If all random variables are Gaussian, the linearized models give Gaussian transition and measurement densities (eqs. 36\u201337): p(x_t | x_{t-1}, u_t) = N(F_t x_{t-1} + \u0169_t, F_w Q_t F_w^T) and p(z_t | x_t) = N(H_t x_t + z\u0303_t, H_v R_t H_v^T). Each is written out with its normalizer 1/sqrt(det(2\u03c0 \u03a3)) and the quadratic form in the exponent.",
       "invokes": [
-        "linear_kalman_filter",
-        "gaussian_marginalization",
-        "expectation",
-        "covariance_matrix"
+        "gaussian_distribution",
+        "quadratic_form",
+        "determinant"
       ],
       "cites": [
         "arxiv:2406.06427"
@@ -207,59 +167,92 @@
     },
     {
       "n": 7,
-      "text": "Substitute the linearized Gaussian observation density $p(\\mathbf{z}_t | \\mathbf{x}_t)$ and predicted belief $\\overline{\\text{bel}}(\\mathbf{x}_t) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t-1}, \\mathbf{P}_{t|t-1})$ into the Bayes update equation (noting that $\\mathbf{H}_t \\hat{\\mathbf{x}}_{t|t-1} + \\tilde{\\mathbf{z}}_t = \\mathbf{h}(\\hat{\\mathbf{x}}_{t|t-1}, 0)$) to obtain the EKF correction step equations (where the detailed Gaussian product and matrix inversion algebra is cross-referenced to Section 8 in [arxiv:2406.06427]): $$\\mathbf{K}_t = \\mathbf{P}_{t|t-1} \\mathbf{H}_t^{\\intercal}\\left(\\mathbf{H}_t \\mathbf{P}_{t|t-1} \\mathbf{H}_t^{\\intercal} + \\mathbf{H}_{\\mathbf{v}} \\mathbf{R}_t \\mathbf{H}_{\\mathbf{v}}^{\\intercal}\\right)^{-1}$$ $$\\hat{\\mathbf{x}}_{t|t} = \\hat{\\mathbf{x}}_{t|t-1} + \\mathbf{K}_t\\left(\\mathbf{z}_t - \\mathbf{h}(\\hat{\\mathbf{x}}_{t|t-1}, 0)\\right)$$ $$\\mathbf{P}_{t|t} = (\\mathbf{I} - \\mathbf{K}_t \\mathbf{H}_t)\\mathbf{P}_{t|t-1}$$ (When measurement noise is additive so $\\mathbf{H}_{\\mathbf{v}} = \\mathbf{I}$, the innovation covariance reduces to $\\mathbf{H}_t \\mathbf{P}_{t|t-1} \\mathbf{H}_t^{\\intercal} + \\mathbf{R}_t$.)",
+      "text": "Insert these into the Bayes filter recursion (eq. 38). Prediction: bel-bar(x_t) = \u222b p(x_t | x_{t-1}, u_t) bel(x_{t-1}) dx_{t-1} ~ N(x\u0302_{t|t-1}, P_{t|t-1}). Correction: bel(x_t) = \u03b7 p(z_t | x_t) bel-bar(x_t) ~ N(x\u0302_{t|t}, P_{t|t}). The recursion starts from bel(x_0) ~ N(x\u0302_0, P_0) (eq. 39).",
       "invokes": [
-        "linear_kalman_filter",
-        "gaussian_conditioning",
-        "matrix_inverse"
+        "bayes_filter",
+        "belief_distribution",
+        "total_probability",
+        "bayes_rule"
       ],
       "cites": [
-        "arxiv:2406.06427",
-        "wikipedia:Extended_Kalman_filter"
+        "arxiv:2406.06427"
       ]
     },
     {
       "n": 8,
-      "text": "For continuous-time dynamics $\\dot{\\mathbf{x}}(t) = f(\\mathbf{x}(t), \\mathbf{u}(t)) + \\mathbf{w}(t)$ with $\\mathbf{w}(t) \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{Q}(t))$ and discrete-time measurements $\\mathbf{z}_k = h(\\mathbf{x}_k) + \\mathbf{v}_k$ with $\\mathbf{v}_k \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{R}_k)$ at $\\mathbf{x}_k = \\mathbf{x}(t_k)$, the prediction step solves the coupled differential equations from $t_{k-1}$ to $t_k$ with $\\mathbf{F}(t) = \\left.\\frac{\\partial f}{\\partial \\mathbf{x}}\\right|_{\\hat{\\mathbf{x}}(t), \\mathbf{u}(t)}$: $$\\begin{cases} \\dot{\\hat{\\mathbf{x}}}(t) = f(\\hat{\\mathbf{x}}(t), \\mathbf{u}(t)) \\\\ \\dot{\\mathbf{P}}(t) = \\mathbf{F}(t)\\mathbf{P}(t) + \\mathbf{P}(t)\\mathbf{F}(t)^T + \\mathbf{Q}(t) \\end{cases} \\quad \\text{with } \\begin{cases} \\hat{\\mathbf{x}}(t_{k-1}) = \\hat{\\mathbf{x}}_{k-1|k-1} \\\\ \\mathbf{P}(t_{k-1}) = \\mathbf{P}_{k-1|k-1} \\end{cases} \\implies \\begin{cases} \\hat{\\mathbf{x}}_{k|k-1} = \\hat{\\mathbf{x}}(t_k) \\\\ \\mathbf{P}_{k|k-1} = \\mathbf{P}(t_k) \\end{cases}$$ followed by the identical discrete-time update equations at $t_k$, or in purely continuous time by the coupled filter equations $\\dot{\\hat{\\mathbf{x}}}(t) = f(\\hat{\\mathbf{x}}(t), \\mathbf{u}(t)) + \\mathbf{K}(t)(\\mathbf{z}(t) - h(\\hat{\\mathbf{x}}(t)))$ and $\\dot{\\mathbf{P}}(t) = \\mathbf{F}(t)\\mathbf{P}(t) + \\mathbf{P}(t)\\mathbf{F}(t)^T - \\mathbf{K}(t)\\mathbf{H}(t)\\mathbf{P}(t) + \\mathbf{Q}(t)$.",
+      "text": "Prediction. The linearized model in step 4 is the linear Kalman filter's motion model, with F_t as the transition matrix, \u0169_t as the input term and F_w Q_t F_w^T as the process noise covariance. The linear-KF prediction (derived on the linear_kalman_filter sheet) gives x\u0302_{t|t-1} = F_t x\u0302_{t-1|t-1} + \u0169_t and P_{t|t-1} = F_t P_{t-1|t-1} F_t^T + F_w Q_t F_w^T. Substituting the definition of \u0169_t, the F_t x\u0302_{t-1|t-1} terms cancel and the mean is x\u0302_{t|t-1} = f(x\u0302_{t-1|t-1}, u_t, 0) (eq. 40). The mean goes through the nonlinear f; only the covariance uses F_t.",
       "invokes": [
-        "derivative",
-        "jacobian_matrix",
-        "linearization"
+        "linear_kalman_filter"
       ],
       "cites": [
-        "wikipedia:Extended_Kalman_filter"
+        "arxiv:2406.06427"
+      ]
+    },
+    {
+      "n": 9,
+      "text": "Correction. The linearized model in step 5 is the linear Kalman filter's observation model, with H_t as the observation matrix, the known offset z\u0303_t and measurement noise covariance H_v R_t H_v^T. The linear-KF correction (derived on the linear_kalman_filter sheet) gives K_t = P_{t|t-1} H_t^T (H_t P_{t|t-1} H_t^T + H_v R_t H_v^T)^{-1} and P_{t|t} = (I \u2212 K_t H_t) P_{t|t-1}. The innovation is z_t \u2212 H_t x\u0302_{t|t-1} \u2212 z\u0303_t. Substituting z\u0303_t, the H_t x\u0302_{t|t-1} terms cancel and the innovation is z_t \u2212 h(x\u0302_{t|t-1}, 0), so x\u0302_{t|t} = x\u0302_{t|t-1} + K_t (z_t \u2212 h(x\u0302_{t|t-1}, 0)) (eq. 41).",
+      "invokes": [
+        "linear_kalman_filter"
+      ],
+      "cites": [
+        "arxiv:2406.06427"
+      ]
+    },
+    {
+      "n": 10,
+      "text": "Additive-noise special case. If the noise enters additively, as in x_k = f(x_{k-1}, u_{k-1}) + w_{k-1} and z_k = h(x_k) + v_k, then F_w = I and H_v = I. The update becomes K_k = P_{k|k-1} H_k^T (H_k P_{k|k-1} H_k^T + R_k)^{-1}, x\u0302_{k|k} = x\u0302_{k|k-1} + K_k (z_k \u2212 h(x\u0302_{k|k-1})) and P_{k|k} = (I \u2212 K_k H_k) P_{k|k-1}, with H_k = \u2202h/\u2202x at x\u0302_{k|k-1}. The source also gives the general non-additive form x_k = f(x_{k-1}, u_{k-1}, w_{k-1}), z_k = h(x_k, v_k), which steps 2\u20139 handle through F_w and H_v.",
+      "invokes": [
+        "jacobian_matrix"
+      ],
+      "cites": [
+        "wikipedia:Extended_Kalman_filter",
+        "arxiv:2406.06427"
       ]
     }
   ],
   "properties": [],
   "assumptions": [
     {
-      "assumption": "First-order Taylor approximation accuracy: the nonlinear motion model f and observation model h are well-approximated by linear Taylor expansions around the current estimates (x_hat_{t-1|t-1}, w_t=0) and (x_hat_{t|t-1}, v_t=0).",
-      "breaks_when": "The system or measurement functions are highly nonlinear over the scale of the estimation uncertainty or noise, making higher-order Taylor terms significant."
+      "assumption": "Near the current estimate, f and h are well approximated by their first-order Taylor expansions.",
+      "breaks_when": "the model curves strongly over the region where the state is uncertain (large P, or a sharply nonlinear f or h). The dropped higher-order terms are then significant, and the propagated covariance no longer describes the true error. The sources note that higher-order EKFs keep more Taylor terms."
     },
     {
-      "assumption": "Well-defined differentiable transition and observation models: the Jacobians F_t, F_w, H_t, and H_v exist at the current state estimates.",
-      "breaks_when": "The motion model f or observation model h is non-differentiable or discontinuous at the linearization point."
+      "assumption": "The beliefs and noises are Gaussian, so the belief after each step can be summarized by a mean and a covariance.",
+      "breaks_when": "a nonlinear map pushes a Gaussian through f or h. The true result is not Gaussian, for example skewed or multimodal, and keeping only a mean and covariance discards that shape."
     },
     {
-      "assumption": "Gaussian distribution of random variables and beliefs: process noise w_t ~ N(0, Q_t), measurement noise v_t ~ N(0, R_t), and the state beliefs bel(x_t) are unimodal Gaussian distributions.",
-      "breaks_when": "Noise or state distributions are non-Gaussian or multimodal, or nonlinear transformations severely distort the Gaussian shape."
+      "assumption": "The process and measurement noises are zero mean with known covariances Q_t and R_t, and they enter through F_w and H_v evaluated at zero noise.",
+      "breaks_when": "the noise has a bias or a mis-specified covariance. In the non-additive case it also breaks when noise is large enough that linearizing in w and v around zero is poor."
     },
     {
-      "assumption": "Invertibility of the linearized noise and innovation covariance matrices: (F_w Q_t F_w^T), (H_v R_t H_v^T), and (H_t P_{t|t-1} H_t^T + H_v R_t H_v^T) are non-singular.",
-      "breaks_when": "The innovation covariance H_t P_{t|t-1} H_t^T + H_v R_t H_v^T (or the linearized noise covariance in the density expression) is singular or ill-conditioned."
+      "assumption": "Each Jacobian is evaluated at the current best estimate: F_t at x\u0302_{t-1|t-1} and H_t at x\u0302_{t|t-1}.",
+      "breaks_when": "the estimate is far from the true state. The Jacobians then describe the wrong local slope, so the gain and the covariance are computed for a linearization the true state does not follow."
+    },
+    {
+      "assumption": "The filter is initialized with bel(x_0) ~ N(x\u0302_0, P_0). The source suggests x\u0302_0 = 0 and a small P_0 (< 1e-2).",
+      "breaks_when": "the true initial state is far from x\u0302_0 while P_0 is small. The filter is then overconfident from the first step, gives new measurements little weight, and linearizes around a wrong point."
     }
   ],
   "failure_modes": [
     {
-      "mode": "First-order linearization error in strongly nonlinear regimes",
-      "signature": "Degraded state estimation accuracy or filter divergence when higher-order terms of the Taylor series expansion cannot be neglected.",
-      "cause": "Linearizing f and h about the current mean estimate drops second- and higher-order Taylor terms (which higher-order EKFs retain)."
+      "mode": "Linearization error from strong nonlinearity",
+      "signature": "The estimate drifts or diverges while P_{t|t} stays small: the reported covariance is overconfident compared with the actual error.",
+      "cause": "The first-order Taylor expansion drops higher-order terms that matter over the spread of P, so F_t P F_t^T and the gain describe a linear system that does not match the true one."
     },
     {
-      "mode": "Singular innovation covariance in Kalman gain computation",
-      "signature": "Matrix inversion (H_t P_{t|t-1} H_t^T + H_v R_t H_v^T)^{-1} fails or becomes numerically unstable.",
-      "cause": "Deficient projected measurement noise covariance H_v R_t H_v^T combined with rank-deficient H_t P_{t|t-1} H_t^T."
+      "mode": "Wrong expansion point",
+      "signature": "Updates make the error worse. Innovations z_t \u2212 h(x\u0302_{t|t-1}, 0) stay large or have a consistent bias.",
+      "cause": "H_t and F_t are evaluated at an estimate far from the truth, so the local slope used for the gain is wrong."
+    },
+    {
+      "mode": "Noise Jacobians omitted in the non-additive case",
+      "signature": "The filter is miscalibrated: it is overconfident or underconfident, depending on how F_w and H_v scale the noise.",
+      "cause": "Using Q_t and R_t in place of F_w Q_t F_w^T and H_v R_t H_v^T is only valid when the noise is additive (F_w = I, H_v = I)."
+    },
+    {
+      "mode": "Overconfident initialization",
+      "signature": "The filter barely responds to measurements early on and settles on a wrong state.",
+      "cause": "P_0 is set small, as the source suggests, while x\u0302_0 is a poor guess. The gain is near zero, so the correction step does little."
     }
   ],
   "source_ids": [
@@ -286,120 +279,90 @@
       "ekf_global",
       "ekf_local"
     ],
-    "why_here": "In `agrios_ws`, two `robot_localization` instances (`ekf_local` at 50.0 Hz and `ekf_global` at 30.0 Hz) run an Extended Kalman Filter over a 15-dimensional state vector (X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az). `ekf_local` fuses velocity measurements from `/odom_cov` (`odom0`) and yaw-rate measurements from `/imu` (`imu0`), while `ekf_global` additionally fuses X, Y position measurements from `/odometry/gps` (`odom1`) and Yaw orientation measurements from `/rtk/heading` (`imu1`). Both filters propagate the state error covariance using `transfer_function_jacobian_` and add `delta_sec * (*process_noise_covariance)` at each prediction step.",
+    "why_here": "None of agrios_ws's own code computes the Extended Kalman Filter. It runs as two robot_localization nodes, ekf_local and ekf_global, and the project only configures them through src/agrios_bringup/config/ekf_local.yaml and ekf_global.yaml. Both nodes estimate the same 15-entry state. ekf_local fuses only velocities: Vx, Vy and Vyaw from /odom_cov, plus Vyaw from /imu. ekf_global fuses those same velocities and also X and Y from /odometry/gps and Yaw from /rtk/heading. The one library line shown is the covariance-prediction step: it multiplies the covariance by the Jacobian on both sides and adds delta_sec times the configured process noise.",
     "concrete": [
       {
-        "symbol": "\\mathbf{x}_t",
-        "in_your_project": "15x1 state vector with entries X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az tracked by both `ekf_local` and `ekf_global`."
+        "symbol": "x_t",
+        "in_your_project": "The 15x1 robot_localization state: X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az. ekf_local and ekf_global each keep their own copy."
       },
       {
-        "symbol": "\\mathbf{z}_t",
-        "in_your_project": "Measurements read from sensor topics: `/odom_cov` (`odom0`, fusing Vx, Vy, Vyaw in both filters), `/imu` (`imu0`, fusing Vyaw in both filters), `/odometry/gps` (`odom1`, fusing X, Y in `ekf_global`), and `/rtk/heading` (`imu1`, fusing Yaw in `ekf_global`)."
+        "symbol": "F_t",
+        "in_your_project": "transfer_function_jacobian_ in src/ekf.cpp:436, 15x15. It multiplies estimate_error_covariance_ on the left, and its transpose multiplies it on the right."
       },
       {
-        "symbol": "\\mathbf{R}_t",
-        "in_your_project": "Observation noise covariance populated inside incoming measurement messages: `odom_cov_relay` sets a 36-element (6x6) `msg.twist.covariance` on `/odom_cov` with diagonal entries `c[0] = 0.05` (vx), `c[7] = 0.05` (vy), and `c[35] = 0.02` (vyaw); `rtk_sim` sets `hdg.orientation_covariance` on `/rtk/heading` (and marks `angular_velocity_covariance[0] = -1.0` and `linear_acceleration_covariance[0] = -1.0`), as well as `fix.position_covariance` with `COVARIANCE_TYPE_DIAGONAL_KNOWN`."
+        "symbol": "x\u0302_{t|t-1}, P_{t|t-1}",
+        "in_your_project": "The covariance half is estimate_error_covariance_ (15x15) as it stands after the src/ekf.cpp:436 update, which sets it to F P F^T plus delta_sec * process_noise_covariance. The shown lines do not include the mean prediction."
       },
       {
-        "symbol": "\\mathbf{Q}_t",
-        "in_your_project": "15x15 diagonal `process_noise_covariance` matrix in `ekf_local.yaml` and `ekf_global.yaml`; in `src/ekf.cpp:436`, `(*process_noise_covariance)` is scaled by `delta_sec` and added to `estimate_error_covariance_`."
+        "symbol": "Q_t",
+        "in_your_project": "process_noise_covariance, 15x15 and diagonal, with the same values in both nodes: X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015. The shown line multiplies it by delta_sec before adding it."
       },
       {
-        "symbol": "\\mathbf{F}_t",
-        "in_your_project": "15x15 `transfer_function_jacobian_` in `src/ekf.cpp:436`, which pre- and post-multiplies `estimate_error_covariance_` (`transfer_function_jacobian_ * estimate_error_covariance_ * transfer_function_jacobian_.transpose()`)."
+        "symbol": "z_t",
+        "in_your_project": "Each fused source gives a partial measurement of x_t. In both nodes, /odom_cov (odom0) gives Vx, Vy, Vyaw and /imu (imu0) gives Vyaw. In ekf_global only, /odometry/gps (odom1) gives X, Y and /rtk/heading (imu1) gives Yaw."
       },
       {
-        "symbol": "\\mathbf{P}_{t-1|t-1}",
-        "in_your_project": "15x15 `estimate_error_covariance_` on the right-hand side of `src/ekf.cpp:436`, initialized at startup from the 15x15 `initial_estimate_covariance` parameter (all 15 diagonal entries set to `1e-9`, off-diagonals zero)."
+        "symbol": "R_t",
+        "in_your_project": "For /odom_cov, odom_cov_relay.py:12-16 fills a 6x6 twist covariance (36 entries) that is zero except c[0]=0.05 (vx), c[7]=0.05 (vy) and c[35]=0.02 (vyaw). For /rtk/heading, rtk_sim.py:99 sets orientation_covariance, but the values are not in the lines shown. rtk_sim.py:104-105 sets angular_velocity_covariance[0] and linear_acceleration_covariance[0] to -1.0 (commented 'no gyro' and 'no accel'). rtk_sim.py:79-84 sets a diagonal position_covariance on its NavSatFix, but that message reaches ekf_global only through navsat_transform, and the shown lines don't say what /odometry/gps carries."
       },
       {
-        "symbol": "\\mathbf{P}_{t|t-1}",
-        "in_your_project": "15x15 `estimate_error_covariance_` after `src/ekf.cpp:436` computes `transfer_function_jacobian_ * estimate_error_covariance_ * transfer_function_jacobian_.transpose()` and adds `delta_sec * (*process_noise_covariance)`."
+        "symbol": "P_{t|t}",
+        "in_your_project": "Starts as initial_estimate_covariance, 15x15 diagonal with 1e-9 on every entry, in both nodes. Later values are estimate_error_covariance_, which feeds the next src/ekf.cpp:436 prediction."
       }
     ],
     "knobs": [
       {
         "parameter": "process_noise_covariance",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Sets the 15x15 matrix `(*process_noise_covariance)` (relating to $\\mathbf{Q}_t$) that `src/ekf.cpp:436` multiplies by `delta_sec` and adds to `estimate_error_covariance_` during covariance prediction; sets diagonal entries X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015 and all off-diagonal entries to zero."
+        "means": "This is Q_t. src/ekf.cpp:436 multiplies it by delta_sec and adds it to transfer_function_jacobian_ * P * transfer_function_jacobian_^T, so every diagonal entry (X=0.05 through Az=0.015) grows that state's predicted variance by delta_sec times its value on every prediction. The off-diagonals are zero, so this term adds no cross-covariance between states."
       },
       {
         "parameter": "process_noise_covariance",
         "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Sets the 15x15 matrix `(*process_noise_covariance)` (relating to $\\mathbf{Q}_t$) for `ekf_local` that `src/ekf.cpp:436` multiplies by `delta_sec` and adds to `estimate_error_covariance_`; sets diagonal entries X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015 and all off-diagonal entries to zero."
+        "means": "Same diagonal values as ekf_global, applied the same way at src/ekf.cpp:436: scaled by delta_sec and added to the propagated covariance."
       },
       {
         "parameter": "initial_estimate_covariance",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Initializes the 15x15 state error covariance matrix $\\mathbf{P}$ (`estimate_error_covariance_`) for `ekf_global` with diagonal entries X=1e-9, Y=1e-9, Z=1e-9, Roll=1e-9, Pitch=1e-9, Yaw=1e-9, Vx=1e-9, Vy=1e-9, Vz=1e-9, Vroll=1e-9, Vpitch=1e-9, Vyaw=1e-9, Ax=1e-9, Ay=1e-9, Az=1e-9 and off-diagonal entries all zero."
+        "means": "The starting P, 1e-9 on all 15 diagonal entries, so the filter starts with near-zero uncertainty in every state."
       },
       {
         "parameter": "initial_estimate_covariance",
         "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Initializes the 15x15 state error covariance matrix $\\mathbf{P}$ (`estimate_error_covariance_`) for `ekf_local` with all 15 diagonal entries (X through Az) set to 1e-9 and all off-diagonal entries set to zero."
+        "means": "Same as in ekf_global: the starting P is 1e-9 on all 15 diagonal entries."
       },
       {
         "parameter": "odom0_config",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Selects the Vx, Vy, and Vyaw entries (out of the 15 state entries in $\\mathbf{x}_t$) to fuse from the `odom0` (`/odom_cov`) measurement $\\mathbf{z}_t$ in `ekf_global`."
-      },
-      {
-        "parameter": "odom0_config",
-        "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Selects the Vx, Vy, and Vyaw entries (out of the 15 state entries in $\\mathbf{x}_t$) to fuse from the `odom0` (`/odom_cov`) measurement $\\mathbf{z}_t$ in `ekf_local`."
+        "means": "Selects which state entries the /odom_cov measurement covers in the correction step: Vx, Vy, Vyaw."
       },
       {
         "parameter": "odom1_config",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Selects the X and Y entries (out of the 15 state entries in $\\mathbf{x}_t$) to fuse from the `odom1` (`/odometry/gps`) measurement $\\mathbf{z}_t$ in `ekf_global`."
+        "means": "Selects X and Y as the state entries the /odometry/gps measurement covers. These are the only position entries either filter fuses."
       },
       {
         "parameter": "imu0_config",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Selects the Vyaw entry (out of the 15 state entries in $\\mathbf{x}_t$) to fuse from the `imu0` (`/imu`) measurement $\\mathbf{z}_t$ in `ekf_global`."
-      },
-      {
-        "parameter": "imu0_config",
-        "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Selects the Vyaw entry (out of the 15 state entries in $\\mathbf{x}_t$) to fuse from the `imu0` (`/imu`) measurement $\\mathbf{z}_t$ in `ekf_local`."
+        "means": "Selects Vyaw as the only state entry the /imu measurement covers."
       },
       {
         "parameter": "imu1_config",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Selects the Yaw entry (out of the 15 state entries in $\\mathbf{x}_t$) to fuse from the `imu1` (`/rtk/heading`) measurement $\\mathbf{z}_t$ in `ekf_global`."
+        "means": "Selects Yaw as the only state entry the /rtk/heading measurement covers."
       },
       {
-        "parameter": "frequency",
-        "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Sets the filter update rate to 30.0 Hz for `ekf_global`."
-      },
-      {
-        "parameter": "frequency",
+        "parameter": "odom0_config",
         "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Sets the filter update rate to 50.0 Hz for `ekf_local`."
+        "means": "Selects Vx, Vy and Vyaw from /odom_cov. In ekf_local no fused source covers X, Y or Yaw."
       },
       {
-        "parameter": "imu0",
-        "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Sets `/imu` as the topic from which `ekf_global` reads `imu0` observations $\\mathbf{z}_t$."
-      },
-      {
-        "parameter": "imu0",
+        "parameter": "imu0_config",
         "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Sets `/imu` as the topic from which `ekf_local` reads `imu0` observations $\\mathbf{z}_t$."
-      },
-      {
-        "parameter": "imu0_differential",
-        "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Disables differential integration (`false`) for the `imu0` measurement input in `ekf_global`."
-      },
-      {
-        "parameter": "imu0_differential",
-        "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Disables differential integration (`false`) for the `imu0` measurement input in `ekf_local`."
+        "means": "Selects Vyaw as the only state entry the /imu measurement covers."
       }
     ],
-    "notation": "The sheet denotes the motion model Jacobian, state error covariance, and process noise covariance as $\\mathbf{F}_t$, $\\mathbf{P}$, and $\\mathbf{Q}_t$, whereas `robot_localization` (`src/ekf.cpp:436`) names them `transfer_function_jacobian_`, `estimate_error_covariance_`, and `process_noise_covariance` (scaled by `delta_sec` rather than transformed by $\\mathbf{F}_{\\mathbf{w}}$).",
+    "notation": "The sheet's F_t is the library's transfer_function_jacobian_ and its P is estimate_error_covariance_. Where the sheet's prediction adds F_w Q_t F_w^T, the shown library line adds delta_sec * process_noise_covariance.",
     "invented": {},
     "thin": "",
     "unsupported": []
