@@ -13,7 +13,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from atlas.brief import resolve
-from atlas.codegraph import GraphMissing, join, load_graph, report
+from atlas.codegraph import GraphMissing, check_flows, join, load_graph, report
+from atlas.topics import endpoints, links
 
 if len(sys.argv) < 2:
     print(__doc__)
@@ -27,4 +28,12 @@ except GraphMissing as exc:
     raise SystemExit(1)
 
 project, _, _ = resolve(repo)
-print(report(join(project, graph), graph))
+result = join(project, graph)
+print(report(result, graph))
+
+confirmed, unconfirmed = check_flows(result, graph, links(endpoints(project, repo)))
+print(f"\nGraphify's flows between components, checked against stated topics:")
+for a, b, relation, confidence, topics in confirmed:
+    print(f"  confirmed    {a} -- {b}  ({confidence.lower()})  via {', '.join(topics)}")
+for a, b, relation, confidence, topics in unconfirmed:
+    print(f"  unconfirmed  {a} -- {b}  ({confidence.lower()} {relation})")

@@ -325,3 +325,47 @@ def report(result: Join, graph: CodeGraph) -> str:
     for node in semantic:
         lines.append(f"    {node.label}")
     return "\n".join(lines)
+
+
+# ---------- checking the model's flows against stated topics ----------
+
+def check_flows(result: Join, graph: CodeGraph,
+                topic_links: list) -> tuple[list[tuple], list[tuple]]:
+    """Each inferred flow between two components, against the topic links.
+
+    Graphify's data-flow edges are mostly a model reading the README. The
+    topic links are what the code, parameters and launch files state. A flow
+    the topics also show is confirmed; one they do not is still only a model's
+    guess -- possibly right, since a plugin and its costmap share memory, not
+    a topic, but not something to build on.
+
+    Returns (confirmed, unconfirmed), each a list of
+    (component, other_component, relation, confidence, topics).
+    """
+    owners: dict[str, set[str]] = {}
+    for m in result.matches:
+        for node in m.code + m.described_by:
+            owners.setdefault(node.id, set()).add(m.component)
+
+    wired: dict[frozenset, set[str]] = {}
+    for link in topic_links:
+        wired.setdefault(frozenset((link.publisher, link.subscriber)),
+                         set()).add(link.topic)
+
+    confirmed, unconfirmed, seen = [], [], set()
+    for m in result.matches:
+        mine = {n.id for n in m.code + m.described_by}
+        for edge in m.flows:
+            other = edge.target if edge.source in mine else edge.source
+            for component in sorted(owners.get(other, set()) - {m.component}):
+                pair = frozenset((m.component, component))
+                key = (pair, edge.relation)
+                if key in seen:
+                    continue
+                seen.add(key)
+                topics = sorted(wired.get(pair, set()))
+                row = (m.component, component, edge.relation,
+                       edge.confidence, topics)
+                (confirmed if topics else unconfirmed).append(row)
+    return confirmed, unconfirmed
+

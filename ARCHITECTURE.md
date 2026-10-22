@@ -48,6 +48,7 @@ Zero dependencies. stdlib only: `urllib`, `subprocess`, `ast`, `json`.
 | `instantiate.py` | Stage 7. What a canon node means in one repo: which components reach it, which parameters it governs. `invented()` and `thin()` guard it from opposite sides. |
 | `code.py` | Where a concept is visibly at work in the source. Mechanical matching only, so it cannot fabricate evidence. |
 | `codegraph.py` | Joins a Graphify `graph.json` to the ingested project: code locations, model-written descriptions and data flow per component, with misses reported on both sides. Reads the file; never imports Graphify. |
+| `topics.py` | Which components talk to which, over what topic, from where ROS states it: code, topic-valued parameters, Gazebo bridge arguments, and library default names (`data/library_topics.json`). No model. |
 | `exercise.py` | Stage 8. Masks a step or a symbol and checks the answer is not readable off the surrounding page. |
 | `profile.py` | What the reader knows: declared / read / demonstrated. **The one artifact that cannot be regenerated** — the canon rebuilds from seeds, this does not. |
 | `worksheet.py` | Renders a path as paper: why each node is on it, what it does in the project, then the drills. |
@@ -64,6 +65,7 @@ Zero dependencies. stdlib only: `urllib`, `subprocess`, `ast`, `json`.
 | `instantiate_path.py <repo> <subsystem>` | Attach project meaning to each sheet on a path. |
 | `drill.py [<repo> <subsystem>]` | The masked-exercise drill. `--worksheet` writes paper; `--dry-run` leaves the profile alone. |
 | `graphify_join.py <repo>` | Report what a repo's Graphify graph adds to Atlas's ingest, and what neither side matched. Run graphify on the repo first. |
+| `topics.py <repo>` | Print every topic link between a repo's components, with the file and line or parameter each end is stated in, plus topics with only one side. |
 
 **Inspecting what exists**
 

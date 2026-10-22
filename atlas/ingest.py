@@ -53,6 +53,8 @@ class Component:
     sources: list[str] = field(default_factory=list)
     # (name inside the node, topic it is wired to), as the launch file states.
     remappings: list[tuple[str, str]] = field(default_factory=list)
+    # Literal command-line arguments. A Gazebo bridge declares its topics here.
+    arguments: list[str] = field(default_factory=list)
 
     @property
     def is_glue(self) -> bool:
@@ -183,6 +185,7 @@ class LaunchNode:
     remappings: list[tuple[str, str]] = field(default_factory=list)
     unresolved: list[str] = field(default_factory=list)
     source: str = ""
+    arguments: list[str] = field(default_factory=list)  # literal CLI arguments
 
     @property
     def topics(self) -> set[str]:
@@ -266,6 +269,11 @@ def parse_launch_py(text: str, source: str = "") -> list[LaunchNode]:
                     if src and dst:
                         remappings.append((src, dst))
 
+        arguments: list[str] = []
+        args = kwargs.get("arguments")
+        if isinstance(args, ast.List):
+            arguments = [a for a in (_const(e) for e in args.elts) if a]
+
         nodes.append(
             LaunchNode(
                 package=package,
@@ -275,6 +283,7 @@ def parse_launch_py(text: str, source: str = "") -> list[LaunchNode]:
                 remappings=remappings,
                 unresolved=unresolved,
                 source=source,
+                arguments=arguments,
             )
         )
     return nodes
@@ -398,6 +407,7 @@ def ingest_repo(root: Path) -> Project:
         component.version = project.dependencies.get(node.package)
         component.sources.append(node.source)
         component.remappings += node.remappings
+        component.arguments += node.arguments
         for param_file in node.param_files:
             mine = _block_for(params_by_file.get(Path(param_file).name, []),
                               node_name)

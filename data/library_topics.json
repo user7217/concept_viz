@@ -1,0 +1,27 @@
+{
+  "_note": "Topics a library node opens under its own default names, which the repo never states because it never has to. Keyed by package/executable. Only unconditional, data-carrying topics: gps/filtered (publish_filtered_gps), accel/filtered (publish_acceleration) and cmd_vel (use_control) open only when a parameter turns them on, and set_pose is a command input nothing in a repo publishes to. Names are relative and are resolved through the launch file's remappings before use.",
+  "sources": {
+    "robot_localization": {
+      "url": "https://github.com/cra-ros-pkg/robot_localization",
+      "tag": "3.10.1",
+      "commit": "7dfb6aa97b2082185d2fac3420888ae8474bfc1a",
+      "evidence": [
+        "src/navsat_transform.cpp:220 subscribes odometry/filtered",
+        "src/navsat_transform.cpp:224 subscribes gps/fix",
+        "src/navsat_transform.cpp:229 subscribes imu",
+        "src/navsat_transform.cpp:236 publishes odometry/gps",
+        "src/ros_filter.cpp:271 publishes odometry/filtered"
+      ]
+    }
+  },
+  "nodes": {
+    "robot_localization/ekf_node": {
+      "publishes": ["odometry/filtered"],
+      "subscribes": []
+    },
+    "robot_localization/navsat_transform_node": {
+      "publishes": ["odometry/gps"],
+      "subscribes": ["imu", "gps/fix", "odometry/filtered"]
+    }
+  }
+}
