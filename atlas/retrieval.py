@@ -275,6 +275,11 @@ class _PlainText(HTMLParser):
         elif tag == "math":
             alt = dict(attrs).get("alttext")
             if alt and not self.skip:
+                # Colour and display sizing are typesetting, not maths. In the
+                # Kalman filter's Section 8 they were 2,000 characters of
+                # budget, enough to push the update derivation out.
+                alt = re.sub(r"\\color\[rgb\]\{[^}]*\}|\\displaystyle\s*|\\hskip\s*[\d.]+pt",
+                             "", alt)
                 self.out.append(f" ${alt}$ ")
             self.skip += 1
         elif tag in ("h1", "h2", "h3", "h4", "h5") and not self.skip:
@@ -329,8 +334,12 @@ def fetch_document(doc_id: str, transport: Transport | None = None) -> Source:
     if isinstance(markup, bytes):
         markup = markup.decode("utf-8", "replace")
     text = html_text(markup)
-    if meta.get("section"):
-        text = section_of(text, meta["section"])
+    # One section, or several when the whole would not fit the source budget:
+    # the Kalman filter's Section 8 is 28,000 characters, its prediction
+    # derivation and its update-as-conditioning together 18,000.
+    wanted = meta.get("sections") or ([meta["section"]] if meta.get("section") else [])
+    if wanted:
+        text = "\n\n".join(section_of(text, heading) for heading in wanted)
     return Source(id=doc_id, title=meta["title"], url=meta.get("page", meta["url"]),
                   kind="paper", text=text)
 

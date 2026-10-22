@@ -136,7 +136,7 @@ class TestRetrieve(unittest.TestCase):
 
 class TestAliasMap(unittest.TestCase):
     def test_alias_replaces_a_generated_name(self) -> None:
-        self.assertEqual(aliases_for("linear_kalman_filter"), ["Kalman filter"])
+        self.assertEqual(aliases_for("expectation"), ["Expected value"])
 
     def test_empty_alias_means_known_to_have_no_source(self) -> None:
         self.assertEqual(aliases_for("anchor_box"), [])
@@ -161,10 +161,10 @@ class TestAliasMap(unittest.TestCase):
 
         def transport(url: str) -> bytes:
             seen.append(url)
-            return wiki("Kalman filter", "k" * 2000)
+            return wiki("Expected value", "k" * 2000)
 
-        retrieve_node("linear_kalman_filter", "Linear Kalman Filter", transport)
-        self.assertIn("Kalman+filter", seen[0].replace("%20", "+"))
+        retrieve_node("expectation", "Expectation", transport)
+        self.assertIn("Expected+value", seen[0].replace("%20", "+"))
 
 
 class TestGroundingGuard(unittest.TestCase):
@@ -371,6 +371,19 @@ class TestPinnedDocuments(unittest.TestCase):
         self.assertNotIn("The gain", source.text)
         self.assertNotIn("Not this", source.text)
         self.assertEqual((source.id, source.kind), ("arxiv:1", "paper"))
+
+    def test_several_sections_are_read_and_others_left_out(self) -> None:
+        self.r.DOCUMENTS["arxiv:1#k"] = {"url": "https://arxiv.org/html/1", "title": "Notes",
+                                         "sections": ["3 Kalman Filter (KF)",
+                                                      "5 Error-state Kalman Filter (ESKF)"]}
+        text = self.r.fetch_document("arxiv:1#k", transport=lambda url: self.PAGE).text
+        self.assertIn("The gain", text)
+        self.assertIn("Not this", text)
+        self.assertNotIn("Linearise", text)
+
+    def test_typesetting_is_dropped_from_the_maths(self) -> None:
+        page = "<p><math alttext='\\displaystyle{\\color[rgb]{1,0,0}p(x)}'></math></p>"
+        self.assertEqual(self.r.html_text(page), "${p(x)}$")
 
     def test_a_missing_section_is_an_error_not_the_whole_document(self) -> None:
         moved = self.PAGE.replace(b"4 Extended", b"5 Extended")

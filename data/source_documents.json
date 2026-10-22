@@ -12,6 +12,22 @@
       "licence_url": "https://creativecommons.org/licenses/by/4.0/",
       "checked": "2026-10-22",
       "why": "Wikipedia's Extended Kalman filter article states the predict and update equations without deriving them, and the EKF sheet said so. Section 4 here linearises f and h by first-order Taylor expansion, defines the Jacobians, and carries the linear model through the Kalman prediction and correction steps."
+    },
+    "arxiv:2406.06427#8": {
+      "url": "https://arxiv.org/html/2406.06427v3",
+      "page": "https://arxiv.org/abs/2406.06427",
+      "title": "Notes on Kalman Filter (KF, EKF, ESKF, IEKF, IESKF)",
+      "authors": "Gyubeom Im",
+      "year": 2024,
+      "section": "8.1 Derivation of KF prediction step; 8.2 Derivation of KF update step (ver. 1)",
+      "sections": [
+        "8.1 Derivation of KF prediction step",
+        "8.2 Derivation of KF update step (ver. 1)"
+      ],
+      "licence": "CC BY 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+      "checked": "2026-10-22",
+      "why": "All four acceptance-test readers found the same hole: the prediction covariance F P F^T + Q is derived nowhere. 8.1 derives the prediction integral; 8.2 derives the update by completing the square. 8.3, the update as Gaussian conditioning, is left out: its text stops where the substitution C_xz = P H^T, C_zz = H P H^T + Q begins, and that step is an image (25.png) with no text. All three together are over the 24,000 source budget. Note: Section 8 follows Probabilistic Robotics, where R is process noise and Q measurement noise -- the reverse of section 4 and of robot_localization."
     }
   }
 }
