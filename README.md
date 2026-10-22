@@ -59,11 +59,24 @@ cp profile.example.json profile.json       # what you already know
 | `gemini` | `GEMINI_API_KEY` (free tier, 20 requests/day/model) |
 
 **Graphify, for the code layer.** A separate project with its own licence,
-installed on its own:
+installed on its own. Atlas runs it for you; it never imports it.
 
 ```bash
 uv tool install graphifyy        # or: pip install graphifyy
 ```
+
+Graphify reads code with a parser and needs no model. Its pass over docs and
+configs does, and `build_codegraph.py` picks one for it:
+
+| Set | Graphify uses |
+|---|---|
+| `ATLAS_GRAPHIFY_BACKEND=<name>` | that backend (`claude-cli`, `gemini`, `ollama`, `openai`, ...) |
+| `ATLAS_PROVIDER=claude_code` | `claude-cli`, your Claude subscription |
+| `ATLAS_PROVIDER=gemini` | `gemini`, with `GEMINI_API_KEY` from `.env` |
+| `ATLAS_PROVIDER=antigravity` | Graphify has no Antigravity backend, so the claude CLI if installed, else a Gemini key |
+| none of the above | code only: every symbol and call, but no descriptions |
+
+The choice and its reason are printed on every run.
 
 ## Run
 
@@ -72,7 +85,7 @@ uv tool install graphifyy        # or: pip install graphifyy
 ```bash
 REPO=~/path/to/your_ws
 
-/graphify $REPO                                  # in Claude Code: builds graphify-out/
+python3 scripts/build_codegraph.py $REPO         # Graphify graph, with whatever model is here
 python3 scripts/graphify_join.py $REPO           # what the graph adds, both sides' misses
 python3 scripts/topics.py $REPO                  # every topic link, with file:line evidence
 
@@ -95,7 +108,7 @@ path rings and filter are empty.
 **Keep it current**
 
 ```bash
-graphify update $REPO              # re-extract changed code; no LLM
+python3 scripts/build_codegraph.py $REPO   # incremental: only changed files reach a model
 python3 scripts/recheck_sheets.py  # re-run every guard on stored sheets; no LLM
 ```
 

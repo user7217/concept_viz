@@ -132,8 +132,8 @@ def load_graph(repo: Path) -> CodeGraph:
     path = repo / GRAPH_FILE
     if not path.exists():
         raise GraphMissing(
-            f"no {GRAPH_FILE} in {repo}. Run graphify on the repo first; "
-            "Atlas reads its output and does not build it.")
+            f"no {GRAPH_FILE} in {repo}. Build it with: "
+            f"python3 scripts/build_codegraph.py {repo}")
     payload = json.loads(path.read_text(encoding="utf-8"))
 
     nodes: dict[str, GraphNode] = {}

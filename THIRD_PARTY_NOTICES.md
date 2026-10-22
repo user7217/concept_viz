@@ -11,10 +11,13 @@ each licence asks and how this repository meets it.
   relicensing; Graphify ships both texts (`LICENSE`, `LICENSE-MIT`) and a
   `NOTICE`. Copyright 2026 Safi Shamsi and the Graphify contributors.
 - **Version used:** 0.9.90 (PyPI package `graphifyy`)
-- **How it is used:** run separately, on the repo being studied. Atlas reads
-  the `graphify-out/graph.json` it leaves behind (`atlas/codegraph.py`).
-- **What that means:** no Graphify code is copied, vendored, modified,
-  imported or redistributed here. A test (`tests/test_codegraph.py`) fails if
+- **How it is used:** installed separately, then run as a command-line tool
+  on the repo being studied (`atlas/graphify_build.py` invokes `graphify
+  extract`, `label` and `export` as subprocesses). Atlas reads the
+  `graphify-out/graph.json` it leaves behind (`atlas/codegraph.py`).
+- **What that means:** using a tool is not redistributing it. No Graphify
+  code, prompt or skill text is copied, vendored, modified, imported or
+  redistributed here. A test (`tests/test_codegraph.py`) fails if
   anything in `atlas/` or `scripts/` imports it. Apache-2.0's conditions
   attach to redistributing Graphify or works derived from it, and this repo
   does neither, so none apply; it is credited here because the workflow
