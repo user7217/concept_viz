@@ -132,4 +132,8 @@ POSSIBILITY OF SUCH DAMAGE.
 ## Other retrieved sources
 
 Further-reading links (`data/reading.json`) are links only; nothing from the
-linked pages is reproduced.
+linked pages is reproduced. Each link carries its title, and where known its
+authors' surnames and year, as bibliographic facts. These come from the
+Crossref REST API, the arXiv API and Open Library, all of which publish this
+metadata openly (Crossref and Open Library under CC0, arXiv's metadata under
+CC0 1.0), or from the linked page's own `<title>`.

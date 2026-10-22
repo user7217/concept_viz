@@ -3,320 +3,408 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,500;1,400&display=swap">
 <style>
+/* Layout: one screen. A map you turn and a panel you read -- the map takes
+   whatever the panel leaves, and centres in what is left rather than behind
+   it. On a phone the panel is a sheet from the bottom and the controls slide
+   in from the left, so the map is never a strip. */
 :root{
-  --ground:#E9EDEF; --surface:#FBFCFC; --sunk:#DFE5E8;
-  --ink:#14202A; --muted:#5A6D7A; --faint:#8A9AA5;
-  --line:#C6D1D8; --line-soft:#D9E1E6;
+  --ground:#E9EDEF; --surface:#FBFCFC; --sunk:#E2E8EB; --raised:#FFFFFF;
+  --ink:#14202A; --muted:#51636F; --faint:#7F909B;
+  --line:#C6D1D8; --line-soft:#DCE3E7;
   --viewport:#E3E9EC; --edge:#9DAEB8; --edge-dim:#BFCBD2;
   --concept:#3F708C; --technique:#A9641F; --algorithm:#6B4F91;
   --system:#1F6B4F; --component:#A34F63;
   --state:#2F6B48; --ring:#12313F;
+  --scrim:rgba(20,32,42,.32);
   --shadow:0 1px 2px rgba(20,32,42,.08),0 8px 24px rgba(20,32,42,.06);
+  --lift:0 -1px 0 rgba(20,32,42,.04),0 -12px 32px rgba(20,32,42,.12);
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --serif:"IBM Plex Serif",Georgia,serif;
+  --r:6px; --hit:32px; --ease:cubic-bezier(.2,.7,.2,1);
 }
-:root:not([data-theme="light"]){ }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#0F161B; --surface:#161F26; --sunk:#0B1115;
-    --ink:#E4ECF0; --muted:#93A5B0; --faint:#6B7D88;
-    --line:#26343D; --line-soft:#1D2931;
+    --ground:#0F161B; --surface:#161F26; --sunk:#0E151A; --raised:#1C262E;
+    --ink:#E4ECF0; --muted:#9AABB6; --faint:#6F818C;
+    --line:#2A3841; --line-soft:#1F2B33;
     --viewport:#0A1014; --edge:#3A4C57; --edge-dim:#26333B;
     --concept:#78A9C6; --technique:#DB9756; --algorithm:#A488CC;
-  --system:#5CC49A; --component:#E08FA2;
     --system:#5CC49A; --component:#E08FA2;
     --state:#5FA87C; --ring:#CFE0E8;
+    --scrim:rgba(0,0,0,.5);
     --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 30px rgba(0,0,0,.35);
+    --lift:0 -1px 0 rgba(0,0,0,.4),0 -14px 36px rgba(0,0,0,.45);
+    color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --ground:#0F161B; --surface:#161F26; --sunk:#0B1115;
-  --ink:#E4ECF0; --muted:#93A5B0; --faint:#6B7D88;
-  --line:#26343D; --line-soft:#1D2931;
+  --ground:#0F161B; --surface:#161F26; --sunk:#0E151A; --raised:#1C262E;
+  --ink:#E4ECF0; --muted:#9AABB6; --faint:#6F818C;
+  --line:#2A3841; --line-soft:#1F2B33;
   --viewport:#0A1014; --edge:#3A4C57; --edge-dim:#26333B;
   --concept:#78A9C6; --technique:#DB9756; --algorithm:#A488CC;
+  --system:#5CC49A; --component:#E08FA2;
   --state:#5FA87C; --ring:#CFE0E8;
+  --scrim:rgba(0,0,0,.5);
   --shadow:0 1px 2px rgba(0,0,0,.5),0 10px 30px rgba(0,0,0,.35);
+  --lift:0 -1px 0 rgba(0,0,0,.4),0 -14px 36px rgba(0,0,0,.45);
+  color-scheme:dark;
 }
+/* Fingers need bigger targets than a cursor: 44px is Apple's floor, and
+   WCAG 2.5.5 asks the same. */
+@media (pointer:coarse){ :root{ --hit:44px } }
+
 *{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
 body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
-  height:100vh;display:grid;grid-template-rows:auto 1fr;overflow:hidden}
+  display:grid;grid-template-rows:auto 1fr;overflow:hidden;
+  -webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--concept);outline-offset:2px}
 
-header{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;
-  padding:14px 20px;border-bottom:1px solid var(--line);background:var(--surface)}
-h1{font-family:var(--serif);font-weight:500;font-size:19px;margin:0;letter-spacing:-.01em}
-.sub{color:var(--muted);font-size:13px}
-.counts{margin-left:auto;display:flex;gap:16px;font-family:var(--mono);font-size:12px;
-  color:var(--muted);font-variant-numeric:tabular-nums}
-.counts b{color:var(--ink);font-weight:500}
+/* ---------- header ---------- */
+header.top{display:flex;align-items:center;gap:14px;min-width:0;
+  padding:10px 18px;border-bottom:1px solid var(--line);background:var(--surface)}
+h1{font-family:var(--serif);font-weight:500;font-size:19px;margin:0;
+  letter-spacing:-.01em;white-space:nowrap}
+.sub{color:var(--muted);font-size:13px;min-width:0;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.counts{margin-left:auto;display:flex;gap:14px;font-family:var(--mono);font-size:11.5px;
+  color:var(--faint);font-variant-numeric:tabular-nums;white-space:nowrap}
+.counts b{color:var(--muted);font-weight:500}
+.menubtn{display:none}
 
-main{display:grid;grid-template-columns:272px 1fr;min-height:0}
-@media (max-width:1100px){ main{grid-template-columns:232px 1fr} }
-/* Narrow screens get the rail as a scrolling strip above the viewport rather
-   than losing it: hiding the controls made the page unusable on a phone. */
-@media (max-width:760px){
-  body{grid-template-rows:auto auto 1fr}
-  main{grid-template-columns:1fr;grid-template-rows:auto 1fr}
-  aside.rail{border-right:0;border-bottom:1px solid var(--line);
-    flex-direction:row;overflow-x:auto;gap:22px;padding:12px 14px}
-  aside.rail .group{min-width:190px}
-  .drawer{width:100%;max-width:100%;border-left:0;border-top:1px solid var(--line);
-    top:auto;bottom:0;height:62%}
-  .crumbs{max-width:calc(100% - 28px)}
-  .edgepanel{max-width:calc(100% - 28px);bottom:auto;top:52px}
-  header .counts{width:100%;margin-left:0}
-}
+main{display:grid;grid-template-columns:260px 1fr;min-height:0}
 
+/* ---------- controls rail ---------- */
 aside.rail{border-right:1px solid var(--line);background:var(--surface);
-  padding:16px 14px;overflow-y:auto;display:flex;flex-direction:column;gap:20px}
+  padding:16px 16px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:22px;
+  scrollbar-width:thin;scrollbar-color:var(--line) transparent}
 .group{display:flex;flex-direction:column;gap:8px}
 .eyebrow{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--faint);font-weight:600}
-label.row{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;
-  color:var(--ink)}
-label.row input{accent-color:var(--concept);margin:0}
-.swatch{width:10px;height:10px;border-radius:50%;flex:none}
-.legend{display:flex;flex-direction:column;gap:7px;font-size:12.5px;color:var(--muted)}
-.legend div{display:flex;align-items:center;gap:8px}
-input[type=search]{width:100%;font-family:var(--sans);font-size:13px;padding:6px 8px;
-  border:1px solid var(--line);border-radius:5px;background:var(--sunk);color:var(--ink)}
-input[type=search]:focus-visible,button:focus-visible{outline:2px solid var(--concept);
-  outline-offset:1px}
-.hits{display:flex;flex-direction:column;gap:2px;max-height:190px;overflow-y:auto}
-.hits button{text-align:left;font-family:var(--mono);font-size:11.5px;padding:3px 5px;
-  border:0;border-radius:4px;background:transparent;color:var(--muted);cursor:pointer}
+label.row{display:flex;align-items:center;gap:9px;font-size:13px;cursor:pointer;
+  color:var(--ink);min-height:var(--hit)}
+label.row input{accent-color:var(--concept);margin:0;width:15px;height:15px}
+.swatch{width:9px;height:9px;border-radius:50%;flex:none}
+.legend{display:grid;gap:6px;font-size:12.5px;color:var(--muted)}
+.legend div{display:flex;align-items:center;gap:9px}
+input[type=search]{width:100%;font-family:var(--sans);font-size:13.5px;
+  height:calc(var(--hit) + 2px);padding:0 10px;
+  border:1px solid var(--line);border-radius:var(--r);background:var(--raised);color:var(--ink);
+  transition:border-color .12s}
+input[type=search]::placeholder{color:var(--faint)}
+input[type=search]:focus{border-color:var(--concept);outline:none;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--concept) 18%,transparent)}
+.hits{display:flex;flex-direction:column;gap:1px;max-height:220px;overflow-y:auto}
+.hits:empty{display:none}
+.hits button{text-align:left;font-family:var(--mono);font-size:12px;
+  min-height:calc(var(--hit) - 4px);padding:0 8px;
+  border:0;border-radius:5px;background:transparent;color:var(--muted);cursor:pointer}
 .hits button:hover{background:var(--sunk);color:var(--ink)}
-.hint{font-size:11.5px;color:var(--faint);line-height:1.5;margin:0}
-.axdef{display:flex;flex-direction:column;gap:2px;padding:7px 0;
+.hint{font-size:12px;color:var(--faint);line-height:1.5;margin:0}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.btn{font-size:12.5px;min-height:var(--hit);padding:0 10px;
+  border:1px solid var(--line);border-radius:var(--r);background:var(--raised);
+  color:var(--ink);cursor:pointer;transition:border-color .12s,background .12s}
+.btn:hover{border-color:var(--concept);color:var(--concept)}
+.btn.quiet{border-color:transparent;background:transparent;color:var(--muted);
+  text-align:left;padding:0}
+.btn.quiet:hover{color:var(--concept)}
+details.axes{border-top:1px solid var(--line-soft);padding-top:14px}
+details.axes summary{cursor:pointer;list-style:none;display:flex;align-items:center;
+  justify-content:space-between;gap:8px;min-height:24px}
+details.axes summary::-webkit-details-marker{display:none}
+details.axes summary::after{content:"+";font-family:var(--mono);color:var(--faint);
+  font-size:14px}
+details.axes[open] summary::after{content:"−"}
+details.axes .group{margin-top:10px}
+.axdef{display:flex;flex-direction:column;gap:2px;padding:8px 0;
   border-top:1px solid var(--line-soft)}
 .axdef:first-child{border-top:0;padding-top:2px}
 .axdef-head{font-size:12px;color:var(--ink)}
 .axdef-head b{font-family:var(--mono);color:var(--technique);margin-right:5px}
 .axdef p{margin:0;font-size:11.5px;color:var(--muted);line-height:1.45}
-.axdef-row{font-size:11px;color:var(--faint);line-height:1.45;padding-left:9px;
+.axdef-row{font-size:11px;color:var(--faint);line-height:1.5;padding-left:9px;
   border-left:1px solid var(--line)}
 label.axis{display:grid;grid-template-columns:14px 1fr;gap:8px;align-items:center;
   font-family:var(--mono);font-size:11px;color:var(--faint)}
-label.axis select{font-family:var(--sans);font-size:12.5px;padding:4px 6px;
-  border:1px solid var(--line);border-radius:5px;background:var(--sunk);
+label.axis select{font-family:var(--sans);font-size:12.5px;height:var(--hit);padding:0 6px;
+  border:1px solid var(--line);border-radius:var(--r);background:var(--raised);
   color:var(--ink);width:100%}
-.btns{display:flex;flex-direction:column;gap:6px}
-.btns button{font-family:var(--sans);font-size:12.5px;padding:6px 9px;text-align:left;
-  border:1px solid var(--line);border-radius:5px;background:var(--sunk);
-  color:var(--ink);cursor:pointer}
-.btns button:hover{border-color:var(--concept);color:var(--concept)}
 sup,sub{font-size:.72em;line-height:0}
 .body b,.meta b{font-weight:600}
 
-.stage{position:relative;min-width:0;background:var(--viewport)}
+/* ---------- the map ---------- */
+.stage{position:relative;min-width:0;min-height:0;background:var(--viewport);overflow:hidden}
 canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
 canvas.dragging{cursor:grabbing}
-.depthkey{position:absolute;left:10px;bottom:10px;font-family:var(--mono);font-size:10.5px;
-  color:var(--faint);pointer-events:none;line-height:1.6}
+.depthkey{position:absolute;left:14px;bottom:var(--stage-bottom,10px);font-family:var(--mono);
+  font-size:10.5px;color:var(--faint);pointer-events:none;line-height:1.6;
+  transition:bottom .2s var(--ease)}
+.floatbtn{width:var(--hit);height:var(--hit);display:grid;place-items:center;cursor:pointer;
+  border:1px solid var(--line);border-radius:var(--r);background:var(--surface);
+  color:var(--muted);box-shadow:var(--shadow);transition:color .12s,border-color .12s}
+.floatbtn:hover{color:var(--ink);border-color:var(--concept)}
+.helpbtn{position:absolute;top:12px;right:calc(var(--stage-right,0px) + 14px);z-index:4;
+  border-radius:50%;font-family:var(--serif);font-size:15px;
+  transition:right .2s var(--ease)}
+.zoomer{position:absolute;right:calc(var(--stage-right,0px) + 14px);
+  bottom:calc(var(--stage-bottom,0px) + 14px);display:flex;flex-direction:column;gap:6px;z-index:2;
+  transition:right .2s var(--ease),bottom .2s var(--ease)}
+.zoomer .floatbtn{font-size:16px;line-height:1}
+.crumbs{position:absolute;top:12px;left:14px;display:flex;flex-wrap:wrap;
+  gap:4px;align-items:center;z-index:2;
+  max-width:calc(100% - var(--stage-right,0px) - 80px)}
+.crumbs button{font-family:var(--mono);font-size:11.5px;min-height:26px;padding:0 10px;
+  border:1px solid var(--line);border-radius:99px;background:var(--surface);
+  color:var(--muted);cursor:pointer;box-shadow:var(--shadow)}
+.crumbs button:hover{color:var(--ink);border-color:var(--concept)}
+.crumbs button.here{color:var(--surface);background:var(--concept);border-color:var(--concept)}
+.crumbs .sep{color:var(--faint);font-size:11px}
+.edgepanel{position:absolute;left:14px;bottom:calc(var(--stage-bottom,0px) + 14px);
+  max-width:min(430px,calc(100% - var(--stage-right,0px) - 90px));
+  background:var(--surface);border:1px solid var(--technique);border-radius:8px;
+  padding:13px 40px 13px 15px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:5px;z-index:3}
+.edgepanel .pair{font-family:var(--mono);font-size:12px;color:var(--ink);word-break:break-word}
+.evidence{display:flex;flex-direction:column;gap:1px;margin-top:6px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);word-break:break-all}
+.evidence b{color:var(--ink);font-weight:500}
+.closebtn{position:absolute;top:12px;right:12px;width:30px;height:30px;
+  display:grid;place-items:center;border:0;border-radius:var(--r);
+  background:transparent;color:var(--faint);cursor:pointer;font-size:14px;line-height:1}
+.closebtn:hover{background:var(--sunk);color:var(--ink)}
+.closebtn.small{top:6px;right:6px;width:26px;height:26px;font-size:12px}
 
-.helpbtn{position:absolute;top:12px;right:14px;width:30px;height:30px;
-  border-radius:50%;border:1px solid var(--line);background:var(--surface);
-  color:var(--muted);font-family:var(--serif);font-size:15px;cursor:pointer;
-  box-shadow:var(--shadow);z-index:4}
-.helpbtn:hover{color:var(--ink);border-color:var(--concept)}
-.guide{position:absolute;inset:0;margin:auto;z-index:6;overflow-y:auto;
-  width:min(680px,92%);max-height:88%;height:max-content;
+/* ---------- guide ---------- */
+.guide{position:absolute;inset:0;margin:auto;z-index:8;overflow-y:auto;
+  width:min(680px,calc(100% - 32px));max-height:calc(100% - 40px);height:max-content;
   background:var(--surface);border:1px solid var(--line);border-radius:12px;
-  box-shadow:0 24px 70px rgba(0,0,0,.34);padding:26px 30px;
+  box-shadow:0 24px 70px rgba(0,0,0,.34);padding:28px 30px;
   display:flex;flex-direction:column;gap:18px}
-.guide[hidden]{display:none!important}
-.guide h2{font-family:var(--serif);font-weight:500;font-size:24px;margin:0;
-  letter-spacing:-.01em}
-.guide .lede{margin:0;font-size:14.5px;line-height:1.6;color:var(--ink);
-  max-width:60ch}
+.guide h2{font-family:var(--serif);font-weight:500;font-size:24px;margin:0;letter-spacing:-.01em}
+.guide .lede{margin:0;font-size:14.5px;line-height:1.6;color:var(--ink);max-width:60ch}
 .guide section{display:flex;flex-direction:column;gap:7px}
-.guide p{margin:0;font-size:13.5px;line-height:1.62;color:var(--muted);
-  max-width:64ch}
+.guide p{margin:0;font-size:13.5px;line-height:1.62;color:var(--muted);max-width:64ch}
 .guide ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
 .guide li{font-size:13.5px;line-height:1.55;color:var(--muted);max-width:62ch}
 .guide b{color:var(--ink);font-weight:600}
 .guide code{font-family:var(--mono);font-size:12.5px;color:var(--ink)}
 .guide .flow{font-family:var(--mono);font-size:12px;color:var(--ink);
-  background:var(--sunk);padding:8px 11px;border-radius:6px;line-height:1.9}
+  background:var(--sunk);padding:8px 11px;border-radius:var(--r);line-height:1.9}
 .guide .warn{border-left:2px solid var(--technique);padding-left:11px}
-.crumbs{position:absolute;top:12px;left:14px;display:flex;flex-wrap:wrap;
-  gap:4px;align-items:center;max-width:min(62%,640px);z-index:2}
-.crumbs button{font-family:var(--mono);font-size:11.5px;padding:4px 9px;
-  border:1px solid var(--line);border-radius:99px;background:var(--surface);
-  color:var(--muted);cursor:pointer;box-shadow:var(--shadow)}
-.crumbs button:hover{color:var(--ink);border-color:var(--concept)}
-.crumbs button.here{color:var(--surface);background:var(--concept);
-  border-color:var(--concept)}
-.crumbs .sep{color:var(--faint);font-size:11px}
-.zoomer{position:absolute;right:14px;bottom:14px;display:flex;flex-direction:column;
-  gap:5px;z-index:2}
-.zoomer button{width:34px;height:34px;font-size:16px;line-height:1;cursor:pointer;
-  border:1px solid var(--line);border-radius:7px;background:var(--surface);
-  color:var(--muted);box-shadow:var(--shadow)}
-.zoomer button:hover{color:var(--ink);border-color:var(--concept)}
-.edgepanel{position:absolute;left:14px;bottom:14px;max-width:min(430px,60%);
-  background:var(--surface);border:1px solid var(--technique);border-radius:8px;
-  padding:13px 34px 13px 15px;box-shadow:var(--shadow);
-  display:flex;flex-direction:column;gap:5px;z-index:2}
-.edgepanel[hidden]{display:none!important}
-.edgepanel .pair{font-family:var(--mono);font-size:12px;color:var(--ink);
-  word-break:break-word}
-.closebtn.small{top:8px;right:8px;padding:2px 6px;font-size:12px}
-.drawer{position:absolute;top:0;right:0;width:var(--drawer-w,clamp(360px,34vw,520px));
-  max-width:96%;height:100%;
-  background:var(--surface);border-left:1px solid var(--line);box-shadow:var(--shadow);
-  overflow-y:auto;padding:20px 20px 20px 26px;display:flex;flex-direction:column;gap:14px}
-.grip{position:absolute;left:0;top:0;width:11px;height:100%;cursor:col-resize;
+
+/* ---------- the panel ---------- */
+.drawer{position:absolute;top:0;right:0;width:var(--drawer-w,clamp(340px,30vw,480px));
+  max-width:calc(100% - 120px);height:100%;z-index:5;
+  background:var(--surface);border-left:1px solid var(--line);
+  overflow-y:auto;overscroll-behavior:contain;
+  padding:22px 24px 32px 28px;display:flex;flex-direction:column;gap:22px;
+  scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.grip{position:absolute;left:0;top:0;width:12px;height:100%;cursor:col-resize;
   background:transparent;z-index:3}
 .grip::after{content:"";position:absolute;left:4px;top:50%;transform:translateY(-50%);
-  width:3px;height:44px;border-radius:2px;background:var(--line)}
-.grip:hover::after,.grip:focus-visible::after{background:var(--concept);height:76px}
+  width:3px;height:40px;border-radius:2px;background:var(--line);transition:height .15s,background .15s}
+.grip:hover::after,.grip:focus-visible::after{background:var(--concept);height:72px}
+.sheetgrip{display:none}
 body.resizing{cursor:col-resize;user-select:none}
-.drawer[hidden]{display:none!important}
-.drawer h2{font-family:var(--serif);font-weight:500;font-size:22px;margin:0;
+.dhead{display:flex;flex-direction:column;gap:10px;padding-right:34px}
+.drawer h2{font-family:var(--serif);font-weight:500;font-size:23px;line-height:1.2;margin:0;
   letter-spacing:-.01em;text-wrap:balance}
-.nid{font-family:var(--mono);font-size:12px;color:var(--muted);word-break:break-all}
+.nid{font-family:var(--mono);font-size:11.5px;color:var(--faint);word-break:break-all;margin-top:3px}
 .tags{display:flex;gap:6px;flex-wrap:wrap}
-.tag{font-size:11px;padding:2px 7px;border-radius:99px;border:1px solid var(--line);
+.tag{font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);
   color:var(--muted);font-family:var(--mono)}
 .tag.on{border-color:transparent;color:var(--surface)}
-.body{font-size:13.5px;line-height:1.6;color:var(--ink);margin:0}
-.meta{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0}
-.deeper button{font-family:var(--sans);font-size:12.5px;padding:7px 11px;
-  width:100%;text-align:left;border:1px solid var(--concept);border-radius:6px;
-  background:var(--sunk);color:var(--concept);cursor:pointer;font-weight:500}
-.deeper button:hover{background:var(--concept);color:var(--surface)}
-.deeper button.done{border-color:var(--state);background:var(--state);
-  color:var(--surface)}
-.read{display:flex;gap:8px;align-items:baseline;font-size:12.5px;
-  text-decoration:none;color:var(--ink);padding:3px 0}
-.read:hover{color:var(--concept);text-decoration:underline}
-.read .kind{font-family:var(--mono);font-size:10px;color:var(--faint);
-  flex:none;min-width:74px}
-.snippet{border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.snippet.lib{border-color:var(--algorithm)}
-.snippet.lib header{background:color-mix(in srgb,var(--algorithm) 12%,transparent)}
+.stat{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12.5px;color:var(--muted);
+  font-variant-numeric:tabular-nums}
+.stat b{color:var(--ink);font-weight:600;font-family:var(--mono);font-size:13px;margin-right:4px}
+.sec{display:flex;flex-direction:column;gap:9px;min-width:0}
+.sec + .sec{border-top:1px solid var(--line-soft);padding-top:20px}
+.sec.lead{border-top:0;padding-top:0}
+.body{font-size:14.5px;line-height:1.65;color:var(--ink);margin:0;max-width:62ch}
+.meta{font-size:13px;color:var(--muted);line-height:1.6;margin:0;max-width:62ch}
+.credit{margin:0;font-size:11.5px;line-height:1.5;color:var(--faint)}
+.credit a{color:inherit}
+.empty{color:var(--faint);font-size:13px;font-style:italic;margin:0}
+.chain{display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-family:var(--mono);
+  font-size:11.5px;color:var(--muted)}
+.chain span.step{background:var(--sunk);padding:3px 7px;border-radius:4px;cursor:pointer}
+.chain span.step:hover{color:var(--ink)}
+.chain span.arrow{color:var(--faint)}
+
+.copybtn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
+  min-height:calc(var(--hit) + 4px);padding:0 13px;text-align:left;font-size:13px;font-weight:500;
+  border:1px solid var(--concept);border-radius:var(--r);background:transparent;
+  color:var(--concept);cursor:pointer;transition:background .12s,color .12s}
+.copybtn::after{content:"⧉";font-size:14px;opacity:.8}
+.copybtn:hover{background:var(--concept);color:var(--surface)}
+.copybtn.done{border-color:var(--state);background:var(--state);color:var(--surface)}
+.copybtn.done::after{content:"✓"}
+.readlist{display:flex;flex-direction:column}
+.read{display:grid;grid-template-columns:78px 1fr;gap:2px 10px;padding:9px 0;
+  text-decoration:none;color:var(--ink);border-top:1px solid var(--line-soft)}
+.read:first-child{border-top:0;padding-top:2px}
+.read .kind{grid-row:span 2;font-family:var(--mono);font-size:10px;color:var(--faint);
+  text-transform:uppercase;letter-spacing:.06em;padding-top:3px}
+.read .t{font-size:13.5px;line-height:1.4;min-width:0}
+.read .by{font-size:11.5px;color:var(--faint);min-width:0;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.read.unnamed .t{color:var(--muted);font-family:var(--mono);font-size:12px;word-break:break-all}
+.read:hover .t{color:var(--concept);text-decoration:underline;text-underline-offset:2px}
+
+.snippet{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;min-width:0}
+.snippet.lib{border-color:color-mix(in srgb,var(--algorithm) 55%,var(--line))}
+.snippet.lib header{background:color-mix(in srgb,var(--algorithm) 10%,var(--sunk))}
 .snote{margin:0;padding:8px 10px;font-size:12.5px;line-height:1.5;
   color:var(--muted);border-bottom:1px solid var(--line)}
-.credit{margin:0;font-size:11px;line-height:1.5;color:var(--faint)}
-.credit a{color:inherit}
-.notice{font-size:11px;color:var(--faint)}
+.notice{font-size:11.5px;color:var(--faint)}
 .notice summary{cursor:pointer}
 .notice pre{white-space:pre-wrap;font-family:var(--mono);font-size:10.5px;
   line-height:1.45;margin:6px 0 0;padding:8px;background:var(--sunk);
   border-radius:5px;max-height:220px;overflow-y:auto}
-.snippet header{display:flex;gap:8px;align-items:baseline;padding:5px 9px;
+.snippet header{display:flex;gap:8px;align-items:baseline;padding:6px 10px;
   background:var(--sunk);border-bottom:1px solid var(--line);
   font-family:var(--mono);font-size:10.5px;color:var(--muted);flex-wrap:wrap}
 .snippet header b{color:var(--ink);font-weight:500;word-break:break-all}
-.snippet pre{margin:0;overflow-x:auto;padding:7px 0;background:var(--surface)}
-.snippet code{font-family:var(--mono);font-size:12px;line-height:1.5;
-  display:block;white-space:pre}
-.snippet pre::-webkit-scrollbar{height:9px}
+.snippet pre{margin:0;overflow-x:auto;padding:8px 0;background:var(--surface)}
+.snippet code{font-family:var(--mono);font-size:12px;line-height:1.55;display:block;white-space:pre}
+.snippet pre::-webkit-scrollbar{height:8px}
 .snippet pre::-webkit-scrollbar-thumb{background:var(--line);border-radius:5px}
-.snippet .ln{display:inline-block;width:34px;text-align:right;padding-right:10px;
+.snippet .ln{display:inline-block;width:36px;text-align:right;padding-right:10px;
   color:var(--faint);user-select:none}
-.snippet .row{display:block;padding:0 9px 0 0}
+.snippet .row{display:block;padding:0 10px 0 0}
 .snippet .row.mark{background:color-mix(in srgb,var(--technique) 14%,transparent)}
 .snippet .row.mark .ln{color:var(--technique)}
-.talk{display:flex;flex-direction:column;gap:8px}
-.talkrow{font-size:12.5px;color:var(--ink);border-left:2px dashed var(--component);
-  padding:1px 0 1px 10px}
+.talk{display:flex;flex-direction:column;gap:10px}
+.talkrow{font-size:13px;color:var(--ink);border-left:2px dashed var(--component);
+  padding:1px 0 1px 11px}
 .talkrow code{font-family:var(--mono);font-size:12px}
 .talkrow a{color:var(--component)}
 .talkrow .where,.gfcode .where{font-family:var(--mono);font-size:11px;color:var(--faint);
   word-break:break-all}
-.gfcode{display:flex;flex-direction:column;gap:3px}
-.evidence{display:flex;flex-direction:column;gap:1px;margin-top:6px;
-  font-family:var(--mono);font-size:11px;color:var(--muted);word-break:break-all}
-.evidence b{color:var(--ink);font-weight:500}
-.knob{border-left:2px solid var(--technique);padding:2px 0 2px 10px;
+.gfcode{display:flex;flex-direction:column;gap:4px}
+.knob{border-left:2px solid var(--technique);padding:2px 0 2px 11px;
   display:flex;flex-direction:column;gap:2px}
 .knob code{font-family:var(--mono);font-size:12px;color:var(--ink)}
 .knob .where{font-family:var(--mono);font-size:11px;color:var(--faint);word-break:break-all}
-.knob .means{font-size:12.5px;color:var(--muted);line-height:1.5}
-.chain{display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-family:var(--mono);
-  font-size:11.5px;color:var(--muted)}
-.chain span.step{background:var(--sunk);padding:2px 6px;border-radius:4px}
-.chain span.arrow{color:var(--faint)}
-.closebtn{position:absolute;top:14px;right:14px;border:1px solid var(--line);
-  background:var(--surface);color:var(--muted);border-radius:5px;cursor:pointer;
-  font-size:14px;line-height:1;padding:4px 8px}
-.stat{display:flex;gap:18px;font-family:var(--mono);font-size:12px;color:var(--muted);
-  font-variant-numeric:tabular-nums}
-.stat b{color:var(--ink);font-weight:500;display:block;font-size:16px}
-.divider{height:1px;background:var(--line-soft)}
-.empty{color:var(--faint);font-size:12.5px;font-style:italic}
+.knob .means{font-size:13px;color:var(--muted);line-height:1.5}
+.scrim{display:none}
+
+/* ---------- tablet ---------- */
+@media (max-width:1100px){
+  main{grid-template-columns:228px 1fr}
+  .sub{display:none}
+}
+
+/* ---------- phone ---------- */
+@media (max-width:760px){
+  header.top{padding:8px 12px 8px 8px;gap:8px}
+  h1{font-size:17px}
+  .sub,.counts span:not(.keep){display:none}
+  .menubtn{display:grid;width:var(--hit);height:var(--hit);place-items:center;border:0;
+    background:transparent;border-radius:var(--r);color:var(--ink);cursor:pointer;font-size:18px}
+  .menubtn:hover{background:var(--sunk)}
+  main{grid-template-columns:1fr}
+  aside.rail{position:fixed;top:0;bottom:0;left:0;z-index:20;
+    width:min(320px,86vw);border-right:1px solid var(--line);
+    padding:calc(env(safe-area-inset-top,0px) + 16px) 18px calc(env(safe-area-inset-bottom,0px) + 24px)
+      max(18px,env(safe-area-inset-left,0px));
+    transform:translateX(-102%);transition:transform .24s var(--ease);box-shadow:var(--shadow)}
+  body.menu-open aside.rail{transform:none}
+  .scrim{display:block;position:fixed;inset:0;z-index:19;background:var(--scrim);
+    opacity:0;pointer-events:none;transition:opacity .24s}
+  body.menu-open .scrim{opacity:1;pointer-events:auto}
+  .drawer{top:auto;bottom:0;left:0;right:0;width:100%;max-width:100%;
+    height:var(--sheet-h,46%);border-left:0;border-top:1px solid var(--line);
+    border-radius:14px 14px 0 0;box-shadow:var(--lift);
+    padding:0 18px calc(env(safe-area-inset-bottom,0px) + 28px);gap:18px;
+    transition:height .26s var(--ease)}
+  body.sheet-dragging .drawer{transition:none}
+  .grip{display:none}
+  .sheetgrip{display:flex;justify-content:center;align-items:center;flex:none;
+    position:sticky;top:0;z-index:2;height:28px;margin:0 -18px -10px;
+    background:var(--surface);border:0;cursor:grab;touch-action:none;width:calc(100% + 36px)}
+  .sheetgrip::before{content:"";width:38px;height:5px;border-radius:3px;background:var(--line)}
+  .drawer .closebtn{top:22px}
+  .drawer h2{font-size:21px}
+  .crumbs{max-width:calc(100% - 70px);flex-wrap:nowrap;overflow-x:auto;
+    scrollbar-width:none;padding-bottom:2px}
+  .crumbs::-webkit-scrollbar{display:none}
+  .crumbs button{white-space:nowrap}
+  .edgepanel{top:52px;bottom:auto;max-width:calc(100% - 28px)}
+  .depthkey{display:none}
+  body.sheet-full .zoomer{display:none}
+  .guide{padding:22px 20px}
+  .read{grid-template-columns:1fr}
+  .read .kind{grid-row:auto;padding:0}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
-<header>
+<header class="top">
+  <button class="menubtn" id="menu" type="button" aria-label="Show controls"
+          aria-expanded="false" aria-controls="rail">☰</button>
   <h1>Canon Map</h1>
   <span class="sub">every prerequisite behind one robot's localization</span>
   <div class="counts">
     <span><b id="c-nodes">0</b> nodes</span>
     <span><b id="c-edges">0</b> edges</span>
-    <span><b id="c-path">0</b> on path</span>
+    <span class="keep"><b id="c-path">0</b> on path</span>
     <span><b id="c-depth">0</b> layers</span>
   </div>
 </header>
 
 <main>
-  <aside class="rail">
+  <div class="scrim" id="scrim"></div>
+  <aside class="rail" id="rail">
     <div class="group">
-      <span class="eyebrow">Find</span>
-      <input type="search" id="q" placeholder="matrix_inversion…" autocomplete="off">
+      <label class="eyebrow" for="q">Find a node</label>
+      <input type="search" id="q" placeholder="kalman, jacobian, schur…" autocomplete="off">
       <div class="hits" id="hits"></div>
-    </div>
-    <div class="group">
-      <span class="eyebrow">Axes</span>
-      <label class="axis"><span>X</span><select id="ax-x"></select></label>
-      <label class="axis"><span>Y</span><select id="ax-y"></select></label>
-      <label class="axis"><span>Z</span><select id="ax-z"></select></label>
-      <p class="hint" id="axhint"></p>
     </div>
     <div class="group">
       <span class="eyebrow">View</span>
       <div class="btns">
-        <button id="reset" type="button">Start over</button>
-        <button id="all" type="button">Show all</button>
+        <button class="btn" id="reset" type="button">Start over</button>
+        <button class="btn" id="all" type="button">Show all</button>
       </div>
-      <label class="row"><input type="checkbox" id="pathonly"> Localization path only</label>
-      <label class="row"><input type="checkbox" id="showlabels" checked> Labels</label>
-      <label class="row"><input type="checkbox" id="spin"> Rotate</label>
+      <div>
+        <label class="row"><input type="checkbox" id="pathonly"> Localization path only</label>
+        <label class="row"><input type="checkbox" id="showlabels" checked> Labels</label>
+        <label class="row"><input type="checkbox" id="spin"> Rotate slowly</label>
+      </div>
     </div>
     <div class="group">
-      <span class="eyebrow">Node type</span>
+      <span class="eyebrow">Colour is what a node is</span>
       <div class="legend">
-        <div><i class="swatch" style="background:var(--system)"></i>system &amp; subsystem</div>
-        <div><i class="swatch" style="background:var(--component)"></i>component (a running node)</div>
-        <div><i class="swatch" style="background:var(--concept)"></i>concept</div>
-        <div><i class="swatch" style="background:var(--technique)"></i>technique — a move</div>
+        <div><i class="swatch" style="background:var(--system)"></i>program and subsystem</div>
+        <div><i class="swatch" style="background:var(--component)"></i>component, a running node</div>
         <div><i class="swatch" style="background:var(--algorithm)"></i>algorithm</div>
-        <div><i class="swatch" style="background:var(--state)"></i>in your profile</div>
+        <div><i class="swatch" style="background:var(--concept)"></i>concept</div>
+        <div><i class="swatch" style="background:var(--technique)"></i>technique, a move you make</div>
+        <div><i class="swatch" style="background:var(--state)"></i>already in your profile</div>
       </div>
     </div>
-    <div class="group">
-      <span class="eyebrow">Reading it</span>
-      <p class="hint">Each axis is a measured quantity, named on the
-      viewport. Read one axis at a time: the diagonal between two nodes mixes
-      units and means nothing. An axis set to <em>spread</em> is drawn without
-      a line, because that direction carries no information.</p>
-      <p class="hint">It opens on the filter itself. Click any node to reveal
-      what it needs — the badge counts what is still hidden beneath it.</p>
-      <p class="hint">Trackpad: two fingers to pan, pinch to zoom, drag to
-      turn, shift-drag to pan. Or the buttons bottom-right, and + − 0.</p>
-      <p class="hint">Click a <em>line</em> to read why that prerequisite
-      exists. Selecting a node drops a marker onto each axis showing its
-      reading.</p>
-    </div>
+    <details class="axes">
+      <summary class="eyebrow">Axes</summary>
+      <div class="group">
+        <label class="axis"><span>X</span><select id="ax-x"></select></label>
+        <label class="axis"><span>Y</span><select id="ax-y"></select></label>
+        <label class="axis"><span>Z</span><select id="ax-z"></select></label>
+        <div class="hint" id="axhint"></div>
+      </div>
+    </details>
+    <button class="btn quiet" id="guidelink" type="button">How to read this map →</button>
   </aside>
 
   <div class="stage">
     <canvas id="c"></canvas>
     <nav class="crumbs" id="crumbs" aria-label="Walkthrough position"></nav>
-    <button class="helpbtn" id="helpbtn" type="button"
+    <button class="floatbtn helpbtn" id="helpbtn" type="button"
             aria-label="How to read this map">?</button>
 
     <div class="guide" id="guide" hidden>
@@ -389,6 +477,9 @@ body.resizing{cursor:col-resize;user-select:none}
           <b>pinch</b> zooms about the cursor, <b>shift-drag</b> pans.
           <b>+ − 0</b> also work. <b>Esc</b> closes.</li>
           <li>Drag the panel's left edge to resize it; the width is remembered.</li>
+          <li><b>On a phone</b>: one finger turns, two fingers pinch and pan.
+          Tap a circle and its panel rises from the bottom; drag the handle
+          up to read, down to close. The controls are behind ☰.</li>
         </ul>
       </section>
 
@@ -405,9 +496,9 @@ body.resizing{cursor:col-resize;user-select:none}
     </div>
     <div class="depthkey" id="dk"></div>
     <div class="zoomer">
-      <button id="z-in"  type="button" aria-label="Zoom in">+</button>
-      <button id="z-out" type="button" aria-label="Zoom out">−</button>
-      <button id="z-fit" type="button" aria-label="Fit to view">⤢</button>
+      <button class="floatbtn" id="z-in"  type="button" aria-label="Zoom in">+</button>
+      <button class="floatbtn" id="z-out" type="button" aria-label="Zoom out">−</button>
+      <button class="floatbtn" id="z-fit" type="button" aria-label="Fit to view">⤢</button>
     </div>
     <div class="edgepanel" id="edgepanel" hidden>
       <button class="closebtn small" id="e-close" aria-label="Close">✕</button>
@@ -416,65 +507,60 @@ body.resizing{cursor:col-resize;user-select:none}
       <p class="meta" id="e-why"></p>
     </div>
     <div class="drawer" id="drawer" hidden>
+      <button class="sheetgrip" id="sheetgrip" type="button"
+              aria-label="Expand or shrink the panel"></button>
       <div class="grip" id="grip" role="separator" aria-orientation="vertical"
            aria-label="Resize panel" tabindex="0"></div>
-      <button class="closebtn" id="close" aria-label="Close">✕</button>
-      <div>
-        <h2 id="d-name"></h2>
-        <div class="nid" id="d-id"></div>
+      <button class="closebtn" id="close" type="button" aria-label="Close panel">✕</button>
+      <div class="dhead">
+        <div>
+          <h2 id="d-name"></h2>
+          <div class="nid" id="d-id"></div>
+        </div>
+        <div class="tags" id="d-tags"></div>
+        <div class="stat" id="d-stat"></div>
       </div>
-      <div class="tags" id="d-tags"></div>
-      <div class="stat">
-        <span>depth<b id="d-depth">0</b></span>
-        <span>steps<b id="d-steps">0</b></span>
-        <span>exercises<b id="d-ex">0</b></span>
-        <span>needs<b id="d-needs">0</b></span>
-      </div>
-      <div class="divider"></div>
-      <div id="d-chainwrap">
-        <span class="eyebrow">Why it is on the path</span>
+      <div class="sec lead" id="d-chainwrap">
+        <span class="eyebrow">Why it is on your path</span>
         <div class="chain" id="d-chain"></div>
       </div>
-      <div id="d-whywrap">
+      <div class="sec" id="d-stwrap">
+        <span class="eyebrow">Statement</span>
+        <p class="body" id="d-statement"></p>
+        <p class="credit" id="d-attrib"></p>
+      </div>
+      <div class="sec" id="d-whywrap">
         <span class="eyebrow">In agrios_ws</span>
         <p class="meta" id="d-why"></p>
       </div>
-      <div id="d-talkwrap" hidden>
+      <div class="sec" id="d-codewrap">
+        <span class="eyebrow">Where it runs</span>
+        <div id="d-code" style="display:flex;flex-direction:column;gap:12px"></div>
+      </div>
+      <div class="sec" id="d-knobwrap">
+        <span class="eyebrow">Config it reaches</span>
+        <div id="d-knobs" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+      <div class="sec" id="d-talkwrap" hidden>
         <span class="eyebrow">Talks to</span>
         <div id="d-talk" class="talk"></div>
       </div>
-      <div id="d-gfwrap" hidden>
+      <div class="sec" id="d-gfwrap" hidden>
         <span class="eyebrow">Its own code</span>
         <div id="d-gfcode" class="gfcode"></div>
       </div>
-      <div id="d-gfdescwrap" hidden>
+      <div class="sec" id="d-gfdescwrap" hidden>
         <span class="eyebrow">What your docs say</span>
         <div id="d-gfdesc"></div>
         <p class="credit">Written by Graphify's model from your README and
         configs. Context to read, not something the map relies on.</p>
       </div>
-      <div id="d-knobwrap">
-        <span class="eyebrow">Config it reaches</span>
-        <div id="d-knobs" style="display:flex;flex-direction:column;gap:10px"></div>
-      </div>
-      <div id="d-readwrap">
+      <div class="sec" id="d-readwrap">
         <span class="eyebrow">Go deeper</span>
-        <div class="deeper">
-          <button id="d-copy" type="button">Copy a prompt for another model</button>
-          <p class="hint" id="d-copynote">Carries what you already know, what
-          this node is for in your robot, and where it sits in the chain — so
-          the answer starts where the sheet stops.</p>
-        </div>
-        <div id="d-reading" style="display:flex;flex-direction:column;gap:6px"></div>
-      </div>
-      <div id="d-codewrap">
-        <span class="eyebrow">Where it is in the code</span>
-        <div id="d-code" style="display:flex;flex-direction:column;gap:12px"></div>
-      </div>
-      <div id="d-stwrap">
-        <span class="eyebrow">Statement</span>
-        <p class="body" id="d-statement"></p>
-        <p class="credit" id="d-attrib"></p>
+        <button class="copybtn" id="d-copy" type="button">Copy a prompt for another model</button>
+        <p class="hint" id="d-copynote">It carries what you already know, what this
+        node does in your robot, where it sits in the chain, and the sources below.</p>
+        <div class="readlist" id="d-reading"></div>
       </div>
     </div>
   </div>
@@ -759,7 +845,11 @@ function expand(id) {
 function reset() {
   revealed.clear(); expanded.clear();
   const root = byId.get(START) ? START : nodes[0].id;
-  reveal(root); expand(root); select(root); fit(true);
+  reveal(root); expand(root); select(root);
+  // On a phone the program's panel says almost nothing and would take half
+  // the screen. The trail still shows where you are; tap a node to open it.
+  if (isPhone()) { drawer.hidden = true; syncInsets(); }
+  fit(true);
 }
 function expandAll() {
   for (const n of nodes) { reveal(n.id); expanded.add(n.id); }
@@ -781,6 +871,7 @@ function resize() {
   cw = r.width; ch = r.height;
   canvas.width = Math.round(cw * dpr); canvas.height = Math.round(ch * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  insetR = insetB = 0; syncInsets();
   fit(true); frame();
 }
 new ResizeObserver(resize).observe(canvas);
@@ -791,10 +882,35 @@ function rot(n) {
   const x1 = n.x * cy - n.z * sy, z1 = n.x * sy + n.z * cy;
   return { x: x1, y: n.y * cp - z1 * sp, z: n.y * sp + z1 * cp };
 }
+/* What the panel covers. The map centres in what is left: centred on the
+   whole canvas, the graph sat half under the open panel and the node you had
+   just clicked was the one you could not see. */
+let insetR = 0, insetB = 0;
+const isPhone = () => window.matchMedia('(max-width:760px)').matches;
+const cx = () => (cw - insetR) / 2, cy = () => (ch - insetB) / 2;
+function syncInsets() {
+  const d = document.getElementById('drawer');
+  let r = 0, b = 0;
+  if (!d.hidden) {
+    // The sheet animates its height, so read the height it is going to,
+    // not the one it is passing through.
+    if (isPhone()) b = Math.round(ch * sheetFraction);
+    else r = d.offsetWidth;
+  }
+  if (r === insetR && b === insetB) return;
+  // Shift the pan by the same amount so nothing on screen jumps when the
+  // centre moves; flyTo then glides the selection into the new centre.
+  const dx = ((cw - r) - (cw - insetR)) / 2, dy = ((ch - b) - (ch - insetB)) / 2;
+  for (const v of [view, target]) { v.px -= dx / v.zoom; v.py -= dy / v.zoom; }
+  insetR = r; insetB = b;
+  const root = document.documentElement.style;
+  root.setProperty('--stage-right', r + 'px');
+  root.setProperty('--stage-bottom', b + 'px');
+}
 function project(n) {
   const r = rot(n), s = dist / (dist + r.z + 900);
-  return { sx: cw / 2 + (r.x * s + view.px) * view.zoom,
-           sy: ch / 2 - (r.y * s - view.py) * view.zoom, z: r.z, s };
+  return { sx: cx() + (r.x * s + view.px) * view.zoom,
+           sy: cy() - (r.y * s - view.py) * view.zoom, z: r.z, s };
 }
 
 /* Fly to one node: centre it and hold a readable zoom, easing there rather
@@ -821,10 +937,11 @@ function fit(snap) {
     minX = Math.min(minX, r.x * s); maxX = Math.max(maxX, r.x * s);
     minY = Math.min(minY, r.y * s); maxY = Math.max(maxY, r.y * s);
   }
-  const pad = 120;
+  const aw = cw - insetR, ah = ch - insetB;
+  const pad = Math.min(120, Math.min(aw, ah) * 0.16);
   const w = Math.max(maxX - minX, 60), h = Math.max(maxY - minY, 60);
   target.zoom = Math.min(3.2, Math.max(0.3,
-    Math.min((cw - pad * 2) / w, (ch - pad * 2) / h)));
+    Math.min((aw - pad * 2) / w, (ah - pad * 2) / h)));
   target.px = -(minX + maxX) / 2;
   target.py = (minY + maxY) / 2;
   if (snap) { view = { ...target }; }
@@ -881,10 +998,11 @@ function radiusFor(n) {
    measure rather than merely as up. An unbound axis is drawn faintly and
    labelled "spread" so its meaninglessness is visible too. */
 function drawGizmo() {
+  if (ch - insetB < 200) return;            // no room above a full sheet
   const keys = [axis.x, axis.y, axis.z];
   const dirs = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
   const names = ['X', 'Y', 'Z'];
-  const ox = 66, oy = ch - 74, arm = 34;
+  const ox = 66, oy = ch - insetB - 74, arm = 34;
 
   ctx.save();
   ctx.globalAlpha = 0.97;
@@ -1082,6 +1200,10 @@ function draw(now) {
     for (let i = 0; i < 3; i++) {
       if (keys[i] === 'none') continue;
       const foot = project(feet[i]);
+      // A node sitting on the axis has its reading under its own circle:
+      // the tag covered the program node at level 0. The panel says it.
+      if (Math.hypot(foot.sx - here.sx, foot.sy - here.sy) <
+          radiusFor(n) * Math.max(1, view.zoom) + 30) continue;
       ctx.globalAlpha = 0.8; ctx.strokeStyle = css('--technique');
       ctx.setLineDash([3, 4]); ctx.lineWidth = 1.2;
       ctx.beginPath(); ctx.moveTo(here.sx, here.sy);
@@ -1159,13 +1281,41 @@ function frame() {
 
 /* ---------- interaction ---------- */
 let dragging = false, panning = false, lastX = 0, lastY = 0, moved = 0;
+/* Two fingers pinch and pan, as on any map; one finger still turns. Without
+   this a phone could only rotate -- the zoom was trackpad-only. */
+const fingers = new Map();
+let pinch = null;
+function pinchState() {
+  const [a, b] = [...fingers.values()], r = canvas.getBoundingClientRect();
+  return { d: Math.hypot(a.x - b.x, a.y - b.y) || 1,
+           mx: (a.x + b.x) / 2 - r.left, my: (a.y + b.y) / 2 - r.top };
+}
 canvas.addEventListener('pointerdown', e => {
+  if (e.pointerType === 'touch') {
+    fingers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (fingers.size === 2) {
+      pinch = pinchState(); dragging = false; moved = 99;
+      canvas.setPointerCapture(e.pointerId);
+      return;
+    }
+  }
   dragging = true; moved = 0; lastX = e.clientX; lastY = e.clientY;
   panning = e.shiftKey || e.button === 1;
   canvas.classList.add('dragging'); canvas.setPointerCapture(e.pointerId);
 });
 canvas.addEventListener('contextmenu', e => e.preventDefault());
 canvas.addEventListener('pointermove', e => {
+  if (fingers.has(e.pointerId)) fingers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (pinch && fingers.size === 2) {
+    const now = pinchState();
+    zoomAt(now.d / pinch.d, now.mx, now.my);
+    for (const v of [view, target]) {
+      v.px += (now.mx - pinch.mx) / target.zoom;
+      v.py += (now.my - pinch.my) / target.zoom;
+    }
+    pinch = now; frame();
+    return;
+  }
   if (dragging) {
     const dx = e.clientX - lastX, dy = e.clientY - lastY;
     moved += Math.abs(dx) + Math.abs(dy);
@@ -1182,7 +1332,14 @@ canvas.addEventListener('pointermove', e => {
   const hit = pick(e), id = hit ? hit.id : null;
   if (id !== hovered) { hovered = id; canvas.style.cursor = id ? 'pointer' : 'grab'; frame(); }
 });
+const lift = e => {
+  fingers.delete(e.pointerId);
+  if (fingers.size < 2) pinch = null;
+};
+canvas.addEventListener('pointercancel', e => { lift(e); dragging = false; });
 canvas.addEventListener('pointerup', e => {
+  lift(e);
+  if (!dragging) return;
   dragging = false; canvas.classList.remove('dragging');
   if (moved > 5) return;
   const hit = pick(e);
@@ -1203,7 +1360,7 @@ function pickEdge(e) {
   const mx = e.clientX - r.left, my = e.clientY - r.top;
   const pts = new Map();
   for (const id of shownIds()) pts.set(id, project(byId.get(id)));
-  let best = null, bestD = 9;
+  let best = null, bestD = e.pointerType === 'touch' ? 14 : 9;
   for (const edge of edges) {
     const a = pts.get(edge.from), b = pts.get(edge.to);
     if (!a || !b) continue;
@@ -1254,8 +1411,8 @@ function zoomAt(factor, mx, my) {
   const before = target.zoom;
   const after = Math.max(0.15, Math.min(8, before * factor));
   if (after === before) return;
-  target.px += (mx - cw / 2) * (1 / after - 1 / before);
-  target.py += (ch / 2 - my) * (1 / before - 1 / after);
+  target.px += (mx - cx()) * (1 / after - 1 / before);
+  target.py += (cy() - my) * (1 / before - 1 / after);
   target.zoom = after;
   view.px = target.px; view.py = target.py; view.zoom = target.zoom;
 }
@@ -1280,7 +1437,7 @@ canvas.addEventListener('wheel', e => {
 function pick(e) {
   const r = canvas.getBoundingClientRect();
   const mx = e.clientX - r.left, my = e.clientY - r.top;
-  let best = null, bestD = 22;
+  let best = null, bestD = e.pointerType === 'touch' ? 30 : 22;
   for (const id of shownIds()) {
     const p = project(byId.get(id));
     const d = Math.hypot(p.sx - mx, p.sy - my);
@@ -1355,6 +1512,28 @@ function drawCrumbs(id) {
    makes this node relevant, what the reader has already worked through, the
    role it plays in their code, and where the sheet stops. Nothing here is
    generated, so there is nothing here to be wrong. */
+const hostOf = url => { try { return new URL(url).hostname.replace(/^www\./, ''); }
+                        catch (err) { return ''; } };
+
+/* The sources the sheet was restated from, then the article's own further
+   reading, so the other model starts from the same material and says when
+   it leaves it. */
+function sourceLines(n) {
+  const out = [];
+  for (const s of (n.statement ? n.sources || [] : [])) {
+    if (!s.startsWith('wikipedia:')) continue;
+    const title = s.slice('wikipedia:'.length);
+    out.push(`- Wikipedia, "${title.replace(/_/g, ' ').replace('#', ' § ')}" — ` +
+             'https://en.wikipedia.org/wiki/' + encodeURI(title) +
+             ' (the statement above is restated from this)');
+  }
+  for (const r of n.reading || []) {
+    const name = r.via === 'url' ? '(untitled link)' : `"${r.title}"`;
+    out.push(`- ${name}${r.byline ? ', ' + r.byline : ''} [${r.kind}] — ${r.url}`);
+  }
+  return out;
+}
+
 function studyPrompt(n) {
   const chain = chainTo(n.id);
   const below = (needs.get(n.id) || []).map(id => (byId.get(id) || {}).name || id);
@@ -1379,6 +1558,15 @@ function studyPrompt(n) {
   if (n.statement) {
     lines.push('What I have so far, which is a restatement rather than a derivation:');
     lines.push(`> ${n.statement.replace(/\s+/g, ' ').slice(0, 700)}`);
+    lines.push('');
+  }
+  const sources = sourceLines(n);
+  if (sources.length) {
+    lines.push('Sources I have for it:');
+    lines.push(...sources);
+    lines.push('Work from these where you can, and say which one each step ' +
+               'follows. If you use something else, or a source disagrees ' +
+               'with what you write, tell me.');
     lines.push('');
   }
   lines.push('What I want from you:');
@@ -1447,11 +1635,22 @@ function renderGraphify(n) {
 function select(id) {
   selected = id;
   drawCrumbs(id);
-  if (!id) { drawer.hidden = true; frame(); return; }
+  if (!id) {
+    drawer.hidden = true; document.body.classList.remove('sheet-full');
+    syncInsets(); frame(); return;
+  }
   const n = byId.get(id);
+  const opening = drawer.hidden;
   drawer.hidden = false;
+  if (opening && isPhone()) setSheet(SHEET_PEEK);
+  syncInsets();
   document.getElementById('d-name').textContent = n.name;
-  document.getElementById('d-id').textContent = n.id;
+  // The id repeats the name for most nodes ("agrios_ws" / "agrios_ws"); show
+  // it only when it is the thing you would search for and it differs.
+  const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '');
+  const nid = document.getElementById('d-id');
+  nid.textContent = slug(n.name) === slug(n.id.split('__').pop()) ? '' : n.id;
+  nid.hidden = !nid.textContent;
 
   const tags = document.getElementById('d-tags');
   tags.innerHTML = '';
@@ -1465,10 +1664,21 @@ function select(id) {
   if (n.onPath) add('on your path');
   if (n.state) add(n.state, css('--state'));
 
-  document.getElementById('d-depth').textContent = n.depth;
-  document.getElementById('d-steps').textContent = n.steps;
-  document.getElementById('d-ex').textContent = n.exercises;
-  document.getElementById('d-needs').textContent = closureSize(id);
+  // Label folded into the value, and only what is true of this node: a row
+  // of zeros on the program said nothing four times.
+  const stat = document.getElementById('d-stat'); stat.innerHTML = '';
+  const fact = (value, words) => {
+    const el = document.createElement('span');
+    const b = document.createElement('b'); b.textContent = value;
+    el.append(b, words); stat.appendChild(el);
+  };
+  const isMaths = !['system', 'subsystem', 'component'].includes(n.type);
+  const below = closureSize(id);
+  if (isMaths && n.steps) fact(n.steps, n.steps === 1 ? 'step' : 'steps');
+  if (isMaths && n.exercises) fact(n.exercises, n.exercises === 1 ? 'exercise' : 'exercises');
+  if (below) fact(below, 'prerequisites below it');
+  if (isMaths) fact(n.depth, 'levels deep');
+  stat.hidden = !stat.childElementCount;
 
   const chain = chainTo(id), cwrap = document.getElementById('d-chain');
   cwrap.innerHTML = '';
@@ -1504,23 +1714,30 @@ function select(id) {
   reading.innerHTML = '';
   for (const item of (n.reading || [])) {
     const a = document.createElement('a');
-    a.className = 'read'; a.href = item.url;
-    a.target = '_blank'; a.rel = 'noopener noreferrer';
+    // A link nobody could name keeps its URL label, shown as a URL rather
+    // than passed off as a title.
+    a.className = 'read' + (item.via === 'url' ? ' unnamed' : '');
+    a.href = item.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
     const kind = document.createElement('span');
     kind.className = 'kind'; kind.textContent = item.kind;
-    const label = document.createElement('span');
-    label.textContent = item.title;
-    a.append(kind, label);
+    const title = document.createElement('span');
+    title.className = 't';
+    title.textContent = item.via === 'url' ? item.title.split(' — ')[0] : item.title;
+    const by = document.createElement('span');
+    by.className = 'by';
+    by.textContent = [item.byline, hostOf(item.url)].filter(Boolean).join(' · ');
+    a.append(kind, title, by);
     reading.appendChild(a);
   }
   document.getElementById('d-readwrap').hidden = false;
   document.getElementById('d-copynote').hidden = false;
+  reading.hidden = !(n.reading || []).length;
   const copy = document.getElementById('d-copy');
-  copy.className = '';
+  copy.className = 'copybtn';
   copy.textContent = 'Copy a prompt for another model';
   copy.onclick = () => {
     navigator.clipboard.writeText(studyPrompt(n)).then(() => {
-      copy.className = 'done';
+      copy.className = 'copybtn done';
       copy.textContent = 'Copied — paste it into any model';
     }, () => { copy.textContent = 'Could not copy'; });
   };
@@ -1555,8 +1772,9 @@ function select(id) {
       const ln = document.createElement('span');
       ln.className = 'ln'; ln.textContent = num;
       row.append(ln, document.createTextNode(line === '' ? ' ' : line));
+      // Rows are blocks, so they already break; a newline between them in a
+      // white-space:pre parent rendered as a blank line under every line.
       codeEl.appendChild(row);
-      codeEl.appendChild(document.createTextNode('\n'));
     });
     pre.appendChild(codeEl);
     box.appendChild(pre);
@@ -1595,6 +1813,7 @@ function select(id) {
   }
 
   const st = document.getElementById('d-statement');
+  document.getElementById('d-stwrap').hidden = !n.statement && !isMaths;
   if (n.statement) { st.innerHTML = tex(n.statement); st.className = 'body'; }
   else { st.textContent = 'No sheet generated for this node yet.'; st.className = 'empty'; }
   // A restatement of Wikipedia text is an adaptation under CC BY-SA 4.0, and
@@ -1623,6 +1842,45 @@ function select(id) {
   }
   frame();
 }
+/* On a phone the panel is a sheet with two resting heights, the way Maps
+   does it: at peek the map above stays usable, full is for reading. Tap the
+   handle to switch, drag it anywhere between, pull it down to close. */
+const SHEET_PEEK = 0.46, SHEET_FULL = 0.9;
+let sheetFraction = SHEET_PEEK;
+function setSheet(f) {
+  sheetFraction = f;
+  document.body.classList.toggle('sheet-full', f >= SHEET_FULL);
+  document.documentElement.style.setProperty('--sheet-h', Math.round(f * 100) + '%');
+  syncInsets(); frame();
+}
+const sheetgrip = document.getElementById('sheetgrip');
+sheetgrip.addEventListener('pointerdown', e => {
+  e.preventDefault();
+  sheetgrip.setPointerCapture(e.pointerId);
+  const box = canvas.getBoundingClientRect(), startY = e.clientY;
+  const fractionAt = y => Math.max(0.12, Math.min(0.94, (box.bottom - y) / box.height));
+  let travel = 0;
+  document.body.classList.add('sheet-dragging');
+  const move = ev => {
+    travel = Math.max(travel, Math.abs(ev.clientY - startY));
+    document.documentElement.style.setProperty('--sheet-h',
+      Math.round(fractionAt(ev.clientY) * 100) + '%');
+  };
+  const up = ev => {
+    document.body.classList.remove('sheet-dragging');
+    sheetgrip.removeEventListener('pointermove', move);
+    sheetgrip.removeEventListener('pointerup', up);
+    sheetgrip.removeEventListener('pointercancel', up);
+    if (travel < 6) { setSheet(sheetFraction === SHEET_FULL ? SHEET_PEEK : SHEET_FULL); return; }
+    const f = fractionAt(ev.clientY);
+    if (f < 0.26) { select(null); setSheet(SHEET_PEEK); return; }
+    setSheet(f > (SHEET_PEEK + SHEET_FULL) / 2 ? SHEET_FULL : SHEET_PEEK);
+  };
+  sheetgrip.addEventListener('pointermove', move);
+  sheetgrip.addEventListener('pointerup', up);
+  sheetgrip.addEventListener('pointercancel', up);
+});
+
 /* A floating panel would cover the graph you are turning, so the panel is
    docked and the edge is draggable instead. Width survives a reload. */
 const drawerEl = document.getElementById('drawer');
@@ -1673,6 +1931,18 @@ try {
 
 document.getElementById('close').onclick = () => select(null);
 
+/* On a phone the controls slide in over the map instead of taking a strip
+   of it; anything that changes the view closes them again. */
+const menuBtn = document.getElementById('menu');
+function setMenu(open) {
+  document.body.classList.toggle('menu-open', open);
+  menuBtn.setAttribute('aria-expanded', String(open));
+}
+menuBtn.onclick = () => setMenu(!document.body.classList.contains('menu-open'));
+document.getElementById('scrim').onclick = () => setMenu(false);
+const closeMenuOnPhone = () => { if (isPhone()) setMenu(false); };
+document.getElementById('guidelink').onclick = () => { closeMenuOnPhone(); showGuide(true); };
+
 /* ---------- controls ---------- */
 const q = document.getElementById('q'), hits = document.getElementById('hits');
 q.addEventListener('input', () => {
@@ -1683,6 +1953,7 @@ q.addEventListener('input', () => {
     const b = document.createElement('button');
     b.textContent = n.id;
     b.onclick = () => {
+      closeMenuOnPhone();
       for (const step of chainTo(n.id)) reveal(step);
       reveal(n.id); select(n.id); flyTo(n.id);
     };
@@ -1740,17 +2011,19 @@ function describeAxes() {
     el.appendChild(block);
   }
 }
-const zoomBy = f => { zoomAt(f, cw / 2, ch / 2); frame(); };
+const zoomBy = f => { zoomAt(f, cx(), cy()); frame(); };
 document.getElementById('z-in').onclick = () => zoomBy(1.3);
 document.getElementById('z-out').onclick = () => zoomBy(1 / 1.3);
 document.getElementById('z-fit').onclick = () => { fit(false); frame(); };
-document.getElementById('reset').onclick = reset;
+document.getElementById('reset').onclick = () => { closeMenuOnPhone(); reset(); };
 const allBtn = document.getElementById('all');
 // The canon grows. A count written into the markup goes stale silently,
 // and this one read 226 while the map drew 246.
-allBtn.textContent = `Show all ${DATA.nodes.filter(n => n.type !== 'system'
-  && n.type !== 'subsystem' && n.type !== 'component').length}`;
-allBtn.onclick = expandAll;
+const mathsCount = DATA.nodes.filter(n => n.type !== 'system'
+  && n.type !== 'subsystem' && n.type !== 'component').length;
+allBtn.textContent = `Show all ${mathsCount}`;
+allBtn.title = `Reveal every node, including all ${mathsCount} pieces of mathematics`;
+allBtn.onclick = () => { closeMenuOnPhone(); expandAll(); };
 /* Step through the graph rather than fly a camera over it: down goes to what
    this node needs, up to what needs it, left and right along its siblings.
    Revealing as it goes, so arrowing down is itself a way to descend. */
@@ -1785,6 +2058,9 @@ window.addEventListener('keydown', e => {
   if (arrows[e.key]) { e.preventDefault(); step(arrows[e.key]); return; }
   if (e.key === 'f' || e.key === 'F') { if (selected) flyTo(selected); return; }
   if (e.key === 'Escape' && !guide.hidden) { showGuide(false); return; }
+  if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+    setMenu(false); return;
+  }
   if (e.key === 'Escape') {
     selectedEdge = null;
     document.getElementById('edgepanel').hidden = true;

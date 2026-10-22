@@ -146,5 +146,59 @@ class TheMapFormatsMaths(unittest.TestCase):
                           "x<sub>k-1</sub>"])
 
 
+@unittest.skipUnless(shutil.which("node"), "needs node to run the template's JS")
+class ThePromptNamesItsSources(unittest.TestCase):
+    """Runs the template's own sourceLines() on a node."""
+
+    def lines(self, node: dict) -> list[str]:
+        page = (ROOT / "viz" / "canon_map_template.html").read_text()
+        start = page.index("const hostOf")
+        end = page.index("function studyPrompt")
+        script = (page[start:end] + "\nconsole.log(JSON.stringify(sourceLines("
+                  + json.dumps(node) + ")));")
+        out = subprocess.run(["node", "-e", script], capture_output=True,
+                             text=True, check=True)
+        return json.loads(out.stdout)
+
+    def test_the_restated_article_and_the_reading_are_both_listed(self):
+        got = self.lines({
+            "statement": "x", "sources": ["wikipedia:Multivariate_normal_distribution"],
+            "reading": [{"url": "https://arxiv.org/abs/1", "kind": "preprint",
+                         "title": "Kalman Filtering", "byline": "Hartley · 2016",
+                         "via": "arxiv"},
+                        {"url": "http://x.edu/n.pdf", "kind": "course notes",
+                         "title": "n — x.edu", "byline": "", "via": "url"}]})
+        self.assertIn("Multivariate normal distribution", got[0])
+        self.assertIn('"Kalman Filtering", Hartley · 2016 [preprint]', got[1])
+        self.assertTrue(got[2].startswith("- (untitled link) [course notes]"))
+
+    def test_no_sheet_means_no_claimed_source(self):
+        """Without a statement nothing was restated, so Wikipedia is not
+        named as the source of it."""
+        got = self.lines({"statement": "", "sources": ["wikipedia:X"], "reading": []})
+        self.assertEqual(got, [])
+
+
+class TheMapFitsTheScreen(unittest.TestCase):
+    TEMPLATE = (ROOT / "viz" / "canon_map_template.html").read_text()
+
+    def test_the_camera_centres_in_what_the_panel_leaves(self):
+        """Centred on the whole canvas, the clicked node sat under the panel."""
+        block = self.TEMPLATE.split("function project(n) {")[1][:200]
+        self.assertIn("cx()", block)
+        self.assertNotIn("cw / 2", block)
+
+    def test_a_phone_gets_a_sheet_and_slide_in_controls(self):
+        self.assertIn('id="sheetgrip"', self.TEMPLATE)
+        self.assertIn("body.menu-open aside.rail{transform:none}", self.TEMPLATE)
+
+    def test_two_fingers_zoom(self):
+        self.assertIn("zoomAt(now.d / pinch.d, now.mx, now.my)", self.TEMPLATE)
+
+    def test_code_rows_are_not_double_spaced(self):
+        self.assertNotIn("codeEl.appendChild(document.createTextNode('\\n'))",
+                         self.TEMPLATE)
+
+
 if __name__ == "__main__":
     unittest.main()

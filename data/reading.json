@@ -4,76 +4,104 @@
       {
         "url": "https://www.cs.cmu.edu/afs/cs.cmu.edu/Web/People/maxim/files/hsplanguide_icaps05ws.pdf",
         "kind": "course notes",
-        "title": "hsplanguide icaps05ws \u2014 www.cs.cmu.edu"
+        "title": "hsplanguide icaps05ws \u2014 www.cs.cmu.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://www.cambridge.org/core/journals/robotica/article/abs/investigating-reduced-path-planning-strategy-for-differential-wheeled-mobile-robot/6EDFFC11CEF00D0E010C0D149FE9C811",
         "kind": "book",
-        "title": "6EDFFC11CEF00D0E010C0D149FE9C811 \u2014 www.cambridge.org"
+        "title": "Investigating Reduced Path Planning Strategy for Differential Wheeled Mobile Robot",
+        "byline": "",
+        "via": "page"
       },
       {
         "url": "https://arxiv.org/abs/1110.2737",
         "kind": "preprint",
-        "title": "1110.2737 \u2014 arxiv.org"
+        "title": "Anytime Heuristic Search",
+        "byline": "Hansen, Zhou \u00b7 2011",
+        "via": "arxiv"
       },
       {
         "url": "https://doi.org/10.1109%2FTSSC.1968.300136",
         "kind": "paper",
-        "title": "10.1109%2FTSSC.1968.300136 \u2014 doi.org"
+        "title": "A Formal Basis for the Heuristic Determination of Minimum Cost Paths",
+        "byline": "Hart, Nilsson, Raphael \u00b7 1968",
+        "via": "crossref"
       },
       {
         "url": "https://www.cs.umd.edu/~nau/papers/nau1984general.pdf",
         "kind": "course notes",
-        "title": "nau1984general \u2014 www.cs.umd.edu"
+        "title": "nau1984general \u2014 www.cs.umd.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1098%2Frspa.1966.0205",
         "kind": "paper",
-        "title": "10.1098%2Frspa.1966.0205 \u2014 doi.org"
+        "title": "Experiments with the Graph Traverser program",
+        "byline": "Doran, Michie \u00b7 1966",
+        "via": "crossref"
       }
     ],
     "admissibility": [
       {
         "url": "https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.124.817",
         "kind": "course notes",
-        "title": "summary \u2014 citeseerx.ist.psu.edu"
+        "title": "summary \u2014 citeseerx.ist.psu.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1007%2F3-540-44914-0_3",
         "kind": "paper",
-        "title": "10.1007%2F3 540 44914 0 3 \u2014 doi.org"
+        "title": "Recent Progress in the Design and Analysis of Admissible Heuristic Functions",
+        "byline": "Korf \u00b7 2000",
+        "via": "crossref"
       }
     ],
     "belief_distribution": [
       {
         "url": "https://ui.adsabs.harvard.edu/abs/2002ITSP...50..174A",
         "kind": "course notes",
-        "title": "2002ITSP...50..174A \u2014 ui.adsabs.harvard.edu"
+        "title": "2002ITSP...50..174A \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1109%2F78.978374",
         "kind": "paper",
-        "title": "10.1109%2F78.978374 \u2014 doi.org"
+        "title": "A tutorial on particle filters for online nonlinear/non-Gaussian Bayesian tracking",
+        "byline": "Arulampalam, Maskell, Gordon et al. \u00b7 2002",
+        "via": "crossref"
       },
       {
         "url": "https://ui.adsabs.harvard.edu/abs/2015SigPr.108..498V",
         "kind": "course notes",
-        "title": "2015SigPr.108..498V \u2014 ui.adsabs.harvard.edu"
+        "title": "2015SigPr.108..498V \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.26300%2Fnhfp-xv22",
         "kind": "paper",
-        "title": "10.26300%2Fnhfp xv22 \u2014 doi.org"
+        "title": "10.26300%2Fnhfp xv22 \u2014 doi.org",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.117.1144",
         "kind": "course notes",
-        "title": "summary \u2014 citeseerx.ist.psu.edu"
+        "title": "summary \u2014 citeseerx.ist.psu.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1016%2Fj.sigpro.2014.10.025",
         "kind": "paper",
-        "title": "10.1016%2Fj.sigpro.2014.10.025 \u2014 doi.org"
+        "title": "Accuracy bounds of non-Gaussian Bayesian tracking in a NLOS environment",
+        "byline": "Volkov \u00b7 2015",
+        "via": "crossref"
       }
     ],
     "bernoulli_distribution": [],
@@ -81,54 +109,74 @@
       {
         "url": "http://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/video-lectures/lecture-3-multiplication-and-inverse-matrices",
         "kind": "course notes",
-        "title": "lecture 3 multiplication and inverse matrices \u2014 ocw.mit.edu"
+        "title": "Lecture 3: Multiplication and inverse matrices",
+        "byline": "",
+        "via": "page"
       },
       {
         "url": "https://arxiv.org/abs/1312.4818",
         "kind": "preprint",
-        "title": "1312.4818 \u2014 arxiv.org"
+        "title": "Typing linear algebra: A biproduct-oriented approach",
+        "byline": "Macedo, Oliveira \u00b7 2013",
+        "via": "arxiv"
       },
       {
         "url": "https://doi.org/10.1016%2Fj.scico.2012.07.012",
         "kind": "paper",
-        "title": "10.1016%2Fj.scico.2012.07.012 \u2014 doi.org"
+        "title": "Typing linear algebra: A biproduct-oriented approach",
+        "byline": "Macedo, Oliveira \u00b7 2013",
+        "via": "crossref"
       },
       {
         "url": "https://www.cfm.brown.edu/people/dobrush/cs52/Mathematica/Part2/partition.html",
         "kind": "course notes",
-        "title": "partition \u2014 www.cfm.brown.edu"
+        "title": "partition \u2014 www.cfm.brown.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://arxiv.org/abs/1805.06027",
         "kind": "preprint",
-        "title": "1805.06027 \u2014 arxiv.org"
+        "title": "Determinants of Block Matrices with Noncommuting Blocks",
+        "byline": "Sothanaphan \u00b7 2018",
+        "via": "arxiv"
       },
       {
         "url": "https://doi.org/10.2307%2F3620776",
         "kind": "paper",
-        "title": "10.2307%2F3620776 \u2014 doi.org"
+        "title": "Determinants of block matrices",
+        "byline": "Silvester \u00b7 2000",
+        "via": "crossref"
       }
     ],
     "change_of_variables": [
       {
         "url": "https://doi.org/10.2307%2F2687130",
         "kind": "paper",
-        "title": "10.2307%2F2687130 \u2014 doi.org"
+        "title": "Euler and Differentials",
+        "byline": "Ferzola, Kung \u00b7 1994",
+        "via": "crossref"
       },
       {
         "url": "https://doi.org/10.2307%2F2689856",
         "kind": "paper",
-        "title": "10.2307%2F2689856 \u2014 doi.org"
+        "title": "Change of Variables in Multiple Integrals: Euler to Cartan",
+        "byline": "Katz \u00b7 1982",
+        "via": "crossref"
       },
       {
         "url": "https://www.jstor.org/stable/2687130",
         "kind": "paper",
-        "title": "2687130 \u2014 www.jstor.org"
+        "title": "Euler and Differentials",
+        "byline": "Ferzola, Kung \u00b7 1994",
+        "via": "crossref"
       },
       {
         "url": "https://www.jstor.org/stable/2689856",
         "kind": "paper",
-        "title": "2689856 \u2014 www.jstor.org"
+        "title": "Change of Variables in Multiple Integrals: Euler to Cartan",
+        "byline": "Katz \u00b7 1982",
+        "via": "crossref"
       }
     ],
     "conditional_independence": [],
@@ -138,32 +186,44 @@
       {
         "url": "http://www.cs.rhul.ac.uk/books/dbook/",
         "kind": "course notes",
-        "title": "dbook \u2014 www.cs.rhul.ac.uk"
+        "title": "Digraphs, theory, algorithms, applications",
+        "byline": "",
+        "via": "page"
       },
       {
         "url": "https://mathworld.wolfram.com/Graph.html",
         "kind": "reference",
-        "title": "Graph \u2014 mathworld.wolfram.com"
+        "title": "Graph -- from Wolfram MathWorld",
+        "byline": "",
+        "via": "page"
       },
       {
         "url": "https://doi.org/10.1145%2F2488388.2488433",
         "kind": "paper",
-        "title": "10.1145%2F2488388.2488433 \u2014 doi.org"
+        "title": "WTF",
+        "byline": "Gupta, Goel, Lin et al. \u00b7 2013",
+        "via": "crossref"
       },
       {
         "url": "https://doi.org/10.1080%2F23311983.2016.1171458",
         "kind": "paper",
-        "title": "10.1080%2F23311983.2016.1171458 \u2014 doi.org"
+        "title": "A social network analysis of Twitter: Mapping the digital humanities community",
+        "byline": "Grandjean \u00b7 2016",
+        "via": "crossref"
       },
       {
         "url": "https://doi.org/10.1038%2F017284a0",
         "kind": "paper",
-        "title": "10.1038%2F017284a0 \u2014 doi.org"
+        "title": "Chemistry and Algebra",
+        "byline": "SYLVESTER \u00b7 1878",
+        "via": "crossref"
       },
       {
         "url": "https://doi.org/10.2307%2F2369436",
         "kind": "paper",
-        "title": "10.2307%2F2369436 \u2014 doi.org"
+        "title": "On an Application of the New Atomic Theory to the Graphical Representation of the Invariants and Covariants of Binary Quantics, with Three Appendices",
+        "byline": "Sylvester \u00b7 1878",
+        "via": "crossref"
       }
     ],
     "extended_kalman_filter": [],
@@ -171,32 +231,44 @@
       {
         "url": "http://fourier.eng.hmc.edu/e161/lectures/gaussianprocess/node7.html",
         "kind": "course notes",
-        "title": "node7 \u2014 fourier.eng.hmc.edu"
+        "title": "node7 \u2014 fourier.eng.hmc.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://www.springer.com/statistics/computational+statistics/book/978-3-642-01688-2",
         "kind": "book",
-        "title": "978 3 642 01688 2 \u2014 www.springer.com"
+        "title": "Computation of multivariate normal and t probabilities",
+        "byline": "2009",
+        "via": "openlibrary"
       },
       {
         "url": "https://arxiv.org/abs/1603.04166",
         "kind": "preprint",
-        "title": "1603.04166 \u2014 arxiv.org"
+        "title": "The Normal Law Under Linear Restrictions: Simulation and Estimation via Minimax Tilting",
+        "byline": "Botev \u00b7 2016",
+        "via": "arxiv"
       },
       {
         "url": "https://doi.org/10.2307%2F2371328",
         "kind": "paper",
-        "title": "10.2307%2F2371328 \u2014 doi.org"
+        "title": "On a Characterization of the Normal Distribution",
+        "byline": "Kac \u00b7 1939",
+        "via": "crossref"
       },
       {
         "url": "http://web.mit.edu/6.041/www/LECTURE/lec22.pdf",
         "kind": "course notes",
-        "title": "lec22 \u2014 web.mit.edu"
+        "title": "lec22 \u2014 web.mit.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://arxiv.org/abs/1604.00772",
         "kind": "preprint",
-        "title": "1604.00772 \u2014 arxiv.org"
+        "title": "The CMA Evolution Strategy: A Tutorial",
+        "byline": "Hansen \u00b7 2016",
+        "via": "arxiv"
       }
     ],
     "gaussian_integral": [],
@@ -204,54 +276,74 @@
       {
         "url": "http://fourier.eng.hmc.edu/e161/lectures/gaussianprocess/node7.html",
         "kind": "course notes",
-        "title": "node7 \u2014 fourier.eng.hmc.edu"
+        "title": "node7 \u2014 fourier.eng.hmc.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://www.springer.com/statistics/computational+statistics/book/978-3-642-01688-2",
         "kind": "book",
-        "title": "978 3 642 01688 2 \u2014 www.springer.com"
+        "title": "Computation of multivariate normal and t probabilities",
+        "byline": "2009",
+        "via": "openlibrary"
       },
       {
         "url": "https://arxiv.org/abs/1603.04166",
         "kind": "preprint",
-        "title": "1603.04166 \u2014 arxiv.org"
+        "title": "The Normal Law Under Linear Restrictions: Simulation and Estimation via Minimax Tilting",
+        "byline": "Botev \u00b7 2016",
+        "via": "arxiv"
       },
       {
         "url": "https://doi.org/10.2307%2F2371328",
         "kind": "paper",
-        "title": "10.2307%2F2371328 \u2014 doi.org"
+        "title": "On a Characterization of the Normal Distribution",
+        "byline": "Kac \u00b7 1939",
+        "via": "crossref"
       },
       {
         "url": "http://web.mit.edu/6.041/www/LECTURE/lec22.pdf",
         "kind": "course notes",
-        "title": "lec22 \u2014 web.mit.edu"
+        "title": "lec22 \u2014 web.mit.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://arxiv.org/abs/1604.00772",
         "kind": "preprint",
-        "title": "1604.00772 \u2014 arxiv.org"
+        "title": "The CMA Evolution Strategy: A Tutorial",
+        "byline": "Hansen \u00b7 2016",
+        "via": "arxiv"
       }
     ],
     "gradient": [
       {
         "url": "https://mathworld.wolfram.com/Gradient.html",
         "kind": "reference",
-        "title": "Gradient \u2014 mathworld.wolfram.com"
+        "title": "Gradient",
+        "byline": "",
+        "via": "page"
       },
       {
         "url": "https://doi.org/10.1007/978-3-662-64389-1",
         "kind": "paper",
-        "title": "978 3 662 64389 1 \u2014 doi.org"
+        "title": "Mathematik",
+        "byline": "Arens, Hettlich, Karpfinger et al. \u00b7 2022",
+        "via": "crossref"
       },
       {
         "url": "https://doi.org/10.1007%2F978-3-662-64389-1",
         "kind": "paper",
-        "title": "10.1007%2F978 3 662 64389 1 \u2014 doi.org"
+        "title": "Mathematik",
+        "byline": "Arens, Hettlich, Karpfinger et al. \u00b7 2022",
+        "via": "crossref"
       },
       {
         "url": "https://www.jstor.org/action/doBasicSearch?Query=%22Gradient%22&acc=on&wc=on",
         "kind": "paper",
-        "title": "doBasicSearch \u2014 www.jstor.org"
+        "title": "doBasicSearch \u2014 www.jstor.org",
+        "byline": "",
+        "via": "url"
       }
     ],
     "hessian_matrix": [],
@@ -260,17 +352,23 @@
       {
         "url": "https://www.cs.cmu.edu/~16831-f14/notes/F14/16831_lecture06_agiri_dmcconac_kumarsha_nbhakta.pdf",
         "kind": "course notes",
-        "title": "16831 lecture06 agiri dmcconac kumarsha nbhakta \u2014 www.cs.cmu.edu"
+        "title": "16831 lecture06 agiri dmcconac kumarsha nbhakta \u2014 www.cs.cmu.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1109%2FROBOT.1985.1087316",
         "kind": "paper",
-        "title": "10.1109%2FROBOT.1985.1087316 \u2014 doi.org"
+        "title": "High resolution maps from wide angle sonar",
+        "byline": "Moravec, Elfes",
+        "via": "crossref"
       },
       {
         "url": "https://www.ri.cmu.edu/pub_files/pub1/thrun_sebastian_1996_8/thrun_sebastian_1996_8.pdf",
         "kind": "course notes",
-        "title": "thrun sebastian 1996 8 \u2014 www.ri.cmu.edu"
+        "title": "thrun sebastian 1996 8 \u2014 www.ri.cmu.edu",
+        "byline": "",
+        "via": "url"
       }
     ],
     "jacobian_matrix": [],
@@ -278,32 +376,44 @@
       {
         "url": "http://fourier.eng.hmc.edu/e161/lectures/gaussianprocess/node7.html",
         "kind": "course notes",
-        "title": "node7 \u2014 fourier.eng.hmc.edu"
+        "title": "node7 \u2014 fourier.eng.hmc.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://www.springer.com/statistics/computational+statistics/book/978-3-642-01688-2",
         "kind": "book",
-        "title": "978 3 642 01688 2 \u2014 www.springer.com"
+        "title": "Computation of multivariate normal and t probabilities",
+        "byline": "2009",
+        "via": "openlibrary"
       },
       {
         "url": "https://arxiv.org/abs/1603.04166",
         "kind": "preprint",
-        "title": "1603.04166 \u2014 arxiv.org"
+        "title": "The Normal Law Under Linear Restrictions: Simulation and Estimation via Minimax Tilting",
+        "byline": "Botev \u00b7 2016",
+        "via": "arxiv"
       },
       {
         "url": "https://doi.org/10.2307%2F2371328",
         "kind": "paper",
-        "title": "10.2307%2F2371328 \u2014 doi.org"
+        "title": "On a Characterization of the Normal Distribution",
+        "byline": "Kac \u00b7 1939",
+        "via": "crossref"
       },
       {
         "url": "http://web.mit.edu/6.041/www/LECTURE/lec22.pdf",
         "kind": "course notes",
-        "title": "lec22 \u2014 web.mit.edu"
+        "title": "lec22 \u2014 web.mit.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://arxiv.org/abs/1604.00772",
         "kind": "preprint",
-        "title": "1604.00772 \u2014 arxiv.org"
+        "title": "The CMA Evolution Strategy: A Tutorial",
+        "byline": "Hansen \u00b7 2016",
+        "via": "arxiv"
       }
     ],
     "likelihood": [],
@@ -314,76 +424,104 @@
       {
         "url": "http://www.columbia.edu/~so33/SusDev/Lecture_9.pdf",
         "kind": "course notes",
-        "title": "Lecture 9 \u2014 www.columbia.edu"
+        "title": "Lecture 9 \u2014 www.columbia.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "http://www.cambridge.org/resources/0521815886/1208_default.pdf",
         "kind": "book",
-        "title": "1208 default \u2014 www.cambridge.org"
+        "title": "1208 default \u2014 www.cambridge.org",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1023%2FA:1025584807625",
         "kind": "paper",
-        "title": "10.1023%2FA:1025584807625 \u2014 doi.org"
+        "title": "Learning Occupancy Grid Maps with Forward Sensor Models",
+        "byline": "Thrun \u00b7 2003",
+        "via": "crossref"
       },
       {
         "url": "https://www.cs.cmu.edu/~16831-f12/notes/F12/16831_lecture05_vh.pdf",
         "kind": "course notes",
-        "title": "16831 lecture05 vh \u2014 www.cs.cmu.edu"
+        "title": "16831 lecture05 vh \u2014 www.cs.cmu.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1109%2FACCESS.2015.2454533",
         "kind": "paper",
-        "title": "10.1109%2FACCESS.2015.2454533 \u2014 doi.org"
+        "title": "Making Bertha See Even More: Radar Contribution",
+        "byline": "Dickmann, Appenrodt, Klappstein et al. \u00b7 2015",
+        "via": "crossref"
       },
       {
         "url": "https://ui.adsabs.harvard.edu/abs/2015IEEEA...3.1233D",
         "kind": "course notes",
-        "title": "2015IEEEA...3.1233D \u2014 ui.adsabs.harvard.edu"
+        "title": "2015IEEEA...3.1233D \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
       }
     ],
     "log_odds_transformation": [
       {
         "url": "http://www.columbia.edu/~so33/SusDev/Lecture_9.pdf",
         "kind": "course notes",
-        "title": "Lecture 9 \u2014 www.columbia.edu"
+        "title": "Lecture 9 \u2014 www.columbia.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "http://www.cambridge.org/resources/0521815886/1208_default.pdf",
         "kind": "book",
-        "title": "1208 default \u2014 www.cambridge.org"
+        "title": "1208 default \u2014 www.cambridge.org",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1023%2FA:1025584807625",
         "kind": "paper",
-        "title": "10.1023%2FA:1025584807625 \u2014 doi.org"
+        "title": "Learning Occupancy Grid Maps with Forward Sensor Models",
+        "byline": "Thrun \u00b7 2003",
+        "via": "crossref"
       },
       {
         "url": "https://www.cs.cmu.edu/~16831-f12/notes/F12/16831_lecture05_vh.pdf",
         "kind": "course notes",
-        "title": "16831 lecture05 vh \u2014 www.cs.cmu.edu"
+        "title": "16831 lecture05 vh \u2014 www.cs.cmu.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1109%2FACCESS.2015.2454533",
         "kind": "paper",
-        "title": "10.1109%2FACCESS.2015.2454533 \u2014 doi.org"
+        "title": "Making Bertha See Even More: Radar Contribution",
+        "byline": "Dickmann, Appenrodt, Klappstein et al. \u00b7 2015",
+        "via": "crossref"
       },
       {
         "url": "https://ui.adsabs.harvard.edu/abs/2015IEEEA...3.1233D",
         "kind": "course notes",
-        "title": "2015IEEEA...3.1233D \u2014 ui.adsabs.harvard.edu"
+        "title": "2015IEEEA...3.1233D \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
       }
     ],
     "marginalization": [
       {
         "url": "https://www.math.fsu.edu/~paris/Pexam/",
         "kind": "course notes",
-        "title": "Pexam \u2014 www.math.fsu.edu"
+        "title": "Exam P [FSU Math]",
+        "byline": "",
+        "via": "page"
       },
       {
         "url": "https://lux.collections.yale.edu/view/concept/49157777-21c0-403c-a299-b52ceb3e434d",
         "kind": "course notes",
-        "title": "49157777 21c0 403c a299 b52ceb3e434d \u2014 lux.collections.yale.edu"
+        "title": "LUX: Yale Collections Discovery",
+        "byline": "",
+        "via": "page"
       }
     ],
     "markov_assumption": [],
@@ -391,103 +529,141 @@
       {
         "url": "http://math.nyu.edu/mfdd/riedel/ranksiam.ps",
         "kind": "course notes",
-        "title": "ranksiam.ps \u2014 math.nyu.edu"
+        "title": "ranksiam.ps \u2014 math.nyu.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://mathworld.wolfram.com/WoodburyFormula.html",
         "kind": "reference",
-        "title": "WoodburyFormula \u2014 mathworld.wolfram.com"
+        "title": "Woodbury Formula",
+        "byline": "",
+        "via": "page"
       },
       {
         "url": "https://arxiv.org/abs/2504.04554",
         "kind": "preprint",
-        "title": "2504.04554 \u2014 arxiv.org"
+        "title": "A Note on the Stability of the Sherman-Morrison-Woodbury Formula",
+        "byline": "Ma, Boutsikas, Ghadiri et al. \u00b7 2025",
+        "via": "arxiv"
       },
       {
         "url": "https://doi.org/10.1137%2F0613040",
         "kind": "paper",
-        "title": "10.1137%2F0613040 \u2014 doi.org"
+        "title": "A Sherman\u2013Morrison\u2013Woodbury Identity for Rank Augmenting Matrices with Application to Centering",
+        "byline": "Riedel \u00b7 1992",
+        "via": "crossref"
       },
       {
         "url": "https://ecommons.cornell.edu/bitstream/1813/32749/1/BU-647-M.pdf",
         "kind": "course notes",
-        "title": "BU 647 M \u2014 ecommons.cornell.edu"
+        "title": "BU 647 M \u2014 ecommons.cornell.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1214%2Faoms%2F1177730946",
         "kind": "paper",
-        "title": "10.1214%2Faoms%2F1177730946 \u2014 doi.org"
+        "title": "Enlargement Methods for Computing the Inverse Matrix",
+        "byline": "Guttman \u00b7 1946",
+        "via": "crossref"
       }
     ],
     "measurement_model": [
       {
         "url": "http://repositori.upf.edu/bitstream/10230/28341/1/RECSM-WP-031-Correction%20for%20measurement%20errors%20in%20survey%20research.pdf",
         "kind": "course notes",
-        "title": "RECSM WP 031 Correction%20for%20measurement%20errors%20in%20survey%20research \u2014 repositori.upf.edu"
+        "title": "RECSM WP 031 Correction%20for%20measurement%20errors%20in%20survey%20research \u2014 repositori.upf.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1136%2Fbmj.313.7059.744",
         "kind": "paper",
-        "title": "10.1136%2Fbmj.313.7059.744 \u2014 doi.org"
+        "title": "Statistics Notes: Measurement error",
+        "byline": "Bland, Altman \u00b7 1996",
+        "via": "crossref"
       },
       {
         "url": "https://direct.mit.edu/posc/article/9/1/38-58/15089",
         "kind": "course notes",
-        "title": "15089 \u2014 direct.mit.edu"
+        "title": "15089 \u2014 direct.mit.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1007%2Fs11205-015-1002-x",
         "kind": "paper",
-        "title": "10.1007%2Fs11205 015 1002 x \u2014 doi.org"
+        "title": "Correction for Measurement Errors in Survey Research: Necessary and Possible",
+        "byline": "Saris, Revilla \u00b7 2015",
+        "via": "crossref"
       },
       {
         "url": "https://doi.org/10.2307%2F1267450",
         "kind": "paper",
-        "title": "10.2307%2F1267450 \u2014 doi.org"
+        "title": "Errors of Measurement in Statistics",
+        "byline": "Cochran \u00b7 1968",
+        "via": "crossref"
       },
       {
         "url": "https://doi.org/10.1146%2Fannurev.nucl.57.090506.123052",
         "kind": "paper",
-        "title": "10.1146%2Fannurev.nucl.57.090506.123052 \u2014 doi.org"
+        "title": "Systematic Errors",
+        "byline": "Heinrich, Lyons \u00b7 2007",
+        "via": "crossref"
       }
     ],
     "multivariate_taylor_expansion": [
       {
         "url": "http://numericalmethods.eng.usf.edu/topics/taylor_series.html",
         "kind": "course notes",
-        "title": "taylor series \u2014 numericalmethods.eng.usf.edu"
+        "title": "taylor series \u2014 numericalmethods.eng.usf.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "http://numericalmethods.eng.usf.edu/",
         "kind": "course notes",
-        "title": "numericalmethods.eng.usf.edu \u2014 numericalmethods.eng.usf.edu"
+        "title": "numericalmethods.eng.usf.edu \u2014 numericalmethods.eng.usf.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://sites.math.washington.edu/~folland/Math425/taylor2.pdf",
         "kind": "course notes",
-        "title": "taylor2 \u2014 sites.math.washington.edu"
+        "title": "taylor2 \u2014 sites.math.washington.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://mathworld.wolfram.com/TaylorSeries.html",
         "kind": "reference",
-        "title": "TaylorSeries \u2014 mathworld.wolfram.com"
+        "title": "Taylor Series",
+        "byline": "",
+        "via": "page"
       },
       {
         "url": "https://link.springer.com/chapter/10.1007/978-3-642-61497-2_2",
         "kind": "book",
-        "title": "978 3 642 61497 2 2 \u2014 link.springer.com"
+        "title": "Analysis of Linear Partial Differential Operators I",
+        "byline": "2015",
+        "via": "openlibrary"
       },
       {
         "url": "https://arxiv.org/abs/1511.08345",
         "kind": "preprint",
-        "title": "1511.08345 \u2014 arxiv.org"
+        "title": "Complete monotonicity and bernstein properties of functions are characterized by their restriction on N",
+        "byline": "Aguech, Jedidi \u00b7 2015",
+        "via": "arxiv"
       }
     ],
     "normalization": [
       {
         "url": "http://www.math.uah.edu/stat/dist/Continuous.xhtml",
         "kind": "course notes",
-        "title": "Continuous.xhtml \u2014 www.math.uah.edu"
+        "title": "Random: Probability, Mathematical Statistics, Stochastic Processes",
+        "byline": "",
+        "via": "page"
       }
     ],
     "occupancy_grid_mapping": [],
@@ -497,49 +673,67 @@
       {
         "url": "https://lux.collections.yale.edu/view/concept/20f81b3b-453f-47f4-87ba-7b252da0431f",
         "kind": "course notes",
-        "title": "20f81b3b 453f 47f4 87ba 7b252da0431f \u2014 lux.collections.yale.edu"
+        "title": "LUX: Yale Collections Discovery",
+        "byline": "",
+        "via": "page"
       },
       {
         "url": "https://doi.org/10.1007/s10878-018-00372-z",
         "kind": "paper",
-        "title": "s10878 018 00372 z \u2014 doi.org"
+        "title": "An improved approximation algorithm for the minimum 3-path partition problem",
+        "byline": "Chen, Goebel, Lin et al. \u00b7 2019",
+        "via": "crossref"
       },
       {
         "url": "https://doi.org/10.1007%2Fs10878-018-00372-z",
         "kind": "paper",
-        "title": "10.1007%2Fs10878 018 00372 z \u2014 doi.org"
+        "title": "An improved approximation algorithm for the minimum 3-path partition problem",
+        "byline": "Chen, Goebel, Lin et al. \u00b7 2019",
+        "via": "crossref"
       }
     ],
     "path_cost": [
       {
         "url": "http://ftp.cs.stanford.edu/cs/theory/pub/goldberg/sp-alg.ps.Z",
         "kind": "course notes",
-        "title": "sp alg.ps.Z \u2014 ftp.cs.stanford.edu"
+        "title": "sp alg.ps.Z \u2014 ftp.cs.stanford.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://link.springer.com/book/10.1007/978-3-031-02574-7",
         "kind": "book",
-        "title": "978 3 031 02574 7 \u2014 link.springer.com"
+        "title": "978 3 031 02574 7 \u2014 link.springer.com",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://arxiv.org/abs/2108.01036",
         "kind": "preprint",
-        "title": "2108.01036 \u2014 arxiv.org"
+        "title": "Optimal Solving of Constrained Path-Planning Problems with Graph Convolutional Networks and Optimized Tree Search",
+        "byline": "Osanlou, Bursuc, Guettier et al. \u00b7 2021",
+        "via": "arxiv"
       },
       {
         "url": "https://doi.org/10.1007/s101070050058",
         "kind": "paper",
-        "title": "s101070050058 \u2014 doi.org"
+        "title": "Negative-cycle detection algorithms",
+        "byline": "Cherkassky, Goldberg \u00b7 1999",
+        "via": "crossref"
       },
       {
         "url": "http://www.eecs.umich.edu/~pettie/matching/Gabow-scaling-algorithms-for-network-problems.pdf",
         "kind": "course notes",
-        "title": "Gabow scaling algorithms for network problems \u2014 www.eecs.umich.edu"
+        "title": "Gabow scaling algorithms for network problems \u2014 www.eecs.umich.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://link.springer.com/chapter/10.1007/3-540-45253-2_30",
         "kind": "book",
-        "title": "3 540 45253 2 30 \u2014 link.springer.com"
+        "title": "Resource Constrained Shortest Paths",
+        "byline": "",
+        "via": "page"
       }
     ],
     "positive_semidefinite_matrix": [],
@@ -547,96 +741,132 @@
       {
         "url": "https://ui.adsabs.harvard.edu/abs/2002ITSP...50..174A",
         "kind": "course notes",
-        "title": "2002ITSP...50..174A \u2014 ui.adsabs.harvard.edu"
+        "title": "2002ITSP...50..174A \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1109%2F78.978374",
         "kind": "paper",
-        "title": "10.1109%2F78.978374 \u2014 doi.org"
+        "title": "A tutorial on particle filters for online nonlinear/non-Gaussian Bayesian tracking",
+        "byline": "Arulampalam, Maskell, Gordon et al. \u00b7 2002",
+        "via": "crossref"
       },
       {
         "url": "https://ui.adsabs.harvard.edu/abs/2015SigPr.108..498V",
         "kind": "course notes",
-        "title": "2015SigPr.108..498V \u2014 ui.adsabs.harvard.edu"
+        "title": "2015SigPr.108..498V \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.26300%2Fnhfp-xv22",
         "kind": "paper",
-        "title": "10.26300%2Fnhfp xv22 \u2014 doi.org"
+        "title": "10.26300%2Fnhfp xv22 \u2014 doi.org",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.117.1144",
         "kind": "course notes",
-        "title": "summary \u2014 citeseerx.ist.psu.edu"
+        "title": "summary \u2014 citeseerx.ist.psu.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://doi.org/10.1016%2Fj.sigpro.2014.10.025",
         "kind": "paper",
-        "title": "10.1016%2Fj.sigpro.2014.10.025 \u2014 doi.org"
+        "title": "Accuracy bounds of non-Gaussian Bayesian tracking in a NLOS environment",
+        "byline": "Volkov \u00b7 2015",
+        "via": "crossref"
       }
     ],
     "recursive_substitution": [
       {
         "url": "http://faculty.pccu.edu.tw/~meng/Math15.pdf",
         "kind": "course notes",
-        "title": "Math15 \u2014 faculty.pccu.edu.tw"
+        "title": "Math15 \u2014 faculty.pccu.edu.tw",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://mathworld.wolfram.com/RecurrenceEquation.html",
         "kind": "reference",
-        "title": "RecurrenceEquation \u2014 mathworld.wolfram.com"
+        "title": "Recurrence Equation",
+        "byline": "",
+        "via": "page"
       },
       {
         "url": "https://arxiv.org/abs/1101.4371",
         "kind": "preprint",
-        "title": "1101.4371 \u2014 arxiv.org"
+        "title": "Asymptotics of Orthogonal Polynomials via Recurrence Relations",
+        "byline": "Wang, Wong \u00b7 2011",
+        "via": "arxiv"
       },
       {
         "url": "https://doi.org/10.1142%2FS0219530512500108",
         "kind": "paper",
-        "title": "10.1142%2FS0219530512500108 \u2014 doi.org"
+        "title": "ASYMPTOTICS OF ORTHOGONAL POLYNOMIALS VIA RECURRENCE RELATIONS",
+        "byline": "WANG, WONG \u00b7 2012",
+        "via": "crossref"
       },
       {
         "url": "https://lux.collections.yale.edu/view/concept/9d8469dc-195a-4e15-9480-eb6f494c8601",
         "kind": "course notes",
-        "title": "9d8469dc 195a 4e15 9480 eb6f494c8601 \u2014 lux.collections.yale.edu"
+        "title": "LUX: Yale Collections Discovery",
+        "byline": "",
+        "via": "page"
       },
       {
         "url": "https://www.jstor.org/stable/2027658",
         "kind": "paper",
-        "title": "2027658 \u2014 www.jstor.org"
+        "title": "2027658 \u2014 www.jstor.org",
+        "byline": "",
+        "via": "url"
       }
     ],
     "relaxation": [
       {
         "url": "http://algs4.cs.princeton.edu/44sp/",
         "kind": "course notes",
-        "title": "44sp \u2014 algs4.cs.princeton.edu"
+        "title": "Shortest Paths",
+        "byline": "",
+        "via": "page"
       },
       {
         "url": "https://arxiv.org/abs/1111.5414",
         "kind": "preprint",
-        "title": "1111.5414 \u2014 arxiv.org"
+        "title": "Randomized Speedup of the Bellman-Ford Algorithm",
+        "byline": "Bannister, Eppstein \u00b7 2011",
+        "via": "arxiv"
       },
       {
         "url": "https://doi.org/10.1090%2Fqam%2F102435",
         "kind": "paper",
-        "title": "10.1090%2Fqam%2F102435 \u2014 doi.org"
+        "title": "On a routing problem",
+        "byline": "Bellman \u00b7 1958",
+        "via": "crossref"
       },
       {
         "url": "https://web.stanford.edu/class/archive/cs/cs161/cs161.1168/lecture14.pdf",
         "kind": "course notes",
-        "title": "lecture14 \u2014 web.stanford.edu"
+        "title": "lecture14 \u2014 web.stanford.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://arxiv.org/abs/2311.02520",
         "kind": "preprint",
-        "title": "2311.02520 \u2014 arxiv.org"
+        "title": "Single-Source Shortest Paths with Negative Real Weights in $\\tilde{O}(mn^{8/9})$ Time",
+        "byline": "Fineman \u00b7 2023",
+        "via": "arxiv"
       },
       {
         "url": "https://doi.org/10.1090%2Fqam%2F253822",
         "kind": "paper",
-        "title": "10.1090%2Fqam%2F253822 \u2014 doi.org"
+        "title": "An algorithm for finding shortest routes from all source nodes to a given destination in general networks",
+        "byline": "Yen \u00b7 1970",
+        "via": "crossref"
       }
     ],
     "schur_complement": [],
@@ -644,32 +874,44 @@
       {
         "url": "http://ftp.cs.stanford.edu/cs/theory/pub/goldberg/sp-alg.ps.Z",
         "kind": "course notes",
-        "title": "sp alg.ps.Z \u2014 ftp.cs.stanford.edu"
+        "title": "sp alg.ps.Z \u2014 ftp.cs.stanford.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://link.springer.com/book/10.1007/978-3-031-02574-7",
         "kind": "book",
-        "title": "978 3 031 02574 7 \u2014 link.springer.com"
+        "title": "978 3 031 02574 7 \u2014 link.springer.com",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://arxiv.org/abs/2108.01036",
         "kind": "preprint",
-        "title": "2108.01036 \u2014 arxiv.org"
+        "title": "Optimal Solving of Constrained Path-Planning Problems with Graph Convolutional Networks and Optimized Tree Search",
+        "byline": "Osanlou, Bursuc, Guettier et al. \u00b7 2021",
+        "via": "arxiv"
       },
       {
         "url": "https://doi.org/10.1007/s101070050058",
         "kind": "paper",
-        "title": "s101070050058 \u2014 doi.org"
+        "title": "Negative-cycle detection algorithms",
+        "byline": "Cherkassky, Goldberg \u00b7 1999",
+        "via": "crossref"
       },
       {
         "url": "http://www.eecs.umich.edu/~pettie/matching/Gabow-scaling-algorithms-for-network-problems.pdf",
         "kind": "course notes",
-        "title": "Gabow scaling algorithms for network problems \u2014 www.eecs.umich.edu"
+        "title": "Gabow scaling algorithms for network problems \u2014 www.eecs.umich.edu",
+        "byline": "",
+        "via": "url"
       },
       {
         "url": "https://link.springer.com/chapter/10.1007/3-540-45253-2_30",
         "kind": "book",
-        "title": "3 540 45253 2 30 \u2014 link.springer.com"
+        "title": "Resource Constrained Shortest Paths",
+        "byline": "",
+        "via": "page"
       }
     ],
     "state_space_model": [],
@@ -679,14 +921,4240 @@
       {
         "url": "https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/",
         "kind": "course notes",
-        "title": "18 06 linear algebra spring 2010 \u2014 ocw.mit.edu"
+        "title": "Linear Algebra",
+        "byline": "",
+        "via": "page"
       },
       {
         "url": "http://www.cmat.edu.uy/~marclan/TM/Algebra%20i%20-%20Bourbaki.pdf",
         "kind": "course notes",
-        "title": "Algebra%20i%20 %20Bourbaki \u2014 www.cmat.edu.uy"
+        "title": "Algebra%20i%20 %20Bourbaki \u2014 www.cmat.edu.uy",
+        "byline": "",
+        "via": "url"
       }
     ],
-    "weighted_graph": []
+    "weighted_graph": [],
+    "algebraic_rearrangement": [],
+    "angular_velocity": [],
+    "axis_angle": [],
+    "backpropagation": [
+      {
+        "url": "http://galaxy.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html",
+        "kind": "course notes",
+        "title": "backprop \u2014 galaxy.agh.edu.pl",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1710.05941",
+        "kind": "preprint",
+        "title": "Searching for Activation Functions",
+        "byline": "Ramachandran, Zoph, Le \u00b7 2017",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1038%2F323533a0",
+        "kind": "paper",
+        "title": "Learning representations by back-propagating errors",
+        "byline": "Rumelhart, Hinton, Williams \u00b7 1986",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1986Natur.323..533R",
+        "kind": "course notes",
+        "title": "1986Natur.323..533R \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1908.08681",
+        "kind": "preprint",
+        "title": "Mish: A Self Regularized Non-Monotonic Activation Function",
+        "byline": "Misra \u00b7 2019",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1088%2F1757-899X%2F495%2F1%2F012003",
+        "kind": "paper",
+        "title": "Review of second-order optimization techniques in artificial neural networks backpropagation",
+        "byline": "Tan, Lim \u00b7 2019",
+        "via": "crossref"
+      }
+    ],
+    "backward_recursion": [
+      {
+        "url": "http://matwbn.icm.edu.pl/ksiazki/cc/cc35/cc3536.pdf",
+        "kind": "course notes",
+        "title": "cc3536 \u2014 matwbn.icm.edu.pl",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1007%2FBF01386390",
+        "kind": "paper",
+        "title": "A note on two problems in connexion with graphs",
+        "byline": "Dijkstra \u00b7 1959",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.ifors.ms.unimelb.edu.au/tutorial/dijkstra_new/index.html",
+        "kind": "course notes",
+        "title": "index \u2014 www.ifors.ms.unimelb.edu.au",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1038%2Fnbt0704-909",
+        "kind": "paper",
+        "title": "What is dynamic programming?",
+        "byline": "Eddy \u00b7 2004",
+        "via": "crossref"
+      },
+      {
+        "url": "https://netfiles.uiuc.edu/meyn/www/spm_files/CTCN/CTCN.html",
+        "kind": "course notes",
+        "title": "CTCN \u2014 netfiles.uiuc.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1287%2Fited.3.1.45",
+        "kind": "paper",
+        "title": "OR/MS Games: 2. Towers of Hanoi",
+        "byline": "Sniedovich \u00b7 2002",
+        "via": "crossref"
+      }
+    ],
+    "basis": [
+      {
+        "url": "http://matwbn.icm.edu.pl/ksiazki/fm/fm3/fm3120.pdf",
+        "kind": "course notes",
+        "title": "fm3120 \u2014 matwbn.icm.edu.pl",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1506.04631",
+        "kind": "preprint",
+        "title": "Approximation with Random Bases: Pro et Contra",
+        "byline": "Gorban, Tyukin, Prokhorov et al. \u00b7 2015",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1007%2FBF01844160",
+        "kind": "paper",
+        "title": "Some remarks about additive functions on cones",
+        "byline": "Kuczma \u00b7 1970",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.math.lsa.umich.edu/~ablass/bases-AC.pdf",
+        "kind": "course notes",
+        "title": "bases AC \u2014 www.math.lsa.umich.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1109%2F72.471375",
+        "kind": "paper",
+        "title": "Stochastic choice of basis functions in adaptive function approximation and the functional-link net",
+        "byline": "Igelnik, Yoh-Han Pao \u00b7 1995",
+        "via": "crossref"
+      },
+      {
+        "url": "https://historical.library.cornell.edu/cgi-bin/cul.math/docviewer?did=05230001&seq=9",
+        "kind": "course notes",
+        "title": "docviewer \u2014 historical.library.cornell.edu",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "bayes_filter": [
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2002ITSP...50..174A",
+        "kind": "course notes",
+        "title": "2002ITSP...50..174A \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1109%2F78.978374",
+        "kind": "paper",
+        "title": "A tutorial on particle filters for online nonlinear/non-Gaussian Bayesian tracking",
+        "byline": "Arulampalam, Maskell, Gordon et al. \u00b7 2002",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2015SigPr.108..498V",
+        "kind": "course notes",
+        "title": "2015SigPr.108..498V \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.26300%2Fnhfp-xv22",
+        "kind": "paper",
+        "title": "10.26300%2Fnhfp xv22 \u2014 doi.org",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.117.1144",
+        "kind": "course notes",
+        "title": "summary \u2014 citeseerx.ist.psu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.sigpro.2014.10.025",
+        "kind": "paper",
+        "title": "Accuracy bounds of non-Gaussian Bayesian tracking in a NLOS environment",
+        "byline": "Volkov \u00b7 2015",
+        "via": "crossref"
+      }
+    ],
+    "bayes_rule": [],
+    "bellman_equation": [],
+    "binomial_coefficient": [],
+    "categorical_distribution": [],
+    "centroid": [
+      {
+        "url": "http://faculty.evansville.edu/ck6/encyclopedia/ETC.html",
+        "kind": "course notes",
+        "title": "ENCYCLOPEDIA OF TRIANGLE CENTERS",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/GeometricCentroid.html",
+        "kind": "reference",
+        "title": "Geometric Centroid",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1007/BF03023072",
+        "kind": "paper",
+        "title": "Archimedes\u2019 lost treatise on the centers of gravity of solids",
+        "byline": "Knorr \u00b7 1978",
+        "via": "crossref"
+      },
+      {
+        "url": "http://forumgeom.fau.edu/FG2010volume10/FG201015index.html",
+        "kind": "course notes",
+        "title": "FG201015index \u2014 forumgeom.fau.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.5951%2FMT.53.1.0033",
+        "kind": "paper",
+        "title": "Historically Speaking,\u2014: Notes on the centroid",
+        "byline": "Court \u00b7 1960",
+        "via": "crossref"
+      },
+      {
+        "url": "http://web.mat.bham.ac.uk/C.J.Sangwin/Publications/integrometer.pdf",
+        "kind": "course notes",
+        "title": "integrometer \u2014 web.mat.bham.ac.uk",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "chain_rule": [],
+    "characteristic_polynomial": [],
+    "cholesky_factorization": [
+      {
+        "url": "http://www.cs.utexas.edu/users/flame/",
+        "kind": "course notes",
+        "title": "flame \u2014 www.cs.utexas.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1111.4144",
+        "kind": "preprint",
+        "title": "Matrix Inversion Using Cholesky Decomposition",
+        "byline": "Krishnamoorthy, Menon \u00b7 2011",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1007%2FBF03031308",
+        "kind": "paper",
+        "title": "Note Sur Une M\u00e9thode de R\u00e9solution des \u00e9quations Normales Provenant de L\u2019Application de la M\u00e9Thode des Moindres Carr\u00e9s a un Syst\u00e8me D\u2019\u00e9quations Lin\u00e9aires en Nombre Inf\u00e9rieur a Celui des Inconnues. \u2014 Application de la M\u00e9thode a la R\u00e9solution D\u2019un Syst\u00e8me Defini D\u2019\u00e9Quations Lin\u00e9Aires",
+        "byline": "1924",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.cs.utexas.edu/users/flame/Movies.html#Chol",
+        "kind": "course notes",
+        "title": "Movies \u2014 www.cs.utexas.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.procs.2010.04.047",
+        "kind": "paper",
+        "title": "Toward a parallel solver for generalized complex symmetric eigenvalue problems",
+        "byline": "Schabauer, Pacher, Sunderland et al. \u00b7 2010",
+        "via": "crossref"
+      },
+      {
+        "url": "http://upcommons.upc.edu/pfc/handle/2099.1/10988/",
+        "kind": "course notes",
+        "title": "Implementaci\u00f3n y evaluaci\u00f3n de la Factorizaci\u00f3n de Cholesky mediante TBB y threads en arquitecturas multicore",
+        "byline": "",
+        "via": "page"
+      }
+    ],
+    "classification_loss": [
+      {
+        "url": "https://link.springer.com/article/10.1007/s10479-005-5724-z",
+        "kind": "book",
+        "title": "A Tutorial on the Cross-Entropy Method",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/2303.09935",
+        "kind": "preprint",
+        "title": "Alternate Loss Functions for Classification and Robust Regression Can Improve the Accuracy of Artificial Neural Networks",
+        "byline": "Noel, Banerjee, Oswal et al. \u00b7 2023",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-3-030-20951-3_18",
+        "kind": "paper",
+        "title": "Amended Cross-Entropy Cost: An Approach for Encouraging Diversity in Classification Ensemble (Brief Announcement)",
+        "byline": "Shoham, Permuter \u00b7 2019",
+        "via": "crossref"
+      },
+      {
+        "url": "https://arxiv.org/abs/2007.08140",
+        "kind": "preprint",
+        "title": "Amended Cross Entropy Cost: Framework For Explicit Diversity Encouragement",
+        "byline": "Shoham, Permuter \u00b7 2020",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://arxiv.org/archive/cs.LG",
+        "kind": "preprint",
+        "title": "cs.LG \u2014 arxiv.org",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/archive/cs.NE",
+        "kind": "preprint",
+        "title": "cs.NE \u2014 arxiv.org",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "column_space": [],
+    "complementary_filter": [
+      {
+        "url": "http://www.infofusion.buffalo.edu/tm/Dr.Llinas'stuff/Rethinking%20JDL%20Data%20Fusion%20Levels_BowmanSteinberg.pdf",
+        "kind": "course notes",
+        "title": "Rethinking%20JDL%20Data%20Fusion%20Levels BowmanSteinberg \u2014 www.infofusion.buffalo.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.compeleceng.2011.04.016",
+        "kind": "paper",
+        "title": "Multi-focus image fusion for visual sensor networks in DCT domain",
+        "byline": "Haghighat, Aghagolzadeh, Seyedarabi \u00b7 2011",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.eecs.berkeley.edu/~yang/paper/GuenterbergE-Biomedicine.pdf",
+        "kind": "course notes",
+        "title": "GuenterbergE Biomedicine \u2014 www.eecs.berkeley.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1155%2F2015%2F683701",
+        "kind": "paper",
+        "title": "A Survey on Multisensor Fusion and Consensus Filtering for Sensor Networks",
+        "byline": "Li, Wang, Wei et al. \u00b7 2015",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2017Senso..17.2735D",
+        "kind": "course notes",
+        "title": "2017Senso..17.2735D \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1108%2FCOMPEL-03-2021-0072",
+        "kind": "paper",
+        "title": "Bayesian inference of multi-sensors impedance cardiography for detection of aortic dissection",
+        "byline": "Badeli, Ranftl, Melito et al. \u00b7 2021",
+        "via": "crossref"
+      }
+    ],
+    "completing_the_square": [],
+    "complex_number": [],
+    "condition_number": [],
+    "conditional_probability": [],
+    "consensus_set": [
+      {
+        "url": "http://www.academia.edu/download/3436793/torr_mlesac.pdf",
+        "kind": "course notes",
+        "title": "torr mlesac \u2014 www.academia.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1007%2Fs11263-011-0474-7",
+        "kind": "paper",
+        "title": "Energy-Based Geometric Multi-model Fitting",
+        "byline": "Isack, Boykov \u00b7 2011",
+        "via": "crossref"
+      },
+      {
+        "url": "http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.184.812&rep=rep1&type=pdf",
+        "kind": "course notes",
+        "title": "Wayback Machine",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1109%2FTPAMI.2012.227",
+        "kind": "paper",
+        "title": "Hop-Diffusion Monte Carlo for Epipolar Geometry Estimation between Very Wide-Baseline Images",
+        "byline": "Brahmachari, Sarkar \u00b7 2013",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1145%2F358669.358692",
+        "kind": "paper",
+        "title": "Random sample consensus",
+        "byline": "Fischler, Bolles \u00b7 1981",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1023%2FA:1007927408552",
+        "kind": "paper",
+        "title": "The Development and Comparison of Robust Methods for Estimating the Fundamental Matrix",
+        "byline": "Torr, Murray \u00b7 1997",
+        "via": "crossref"
+      }
+    ],
+    "controllability": [
+      {
+        "url": "https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.70.4296",
+        "kind": "course notes",
+        "title": "summary \u2014 citeseerx.ist.psu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/2401.16372",
+        "kind": "preprint",
+        "title": "Duality between controllability and observability for target control and estimation in networks",
+        "byline": "Montanari, Duan, Motter \u00b7 2024",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1109%2Fjproc.2003.814621",
+        "kind": "paper",
+        "title": "Computational techniques for the verification of hybrid systems",
+        "byline": "Tomlin, Mitchell, Bayen et al. \u00b7 2003",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2003IEEEP..91..986T",
+        "kind": "course notes",
+        "title": "2003IEEEP..91..986T \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1109%2FTAC.2025.3574186",
+        "kind": "paper",
+        "title": "Collective Steering in Finite Time: Controllability on $\\text{GL}^+(n,\\mathbb {R})$",
+        "byline": "Abdelgalil, Georgiou \u00b7 2025",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1109%2FTAC.2025.3552001",
+        "kind": "paper",
+        "title": "Duality Between Controllability and Observability for Target Control and Estimation in Networks",
+        "byline": "Montanari, Duan, Motter \u00b7 2025",
+        "via": "crossref"
+      }
+    ],
+    "convexity": [
+      {
+        "url": "https://www.stat.cmu.edu/~larry/=stat705/Lecture2.pdf",
+        "kind": "course notes",
+        "title": "Lecture2 \u2014 www.stat.cmu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1093%2Fqmath%2F12.1.283",
+        "kind": "paper",
+        "title": "A CONVEXITY PROPERTY OF POSITIVE MATRICES",
+        "byline": "KINGMAN \u00b7 1961",
+        "via": "crossref"
+      },
+      {
+        "url": "https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf#page=83",
+        "kind": "course notes",
+        "title": "bv cvxbook \u2014 web.stanford.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://www2.isye.gatech.edu/~nemirovs/OPTIIILN2023Spring.pdf",
+        "kind": "course notes",
+        "title": "OPTIIILN2023Spring \u2014 www2.isye.gatech.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1961QJMat..12..283K",
+        "kind": "course notes",
+        "title": "1961QJMat..12..283K \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://lux.collections.yale.edu/view/concept/525b7493-74a6-4cf3-a366-148c3d01511f",
+        "kind": "course notes",
+        "title": "LUX: Yale Collections Discovery",
+        "byline": "",
+        "via": "page"
+      }
+    ],
+    "coverage_probability": [
+      {
+        "url": "http://www-stat.wharton.upenn.edu/~tcai/paper/Binomial-StatSci.pdf",
+        "kind": "course notes",
+        "title": "Binomial StatSci \u2014 www-stat.wharton.upenn.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2685469",
+        "kind": "paper",
+        "title": "Approximate Is Better than \"Exact\" for Interval Estimation of Binomial Proportions",
+        "byline": "Agresti, Coull \u00b7 1998",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1998AmSta..52..119A",
+        "kind": "course notes",
+        "title": "1998AmSta..52..119A \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1214%2Fss%2F1009213286",
+        "kind": "paper",
+        "title": "Interval Estimation for a Binomial Proportion",
+        "byline": "Brown, Cai, DasGupta \u00b7 2001",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1002%2F(SICI)1097-0258(19980430)17:8%3C857::AID-SIM777%3E3.0.CO;2-E",
+        "kind": "paper",
+        "title": "Two-sided confidence intervals for the single proportion: comparison of seven methods",
+        "byline": "Newcombe \u00b7 1998",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1093%2Fbiomet%2F89.4.952",
+        "kind": "paper",
+        "title": "On an exact probability matching property of right-invariant priors",
+        "byline": "Severini \u00b7 2002",
+        "via": "crossref"
+      }
+    ],
+    "cramer_rao_bound": [
+      {
+        "url": "http://www.stat.tamu.edu/~suhasini/teaching613/inference.pdf",
+        "kind": "course notes",
+        "title": "inference \u2014 www.stat.tamu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://www.cambridge.org/core/journals/proceedings-of-the-royal-society-of-edinburgh-section-a-mathematics/article/abs/xvon-the-estimation-of-statistical-parameters/74C2B968275EED1A954DB316FBC3635E",
+        "kind": "book",
+        "title": "XV.\u2014On the Estimation of Statistical Parameters",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1301.3578",
+        "kind": "preprint",
+        "title": "Cramer-Rao Lower Bound and Information Geometry",
+        "byline": "Nielsen \u00b7 2013",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-93-86279-56-9_2",
+        "kind": "paper",
+        "title": "Cram\u00e9r-Rao Lower Bound and Information Geometry",
+        "byline": "Nielsen \u00b7 2013",
+        "via": "crossref"
+      },
+      {
+        "url": "https://people.lids.mit.edu/yp/homepage/data/LN_stats.pdf",
+        "kind": "course notes",
+        "title": "LN stats \u2014 people.lids.mit.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1214%2Faos%2F1176350602",
+        "kind": "paper",
+        "title": "Some Classes of Global Cramer-Rao Bounds",
+        "byline": "Bobrovsky, Mayer-Wolf, Zakai \u00b7 1987",
+        "via": "crossref"
+      }
+    ],
+    "cross_covariance_matrix": [
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1993ApSpe..47.1329N",
+        "kind": "course notes",
+        "title": "1993ApSpe..47.1329N \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/CovarianceMatrix.html",
+        "kind": "reference",
+        "title": "Covariance Matrix",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://archive.org/details/springer_10.1007-978-0-387-21736-9",
+        "kind": "book",
+        "title": "All of Statistics",
+        "byline": "2013",
+        "via": "openlibrary"
+      },
+      {
+        "url": "https://arxiv.org/abs/1806.03674",
+        "kind": "preprint",
+        "title": "On the Covariance-Hessian Relation in Evolution Strategies",
+        "byline": "Shir, Yehudayoff \u00b7 2018",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.tcs.2019.09.002",
+        "kind": "paper",
+        "title": "On the covariance-Hessian relation in evolution strategies",
+        "byline": "Shir, Yehudayoff \u00b7 2020",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.ee.ic.ac.uk/hp/staff/dmb/matrix/expect.html",
+        "kind": "course notes",
+        "title": "expect \u2014 www.ee.ic.ac.uk",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "cross_product": [],
+    "derivative": [
+      {
+        "url": "http://www.math.wisc.edu/~keisler/calc.html",
+        "kind": "course notes",
+        "title": "calc \u2014 www.math.wisc.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/Derivative.html",
+        "kind": "reference",
+        "title": "Derivative",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1711.10349",
+        "kind": "preprint",
+        "title": "Bypassing dynamical systems : A simple way to get the box-counting dimension of the graph of the Weierstrass function",
+        "byline": "David \u00b7 2017",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.4064%2Fsm-3-1-174-179",
+        "kind": "paper",
+        "title": "\u00dcber die Baire'sche Kategorie gewisser Funktionenmengen",
+        "byline": "Banach \u00b7 1931",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2011mmop.book.....G",
+        "kind": "course notes",
+        "title": "2011mmop.book.....G \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-3-662-29794-0",
+        "kind": "paper",
+        "title": "Real and Abstract Analysis",
+        "byline": "Hewitt, Stromberg \u00b7 1965",
+        "via": "crossref"
+      }
+    ],
+    "descent_direction": [
+      {
+        "url": "https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf#page=471",
+        "kind": "course notes",
+        "title": "bv cvxbook \u2014 web.stanford.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/2002.03432",
+        "kind": "preprint",
+        "title": "On the distance between two neural networks and the stability of learning",
+        "byline": "Bernstein, Vahdat, Yue et al. \u00b7 2020",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1090%2FS0002-9904-1943-07818-4",
+        "kind": "paper",
+        "title": "Variational methods for the solution of problems of equilibrium and vibrations",
+        "byline": "Courant \u00b7 1943",
+        "via": "crossref"
+      },
+      {
+        "url": "https://www.seas.ucla.edu/~vandenbe/236C/lectures/fgrad.pdf",
+        "kind": "course notes",
+        "title": "fgrad \u2014 www.seas.ucla.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1406.5468",
+        "kind": "preprint",
+        "title": "Optimized first-order methods for smooth convex minimization",
+        "byline": "Kim, Fessler \u00b7 2014",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1137%2F1011036",
+        "kind": "paper",
+        "title": "Convergence Conditions for Ascent Methods",
+        "byline": "Wolfe \u00b7 1969",
+        "via": "crossref"
+      }
+    ],
+    "determinant": [
+      {
+        "url": "http://darkwing.uoregon.edu/~vitulli/441.sp04/LinAlgHistory.html",
+        "kind": "course notes",
+        "title": "LinAlgHistory \u2014 darkwing.uoregon.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/Determinant.html",
+        "kind": "reference",
+        "title": "Determinant",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1805.06027",
+        "kind": "preprint",
+        "title": "Determinants of Block Matrices with Noncommuting Blocks",
+        "byline": "Sothanaphan \u00b7 2018",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F3620776",
+        "kind": "paper",
+        "title": "Determinants of block matrices",
+        "byline": "Silvester \u00b7 2000",
+        "via": "crossref"
+      },
+      {
+        "url": "http://ftp.cs.wisc.edu/Approx/empty.pdf",
+        "kind": "course notes",
+        "title": "empty \u2014 ftp.cs.wisc.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1410.1958",
+        "kind": "preprint",
+        "title": "Completely strong superadditivity of generalized matrix functions",
+        "byline": "Lin, Sra \u00b7 2014",
+        "via": "arxiv"
+      }
+    ],
+    "differential_entropy": [
+      {
+        "url": "http://www.wise.xmu.edu.cn/Master/Download/..%5C..%5CUploadFiles%5Cpaper-masterdownload%5C2009519932327055475115776.pdf",
+        "kind": "course notes",
+        "title": "..%5C..%5CUploadFiles%5Cpaper masterdownload%5C2009519932327055475115776 \u2014 www.wise.xmu.edu.cn",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/cond-mat/0305641",
+        "kind": "preprint",
+        "title": "Estimating Mutual Information",
+        "byline": "Kraskov, Stoegbauer, Grassberger \u00b7 2003",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1103%2FPhysRevE.69.066138",
+        "kind": "paper",
+        "title": "Estimating mutual information",
+        "byline": "Kraskov, St\u00f6gbauer, Grassberger \u00b7 2004",
+        "via": "crossref"
+      },
+      {
+        "url": "http://bayes.wustl.edu/etj/articles/brandeis.pdf",
+        "kind": "course notes",
+        "title": "brandeis \u2014 bayes.wustl.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.jeconom.2008.12.014",
+        "kind": "paper",
+        "title": "Maximum entropy autoregressive conditional heteroskedasticity model",
+        "byline": "Park, Bera \u00b7 2009",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2004PhRvE..69f6138K",
+        "kind": "course notes",
+        "title": "2004PhRvE..69f6138K \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "differential_equation": [],
+    "dijkstra": [
+      {
+        "url": "http://www.ifors.ms.unimelb.edu.au/tutorial/dijkstra_new/index.html",
+        "kind": "course notes",
+        "title": "index \u2014 www.ifors.ms.unimelb.edu.au",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://link.springer.com/chapter/10.1007/978-3-540-68552-4_24",
+        "kind": "book",
+        "title": "Experimental Algorithms",
+        "byline": "2008",
+        "via": "openlibrary"
+      },
+      {
+        "url": "https://arxiv.org/abs/1810.04481",
+        "kind": "preprint",
+        "title": "Generic Dijkstra for optical networks",
+        "byline": "Szcze\u015bniak, Jajszczyk, Wo\u017ana-Szcze\u015bniak \u00b7 2018",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1145%2F1787234.1787249",
+        "kind": "paper",
+        "title": "An interview with Edsger W. Dijkstra",
+        "byline": "Frana, Misa \u00b7 2010",
+        "via": "crossref"
+      },
+      {
+        "url": "https://dspace.mit.edu/bitstream/1721.1/47994/1/fasteralgorithms00sloa.pdf",
+        "kind": "course notes",
+        "title": "fasteralgorithms00sloa \u2014 dspace.mit.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://link.springer.com/chapter/10.1007/11561071_51",
+        "kind": "book",
+        "title": "Highway Hierarchies Hasten Exact Shortest Path Queries",
+        "byline": "",
+        "via": "page"
+      }
+    ],
+    "directional_derivative": [],
+    "dot_product": [],
+    "dynamic_programming": [],
+    "eigenvector": [],
+    "empirical_distribution": [],
+    "entropy": [
+      {
+        "url": "https://www.chem.wisc.edu/deptfiles/genchem/netorial/modules/thermodynamics/entropy/entropy04.htm",
+        "kind": "course notes",
+        "title": "entropy04 \u2014 www.chem.wisc.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://www.springer.com/us/book/9781493934645",
+        "kind": "book",
+        "title": "Unity of Science and Economics",
+        "byline": "2015",
+        "via": "openlibrary"
+      },
+      {
+        "url": "https://arxiv.org/ftp/astro-ph/papers/0210/0210527.pdf",
+        "kind": "preprint",
+        "title": "0210527 \u2014 arxiv.org",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1002%2Fandp.18501550306",
+        "kind": "paper",
+        "title": "Ueber die bewegende Kraft der W\u00e4rme und die Gesetze, welche sich daraus f\u00fcr die W\u00e4rmelehre selbst ableiten lassen",
+        "byline": "Clausius \u00b7 1850",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2013PhyA..392.1122C",
+        "kind": "course notes",
+        "title": "2013PhyA..392.1122C \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1903.02121",
+        "kind": "preprint",
+        "title": "The Generalized Boltzmann Distribution is the Only Distribution in Which the Gibbs-Shannon Entropy Equals the Thermodynamic Entropy",
+        "byline": "Gao, Gallicchio, Roitberg \u00b7 2019",
+        "via": "arxiv"
+      }
+    ],
+    "error_signal": [],
+    "estimator_variance": [
+      {
+        "url": "http://digital.library.adelaide.edu.au/dspace/bitstream/2440/15097/1/9.pdf",
+        "kind": "course notes",
+        "title": "9 \u2014 digital.library.adelaide.edu.au",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://mathworld.wolfram.com/SampleVarianceDistribution.html",
+        "kind": "reference",
+        "title": "Sample Variance Distribution",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1016%2FS0167-7152(98)00041-8",
+        "kind": "paper",
+        "title": "Why the variance?",
+        "byline": "Kagan, Shepp \u00b7 1998",
+        "via": "crossref"
+      },
+      {
+        "url": "https://www.cs.yale.edu/publications/techreports/tr222.pdf",
+        "kind": "course notes",
+        "title": "tr222 \u2014 www.cs.yale.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2281592",
+        "kind": "paper",
+        "title": "On the Exact Variance of Products",
+        "byline": "Goodman \u00b7 1960",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F01621459.1968.10480944",
+        "kind": "paper",
+        "title": "How Deviant Can You Be?",
+        "byline": "Samuelson \u00b7 1968",
+        "via": "crossref"
+      }
+    ],
+    "euler_angles": [],
+    "expectation": [
+      {
+        "url": "https://ssc.wisc.edu/~bhansen/probability/Probability.pdf",
+        "kind": "course notes",
+        "title": "Probability \u2014 ssc.wisc.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/ExpectationValue.html",
+        "kind": "reference",
+        "title": "Expectation Value",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1002%2F0471725161",
+        "kind": "paper",
+        "title": "History of Probability and Statistics and Their Applications before 1750",
+        "byline": "Hald \u00b7 1990",
+        "via": "crossref"
+      },
+      {
+        "url": "https://math.dartmouth.edu/~doyle/docs/huygens/huygens.pdf",
+        "kind": "course notes",
+        "title": "huygens \u2014 math.dartmouth.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2309286",
+        "kind": "paper",
+        "title": "Pascal and the Invention of Probability Theory",
+        "byline": "Ore \u00b7 1960",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.york.ac.uk/depts/maths/histstat/huygens.pdf",
+        "kind": "course notes",
+        "title": "huygens \u2014 www.york.ac.uk",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "exponential_function": [],
+    "exponential_map": [],
+    "feedback_loop": [],
+    "fisher_forecast": [],
+    "fisher_information_matrix": [
+      {
+        "url": "http://www.stat.tamu.edu/~suhasini/teaching613/inference.pdf",
+        "kind": "course notes",
+        "title": "inference \u2014 www.stat.tamu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1301.3578",
+        "kind": "preprint",
+        "title": "Cramer-Rao Lower Bound and Information Geometry",
+        "byline": "Nielsen \u00b7 2013",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1109/ACC.2008.4586850",
+        "kind": "paper",
+        "title": "Improved methods for Monte Carlo estimation of the fisher information matrix",
+        "byline": "Spall \u00b7 2008",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2004PhyA..336..181J",
+        "kind": "course notes",
+        "title": "2004PhyA..336..181J \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/cond-mat/0401092",
+        "kind": "preprint",
+        "title": "Information Geometry and Phase Transitions",
+        "byline": "Janke, Johnston, Kenna \u00b7 2004",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1198%2F106186005X78800",
+        "kind": "paper",
+        "title": "Monte Carlo Computation of the Fisher Information Matrix in Nonstandard Settings",
+        "byline": "Spall \u00b7 2005",
+        "via": "crossref"
+      }
+    ],
+    "frequency_response": [],
+    "function": [
+      {
+        "url": "https://digitalcommons.trinity.edu/mono/7/",
+        "kind": "course notes",
+        "title": "\"Introduction to Real Analysis\" by William F. Trench",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "http://mathworld.wolfram.com/Map.html",
+        "kind": "reference",
+        "title": "Map -- from Wolfram MathWorld",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1515%2F9781400830398",
+        "kind": "paper",
+        "title": "The Princeton Companion to Mathematics",
+        "byline": "2010",
+        "via": "crossref"
+      },
+      {
+        "url": "http://archives.math.utk.edu/visual.calculus/",
+        "kind": "course notes",
+        "title": "visual.calculus \u2014 archives.math.utk.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-3-030-15655-8_12",
+        "kind": "paper",
+        "title": "A Comparison of Type Theory with Set Theory",
+        "byline": "Klev \u00b7 2019",
+        "via": "crossref"
+      },
+      {
+        "url": "https://lux.collections.yale.edu/view/concept/273d7a84-0d4e-4de5-a067-5a182bbff790",
+        "kind": "course notes",
+        "title": "LUX: Yale Collections Discovery",
+        "byline": "",
+        "via": "page"
+      }
+    ],
+    "function_of_several_variables": [
+      {
+        "url": "https://lux.collections.yale.edu/view/concept/9b4d5adf-af47-44d6-bd25-548dafcc96e2",
+        "kind": "course notes",
+        "title": "LUX: Yale Collections Discovery",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "http://www.math.gatech.edu/~cain/notes/calculus.html",
+        "kind": "course notes",
+        "title": "calculus \u2014 www.math.gatech.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://www.jstor.org/action/doBasicSearch?Query=%22Multivariable+calculus%22&acc=on&wc=on",
+        "kind": "paper",
+        "title": "doBasicSearch \u2014 www.jstor.org",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://math.etsu.edu/Multicalc/",
+        "kind": "course notes",
+        "title": "Multivariable Calculus Contents",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "http://www.ecs.umass.edu/mie/faculty/perot/mie440/Multivariable%20Calculus.pdf",
+        "kind": "course notes",
+        "title": "Multivariable%20Calculus \u2014 www.ecs.umass.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://www.stat.rice.edu/~dobelman/notes_papers/math/calculus.MV.pdf",
+        "kind": "course notes",
+        "title": "calculus.MV \u2014 www.stat.rice.edu",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "gauss_newton": [
+      {
+        "url": "http://www.henley.ac.uk/web/FILES/maths/09-04.pdf",
+        "kind": "course notes",
+        "title": "09 04 \u2014 www.henley.ac.uk",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1309.7922",
+        "kind": "preprint",
+        "title": "The divergence of the BFGS and Gauss Newton Methods",
+        "byline": "Mascarenhas \u00b7 2013",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1007%2Fs10107-013-0720-6",
+        "kind": "paper",
+        "title": "The divergence of the BFGS and Gauss Newton methods",
+        "byline": "Mascarenhas \u00b7 2013",
+        "via": "crossref"
+      }
+    ],
+    "gaussian_distribution": [],
+    "gaussian_elimination": [],
+    "gimbal_lock": [],
+    "high_pass_filter": [],
+    "homogeneous_coordinates": [],
+    "icp": [
+      {
+        "url": "http://www.comp.nus.edu.sg/~lowkl/publications/lowk_point-to-plane_icp_techrep.pdf",
+        "kind": "course notes",
+        "title": "lowk point to plane icp techrep \u2014 www.comp.nus.edu.sg",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1109%2FTPAMI.1987.4767965",
+        "kind": "paper",
+        "title": "Least-Squares Fitting of Two 3-D Point Sets",
+        "byline": "Arun, Huang, Blostein \u00b7 1987",
+        "via": "crossref"
+      },
+      {
+        "url": "https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.175.770",
+        "kind": "course notes",
+        "title": "summary \u2014 citeseerx.ist.psu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1109%2F34.121791",
+        "kind": "paper",
+        "title": "A method for registration of 3-D shapes",
+        "byline": "Besl, McKay \u00b7 1992",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1016%2F0262-8856(92)90066-C",
+        "kind": "paper",
+        "title": "Object modelling by registration of multiple range images",
+        "byline": "Chen, Medioni \u00b7 1992",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1007%2FBF01427149",
+        "kind": "paper",
+        "title": "Iterative point matching for registration of free-form curves and surfaces",
+        "byline": "Zhang \u00b7 1994",
+        "via": "crossref"
+      }
+    ],
+    "importance_sampling": [],
+    "importance_weight_derivation": [
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2015ISPL...22.1757E",
+        "kind": "course notes",
+        "title": "2015ISPL...22.1757E \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1602.03572",
+        "kind": "preprint",
+        "title": "Effective Sample Size for Importance Sampling based on discrepancy measures",
+        "byline": "Martino, Elvira, Louzada \u00b7 2016",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F1913641",
+        "kind": "paper",
+        "title": "Bayesian Estimates of Equation System Parameters: An Application of Integration by Monte Carlo",
+        "byline": "Kloek, van Dijk \u00b7 1978",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2015ITSP...63.4422M",
+        "kind": "course notes",
+        "title": "2015ITSP...63.4422M \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1505.05391",
+        "kind": "preprint",
+        "title": "Efficient Multiple Importance Sampling Estimators",
+        "byline": "Elvira, Martino, Luengo et al. \u00b7 2015",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.sigpro.2016.08.025",
+        "kind": "paper",
+        "title": "Effective sample size for importance sampling based on discrepancy measures",
+        "byline": "Martino, Elvira, Louzada \u00b7 2017",
+        "via": "crossref"
+      }
+    ],
+    "independent_trials": [],
+    "index_notation": [
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1916AnP...354..769E",
+        "kind": "course notes",
+        "title": "1916AnP...354..769E \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://mathworld.wolfram.com/EinsteinSummation.html",
+        "kind": "reference",
+        "title": "Einstein Summation",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1002%2Fandp.19163540702",
+        "kind": "paper",
+        "title": "Die Grundlage der allgemeinen Relativit\u00e4tstheorie",
+        "byline": "Einstein \u00b7 1916",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www-astro.physics.ox.ac.uk/~sr/lectures/vectors/lecture10final.pdfc",
+        "kind": "course notes",
+        "title": "lecture10final.pdfc \u2014 www-astro.physics.ox.ac.uk",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "inequality_bounding": [
+      {
+        "url": "http://www-stat.wharton.upenn.edu/~steele/Publications/Books/CSMC/CSMC_index.html",
+        "kind": "course notes",
+        "title": "CSMC index \u2014 www-stat.wharton.upenn.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://mathworld.wolfram.com/PartiallyOrderedSet.html",
+        "kind": "reference",
+        "title": "Partially Ordered Set",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2324012",
+        "kind": "paper",
+        "title": "E3116",
+        "byline": "Laub, Ilani \u00b7 1990",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.cs.yale.edu/homes/aspnes/pinewiki/ProvingInequalities.html",
+        "kind": "course notes",
+        "title": "ProvingInequalities",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "http://mathworld.wolfram.com/MuchLess.html",
+        "kind": "reference",
+        "title": "Much Less",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.aam.2004.05.001",
+        "kind": "paper",
+        "title": "General inequalities, consequences and applications",
+        "byline": "Grinshpan \u00b7 2005",
+        "via": "crossref"
+      }
+    ],
+    "inflection_point": [
+      {
+        "url": "https://mathworld.wolfram.com/InflectionPoint.html",
+        "kind": "reference",
+        "title": "Inflection Point",
+        "byline": "",
+        "via": "page"
+      }
+    ],
+    "information_matrix": [],
+    "integral": [
+      {
+        "url": "http://name.umdl.umich.edu/AAX2762.0001.001",
+        "kind": "course notes",
+        "title": "AAX2762.0001.001 \u2014 name.umdl.umich.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1707.08942",
+        "kind": "preprint",
+        "title": "An Extension of the Method of Brackets. Part 1",
+        "byline": "Gonzalez, Kohl, Jiu et al. \u00b7 2017",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1090%2FS0002-9904-1953-09694-X",
+        "kind": "paper",
+        "title": "Integration in abstract spaces",
+        "byline": "Hildebrandt \u00b7 1953",
+        "via": "crossref"
+      },
+      {
+        "url": "http://matwbn.icm.edu.pl/kstresc.php?tom=7&wyd=10&jez=",
+        "kind": "course notes",
+        "title": "kstresc \u2014 matwbn.icm.edu.pl",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1515%2Fmath-2020-0062",
+        "kind": "paper",
+        "title": "An extension of the method of brackets. Part 2",
+        "byline": "Gonzalez, Jiu, Moll \u00b7 2020",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2018JOSS....3.1073R",
+        "kind": "course notes",
+        "title": "2018JOSS....3.1073R \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "integration_by_parts": [],
+    "inverse_laplace_transform": [],
+    "iou": [
+      {
+        "url": "http://www-users.cs.umn.edu/~kumar/dmbook/dmslides/chap2_data.pdf",
+        "kind": "course notes",
+        "title": "chap2 data \u2014 www-users.cs.umn.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1903.11372",
+        "kind": "preprint",
+        "title": "Jaccard/Tanimoto similarity test and estimation methods",
+        "byline": "Chung, Miasojedow, Startek et al. \u00b7 2019",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1175%2F1520-0434(1996)011%3C0003:TFAASE%3E2.0.CO;2",
+        "kind": "paper",
+        "title": "The Finley Affair: A Signal Event in the History of Forecast Verification",
+        "byline": "Murphy \u00b7 1996",
+        "via": "crossref"
+      },
+      {
+        "url": "http://infolab.stanford.edu/~ullman/mmds/ch3.pdf",
+        "kind": "course notes",
+        "title": "ch3 \u2014 infolab.stanford.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1612.02696",
+        "kind": "preprint",
+        "title": "A note on the triangle inequality for the Jaccard distance",
+        "byline": "Kosub \u00b7 2016",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1111%2Fj.1469-8137.1912.tb05611.x",
+        "kind": "paper",
+        "title": "THE DISTRIBUTION OF THE FLORA IN THE ALPINE ZONE. 1",
+        "byline": "Jaccard \u00b7 1912",
+        "via": "crossref"
+      }
+    ],
+    "isotropic_logdet_rescale": [],
+    "jacobian_vector_product": [
+      {
+        "url": "http://academics.davidson.edu/math/neidinger/SIAMRev74362.pdf",
+        "kind": "course notes",
+        "title": "SIAMRev74362 \u2014 academics.davidson.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1137%2F080743627",
+        "kind": "paper",
+        "title": "Introduction to Automatic Differentiation and MATLAB Object-Oriented Programming",
+        "byline": "Neidinger \u00b7 2010",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2000JCoAM.124..171B",
+        "kind": "course notes",
+        "title": "2000JCoAM.124..171B \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1145%2F355586.364791",
+        "kind": "paper",
+        "title": "A simple automatic derivative evaluation program",
+        "byline": "Wengert \u00b7 1964",
+        "via": "crossref"
+      },
+      {
+        "url": "https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.362.6580",
+        "kind": "course notes",
+        "title": "summary \u2014 citeseerx.ist.psu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1016%2FS0377-0427(00)00422-2",
+        "kind": "paper",
+        "title": "Automatic differentiation of algorithms",
+        "byline": "Bartholomew-Biggs, Brown, Christianson et al. \u00b7 2000",
+        "via": "crossref"
+      }
+    ],
+    "joint_distribution": [],
+    "kl_divergence": [
+      {
+        "url": "http://bayes.wustl.edu/etj/articles/theory.1.pdf",
+        "kind": "course notes",
+        "title": "theory.1 \u2014 bayes.wustl.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://link.springer.com/article/10.1007/s10107-022-01816-5",
+        "kind": "book",
+        "title": "Policy mirror descent for reinforcement learning: linear convergence, new sampling complexity, and generalized problem classes",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1404.2000",
+        "kind": "preprint",
+        "title": "Notes on Kullback-Leibler Divergence and Likelihood",
+        "byline": "Shlens \u00b7 2014",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1214%2Faop%2F1176996454",
+        "kind": "paper",
+        "title": "$I$-Divergence Geometry of Probability Distributions and Minimization Problems",
+        "byline": "Csiszar \u00b7 1975",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1957PhRv..106..620J",
+        "kind": "course notes",
+        "title": "1957PhRv..106..620J \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/math/0604246",
+        "kind": "preprint",
+        "title": "Normalized information-based divergences",
+        "byline": "Coeurjolly, Drouilhet, Robineau \u00b7 2006",
+        "via": "arxiv"
+      }
+    ],
+    "computational_graph": [
+      {
+        "url": "http://academics.davidson.edu/math/neidinger/SIAMRev74362.pdf",
+        "kind": "course notes",
+        "title": "SIAMRev74362 \u2014 academics.davidson.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1137%2F080743627",
+        "kind": "paper",
+        "title": "Introduction to Automatic Differentiation and MATLAB Object-Oriented Programming",
+        "byline": "Neidinger \u00b7 2010",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2000JCoAM.124..171B",
+        "kind": "course notes",
+        "title": "2000JCoAM.124..171B \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1145%2F355586.364791",
+        "kind": "paper",
+        "title": "A simple automatic derivative evaluation program",
+        "byline": "Wengert \u00b7 1964",
+        "via": "crossref"
+      },
+      {
+        "url": "https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.362.6580",
+        "kind": "course notes",
+        "title": "summary \u2014 citeseerx.ist.psu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1016%2FS0377-0427(00)00422-2",
+        "kind": "paper",
+        "title": "Automatic differentiation of algorithms",
+        "byline": "Bartholomew-Biggs, Brown, Christianson et al. \u00b7 2000",
+        "via": "crossref"
+      }
+    ],
+    "cross_entropy": [
+      {
+        "url": "https://link.springer.com/article/10.1007/s10479-005-5724-z",
+        "kind": "book",
+        "title": "A Tutorial on the Cross-Entropy Method",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/2303.09935",
+        "kind": "preprint",
+        "title": "Alternate Loss Functions for Classification and Robust Regression Can Improve the Accuracy of Artificial Neural Networks",
+        "byline": "Noel, Banerjee, Oswal et al. \u00b7 2023",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-3-030-20951-3_18",
+        "kind": "paper",
+        "title": "Amended Cross-Entropy Cost: An Approach for Encouraging Diversity in Classification Ensemble (Brief Announcement)",
+        "byline": "Shoham, Permuter \u00b7 2019",
+        "via": "crossref"
+      },
+      {
+        "url": "https://arxiv.org/abs/2007.08140",
+        "kind": "preprint",
+        "title": "Amended Cross Entropy Cost: Framework For Explicit Diversity Encouragement",
+        "byline": "Shoham, Permuter \u00b7 2020",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://arxiv.org/archive/cs.LG",
+        "kind": "preprint",
+        "title": "cs.LG \u2014 arxiv.org",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/archive/cs.NE",
+        "kind": "preprint",
+        "title": "cs.NE \u2014 arxiv.org",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "cross_entropy_loss": [
+      {
+        "url": "https://link.springer.com/article/10.1007/s10479-005-5724-z",
+        "kind": "book",
+        "title": "A Tutorial on the Cross-Entropy Method",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/2303.09935",
+        "kind": "preprint",
+        "title": "Alternate Loss Functions for Classification and Robust Regression Can Improve the Accuracy of Artificial Neural Networks",
+        "byline": "Noel, Banerjee, Oswal et al. \u00b7 2023",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-3-030-20951-3_18",
+        "kind": "paper",
+        "title": "Amended Cross-Entropy Cost: An Approach for Encouraging Diversity in Classification Ensemble (Brief Announcement)",
+        "byline": "Shoham, Permuter \u00b7 2019",
+        "via": "crossref"
+      },
+      {
+        "url": "https://arxiv.org/abs/2007.08140",
+        "kind": "preprint",
+        "title": "Amended Cross Entropy Cost: Framework For Explicit Diversity Encouragement",
+        "byline": "Shoham, Permuter \u00b7 2020",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://arxiv.org/archive/cs.LG",
+        "kind": "preprint",
+        "title": "cs.LG \u2014 arxiv.org",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/archive/cs.NE",
+        "kind": "preprint",
+        "title": "cs.NE \u2014 arxiv.org",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "eigendecomposition": [],
+    "eigenvalue": [],
+    "final_value_theorem": [],
+    "finite_difference_jacobian": [
+      {
+        "url": "http://russell.ae.utexas.edu/FinalPublications/ConferencePapers/2010Feb_SanDiego_AAS-10-218_mulicomplex.pdf",
+        "kind": "course notes",
+        "title": "2010Feb SanDiego AAS 10 218 mulicomplex \u2014 russell.ae.utexas.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://mathworld.wolfram.com/NumericalDifferentiation.html",
+        "kind": "reference",
+        "title": "Numerical Differentiation",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1145%2F838250.838251",
+        "kind": "paper",
+        "title": "The complex-step derivative approximation",
+        "byline": "Martins, Sturdza, Alonso \u00b7 2003",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1967SJNA....4..202L",
+        "kind": "course notes",
+        "title": "1967SJNA....4..202L \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1145%2F2168773.2168774",
+        "kind": "paper",
+        "title": "Using Multicomplex Variables for Automatic Computation of High-Order Derivatives",
+        "byline": "Lantoine, Russell, Dargent \u00b7 2012",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1968SJNA....5..102A",
+        "kind": "course notes",
+        "title": "1968SJNA....5..102A \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "gradient_descent": [],
+    "gram_matrix": [],
+    "inlier_ratio": [
+      {
+        "url": "http://www.academia.edu/download/3436793/torr_mlesac.pdf",
+        "kind": "course notes",
+        "title": "torr mlesac \u2014 www.academia.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1007%2Fs11263-011-0474-7",
+        "kind": "paper",
+        "title": "Energy-Based Geometric Multi-model Fitting",
+        "byline": "Isack, Boykov \u00b7 2011",
+        "via": "crossref"
+      },
+      {
+        "url": "http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.184.812&rep=rep1&type=pdf",
+        "kind": "course notes",
+        "title": "Wayback Machine",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1109%2FTPAMI.2012.227",
+        "kind": "paper",
+        "title": "Hop-Diffusion Monte Carlo for Epipolar Geometry Estimation between Very Wide-Baseline Images",
+        "byline": "Brahmachari, Sarkar \u00b7 2013",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1145%2F358669.358692",
+        "kind": "paper",
+        "title": "Random sample consensus",
+        "byline": "Fischler, Bolles \u00b7 1981",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1023%2FA:1007927408552",
+        "kind": "paper",
+        "title": "The Development and Comparison of Robust Methods for Estimating the Fundamental Matrix",
+        "byline": "Torr, Murray \u00b7 1997",
+        "via": "crossref"
+      }
+    ],
+    "kl_trust_region_step": [
+      {
+        "url": "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.45.9964",
+        "kind": "course notes",
+        "title": "summary \u2014 citeseerx.ist.psu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://link.springer.com/article/10.1007%2Fs10107-015-0893-2",
+        "kind": "book",
+        "title": "Recent advances in trust region algorithms",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1137%2F0719026",
+        "kind": "paper",
+        "title": "Newton\u2019s Method with a Model Trust Region Modification",
+        "byline": "Sorensen \u00b7 1982",
+        "via": "crossref"
+      },
+      {
+        "url": "https://optimization.mccormick.northwestern.edu/index.php/Trust-region_methods",
+        "kind": "course notes",
+        "title": "Trust region methods \u2014 optimization.mccormick.northwestern.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F1909768",
+        "kind": "paper",
+        "title": "Maximization by Quadratic Hill-Climbing",
+        "byline": "Goldfeld, Quandt, Trotter \u00b7 1966",
+        "via": "crossref"
+      },
+      {
+        "url": "https://digital.library.unt.edu/ark:/67531/metadc283479/",
+        "kind": "course notes",
+        "title": "Newton's Method with a Model Trust-Region Modification - UNT Digital Library",
+        "byline": "",
+        "via": "page"
+      }
+    ],
+    "kronecker_delta": [],
+    "lagrange_multipliers": [
+      {
+        "url": "http://www.umiacs.umd.edu/~resnik/ling848_fa2004/lagrange.html",
+        "kind": "course notes",
+        "title": "lagrange \u2014 www.umiacs.umd.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1106.3455",
+        "kind": "preprint",
+        "title": "Applications of a constrained mechanics methodology in economics",
+        "byline": "Janov\u00e1 \u00b7 2011",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F0025570X.2009.11953617",
+        "kind": "paper",
+        "title": "Leveling with Lagrange: An Alternate View of Constrained Optimization",
+        "byline": "Kalman \u00b7 2009",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2011EJPh...32.1443J",
+        "kind": "course notes",
+        "title": "2011EJPh...32.1443J \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1017%2FCBO9780511810756",
+        "kind": "paper",
+        "title": "Mathematical Methods and Models for Economists",
+        "byline": "Fuente \u00b7 2000",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ece.k-state.edu/people/faculty/carpenter/documents/lagrange.pdf",
+        "kind": "course notes",
+        "title": "lagrange \u2014 ece.k-state.edu",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "laplace_transform": [],
+    "laplace_transform_of_derivative": [
+      {
+        "url": "http://fourier.eng.hmc.edu/e102/lectures/Laplace_Transform/",
+        "kind": "course notes",
+        "title": "Laplace Transform \u2014 fourier.eng.hmc.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://mathworld.wolfram.com/LaplaceTransform.html",
+        "kind": "reference",
+        "title": "Laplace Transform",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://link.springer.com/10.1007/978-3-031-40681-2_5",
+        "kind": "book",
+        "title": "978 3 031 40681 2 5 \u2014 link.springer.com",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-1-349-18461-3_6",
+        "kind": "paper",
+        "title": "The Laplace Transform and the z-transform",
+        "byline": "Lynn \u00b7 1986",
+        "via": "crossref"
+      },
+      {
+        "url": "https://tutorial.math.lamar.edu/classes/de/LaplaceIntro.aspx",
+        "kind": "course notes",
+        "title": "Differential Equations - Laplace Transforms",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1007%2FBF02421315",
+        "kind": "paper",
+        "title": "Sur un point de la th\u00e9orie des fonctions g\u00e9n\u00e9ratrices d\u2019Abel",
+        "byline": "Lerch \u00b7 1903",
+        "via": "crossref"
+      }
+    ],
+    "law_of_large_numbers": [],
+    "least_squares_objective": [
+      {
+        "url": "http://www-stat.stanford.edu/~tibs/ElemStatLearn/",
+        "kind": "course notes",
+        "title": "ElemStatLearn \u2014 www-stat.stanford.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1509.09169",
+        "kind": "preprint",
+        "title": "Lecture notes on ridge regression",
+        "byline": "Wieringen \u00b7 2015",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1111%2Fj.1751-5823.1998.tb00406.x",
+        "kind": "paper",
+        "title": "Doing Least Squares: Perspectives from Gauss and Yule",
+        "byline": "Aldrich \u00b7 1998",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2008arXiv0804.1302B",
+        "kind": "course notes",
+        "title": "2008arXiv0804.1302B \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/0804.1302",
+        "kind": "preprint",
+        "title": "Bolasso: model consistent Lasso estimation through the bootstrap",
+        "byline": "Bach \u00b7 2008",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1214%2Faos%2F1176350362",
+        "kind": "paper",
+        "title": "A New Approach to Least-Squares Estimation, with Applications",
+        "byline": "Geer \u00b7 1987",
+        "via": "crossref"
+      }
+    ],
+    "levenberg_marquardt_damping": [
+      {
+        "url": "http://people.duke.edu/~hpgavin/ce281/lm.pdf",
+        "kind": "course notes",
+        "title": "lm \u2014 people.duke.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1010.1449",
+        "kind": "preprint",
+        "title": "The geometry of nonlinear least squares with applications to sloppy models and optimization",
+        "byline": "Transtrum, Machta, Sethna \u00b7 2010",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1090%2Fqam%2F10666",
+        "kind": "paper",
+        "title": "A method for the solution of certain non-linear problems in least squares",
+        "byline": "Levenberg \u00b7 1944",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1959PPS....73..777W",
+        "kind": "course notes",
+        "title": "1959PPS....73..777W \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1201.5885",
+        "kind": "preprint",
+        "title": "Improvements to the Levenberg-Marquardt algorithm for nonlinear least-squares minimization",
+        "byline": "Transtrum, Sethna \u00b7 2012",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1137%2F0111030",
+        "kind": "paper",
+        "title": "An Algorithm for Least-Squares Estimation of Nonlinear Parameters",
+        "byline": "Marquardt \u00b7 1963",
+        "via": "crossref"
+      }
+    ],
+    "linear_independence": [],
+    "linear_model": [
+      {
+        "url": "https://phet.colorado.edu/en/simulation/least-squares-regression",
+        "kind": "course notes",
+        "title": "least squares regression \u2014 phet.colorado.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/math/0406456",
+        "kind": "preprint",
+        "title": "Least Angle Regression",
+        "byline": "Efron, Hastie, Johnstone et al. \u00b7 2004",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1214%2F009053604000000067",
+        "kind": "paper",
+        "title": "Least angle regression",
+        "byline": "Efron, Hastie, Johnstone et al. \u00b7 2004",
+        "via": "crossref"
+      },
+      {
+        "url": "https://people.cs.pitt.edu/~milos/courses/cs2750-Spring03/lectures/class6.pdf",
+        "kind": "course notes",
+        "title": "class6 \u2014 people.cs.pitt.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1804.02499",
+        "kind": "preprint",
+        "title": "Group least squares regression for linear models with strongly correlated predictor variables",
+        "byline": "Tsao \u00b7 2018",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2346776",
+        "kind": "paper",
+        "title": "On the Investigation of Alternative Regressions by Principal Component Analysis",
+        "byline": "Hawkins \u00b7 1973",
+        "via": "crossref"
+      }
+    ],
+    "local_minimum": [],
+    "log_determinant": [
+      {
+        "url": "http://darkwing.uoregon.edu/~vitulli/441.sp04/LinAlgHistory.html",
+        "kind": "course notes",
+        "title": "LinAlgHistory \u2014 darkwing.uoregon.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/Determinant.html",
+        "kind": "reference",
+        "title": "Determinant",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1805.06027",
+        "kind": "preprint",
+        "title": "Determinants of Block Matrices with Noncommuting Blocks",
+        "byline": "Sothanaphan \u00b7 2018",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F3620776",
+        "kind": "paper",
+        "title": "Determinants of block matrices",
+        "byline": "Silvester \u00b7 2000",
+        "via": "crossref"
+      },
+      {
+        "url": "http://ftp.cs.wisc.edu/Approx/empty.pdf",
+        "kind": "course notes",
+        "title": "empty \u2014 ftp.cs.wisc.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1410.1958",
+        "kind": "preprint",
+        "title": "Completely strong superadditivity of generalized matrix functions",
+        "byline": "Lin, Sra \u00b7 2014",
+        "via": "arxiv"
+      }
+    ],
+    "log_likelihood": [],
+    "log_of_product_to_sum": [
+      {
+        "url": "http://sing.stanford.edu/cs303-sp10/papers/1954-Fitts.pdf",
+        "kind": "course notes",
+        "title": "1954 Fitts \u2014 sing.stanford.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/Logarithm.html",
+        "kind": "reference",
+        "title": "Logarithm",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1510.03180",
+        "kind": "preprint",
+        "title": "Jost B\u00fcrgi's Method for Calculating Sines",
+        "byline": "Folkerts, Launert, Thom \u00b7 2015",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.hm.2016.03.001",
+        "kind": "paper",
+        "title": "Jost B\u00fcrgi's method for calculating sines",
+        "byline": "Folkerts, Launert, Thom \u00b7 2016",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.psy.cmu.edu/~siegler/sieglerbooth-cd04.pdf",
+        "kind": "course notes",
+        "title": "sieglerbooth cd04 \u2014 www.psy.cmu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F3026878",
+        "kind": "paper",
+        "title": "A Brief History of Logarithms",
+        "byline": "Pierce \u00b7 1977",
+        "via": "crossref"
+      }
+    ],
+    "logarithm": [
+      {
+        "url": "http://sing.stanford.edu/cs303-sp10/papers/1954-Fitts.pdf",
+        "kind": "course notes",
+        "title": "1954 Fitts \u2014 sing.stanford.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/Logarithm.html",
+        "kind": "reference",
+        "title": "Logarithm",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1510.03180",
+        "kind": "preprint",
+        "title": "Jost B\u00fcrgi's Method for Calculating Sines",
+        "byline": "Folkerts, Launert, Thom \u00b7 2015",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.hm.2016.03.001",
+        "kind": "paper",
+        "title": "Jost B\u00fcrgi's method for calculating sines",
+        "byline": "Folkerts, Launert, Thom \u00b7 2016",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.psy.cmu.edu/~siegler/sieglerbooth-cd04.pdf",
+        "kind": "course notes",
+        "title": "sieglerbooth cd04 \u2014 www.psy.cmu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F3026878",
+        "kind": "paper",
+        "title": "A Brief History of Logarithms",
+        "byline": "Pierce \u00b7 1977",
+        "via": "crossref"
+      }
+    ],
+    "logarithm_solve": [
+      {
+        "url": "http://sing.stanford.edu/cs303-sp10/papers/1954-Fitts.pdf",
+        "kind": "course notes",
+        "title": "1954 Fitts \u2014 sing.stanford.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/Logarithm.html",
+        "kind": "reference",
+        "title": "Logarithm",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1510.03180",
+        "kind": "preprint",
+        "title": "Jost B\u00fcrgi's Method for Calculating Sines",
+        "byline": "Folkerts, Launert, Thom \u00b7 2015",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.hm.2016.03.001",
+        "kind": "paper",
+        "title": "Jost B\u00fcrgi's method for calculating sines",
+        "byline": "Folkerts, Launert, Thom \u00b7 2016",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.psy.cmu.edu/~siegler/sieglerbooth-cd04.pdf",
+        "kind": "course notes",
+        "title": "sieglerbooth cd04 \u2014 www.psy.cmu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F3026878",
+        "kind": "paper",
+        "title": "A Brief History of Logarithms",
+        "byline": "Pierce \u00b7 1977",
+        "via": "crossref"
+      }
+    ],
+    "logistic_growth": [
+      {
+        "url": "http://math.bu.edu/people/mak/MA565/Pearl_Reed_PNAS_1920.pdf",
+        "kind": "course notes",
+        "title": "Pearl Reed PNAS 1920 \u2014 math.bu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/LogisticEquation.html",
+        "kind": "reference",
+        "title": "Logistic Equation",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/0901.4714",
+        "kind": "preprint",
+        "title": "Punctuated evolution due to delayed carrying capacity",
+        "byline": "Yukalov, Yukalova, Sornette \u00b7 2009",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F10511979808965879",
+        "kind": "paper",
+        "title": "MATH-ALIVE! USING ORIGINAL SOURCES TO TEACH MATHEMATICS IN SOCIAL CONTEXT",
+        "byline": "Shulman \u00b7 1998",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2009PhyD..238.1752Y",
+        "kind": "course notes",
+        "title": "2009PhyD..238.1752Y \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/SigmoidFunction.html",
+        "kind": "reference",
+        "title": "Sigmoid Function",
+        "byline": "",
+        "via": "page"
+      }
+    ],
+    "loss_function": [
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1985sdtb.book.....B",
+        "kind": "course notes",
+        "title": "1985sdtb.book.....B \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-3-642-48773-6",
+        "kind": "paper",
+        "title": "Constructing Scalar-Valued Objective Functions",
+        "byline": "1997",
+        "via": "crossref"
+      },
+      {
+        "url": "https://web.stanford.edu/~hastie/ElemStatLearn/",
+        "kind": "course notes",
+        "title": "Elements of Statistical Learning: data mining, inference, and prediction. 2nd Edition.",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-3-642-56038-5",
+        "kind": "paper",
+        "title": "Constructing and Applying Objective Functions",
+        "byline": "2002",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1016%2FS0377-2217(01)00185-0",
+        "kind": "paper",
+        "title": "Constructing a quasi-concave quadratic objective function from interviewing a decision maker",
+        "byline": "Tangian \u00b7 2002",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1016%2FS0377-2217(03)00413-2",
+        "kind": "paper",
+        "title": "A model for ordinally constructing additive objective functions",
+        "byline": "Tangian \u00b7 2004",
+        "via": "crossref"
+      }
+    ],
+    "mahalanobis_distance": [
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2003EcMod.160..115F",
+        "kind": "course notes",
+        "title": "2003EcMod.160..115F \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1512.00809",
+        "kind": "preprint",
+        "title": "Optimal whitening and decorrelation",
+        "byline": "Kessy, Lewin, Strimmer \u00b7 2015",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1080/00031305.2016.1277159",
+        "kind": "paper",
+        "title": "Optimal Whitening and Decorrelation",
+        "byline": "Kessy, Lewin, Strimmer \u00b7 2018",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fs0169-7439(99)00047-7",
+        "kind": "paper",
+        "title": "The Mahalanobis distance",
+        "byline": "De Maesschalck, Jouan-Rimbaud, Massart \u00b7 2000",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F03610920008832559",
+        "kind": "paper",
+        "title": "Multivariate outliers and decompositions of mahalanobis distance",
+        "byline": "Geun Kim \u00b7 2000",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F00031305.2016.1277159",
+        "kind": "paper",
+        "title": "Optimal Whitening and Decorrelation",
+        "byline": "Kessy, Lewin, Strimmer \u00b7 2018",
+        "via": "crossref"
+      }
+    ],
+    "manifold_retraction": [
+      {
+        "url": "https://lux.collections.yale.edu/view/concept/e9d05d7b-af0f-4066-9808-13301e66511a",
+        "kind": "course notes",
+        "title": "LUX: Yale Collections Discovery",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/math/0409303",
+        "kind": "preprint",
+        "title": "Vanishing geodesic distance on spaces of submanifolds and diffeomorphisms",
+        "byline": "Michor, Mumford \u00b7 2004",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1090%2Fproc%2F14986",
+        "kind": "paper",
+        "title": "A remark on vanishing geodesic distances in infinite dimensions",
+        "byline": "Magnani, Tiberio \u00b7 2020",
+        "via": "crossref"
+      },
+      {
+        "url": "https://arxiv.org/abs/1910.06430",
+        "kind": "preprint",
+        "title": "A remark on vanishing geodesic distances in infinite dimensions",
+        "byline": "Magnani, Tiberio \u00b7 2019",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.4171%2Fdm%2F187",
+        "kind": "paper",
+        "title": "Vanishing geodesic distance on spaces of submanifolds and diffeomorphisms",
+        "byline": "Michor, Mumford \u00b7 2005",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1090%2Fchel%2F365",
+        "kind": "paper",
+        "title": "Comparison Theorems in Riemannian Geometry",
+        "byline": "Cheeger, Ebin \u00b7 2008",
+        "via": "crossref"
+      }
+    ],
+    "matrix": [
+      {
+        "url": "https://quod.lib.umich.edu/cgi/t/text/pageviewer-idx?c=umhistmath;cc=umhistmath;rgn=full%20text;idno=ABS3153.0001.001;didno=ABS3153.0001.001;view=image;seq=00000140",
+        "kind": "course notes",
+        "title": "pageviewer idx \u2014 quod.lib.umich.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/2307.07970",
+        "kind": "preprint",
+        "title": "New Bounds for Matrix Multiplication: from Alpha to Omega",
+        "byline": "Williams, Xu, Xu et al. \u00b7 2023",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-94-011-5768-1",
+        "kind": "paper",
+        "title": "Quaternions and Cayley Numbers",
+        "byline": "Ward \u00b7 1997",
+        "via": "crossref"
+      },
+      {
+        "url": "https://quod.lib.umich.edu/cgi/t/text/text-idx?c=umhistmath;idno=AAS8260.0002.001",
+        "kind": "course notes",
+        "title": "text idx \u2014 quod.lib.umich.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1811.07325",
+        "kind": "preprint",
+        "title": "Stark: Fast and Scalable Strassen's Matrix Multiplication using Apache Spark",
+        "byline": "Misra, Bhattacharya, Ghosh \u00b7 2018",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1016%2F0315-0860(75)90032-4",
+        "kind": "paper",
+        "title": "Cauchy and the spectral theory of matrices",
+        "byline": "Hawkins \u00b7 1975",
+        "via": "crossref"
+      }
+    ],
+    "matrix_calculus_gradient": [
+      {
+        "url": "http://www.colorado.edu/engineering/cas/courses.d/IFEM.d/IFEM.AppD.d/IFEM.AppD.pdf",
+        "kind": "course notes",
+        "title": "IFEM.AppD \u2014 www.colorado.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.jmva.2021.104849",
+        "kind": "paper",
+        "title": "Matrix differential calculus with applications in the multivariate linear model and its diagnostics",
+        "byline": "Liu, Leiva, Zhuang et al. \u00b7 2022",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.atmos.washington.edu/~dennis/MatrixCalculus.pdf",
+        "kind": "course notes",
+        "title": "MatrixCalculus \u2014 www.atmos.washington.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.jmva.2010.05.005",
+        "kind": "paper",
+        "title": "On the concept of matrix derivative",
+        "byline": "Magnus \u00b7 2010",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www4.ncsu.edu/~pfackler/MatCalc.pdf",
+        "kind": "course notes",
+        "title": "MatCalc \u2014 www4.ncsu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1007%2Fs00362-023-01499-w",
+        "kind": "paper",
+        "title": "Professor Heinz Neudecker and matrix differential calculus",
+        "byline": "Liu, Trenkler, Kollo et al. \u00b7 2023",
+        "via": "crossref"
+      }
+    ],
+    "matrix_inverse": [
+      {
+        "url": "https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/video-lectures/lecture-3-multiplication-and-inverse-matrices/",
+        "kind": "course notes",
+        "title": "Lecture 3: Multiplication and inverse matrices",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/InvertibleMatrixTheorem.html",
+        "kind": "reference",
+        "title": "Invertible Matrix Theorem",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.4310%2FCMS.2009.v7.n3.a12",
+        "kind": "paper",
+        "title": "Fast algorithm for extracting the diagonal of the inverse matrix with application to the electronic structure analysis of metallic systems",
+        "byline": "Car, E, Lin et al. \u00b7 2009",
+        "via": "crossref"
+      },
+      {
+        "url": "https://www.cs.nthu.edu.tw/~jang/book/addenda/matinv/matinv/",
+        "kind": "course notes",
+        "title": "Matrix Inverse in Block Form",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1049%2Fel.2019.2938",
+        "kind": "paper",
+        "title": "Efficient initialisation of iterative linear massive MIMO detectors using a stair matrix",
+        "byline": "Albreem, Juntti, Shahabuddin \u00b7 2020",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2020ElL....56...50A",
+        "kind": "course notes",
+        "title": "2020ElL....56...50A \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "matrix_multiplication": [],
+    "matrix_transpose": [
+      {
+        "url": "https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/",
+        "kind": "course notes",
+        "title": "Linear Algebra",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "http://www.cmat.edu.uy/~marclan/TM/Algebra%20i%20-%20Bourbaki.pdf",
+        "kind": "course notes",
+        "title": "Algebra%20i%20 %20Bourbaki \u2014 www.cmat.edu.uy",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "matrix_whitening": [
+      {
+        "url": "https://digitalcommons.mtu.edu/cgi/viewcontent.cgi?article=1279&context=physics-fp",
+        "kind": "course notes",
+        "title": "viewcontent.cgi \u2014 digitalcommons.mtu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://link.springer.com/book/10.1007/b98888",
+        "kind": "book",
+        "title": "Functional Data Analysis",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1512.00809",
+        "kind": "preprint",
+        "title": "Optimal whitening and decorrelation",
+        "byline": "Kessy, Lewin, Strimmer \u00b7 2015",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1175%2F1520-0450(1999)038%3C0741:TFODWT%3E2.0.CO;2",
+        "kind": "paper",
+        "title": "The Feasibility of Data Whitening to Improve Performance of Weather Radar",
+        "byline": "Koivunen, Kostinski \u00b7 1999",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1999JApMe..38..741K",
+        "kind": "course notes",
+        "title": "1999JApMe..38..741K \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F00031305.2016.1277159",
+        "kind": "paper",
+        "title": "Optimal Whitening and Decorrelation",
+        "byline": "Kessy, Lewin, Strimmer \u00b7 2018",
+        "via": "crossref"
+      }
+    ],
+    "maximum_likelihood_estimation": [],
+    "monte_carlo_integration": [],
+    "natural_gradient": [
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2010PhLA..374.4801F",
+        "kind": "course notes",
+        "title": "2010PhLA..374.4801F \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://link.springer.com/book/10.1007/978-4-431-55978-8",
+        "kind": "book",
+        "title": "Information Geometry and Its Applications",
+        "byline": "2016",
+        "via": "openlibrary"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1310.7780.pdf",
+        "kind": "preprint",
+        "title": "The Information Geometry of Mirror Descent",
+        "byline": "Raskutti, Mukherjee \u00b7 2013",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1007%2Fs41884-018-0006-4",
+        "kind": "paper",
+        "title": "Chentsov\u2019s theorem for exponential families",
+        "byline": "Dowty \u00b7 2018",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2009PhRvE..79a2104F",
+        "kind": "course notes",
+        "title": "2009PhRvE..79a2104F \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1701.08895",
+        "kind": "preprint",
+        "title": "Chentsov's theorem for exponential families",
+        "byline": "Dowty \u00b7 2017",
+        "via": "arxiv"
+      }
+    ],
+    "natural_gradient_descent": [],
+    "nonlinear_least_squares": [],
+    "norm": [
+      {
+        "url": "https://kconrad.math.uconn.edu/blurbs/gradnumthy/equivnorms.pdf",
+        "kind": "course notes",
+        "title": "equivnorms \u2014 kconrad.math.uconn.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/Norm.html",
+        "kind": "reference",
+        "title": "Norm -- from Wolfram MathWorld",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "http://dx.doi.org/10.1215/s0012-7094-39-00551-x",
+        "kind": "paper",
+        "title": "Pseudo-normed linear spaces and Abelian groups",
+        "byline": "Hyers \u00b7 1939",
+        "via": "crossref"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/VectorNorm.html",
+        "kind": "reference",
+        "title": "Vector Norm",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1215%2Fs0012-7094-39-00551-x",
+        "kind": "paper",
+        "title": "Pseudo-normed linear spaces and Abelian groups",
+        "byline": "Hyers \u00b7 1939",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-94-015-7758-8",
+        "kind": "paper",
+        "title": "Functional Analysis and Control Theory",
+        "byline": "Rolewicz \u00b7 1987",
+        "via": "crossref"
+      }
+    ],
+    "normal_equations": [],
+    "null_space": [
+      {
+        "url": "https://www.math.ohiou.edu/courses/math3600/lecture11.pdf",
+        "kind": "course notes",
+        "title": "lecture11 \u2014 www.math.ohiou.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://mathworld.wolfram.com/Kernel.html",
+        "kind": "reference",
+        "title": "Kernel -- from Wolfram MathWorld",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "http://web.comlab.ox.ac.uk/oucl/work/nick.trefethen/text.html",
+        "kind": "course notes",
+        "title": "Nick Trefethen",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "http://mathworld.wolfram.com/Rank-NullityTheorem.html",
+        "kind": "reference",
+        "title": "Rank-Nullity Theorem",
+        "byline": "",
+        "via": "page"
+      }
+    ],
+    "optimal_feedback_gain": [
+      {
+        "url": "http://ctms.engin.umich.edu/CTMS/index.php?example=Introduction&section=ControlStateSpace#24",
+        "kind": "course notes",
+        "title": "index \u2014 ctms.engin.umich.edu",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "ordinary_least_squares": [],
+    "partial_fractions": [
+      {
+        "url": "https://ftp.cs.wisc.edu/pub/techreports/1970/TR91.pdf",
+        "kind": "course notes",
+        "title": "TR91 \u2014 ftp.cs.wisc.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/PartialFractionDecomposition.html",
+        "kind": "reference",
+        "title": "Partial Fraction Decomposition",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1109%2FTE.1968.4320370",
+        "kind": "paper",
+        "title": "Recursive Techniques for Obtaining the Partial Fraction Expansion of a Rational Function",
+        "byline": "Rao, Ahmed \u00b7 1968",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1968ITEdu..11..152R",
+        "kind": "course notes",
+        "title": "1968ITEdu..11..152R \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1007%2FBF01587772",
+        "kind": "paper",
+        "title": "An algorithm for the incomplete decomposition of a rational function into partial fractions",
+        "byline": "Henrici \u00b7 1971",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1971ZaMP...22..751H",
+        "kind": "course notes",
+        "title": "1971ZaMP...22..751H \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "particle_filter": [
+      {
+        "url": "http://www.people.fas.harvard.edu/~junliu/TechRept/94folder/klw94.pdf",
+        "kind": "course notes",
+        "title": "klw94 \u2014 www.people.fas.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://journals.cambridge.org/download.php?file=/PSS/PSS7/S1292810003000016a.pdf&code=a0dbaa7ffca871126dc05fe2f918880a",
+        "kind": "book",
+        "title": "Particle approximations of Lyapunov exponents connected to Schr\u00f6dinger operators and Feynman\u2013Kac semigroups",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1902.03188",
+        "kind": "preprint",
+        "title": "Scalable optimal Bayesian classification of single-cell trajectories under regulatory model uncertainty",
+        "byline": "Hajiramezanali, Imani, Braga-Neto et al. \u00b7 2019",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F01621459.1998.10473765",
+        "kind": "paper",
+        "title": "Sequential Monte Carlo Methods for Dynamic Systems",
+        "byline": "Liu, Chen \u00b7 1998",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.people.fas.harvard.edu/~junliu/TechRept/95folder/liu&chen95_s.pdf",
+        "kind": "course notes",
+        "title": "liu&chen95 s \u2014 www.people.fas.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://www.springer.com/mathematics/probability/book/978-0-387-20268-6",
+        "kind": "book",
+        "title": "Feynman-Kac formulae",
+        "byline": "2004",
+        "via": "openlibrary"
+      }
+    ],
+    "pca": [
+      {
+        "url": "http://ranger.uta.edu/~chqding/papers/Zha-Kmeans.pdf",
+        "kind": "course notes",
+        "title": "Zha Kmeans \u2014 ranger.uta.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://link.springer.com/10.1007/b98835",
+        "kind": "book",
+        "title": "Principal Component Analysis",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1404.1100",
+        "kind": "preprint",
+        "title": "A Tutorial on Principal Component Analysis",
+        "byline": "Shlens \u00b7 2014",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1098%2Frsta.2015.0202",
+        "kind": "paper",
+        "title": "Principal component analysis: a review and recent developments",
+        "byline": "Jolliffe, Cadima \u00b7 2016",
+        "via": "crossref"
+      },
+      {
+        "url": "http://ranger.uta.edu/~chqding/papers/KmeansPCA1.pdf",
+        "kind": "course notes",
+        "title": "KmeansPCA1 \u2014 ranger.uta.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://link.springer.com/10.1007/s11135-023-01669-w",
+        "kind": "book",
+        "title": "Charting fields and spaces quantitatively: from multiple correspondence analysis to categorical principal components analysis",
+        "byline": "",
+        "via": "page"
+      }
+    ],
+    "pid": [
+      {
+        "url": "http://ctms.engin.umich.edu/CTMS/index.php?example=Introduction&section=ControlPID",
+        "kind": "course notes",
+        "title": "index \u2014 ctms.engin.umich.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1109%2F37.506394",
+        "kind": "paper",
+        "title": "A brief history of automatic control",
+        "byline": "1996",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2005RvMP...77..783B",
+        "kind": "course notes",
+        "title": "2005RvMP...77..783B \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1111%2Fj.1559-3584.1922.tb04958.x",
+        "kind": "paper",
+        "title": "DIRECTIONAL STABILITY OF AUTOMATICALLY STEERED BODIES",
+        "byline": "Minorsky. \u00b7 1922",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.tcnj.edu/~rgraham/PID-tuning.html",
+        "kind": "course notes",
+        "title": "PID tuning \u2014 www.tcnj.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.jmatprotec.2013.05.023",
+        "kind": "paper",
+        "title": "Numerical modelling of powder metallurgical coatings on ring-shaped parts integrated with ring rolling",
+        "byline": "Kebriaei, Frischkorn, Reese et al. \u00b7 2013",
+        "via": "crossref"
+      }
+    ],
+    "pole_location": [
+      {
+        "url": "https://mathworld.wolfram.com/Pole.html",
+        "kind": "reference",
+        "title": "Pole -- from Wolfram MathWorld",
+        "byline": "",
+        "via": "page"
+      }
+    ],
+    "polynomial_root_finding": [
+      {
+        "url": "https://link.springer.com/chapter/10.1007/978-3-030-40616-5_17",
+        "kind": "book",
+        "title": "978 3 030 40616 5 17 \u2014 link.springer.com",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-3-030-40616-5_17",
+        "kind": "paper",
+        "title": "Generalizations of the Intermediate Value Theorem for Approximating Fixed Points and Zeros of Continuous Functions",
+        "byline": "Vrahatis \u00b7 2020",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1007%2FBF01419526",
+        "kind": "paper",
+        "title": "Computing the topological degree of a mapping inR n",
+        "byline": "Stenger \u00b7 1975",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1007%2FBF01404868",
+        "kind": "paper",
+        "title": "An efficient degree-computation method for a generalized method of bisection",
+        "byline": "Kearfott \u00b7 1979",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1006%2Fjcom.2001.0636",
+        "kind": "paper",
+        "title": "On the Complexity of Isolating Real Roots and Computing with Certainty the Topological Degree",
+        "byline": "Mourrain, Vrahatis, Yakoubsohn \u00b7 2002",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1007%2FBF01389620",
+        "kind": "paper",
+        "title": "A rapid Generalized Method of Bisection for solving Systems of Non-linear Equations",
+        "byline": "Vrahatis, Iordanidis \u00b7 1986",
+        "via": "crossref"
+      }
+    ],
+    "priority_queue": [],
+    "probability_density_function": [],
+    "projection_matrix": [],
+    "proposal_distribution": [
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2015ISPL...22.1757E",
+        "kind": "course notes",
+        "title": "2015ISPL...22.1757E \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1602.03572",
+        "kind": "preprint",
+        "title": "Effective Sample Size for Importance Sampling based on discrepancy measures",
+        "byline": "Martino, Elvira, Louzada \u00b7 2016",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F1913641",
+        "kind": "paper",
+        "title": "Bayesian Estimates of Equation System Parameters: An Application of Integration by Monte Carlo",
+        "byline": "Kloek, van Dijk \u00b7 1978",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2015ITSP...63.4422M",
+        "kind": "course notes",
+        "title": "2015ITSP...63.4422M \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1505.05391",
+        "kind": "preprint",
+        "title": "Efficient Multiple Importance Sampling Estimators",
+        "byline": "Elvira, Martino, Luengo et al. \u00b7 2015",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.sigpro.2016.08.025",
+        "kind": "paper",
+        "title": "Effective sample size for importance sampling based on discrepancy measures",
+        "byline": "Martino, Elvira, Louzada \u00b7 2017",
+        "via": "crossref"
+      }
+    ],
+    "quadratic_form": [],
+    "quadratic_form_differentiation": [
+      {
+        "url": "http://www.colorado.edu/engineering/cas/courses.d/IFEM.d/IFEM.AppD.d/IFEM.AppD.pdf",
+        "kind": "course notes",
+        "title": "IFEM.AppD \u2014 www.colorado.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.jmva.2021.104849",
+        "kind": "paper",
+        "title": "Matrix differential calculus with applications in the multivariate linear model and its diagnostics",
+        "byline": "Liu, Leiva, Zhuang et al. \u00b7 2022",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.atmos.washington.edu/~dennis/MatrixCalculus.pdf",
+        "kind": "course notes",
+        "title": "MatrixCalculus \u2014 www.atmos.washington.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1016%2Fj.jmva.2010.05.005",
+        "kind": "paper",
+        "title": "On the concept of matrix derivative",
+        "byline": "Magnus \u00b7 2010",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www4.ncsu.edu/~pfackler/MatCalc.pdf",
+        "kind": "course notes",
+        "title": "MatCalc \u2014 www4.ncsu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1007%2Fs00362-023-01499-w",
+        "kind": "paper",
+        "title": "Professor Heinz Neudecker and matrix differential calculus",
+        "byline": "Liu, Trenkler, Kollo et al. \u00b7 2023",
+        "via": "crossref"
+      }
+    ],
+    "quaternion": [
+      {
+        "url": "http://www.cs.indiana.edu/~hanson/quatvis/",
+        "kind": "course notes",
+        "title": "Computer Science: Academic Units: Academics: Luddy School of Informatics, Computing, and Engineering: Indiana University Bloomington",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1103.5263",
+        "kind": "preprint",
+        "title": "Rotations in three, four, and five dimensions",
+        "byline": "Hanson \u00b7 2011",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1007%2FBF03024783",
+        "kind": "paper",
+        "title": "If hamilton had prevailed: quaternions in physics",
+        "byline": "Lambek \u00b7 1995",
+        "via": "crossref"
+      },
+      {
+        "url": "https://quaternionnews.commons.gc.cuny.edu/",
+        "kind": "course notes",
+        "title": "quaternionnews.commons.gc.cuny.edu \u2014 quaternionnews.commons.gc.cuny.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/math-ph/0307038",
+        "kind": "preprint",
+        "title": "Physical Space as a Quaternion Structure, I: Maxwell Equations. A Brief Note",
+        "byline": "Jack \u00b7 2003",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1023%2FB:MATG.0000048799.56445.59",
+        "kind": "paper",
+        "title": "The Bingham Distribution of Quaternions and Its Spherical Radon Transform in Texture Analysis",
+        "byline": "Kunze, Schaeben \u00b7 2004",
+        "via": "crossref"
+      }
+    ],
+    "quaternion_kinematics": [
+      {
+        "url": "http://www.cs.unc.edu/techreports/01-014.pdf",
+        "kind": "course notes",
+        "title": "01 014 \u2014 www.cs.unc.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1801.07478",
+        "kind": "preprint",
+        "title": "Why and How to Avoid the Flipped Quaternion Multiplication",
+        "byline": "Sommer, Gilitschenski, Bloesch et al. \u00b7 2018",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1145%2F325165.325242",
+        "kind": "paper",
+        "title": "Animating rotation with quaternion curves",
+        "byline": "Shoemake \u00b7 1985",
+        "via": "crossref"
+      },
+      {
+        "url": "http://people.csail.mit.edu/bkph/articles/Quaternions.pdf",
+        "kind": "course notes",
+        "title": "Quaternions \u2014 people.csail.mit.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/2211.07787",
+        "kind": "preprint",
+        "title": "Rodrigues, Olinde: \"Des lois g\u00e9om\u00e9triques qui r\u00e9gissent les d\u00e9placements d'un syst\u00e8me solide...\", translation and commentary",
+        "byline": "Friedberg \u00b7 2022",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1023%2FB:MATG.0000048799.56445.59",
+        "kind": "paper",
+        "title": "The Bingham Distribution of Quaternions and Its Spherical Radon Transform in Texture Analysis",
+        "byline": "Kunze, Schaeben \u00b7 2004",
+        "via": "crossref"
+      }
+    ],
+    "quaternion_multiplication": [
+      {
+        "url": "http://www.cs.indiana.edu/~hanson/quatvis/",
+        "kind": "course notes",
+        "title": "Computer Science: Academic Units: Academics: Luddy School of Informatics, Computing, and Engineering: Indiana University Bloomington",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1103.5263",
+        "kind": "preprint",
+        "title": "Rotations in three, four, and five dimensions",
+        "byline": "Hanson \u00b7 2011",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1007%2FBF03024783",
+        "kind": "paper",
+        "title": "If hamilton had prevailed: quaternions in physics",
+        "byline": "Lambek \u00b7 1995",
+        "via": "crossref"
+      },
+      {
+        "url": "https://quaternionnews.commons.gc.cuny.edu/",
+        "kind": "course notes",
+        "title": "quaternionnews.commons.gc.cuny.edu \u2014 quaternionnews.commons.gc.cuny.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/math-ph/0307038",
+        "kind": "preprint",
+        "title": "Physical Space as a Quaternion Structure, I: Maxwell Equations. A Brief Note",
+        "byline": "Jack \u00b7 2003",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1023%2FB:MATG.0000048799.56445.59",
+        "kind": "paper",
+        "title": "The Bingham Distribution of Quaternions and Its Spherical Radon Transform in Texture Analysis",
+        "byline": "Kunze, Schaeben \u00b7 2004",
+        "via": "crossref"
+      }
+    ],
+    "quotient_rule": [],
+    "random_variable": [],
+    "rank": [
+      {
+        "url": "http://numericalmethods.eng.usf.edu/mws/che/04sle/mws_che_sle_bck_vectors.pdf",
+        "kind": "course notes",
+        "title": "mws che sle bck vectors \u2014 numericalmethods.eng.usf.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F0025570X.1995.11996337",
+        "kind": "paper",
+        "title": "A Note on the Equality of the Column and Row Rank of a Matrix",
+        "byline": "Mackiw \u00b7 1995",
+        "via": "crossref"
+      },
+      {
+        "url": "http://numericalmethods.eng.usf.edu/mws/che/04sle/mws_che_sle_bck_system.pdf",
+        "kind": "course notes",
+        "title": "mws che sle bck system \u2014 numericalmethods.eng.usf.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F0025570X.2005.11953349",
+        "kind": "paper",
+        "title": "Row Rank Equals Column Rank",
+        "byline": "Wardlaw \u00b7 2005",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.ee.ic.ac.uk/hp/staff/dmb/matrix/property.html#rank",
+        "kind": "course notes",
+        "title": "property \u2014 www.ee.ic.ac.uk",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "ransac": [
+      {
+        "url": "http://www.academia.edu/download/3436793/torr_mlesac.pdf",
+        "kind": "course notes",
+        "title": "torr mlesac \u2014 www.academia.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1007%2Fs11263-011-0474-7",
+        "kind": "paper",
+        "title": "Energy-Based Geometric Multi-model Fitting",
+        "byline": "Isack, Boykov \u00b7 2011",
+        "via": "crossref"
+      },
+      {
+        "url": "http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.184.812&rep=rep1&type=pdf",
+        "kind": "course notes",
+        "title": "Wayback Machine",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1109%2FTPAMI.2012.227",
+        "kind": "paper",
+        "title": "Hop-Diffusion Monte Carlo for Epipolar Geometry Estimation between Very Wide-Baseline Images",
+        "byline": "Brahmachari, Sarkar \u00b7 2013",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1145%2F358669.358692",
+        "kind": "paper",
+        "title": "Random sample consensus",
+        "byline": "Fischler, Bolles \u00b7 1981",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1023%2FA:1007927408552",
+        "kind": "paper",
+        "title": "The Development and Comparison of Robust Methods for Estimating the Fundamental Matrix",
+        "byline": "Torr, Murray \u00b7 1997",
+        "via": "crossref"
+      }
+    ],
+    "rayleigh_quotient": [],
+    "residual": [
+      {
+        "url": "http://www.stat.umn.edu/rir/",
+        "kind": "course notes",
+        "title": "rir \u2014 www.stat.umn.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://www.jstor.org/stable/2984505",
+        "kind": "paper",
+        "title": "2984505 \u2014 www.jstor.org",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "riccati_equation": [],
+    "rigid_transformation": [],
+    "rotation_matrix": [],
+    "sampling": [
+      {
+        "url": "https://lux.collections.yale.edu/view/concept/b7629548-b876-4c67-aa58-bc389a41af2e",
+        "kind": "course notes",
+        "title": "LUX: Yale Collections Discovery",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1093%2Fbioinformatics%2Fbtt662",
+        "kind": "paper",
+        "title": "Effect of separate sampling on classification accuracy",
+        "byline": "Shahrokh Esfahani, Dougherty \u00b7 2013",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2982726",
+        "kind": "paper",
+        "title": "Populations and Selection: Limitations of Statistics",
+        "byline": "Smith \u00b7 1993",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1093%2Fbiomet%2F88.1.167",
+        "kind": "paper",
+        "title": "Biometrika Centenary: Sample surveys",
+        "byline": "Smith \u00b7 2001",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2981944",
+        "kind": "paper",
+        "title": "A Sketch of the History of Survey Sampling in Russia",
+        "byline": "Seneta \u00b7 1985",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1111%2Fj.2517-6161.1986.tb01400.x",
+        "kind": "paper",
+        "title": "Fitting Logistic Models Under Case-Control or Choice Based Sampling",
+        "byline": "Scott, Wild \u00b7 1986",
+        "via": "crossref"
+      }
+    ],
+    "score_function": [],
+    "se3": [],
+    "sensor_bias": [],
+    "sensor_noise": [
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1996PhRvL..76...38M",
+        "kind": "course notes",
+        "title": "1996PhRvL..76...38M \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1016%2FS0026-2714(00)00063-9",
+        "kind": "paper",
+        "title": "Noise in nanotechnology",
+        "byline": "Kish, Granqvist \u00b7 2000",
+        "via": "crossref"
+      },
+      {
+        "url": "https://www.k-state.edu/edl/docs/pubs/technical-resources/Technote4.pdf",
+        "kind": "course notes",
+        "title": "Technote4 \u2014 www.k-state.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1103%2FPhysRevLett.76.38",
+        "kind": "paper",
+        "title": "Do Solitons Exchange Conserved Quantities During Collisions?",
+        "byline": "Miller, Akhmediev \u00b7 1996",
+        "via": "crossref"
+      },
+      {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/10060428",
+        "kind": "paper",
+        "title": "10060428 \u2014 pubmed.ncbi.nlm.nih.gov",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "sigmoid": [
+      {
+        "url": "https://ccrma.stanford.edu/~jos/pasp/Soft_Clipping.html",
+        "kind": "course notes",
+        "title": "Soft Clipping",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.3390%2Fcryst13121690",
+        "kind": "paper",
+        "title": "Heterogeneous Substrates Modify Non-Classical Nucleation Pathways: Reanalysis of Kinetic Data from the Electrodeposition of Mercury on Platinum Using Hierarchy of Sigmoid Growth Models",
+        "byline": "Kleshtanova, Ivanov, Hodzhaoglu et al. \u00b7 2023",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F3-540-59497-3_175",
+        "kind": "paper",
+        "title": "The influence of the sigmoid function parameters on the speed of backpropagation learning",
+        "byline": "Han, Moraga \u00b7 1995",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1109%2F10.250574",
+        "kind": "paper",
+        "title": "Entropic analysis of biological growth models",
+        "byline": "Yibei Ling, Bin He \u00b7 1993",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1186%2Fs12874-015-0096-9",
+        "kind": "paper",
+        "title": "Some extensions in continuous models for immunological correlates of protection",
+        "byline": "Dunning, Kensler, Coudeville et al. \u00b7 2015",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1109%2F72.883477",
+        "kind": "paper",
+        "title": "Variational Gaussian process classifiers",
+        "byline": "Mackay, Gibbs \u00b7 2000",
+        "via": "crossref"
+      }
+    ],
+    "so3": [
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2014SIGMA..10..084C",
+        "kind": "course notes",
+        "title": "2014SIGMA..10..084C \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1402.3541",
+        "kind": "preprint",
+        "title": "A Compact Formula for Rotations as Spin Matrix Polynomials",
+        "byline": "Curtright, Fairlie, Zachos \u00b7 2014",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.3842%2FSIGMA.2014.084",
+        "kind": "paper",
+        "title": "A Compact Formula for Rotations as Spin Matrix Polynomials",
+        "byline": "Curtright \u00b7 2014",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1023%2FA:1021979515229",
+        "kind": "paper",
+        "title": "On the BCH-formula in so(3)",
+        "byline": "Eng\u00f8 \u00b7 2001",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F0025570X.1989.11977459",
+        "kind": "paper",
+        "title": "Hamilton, Rodrigues, and the Quaternion Scandal",
+        "byline": "Altmann \u00b7 1989",
+        "via": "crossref"
+      },
+      {
+        "url": "https://www.sciencedirect.com/science/article/pii/B9780080507552500361",
+        "kind": "paper",
+        "title": "Graphics Gems III",
+        "byline": "2012",
+        "via": "openlibrary"
+      }
+    ],
+    "softmax_differentiation": [
+      {
+        "url": "http://ufldl.stanford.edu/tutorial/supervised/SoftmaxRegression/",
+        "kind": "course notes",
+        "title": "SoftmaxRegression \u2014 ufldl.stanford.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1704.00805",
+        "kind": "preprint",
+        "title": "On the Properties of the Softmax Function with Application in Game Theory and Reinforcement Learning",
+        "byline": "Gao, Pavel \u00b7 2017",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1007%2Fs10791-017-9321-y",
+        "kind": "paper",
+        "title": "Neural information retrieval: at the end of the early years",
+        "byline": "Onal, Zhang, Altingovde et al. \u00b7 2017",
+        "via": "crossref"
+      },
+      {
+        "url": "https://mitpress.mit.edu/books/predicting-structured-data",
+        "kind": "course notes",
+        "title": "predicting structured data \u2014 mitpress.mit.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/archive/math.OC",
+        "kind": "preprint",
+        "title": "math.OC \u2014 arxiv.org",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.18653%2Fv1%2FP16-1186",
+        "kind": "paper",
+        "title": "Strategies for Training Large Vocabulary Neural Language Models",
+        "byline": "Chen, Grangier, Auli \u00b7 2016",
+        "via": "crossref"
+      }
+    ],
+    "softmax_function": [],
+    "span": [
+      {
+        "url": "https://www.math.ucdavis.edu/~anne/linear_algebra/mat67_course_notes.pdf",
+        "kind": "course notes",
+        "title": "mat67 course notes \u2014 www.math.ucdavis.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/VectorSpaceSpan.html",
+        "kind": "reference",
+        "title": "Vector Space Span",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "http://matematicas.uis.edu.co/sites/default/files/paginas/archivos/Advanced%20Linear%20Algebra%20-%20Steven%20Roman.pdf#page=56",
+        "kind": "course notes",
+        "title": "Advanced%20Linear%20Algebra%20 %20Steven%20Roman \u2014 matematicas.uis.edu.co",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://www.cs.ox.ac.uk/files/12921/book.pdf#page=110",
+        "kind": "course notes",
+        "title": "book \u2014 www.cs.ox.ac.uk",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "sparse_matrix": [],
+    "stability": [
+      {
+        "url": "https://www.jstor.org/action/doBasicSearch?Query=%22Stability+theory%22&acc=on&wc=on",
+        "kind": "paper",
+        "title": "doBasicSearch \u2014 www.jstor.org",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2020ITSP...68.5904U",
+        "kind": "course notes",
+        "title": "2020ITSP...68.5904U \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/2005.14428",
+        "kind": "preprint",
+        "title": "A Note on BIBO Stability",
+        "byline": "Unser \u00b7 2020",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1109%2FTSP.2020.3025029",
+        "kind": "paper",
+        "title": "A Note on BIBO Stability",
+        "byline": "Unser \u00b7 2020",
+        "via": "crossref"
+      }
+    ],
+    "stationary_point": [],
+    "steady_state_error": [
+      {
+        "url": "http://www.cds.caltech.edu/~murray/books/AM08/pdf/am08-complete_28Sep12.pdf",
+        "kind": "course notes",
+        "title": "am08 complete 28Sep12 \u2014 www.cds.caltech.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://www.sontaglab.org/FTPDIR/sontag_mathematical_control_theory_springer98.pdf",
+        "kind": "book",
+        "title": "sontag mathematical control theory springer98 \u2014 www.sontaglab.org",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1406.5197",
+        "kind": "preprint",
+        "title": "Controllability of Brain Networks",
+        "byline": "Gu, Pasqualetti, Cieslak et al. \u00b7 2014",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1111%2Fj.1559-3584.1922.tb04958.x",
+        "kind": "paper",
+        "title": "DIRECTIONAL STABILITY OF AUTOMATICALLY STEERED BODIES",
+        "byline": "Minorsky. \u00b7 1922",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2015NatCo...6.8414G",
+        "kind": "course notes",
+        "title": "2015NatCo...6.8414G \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1211.0248",
+        "kind": "preprint",
+        "title": "Safe Protocols for Generating Power Pulses with Heterogeneous Populations of Thermostatically Controlled Loads",
+        "byline": "Sinitsyn, Kundu, Backhaus \u00b7 2012",
+        "via": "arxiv"
+      }
+    ],
+    "svd_factorization": [
+      {
+        "url": "http://faculty.missouri.edu/uhlmannj/UC-SIMAX-Final.pdf",
+        "kind": "course notes",
+        "title": "UC SIMAX Final \u2014 faculty.missouri.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://link.springer.com/article/10.1007/s00211-007-0114-x",
+        "kind": "book",
+        "title": "Fast linear algebra is stable",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1810.07060",
+        "kind": "preprint",
+        "title": "Enhancing gravitational waveform models through dynamic calibration",
+        "byline": "Setyawati, Ohme, Khan \u00b7 2018",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1016%2F0166-2236(95)94496-R",
+        "kind": "paper",
+        "title": "Receptive-field dynamics in the central visual pathways",
+        "byline": "DeAngelis, Ohzawa, Freeman \u00b7 1995",
+        "via": "crossref"
+      },
+      {
+        "url": "http://math.mit.edu/~edelman/publications/distribution_of_a_scaled.pdf",
+        "kind": "course notes",
+        "title": "distribution of a scaled \u2014 math.mit.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1304.1467",
+        "kind": "preprint",
+        "title": "Dimension Independent Matrix Square using MapReduce",
+        "byline": "Zadeh, Carlsson \u00b7 2013",
+        "via": "arxiv"
+      }
+    ],
+    "symmetric_matrix": [],
+    "time_constant": [],
+    "trace": [
+      {
+        "url": "http://fourier.eng.hmc.edu/e161/lectures/algebra/node2.html",
+        "kind": "course notes",
+        "title": "node2 \u2014 fourier.eng.hmc.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/MatrixTrace.html",
+        "kind": "reference",
+        "title": "Matrix Trace",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1009.3095",
+        "kind": "preprint",
+        "title": "Measure Theory in Noncommutative Spaces",
+        "byline": "Lord, Sukochev \u00b7 2010",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1145/1944345.1944349",
+        "kind": "paper",
+        "title": "Randomized algorithms for estimating the trace of an implicit symmetric positive semi-definite matrix",
+        "byline": "Avron, Toledo \u00b7 2011",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1201%2F9781420035223",
+        "kind": "paper",
+        "title": "CRC Concise Encyclopedia of Mathematics",
+        "byline": "Weisstein \u00b7 2002",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F03610918908812806",
+        "kind": "paper",
+        "title": "A Stochastic Estimator of the Trace of the Influence Matrix for Laplacian Smoothing Splines",
+        "byline": "Hutchinson \u00b7 1989",
+        "via": "crossref"
+      }
+    ],
+    "trace_identities": [
+      {
+        "url": "http://fourier.eng.hmc.edu/e161/lectures/algebra/node2.html",
+        "kind": "course notes",
+        "title": "node2 \u2014 fourier.eng.hmc.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/MatrixTrace.html",
+        "kind": "reference",
+        "title": "Matrix Trace",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1009.3095",
+        "kind": "preprint",
+        "title": "Measure Theory in Noncommutative Spaces",
+        "byline": "Lord, Sukochev \u00b7 2010",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1145/1944345.1944349",
+        "kind": "paper",
+        "title": "Randomized algorithms for estimating the trace of an implicit symmetric positive semi-definite matrix",
+        "byline": "Avron, Toledo \u00b7 2011",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1201%2F9781420035223",
+        "kind": "paper",
+        "title": "CRC Concise Encyclopedia of Mathematics",
+        "byline": "Weisstein \u00b7 2002",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F03610918908812806",
+        "kind": "paper",
+        "title": "A Stochastic Estimator of the Trace of the Influence Matrix for Laplacian Smoothing Splines",
+        "byline": "Hutchinson \u00b7 1989",
+        "via": "crossref"
+      }
+    ],
+    "transfer_function": [],
+    "translation_vector": [
+      {
+        "url": "http://www.biology.arizona.edu/biomath/tutorials/transformations/horizontaltranslations.html",
+        "kind": "course notes",
+        "title": "horizontaltranslations \u2014 www.biology.arizona.edu",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "trust_region": [
+      {
+        "url": "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.45.9964",
+        "kind": "course notes",
+        "title": "summary \u2014 citeseerx.ist.psu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://link.springer.com/article/10.1007%2Fs10107-015-0893-2",
+        "kind": "book",
+        "title": "Recent advances in trust region algorithms",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1137%2F0719026",
+        "kind": "paper",
+        "title": "Newton\u2019s Method with a Model Trust Region Modification",
+        "byline": "Sorensen \u00b7 1982",
+        "via": "crossref"
+      },
+      {
+        "url": "https://optimization.mccormick.northwestern.edu/index.php/Trust-region_methods",
+        "kind": "course notes",
+        "title": "Trust region methods \u2014 optimization.mccormick.northwestern.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F1909768",
+        "kind": "paper",
+        "title": "Maximization by Quadratic Hill-Climbing",
+        "byline": "Goldfeld, Quandt, Trotter \u00b7 1966",
+        "via": "crossref"
+      },
+      {
+        "url": "https://digital.library.unt.edu/ark:/67531/metadc283479/",
+        "kind": "course notes",
+        "title": "Newton's Method with a Model Trust-Region Modification - UNT Digital Library",
+        "byline": "",
+        "via": "page"
+      }
+    ],
+    "unit_norm_normalization": [
+      {
+        "url": "https://mathworld.wolfram.com/UnitVector.html#:~:text=A%20unit%20vector%20is%20a,as%20the%20(finite)%20vector%20.",
+        "kind": "reference",
+        "title": "Unit Vector",
+        "byline": "",
+        "via": "page"
+      }
+    ],
+    "unit_quaternion": [],
+    "variance": [
+      {
+        "url": "http://digital.library.adelaide.edu.au/dspace/bitstream/2440/15097/1/9.pdf",
+        "kind": "course notes",
+        "title": "9 \u2014 digital.library.adelaide.edu.au",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://mathworld.wolfram.com/SampleVarianceDistribution.html",
+        "kind": "reference",
+        "title": "Sample Variance Distribution",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1016%2FS0167-7152(98)00041-8",
+        "kind": "paper",
+        "title": "Why the variance?",
+        "byline": "Kagan, Shepp \u00b7 1998",
+        "via": "crossref"
+      },
+      {
+        "url": "https://www.cs.yale.edu/publications/techreports/tr222.pdf",
+        "kind": "course notes",
+        "title": "tr222 \u2014 www.cs.yale.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2281592",
+        "kind": "paper",
+        "title": "On the Exact Variance of Products",
+        "byline": "Goodman \u00b7 1960",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F01621459.1968.10480944",
+        "kind": "paper",
+        "title": "How Deviant Can You Be?",
+        "byline": "Samuelson \u00b7 1968",
+        "via": "crossref"
+      }
+    ],
+    "vector": [
+      {
+        "url": "http://www.math.odu.edu/~jhh/counter2.html",
+        "kind": "course notes",
+        "title": "Free Textbook Tensor Calculus and Continuum Mechanics",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/Vector.html",
+        "kind": "reference",
+        "title": "Vector -- from Wolfram MathWorld",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "http://www.nku.edu/~curtin/crowe_oresme.pdf",
+        "kind": "course notes",
+        "title": "crowe oresme \u2014 www.nku.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "http://matwbn.icm.edu.pl/ksiazki/fm/fm3/fm3120.pdf",
+        "kind": "course notes",
+        "title": "fm3120 \u2014 matwbn.icm.edu.pl",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.4064%2Ffm-3-1-133-181",
+        "kind": "paper",
+        "title": "Sur les op\u00e9rations dans les ensembles abstraits et leur application aux \u00e9quations int\u00e9grales",
+        "byline": "Banach \u00b7 1922",
+        "via": "crossref"
+      },
+      {
+        "url": "http://www.csc.ncsu.edu/faculty/rhee/export/papers/TheJPEGStillPictureCompressionStandard.pdf",
+        "kind": "course notes",
+        "title": "TheJPEGStillPictureCompressionStandard \u2014 www.csc.ncsu.edu",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "vector_space": [],
+    "weighted_average": [
+      {
+        "url": "https://www.cs.tufts.edu/~nr/cs257/archive/donald-gatz/weighted-standard-error.pdf",
+        "kind": "course notes",
+        "title": "weighted standard error \u2014 www.cs.tufts.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/WeightedMean.html",
+        "kind": "reference",
+        "title": "Weighted Mean",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1016%2F1352-2310(94)00210-C",
+        "kind": "paper",
+        "title": "The standard error of a weighted mean concentration\u2014I. Bootstrapping vs other methods",
+        "byline": "Gatz, Smith \u00b7 1995",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1995AtmEn..29.1185G",
+        "kind": "course notes",
+        "title": "1995AtmEn..29.1185G \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1111%2Fj.1469-1809.1957.tb01874.x",
+        "kind": "paper",
+        "title": "Extension of covariance selection mathematics",
+        "byline": "PRICE \u00b7 1972",
+        "via": "crossref"
+      },
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/1988JApMe..27.1322E",
+        "kind": "course notes",
+        "title": "1988JApMe..27.1322E \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "weighted_least_squares": [],
+    "yolo_detection_loss": [
+      {
+        "url": "https://ui.adsabs.harvard.edu/abs/2020ITPAM..42..318L",
+        "kind": "course notes",
+        "title": "2020ITPAM..42..318L \u2014 ui.adsabs.harvard.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://link.springer.com/article/10.1007/s11263-019-01247-4",
+        "kind": "book",
+        "title": "Deep Learning for Generic Object Detection: A Survey",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/2208.14662",
+        "kind": "preprint",
+        "title": "AWADA: Attention-Weighted Adversarial Domain Adaptation for Object Detection",
+        "byline": "Menke, Wenzel, Schwung \u00b7 2022",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1109%2FCVPR.2014.81",
+        "kind": "paper",
+        "title": "Rich Feature Hierarchies for Accurate Object Detection and Semantic Segmentation",
+        "byline": "Girshick, Donahue, Darrell et al. \u00b7 2014",
+        "via": "crossref"
+      },
+      {
+        "url": "https://arxiv.org/abs/1703.10593",
+        "kind": "preprint",
+        "title": "Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks",
+        "byline": "Zhu, Park, Isola et al. \u00b7 2017",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-3-319-46448-0_2",
+        "kind": "paper",
+        "title": "SSD: Single Shot MultiBox Detector",
+        "byline": "Liu, Anguelov, Erhan et al. \u00b7 2016",
+        "via": "crossref"
+      }
+    ],
+    "binomial_distribution": [],
+    "composite_function": [],
+    "graph": [
+      {
+        "url": "http://www.cs.rhul.ac.uk/books/dbook/",
+        "kind": "course notes",
+        "title": "Digraphs, theory, algorithms, applications",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/Graph.html",
+        "kind": "reference",
+        "title": "Graph -- from Wolfram MathWorld",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.1145%2F2488388.2488433",
+        "kind": "paper",
+        "title": "WTF",
+        "byline": "Gupta, Goel, Lin et al. \u00b7 2013",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1080%2F23311983.2016.1171458",
+        "kind": "paper",
+        "title": "A social network analysis of Twitter: Mapping the digital humanities community",
+        "byline": "Grandjean \u00b7 2016",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.1038%2F017284a0",
+        "kind": "paper",
+        "title": "Chemistry and Algebra",
+        "byline": "SYLVESTER \u00b7 1878",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2369436",
+        "kind": "paper",
+        "title": "On an Application of the New Atomic Theory to the Graphical Representation of the Invariants and Covariants of Binary Quantics, with Three Appendices",
+        "byline": "Sylvester \u00b7 1878",
+        "via": "crossref"
+      }
+    ],
+    "information_scheduled_optimizer": [],
+    "lie_algebra": [],
+    "low_pass_filter": [],
+    "lqr": [
+      {
+        "url": "http://underactuated.mit.edu/lqr.html",
+        "kind": "course notes",
+        "title": "Ch. 8 - Linear Quadratic Regulators",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1910.03396",
+        "kind": "preprint",
+        "title": "The Quadratic-Quadratic Regulator Problem: Approximating feedback controls for quadratic-in-state nonlinear systems",
+        "byline": "Borggaard, Zietsman \u00b7 2019",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.3182%2F20080706-5-KR-1001.01483",
+        "kind": "paper",
+        "title": "Formulas for Discrete Time LQR, LQG, LEQG and Minimax LQG Optimal Control Problems",
+        "byline": "Shaiju, Petersen \u00b7 2008",
+        "via": "crossref"
+      },
+      {
+        "url": "https://minds.wisconsin.edu/bitstream/handle/1793/10888/file_1.pdf",
+        "kind": "course notes",
+        "title": "file 1 \u2014 minds.wisconsin.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/2009.11068",
+        "kind": "preprint",
+        "title": "On Approximating Polynomial-Quadratic Regulator Problems",
+        "byline": "Borggaard, Zietsman \u00b7 2020",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.23919%2FACC45564.2020.9147286",
+        "kind": "paper",
+        "title": "The Quadratic-Quadratic Regulator Problem: Approximating feedback controls for quadratic-in-state nonlinear systems",
+        "byline": "Borggaard, Zietsman \u00b7 2020",
+        "via": "crossref"
+      }
+    ],
+    "multivariate_chain_rule": [
+      {
+        "url": "https://scholarworks.umt.edu/tme/vol7/iss2/10/",
+        "kind": "course notes",
+        "title": "\"A semiotic reflection on the didactics of the Chain rule\" by Omar Hernandez Rodriguez and Jorge M. Lopez Fernandez",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://mathworld.wolfram.com/ChainRule.html",
+        "kind": "reference",
+        "title": "Chain Rule",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://doi.org/10.54870%2F1551-3440.1191",
+        "kind": "paper",
+        "title": "A semiotic reflection on the didactics of the Chain rule",
+        "byline": "Rodriguez, Lopez Fernandez \u00b7 2010",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.2307%2F2324035",
+        "kind": "paper",
+        "title": "The Derivative a la Caratheodory",
+        "byline": "Kuhn \u00b7 1991",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.5840%2Fmonist191727324",
+        "kind": "paper",
+        "title": "The Manuscripts of Leibniz on his Discovery of the Differential Calculus",
+        "byline": "Child \u00b7 1917",
+        "via": "crossref"
+      },
+      {
+        "url": "https://doi.org/10.3390%2Feducsci15040433",
+        "kind": "paper",
+        "title": "Using a Realistic Context to Motivate and Teach Engineering Students the Chain Rule",
+        "byline": "Abou-Hayt, Dahl \u00b7 2025",
+        "via": "crossref"
+      }
+    ],
+    "orthogonal_matrix": [],
+    "partial_derivative": [],
+    "pseudoinverse": [],
+    "quadratic_cost": [
+      {
+        "url": "http://underactuated.mit.edu/lqr.html",
+        "kind": "course notes",
+        "title": "Ch. 8 - Linear Quadratic Regulators",
+        "byline": "",
+        "via": "page"
+      },
+      {
+        "url": "https://arxiv.org/abs/1910.03396",
+        "kind": "preprint",
+        "title": "The Quadratic-Quadratic Regulator Problem: Approximating feedback controls for quadratic-in-state nonlinear systems",
+        "byline": "Borggaard, Zietsman \u00b7 2019",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.3182%2F20080706-5-KR-1001.01483",
+        "kind": "paper",
+        "title": "Formulas for Discrete Time LQR, LQG, LEQG and Minimax LQG Optimal Control Problems",
+        "byline": "Shaiju, Petersen \u00b7 2008",
+        "via": "crossref"
+      },
+      {
+        "url": "https://minds.wisconsin.edu/bitstream/handle/1793/10888/file_1.pdf",
+        "kind": "course notes",
+        "title": "file 1 \u2014 minds.wisconsin.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/2009.11068",
+        "kind": "preprint",
+        "title": "On Approximating Polynomial-Quadratic Regulator Problems",
+        "byline": "Borggaard, Zietsman \u00b7 2020",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://doi.org/10.23919%2FACC45564.2020.9147286",
+        "kind": "paper",
+        "title": "The Quadratic-Quadratic Regulator Problem: Approximating feedback controls for quadratic-in-state nonlinear systems",
+        "byline": "Borggaard, Zietsman \u00b7 2020",
+        "via": "crossref"
+      }
+    ],
+    "regression_loss": [
+      {
+        "url": "https://doi.org/10.1016%2FS0893-6080(01)00106-X",
+        "kind": "paper",
+        "title": "Oriented principal component analysis for large margin classifiers",
+        "byline": "Bermejo, Cabestany \u00b7 2001",
+        "via": "crossref"
+      },
+      {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/11771723",
+        "kind": "paper",
+        "title": "11771723 \u2014 pubmed.ncbi.nlm.nih.gov",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "singular_value_decomposition": [],
+    "skew_symmetric_matrix": [],
+    "step_size": [
+      {
+        "url": "https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.29.4428",
+        "kind": "course notes",
+        "title": "summary \u2014 citeseerx.ist.psu.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/abs/1609.04747",
+        "kind": "preprint",
+        "title": "An overview of gradient descent optimization algorithms",
+        "byline": "Ruder \u00b7 2016",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://arxiv.org/abs/1506.01186",
+        "kind": "preprint",
+        "title": "Cyclical Learning Rates for Training Neural Networks",
+        "byline": "Smith \u00b7 2015",
+        "via": "arxiv"
+      },
+      {
+        "url": "https://arxiv.org/archive/cs.LG",
+        "kind": "preprint",
+        "title": "cs.LG \u2014 arxiv.org",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://arxiv.org/archive/cs.CV",
+        "kind": "preprint",
+        "title": "cs.CV \u2014 arxiv.org",
+        "byline": "",
+        "via": "url"
+      }
+    ],
+    "summation": [
+      {
+        "url": "http://www.columbia.edu/itc/sipa/math/summation.html",
+        "kind": "course notes",
+        "title": "summation \u2014 www.columbia.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.1007%2F978-1-4471-6527-9",
+        "kind": "paper",
+        "title": "Mathematical Writing",
+        "byline": "Vivaldi \u00b7 2014",
+        "via": "crossref"
+      },
+      {
+        "url": "http://name.umdl.umich.edu/AAX2762.0001.001",
+        "kind": "course notes",
+        "title": "AAX2762.0001.001 \u2014 name.umdl.umich.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.3931%2FE-RARA-3788",
+        "kind": "paper",
+        "title": "10.3931%2FE RARA 3788 \u2014 doi.org",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://quod.lib.umich.edu/u/umhistmath/aax2762.0001.001/185?page=root;size=100;view=image",
+        "kind": "course notes",
+        "title": "185 \u2014 quod.lib.umich.edu",
+        "byline": "",
+        "via": "url"
+      },
+      {
+        "url": "https://doi.org/10.24033%2Frhm.170",
+        "kind": "paper",
+        "title": "\u00c9diter puis vendre des math\u00e9matiques avec la maison Bachelier (1812-1864)",
+        "byline": "Verdier \u00b7 2018",
+        "via": "crossref"
+      }
+    ],
+    "value_function": []
   }
 }
