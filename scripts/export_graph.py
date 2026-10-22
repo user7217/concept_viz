@@ -177,6 +177,7 @@ def main() -> None:
             # a restatement shown publicly must name and link its source.
             "sources": list((sheet or {}).get("source_ids") or []),
             "whyHere": _trim(str(note.get("why_here", "")), 900),
+            "notation": _trim(str(note.get("notation", "") or ""), 400),
             "reading": reading.get(node.id, []),
             "code": ((library["spans"].get(node.id, []) if uses_library else []) +
                      ([span.to_dict() for span in

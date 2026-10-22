@@ -2,233 +2,299 @@
   "node_id": "linear_kalman_filter",
   "grounded": true,
   "kind": "derivation",
-  "statement": "In the linear Kalman filter, given an a priori state estimate \\hat{\\mathbf{x}}_{k\\mid k-1} with covariance \\mathbf{P}_{k\\mid k-1} and a linear measurement \\mathbf{z}_k = \\mathbf{H}_k \\mathbf{x}_k + \\mathbf{v}_k with uncorrelated measurement noise \\mathbf{v}_k \\sim (\\mathbf{0}, \\mathbf{R}_k), the a posteriori estimate is formed as \\hat{\\mathbf{x}}_{k\\mid k} = \\hat{\\mathbf{x}}_{k\\mid k-1} + \\mathbf{K}_k(\\mathbf{z}_k - \\mathbf{H}_k\\hat{\\mathbf{x}}_{k\\mid k-1}). The optimal Kalman gain that minimizes the mean-squared estimation error \\operatorname{E}[\\|\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k}\\|^2] (or equivalently \\operatorname{tr}(\\mathbf{P}_{k\\mid k})) is \\mathbf{K}_k = \\mathbf{P}_{k\\mid k-1}\\mathbf{H}_k^{\\textsf{T}}\\mathbf{S}_k^{-1}, where \\mathbf{S}_k = \\mathbf{H}_k\\mathbf{P}_{k\\mid k-1}\\mathbf{H}_k^{\\textsf{T}} + \\mathbf{R}_k$. This yields the simplified a posteriori covariance update \\mathbf{P}_{k\\mid k} = (\\mathbf{I} - \\mathbf{K}_k\\mathbf{H}_k)\\mathbf{P}_{k\\mid k-1} (and the general Joseph form \\mathbf{P}_{k\\mid k} = (\\mathbf{I} - \\mathbf{K}_k\\mathbf{H}_k)\\mathbf{P}_{k\\mid k-1}(\\mathbf{I} - \\mathbf{K}_k\\mathbf{H}_k)^{\\textsf{T}} + \\mathbf{K}_k\\mathbf{R}_k\\mathbf{K}_k^{\\textsf{T}}). The supplied source [wikipedia:Kalman_filter] derives this update via trace minimization and does not contain the prediction step derivation or the alternative derivation via block matrix inversion, completing the square, marginalization, or the matrix inversion lemma.",
+  "statement": "The Linear Kalman Filter recursively estimates the Gaussian belief distribution $\\text{bel}(\\mathbf{x}_t) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t}, \\mathbf{P}_{t|t})$ in two steps: (1) Prediction step, yielding predicted belief $\\overline{\\text{bel}}(\\mathbf{x}_t) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t-1}, \\mathbf{P}_{t|t-1})$ with mean $\\hat{\\mathbf{x}}_{t|t-1} = \\mathbf{F}_t \\hat{\\mathbf{x}}_{t-1|t-1} + \\mathbf{B}_t \\mathbf{u}_t$ and covariance $\\mathbf{P}_{t|t-1} = \\mathbf{F}_t \\mathbf{P}_{t-1} \\mathbf{F}_t^\\intercal + \\mathbf{R}_t$; and (2) Update step, yielding updated belief $\\text{bel}(\\mathbf{x}_t) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t}, \\mathbf{P}_{t|t})$ with Kalman gain $\\mathbf{K}_t = \\mathbf{P}_{t|t-1} \\mathbf{H}_t^\\intercal (\\mathbf{H}_t \\mathbf{P}_{t|t-1} \\mathbf{H}_t^\\intercal + \\mathbf{Q}_t)^{-1}$, mean $\\hat{\\mathbf{x}}_{t|t} = \\hat{\\mathbf{x}}_{t|t-1} + \\mathbf{K}_t (\\mathbf{z}_t - \\mathbf{H}_t \\hat{\\mathbf{x}}_{t|t-1})$, and covariance $\\mathbf{P}_{t|t} = (\\mathbf{I} - \\mathbf{K}_t \\mathbf{H}_t) \\mathbf{P}_{t|t-1}$.",
   "symbols": [
     {
-      "symbol": "\\mathbf{x}_k",
-      "meaning": "true state vector at time step k",
-      "dimensions": "n x 1"
+      "symbol": "\\mathbf{x}_t",
+      "meaning": "state vector at time t",
+      "dimensions": "n \\times 1"
     },
     {
-      "symbol": "\\hat{\\mathbf{x}}_{k\\mid k}",
-      "meaning": "a posteriori state estimate at time step k",
-      "dimensions": "n x 1"
+      "symbol": "\\mathbf{u}_t",
+      "meaning": "control input vector at time t",
+      "dimensions": "m \\times 1"
     },
     {
-      "symbol": "\\hat{\\mathbf{x}}_{k\\mid k-1}",
-      "meaning": "a priori state estimate at time step k given measurements up to k-1",
-      "dimensions": "n x 1"
+      "symbol": "\\mathbf{z}_t",
+      "meaning": "measurement vector at time t",
+      "dimensions": "k \\times 1"
     },
     {
-      "symbol": "\\mathbf{P}_{k\\mid k}",
-      "meaning": "a posteriori estimate error covariance matrix",
-      "dimensions": "n x n"
+      "symbol": "\\overline{\\text{bel}}(\\mathbf{x}_t)",
+      "meaning": "predicted belief distribution at time t",
+      "dimensions": "scalar"
     },
     {
-      "symbol": "\\mathbf{P}_{k\\mid k-1}",
-      "meaning": "a priori estimate error covariance matrix",
-      "dimensions": "n x n"
+      "symbol": "\\text{bel}(\\mathbf{x}_t)",
+      "meaning": "posterior belief distribution at time t",
+      "dimensions": "scalar"
     },
     {
-      "symbol": "\\mathbf{z}_k",
-      "meaning": "measurement vector at time step k",
-      "dimensions": "m x 1"
+      "symbol": "\\hat{\\mathbf{x}}_{t-1}",
+      "meaning": "prior posterior state mean at time t-1",
+      "dimensions": "n \\times 1"
     },
     {
-      "symbol": "\\mathbf{H}_k",
-      "meaning": "measurement observation matrix",
-      "dimensions": "m x n"
+      "symbol": "\\mathbf{P}_{t-1}",
+      "meaning": "prior posterior state covariance at time t-1",
+      "dimensions": "n \\times n"
     },
     {
-      "symbol": "\\mathbf{v}_k",
-      "meaning": "measurement noise vector",
-      "dimensions": "m x 1"
+      "symbol": "\\hat{\\mathbf{x}}_{t|t-1}",
+      "meaning": "predicted state mean at time t given time t-1",
+      "dimensions": "n \\times 1"
     },
     {
-      "symbol": "\\mathbf{R}_k",
+      "symbol": "\\mathbf{P}_{t|t-1}",
+      "meaning": "predicted state covariance at time t given time t-1",
+      "dimensions": "n \\times n"
+    },
+    {
+      "symbol": "\\hat{\\mathbf{x}}_{t|t}",
+      "meaning": "updated state mean at time t",
+      "dimensions": "n \\times 1"
+    },
+    {
+      "symbol": "\\mathbf{P}_{t|t}",
+      "meaning": "updated state covariance at time t",
+      "dimensions": "n \\times n"
+    },
+    {
+      "symbol": "\\mathbf{F}_t",
+      "meaning": "state transition matrix",
+      "dimensions": "n \\times n"
+    },
+    {
+      "symbol": "\\mathbf{B}_t",
+      "meaning": "control input matrix",
+      "dimensions": "n \\times m"
+    },
+    {
+      "symbol": "\\mathbf{R}_t",
+      "meaning": "process noise covariance matrix",
+      "dimensions": "n \\times n"
+    },
+    {
+      "symbol": "\\mathbf{H}_t",
+      "meaning": "observation matrix",
+      "dimensions": "k \\times n"
+    },
+    {
+      "symbol": "\\mathbf{Q}_t",
       "meaning": "measurement noise covariance matrix",
-      "dimensions": "m x m"
+      "dimensions": "k \\times k"
     },
     {
-      "symbol": "\\tilde{\\mathbf{y}}_k",
-      "meaning": "measurement residual (innovation) vector",
-      "dimensions": "m x 1"
+      "symbol": "\\mathbf{K}_t",
+      "meaning": "Kalman gain matrix",
+      "dimensions": "n \\times k"
     },
     {
-      "symbol": "\\mathbf{S}_k",
-      "meaning": "innovation (residual) covariance matrix",
-      "dimensions": "m x m"
+      "symbol": "\\eta, \\eta'",
+      "meaning": "normalization constants",
+      "dimensions": "scalar"
     },
     {
-      "symbol": "\\mathbf{K}_k",
-      "meaning": "optimal Kalman gain matrix",
-      "dimensions": "n x m"
+      "symbol": "\\mathbf{L}_t",
+      "meaning": "quadratic exponent in the prediction step integral",
+      "dimensions": "scalar"
     },
     {
-      "symbol": "\\mathbf{I}",
-      "meaning": "identity matrix",
-      "dimensions": "n x n"
+      "symbol": "\\Psi_t",
+      "meaning": "covariance matrix of the x_{t-1}-dependent Gaussian factor in prediction",
+      "dimensions": "n \\times n"
+    },
+    {
+      "symbol": "\\mathbf{J}_t",
+      "meaning": "quadratic exponent in the update step posterior",
+      "dimensions": "scalar"
     }
   ],
   "steps": [
     {
       "n": 1,
-      "text": "Define the a posteriori error covariance matrix from the estimation error: \\mathbf{P}_{k\\mid k} = \\operatorname{cov}(\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k}).",
+      "text": "Express the predicted belief $\\overline{\\text{bel}}(\\mathbf{x}_t) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t-1}, \\mathbf{P}_{t|t-1})$ as the marginalization integral over $\\mathbf{x}_{t-1}$ of the transition density and prior belief: $\\overline{\\text{bel}}(\\mathbf{x}_t) = \\int p(\\mathbf{x}_t \\mid \\mathbf{x}_{t-1}, \\mathbf{u}_t) \\text{bel}(\\mathbf{x}_{t-1}) d\\mathbf{x}_{t-1}$, where $p(\\mathbf{x}_t \\mid \\mathbf{x}_{t-1}, \\mathbf{u}_t) \\sim \\mathcal{N}(\\mathbf{F}_t \\mathbf{x}_{t-1} + \\mathbf{B}_t \\mathbf{u}_t, \\mathbf{R}_t)$ and $\\text{bel}(\\mathbf{x}_{t-1}) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t-1}, \\mathbf{P}_{t-1})$.",
       "invokes": [
-        "covariance_matrix"
+        "belief_distribution",
+        "marginalization",
+        "gaussian_distribution",
+        "conditional_probability"
       ],
       "cites": [
-        "wikipedia:Kalman_filter"
+        "arxiv:2406.06427#8"
       ]
     },
     {
       "n": 2,
-      "text": "Substitute the linear state estimator update \\hat{\\mathbf{x}}_{k\\mid k} = \\hat{\\mathbf{x}}_{k\\mid k-1} + \\mathbf{K}_k \\tilde{\\mathbf{y}}_k into the covariance definition: \\mathbf{P}_{k\\mid k} = \\operatorname{cov}[\\mathbf{x}_k - (\\hat{\\mathbf{x}}_{k\\mid k-1} + \\mathbf{K}_k \\tilde{\\mathbf{y}}_k)].",
-      "invokes": [],
+      "text": "Expand the integrand in Gaussian form to write $\\overline{\\text{bel}}(\\mathbf{x}_t) = \\eta \\int \\exp(-\\mathbf{L}_t) d\\mathbf{x}_{t-1}$, where the quadratic form is $\\mathbf{L}_t = \\frac{1}{2}(\\mathbf{x}_t - \\mathbf{F}_t \\mathbf{x}_{t-1} - \\mathbf{B}_t \\mathbf{u}_t)^\\intercal \\mathbf{R}_t^{-1} (\\mathbf{x}_t - \\mathbf{F}_t \\mathbf{x}_{t-1} - \\mathbf{B}_t \\mathbf{u}_t) + \\frac{1}{2}(\\mathbf{x}_{t-1} - \\hat{\\mathbf{x}}_{t-1})^\\intercal \\mathbf{P}_{t-1}^{-1} (\\mathbf{x}_{t-1} - \\hat{\\mathbf{x}}_{t-1})$.",
+      "invokes": [
+        "gaussian_distribution",
+        "exponential_function",
+        "quadratic_form",
+        "matrix_inverse",
+        "matrix_transpose"
+      ],
       "cites": [
-        "wikipedia:Kalman_filter"
+        "arxiv:2406.06427#8"
       ]
     },
     {
       "n": 3,
-      "text": "Substitute the measurement pre-fit residual \\tilde{\\mathbf{y}}_k = \\mathbf{z}_k - \\mathbf{H}_k \\hat{\\mathbf{x}}_{k\\mid k-1}: \\mathbf{P}_{k\\mid k} = \\operatorname{cov}(\\mathbf{x}_k - [\\hat{\\mathbf{x}}_{k\\mid k-1} + \\mathbf{K}_k (\\mathbf{z}_k - \\mathbf{H}_k \\hat{\\mathbf{x}}_{k\\mid k-1})]).",
-      "invokes": [],
+      "text": "Decompose $\\mathbf{L}_t = \\mathbf{L}_t(\\mathbf{x}_{t-1}, \\mathbf{x}_t) + \\mathbf{L}_t(\\mathbf{x}_t)$ so that $\\mathbf{L}_t(\\mathbf{x}_t)$ contains only terms independent of $\\mathbf{x}_{t-1}$ and can be factored out of the integral: $\\overline{\\text{bel}}(\\mathbf{x}_t) = \\eta \\exp(-\\mathbf{L}_t(\\mathbf{x}_t)) \\int \\exp(-\\mathbf{L}_t(\\mathbf{x}_{t-1}, \\mathbf{x}_t)) d\\mathbf{x}_{t-1}$.",
+      "invokes": [
+        "exponential_function",
+        "integral"
+      ],
       "cites": [
-        "wikipedia:Kalman_filter"
+        "arxiv:2406.06427#8"
       ]
     },
     {
       "n": 4,
-      "text": "Substitute the linear observation model \\mathbf{z}_k = \\mathbf{H}_k \\mathbf{x}_k + \\mathbf{v}_k: \\mathbf{P}_{k\\mid k} = \\operatorname{cov}(\\mathbf{x}_k - [\\hat{\\mathbf{x}}_{k\\mid k-1} + \\mathbf{K}_k (\\mathbf{H}_k \\mathbf{x}_k + \\mathbf{v}_k - \\mathbf{H}_k \\hat{\\mathbf{x}}_{k\\mid k-1})]).",
-      "invokes": [],
+      "text": "Take the first and second partial derivatives of $\\mathbf{L}_t$ with respect to $\\mathbf{x}_{t-1}$: $\\frac{\\partial \\mathbf{L}_t}{\\partial \\mathbf{x}_{t-1}} = -\\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1} (\\mathbf{x}_t - \\mathbf{F}_t \\mathbf{x}_{t-1} - \\mathbf{B}_t \\mathbf{u}_t) + \\mathbf{P}_{t-1}^{-1} (\\mathbf{x}_{t-1} - \\hat{\\mathbf{x}}_{t-1})$ and $\\frac{\\partial^2 \\mathbf{L}_t}{\\partial \\mathbf{x}_{t-1}^2} = \\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1} \\mathbf{F}_t + \\mathbf{P}_{t-1}^{-1} := \\Psi_t^{-1}$.",
+      "invokes": [
+        "partial_derivative",
+        "quadratic_form",
+        "positive_semidefinite_matrix",
+        "covariance_matrix"
+      ],
       "cites": [
-        "wikipedia:Kalman_filter"
+        "arxiv:2406.06427#8"
       ]
     },
     {
       "n": 5,
-      "text": "Collect the a priori error vector \\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k-1}: \\mathbf{P}_{k\\mid k} = \\operatorname{cov}[(\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)(\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k-1}) - \\mathbf{K}_k \\mathbf{v}_k].",
-      "invokes": [],
+      "text": "Set $\\frac{\\partial \\mathbf{L}_t}{\\partial \\mathbf{x}_{t-1}} = 0$ to solve for the mean with respect to $\\mathbf{x}_{t-1}$, yielding $\\mathbf{x}_{t-1} = \\Psi_t [\\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1}(\\mathbf{x}_t - \\mathbf{B}_t \\mathbf{u}_t) + \\mathbf{P}_{t-1}^{-1} \\hat{\\mathbf{x}}_{t-1}]$, and write the completed square $\\mathbf{L}_t(\\mathbf{x}_{t-1}, \\mathbf{x}_t) = \\frac{1}{2}(\\mathbf{x}_{t-1} - \\Psi_t [\\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1}(\\mathbf{x}_t - \\mathbf{B}_t \\mathbf{u}_t) + \\mathbf{P}_{t-1}^{-1} \\hat{\\mathbf{x}}_{t-1}])^\\intercal \\Psi_t^{-1} (\\mathbf{x}_{t-1} - \\Psi_t [\\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1}(\\mathbf{x}_t - \\mathbf{B}_t \\mathbf{u}_t) + \\mathbf{P}_{t-1}^{-1} \\hat{\\mathbf{x}}_{t-1}])$.",
+      "invokes": [
+        "completing_the_square",
+        "quadratic_form",
+        "matrix_inverse"
+      ],
       "cites": [
-        "wikipedia:Kalman_filter"
+        "arxiv:2406.06427#8"
       ]
     },
     {
       "n": 6,
-      "text": "Use the condition that measurement error \\mathbf{v}_k is uncorrelated with the prior estimation error \\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k-1}, eliminating the cross-covariance terms: \\mathbf{P}_{k\\mid k} = \\operatorname{cov}[(\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)(\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k-1})] + \\operatorname{cov}[\\mathbf{K}_k \\mathbf{v}_k].",
+      "text": "Integrate $\\exp(-\\mathbf{L}_t(\\mathbf{x}_{t-1}, \\mathbf{x}_t))$ over $\\mathbf{x}_{t-1}$ using the normalization of a Gaussian distribution $\\int \\det(2\\pi \\Psi_t)^{-1/2} \\exp(-\\mathbf{L}_t(\\mathbf{x}_{t-1}, \\mathbf{x}_t)) d\\mathbf{x}_{t-1} = 1$, which evaluates the integral to the constant $\\det(2\\pi \\Psi_t)^{1/2}$ and simplifies the predicted belief to $\\overline{\\text{bel}}(\\mathbf{x}_t) = \\eta' \\exp(-\\mathbf{L}_t(\\mathbf{x}_t))$.",
       "invokes": [
-        "covariance_matrix"
+        "gaussian_integral",
+        "determinant",
+        "normalization"
       ],
       "cites": [
-        "wikipedia:Kalman_filter"
+        "arxiv:2406.06427#8"
       ]
     },
     {
       "n": 7,
-      "text": "Apply the bilinear vector covariance transformation property \\operatorname{cov}(\\mathbf{A}\\mathbf{y}) = \\mathbf{A}\\operatorname{cov}(\\mathbf{y})\\mathbf{A}^{\\textsf{T}}: \\mathbf{P}_{k\\mid k} = (\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)\\operatorname{cov}(\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k-1})(\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)^{\\textsf{T}} + \\mathbf{K}_k \\operatorname{cov}(\\mathbf{v}_k)\\mathbf{K}_k^{\\textsf{T}}.",
+      "text": "Subtract $\\mathbf{L}_t(\\mathbf{x}_{t-1}, \\mathbf{x}_t)$ from $\\mathbf{L}_t$ and cancel all quadratic and linear terms in $\\mathbf{x}_{t-1}$ to obtain $\\mathbf{L}_t(\\mathbf{x}_t) = \\frac{1}{2}(\\mathbf{x}_t - \\mathbf{B}_t \\mathbf{u}_t)^\\intercal \\mathbf{R}_t^{-1} (\\mathbf{x}_t - \\mathbf{B}_t \\mathbf{u}_t) + \\frac{1}{2}\\hat{\\mathbf{x}}_{t-1}^\\intercal \\mathbf{P}_{t-1}^{-1} \\hat{\\mathbf{x}}_{t-1} - \\frac{1}{2}[\\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1}(\\mathbf{x}_t - \\mathbf{B}_t \\mathbf{u}_t) + \\mathbf{P}_{t-1}^{-1} \\hat{\\mathbf{x}}_{t-1}]^\\intercal (\\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1} \\mathbf{F}_t + \\mathbf{P}_{t-1}^{-1})^{-1} [\\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1}(\\mathbf{x}_t - \\mathbf{B}_t \\mathbf{u}_t) + \\mathbf{P}_{t-1}^{-1} \\hat{\\mathbf{x}}_{t-1}]$.",
       "invokes": [
-        "covariance_matrix",
+        "quadratic_form",
         "transpose_identities"
       ],
       "cites": [
-        "wikipedia:Kalman_filter"
+        "arxiv:2406.06427#8"
       ]
     },
     {
       "n": 8,
-      "text": "Substitute the definitions \\mathbf{P}_{k\\mid k-1} = \\operatorname{cov}(\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k-1})$ and \\mathbf{R}_k = \\operatorname{cov}(\\mathbf{v}_k)$ to obtain the Joseph form of the covariance update equation, valid for any \\mathbf{K}_k: \\mathbf{P}_{k\\mid k} = (\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)\\mathbf{P}_{k\\mid k-1}(\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)^{\\textsf{T}} + \\mathbf{K}_k \\mathbf{R}_k \\mathbf{K}_k^{\\textsf{T}}.",
-      "invokes": [],
+      "text": "Take the first derivative of $\\mathbf{L}_t(\\mathbf{x}_t)$ with respect to $\\mathbf{x}_t$ and apply the matrix inversion lemma to $[\n\\mathbf{R}_t^{-1} - \\mathbf{R}_t^{-1} \\mathbf{F}_t (\\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1} \\mathbf{F}_t + \\mathbf{P}_{t-1}^{-1})^{-1} \\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1}]$ to get $\\frac{\\partial \\mathbf{L}_t(\\mathbf{x}_t)}{\\partial \\mathbf{x}_t} = (\\mathbf{R}_t + \\mathbf{F}_t \\mathbf{P}_{t-1} \\mathbf{F}_t^\\intercal)^{-1} (\\mathbf{x}_t - \\mathbf{B}_t \\mathbf{u}_t) - \\mathbf{R}_t^{-1} \\mathbf{F}_t (\\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1} \\mathbf{F}_t + \\mathbf{P}_{t-1}^{-1})^{-1} \\mathbf{P}_{t-1}^{-1} \\hat{\\mathbf{x}}_{t-1}$.",
+      "invokes": [
+        "partial_derivative",
+        "matrix_inversion_lemma"
+      ],
       "cites": [
-        "wikipedia:Kalman_filter"
+        "arxiv:2406.06427#8"
       ]
     },
     {
       "n": 9,
-      "text": "Expand the terms in the Joseph form and group by \\mathbf{S}_k = \\mathbf{H}_k \\mathbf{P}_{k\\mid k-1} \\mathbf{H}_k^{\\textsf{T}} + \\mathbf{R}_k: \\mathbf{P}_{k\\mid k} = \\mathbf{P}_{k\\mid k-1} - \\mathbf{K}_k \\mathbf{H}_k \\mathbf{P}_{k\\mid k-1} - \\mathbf{P}_{k\\mid k-1} \\mathbf{H}_k^{\\textsf{T}} \\mathbf{K}_k^{\\textsf{T}} + \\mathbf{K}_k \\mathbf{S}_k \\mathbf{K}_k^{\\textsf{T}}.",
-      "invokes": [],
+      "text": "Set $\\frac{\\partial \\mathbf{L}_t(\\mathbf{x}_t)}{\\partial \\mathbf{x}_t} = 0$ and solve for $\\mathbf{x}_t$ using $(\\mathbf{R}_t + \\mathbf{F}_t \\mathbf{P}_{t-1} \\mathbf{F}_t^\\intercal) \\mathbf{R}_t^{-1} \\mathbf{F}_t (\\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1} \\mathbf{F}_t + \\mathbf{P}_{t-1}^{-1})^{-1} \\mathbf{P}_{t-1}^{-1} = \\mathbf{F}_t (\\mathbf{I} + \\mathbf{P}_{t-1} \\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1} \\mathbf{F}_t)(\\mathbf{P}_{t-1} \\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1} \\mathbf{F}_t + \\mathbf{I})^{-1} = \\mathbf{F}_t$, yielding the predicted mean $\\hat{\\mathbf{x}}_{t|t-1} = \\mathbf{F}_t \\hat{\\mathbf{x}}_{t-1|t-1} + \\mathbf{B}_t \\mathbf{u}_t$, and take the second derivative $\\frac{\\partial^2 \\mathbf{L}_t(\\mathbf{x}_t)}{\\partial \\mathbf{x}_t^2} = (\\mathbf{R}_t + \\mathbf{F}_t \\mathbf{P}_{t-1} \\mathbf{F}_t^\\intercal)^{-1}$ to obtain the predicted covariance $\\mathbf{P}_{t|t-1} = \\mathbf{F}_t \\mathbf{P}_{t-1} \\mathbf{F}_t^\\intercal + \\mathbf{R}_t$.",
+      "invokes": [
+        "matrix_inverse",
+        "matrix_multiplication",
+        "partial_derivative",
+        "covariance_matrix"
+      ],
       "cites": [
-        "wikipedia:Kalman_filter"
+        "arxiv:2406.06427#8"
       ]
     },
     {
       "n": 10,
-      "text": "Formulate the MMSE estimation objective to minimize the expected squared error magnitude \\operatorname{E}[\\|\\mathbf{x}_k - \\hat{\\mathbf{x}}_{k\\mid k}\\|^2], which is equivalent to minimizing the trace of the a posteriori estimate covariance matrix \\operatorname{tr}(\\mathbf{P}_{k\\mid k}).",
+      "text": "For the update step, express the posterior belief as $\\text{bel}(\\mathbf{x}_t) = \\eta p(\\mathbf{z}_t \\mid \\mathbf{x}_t) \\overline{\\text{bel}}(\\mathbf{x}_t)$ with $p(\\mathbf{z}_t \\mid \\mathbf{x}_t) \\sim \\mathcal{N}(\\mathbf{H}_t \\mathbf{x}_t, \\mathbf{Q}_t)$ and $\\overline{\\text{bel}}(\\mathbf{x}_t) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t-1}, \\mathbf{P}_{t|t-1})$, which expands in Gaussian form to $\\text{bel}(\\mathbf{x}_t) = \\eta \\exp(-\\mathbf{J}_t)$ where $\\mathbf{J}_t = \\frac{1}{2}(\\mathbf{z}_t - \\mathbf{H}_t \\mathbf{x}_t)^\\intercal \\mathbf{Q}_t^{-1} (\\mathbf{z}_t - \\mathbf{H}_t \\mathbf{x}_t) + \\frac{1}{2}(\\mathbf{x}_t - \\hat{\\mathbf{x}}_{t|t-1})^\\intercal \\mathbf{P}_{t|t-1}^{-1} (\\mathbf{x}_t - \\hat{\\mathbf{x}}_{t|t-1})$.",
       "invokes": [
-        "expectation"
+        "belief_distribution",
+        "gaussian_distribution",
+        "exponential_function",
+        "quadratic_form"
       ],
       "cites": [
-        "wikipedia:Kalman_filter"
+        "arxiv:2406.06427#8"
       ]
     },
     {
       "n": 11,
-      "text": "Compute the matrix derivative of \\operatorname{tr}(\\mathbf{P}_{k\\mid k})$ with respect to \\mathbf{K}_k and set it to zero, using gradient matrix rules and matrix symmetry: \\frac{\\partial \\operatorname{tr}(\\mathbf{P}_{k\\mid k})}{\\partial \\mathbf{K}_k} = -2(\\mathbf{H}_k \\mathbf{P}_{k\\mid k-1})^{\\textsf{T}} + 2\\mathbf{K}_k \\mathbf{S}_k = \\mathbf{0}.",
+      "text": "Differentiate $\\mathbf{J}_t$ with respect to $\\mathbf{x}_t$ to obtain the first derivative $\\frac{\\partial \\mathbf{J}_t}{\\partial \\mathbf{x}_t} = -\\mathbf{H}_t^\\intercal \\mathbf{Q}_t^{-1}(\\mathbf{z}_t - \\mathbf{H}_t \\mathbf{x}_t) + \\mathbf{P}_{t|t-1}^{-1}(\\mathbf{x}_t - \\hat{\\mathbf{x}}_{t|t-1})$ and second derivative (inverse posterior covariance) $\\frac{\\partial^2 \\mathbf{J}_t}{\\partial \\mathbf{x}_t^2} = \\mathbf{H}_t^\\intercal \\mathbf{Q}_t^{-1} \\mathbf{H}_t + \\mathbf{P}_{t|t-1}^{-1} := \\mathbf{P}_{t|t}^{-1}$.",
       "invokes": [
         "partial_derivative",
-        "symmetric_matrix"
+        "covariance_matrix",
+        "matrix_inverse"
       ],
       "cites": [
-        "wikipedia:Kalman_filter"
+        "arxiv:2406.06427#8"
       ]
     },
     {
       "n": 12,
-      "text": "Solve for the optimal Kalman gain matrix \\mathbf{K}_k using the transpose property (\\mathbf{H}_k \\mathbf{P}_{k\\mid k-1})^{\\textsf{T}} = \\mathbf{P}_{k\\mid k-1} \\mathbf{H}_k^{\\textsf{T}} and the inverse of \\mathbf{S}_k: \\mathbf{K}_k \\mathbf{S}_k = \\mathbf{P}_{k\\mid k-1}\\mathbf{H}_k^{\\textsf{T}} \\implies \\mathbf{K}_k = \\mathbf{P}_{k\\mid k-1}\\mathbf{H}_k^{\\textsf{T}}\\mathbf{S}_k^{-1}.",
+      "text": "Set $\\frac{\\partial \\mathbf{J}_t}{\\partial \\mathbf{x}_t} = 0$, add and subtract $\\mathbf{H}_t \\hat{\\mathbf{x}}_{t|t-1}$ inside $(\\mathbf{z}_t - \\mathbf{H}_t \\mathbf{x}_t)$ to group terms in $(\\mathbf{x}_t - \\hat{\\mathbf{x}}_{t|t-1})$: $\\mathbf{H}_t^\\intercal \\mathbf{Q}_t^{-1}(\\mathbf{z}_t - \\mathbf{H}_t \\hat{\\mathbf{x}}_{t|t-1}) = (\\mathbf{H}_t^\\intercal \\mathbf{Q}_t^{-1} \\mathbf{H}_t + \\mathbf{P}_{t|t-1}^{-1})(\\mathbf{x}_t - \\hat{\\mathbf{x}}_{t|t-1}) = \\mathbf{P}_{t|t}^{-1}(\\mathbf{x}_t - \\hat{\\mathbf{x}}_{t|t-1})$, which yields the posterior mean $\\hat{\\mathbf{x}}_{t|t} = \\hat{\\mathbf{x}}_{t|t-1} + \\mathbf{K}_t(\\mathbf{z}_t - \\mathbf{H}_t \\hat{\\mathbf{x}}_{t|t-1})$ with $\\mathbf{K}_t = \\mathbf{P}_{t|t} \\mathbf{H}_t^\\intercal \\mathbf{Q}_t^{-1}$.",
       "invokes": [
         "matrix_inverse",
-        "transpose_identities"
+        "matrix_multiplication"
       ],
       "cites": [
-        "wikipedia:Kalman_filter"
+        "arxiv:2406.06427#8"
       ]
     },
     {
       "n": 13,
-      "text": "Multiply the gain formula on the right by \\mathbf{S}_k \\mathbf{K}_k^{\\textsf{T}} to obtain \\mathbf{K}_k \\mathbf{S}_k \\mathbf{K}_k^{\\textsf{T}} = \\mathbf{P}_{k\\mid k-1}\\mathbf{H}_k^{\\textsf{T}}\\mathbf{K}_k^{\\textsf{T}}, and substitute into the expanded covariance expression to arrive at the simplified update equation: \\mathbf{P}_{k\\mid k} = \\mathbf{P}_{k\\mid k-1} - \\mathbf{K}_k \\mathbf{H}_k \\mathbf{P}_{k\\mid k-1} = (\\mathbf{I} - \\mathbf{K}_k \\mathbf{H}_k)\\mathbf{P}_{k\\mid k-1}.",
-      "invokes": [],
+      "text": "Apply the matrix inversion lemma to $\\mathbf{P}_{t|t} = (\\mathbf{P}_{t|t-1}^{-1} + \\mathbf{H}_t^\\intercal \\mathbf{Q}_t^{-1} \\mathbf{H}_t)^{-1}$ and rewrite $\\mathbf{K}_t = \\mathbf{P}_{t|t} \\mathbf{H}_t^\\intercal \\mathbf{Q}_t^{-1} (\\mathbf{H}_t \\mathbf{P}_{t|t-1} \\mathbf{H}_t^\\intercal + \\mathbf{Q}_t)(\\mathbf{H}_t \\mathbf{P}_{t|t-1} \\mathbf{H}_t^\\intercal + \\mathbf{Q}_t)^{-1} = \\mathbf{P}_{t|t}(\\mathbf{H}_t^\\intercal \\mathbf{Q}_t^{-1} \\mathbf{H}_t + \\mathbf{P}_{t|t-1}^{-1})\\mathbf{P}_{t|t-1}\\mathbf{H}_t^\\intercal (\\mathbf{H}_t \\mathbf{P}_{t|t-1} \\mathbf{H}_t^\\intercal + \\mathbf{Q}_t)^{-1}$ to obtain the standard forms $\\mathbf{K}_t = \\mathbf{P}_{t|t-1} \\mathbf{H}_t^\\intercal (\\mathbf{H}_t \\mathbf{P}_{t|t-1} \\mathbf{H}_t^\\intercal + \\mathbf{Q}_t)^{-1}$ and $\\mathbf{P}_{t|t} = (\\mathbf{I} - \\mathbf{K}_t \\mathbf{H}_t)\\mathbf{P}_{t|t-1}$.",
+      "invokes": [
+        "matrix_inversion_lemma",
+        "matrix_inverse",
+        "matrix_multiplication"
+      ],
       "cites": [
-        "wikipedia:Kalman_filter"
+        "arxiv:2406.06427#8"
       ]
     }
   ],
   "properties": [],
   "assumptions": [
     {
-      "assumption": "Measurement error v_k is uncorrelated with the state estimation error and past disturbances.",
-      "breaks_when": "Measurement noise is correlated with process noise or is state-dependent."
+      "assumption": "State transition $p(\\mathbf{x}_t \\mid \\mathbf{x}_{t-1}, \\mathbf{u}_t) \\sim \\mathcal{N}(\\mathbf{F}_t \\mathbf{x}_{t-1} + \\mathbf{B}_t \\mathbf{u}_t, \\mathbf{R}_t)$, measurement likelihood $p(\\mathbf{z}_t \\mid \\mathbf{x}_t) \\sim \\mathcal{N}(\\mathbf{H}_t \\mathbf{x}_t, \\mathbf{Q}_t)$, and prior belief $\\text{bel}(\\mathbf{x}_{t-1}) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t-1}, \\mathbf{P}_{t-1})$ are linear-Gaussian.",
+      "breaks_when": "Dynamics or observation models are nonlinear, or noise/prior distributions are non-Gaussian, so the exponents $\\mathbf{L}_t$ and $\\mathbf{J}_t$ are no longer quadratic forms in $\\mathbf{x}_t$ and $\\mathbf{x}_{t-1}$."
     },
     {
-      "assumption": "The innovation covariance matrix S_k = H_k P_{k|k-1} H_k^T + R_k is non-singular and invertible.",
-      "breaks_when": "Measurement noise covariance R_k is singular (or zero) and H_k P_{k|k-1} H_k^T is rank-deficient."
-    },
-    {
-      "assumption": "Covariance matrices P_{k|k-1} and R_k are symmetric and positive semi-definite.",
-      "breaks_when": "Finite-precision numerical errors degrade matrix symmetry or cause loss of positive-definiteness."
-    },
-    {
-      "assumption": "The observation model and estimator correction are linear in measurements.",
-      "breaks_when": "System dynamics or measurement relations are nonlinear."
+      "assumption": "Covariance matrices $\\mathbf{R}_t$, $\\mathbf{P}_{t-1}$, $\\mathbf{Q}_t$, $\\mathbf{P}_{t|t-1}$ and intermediate matrices $\\Psi_t^{-1} = \\mathbf{F}_t^\\intercal \\mathbf{R}_t^{-1} \\mathbf{F}_t + \\mathbf{P}_{t-1}^{-1}$ and $\\mathbf{H}_t \\mathbf{P}_{t|t-1} \\mathbf{H}_t^\\intercal + \\mathbf{Q}_t$ are invertible and positive (semi-)definite.",
+      "breaks_when": "Process noise, measurement noise, or state covariance is singular (degenerate) and its matrix inverse does not exist."
     }
   ],
   "failure_modes": [
     {
-      "mode": "Singular innovation covariance matrix",
-      "signature": "Matrix inversion failure when evaluating S_k^{-1} to compute Kalman gain K_k.",
-      "cause": "S_k is singular or ill-conditioned due to zero measurement noise and rank-deficient observation geometry."
+      "mode": "Singular covariance matrix inversion",
+      "signature": "Matrix inversions $\\mathbf{R}_t^{-1}$, $\\mathbf{P}_{t-1}^{-1}$, $\\mathbf{Q}_t^{-1}$, or $(\\mathbf{H}_t \\mathbf{P}_{t|t-1} \\mathbf{H}_t^\\intercal + \\mathbf{Q}_t)^{-1}$ fail or become ill-conditioned.",
+      "cause": "Zero or rank-deficient noise/prior covariance matrices."
     },
     {
-      "mode": "Covariance asymmetry and loss of positive-definiteness",
-      "signature": "Calculated P_{k|k} develops negative diagonal elements (negative variances) or non-symmetric off-diagonals.",
-      "cause": "Accumulated round-off error using the non-symmetric simplified update P_{k|k} = (I - K_k H_k) P_{k|k-1} rather than the Joseph stabilized form."
-    },
-    {
-      "mode": "Suboptimal estimation from correlated noise",
-      "signature": "Filter residuals deviate systematically from zero-mean white noise, and actual estimation error variance exceeds P_{k|k}.",
-      "cause": "Cross-correlation between measurement noise v_k and estimation error x_k - x\u0302_{k|k-1}, invalidating the Joseph form derivation."
+      "mode": "Loss of positive semi-definiteness in quadratic form",
+      "signature": "Setting the first derivative to zero does not yield a valid Gaussian mean or positive definite inverse covariance.",
+      "cause": "Covariance matrices lose symmetry or positive semi-definiteness (e.g., from numerical subtraction in $(\\mathbf{I} - \\mathbf{K}_t \\mathbf{H}_t)\\mathbf{P}_{t|t-1}$)."
     }
   ],
   "source_ids": [
-    "wikipedia:Kalman_filter"
+    "arxiv:2406.06427#8"
   ],
   "check": {
     "node_id": "linear_kalman_filter",
@@ -250,113 +316,134 @@
       "ekf_global",
       "ekf_local"
     ],
-    "why_here": "In the agrios_ws project, the ekf_global and ekf_local components from robot_localization use the linear Kalman filter measurement update to fuse odometry and IMU sensor data. By calculating the optimal Kalman gain from the a priori covariance and measurement matrix, the nodes update the predicted state estimate with incoming measurements. This produces an optimal a posteriori state estimate of the robot's pose and velocity while minimizing estimation error.",
+    "why_here": "In `agrios_ws`, two `robot_localization` instances (`ekf_local` at 50.0 Hz and `ekf_global` at 30.0 Hz) maintain the recursive Gaussian state belief $\\text{bel}(\\mathbf{x}_t) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t}, \\mathbf{P}_{t|t})$ over 15 state entries (`X`, `Y`, `Z`, `Roll`, `Pitch`, `Yaw`, `Vx`, `Vy`, `Vz`, `Vroll`, `Vpitch`, `Vyaw`, `Ax`, `Ay`, `Az`). In the prediction step (`src/ekf.cpp:436`), the filter propagates the error covariance through the Jacobian and adds `delta_sec * (*process_noise_covariance)`. In the update step, `ekf_local` fuses `/odom_cov` (`odom0`) and `/imu` (`imu0`), while `ekf_global` additionally fuses `/odometry/gps` (`odom1`) and `/rtk/heading` (`imu1`) using their message covariances and state selection configurations.",
     "concrete": [
       {
-        "symbol": "\\mathbf{x}_k",
-        "in_your_project": "The true unobserved state vector of the robot at time step k [n x 1]."
+        "symbol": "\\mathbf{x}_t",
+        "in_your_project": "15x1 state vector [15 x 1] with entries X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az referenced to `base_footprint` (`base_link_frame` in `src/agrios_bringup/config/ekf_local.yaml` and `src/agrios_bringup/config/ekf_global.yaml`)."
       },
       {
-        "symbol": "\\hat{\\mathbf{x}}_{k\\mid k-1}",
-        "in_your_project": "The a priori state estimate vector of the robot predicted at time step k before fusing measurements [n x 1]."
+        "symbol": "\\mathbf{P}_{t-1}",
+        "in_your_project": "15x15 prior posterior state covariance `estimate_error_covariance_` before the prediction update in `src/ekf.cpp:436`, initialized at $t=0$ by `initial_estimate_covariance` (15x15 diagonal with 1e-9 on X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az and zero off-diagonals)."
       },
       {
-        "symbol": "\\hat{\\mathbf{x}}_{k\\mid k}",
-        "in_your_project": "The a posteriori state estimate vector of the robot computed by ekf_global and ekf_local after incorporating sensor measurements [n x 1]."
+        "symbol": "\\mathbf{P}_{t|t-1}",
+        "in_your_project": "15x15 predicted state covariance `estimate_error_covariance_` computed in `src/ekf.cpp:436` as `(transfer_function_jacobian_ * estimate_error_covariance_ * transfer_function_jacobian_.transpose()) + delta_sec * (*process_noise_covariance)`."
       },
       {
-        "symbol": "\\mathbf{P}_{k\\mid k-1}",
-        "in_your_project": "The a priori estimate error covariance matrix before the measurement update [n x n]."
+        "symbol": "\\mathbf{F}_t",
+        "in_your_project": "15x15 state transition matrix represented in `src/ekf.cpp:436` as `transfer_function_jacobian_`."
       },
       {
-        "symbol": "\\mathbf{P}_{k\\mid k}",
-        "in_your_project": "The a posteriori estimate error covariance matrix after incorporating the measurement update [n x n]."
+        "symbol": "\\mathbf{R}_t",
+        "in_your_project": "15x15 process noise covariance contribution `delta_sec * (*process_noise_covariance)` added in `src/ekf.cpp:436`, where `process_noise_covariance` is a 15x15 diagonal matrix configured in `src/agrios_bringup/config/ekf_local.yaml` and `src/agrios_bringup/config/ekf_global.yaml` (X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015)."
       },
       {
-        "symbol": "\\mathbf{z}_k",
-        "in_your_project": "The measurement vector constructed from active sensor inputs such as odometry (odom0, odom1) and IMU (imu0, imu1) [m x 1]."
+        "symbol": "\\mathbf{z}_t",
+        "in_your_project": "Measurement vectors [k x 1] extracted from `/odom_cov` (`odom0`, k=3 for Vx, Vy, Vyaw) and `/imu` (`imu0`, k=1 for Vyaw) in both `ekf_local` and `ekf_global`, plus `/odometry/gps` (`odom1`, k=2 for X, Y) and `/rtk/heading` (`imu1`, k=1 for Yaw) in `ekf_global`."
       },
       {
-        "symbol": "\\mathbf{H}_k",
-        "in_your_project": "The measurement observation matrix mapping the state vector to the sensor measurements, determined by configuration selection masks [m x n]."
+        "symbol": "\\mathbf{H}_t",
+        "in_your_project": "k x 15 observation matrix whose active state columns are selected by `odom0_config` (Vx, Vy, Vyaw), `imu0_config` (Vyaw), `odom1_config` (X, Y), and `imu1_config` (Yaw)."
       },
       {
-        "symbol": "\\mathbf{v}_k",
-        "in_your_project": "The measurement noise vector associated with the incoming sensor readings [m x 1]."
-      },
-      {
-        "symbol": "\\mathbf{R}_k",
-        "in_your_project": "The measurement noise covariance matrix of the incoming sensor data [m x m]."
-      },
-      {
-        "symbol": "\\tilde{\\mathbf{y}}_k",
-        "in_your_project": "The measurement residual (innovation) vector representing the difference between actual sensor measurements and predicted observations [m x 1]."
-      },
-      {
-        "symbol": "\\mathbf{S}_k",
-        "in_your_project": "The innovation covariance matrix representing residual uncertainty during the measurement update [m x m]."
-      },
-      {
-        "symbol": "\\mathbf{K}_k",
-        "in_your_project": "The optimal Kalman gain matrix computed to weight the innovation when updating the state estimate [n x m]."
-      },
-      {
-        "symbol": "\\mathbf{I}",
-        "in_your_project": "The identity matrix used in updating the error covariance matrix [n x n]."
+        "symbol": "\\mathbf{Q}_t",
+        "in_your_project": "k x k measurement noise covariance populated from incoming sensor messages: on `/odom_cov`, `src/agrios_control/agrios_control/odom_cov_relay.py:12-16` sets `msg.twist.covariance` with `c[0] = 0.05` (vx), `c[7] = 0.05` (vy), and `c[35] = 0.02` (vyaw) corresponding to the fused `Vx`, `Vy`, `Vyaw` entries; on `/rtk/heading` and GPS inputs, `src/agrios_control/agrios_control/rtk_sim.py:79-105` sets `fix.position_covariance` (with `COVARIANCE_TYPE_DIAGONAL_KNOWN`) and `hdg.orientation_covariance` while disabling gyro and accel via `angular_velocity_covariance[0] = -1.0` and `linear_acceleration_covariance[0] = -1.0`."
       }
     ],
     "knobs": [
       {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the 15x15 diagonal matrix (X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015; off-diagonals zero) that `src/ekf.cpp:436` scales by `delta_sec` and adds to the predicted covariance (`estimate_error_covariance_.noalias() += delta_sec * (*process_noise_covariance)`), forming the process noise term $\\mathbf{R}_t$ in $\\mathbf{P}_{t|t-1} = \\mathbf{F}_t \\mathbf{P}_{t-1} \\mathbf{F}_t^\\intercal + \\mathbf{R}_t$."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the 15x15 diagonal matrix (X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015; off-diagonals zero) that `src/ekf.cpp:436` multiplies by `delta_sec` and adds to `estimate_error_covariance_` as $\\mathbf{R}_t$ during the `ekf_local` prediction step."
+      },
+      {
         "parameter": "initial_estimate_covariance",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Initializes the estimate error covariance matrix \\mathbf{P}_{k\\mid k-1} (at k=0) representing initial state uncertainty before measurement updates occur."
+        "means": "Initializes the 15x15 state covariance $\\mathbf{P}_0$ (`estimate_error_covariance_`) with 1e-9 on all 15 diagonal entries (X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az) and zero off-diagonals before recursive prediction and update steps begin."
       },
       {
         "parameter": "initial_estimate_covariance",
         "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Initializes the estimate error covariance matrix \\mathbf{P}_{k\\mid k-1} (at k=0) representing initial state uncertainty before measurement updates occur."
+        "means": "Initializes the 15x15 state covariance $\\mathbf{P}_0$ (`estimate_error_covariance_`) for `ekf_local` with 1e-9 on all 15 diagonal entries (X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az) and zero off-diagonals."
       },
       {
         "parameter": "odom0_config",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Specifies which state variables are observed from odom0, defining the structure of the measurement observation matrix \\mathbf{H}_k and the measurement vector \\mathbf{z}_k."
+        "means": "Selects `Vx`, `Vy`, and `Vyaw` (out of the 15 state entries) from `/odom_cov`, defining the 3x15 observation matrix $\\mathbf{H}_t$ and extracting the corresponding measurement vector $\\mathbf{z}_t$ and 3x3 covariance $\\mathbf{Q}_t$ (`c[0]=0.05`, `c[7]=0.05`, `c[35]=0.02` from `odom_cov_relay.py`)."
+      },
+      {
+        "parameter": "odom0_config",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Selects `Vx`, `Vy`, and `Vyaw` (out of the 15 state entries) from `/odom_cov` for `ekf_local`, defining its 3x15 observation matrix $\\mathbf{H}_t$ for the Kalman gain $\\mathbf{K}_t$ update."
       },
       {
         "parameter": "odom1_config",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Specifies which state variables are observed from odom1, defining the structure of the measurement observation matrix \\mathbf{H}_k and the measurement vector \\mathbf{z}_k."
+        "means": "Selects `X` and `Y` (out of the 15 state entries) from `/odometry/gps` published by `navsat_transform`, defining a 2x15 observation matrix $\\mathbf{H}_t$ for global position updates in `ekf_global`."
       },
       {
         "parameter": "imu0_config",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Specifies which state variables are observed from imu0, defining the structure of the measurement observation matrix \\mathbf{H}_k and the measurement vector \\mathbf{z}_k."
+        "means": "Selects `Vyaw` (out of the 15 state entries) from `/imu` (`imu0`), defining a 1x15 observation matrix $\\mathbf{H}_t$ that updates yaw rate in `ekf_global`."
+      },
+      {
+        "parameter": "imu0_config",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Selects `Vyaw` (out of the 15 state entries) from `/imu` (`imu0`), defining a 1x15 observation matrix $\\mathbf{H}_t$ that updates yaw rate in `ekf_local`."
       },
       {
         "parameter": "imu1_config",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Specifies which state variables are observed from imu1, defining the structure of the measurement observation matrix \\mathbf{H}_k and the measurement vector \\mathbf{z}_k."
+        "means": "Selects `Yaw` (out of the 15 state entries) from `/rtk/heading` published by `rtk_sim`, defining a 1x15 observation matrix $\\mathbf{H}_t$ that uses `hdg.orientation_covariance` in $\\mathbf{Q}_t$."
       },
       {
-        "parameter": "odom0_config",
-        "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Specifies which state variables are observed from odom0, defining the structure of the measurement observation matrix \\mathbf{H}_k and the measurement vector \\mathbf{z}_k."
-      },
-      {
-        "parameter": "imu0_config",
-        "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Specifies which state variables are observed from imu0, defining the structure of the measurement observation matrix \\mathbf{H}_k and the measurement vector \\mathbf{z}_k."
-      },
-      {
-        "parameter": "process_noise_covariance",
+        "parameter": "frequency",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Sets the process noise covariance added during prediction, which propagates uncertainty into the a priori estimate error covariance matrix \\mathbf{P}_{k\\mid k-1} used in calculating the Kalman gain."
+        "means": "Sets the filter cycle rate to 30.0 Hz, which determines the time step `delta_sec` that scales `process_noise_covariance` in `src/ekf.cpp:436`."
       },
       {
-        "parameter": "process_noise_covariance",
+        "parameter": "frequency",
         "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Sets the process noise covariance added during prediction, which propagates uncertainty into the a priori estimate error covariance matrix \\mathbf{P}_{k\\mid k-1} used in calculating the Kalman gain."
+        "means": "Sets the filter cycle rate to 50.0 Hz, which determines the time step `delta_sec` that scales `process_noise_covariance` in `src/ekf.cpp:436`."
+      },
+      {
+        "parameter": "imu0",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Binds the `/imu` topic from `parameter_bridge` as the measurement stream providing $\\mathbf{z}_t$ and $\\mathbf{Q}_t$ for the `imu0_config` (`Vyaw`) update step."
+      },
+      {
+        "parameter": "imu0",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Binds the `/imu` topic from `parameter_bridge` as the measurement stream providing $\\mathbf{z}_t$ and $\\mathbf{Q}_t$ for the `imu0_config` (`Vyaw`) update step."
+      },
+      {
+        "parameter": "imu0_differential",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "When `false`, fuses `/imu` measurements directly as configured in `imu0_config` (`Vyaw`) without differentiating pose variables into velocities prior to the update step."
+      },
+      {
+        "parameter": "imu0_differential",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "When `false`, fuses `/imu` measurements directly as configured in `imu0_config` (`Vyaw`) without differentiating pose variables into velocities prior to the update step."
+      },
+      {
+        "parameter": "base_link_frame",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets `base_footprint` as the body coordinate frame in which the body-frame state entries (`Vx`, `Vy`, `Vz`, `Vroll`, `Vpitch`, `Vyaw`, `Ax`, `Ay`, `Az`) of $\\mathbf{x}_t$ are estimated."
+      },
+      {
+        "parameter": "base_link_frame",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets `base_footprint` as the body coordinate frame in which the body-frame state entries of $\\mathbf{x}_t$ are estimated."
       }
     ],
+    "notation": "The sheet denotes the process noise covariance as $\\mathbf{R}_t$ (scaled from `process_noise_covariance` by `delta_sec` in `src/ekf.cpp:436`), the measurement noise covariance as $\\mathbf{Q}_t$, the state transition matrix as $\\mathbf{F}_t$ (called `transfer_function_jacobian_` in `src/ekf.cpp:436`), and the state covariance as $\\mathbf{P}$ (called `estimate_error_covariance_` in `src/ekf.cpp:436`).",
     "invented": {},
     "thin": ""
   }

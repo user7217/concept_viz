@@ -160,5 +160,48 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "multivariate_taylor_expansion",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Both ekf_local (at 50.0 Hz) and ekf_global (at 30.0 Hz) use the robot_localization Extended Kalman Filter, whose algorithm requires a first-order (k = 1) multivariate Taylor expansion to linearize the nonlinear 15-state transition model around the current state estimate. In src/ekf.cpp:436, the resulting first-order partial derivatives form transfer_function_jacobian_, which pre- and post-multiplies estimate_error_covariance_ before delta_sec * (*process_noise_covariance) is added.",
+    "concrete": [
+      {
+        "symbol": "f",
+        "in_your_project": "Each scalar component function of the nonlinear state transition function mapping the 15-dimensional state (X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az) to the next state entry [R^15 -> R]"
+      },
+      {
+        "symbol": "x",
+        "in_your_project": "The true 15-dimensional state vector (X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az) at which the transition function is approximated [15 x 1]"
+      },
+      {
+        "symbol": "a",
+        "in_your_project": "The current 15-dimensional state estimate vector around which the EKF linearizes the state transition function [15 x 1]"
+      },
+      {
+        "symbol": "v",
+        "in_your_project": "The 15-dimensional state estimation error vector x - a, whose covariance is tracked in estimate_error_covariance_ (15x15) in src/ekf.cpp:436 [15 x 1]"
+      },
+      {
+        "symbol": "k",
+        "in_your_project": "1, the first-order truncation order used by the Extended Kalman Filter linearization [scalar]"
+      },
+      {
+        "symbol": "D^alpha f",
+        "in_your_project": "For |alpha| = 1, the first-order partial derivatives evaluated at the current state estimate a that populate the entries of the 15x15 matrix transfer_function_jacobian_ in src/ekf.cpp:436 [scalar]"
+      },
+      {
+        "symbol": "R_beta(x)",
+        "in_your_project": "The second-order (|beta| = 2) remainder coefficients dropped when truncating the expansion to transfer_function_jacobian_, whose unmodeled truncation error is absorbed by adding delta_sec * (*process_noise_covariance) in src/ekf.cpp:436 [scalar]"
+      }
+    ],
+    "knobs": [],
+    "notation": "The sheet denotes individual first-order partial derivatives by D^alpha f(a) for |alpha| = 1, whereas src/ekf.cpp:436 assembles those derivatives across all 15 state components into the matrix transfer_function_jacobian_.",
+    "invented": {},
+    "thin": ""
   }
 }

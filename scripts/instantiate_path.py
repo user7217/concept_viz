@@ -15,6 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from atlas.architecture import apply, propose
 from atlas.brief import resolve
 from atlas.instantiate import instantiate, invented, thin
+from atlas.topics import endpoints, links
 from atlas.llm import (AuthFailure, Dropped, LLMError, QuotaExhausted,
                        get_provider)
 from atlas.profile import Profile
@@ -22,8 +23,12 @@ from atlas.profile import Profile
 ROOT = Path(__file__).resolve().parent.parent
 SHEETS = ROOT / "data" / "derivations"
 
-repo = Path(sys.argv[1])
-want = sys.argv[2] if len(sys.argv) > 2 else None
+args = [a for a in sys.argv[1:] if not a.startswith("--")]
+repo = Path(args[0])
+want = args[1] if len(args) > 1 else None
+# --redo=a,b annotates these again even though they carry a note.
+redo = {n for a in sys.argv[1:] if a.startswith("--redo=")
+        for n in a.split("=", 1)[1].split(",") if n}
 
 project, proposal, dropped = resolve(repo)
 graph = apply(proposal)
@@ -39,7 +44,9 @@ path = graph.learning_path(target, known=profile.known(),
                            not_known=profile.not_known)
 provider = get_provider()
 pending = [n for n in path if (SHEETS / f"{n}.json").exists()
-           and "instantiation" not in json.loads((SHEETS / f"{n}.json").read_text())]
+           and (n in redo or
+                "instantiation" not in json.loads((SHEETS / f"{n}.json").read_text()))]
+topic_links = links(endpoints(project, repo))
 print(f"{target}: {len(pending)} sheets to annotate\n", flush=True)
 
 done = skipped = 0
@@ -47,7 +54,8 @@ for index, node_id in enumerate(pending, 1):
     path_json = SHEETS / f"{node_id}.json"
     sheet = json.loads(path_json.read_text())
     try:
-        note = instantiate(provider, project, project_id, graph, node_id, sheet)
+        note = instantiate(provider, project, project_id, graph, node_id, sheet,
+                           repo=repo, links=topic_links)
     except (AuthFailure, QuotaExhausted, Dropped) as exc:
         print(f"\n  stopped at {index}/{len(pending)}: {exc}")
         break

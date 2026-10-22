@@ -131,3 +131,61 @@ class TestInvented(unittest.TestCase):
         from atlas.instantiate import thin
         # No component depends on it, so an empty note is the honest answer.
         self.assertEqual(thin(Instantiation("x", "rig"), SHEET), "")
+
+
+class WhatTheNoteWriterIsShown(unittest.TestCase):
+    """Each parameter was cut at 60 characters and no library source was
+    shown, so a note could say "process_noise_covariance sets Q" and no more."""
+
+    ENUM = {"path": "include/filter_common.hpp", "start": "41",
+            "lines": ["enum StateMembers", "{", "  StateMemberX = 0,",
+                      "  StateMemberY,", "  StateMemberYaw"]}
+    PREDICT = {"path": "src/ekf.cpp", "start": "430",
+               "lines": ["  // (3) Project the error forward", "  P = J * P * J';",
+                         "  estimate_error_covariance_.noalias() +=",
+                         "    delta_sec * (*process_noise_covariance);"]}
+
+    def test_the_state_order_comes_from_the_librarys_enum(self) -> None:
+        from atlas.instantiate import state_order
+        self.assertEqual(state_order([self.ENUM]), ["X", "Y", "Yaw"])
+
+    def test_a_matrix_is_shown_as_its_labelled_diagonal(self) -> None:
+        from atlas.instantiate import matrix_view
+        view = matrix_view("[0.05, 0, 0,  0, 0.05, 0,  0, 0, 0.02]", ["X", "Y", "Yaw"])
+        self.assertEqual(view, "3x3, diagonal X=0.05, Y=0.05, Yaw=0.02; off-diagonal all zero")
+
+    def test_a_mask_is_shown_as_what_it_fuses(self) -> None:
+        from atlas.instantiate import flags_view
+        self.assertEqual(flags_view("[true, false, true]", ["X", "Y", "Yaw"]),
+                         "fuses X, Yaw (of 3 state entries)")
+        self.assertIsNone(flags_view("[true, false]", ["X", "Y", "Yaw"]))
+
+    def test_the_library_line_that_applies_a_parameter_is_shown(self) -> None:
+        from atlas.instantiate import library_excerpts
+        text = library_excerpts([self.ENUM, self.PREDICT], ["process_noise_covariance"])
+        self.assertIn("delta_sec * (*process_noise_covariance)", text)
+        self.assertIn("src/ekf.cpp:433", text)
+        self.assertNotIn("StateMember", text)
+
+    def test_a_senders_covariance_is_shown_with_what_fills_it(self) -> None:
+        import tempfile
+        from pathlib import Path
+        from atlas.instantiate import upstream
+        from atlas.topics import TopicLink
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            (repo / "relay.py").write_text(
+                "def cb(self, msg):\n    c = [0.0] * 36\n    c[0] = 0.05  # vx\n"
+                "    msg.twist.covariance = c\n    self.pub.publish(msg)\n")
+            link = TopicLink("relay", "ekf_local", "/odom_cov",
+                             "relay.py:1 create_publisher", "ekf.yaml odom0")
+            text = upstream([link], repo, {"ekf_local"})
+        self.assertIn("relay publishes /odom_cov; ekf_local reads it", text)
+        self.assertIn("c[0] = 0.05  # vx", text)
+        self.assertNotIn("publish(msg)", text)
+
+    def test_a_link_into_another_component_is_left_out(self) -> None:
+        from atlas.instantiate import upstream
+        from atlas.topics import TopicLink
+        link = TopicLink("a", "someone_else", "/t", "x", "y")
+        self.assertEqual(upstream([link], None, {"ekf_local"}), "(nothing upstream is stated)")

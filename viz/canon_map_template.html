@@ -532,6 +532,7 @@ body.resizing{cursor:col-resize;user-select:none}
       <div class="sec" id="d-whywrap">
         <span class="eyebrow">In agrios_ws</span>
         <p class="meta" id="d-why"></p>
+        <p class="credit" id="d-notation" hidden></p>
       </div>
       <div class="sec" id="d-codewrap">
         <span class="eyebrow">Where it runs</span>
@@ -1722,6 +1723,11 @@ function select(id) {
 
   document.getElementById('d-whywrap').hidden = !n.whyHere;
   document.getElementById('d-why').innerHTML = tex(n.whyHere);
+  // The sheet keeps its source's symbols; this says where they differ from
+  // the names your config and library use.
+  const notation = document.getElementById('d-notation');
+  notation.hidden = !n.notation;
+  notation.innerHTML = n.notation ? 'Notation: ' + tex(n.notation) : '';
   if (n.role === 'supporting') add('supporting');
   renderTalk(n);
   renderGraphify(n);
