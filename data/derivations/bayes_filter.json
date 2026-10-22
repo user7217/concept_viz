@@ -165,5 +165,96 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "bayes_filter",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws implements the recursive Bayes filter itself. The recursion runs inside robot_localization, used twice: ekf_local reads wheel-odometry velocities and the IMU, and ekf_global also reads GPS position and RTK heading. Each node keeps its own belief over a 15-entry state and moves it forward with a predict step and an update step. The project's YAML files choose which measurements reach the update step and what noise the predict step adds. The library code shown (ekf.cpp:436) is the covariance half of the predict step.",
+    "concrete": [
+      {
+        "symbol": "\\mathbf{x}_k",
+        "in_your_project": "The 15-entry state that robot_localization estimates in both ekf_local and ekf_global: X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az."
+      },
+      {
+        "symbol": "\\mathbf{z}_k",
+        "in_your_project": "Whichever measurement arrives at step k, limited to the entries its *_config selects. In both filters: /odom_cov gives Vx, Vy, Vyaw (odom0) and /imu gives Vyaw (imu0). ekf_global also gets /odometry/gps giving X, Y (odom1) and /rtk/heading giving Yaw (imu1)."
+      },
+      {
+        "symbol": "p(\\mathbf{z}_k | \\mathbf{x}_k)",
+        "in_your_project": "For /odom_cov, the spread of this likelihood is the 6x6 twist covariance set in odom_cov_relay.py:12-16. Its diagonal is c[0]=0.05 (vx), c[7]=0.05 (vy) and c[35]=0.02 (vyaw), and every other entry is 0. For /rtk/heading, rtk_sim.py:99 sets orientation_covariance; the values are not shown here. rtk_sim.py also sets the first entry of angular_velocity_covariance (line 104) and of linear_acceleration_covariance (line 105) to -1.0, commented 'no gyro' and 'no accel'."
+      },
+      {
+        "symbol": "p(\\mathbf{x}_k | \\mathbf{x}_{k-1})",
+        "in_your_project": "The transition model. At ekf.cpp:436 it acts on the covariance in two moves: the covariance is propagated through transfer_function_jacobian_, then delta_sec * process_noise_covariance (15x15) is added."
+      },
+      {
+        "symbol": "p(\\mathbf{x}_k | \\mathbf{z}_{1:k-1})",
+        "in_your_project": "The predicted belief. Its covariance is what estimate_error_covariance_ holds after ekf.cpp:436 runs: transfer_function_jacobian_ * estimate_error_covariance_ * transfer_function_jacobian_^T + delta_sec * process_noise_covariance, a 15x15 matrix."
+      },
+      {
+        "symbol": "p(\\mathbf{x}_{k-1} | \\mathbf{z}_{1:k-1})",
+        "in_your_project": "The previous belief. Its covariance is estimate_error_covariance_ on the right-hand side of ekf.cpp:436, before propagation."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the covariance of the transition density p(x_k | x_{k-1}). ekf.cpp:436 scales it by delta_sec and adds it to the propagated covariance, so every predict step widens the belief by delta_sec times this diagonal. The diagonal is X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015, and all off-diagonal entries are zero."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Same diagonal as ekf_local, and applied the same way in ekf_global's own predict step: scaled by delta_sec and added after propagation through transfer_function_jacobian_ (ekf.cpp:436)."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets the covariance of the starting belief, before any measurement. Every diagonal entry is 1e-9 and every off-diagonal entry is zero. The library lines shown do not include where this value is read."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets the starting-belief covariance for ekf_global: 1e-9 on all 15 diagonal entries and zero elsewhere. The library lines shown do not include where this value is read."
+      },
+      {
+        "parameter": "odom0_config",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Picks which state entries the /odom_cov measurement covers in the update step: Vx, Vy and Vyaw."
+      },
+      {
+        "parameter": "imu0_config",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Picks which state entries the /imu measurement covers in the update step: Vyaw only."
+      },
+      {
+        "parameter": "odom0_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Picks which state entries the /odom_cov measurement covers in ekf_global's update step: Vx, Vy and Vyaw."
+      },
+      {
+        "parameter": "odom1_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Picks which state entries the /odometry/gps measurement covers in the update step: X and Y."
+      },
+      {
+        "parameter": "imu0_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Picks which state entries the /imu measurement covers in ekf_global's update step: Vyaw only."
+      },
+      {
+        "parameter": "imu1_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Picks which state entries the /rtk/heading measurement covers in the update step: Yaw only."
+      }
+    ],
+    "notation": "The sheet writes the filter as densities and gives the transition noise no symbol; robot_localization works with covariance matrices instead, calling the transition-noise matrix process_noise_covariance and the belief's covariance estimate_error_covariance_.",
+    "invented": {},
+    "thin": "",
+    "unsupported": []
   }
 }

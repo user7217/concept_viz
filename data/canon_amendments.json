@@ -658,6 +658,12 @@
       "to": "eigendecomposition",
       "rel": "requires",
       "why": "the rescale is applied to the spectrum, leaving the eigenvectors alone"
+    },
+    {
+      "from": "linear_kalman_filter",
+      "to": "bayes_filter",
+      "rel": "requires",
+      "why": "the Kalman filter is the Bayes filter with linear models and Gaussian beliefs: its predict step is the prediction integral and its update is Bayes' rule, both evaluated in closed form. All four acceptance readers asked where the recursion comes from, and the sheet that answers it was off the path"
     }
   ]
 }
