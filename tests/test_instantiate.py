@@ -189,3 +189,37 @@ class WhatTheNoteWriterIsShown(unittest.TestCase):
         from atlas.topics import TopicLink
         link = TopicLink("a", "someone_else", "/t", "x", "y")
         self.assertEqual(upstream([link], None, {"ekf_local"}), "(nothing upstream is stated)")
+
+
+class NotesClaimOnlyWhatTheCodeDoes(unittest.TestCase):
+    """The Taylor notes said the dropped remainder "is accounted for by adding
+    delta_sec * Q". Every name was real, so `invented` passed it."""
+
+    def test_a_compensation_claim_is_flagged(self) -> None:
+        from atlas.instantiate import unsupported
+        note = Instantiation(node_id="taylor_expansion", project="rig", components=["ekf"],
+                             why_here="The EKF keeps the first-order term. The remainder is "
+                                      "accounted for by adding delta_sec * Q.")
+        self.assertEqual(unsupported(note),
+                         ["The remainder is accounted for by adding delta_sec * Q."])
+
+    def test_saying_what_a_line_does_is_not_flagged(self) -> None:
+        from atlas.instantiate import unsupported
+        note = Instantiation(node_id="ekf", project="rig", components=["ekf"],
+                             knobs=[{"parameter": "process_noise_covariance", "file": "f",
+                                     "means": "Scaled by delta_sec and added to P each step."}])
+        self.assertEqual(unsupported(note), [])
+
+    def test_only_an_algorithm_sees_all_of_the_librarys_source(self) -> None:
+        import json, tempfile
+        from pathlib import Path
+        from atlas.instantiate import spans_for
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "library_code.json"
+            path.write_text(json.dumps({"spans": {
+                "marginalization": [{"path": "ekf.cpp", "lines": ["P += dt * Q;"]}],
+                "jacobian_matrix": [{"path": "ekf.cpp", "lines": ["J(0, 5) = ..."]}]}}))
+            self.assertEqual(len(spans_for("extended_kalman_filter", True, path)), 2)
+            self.assertEqual(spans_for("taylor_expansion", False, path), [])
+            self.assertEqual([s["lines"] for s in spans_for("jacobian_matrix", False, path)],
+                             [["J(0, 5) = ..."]])

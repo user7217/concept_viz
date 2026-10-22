@@ -29,7 +29,14 @@ project that depend on it, with the parameters those components actually set.
 
 Ground everything in what you are given. Never invent a parameter, a file or a
 value. You may be shown the library's own source: use it to say how a
-parameter enters the computation, and never claim more than those lines show. If the connection is only that the component's algorithm requires this
+parameter enters the computation, and never claim more than those lines show.
+
+Describe what the shown lines DO, never what they are FOR. Do not say a
+parameter compensates for, accounts for, absorbs or corrects an error unless
+a shown line says so. Do not relate parameters to each other or to variables
+in the code unless a shown line connects them. If nothing in the project
+computes this concept itself, say so, then say only what the shown lines and
+the sheet support about where it sits. If the connection is only that the component's algorithm requires this
 result, say that plainly rather than manufacturing detail.
 
 Reply with JSON only."""
@@ -124,13 +131,6 @@ LIBRARY_CODE = Path(__file__).resolve().parent.parent / "data" / "library_code.j
 LIBRARY_BUDGET = 2400
 ENUM = re.compile(r"enum\s+\w+\s*\{([^}]*)")
 NUMBER = re.compile(r"-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?")
-
-
-def load_library_spans(path: Path = LIBRARY_CODE) -> list[dict]:
-    if not path.exists():
-        return []
-    spans = json.loads(path.read_text()).get("spans", {})
-    return [s for group in spans.values() for s in group]
 
 
 def state_order(spans: list[dict]) -> list[str]:
@@ -309,6 +309,42 @@ def build_prompt(project: Project, project_id: str, node_id: str, name: str,
     )
 
 
+# A note claiming a mechanism the code does not have. The Taylor notes said
+# the dropped remainder "is accounted for by adding delta_sec * Q": the line
+# adds a fixed Q every step and computes no remainder. The `invented` check
+# could not see it -- every name in the sentence was real.
+UNSUPPORTED = re.compile(r"(?i)\b(account(s|ed)?\s+for|compensat\w*|absorb\w*|"
+                         r"correct(s|ed)?\s+for|makes?\s+up\s+for)\b")
+
+
+def unsupported(instantiation: Instantiation) -> list[str]:
+    """Sentences claiming a parameter compensates for something.
+
+    Flagged rather than trusted: the shown library lines say what a
+    parameter does, never what it is for.
+    """
+    text = " ".join([instantiation.why_here, instantiation.notation,
+                     *(str(c.get("in_your_project", "")) for c in instantiation.concrete),
+                     *(str(k.get("means", "")) for k in instantiation.knobs)])
+    return [s.strip() for s in re.split(r"(?<=[.;])\s+", text) if UNSUPPORTED.search(s)]
+
+
+def spans_for(node_id: str, is_algorithm: bool, path: Path = LIBRARY_CODE) -> list[dict]:
+    """Library source a note on this node may be shown.
+
+    All of it for an algorithm the library implements; otherwise only the
+    excerpts filed under this node. Shown `P += delta_sec * Q` while writing
+    about Taylor's theorem, the note connected the two and invented the
+    connection.
+    """
+    if not path.exists():
+        return []
+    groups = json.loads(path.read_text()).get("spans", {})
+    if is_algorithm:
+        return [s for group in groups.values() for s in group]
+    return list(groups.get(node_id, []))
+
+
 def instantiate(provider: Provider, project: Project, project_id: str,
                 graph: Graph, node_id: str, sheet: dict,
                 repo: Path | None = None, links: list | None = None) -> Instantiation:
@@ -317,10 +353,12 @@ def instantiate(provider: Provider, project: Project, project_id: str,
         return Instantiation(node_id=node_id, project=project.name)
 
     name = graph.nodes[node_id].name if node_id in graph.nodes else node_id
+    from .schema import NodeType
+    is_algorithm = node_id in graph.nodes and graph.nodes[node_id].type is NodeType.ALGORITHM
     payload = complete_json(
         provider,
         build_prompt(project, project_id, node_id, name, sheet, components,
-                     load_library_spans(), links, repo),
+                     spans_for(node_id, is_algorithm), links, repo),
         system=SYSTEM,
     )
     return Instantiation(

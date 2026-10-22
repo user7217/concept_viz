@@ -154,67 +154,17 @@
       "ekf_global",
       "ekf_local"
     ],
-    "why_here": "Both ekf_local and ekf_global run the Extended Kalman Filter (EKF) algorithm in robot_localization, which requires a first-order (k = 1) Taylor expansion to linearize the nonlinear 15-state transition function around the current state estimate. In src/ekf.cpp:436, the first-order Taylor derivative matrix (transfer_function_jacobian_) propagates estimate_error_covariance_ via a congruence transformation, while the truncated higher-order remainder R_k(x) is accounted for by adding delta_sec * (*process_noise_covariance).",
+    "why_here": "Nothing in the project's own code computes a Taylor expansion directly, and no library source lines are shown. The connection is solely that the `ekf_local` and `ekf_global` nodes from `robot_localization` implement an Extended Kalman Filter, whose underlying algorithm requires a first-order Taylor expansion to linearize nonlinear models around the current state estimate.",
     "concrete": [
       {
-        "symbol": "f",
-        "in_your_project": "The nonlinear state transition (transfer) function mapping the 15-dimensional state vector (X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az) forward across a prediction step delta_sec"
-      },
-      {
-        "symbol": "a",
-        "in_your_project": "The current 15-dimensional state estimate (15x1 vector) around which the EKF linearizes the state transition function at each prediction cycle"
-      },
-      {
-        "symbol": "x",
-        "in_your_project": "The true 15-dimensional state vector (15x1 vector) near the current estimate a"
-      },
-      {
         "symbol": "k",
-        "in_your_project": "Fixed to 1 by the Extended Kalman Filter algorithm, which retains only the zeroth- and first-order terms of the Taylor expansion"
-      },
-      {
-        "symbol": "f^{(j)}(a)",
-        "in_your_project": "For j = 1, the first partial derivatives of the state transition function evaluated at the current 15-state estimate a, stored as the 15x15 matrix transfer_function_jacobian_ in src/ekf.cpp:436"
-      },
-      {
-        "symbol": "R_k(x)",
-        "in_your_project": "The unmodeled second- and higher-order truncation error from dropping terms above k = 1, compensated in src/ekf.cpp:436 by adding delta_sec * (*process_noise_covariance) to estimate_error_covariance_"
+        "in_your_project": "The expansion order required by the Extended Kalman Filter algorithm in `ekf_local` and `ekf_global` (first-order linearization, k = 1), though not explicitly computed or set in the project's configuration files."
       }
     ],
-    "knobs": [
-      {
-        "parameter": "process_noise_covariance",
-        "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "15x15 diagonal matrix (X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015; off-diagonal all zero). In src/ekf.cpp:436, it is scaled by delta_sec and added to the linearized covariance (transfer_function_jacobian_ * estimate_error_covariance_ * transfer_function_jacobian_.transpose()) to absorb process uncertainty and the truncated Taylor remainder R_k(x) across all 15 state entries."
-      },
-      {
-        "parameter": "process_noise_covariance",
-        "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "15x15 diagonal matrix (X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015; off-diagonal all zero). In src/ekf.cpp:436, it is scaled by delta_sec and added to the Jacobian-propagated estimate_error_covariance_ to cover unmodeled dynamics and the discarded higher-order Taylor remainder R_k(x) across all 15 state entries."
-      },
-      {
-        "parameter": "initial_estimate_covariance",
-        "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "15x15 diagonal matrix with all 15 diagonal entries (X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az) set to 1e-9 and off-diagonal entries all zero. Seeds estimate_error_covariance_, which is multiplied by the first-order Taylor derivative matrix transfer_function_jacobian_ and its transpose in src/ekf.cpp:436."
-      },
-      {
-        "parameter": "initial_estimate_covariance",
-        "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "15x15 diagonal matrix with all 15 diagonal entries (X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az) set to 1e-9 and off-diagonal entries all zero. Seeds estimate_error_covariance_, which is propagated through the first-order Taylor Jacobian product transfer_function_jacobian_ * estimate_error_covariance_ * transfer_function_jacobian_.transpose() in src/ekf.cpp:436."
-      },
-      {
-        "parameter": "frequency",
-        "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Set to 30.0 Hz. Controls the prediction step interval delta_sec, which scales (*process_noise_covariance) when added to estimate_error_covariance_ in src/ekf.cpp:436 and sets how far the state evolves from the expansion point a between linearizations."
-      },
-      {
-        "parameter": "frequency",
-        "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Set to 50.0 Hz. Controls the prediction step interval delta_sec, which scales (*process_noise_covariance) when added to estimate_error_covariance_ in src/ekf.cpp:436 and keeps the step displacement from the expansion center a smaller than in ekf_global, reducing the Taylor remainder R_k(x) per step."
-      }
-    ],
-    "notation": "The sheet denotes the first-order derivative at the expansion center as the scalar f^{(j)}(a) (with j = 1), whereas src/ekf.cpp:436 denotes the 15x15 matrix of first-order partial derivatives of the state transition function as transfer_function_jacobian_.",
+    "knobs": [],
+    "notation": "",
     "invented": {},
-    "thin": ""
+    "thin": "",
+    "unsupported": []
   }
 }

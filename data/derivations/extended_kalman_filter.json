@@ -286,135 +286,122 @@
       "ekf_global",
       "ekf_local"
     ],
-    "why_here": "In `agrios_ws`, the Extended Kalman Filter is instantiated by two `robot_localization` nodes (`ekf_local` at 50.0 Hz and `ekf_global` at 30.0 Hz) to track a 15-dimensional robot state relative to `base_footprint`. `ekf_local` fuses wheel odometry velocities (`Vx`, `Vy`, `Vyaw`) from `/odom_cov` and yaw rate (`Vyaw`) from `/imu` for continuous local state estimation, while `ekf_global` additionally incorporates global position (`X`, `Y`) from `/odometry/gps` and heading (`Yaw`) from `/rtk/heading` to correct global drift.",
+    "why_here": "In `agrios_ws`, two `robot_localization` instances (`ekf_local` at 50.0 Hz and `ekf_global` at 30.0 Hz) run an Extended Kalman Filter over a 15-dimensional state vector (X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az). `ekf_local` fuses velocity measurements from `/odom_cov` (`odom0`) and yaw-rate measurements from `/imu` (`imu0`), while `ekf_global` additionally fuses X, Y position measurements from `/odometry/gps` (`odom1`) and Yaw orientation measurements from `/rtk/heading` (`imu1`). Both filters propagate the state error covariance using `transfer_function_jacobian_` and add `delta_sec * (*process_noise_covariance)` at each prediction step.",
     "concrete": [
       {
         "symbol": "\\mathbf{x}_t",
-        "in_your_project": "15x1 state vector tracking 3D position (X, Y, Z), orientation (Roll, Pitch, Yaw), linear velocities (Vx, Vy, Vz), angular velocities (Vroll, Vpitch, Vyaw), and linear accelerations (Ax, Ay, Az) for `base_footprint`."
+        "in_your_project": "15x1 state vector with entries X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az tracked by both `ekf_local` and `ekf_global`."
       },
       {
         "symbol": "\\mathbf{z}_t",
-        "in_your_project": "Incoming sensor measurements: `Vx`, `Vy`, `Vyaw` from `/odom_cov` (`odom0`), `Vyaw` from `/imu` (`imu0`), and in `ekf_global` additionally `X`, `Y` from `/odometry/gps` (`odom1`) and `Yaw` from `/rtk/heading` (`imu1`)."
-      },
-      {
-        "symbol": "\\mathbf{Q}_t",
-        "in_your_project": "15x15 diagonal `process_noise_covariance` matrix with diagonal entries X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015 (and off-diagonals all zero); in `src/ekf.cpp:436`, it is scaled by the time step `delta_sec` and added to the predicted covariance (`delta_sec * (*process_noise_covariance)`)."
+        "in_your_project": "Measurements read from sensor topics: `/odom_cov` (`odom0`, fusing Vx, Vy, Vyaw in both filters), `/imu` (`imu0`, fusing Vyaw in both filters), `/odometry/gps` (`odom1`, fusing X, Y in `ekf_global`), and `/rtk/heading` (`imu1`, fusing Yaw in `ekf_global`)."
       },
       {
         "symbol": "\\mathbf{R}_t",
-        "in_your_project": "Observation noise covariance populated inside incoming sensor messages: `odom_cov_relay.py` sets `msg.twist.covariance` (a 6x6 matrix flattened to 36 entries) with `c[0] = 0.05` (`Vx`), `c[7] = 0.05` (`Vy`), and `c[35] = 0.02` (`Vyaw`), while `rtk_sim.py` sets `fix.position_covariance` (with `COVARIANCE_TYPE_DIAGONAL_KNOWN`) and `hdg.orientation_covariance` (setting `angular_velocity_covariance[0] = -1.0` and `linear_acceleration_covariance[0] = -1.0` to indicate no gyro or accelerometer measurements)."
+        "in_your_project": "Observation noise covariance populated inside incoming measurement messages: `odom_cov_relay` sets a 36-element (6x6) `msg.twist.covariance` on `/odom_cov` with diagonal entries `c[0] = 0.05` (vx), `c[7] = 0.05` (vy), and `c[35] = 0.02` (vyaw); `rtk_sim` sets `hdg.orientation_covariance` on `/rtk/heading` (and marks `angular_velocity_covariance[0] = -1.0` and `linear_acceleration_covariance[0] = -1.0`), as well as `fix.position_covariance` with `COVARIANCE_TYPE_DIAGONAL_KNOWN`."
       },
       {
-        "symbol": "\\mathbf{P}_{t-1|t-1}",
-        "in_your_project": "15x15 posterior state error covariance matrix `estimate_error_covariance_` before the prediction step in `src/ekf.cpp:436`, initialized at startup from `initial_estimate_covariance` with diagonal entries all set to 1e-9 and off-diagonals all zero."
-      },
-      {
-        "symbol": "\\mathbf{P}_{t|t-1}",
-        "in_your_project": "15x15 predicted state error covariance matrix computed in `src/ekf.cpp:436` by propagating `estimate_error_covariance_` via `(transfer_function_jacobian_ * estimate_error_covariance_ * transfer_function_jacobian_.transpose())` and adding `delta_sec * (*process_noise_covariance)`."
+        "symbol": "\\mathbf{Q}_t",
+        "in_your_project": "15x15 diagonal `process_noise_covariance` matrix in `ekf_local.yaml` and `ekf_global.yaml`; in `src/ekf.cpp:436`, `(*process_noise_covariance)` is scaled by `delta_sec` and added to `estimate_error_covariance_`."
       },
       {
         "symbol": "\\mathbf{F}_t",
-        "in_your_project": "15x15 motion model Jacobian `transfer_function_jacobian_` in `src/ekf.cpp:436`, which multiplies `estimate_error_covariance_` on the left and by its transpose on the right during covariance prediction."
+        "in_your_project": "15x15 `transfer_function_jacobian_` in `src/ekf.cpp:436`, which pre- and post-multiplies `estimate_error_covariance_` (`transfer_function_jacobian_ * estimate_error_covariance_ * transfer_function_jacobian_.transpose()`)."
       },
       {
-        "symbol": "\\mathbf{H}_t",
-        "in_your_project": "Observation model Jacobian whose active rows are selected by the boolean masks `odom0_config`, `odom1_config`, `imu0_config`, and `imu1_config` to extract the measured subset of the 15 state entries (`Vx`, `Vy`, `Vyaw`, `X`, `Y`, `Yaw`)."
+        "symbol": "\\mathbf{P}_{t-1|t-1}",
+        "in_your_project": "15x15 `estimate_error_covariance_` on the right-hand side of `src/ekf.cpp:436`, initialized at startup from the 15x15 `initial_estimate_covariance` parameter (all 15 diagonal entries set to `1e-9`, off-diagonals zero)."
+      },
+      {
+        "symbol": "\\mathbf{P}_{t|t-1}",
+        "in_your_project": "15x15 `estimate_error_covariance_` after `src/ekf.cpp:436` computes `transfer_function_jacobian_ * estimate_error_covariance_ * transfer_function_jacobian_.transpose()` and adds `delta_sec * (*process_noise_covariance)`."
       }
     ],
     "knobs": [
       {
         "parameter": "process_noise_covariance",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Sets the 15x15 process noise covariance matrix \\mathbf{Q}_t (diagonal X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015; off-diagonals 0). In `src/ekf.cpp:436`, this matrix is scaled by `delta_sec` and added to `(transfer_function_jacobian_ * estimate_error_covariance_ * transfer_function_jacobian_.transpose())` to form \\mathbf{P}_{t|t-1}."
+        "means": "Sets the 15x15 matrix `(*process_noise_covariance)` (relating to $\\mathbf{Q}_t$) that `src/ekf.cpp:436` multiplies by `delta_sec` and adds to `estimate_error_covariance_` during covariance prediction; sets diagonal entries X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015 and all off-diagonal entries to zero."
       },
       {
         "parameter": "process_noise_covariance",
         "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Sets the 15x15 process noise covariance matrix \\mathbf{Q}_t for the local filter with the same diagonal values (X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015), scaled by `delta_sec` and added to the predicted state error covariance \\mathbf{P}_{t|t-1} in `src/ekf.cpp:436`."
+        "means": "Sets the 15x15 matrix `(*process_noise_covariance)` (relating to $\\mathbf{Q}_t$) for `ekf_local` that `src/ekf.cpp:436` multiplies by `delta_sec` and adds to `estimate_error_covariance_`; sets diagonal entries X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015 and all off-diagonal entries to zero."
       },
       {
         "parameter": "initial_estimate_covariance",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Initializes the 15x15 posterior error covariance matrix \\mathbf{P}_{t-1|t-1} (`estimate_error_covariance_`) at filter startup with 1e-9 on all 15 diagonal entries (X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az) and 0 off-diagonal."
+        "means": "Initializes the 15x15 state error covariance matrix $\\mathbf{P}$ (`estimate_error_covariance_`) for `ekf_global` with diagonal entries X=1e-9, Y=1e-9, Z=1e-9, Roll=1e-9, Pitch=1e-9, Yaw=1e-9, Vx=1e-9, Vy=1e-9, Vz=1e-9, Vroll=1e-9, Vpitch=1e-9, Vyaw=1e-9, Ax=1e-9, Ay=1e-9, Az=1e-9 and off-diagonal entries all zero."
       },
       {
         "parameter": "initial_estimate_covariance",
         "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Initializes the 15x15 posterior error covariance matrix \\mathbf{P}_{t-1|t-1} (`estimate_error_covariance_`) for the local EKF with 1e-9 on all 15 diagonal entries (X, Y, Z, Roll, Pitch, Yaw, Vx, Vy, Vz, Vroll, Vpitch, Vyaw, Ax, Ay, Az) and 0 off-diagonal."
+        "means": "Initializes the 15x15 state error covariance matrix $\\mathbf{P}$ (`estimate_error_covariance_`) for `ekf_local` with all 15 diagonal entries (X through Az) set to 1e-9 and all off-diagonal entries set to zero."
       },
       {
         "parameter": "odom0_config",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Configures the observation model \\mathbf{h}(\\cdot) and Jacobian \\mathbf{H}_t for `/odom_cov` (`odom0`) to fuse only the `Vx`, `Vy`, and `Vyaw` entries out of the 15 state variables during the measurement update."
+        "means": "Selects the Vx, Vy, and Vyaw entries (out of the 15 state entries in $\\mathbf{x}_t$) to fuse from the `odom0` (`/odom_cov`) measurement $\\mathbf{z}_t$ in `ekf_global`."
       },
       {
         "parameter": "odom0_config",
         "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Configures the observation model \\mathbf{h}(\\cdot) and Jacobian \\mathbf{H}_t for `/odom_cov` (`odom0`) in the local EKF to fuse only the `Vx`, `Vy`, and `Vyaw` entries of the 15-state vector."
+        "means": "Selects the Vx, Vy, and Vyaw entries (out of the 15 state entries in $\\mathbf{x}_t$) to fuse from the `odom0` (`/odom_cov`) measurement $\\mathbf{z}_t$ in `ekf_local`."
       },
       {
         "parameter": "odom1_config",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Configures the observation model \\mathbf{h}(\\cdot) and Jacobian \\mathbf{H}_t for `/odometry/gps` (`odom1`) to fuse only the `X` and `Y` position entries of the 15-state vector into the global posterior."
+        "means": "Selects the X and Y entries (out of the 15 state entries in $\\mathbf{x}_t$) to fuse from the `odom1` (`/odometry/gps`) measurement $\\mathbf{z}_t$ in `ekf_global`."
       },
       {
         "parameter": "imu0_config",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Configures the observation model \\mathbf{h}(\\cdot) and Jacobian \\mathbf{H}_t for `/imu` (`imu0`) to fuse only the `Vyaw` entry of the 15-state vector."
+        "means": "Selects the Vyaw entry (out of the 15 state entries in $\\mathbf{x}_t$) to fuse from the `imu0` (`/imu`) measurement $\\mathbf{z}_t$ in `ekf_global`."
       },
       {
         "parameter": "imu0_config",
         "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Configures the observation model \\mathbf{h}(\\cdot) and Jacobian \\mathbf{H}_t for `/imu` (`imu0`) in the local EKF to fuse only the `Vyaw` entry of the 15-state vector."
+        "means": "Selects the Vyaw entry (out of the 15 state entries in $\\mathbf{x}_t$) to fuse from the `imu0` (`/imu`) measurement $\\mathbf{z}_t$ in `ekf_local`."
       },
       {
         "parameter": "imu1_config",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Configures the observation model \\mathbf{h}(\\cdot) and Jacobian \\mathbf{H}_t for `/rtk/heading` (`imu1`) to fuse only the `Yaw` orientation entry of the 15-state vector."
+        "means": "Selects the Yaw entry (out of the 15 state entries in $\\mathbf{x}_t$) to fuse from the `imu1` (`/rtk/heading`) measurement $\\mathbf{z}_t$ in `ekf_global`."
       },
       {
         "parameter": "frequency",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Sets the filter update rate to 30.0 Hz, which determines the nominal step interval `delta_sec` that scales `*process_noise_covariance` in `src/ekf.cpp:436`."
+        "means": "Sets the filter update rate to 30.0 Hz for `ekf_global`."
       },
       {
         "parameter": "frequency",
         "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Sets the local filter update rate to 50.0 Hz, determining the nominal step interval `delta_sec` that scales `*process_noise_covariance` in `src/ekf.cpp:436`."
+        "means": "Sets the filter update rate to 50.0 Hz for `ekf_local`."
       },
       {
         "parameter": "imu0",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Subscribes the global EKF to `/imu` as the measurement stream for the `imu0_config` observation update."
+        "means": "Sets `/imu` as the topic from which `ekf_global` reads `imu0` observations $\\mathbf{z}_t$."
       },
       {
         "parameter": "imu0",
         "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Subscribes the local EKF to `/imu` as the measurement stream for the `imu0_config` observation update."
+        "means": "Sets `/imu` as the topic from which `ekf_local` reads `imu0` observations $\\mathbf{z}_t$."
       },
       {
         "parameter": "imu0_differential",
         "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "When `false`, fuses `/imu` measurements directly as configured in `imu0_config` rather than differentiating orientation measurements into velocities before the EKF observation update."
+        "means": "Disables differential integration (`false`) for the `imu0` measurement input in `ekf_global`."
       },
       {
         "parameter": "imu0_differential",
         "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "When `false`, fuses `/imu` measurements directly as configured in `imu0_config` in the local EKF without differential conversion."
-      },
-      {
-        "parameter": "base_link_frame",
-        "file": "src/agrios_bringup/config/ekf_global.yaml",
-        "means": "Specifies `base_footprint` as the body coordinate frame in which the robot's velocity and acceleration states in \\mathbf{x}_t are expressed."
-      },
-      {
-        "parameter": "base_link_frame",
-        "file": "src/agrios_bringup/config/ekf_local.yaml",
-        "means": "Specifies `base_footprint` as the body coordinate frame for the local EKF state \\mathbf{x}_t."
+        "means": "Disables differential integration (`false`) for the `imu0` measurement input in `ekf_local`."
       }
     ],
-    "notation": "In `robot_localization` (`src/ekf.cpp:436`), the sheet's motion Jacobian \\mathbf{F}_t is named `transfer_function_jacobian_`, both the prior and posterior error covariances \\mathbf{P}_{t|t-1} and \\mathbf{P}_{t-1|t-1} are held in `estimate_error_covariance_`, and the process noise covariance \\mathbf{Q}_t is named `process_noise_covariance` (and scaled by `delta_sec` when added).",
+    "notation": "The sheet denotes the motion model Jacobian, state error covariance, and process noise covariance as $\\mathbf{F}_t$, $\\mathbf{P}$, and $\\mathbf{Q}_t$, whereas `robot_localization` (`src/ekf.cpp:436`) names them `transfer_function_jacobian_`, `estimate_error_covariance_`, and `process_noise_covariance` (scaled by `delta_sec` rather than transformed by $\\mathbf{F}_{\\mathbf{w}}$).",
     "invented": {},
-    "thin": ""
+    "thin": "",
+    "unsupported": []
   }
 }

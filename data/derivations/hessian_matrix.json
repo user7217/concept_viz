@@ -109,31 +109,33 @@
       "ekf_global",
       "ekf_local"
     ],
-    "why_here": "In this project, ekf_global and ekf_local use the robot_localization package to estimate the robot's 15-dimensional state. The connection to the Hessian matrix is purely algorithmic, as state estimation theory relates the Hessian of the negative log-likelihood scalar field to the information matrix describing estimation curvature and uncertainty. The codebase itself executes a standard first-order Extended Kalman Filter using Jacobians, so the Hessian matrix is not directly instantiated or computed.",
+    "why_here": "Nothing in the shown project files or parameters computes a Hessian matrix of a scalar-valued function itself. The listed components, ekf_global and ekf_local (from robot_localization), are identified as depending on this concept only through the underlying estimation algorithm, while the shown configuration and sender files only define 15x15 state and process covariance matrices, sensor selection vectors, and measurement covariance arrays.",
     "concrete": [
       {
         "symbol": "x",
-        "in_your_project": "The 15-dimensional robot state vector [x, y, z, roll, pitch, yaw, vx, vy, vz, vroll, vpitch, vyaw, ax, ay, az]^T tracked by ekf_global and ekf_local [15 x 1]"
+        "in_your_project": "The 15x1 state vector estimated by ekf_global and ekf_local, whose dimension is set by the 15x15 initial_estimate_covariance and process_noise_covariance matrices in src/agrios_bringup/config/ekf_global.yaml and src/agrios_bringup/config/ekf_local.yaml."
       },
       {
         "symbol": "f",
-        "in_your_project": "The scalar-valued negative log-likelihood function of the state vector under Gaussian estimation assumptions [R^15 -> R]"
+        "in_your_project": "Not computed or defined in the shown project files or library source."
       },
       {
         "symbol": "H(x)",
-        "in_your_project": "The 15 x 15 Hessian matrix of second-order partial derivatives of the negative log-likelihood function, representing the information matrix (inverse of error covariance) [15 x 15]"
+        "in_your_project": "Not computed or set in the shown project files or library source."
       },
       {
         "symbol": "\u2207f(x)",
-        "in_your_project": "The gradient vector of the negative log-likelihood function with respect to the state vector, vanishing at the maximum a posteriori state estimate [15 x 1]"
+        "in_your_project": "Not computed or set in the shown project files or library source."
       },
       {
         "symbol": "\u0394x",
-        "in_your_project": "The state error perturbation or displacement vector from the current state estimate [15 x 1]"
+        "in_your_project": "A 15x1 perturbation vector of the 15-dimensional state x; not explicitly constructed in the shown project files."
       }
     ],
     "knobs": [],
+    "notation": "",
     "invented": {},
-    "thin": ""
+    "thin": "",
+    "unsupported": []
   }
 }
