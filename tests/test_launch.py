@@ -84,8 +84,17 @@ class TestIngestRepo(unittest.TestCase):
     def test_component_setting_nothing_is_glue(self):
         self.assertTrue(self.project.component("relay").is_glue)
     def test_unclaimed_param_file_still_counts(self):
-        """A knob set in the repo counts even if no launch file references it."""
-        self.assertIn("orphan", {c.name for c in self.project.components})
+        """A knob set in the repo counts even if no launch file references it.
+
+        It counts under the node the file names, not under the file. Keying
+        it by file name is how nav2_params.yaml became a component of its own,
+        while the six Nav2 nodes it configures were left with no settings.
+        """
+        names = {c.name for c in self.project.components}
+        self.assertIn("standalone", names)
+        self.assertNotIn("orphan", names)
+        self.assertIn("gain", {p.name for p in
+                               self.project.component("standalone").parameters})
 
 
 if __name__ == "__main__":
@@ -109,3 +118,67 @@ class TestNestedConfig(unittest.TestCase):
                 '     name="ekf", parameters=["ekf.yaml"])\n')
             project = ingest_repo(root)
         self.assertIn("frequency", {p.name for p in project.parameters})
+
+
+class TestSharedParamFile(unittest.TestCase):
+    """One params file, several nodes, each reading only its own block.
+
+    nav2_params.yaml configures six Nav2 nodes. The launch file passes it
+    through a variable, which ingest did not follow, so no node claimed it and
+    it became a fake component named after the file.
+    """
+
+    LAUNCH = (
+        "import os\n"
+        "from launch_ros.actions import Node\n"
+        "def generate_launch_description():\n"
+        "    params = os.path.join(pkg, 'config', 'nav2_params.yaml')\n"
+        "    return LaunchDescription([\n"
+        "        Node(package='nav2_controller', executable='controller_server',\n"
+        "             parameters=[params, {'use_sim_time': True}]),\n"
+        "        Node(package='nav2_planner', executable='planner_server',\n"
+        "             parameters=[params]),\n"
+        "    ])\n"
+    )
+    PARAMS = (
+        "local_costmap:\n  ros__parameters:\n    resolution: 0.05\n"
+        "controller_server:\n  ros__parameters:\n    controller_frequency: 20.0\n"
+        "planner_server:\n  ros__parameters:\n    expected_planner_frequency: 1.0\n"
+        "/**:\n  ros__parameters:\n    use_sim_time: true\n"
+    )
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        root = Path(self.tmp.name)
+        (root / "config").mkdir()
+        (root / "launch").mkdir()
+        (root / "config" / "nav2_params.yaml").write_text(self.PARAMS)
+        (root / "launch" / "nav2.launch.py").write_text(self.LAUNCH)
+        self.project = ingest_repo(root)
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def names(self, component):
+        return {p.name for p in self.project.component(component).parameters}
+
+    def test_a_file_passed_by_variable_is_followed(self):
+        node = parse_launch_py(self.LAUNCH)[0]
+        self.assertEqual(node.param_files, ["nav2_params.yaml"])
+
+    def test_each_node_reads_only_its_own_block(self):
+        self.assertIn("controller_frequency", self.names("controller_server"))
+        self.assertNotIn("expected_planner_frequency", self.names("controller_server"))
+        self.assertIn("expected_planner_frequency", self.names("planner_server"))
+
+    def test_the_wildcard_block_is_read_by_every_node(self):
+        self.assertIn("use_sim_time", self.names("controller_server"))
+        self.assertIn("use_sim_time", self.names("planner_server"))
+
+    def test_the_file_is_not_a_component(self):
+        self.assertNotIn("nav2_params", {c.name for c in self.project.components})
+
+    def test_a_block_no_launched_node_reads_goes_to_the_node_it_names(self):
+        """local_costmap runs inside controller_server and is never launched
+        by name, but the file says the block is its."""
+        self.assertEqual(self.names("local_costmap"), {"resolution"})

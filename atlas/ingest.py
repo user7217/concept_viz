@@ -26,6 +26,9 @@ class Parameter:
     name: str
     value: str
     source: str  # file it was read from
+    # The top-level key it sits under. In a ROS 2 params file that key is the
+    # name of the node the block configures; "" for a flat file.
+    scope: str = ""
 
     @property
     def is_matrix(self) -> bool:
@@ -48,6 +51,8 @@ class Component:
     version: str | None = None
     parameters: list[Parameter] = field(default_factory=list)
     sources: list[str] = field(default_factory=list)
+    # (name inside the node, topic it is wired to), as the launch file states.
+    remappings: list[tuple[str, str]] = field(default_factory=list)
 
     @property
     def is_glue(self) -> bool:
@@ -80,6 +85,8 @@ class Project:
 # ---------- repo path ----------
 
 _SCALAR = re.compile(r"^\s*([A-Za-z_][\w/]*)\s*:\s*(.+?)\s*$")
+# A bare key at column zero: `controller_server:` or `/**:`.
+_TOP_KEY = re.compile(r"^([A-Za-z_/*\"'][^:\s]*)\s*:\s*$")
 
 
 def _unbalanced(value: str) -> bool:
@@ -96,10 +103,19 @@ def parse_params(text: str, source: str) -> list[Parameter]:
     """
     parameters: list[Parameter] = []
     pending: Parameter | None = None
+    scope = ""
 
     for raw in text.splitlines():
         line = raw.split("#", 1)[0].rstrip()
         if not line.strip():
+            continue
+
+        # A key at column zero opens a node's block. Everything beneath it,
+        # however deeply nested, belongs to that node.
+        top = _TOP_KEY.match(line)
+        if top and (pending is None or not _unbalanced(pending.value)):
+            scope = top.group(1).strip("\"'")
+            pending = None
             continue
 
         # A bracketed value continues until its bracket closes. Matrix-valued
@@ -121,7 +137,7 @@ def parse_params(text: str, source: str) -> list[Parameter]:
             pending = None
             continue
 
-        parameter = Parameter(name=name, value=value, source=source)
+        parameter = Parameter(name=name, value=value, source=source, scope=scope)
         parameters.append(parameter)
         pending = parameter if _unbalanced(value) else None
 
@@ -197,6 +213,22 @@ def parse_launch_py(text: str, source: str = "") -> list[LaunchNode]:
     except SyntaxError:
         return []
 
+    # `cfg = os.path.join(pkg, 'config', 'ekf_local.yaml')` and then
+    # `parameters=[cfg]`: the file is named once and referred to by variable.
+    # Reading only literals inside `parameters=` missed every file passed this
+    # way, and those files reached their nodes only when the file happened to
+    # share the node's name -- nav2_params.yaml did not, and became a
+    # component of its own.
+    yaml_vars: dict[str, str] = {}
+    for assign in (n for n in ast.walk(tree) if isinstance(n, ast.Assign)):
+        if len(assign.targets) != 1 or not isinstance(assign.targets[0], ast.Name):
+            continue
+        for element in ast.walk(assign.value):
+            literal = _const(element)
+            if literal and literal.endswith((".yaml", ".yml")):
+                yaml_vars[assign.targets[0].id] = literal
+                break
+
     nodes: list[LaunchNode] = []
     for call in (n for n in ast.walk(tree) if isinstance(n, ast.Call)):
         func = call.func
@@ -216,6 +248,8 @@ def parse_launch_py(text: str, source: str = "") -> list[LaunchNode]:
                 literal = _const(element)
                 if literal and literal.endswith((".yaml", ".yml")):
                     param_files.append(literal)
+                elif isinstance(element, ast.Name) and element.id in yaml_vars:
+                    param_files.append(yaml_vars[element.id])
                 elif isinstance(element, ast.Call):
                     fn = element.func
                     label = fn.attr if isinstance(fn, ast.Attribute) else getattr(fn, "id", "")
@@ -355,14 +389,20 @@ def ingest_repo(root: Path) -> Project:
             rel = str(path.relative_to(root))
             params_by_file[Path(rel).name] = parse_params(read_source(path), rel)
 
+    claimed: set[tuple[str, str]] = set()
     for node in launch_nodes:
-        component = project.component(node.name or node.executable)
+        node_name = node.name or node.executable
+        component = project.component(node_name)
         component.library = node.package
         component.executable = node.executable
         component.version = project.dependencies.get(node.package)
         component.sources.append(node.source)
+        component.remappings += node.remappings
         for param_file in node.param_files:
-            component.parameters += params_by_file.get(Path(param_file).name, [])
+            mine = _block_for(params_by_file.get(Path(param_file).name, []),
+                              node_name)
+            component.parameters += mine
+            claimed |= {(p.source, p.scope) for p in mine}
 
     # A pluginlib class declaration names the algorithm that actually runs.
     # Attributing at the package layer instead is how nav2_controller -- a
@@ -381,10 +421,30 @@ def ingest_repo(root: Path) -> Project:
             if param.source not in component.sources:
                 component.sources.append(param.source)
 
-    # Params in the repo that no launch file claims still count as knobs set.
-    claimed = {p.source for c in project.components for p in c.parameters}
+    # Params no launch file claims still count as knobs set. A ROS 2 params
+    # file names the node each block configures, so an unclaimed block goes
+    # to that node -- local_costmap and global_costmap run inside the Nav2
+    # servers and are never launched by name. Only a flat file with no node
+    # keys falls back to its file name.
     for name, params in params_by_file.items():
-        if params and params[0].source not in claimed:
-            project.component(Path(name).stem).parameters += params
+        for param in params:
+            if (param.source, param.scope) in claimed:
+                continue
+            owner = param.scope if param.scope and param.scope != "/**" \
+                else Path(name).stem
+            project.component(owner).parameters.append(param)
 
     return project
+
+
+def _block_for(params: list[Parameter], node_name: str) -> list[Parameter]:
+    """The part of a params file a given node actually reads.
+
+    A file shared by several nodes is split into one block per node, keyed by
+    node name, plus an optional `/**` block every node reads. Handing the
+    whole file to each node gave controller_server the planner's settings and
+    both costmaps'. A flat file with no node keys belongs to whoever loads it.
+    """
+    if not any(p.scope for p in params):
+        return list(params)
+    return [p for p in params if p.scope in (node_name, "/**")]
