@@ -14,6 +14,12 @@ localization chain passes through. A component that takes part in a topic
 link is added as a supporting component: part of the program, with no
 mathematics of its own behind it.
 
+A supporting component has no parent. Nothing in the project says which
+subsystem it belongs to, and guessing from its links filed the costmaps under
+Localization because their only stated link is the Gazebo bridge. Hung off
+the program instead, all seven appeared at the very first level, before any
+subsystem was opened. The map shows one when something it talks to is shown.
+
 Topic links are lateral. They are kept out of the walkthrough's descent --
 program, subsystem, component, algorithm, mathematics -- so the hierarchy
 reads the same as before, and the links are drawn between whatever is shown.
@@ -60,13 +66,10 @@ def topic_edges(project: Project, repo: Path, root: str) -> list[dict]:
     return list(by_pair.values())
 
 
-def supporting_nodes(edges: list[dict], known: set[str], root: str,
-                     names: dict[str, str]) -> tuple[list[dict], list[dict]]:
-    """Components a topic link needs that the map does not already hold.
-
-    Returns the nodes and the edges that place them under the program.
-    """
-    nodes, placed = [], []
+def supporting_nodes(edges: list[dict], known: set[str],
+                     names: dict[str, str]) -> list[dict]:
+    """Components a topic link needs that the map does not already hold."""
+    nodes = []
     for node_id in sorted({e["from"] for e in edges} | {e["to"] for e in edges}):
         if node_id in known:
             continue
@@ -79,8 +82,7 @@ def supporting_nodes(edges: list[dict], known: set[str], root: str,
             "measures": {k: 0 for k in ("depth", "reuse", "cost", "tier",
                                         "known", "steps", "exercises")},
         })
-        placed.append({"from": root, "to": node_id, "rel": "contains", "why": ""})
-    return nodes, placed
+    return nodes
 
 
 def graphify_panels(project: Project, repo: Path, root: str) -> dict[str, dict]:

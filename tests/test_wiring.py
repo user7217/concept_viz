@@ -1,6 +1,8 @@
 """What the map adds about a project's components: topic links and Graphify."""
 
 import json
+import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -58,17 +60,13 @@ class TopicEdges(unittest.TestCase):
 class SupportingNodes(unittest.TestCase):
     EDGES = [{"from": "w__relay", "to": "w__ekf", "rel": "topic"}]
 
-    def test_a_component_the_map_lacks_is_added_under_the_program(self):
-        nodes, placed = supporting_nodes(self.EDGES, {"w__ekf"}, "w",
-                                         {"w__relay": "relay"})
+    def test_a_component_the_map_lacks_is_added(self):
+        nodes = supporting_nodes(self.EDGES, {"w__ekf"}, {"w__relay": "relay"})
         self.assertEqual([n["id"] for n in nodes], ["w__relay"])
         self.assertEqual(nodes[0]["role"], "supporting")
-        self.assertEqual(placed, [{"from": "w", "to": "w__relay",
-                                   "rel": "contains", "why": ""}])
 
     def test_a_component_already_shown_is_not_duplicated(self):
-        nodes, placed = supporting_nodes(self.EDGES, {"w__ekf", "w__relay"}, "w", {})
-        self.assertEqual((nodes, placed), ([], []))
+        self.assertEqual(supporting_nodes(self.EDGES, {"w__ekf", "w__relay"}, {}), [])
 
 
 class GraphifyPanels(unittest.TestCase):
@@ -106,9 +104,46 @@ class TheMapTreatsTopicsAsLateral(unittest.TestCase):
         self.assertLess(block.index("if (e.rel === 'topic')"),
                         block.index("under.get(e.from).push(e.to)"))
 
+    def test_a_supporting_component_hangs_off_nothing(self):
+        """Hung off the program, all seven appeared at level 0, before any
+        subsystem was opened. They come in beside what they talk to."""
+        self.assertIn("for (const p of partners(id)) if (isSupporting(p)) reveal(p);",
+                      self.TEMPLATE)
+
+    def test_a_bright_line_never_ends_at_a_faded_node(self):
+        """The selected node's lines are drawn bright, so its parts and
+        parents must count as related too."""
+        self.assertIn("for (const n of under.get(selected) || []) related.add(n);",
+                      self.TEMPLATE)
+
     def test_the_panel_shows_both_ends_of_a_link(self):
         self.assertIn("renderTalk(n)", self.TEMPLATE)
         self.assertIn("'sent: ' + ev.published", self.TEMPLATE)
+
+
+@unittest.skipUnless(shutil.which("node"), "needs node to run the template's JS")
+class TheMapFormatsMaths(unittest.TestCase):
+    """Runs the template's own tex() rather than a copy of it."""
+
+    def tex(self, *inputs: str) -> list[str]:
+        page = (ROOT / "viz" / "canon_map_template.html").read_text()
+        start = page.index("const GREEK")
+        end = page.index("/* ---------- adjacency ---------- */")
+        script = (page[start:end] + "\nconsole.log(JSON.stringify("
+                  + json.dumps(list(inputs)) + ".map(tex)));")
+        out = subprocess.run(["node", "-e", script], capture_output=True,
+                             text=True, check=True)
+        return json.loads(out.stdout)
+
+    def test_an_identifier_keeps_its_underscore(self):
+        """The drawer printed "ekfglobal" and "robotlocalization"."""
+        self.assertEqual(self.tex("ekf_global from robot_localization"),
+                         ["ekf_global from robot_localization"])
+
+    def test_a_symbol_subscript_still_renders(self):
+        self.assertEqual(self.tex("x_k", "\\Sigma_12", "P_\\alpha", "x_{k-1}"),
+                         ["x<sub>k</sub>", "Σ<sub>12</sub>", "P<sub>α</sub>",
+                          "x<sub>k-1</sub>"])
 
 
 if __name__ == "__main__":

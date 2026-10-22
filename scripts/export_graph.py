@@ -241,10 +241,8 @@ def main() -> None:
 
         lateral = topic_edges(project, repo, root)
         names = {component_id(root, c.name): c.name for c in project.components}
-        extra, placed = supporting_nodes(lateral, {n["id"] for n in nodes},
-                                         root, names)
+        extra = supporting_nodes(lateral, {n["id"] for n in nodes}, names)
         nodes += extra
-        edges += placed
         supporting = {n["id"] for n in extra}
         panels = graphify_panels(project, repo, root)
         for node in nodes:
@@ -267,8 +265,8 @@ def main() -> None:
     deepest = max(level.values(), default=0)
     for node in nodes:
         node["level"] = level.get(node["id"], deepest + 1)
-    # A supporting component hangs off the program, one hop down, but it is a
-    # component: drawn at the components' level, not beside the subsystems.
+    # A supporting component has no parent, so the descent never reaches it.
+    # It is a component: drawn at the components' level.
     component_level = min((n["level"] for n in nodes if n["type"] == "component"
                            and n["id"] not in supporting), default=2)
     for node in nodes:

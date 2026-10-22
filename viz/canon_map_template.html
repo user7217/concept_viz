@@ -528,7 +528,10 @@ function tex(src) {
     s = s.replace(/_\{([^{}]*)\}/g, '<sub>$1</sub>');
   }
   s = s.replace(/\^(\\?[A-Za-z0-9+-])/g, '<sup>$1</sup>');
-  s = s.replace(/_(\\?[A-Za-z0-9+-])/g, '<sub>$1</sub>');
+  // A bare subscript is one symbol: x_k, \Sigma_12, P_\alpha. A letter run
+  // after the underscore is an identifier -- ekf_global, robot_localization --
+  // and subscripting its first letter printed "ekfglobal".
+  s = s.replace(/_(\\[A-Za-z]+|[0-9]+(?![A-Za-z_])|[A-Za-z+-](?![A-Za-z0-9_]))/g, '<sub>$1</sub>');
   s = s.replace(/\\([A-Za-z]+)/g, (m, w) => GREEK[w] ?? OPS[w] ?? w);
   return s.replace(/[{}]/g, '');
 }
@@ -730,10 +733,27 @@ const revealed = new Map();   // id -> time first shown, for the fade
 const expanded = new Set();
 const START = DATA.root || 'extended_kalman_filter';
 
-function reveal(id) { if (!revealed.has(id)) revealed.set(id, performance.now()); }
+// Who a node exchanges topics with, either direction.
+const partners = id => [...(sends.get(id) || []).map(e => e.to),
+                        ...(receives.get(id) || []).map(e => e.from)];
+const isSupporting = id => byId.get(id)?.role === 'supporting';
+
+// A supporting component has no parent, so the descent never reaches it.
+// It comes in beside whatever it talks to: showing ekf_local brings the relay
+// and the bridge that feed it. One step only -- the relay does not pull in
+// bt_navigator until the relay itself is opened.
+function reveal(id) {
+  if (revealed.has(id)) return;
+  revealed.set(id, performance.now());
+  if (isSupporting(id)) return;
+  for (const p of partners(id)) if (isSupporting(p)) reveal(p);
+}
+// What opening a node shows: its parts, or for a supporting component,
+// everything it talks to.
+const below = id => isSupporting(id) ? partners(id) : (under.get(id) || []);
 function expand(id) {
   expanded.add(id);
-  for (const p of under.get(id) || []) reveal(p);
+  for (const p of below(id)) reveal(p);
   frame();
 }
 function reset() {
@@ -746,7 +766,7 @@ function expandAll() {
   fit(true); frame();
 }
 function hiddenBelow(id) {
-  return (under.get(id) || []).filter(p => !revealed.has(p)).length;
+  return below(id).filter(p => !revealed.has(p)).length;
 }
 
 /* ---------- camera ---------- */
@@ -948,6 +968,10 @@ function draw(now) {
     related.add(selected);
     for (const n of needs.get(selected) || []) related.add(n);
     for (const n of neededBy.get(selected) || []) related.add(n);
+    // A line touching the selected node is drawn bright, so the node at its
+    // other end must not be pushed back: parts and parents count too.
+    for (const n of under.get(selected) || []) related.add(n);
+    for (const n of over.get(selected) || []) related.add(n);
     for (const e of sends.get(selected) || []) related.add(e.to);
     for (const e of receives.get(selected) || []) related.add(e.from);
   }
