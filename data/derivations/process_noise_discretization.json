@@ -1,0 +1,299 @@
+{
+  "node_id": "process_noise_discretization",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "For the continuous linear model \u1e8b(t) = A x(t) + B u(t) + w(t), where w is continuous white noise with power spectral density Q_c, sampling with period T gives x[k+1] = F x[k] + B_d u[k] + w[k] with w[k] ~ N(0, Q). Here F = e^{AT}, B_d = (\u222b_0^T e^{A\u03c4} d\u03c4) B, and Q = \u222b_0^T e^{A\u03c4} Q_c e^{A\u1d40\u03c4} d\u03c4. Q can be computed from the exponential of the block matrix M = [[-A, Q_c],[0, A\u1d40]] T: if G = e^M = [[\u2026, F\u207b\u00b9Q],[0, F\u1d40]], then Q = (G_22)\u1d40 G_12. Renaming: the source writes A_d for the discrete transition matrix (here F), Q for the continuous noise spectral density (here Q_c), Q_d for the discrete process noise covariance (here Q), R_d / R for the discrete / continuous measurement noise (here R / R_c), and F for the block matrix (here M). Scope of the source: it derives the deterministic part (F and B_d) step by step, and it states the formula for Q and the block-exponential method for computing it. It does NOT derive the Q integral from the stochastic convolution of w(t). That step is stated here as given and is not reconstructed.",
+  "symbols": [
+    {
+      "symbol": "A",
+      "meaning": "continuous-time system matrix",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "B",
+      "meaning": "continuous-time input matrix",
+      "dimensions": "n x m"
+    },
+    {
+      "symbol": "T",
+      "meaning": "sample time",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "F",
+      "meaning": "discrete state transition matrix, e^{AT} (source: A_d)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "B_d",
+      "meaning": "discrete input matrix",
+      "dimensions": "n x m"
+    },
+    {
+      "symbol": "Q_c",
+      "meaning": "continuous process noise covariance / power spectral density (source: Q)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "Q",
+      "meaning": "discrete process noise covariance, Cov(w[k]) (source: Q_d)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "R_c",
+      "meaning": "continuous measurement noise spectral density (source: R)",
+      "dimensions": "p x p"
+    },
+    {
+      "symbol": "R",
+      "meaning": "discrete measurement noise covariance, R_c / T (source: R_d)",
+      "dimensions": "p x p"
+    },
+    {
+      "symbol": "M",
+      "meaning": "block matrix [[-A, Q_c],[0, A\u1d40]] T used to compute Q (source: F)",
+      "dimensions": "2n x 2n"
+    },
+    {
+      "symbol": "G",
+      "meaning": "e^M",
+      "dimensions": "2n x 2n"
+    },
+    {
+      "symbol": "x[k]",
+      "meaning": "sampled state x(kT)",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "u[k]",
+      "meaning": "input, held constant over [kT, (k+1)T)",
+      "dimensions": "m x 1"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Start from the continuous model \u1e8b(t) = A x(t) + B u(t). The matrix exponential satisfies d/dt e^{At} = A e^{At} = e^{At} A.",
+      "invokes": [
+        "state_space_model",
+        "matrix_exponential",
+        "derivative"
+      ],
+      "cites": [
+        "wikipedia:Discretization"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Premultiply by e^{-At}: e^{-At} \u1e8b(t) = e^{-At} A x(t) + e^{-At} B u(t). The left side minus the first right-hand term is a total derivative, so d/dt[e^{-At} x(t)] = e^{-At} B u(t).",
+      "invokes": [
+        "matrix_exponential",
+        "derivative"
+      ],
+      "cites": [
+        "wikipedia:Discretization"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "Integrate from 0 to t: e^{-At} x(t) \u2212 x(0) = \u222b_0^t e^{-A\u03c4} B u(\u03c4) d\u03c4, so x(t) = e^{At} x(0) + \u222b_0^t e^{A(t\u2212\u03c4)} B u(\u03c4) d\u03c4. This is the exact continuous solution.",
+      "invokes": [
+        "integral",
+        "differential_equation"
+      ],
+      "cites": [
+        "wikipedia:Discretization"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Define x[k] = x(kT). Write x[k+1] and split the integral at kT: x[k+1] = e^{AT}[e^{AkT} x(0) + \u222b_0^{kT} e^{A(kT\u2212\u03c4)} B u(\u03c4) d\u03c4] + \u222b_{kT}^{(k+1)T} e^{A(kT+T\u2212\u03c4)} B u(\u03c4) d\u03c4. The bracket is x[k].",
+      "invokes": [
+        "matrix_exponential"
+      ],
+      "cites": [
+        "wikipedia:Discretization"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Assume u is constant over the step (u(\u03c4) = u[k]). Substitute v = kT + T \u2212 \u03c4, so d\u03c4 = \u2212dv and the limits go from T down to 0: x[k+1] = e^{AT} x[k] + (\u222b_0^T e^{Av} dv) B u[k]. Therefore F = e^{AT} and B_d = (\u222b_0^T e^{A\u03c4} d\u03c4) B.",
+      "invokes": [
+        "change_of_variables",
+        "integral"
+      ],
+      "cites": [
+        "wikipedia:Discretization"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "If A is nonsingular, the integral has a closed form: B_d = A\u207b\u00b9(F \u2212 I) B. If A is singular, expand e^{AT} = \u03a3_{k\u22650} (AT)^k / k! and integrate term by term: B_d = (\u03a3_{k\u22651} A^{k\u22121} T^k / k!) B.",
+      "invokes": [
+        "matrix_exponential",
+        "taylor_expansion"
+      ],
+      "cites": [
+        "wikipedia:Discretization"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "With process noise added, the discrete model is x[k+1] = F x[k] + B_d u[k] + w[k] with w[k] ~ N(0, Q), where Q = \u222b_0^T e^{A\u03c4} Q_c e^{A\u1d40\u03c4} d\u03c4. The measurement noise becomes R = R_c / T, because the continuous measurement noise is defined by a power spectral density. The source states the Q integral without deriving it.",
+      "invokes": [
+        "covariance_matrix",
+        "gaussian_distribution",
+        "matrix_exponential",
+        "integral"
+      ],
+      "cites": [
+        "wikipedia:Discretization"
+      ]
+    },
+    {
+      "n": 8,
+      "text": "To compute Q numerically, form M = [[\u2212A, Q_c],[0, A\u1d40]] T and take G = e^M = [[\u2026, F\u207b\u00b9Q],[0, F\u1d40]].",
+      "invokes": [
+        "matrix_exponential",
+        "matrix"
+      ],
+      "cites": [
+        "wikipedia:Discretization"
+      ]
+    },
+    {
+      "n": 9,
+      "text": "Recover Q by multiplying the transpose of the lower-right block of G by the upper-right block: Q = (F\u1d40)\u1d40 (F\u207b\u00b9Q) = F (F\u207b\u00b9Q).",
+      "invokes": [
+        "matrix_transpose"
+      ],
+      "cites": [
+        "wikipedia:Discretization"
+      ]
+    },
+    {
+      "n": 10,
+      "text": "Small-T approximations replace e^{AT}. Forward Euler uses e^{AT} \u2248 I + AT, giving x[k+1] \u2248 (I + AT) x[k] + T B u[k]. Backward Euler uses (I \u2212 AT)\u207b\u00b9. The bilinear (Tustin) transform uses (I + \u00bdAT)(I \u2212 \u00bdAT)\u207b\u00b9. These approximations have different stability properties; the bilinear transform preserves the instability of the continuous system.",
+      "invokes": [
+        "taylor_expansion",
+        "linearization"
+      ],
+      "cites": [
+        "wikipedia:Discretization"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The continuous dynamics are linear and time-invariant (A, B constant over the step).",
+      "breaks_when": "The system is nonlinear or A varies within a step. Then e^{AT} is not the exact transition, and a linearization re-evaluated each step is needed."
+    },
+    {
+      "assumption": "The input u is held constant over each sampling interval (zero-order hold).",
+      "breaks_when": "u varies inside [kT, (k+1)T). Then B_d u[k] no longer equals the true input integral."
+    },
+    {
+      "assumption": "Process noise is continuous white Gaussian noise with spectral density Q_c, so its discrete counterpart is w[k] ~ N(0, Q).",
+      "breaks_when": "The noise is coloured or correlated across steps. Then Q from this integral misstates the per-step covariance, and the source gives no derivation that would show the dependence."
+    },
+    {
+      "assumption": "Closed form B_d = A\u207b\u00b9(F \u2212 I)B requires A nonsingular.",
+      "breaks_when": "A is singular, for example a constant-velocity or integrator model. Use the series form instead."
+    },
+    {
+      "assumption": "Euler / Tustin approximations assume a small T relative to the system's time constants.",
+      "breaks_when": "\u2016AT\u2016 is not small. Then I + AT is a poor substitute for e^{AT}, and stability can change."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Using Q_c directly as the discrete Q (or Q_c\u00b7T without the e^{A\u03c4} weighting)",
+      "signature": "The filter is overconfident or underconfident, and the error depends on the sample rate: the tuning changes when T changes.",
+      "cause": "Spectral density and per-step covariance are confused. Q must be integrated over the step through the dynamics."
+    },
+    {
+      "mode": "Discretizing R without the 1/T factor",
+      "signature": "The measurement weighting is wrong by a factor that scales with the sample rate.",
+      "cause": "The continuous measurement noise is a power spectral density, so R = R_c / T."
+    },
+    {
+      "mode": "Numerical breakdown of A\u207b\u00b9(F \u2212 I)B",
+      "signature": "Inf or NaN, or very large B_d entries, for nearly singular A.",
+      "cause": "Inverting an ill-conditioned or singular A. The series form or the augmented-exponential trick avoids it."
+    },
+    {
+      "mode": "Instability introduced by forward Euler",
+      "signature": "The discrete model diverges even though the continuous system is stable, typically at large T.",
+      "cause": "I + AT does not preserve the continuous stability properties, so the approximations behave differently."
+    },
+    {
+      "mode": "Reading the wrong block of G = e^M",
+      "signature": "Q is not symmetric, or is not positive semidefinite.",
+      "cause": "Q is (G_22)\u1d40 G_12. Using G_12 alone gives F\u207b\u00b9Q, not Q."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Discretization"
+  ],
+  "check": {
+    "node_id": "process_noise_discretization",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  },
+  "instantiation": {
+    "node_id": "process_noise_discretization",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws computes F = e^{AT} or the integral for Q itself. Both robot_localization EKF nodes, ekf_local and ekf_global, do the discretization step inside the library. The shown line in src/ekf.cpp:436 propagates the covariance as transfer_function_jacobian_ \u00b7 P \u00b7 transfer_function_jacobian\u1d40 and then adds delta_sec \u00d7 process_noise_covariance. That added term is the sheet's Q = \u222b_0^T e^{A\u03c4} Q_c e^{A\u1d40\u03c4} d\u03c4 with e^{A\u03c4} taken as the identity, which gives T\u00b7Q_c. So the matrix the project sets plays the role of Q_c, and the library scales it by elapsed time to get the per-step Q.",
+    "concrete": [
+      {
+        "symbol": "Q_c",
+        "in_your_project": "process_noise_covariance, a 15x15 matrix with these diagonal entries: X=0.05, Y=0.05, Z=0.06, Roll=0.03, Pitch=0.03, Yaw=0.06, Vx=0.025, Vy=0.025, Vz=0.04, Vroll=0.01, Vpitch=0.01, Vyaw=0.02, Ax=0.01, Ay=0.01, Az=0.015. All off-diagonal entries are zero. ekf_local and ekf_global set identical values."
+      },
+      {
+        "symbol": "T",
+        "in_your_project": "delta_sec in src/ekf.cpp:436, the scalar that multiplies process_noise_covariance in the shown line."
+      },
+      {
+        "symbol": "Q",
+        "in_your_project": "The 15x15 term delta_sec * (*process_noise_covariance) added to the estimate covariance. It is diagonal because Q_c is diagonal and the shown line only scales it. The sheet's full integral would produce off-diagonal terms whenever A couples states, for example position and velocity."
+      },
+      {
+        "symbol": "F",
+        "in_your_project": "transfer_function_jacobian_ in src/ekf.cpp:436, the 15x15 matrix applied on both sides of estimate_error_covariance_ before Q is added."
+      },
+      {
+        "symbol": "R",
+        "in_your_project": "The twist covariance on /odom_cov, set by odom_cov_relay.py:12-16. It is a 6x6 matrix with vx=0.05, vy=0.05 and vyaw=0.02, and all other entries zero. Both EKFs read it as odom0 and fuse only Vx, Vy and Vyaw from it."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets Q_c. The shown line multiplies the whole matrix by delta_sec and adds it to the propagated covariance on each predict step. Every diagonal entry, from X through Az, therefore grows its state's variance in proportion to elapsed time. With zero off-diagonals, the added term is diagonal."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Same role as in ekf_local, with identical diagonal values. It is scaled by delta_sec and added after transfer_function_jacobian_ \u00b7 P \u00b7 transfer_function_jacobian\u1d40."
+      }
+    ],
+    "notation": "The sheet's Q_c is set by the parameter process_noise_covariance, and the library adds delta_sec times it as the sheet's Q. The sheet's F is the library's transfer_function_jacobian_, and its T is delta_sec.",
+    "invented": {},
+    "thin": "",
+    "unsupported": []
+  }
+}

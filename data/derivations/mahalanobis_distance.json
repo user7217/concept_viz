@@ -134,5 +134,29 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "mahalanobis_distance",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing shown in agrios_ws computes a Mahalanobis distance itself. Its only contact with this concept is through ekf_local and ekf_global, which run robot_localization's EKF, and no robot_localization source is shown to say whether or where that library forms (x - mu)^T Sigma^{-1} (x - mu). None of the parameters this project sets is a distance threshold or gate, so the shown configuration does not touch this quantity directly.",
+    "concrete": [
+      {
+        "symbol": "\\Sigma",
+        "in_your_project": "The nearest quantity shown is the covariance that the senders attach to their measurements. odom_cov_relay sets a 6x6 twist covariance on /odom_cov (36 entries, row-major). Only the diagonal entries vx (c[0] = 0.05), vy (c[7] = 0.05) and vyaw (c[35] = 0.02) are non-zero. rtk_sim sets position_covariance (diagonal known) and orientation_covariance on its fix and /rtk/heading messages, and marks angular velocity and linear acceleration covariance as absent (-1.0). These are covariances of measurement distributions. No shown line forms a Mahalanobis distance with them."
+      },
+      {
+        "symbol": "x",
+        "in_your_project": "The measurement vectors ekf_local and ekf_global receive on /odom_cov, /imu, /odometry/gps and /rtk/heading. Nothing shown evaluates a distance of these points from a distribution."
+      }
+    ],
+    "knobs": [],
+    "notation": "",
+    "invented": {},
+    "thin": "",
+    "unsupported": []
   }
 }

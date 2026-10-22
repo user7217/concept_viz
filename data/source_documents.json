@@ -1,5 +1,5 @@
 {
-  "_note": "Sources that are not Wikipedia articles, pinned by hand. An alias in source_aliases.json that names one of these ids fetches this document instead of a Wikipedia title. Each entry records the licence as read from the document's own page on the date given, because sheets restate their source on a public page and the licence decides what that page must say. Only openly licensed documents belong here.",
+  "_note": "Sources that are not whole Wikipedia articles -- papers, or chosen sections of an article -- pinned by hand. An alias in source_aliases.json that names one of these ids fetches this document instead of a Wikipedia title. Each entry records the licence as read from the document's own page on the date given, because sheets restate their source on a public page and the licence decides what that page must say. Only openly licensed documents belong here.",
   "documents": {
     "arxiv:2406.06427": {
       "url": "https://arxiv.org/html/2406.06427v3",
@@ -28,6 +28,23 @@
       "licence_url": "https://creativecommons.org/licenses/by/4.0/",
       "checked": "2026-10-22",
       "why": "All four acceptance-test readers found the same hole: the prediction covariance F P F^T + Q is derived nowhere. 8.1 derives the prediction integral; 8.2 derives the update by completing the square. 8.3, the update as Gaussian conditioning, is left out: its text stops where the substitution C_xz = P H^T, C_zz = H P H^T + Q begins, and that step is an image (25.png) with no text. All three together are over the 24,000 source budget. Note: Section 8 follows Probabilistic Robotics, where R is process noise and Q measurement noise -- the reverse of section 4 and of robot_localization."
+    },
+    "wikipedia:Kalman_filter#update": {
+      "url": "https://en.wikipedia.org/wiki/Kalman_filter",
+      "page": "https://en.wikipedia.org/wiki/Kalman_filter",
+      "title": "Kalman filter",
+      "authors": "Wikipedia contributors",
+      "year": 2026,
+      "section": "Update; Invariants; Marginal likelihood",
+      "sections": [
+        "Update",
+        "Invariants",
+        "Marginal likelihood"
+      ],
+      "licence": "CC BY-SA 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "checked": "2026-10-22",
+      "why": "No article covers innovation gating. Fetched whole, the Kalman filter article keeps only its derivation sections inside the budget and loses the definitions a gate needs. Update defines the innovation y = z - H x and its covariance S = H P H^T + R; Invariants states E[y] = 0 and cov(y) = S when the model is accurate, which is the condition a gate tests; Marginal likelihood uses y^T S^-1 y. With the Mahalanobis distance article's chi-squared result, the gate follows."
     }
   }
 }

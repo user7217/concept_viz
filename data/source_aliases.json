@@ -425,6 +425,19 @@
     ],
     "high_pass_filter": [
       "High-pass filter"
+    ],
+    "innovation_gating": [
+      "wikipedia:Kalman_filter#update",
+      "Mahalanobis distance"
+    ],
+    "chi_squared_distribution": [
+      "Chi-squared distribution"
+    ],
+    "process_noise_discretization": [
+      "Discretization"
+    ],
+    "matrix_exponential": [
+      "Matrix exponential"
     ]
   }
 }

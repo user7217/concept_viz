@@ -95,5 +95,20 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "polynomial_root_finding",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws computes polynomial roots itself. The dependent components, ekf_global and ekf_local, are robot_localization EKF nodes, and no library source is shown, so none of the lines given show where polynomial root finding enters their computation. The sheet also has nothing to derive (its source section is empty), so the only supportable claim is that the path lists this result as a prerequisite of the algorithm those components run.",
+    "concrete": [],
+    "knobs": [],
+    "notation": "",
+    "invented": {},
+    "thin": "names no parameter and maps none of the 4 symbols the sheet defines",
+    "unsupported": []
   }
 }

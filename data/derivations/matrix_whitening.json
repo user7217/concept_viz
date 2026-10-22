@@ -136,5 +136,53 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "matrix_whitening",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws computes a whitening transformation itself, and no robot_localization source is shown, so this cannot be traced to a line that applies W. The link is only that ekf_global and ekf_local work with covariance matrices, and those are the \u03a3 the sheet's definition is about: the project sets two 15x15 covariances in YAML, and its upstream senders publish measurement covariances on /odom_cov and /rtk/heading. Every covariance shown is diagonal. For a diagonal \u03a3, the sheet's condition W^T W = \u03a3^{-1} is met by a diagonal W whose entries are 1/sqrt of the variances, so each variable is rescaled on its own and no correlations are removed.",
+    "concrete": [
+      {
+        "symbol": "\\Sigma",
+        "in_your_project": "The nearest instance is the twist covariance that odom_cov_relay.py sends on /odom_cov. It is a 36-entry list (6x6, row-major) with c[0]=0.05 (vx), c[7]=0.05 (vy), c[35]=0.02 (vyaw) and every other entry 0.0. As a full 6x6 matrix it is singular, so the sheet's definition (which needs a non-singular \u03a3) only applies to the sub-block of non-zero variances. rtk_sim.py also sets a position_covariance with COVARIANCE_TYPE_DIAGONAL_KNOWN and an orientation_covariance, but their values are not shown."
+      },
+      {
+        "symbol": "V",
+        "in_your_project": "Every covariance shown is diagonal (process_noise_covariance, initial_estimate_covariance, the /odom_cov twist covariance, and the RTK position covariance declared DIAGONAL_KNOWN). For each of these \u03a3 = V, and its diagonal is the variances listed, e.g. 0.05, 0.05, 0.02 for vx, vy, vyaw on /odom_cov."
+      },
+      {
+        "symbol": "P",
+        "in_your_project": "Because all the covariances shown are diagonal, their correlation matrix P is the identity. There are no off-diagonal terms for a whitening matrix to remove."
+      },
+      {
+        "symbol": "W",
+        "in_your_project": "No code shown computes W. Applying the sheet's condition to the diagonal /odom_cov block would give W = diag(1/sqrt(0.05), 1/sqrt(0.05), 1/sqrt(0.02)), about diag(4.47, 4.47, 7.07), for vx, vy, vyaw."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "A 15x15 diagonal covariance with no off-diagonal terms. Entries run 0.05/0.05/0.06 at indices 0-2, 0.03/0.03/0.06 at 3-5, 0.025/0.025/0.04 at 6-8, 0.01/0.01/0.02 at 9-11 and 0.01/0.01/0.015 at 12-14. Read as \u03a3, a whitening W would be diagonal with entries 1/sqrt of each. No shown line applies a whitening to it. ekf_local.yaml sets the same values."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "A 15x15 diagonal covariance with every diagonal entry at 1e-9 and no off-diagonal terms. Read as \u03a3, it is non-singular and the whitening W would be about 31623\u00b7I (1/sqrt(1e-9)). No shown line applies it this way. ekf_local.yaml sets the same values."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "The same diagonal 15x15 matrix as in ekf_global.yaml, so the same remarks apply: the diagonal W is 1/sqrt of each entry, and the library source showing how it is used is not available."
+      }
+    ],
+    "notation": "",
+    "invented": {},
+    "thin": "",
+    "unsupported": []
   }
 }

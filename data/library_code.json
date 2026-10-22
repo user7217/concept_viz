@@ -11,7 +11,9 @@
   },
   "notices": {
     "src/ekf.cpp": "Copyright (c) 2014, 2015, 2016 Charles River Analytics, Inc.\nCopyright (c) 2017, Locus Robotics, Inc.\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions\nare met:\n\n1. Redistributions of source code must retain the above copyright\nnotice, this list of conditions and the following disclaimer.\n2. Redistributions in binary form must reproduce the above\ncopyright notice, this list of conditions and the following\ndisclaimer in the documentation and/or other materials provided\nwith the distribution.\n3. Neither the name of the copyright holder nor the names of its\ncontributors may be used to endorse or promote products derived\nfrom this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n\"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\nLIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS\nFOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE\nCOPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,\nINCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,\nBUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\nLOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT\nLIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN\nANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE\nPOSSIBILITY OF SUCH DAMAGE.",
-    "include/robot_localization/filter_common.hpp": "Copyright (c) 2014, 2015, 2016  Charles River Analytics, Inc.\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions\nare met:\n\n1. Redistributions of source code must retain the above copyright\nnotice, this list of conditions and the following disclaimer.\n2. Redistributions in binary form must reproduce the above\ncopyright notice, this list of conditions and the following\ndisclaimer in the documentation and/or other materials provided\nwith the distribution.\n3. Neither the name of the copyright holder nor the names of its\ncontributors may be used to endorse or promote products derived\nfrom this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n\"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\nLIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS\nFOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE\nCOPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,\nINCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,\nBUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\nLOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT\nLIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN\nANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE\nPOSSIBILITY OF SUCH DAMAGE."
+    "include/robot_localization/filter_common.hpp": "Copyright (c) 2014, 2015, 2016  Charles River Analytics, Inc.\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions\nare met:\n\n1. Redistributions of source code must retain the above copyright\nnotice, this list of conditions and the following disclaimer.\n2. Redistributions in binary form must reproduce the above\ncopyright notice, this list of conditions and the following\ndisclaimer in the documentation and/or other materials provided\nwith the distribution.\n3. Neither the name of the copyright holder nor the names of its\ncontributors may be used to endorse or promote products derived\nfrom this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n\"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\nLIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS\nFOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE\nCOPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,\nINCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,\nBUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\nLOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT\nLIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN\nANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE\nPOSSIBILITY OF SUCH DAMAGE.",
+    "src/filter_base.cpp": "Copyright (c) 2014, 2015, 2016 Charles River Analytics, Inc.\nCopyright (c) 2017, Locus Robotics, Inc.\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions\nare met:\n\n1. Redistributions of source code must retain the above copyright\nnotice, this list of conditions and the following disclaimer.\n2. Redistributions in binary form must reproduce the above\ncopyright notice, this list of conditions and the following\ndisclaimer in the documentation and/or other materials provided\nwith the distribution.\n3. Neither the name of the copyright holder nor the names of its\ncontributors may be used to endorse or promote products derived\nfrom this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n\"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\nLIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS\nFOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE\nCOPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,\nINCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,\nBUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\nLOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT\nLIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN\nANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE\nPOSSIBILITY OF SUCH DAMAGE.",
+    "src/ros_filter.cpp": "Copyright (c) 2014, 2015, 2016 Charles River Analytics, Inc.\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions\nare met:\n\n1. Redistributions of source code must retain the above copyright\nnotice, this list of conditions and the following disclaimer.\n2. Redistributions in binary form must reproduce the above\ncopyright notice, this list of conditions and the following\ndisclaimer in the documentation and/or other materials provided\nwith the distribution.\n3. Neither the name of the copyright holder nor the names of its\ncontributors may be used to endorse or promote products derived\nfrom this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n\"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\nLIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS\nFOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE\nCOPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,\nINCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,\nBUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\nLOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT\nLIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN\nANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE\nPOSSIBILITY OF SUCH DAMAGE."
   },
   "spans": {
     "jacobian_matrix": [
@@ -265,6 +267,102 @@
           "",
           "      measurement_covariance_subset(i, i) = 1e-9;",
           "    }"
+        ]
+      }
+    ],
+    "innovation_gating": [
+      {
+        "path": "src/ekf.cpp",
+        "language": "cpp",
+        "start": 190,
+        "hit": 190,
+        "term": "Ekf::correct",
+        "strength": "library",
+        "note": "Passes the innovation and (HPH' + R)^-1 to the gate with the topic's *_rejection_threshold; the state and covariance are updated only if it passes.",
+        "lines": [
+          "  // (2) Check Mahalanobis distance between mapped measurement and state.",
+          "  if (checkMahalanobisThreshold(",
+          "      innovation_subset, hphr_inverse,",
+          "      measurement.mahalanobis_thresh_))"
+        ]
+      },
+      {
+        "path": "src/filter_base.cpp",
+        "language": "cpp",
+        "start": 429,
+        "hit": 429,
+        "term": "FilterBase::checkMahalanobisThreshold",
+        "strength": "library",
+        "note": "Squares the threshold and compares it with the squared Mahalanobis distance y' S^-1 y: the measurement is rejected when d^2 >= n_sigmas^2.",
+        "lines": [
+          "bool FilterBase::checkMahalanobisThreshold(",
+          "  const Eigen::VectorXd & innovation,",
+          "  const Eigen::MatrixXd & innovation_covariance, const double n_sigmas)",
+          "{",
+          "  double squared_mahalanobis =",
+          "    innovation.dot(innovation_covariance * innovation);",
+          "  double threshold = n_sigmas * n_sigmas;",
+          "",
+          "  if (squared_mahalanobis >= threshold) {",
+          "    FB_DEBUG(",
+          "      \"Innovation mahalanobis distance test failed. Squared Mahalanobis is: \" <<",
+          "        squared_mahalanobis << \"\\nThreshold is: \" << threshold << \"\\n\" <<",
+          "        \"Innovation is: \" << innovation << \"\\n\" <<",
+          "        \"Innovation covariance is:\\n\" <<",
+          "        innovation_covariance << \"\\n\");",
+          "",
+          "    return false;",
+          "  }",
+          "",
+          "  return true;",
+          "}"
+        ]
+      },
+      {
+        "path": "src/ros_filter.cpp",
+        "language": "cpp",
+        "start": 656,
+        "hit": 656,
+        "term": "RosFilter::forceTwoD",
+        "strength": "library",
+        "note": "In two_d_mode, sets Z, roll, pitch, Vz, Vroll, Vpitch and Az to 0 with variance 1e-6 and marks them for update, so every measurement, and its gate, carries these seven entries as well.",
+        "lines": [
+          "  // Now set the diagonal covariance values to something small",
+          "  measurement_covariance(StateMemberZ, StateMemberZ) = 1e-6;",
+          "  measurement_covariance(StateMemberRoll, StateMemberRoll) = 1e-6;",
+          "  measurement_covariance(StateMemberPitch, StateMemberPitch) = 1e-6;",
+          "  measurement_covariance(StateMemberVz, StateMemberVz) = 1e-6;",
+          "  measurement_covariance(StateMemberVroll, StateMemberVroll) = 1e-6;",
+          "  measurement_covariance(StateMemberVpitch, StateMemberVpitch) = 1e-6;",
+          "  measurement_covariance(StateMemberAz, StateMemberAz) = 1e-6;",
+          "",
+          "  // Finally, update the update vector",
+          "  update_vector[StateMemberZ] = 1;",
+          "  update_vector[StateMemberRoll] = 1;",
+          "  update_vector[StateMemberPitch] = 1;",
+          "  update_vector[StateMemberVz] = 1;",
+          "  update_vector[StateMemberVroll] = 1;",
+          "  update_vector[StateMemberVpitch] = 1;",
+          "  update_vector[StateMemberAz] = 1;"
+        ]
+      }
+    ],
+    "process_noise_discretization": [
+      {
+        "path": "src/ekf.cpp",
+        "language": "cpp",
+        "start": 431,
+        "hit": 431,
+        "term": "Ekf::predict",
+        "strength": "library",
+        "note": "Adds delta_sec times the configured process noise to the propagated covariance: the discrete process noise taken as Q * dt.",
+        "lines": [
+          "  // (3) Project the error forward: P = J * P * J' + Q",
+          "  estimate_error_covariance_ =",
+          "    (transfer_function_jacobian_ * estimate_error_covariance_ *",
+          "    transfer_function_jacobian_.transpose());",
+          "  estimate_error_covariance_.noalias() +=",
+          "    delta_sec * (*process_noise_covariance);"
         ]
       }
     ]

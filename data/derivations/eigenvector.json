@@ -122,5 +122,52 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "eigenvector",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws computes an eigenvector, and no library source was shown. The link is through the matrices the project sets: ekf_global and ekf_local are given 15x15 covariance matrices, and odom_cov_relay publishes a 6x6 twist covariance. All of these are diagonal, so you can read their eigenvectors and eigenvalues straight off the entries. Applying A * v = lambda * v to these matrices is pure mathematics; none of the shown lines does it.",
+    "concrete": [
+      {
+        "symbol": "A",
+        "in_your_project": "Any one of the diagonal matrices the project sets: process_noise_covariance (15x15, set the same in ekf_global.yaml and ekf_local.yaml), initial_estimate_covariance (15x15), or the 6x6 twist covariance built as a 36-entry list in odom_cov_relay.py:12-16."
+      },
+      {
+        "symbol": "v",
+        "in_your_project": "For a diagonal A, each standard basis vector e_i (15x1 for the EKF matrices, 6x1 for the twist covariance) satisfies A * e_i = A_ii * e_i, so e_i is an eigenvector."
+      },
+      {
+        "symbol": "lambda",
+        "in_your_project": "The diagonal entry on each axis. In process_noise_covariance, e_0 has lambda = 0.05 and e_14 has lambda = 0.015. In the odom_cov_relay twist covariance, entries c[0] = 0.05, c[7] = 0.05 and c[35] = 0.02 are diagonal positions (0,0), (1,1) and (5,5) of the 6x6 matrix, so those axes have eigenvalues 0.05, 0.05 and 0.02. The other three axes have eigenvalue 0 because their entries stay 0.0."
+      },
+      {
+        "symbol": "E",
+        "in_your_project": "In process_noise_covariance, lambda = 0.05 appears only at indices 0 and 1, so E = span{e_0, e_1}. lambda = 0.06 appears at indices 2 and 5, so E = span{e_2, e_5}. initial_estimate_covariance is 1e-9 * I, so for lambda = 1e-9, E is the whole 15-dimensional space and every nonzero vector is an eigenvector. In the twist covariance, the eigenspace for lambda = 0 is spanned by the three axes left at 0.0."
+      },
+      {
+        "symbol": "I",
+        "in_your_project": "The 15x15 identity. initial_estimate_covariance equals 1e-9 * I exactly, because every diagonal entry is 1e-9 and every off-diagonal entry is zero."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "This sets a diagonal 15x15 matrix whose eigenvectors are the 15 state axes. Each diagonal entry, from 0 = 0.05 to 14 = 0.015, is the eigenvalue for its axis. Because the off-diagonals are zero, no eigenvector mixes two state axes. The same values are set in src/agrios_bringup/config/ekf_local.yaml."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "This sets 1e-9 * I. It has a single repeated eigenvalue, 1e-9, and its eigenspace is all of the 15-dimensional space. Changing any one diagonal entry would split that space into separate eigenspaces. The same values are set in src/agrios_bringup/config/ekf_local.yaml."
+      }
+    ],
+    "notation": "",
+    "invented": {},
+    "thin": "",
+    "unsupported": []
   }
 }

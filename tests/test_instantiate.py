@@ -167,6 +167,24 @@ class WhatTheNoteWriterIsShown(unittest.TestCase):
         self.assertIn("src/ekf.cpp:433", text)
         self.assertNotIn("StateMember", text)
 
+    def test_a_span_filed_under_the_node_is_shown_whole(self) -> None:
+        """The gate reads mahalanobis_thresh_, never the YAML name."""
+        from atlas.instantiate import library_excerpts
+        gate = {"path": "src/filter_base.cpp", "start": 429, "term": "checkMahalanobisThreshold",
+                "lines": ["  double threshold = n_sigmas * n_sigmas;",
+                          "  if (squared_mahalanobis >= threshold) {"]}
+        text = library_excerpts([gate, self.PREDICT], ["process_noise_covariance"], own=[dict(gate)])
+        self.assertIn("src/filter_base.cpp:429-430", text)
+        self.assertIn("n_sigmas * n_sigmas", text)
+        self.assertIn("delta_sec * (*process_noise_covariance)", text)
+        self.assertEqual(text.count("n_sigmas * n_sigmas"), 1)
+
+    def test_without_own_spans_the_gate_stays_hidden(self) -> None:
+        from atlas.instantiate import library_excerpts
+        gate = {"path": "src/filter_base.cpp", "start": 429,
+                "lines": ["  double threshold = n_sigmas * n_sigmas;"]}
+        self.assertEqual(library_excerpts([gate], ["imu0_twist_rejection_threshold"]), "")
+
     def test_a_senders_covariance_is_shown_with_what_fills_it(self) -> None:
         import tempfile
         from pathlib import Path

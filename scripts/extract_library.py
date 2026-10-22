@@ -69,6 +69,21 @@ SPANS = [
      "Conditions R before it reaches the gain: negative diagonal entries are "
      "replaced by their absolute value and near-zero variances floored at 1e-9, "
      "so the innovation covariance stays invertible."),
+    ("innovation_gating", "src/ekf.cpp", 190, 193, "Ekf::correct",
+     "Passes the innovation and (HPH' + R)^-1 to the gate with the topic's "
+     "*_rejection_threshold; the state and covariance are updated only if it "
+     "passes."),
+    ("innovation_gating", "src/filter_base.cpp", 429, 449,
+     "FilterBase::checkMahalanobisThreshold",
+     "Squares the threshold and compares it with the squared Mahalanobis "
+     "distance y' S^-1 y: the measurement is rejected when d^2 >= n_sigmas^2."),
+    ("innovation_gating", "src/ros_filter.cpp", 656, 672, "RosFilter::forceTwoD",
+     "In two_d_mode, sets Z, roll, pitch, Vz, Vroll, Vpitch and Az to 0 with "
+     "variance 1e-6 and marks them for update, so every measurement, and its "
+     "gate, carries these seven entries as well."),
+    ("process_noise_discretization", "src/ekf.cpp", 431, 436, "Ekf::predict",
+     "Adds delta_sec times the configured process noise to the propagated "
+     "covariance: the discrete process noise taken as Q * dt."),
 ]
 
 # Deliberately absent: matrix_inversion_lemma. The filter calls .inverse()

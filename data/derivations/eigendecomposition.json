@@ -103,5 +103,62 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "eigendecomposition",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws computes an eigendecomposition, and no library source is shown to say whether robot_localization does one internally. It touches this project only through the matrices the project sets: every covariance that ekf_global and ekf_local configure, and the /odom_cov twist covariance that odom_cov_relay publishes, has non-zero entries only on its diagonal. For a diagonal matrix, A = P D P^{-1} needs no computation: P is the identity, D is A itself, the eigenvalues are the diagonal entries as written, and the eigenvectors are the coordinate axes of the state.",
+    "concrete": [
+      {
+        "symbol": "A",
+        "in_your_project": "process_noise_covariance in ekf_global.yaml and ekf_local.yaml: a 15x15 matrix with all off-diagonal entries zero. initial_estimate_covariance (15x15, also diagonal) and the 6x6 twist covariance that odom_cov_relay.py publishes on /odom_cov are further examples. That last one is the 36-entry list c, where c[0], c[7] and c[35] are the (0,0), (1,1) and (5,5) entries of a 6x6 row-major matrix and every other entry is 0.0."
+      },
+      {
+        "symbol": "P",
+        "in_your_project": "For each of these matrices, P is the identity of matching size: 15x15 for the EKF covariances, 6x6 for the /odom_cov twist covariance. Each column is one state coordinate's axis, so P^{-1} = P."
+      },
+      {
+        "symbol": "D",
+        "in_your_project": "The matrix itself, already in diagonal form. For process_noise_covariance it is diag(0.05, 0.05, 0.06, 0.03, 0.03, 0.06, 0.025, 0.025, 0.04, 0.01, 0.01, 0.02, 0.01, 0.01, 0.015). For initial_estimate_covariance it is 1e-9 times the 15x15 identity. For the /odom_cov twist covariance it has 0.05 (vx), 0.05 (vy) and 0.02 (vyaw) on the diagonal and zeros elsewhere."
+      },
+      {
+        "symbol": "\\lambda",
+        "in_your_project": "Each diagonal entry is an eigenvalue. Examples: 0.05 at process_noise_covariance index 0, 0.015 at index 14, 1e-9 for every index of initial_estimate_covariance, and 0.02 at the vyaw entry c[35] of the /odom_cov covariance."
+      },
+      {
+        "symbol": "u",
+        "in_your_project": "The standard basis vector for one state index: 15x1 for the EKF covariances, 6x1 for the twist covariance. For example, the vector with a 1 at index 0 belongs to eigenvalue 0.05 of process_noise_covariance."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "The off-diagonal entries are all zero, so the 15 diagonal values set here are the matrix's eigenvalues and each eigenvector is one state axis. Making any off-diagonal entry non-zero would rotate the eigenvectors away from the state axes. With no library source shown, how the filter applies this matrix is not visible here."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Same values as in ekf_global.yaml, so the same holds: the matrix is diagonal, its eigenvalues are 0.05, 0.05, 0.06, 0.03, 0.03, 0.06, 0.025, 0.025, 0.04, 0.01, 0.01, 0.02, 0.01, 0.01 and 0.015 by index, and its eigenvectors are the state axes."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Diagonal with every entry 1e-9, so the matrix is 1e-9 times the identity. It has one repeated eigenvalue, 1e-9, with multiplicity 15, which means every non-zero 15x1 vector is an eigenvector and the choice of P is not unique."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Same as in ekf_global.yaml: 1e-9 times the 15x15 identity, a single eigenvalue 1e-9 repeated 15 times, and any basis works as P."
+      }
+    ],
+    "notation": "",
+    "invented": {},
+    "thin": "",
+    "unsupported": []
   }
 }

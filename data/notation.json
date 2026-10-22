@@ -6,7 +6,9 @@
       "roots": [
         "extended_kalman_filter",
         "linear_kalman_filter",
-        "bayes_filter"
+        "bayes_filter",
+        "innovation_gating",
+        "process_noise_discretization"
       ],
       "why": "robot_localization's process_noise_covariance is Q, and the measurement covariance arrives in each message as R.",
       "symbols": [

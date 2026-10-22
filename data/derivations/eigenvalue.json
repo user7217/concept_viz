@@ -115,5 +115,58 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "eigenvalue",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws computes an eigenvalue. No library source is shown, so nothing here says robot_localization computes one either. The concept only applies because ekf_local and ekf_global each set two square matrices, process_noise_covariance and initial_estimate_covariance, both 15x15. Both are diagonal, so the definition A v = \\lambda v can be checked directly on the values in the YAML files: each standard basis vector is an eigenvector, and its eigenvalue is the matching diagonal entry.",
+    "concrete": [
+      {
+        "symbol": "A",
+        "in_your_project": "Any 15x15 matrix set in ekf_local.yaml or ekf_global.yaml: process_noise_covariance or initial_estimate_covariance. Each has all off-diagonal entries equal to zero. The 36-entry covariance that odom_cov_relay.py writes into msg.twist.covariance (lines 12-16) can also be read as a 6x6 matrix. Its only nonzero entries are c[0]=0.05, c[7]=0.05 and c[35]=0.02, which are the diagonal positions (0,0), (1,1) and (5,5), so it is diagonal as well."
+      },
+      {
+        "symbol": "v",
+        "in_your_project": "For a diagonal A, the standard basis vectors work: e_i is 1 at index i and 0 elsewhere, and A e_i = a_ii e_i. That gives 15 eigenvectors (15x1) for each 15x15 matrix and 6 eigenvectors (6x1) for the odom_cov_relay matrix."
+      },
+      {
+        "symbol": "\\lambda",
+        "in_your_project": "The diagonal entries. For process_noise_covariance they are 0.05, 0.05, 0.06, 0.03, 0.03, 0.06, 0.025, 0.025, 0.04, 0.01, 0.01, 0.02, 0.01, 0.01 and 0.015 (indices 0-14). For initial_estimate_covariance all 15 are 1e-9. For the odom_cov_relay matrix they are 0.05, 0.05, 0, 0, 0 and 0.02."
+      },
+      {
+        "symbol": "I",
+        "in_your_project": "The 15x15 identity, the same size as the EKF matrices. initial_estimate_covariance equals 1e-9 \u00b7 I. That is why every vector is an eigenvector of it, with \\lambda = 1e-9."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets a diagonal 15x15 matrix. Its eigenvalues are exactly the entries at indices 0-14 (0.05 down to 0.015), and its eigenvectors are the 15 standard basis vectors. Changing entry i changes only the eigenvalue for e_i. Setting any off-diagonal entry nonzero would mean the basis vectors are, in general, no longer eigenvectors. No library source is shown, so this does not say how the filter uses the matrix."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Same values as in ekf_local.yaml, so it has the same 15 eigenvalues on the same standard basis eigenvectors."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Sets 1e-9 \u00b7 I. All 15 eigenvalues are 1e-9, and every nonzero 15x1 vector is an eigenvector."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Same as in ekf_local.yaml: 1e-9 \u00b7 I, with one repeated eigenvalue of 1e-9."
+      }
+    ],
+    "notation": "",
+    "invented": {},
+    "thin": "",
+    "unsupported": []
   }
 }

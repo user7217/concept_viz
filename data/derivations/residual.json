@@ -143,5 +143,59 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "residual",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws computes a statistical residual, meaning an observation minus a sample mean or minus a fitted regression. The concept sits underneath ekf_local and ekf_global (robot_localization). An extended Kalman filter's update step needs the difference between what a sensor reports and what the filter expected that sensor to report. That difference is a residual in the regression sense, a deviation of an observation from a fitted value. No library source is shown, so beyond the fact that the EKF algorithm requires this difference, nothing here shows how robot_localization forms it.",
+    "concrete": [
+      {
+        "symbol": "X_i",
+        "in_your_project": "One observed value fed to an EKF. The sensors wired in are body-frame velocity from /odom_cov (published by odom_cov_relay, read as odom0 by both filters), position from /odometry/gps (published by navsat_transform, read as odom1 by ekf_global), heading from /rtk/heading (published by rtk_sim, read as imu1 by ekf_global) and /imu (published by parameter_bridge, read as imu0 by both filters). Each is a scalar per fused state entry, not a sample of repeated draws."
+      },
+      {
+        "symbol": "r_i",
+        "in_your_project": "The scalar difference between one of those observed values and the value the filter predicted for it. It is formed inside robot_localization, and no project file computes it. There is one per state entry that the sensor's *_config marks true."
+      },
+      {
+        "symbol": "\\overline{X}",
+        "in_your_project": "No sample mean is computed anywhere in the project. In the filter, the observation is compared with the filter's predicted state, not with an average of observations."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "odom0_config",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Selects which state entries /odom_cov contributes an observation for, and so which entries can have a residual. The visible entries are true at indices 6 and 7 (vx, vy) and false at 0\u20135 (pose). The rest of the vector is cut off in what is shown."
+      },
+      {
+        "parameter": "odom0_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Same as in ekf_local: the visible entries select vx and vy (indices 6 and 7) from /odom_cov as observed quantities. The rest of the vector is cut off."
+      },
+      {
+        "parameter": "odom1_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Selects x and y (indices 0 and 1) from /odometry/gps as observed quantities, so a position residual exists only in the global filter. The visible remainder is false, and the rest is cut off."
+      },
+      {
+        "parameter": "imu1_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Selects yaw (index 5) from /rtk/heading as an observed quantity, giving the global filter a heading residual. The visible remainder is false, and the rest is cut off."
+      },
+      {
+        "parameter": "imu0_config",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Selects which /imu state entries are observed. Every visible entry (indices 0\u20138) is false, and the true entries, if any, are in the part that is cut off, so it cannot be said which IMU residuals exist."
+      }
+    ],
+    "notation": "The sheet writes a residual as r_i = X_i - \\overline{X}, against a sample mean. The filter computes the same kind of difference against a predicted value instead, and robot_localization's name for it is not shown in any line given here.",
+    "invented": {},
+    "thin": "",
+    "unsupported": []
   }
 }

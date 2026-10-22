@@ -545,6 +545,44 @@
         "kl_trust_region_step",
         "isotropic_logdet_rescale"
       ]
+    },
+    {
+      "id": "innovation_gating",
+      "name": "Innovation Gating",
+      "domain": "estimation",
+      "concepts": [
+        "mahalanobis_distance",
+        "chi_squared_distribution",
+        "covariance_matrix",
+        "matrix_inverse",
+        "measurement_model",
+        "residual",
+        "gaussian_distribution",
+        "linear_transformation_of_gaussian"
+      ],
+      "techniques": [
+        "matrix_whitening"
+      ]
+    },
+    {
+      "id": "process_noise_discretization",
+      "name": "Process Noise Discretization",
+      "domain": "estimation",
+      "concepts": [
+        "state_space_model",
+        "differential_equation",
+        "matrix_exponential",
+        "integral",
+        "covariance_matrix",
+        "linear_transformation_of_gaussian",
+        "expectation",
+        "matrix_transpose",
+        "taylor_expansion"
+      ],
+      "techniques": [
+        "change_of_variables",
+        "linearization"
+      ]
     }
   ],
   "base": {

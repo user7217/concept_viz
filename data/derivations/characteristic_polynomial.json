@@ -125,5 +125,66 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "characteristic_polynomial",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws computes a characteristic polynomial. robot_localization's own source is not shown, so there is no evidence that the library computes one either. The concept shows up because the components set square matrices: the 15x15 process_noise_covariance and initial_estimate_covariance in both EKFs, and the 6x6 twist covariance that odom_cov_relay sends. Every one of these is diagonal. For a diagonal matrix, det(tI - A) is the product of (t - a_ii), so you can read the eigenvalues straight off the diagonal without expanding a determinant.",
+    "concrete": [
+      {
+        "symbol": "A",
+        "in_your_project": "Any of the square matrices the project sets. Examples: process_noise_covariance (15x15, diagonal) in ekf_global.yaml and ekf_local.yaml, initial_estimate_covariance (15x15, diagonal), or the 6x6 twist covariance built in odom_cov_relay.py lines 12-16."
+      },
+      {
+        "symbol": "n",
+        "in_your_project": "15 for process_noise_covariance and initial_estimate_covariance. 6 for the twist covariance that odom_cov_relay.py fills as a 36-entry list."
+      },
+      {
+        "symbol": "I",
+        "in_your_project": "The 15x15 identity for the EKF covariance parameters, or the 6x6 identity for the odom_cov_relay twist covariance."
+      },
+      {
+        "symbol": "p_A(t)",
+        "in_your_project": "For process_noise_covariance it is (t-0.05)^2 (t-0.06)^2 (t-0.03)^2 (t-0.025)^2 (t-0.04)(t-0.01)^4 (t-0.02)(t-0.015)^2, from diagonal entries 0-14. That is monic and of degree 15. For initial_estimate_covariance it is (t - 1e-9)^15."
+      },
+      {
+        "symbol": "\u03bb",
+        "in_your_project": "The diagonal entries, with repeated roots counted once per entry. For process_noise_covariance: 0.05 (entries 0, 1), 0.06 (2, 5), 0.03 (3, 4), 0.025 (6, 7), 0.04 (8), 0.01 (9, 10, 12, 13), 0.02 (11), 0.015 (14). For initial_estimate_covariance: 1e-9, repeated 15 times. For the odom_cov_relay twist covariance: 0.05 (c[0], vx), 0.05 (c[7], vy), 0.02 (c[35], vyaw), plus three zero eigenvalues from the diagonal slots left at 0.0. This assumes the 36-entry list is 6x6 row-major, so that indices 0, 7 and 35 are diagonal."
+      },
+      {
+        "symbol": "v",
+        "in_your_project": "For any of these diagonal matrices, the standard basis vector e_i (15x1 or 6x1) is an eigenvector for the eigenvalue at diagonal position i."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets a diagonal 15x15 matrix, so its characteristic polynomial splits into 15 linear factors (t - d_i). Each diagonal value d_i is an eigenvalue. Values that repeat (such as 0.01 at entries 9, 10, 12 and 13) are repeated roots."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Has the same diagonal values as in ekf_global.yaml, so it has the same characteristic polynomial and the same eigenvalues."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Sets a diagonal 15x15 matrix with every entry equal to 1e-9. Its characteristic polynomial is (t - 1e-9)^15: one eigenvalue of multiplicity 15."
+      },
+      {
+        "parameter": "initial_estimate_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Is identical to the ekf_global.yaml value: p_A(t) = (t - 1e-9)^15."
+      }
+    ],
+    "notation": "The sheet uses A for a generic square matrix. Here the matrices it applies to are named process_noise_covariance and initial_estimate_covariance in the config, and msg.twist.covariance in odom_cov_relay.py.",
+    "invented": {},
+    "thin": "",
+    "unsupported": []
   }
 }

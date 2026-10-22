@@ -154,7 +154,11 @@ class TestExecutableKeying(unittest.TestCase):
 
     def test_specific_key_beats_the_package(self) -> None:
         proposal = propose(self.project())
-        self.assertEqual(proposal.algorithms["ekf_local"], ["extended_kalman_filter"])
+        # The executable key lists the gate and the noise discretisation;
+        # the bare package key, a last resort, lists only the filter.
+        self.assertEqual(proposal.algorithms["ekf_local"],
+                         ["extended_kalman_filter", "innovation_gating",
+                          "process_noise_discretization"])
 
     def test_sibling_node_is_not_given_the_packages_algorithm(self) -> None:
         """navsat_transform is a coordinate transform, not a Kalman filter."""

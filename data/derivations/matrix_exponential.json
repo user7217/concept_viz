@@ -1,0 +1,234 @@
+{
+  "node_id": "matrix_exponential",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "For an n x n real or complex matrix X, the matrix exponential e^X (also written exp X or exp(X)) is the n x n matrix given by the power series e^X = sum_{k=0}^{inf} X^k / k! = I + X + X^2/2! + X^3/3! + ... . It is the matrix counterpart of the ordinary exponential function and is used to solve systems of linear differential equations. Notation: these sheets reserve P, R and Q for state-estimation covariances, so the source's other uses of those letters are renamed here. The source's projection matrix P is written Pi, its rotation matrix R(theta) is written Rot(theta), its polynomials P(z) and Q_t(z) are written p(z) and q_t(z), and its Jordan similarity matrix P is written S. (Note on grounding: the supplied excerpt cuts off the defining series right after 'given by the power series'. The series form sum_{k=0}^{inf} X^k/k! is still shown explicitly in the source's projection-case expansion, and the nilpotent case refers back to 'the series expansion'.)",
+  "symbols": [
+    {
+      "symbol": "X",
+      "meaning": "the square matrix being exponentiated",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "e^X",
+      "meaning": "matrix exponential of X",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "I",
+      "meaning": "identity matrix (the k = 0 term of the series)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "k",
+      "meaning": "summation index of the power series",
+      "dimensions": "scalar integer >= 0"
+    },
+    {
+      "symbol": "A",
+      "meaning": "a diagonalizable matrix (in the Jordan\u2013Chevalley split X = A + N), or a general matrix in e^{tA}",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "D",
+      "meaning": "diagonal matrix of eigenvalues in A = U D U^{-1}",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "U",
+      "meaning": "invertible matrix whose columns diagonalize A",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "N",
+      "meaning": "nilpotent matrix, N^q = 0 for some integer q",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "J",
+      "meaning": "Jordan form of X, X = S J S^{-1}",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "S",
+      "meaning": "similarity matrix taking X to its Jordan form (the source writes P)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "J_a(lambda)",
+      "meaning": "Jordan block of size a with eigenvalue lambda, equal to lambda I + N",
+      "dimensions": "a x a"
+    },
+    {
+      "symbol": "Pi",
+      "meaning": "projection (idempotent) matrix, Pi^2 = Pi (the source writes P)",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "G",
+      "meaning": "rotation generator, G = b a^T - a b^T, for perpendicular unit vectors a and b",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "theta",
+      "meaning": "rotation angle",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "Rot(theta)",
+      "meaning": "rotation matrix e^{G theta} (the source writes R(theta))",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "t",
+      "meaning": "scalar parameter in e^{tA}",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p(z), q_t(z)",
+      "meaning": "scalar polynomials with p(A) = 0, used in the Cayley\u2013Hamilton / Laurent-series evaluation (the source writes P, Q_t)",
+      "dimensions": "scalar polynomials"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Diagonal matrix: if A = diag(a_1, ..., a_n), then e^A = diag(e^{a_1}, ..., e^{a_n}).",
+      "why": "sums and products of diagonal matrices act entry by entry, so the series also acts entry by entry on the diagonal",
+      "cites": [
+        "wikipedia:Matrix_exponential"
+      ]
+    },
+    {
+      "property": "Diagonalizable matrix: if A = U D U^{-1} with D diagonal, then e^A = U e^D U^{-1}. Worked example: A = [[1,4],[1,1]] = U diag(-1,3) U^{-1} with U = [[-2,2],[1,1]], so e^A = U diag(1/e, e^3) U^{-1} = [[(e^4+1)/(2e), (e^4-1)/e], [(e^4-1)/(4e), (e^4+1)/(2e)]].",
+      "why": "this reduces the problem to exponentiating a diagonal matrix",
+      "cites": [
+        "wikipedia:Matrix_exponential"
+      ]
+    },
+    {
+      "property": "Nilpotent matrix: if N^q = 0, then e^N = I + N + N^2/2 + N^3/6 + ... + N^{q-1}/(q-1)!, which is a matrix polynomial.",
+      "why": "every term with power q or higher is zero, so the series stops after finitely many terms",
+      "cites": [
+        "wikipedia:Matrix_exponential"
+      ]
+    },
+    {
+      "property": "Commuting sum: if X = A + N with A diagonalizable, N nilpotent and AN = NA (Jordan\u2013Chevalley decomposition), then e^X = e^{A+N} = e^A e^N.",
+      "why": "the source states that the factorisation needs A and N to commute",
+      "cites": [
+        "wikipedia:Matrix_exponential"
+      ]
+    },
+    {
+      "property": "Similarity and Jordan form: if X = S J S^{-1}, then e^X = S e^J S^{-1}. For J = J_{a_1}(lambda_1) \u2295 ... \u2295 J_{a_n}(lambda_n), e^J = e^{lambda_1} e^{N_{a_1}} \u2295 ... \u2295 e^{lambda_n} e^{N_{a_n}}, because each block is J_a(lambda) = lambda I + N, so e^{J_a(lambda)} = e^lambda e^N.",
+      "why": "the exponential acts block by block on a direct sum, and lambda I commutes with N",
+      "cites": [
+        "wikipedia:Matrix_exponential"
+      ]
+    },
+    {
+      "property": "Projection: if Pi^2 = Pi, then e^Pi = sum_{k>=0} Pi^k/k! = I + (sum_{k>=1} 1/k!) Pi = I + (e - 1) Pi.",
+      "why": "every power Pi^k with k >= 1 equals Pi, so Pi factors out of the series",
+      "cites": [
+        "wikipedia:Matrix_exponential"
+      ]
+    },
+    {
+      "property": "Rotation: for G = b a^T - a b^T with a and b perpendicular unit vectors, define Pi = -G^2 = a a^T + b b^T. Then Rot(theta) = e^{G theta} = I + G sin(theta) + G^2 (1 - cos(theta)) = I - Pi + Pi cos(theta) + G sin(theta). In 2D, with G = [[0,-1],[1,0]], this is [[cos theta, -sin theta],[sin theta, cos theta]].",
+      "why": "powers of G reduce to plus or minus G and G^2, and the coefficients collect into the sine and cosine series; only the component in the ab-plane is rotated",
+      "cites": [
+        "wikipedia:Matrix_exponential"
+      ]
+    },
+    {
+      "property": "Polynomial form: by the Cayley\u2013Hamilton theorem, e^{tA} can be written as a polynomial in A of degree n-1. If p(A) = 0 and (e^{tz} - q_t(z))/p(z) is entire, then e^{tA} = q_t(A).",
+      "why": "this gives a closed form that avoids summing the infinite series",
+      "cites": [
+        "wikipedia:Matrix_exponential"
+      ]
+    },
+    {
+      "property": "Numerical evaluation: computing e^X reliably and accurately is hard and still an active research topic. Matlab, GNU Octave, R and SciPy all use the Pad\u00e9 approximant.",
+      "why": "the hand methods above work for small matrices but are not what libraries use",
+      "cites": [
+        "wikipedia:Matrix_exponential"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "X is square (n x n).",
+      "breaks_when": "X is non-square, so X^k is undefined and so is the series."
+    },
+    {
+      "assumption": "e^{A+N} = e^A e^N is used only when A and N commute.",
+      "breaks_when": "AN \u2260 NA. The source says commutativity is needed for this step, so the split is not valid for general A and N."
+    },
+    {
+      "assumption": "The diagonal shortcut e^A = U e^D U^{-1} needs A to be diagonalizable.",
+      "breaks_when": "A is not diagonalizable. Use the Jordan\u2013Chevalley or Jordan-form route instead."
+    },
+    {
+      "assumption": "The Jordan-form method needs an algebraically closed field (complex entries).",
+      "breaks_when": "you work over the reals with a matrix whose eigenvalues are complex: its Jordan form does not exist over the reals."
+    },
+    {
+      "assumption": "The series stops after finitely many terms only for nilpotent matrices.",
+      "breaks_when": "N^q \u2260 0 for every q. The series is then infinite and the finite-polynomial formula does not apply."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Exponentiating a sum as a product of exponentials",
+      "signature": "e^{A+B} computed as e^A e^B gives a result that disagrees with the series",
+      "cause": "A and B do not commute; the source states that commutativity is required for e^{A+N} = e^A e^N."
+    },
+    {
+      "mode": "Exponentiating entries instead of the matrix",
+      "signature": "e^X computed entry by entry for a non-diagonal X",
+      "cause": "entry-wise exponentiation equals the matrix exponential only for diagonal matrices, where sums and products act entry by entry."
+    },
+    {
+      "mode": "Diagonalizing a non-diagonalizable matrix",
+      "signature": "the eigenvector matrix U is not invertible, so U e^D U^{-1} cannot be formed",
+      "cause": "X has a nontrivial Jordan block; its nilpotent part has to be handled through e^N."
+    },
+    {
+      "mode": "Naive numerical evaluation",
+      "signature": "inaccurate or unreliable values from hand-rolled numerical methods",
+      "cause": "computing the matrix exponential accurately is hard; standard libraries use the Pad\u00e9 approximant instead."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Matrix_exponential"
+  ],
+  "check": {
+    "node_id": "matrix_exponential",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  },
+  "instantiation": {
+    "node_id": "matrix_exponential",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws computes a matrix exponential itself. The only link is that ekf_local and ekf_global run robot_localization's EKF, and the algorithm behind that component depends on this result. No library source was shown, so nothing here says whether or where robot_localization forms e^X or e^{tA}.",
+    "concrete": [],
+    "knobs": [],
+    "notation": "",
+    "invented": {},
+    "thin": "names no parameter and maps none of the 17 symbols the sheet defines",
+    "unsupported": []
+  }
+}

@@ -92,10 +92,14 @@
       "gauss_newton"
     ],
     "robot_localization/ekf_node": [
-      "extended_kalman_filter"
+      "extended_kalman_filter",
+      "innovation_gating",
+      "process_noise_discretization"
     ],
     "robot_localization/ekf_localization_node": [
-      "extended_kalman_filter"
+      "extended_kalman_filter",
+      "innovation_gating",
+      "process_noise_discretization"
     ],
     "robot_localization/navsat_transform_node": [],
     "nav2_behaviors": [],

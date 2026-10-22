@@ -1,0 +1,315 @@
+{
+  "node_id": "innovation_gating",
+  "grounded": true,
+  "kind": "derivation",
+  "statement": "Innovation gating tests whether a new measurement z_k is consistent with the filter's prediction. Form the innovation y_k = z_k - H_k x\u0302_{k|k-1} and its covariance S_k = H_k P_{k|k-1} H_k^T + R_k. Compute the squared Mahalanobis distance d_k^2 = y_k^T S_k^{-1} y_k. If the model is correct, d_k^2 follows a chi-squared distribution with m = dim(z_k) degrees of freedom. Accept the measurement when d_k^2 <= \u03b3, where \u03b3 is the chi-squared threshold at the chosen probability p, so P(\u03c7\u00b2_m <= \u03b3) = p. For m = 2 this gives \u03b3 = -2 ln(1 - p). Renaming notes: the Kalman source writes m as d_y. The Mahalanobis source writes the covariance as \u03a3 and its square-root factor as S; here \u03a3 becomes S_k and the factor becomes L, so they do not clash with the innovation covariance S_k. The sources do not use the word 'gating'. The threshold test is their 'should the test point be classified as belonging to the set' construction applied to the Kalman predictive distribution of z_k.",
+  "symbols": [
+    {
+      "symbol": "z_k",
+      "meaning": "measurement at step k",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "x\u0302_{k|k-1}",
+      "meaning": "predicted (a priori) state estimate",
+      "dimensions": "n x 1"
+    },
+    {
+      "symbol": "P_{k|k-1}",
+      "meaning": "predicted state error covariance",
+      "dimensions": "n x n"
+    },
+    {
+      "symbol": "H_k",
+      "meaning": "observation matrix, or its Jacobian",
+      "dimensions": "m x n"
+    },
+    {
+      "symbol": "R_k",
+      "meaning": "measurement noise covariance",
+      "dimensions": "m x m"
+    },
+    {
+      "symbol": "y_k",
+      "meaning": "innovation (pre-fit residual); the source writes \u1ef9_k",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "S_k",
+      "meaning": "innovation covariance",
+      "dimensions": "m x m"
+    },
+    {
+      "symbol": "L",
+      "meaning": "symmetric square root of S_k, S_k = L^T L = L L (the Mahalanobis source writes S)",
+      "dimensions": "m x m"
+    },
+    {
+      "symbol": "e_k",
+      "meaning": "whitened innovation L^{-1} y_k",
+      "dimensions": "m x 1"
+    },
+    {
+      "symbol": "d_k^2",
+      "meaning": "squared Mahalanobis distance of z_k from its predictive distribution",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "m",
+      "meaning": "measurement dimension (the source writes d_y)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "p",
+      "meaning": "probability that a consistent measurement passes the gate",
+      "dimensions": "scalar in (0,1)"
+    },
+    {
+      "symbol": "\u03b3",
+      "meaning": "gate threshold on d_k^2",
+      "dimensions": "scalar"
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Form the innovation: the difference between the measurement and the measurement the prediction expects. y_k = z_k - H_k x\u0302_{k|k-1}.",
+      "invokes": [
+        "residual"
+      ],
+      "cites": [
+        "wikipedia:Kalman_filter#update"
+      ]
+    },
+    {
+      "n": 2,
+      "text": "Its covariance is the prior uncertainty mapped into measurement space plus the sensor noise: S_k = H_k P_{k|k-1} H_k^T + R_k. If the model is accurate and the filter is correctly initialised, E[y_k] = 0 and cov(y_k) = S_k.",
+      "invokes": [
+        "covariance_matrix",
+        "linear_transformation_of_gaussian"
+      ],
+      "cites": [
+        "wikipedia:Kalman_filter#update"
+      ]
+    },
+    {
+      "n": 3,
+      "text": "The distribution of z_k given past measurements comes from integrating out the state: p(z_k | z_{k-1},...,z_0) = \u222b N(z_k; H_k x_k, R_k) N(x_k; x\u0302_{k|k-1}, P_{k|k-1}) dx_k = N(z_k; H_k x\u0302_{k|k-1}, R_k + H_k P_{k|k-1} H_k^T) = N(z_k; H_k x\u0302_{k|k-1}, S_k). Conditioning on the past reduces to conditioning on (x\u0302_{k|k-1}, P_{k|k-1}) because the process is Markov. So y_k ~ N(0, S_k): this is the reference distribution the gate tests against.",
+      "invokes": [
+        "gaussian_marginalization",
+        "markov_assumption"
+      ],
+      "cites": [
+        "wikipedia:Kalman_filter#update"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Measure how far z_k is from that distribution with the Mahalanobis distance, taking \u03bc = H_k x\u0302_{k|k-1} and \u03a3 = S_k: d_k^2 = (z_k - H_k x\u0302_{k|k-1})^T S_k^{-1} (z_k - H_k x\u0302_{k|k-1}) = y_k^T S_k^{-1} y_k. Dividing by S_k means a given offset counts for less along directions where the prediction is uncertain and for more where it is confident.",
+      "invokes": [
+        "mahalanobis_distance",
+        "quadratic_form",
+        "matrix_inverse"
+      ],
+      "cites": [
+        "wikipedia:Mahalanobis_distance",
+        "wikipedia:Kalman_filter#update"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Whiten. Write S_k = L^T L with L the symmetric square root, which the spectral theorem provides. Then d_k = ||L^{-1} y_k||, the Euclidean length of the whitened innovation e_k = L^{-1} y_k. Whitening rescales each axis to unit variance and removes the correlations, so in e-space the gate is a sphere. In z-space it is the ellipsoid y^T S_k^{-1} y = \u03b3.",
+      "invokes": [
+        "matrix_whitening",
+        "eigendecomposition"
+      ],
+      "cites": [
+        "wikipedia:Mahalanobis_distance"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "For a Gaussian, the density depends on z_k only through d_k: N(z_k; H_k x\u0302_{k|k-1}, S_k) = det(2\u03c0 S_k)^{-1/2} exp(-d_k^2 / 2). The same quadratic term appears in the log-likelihood increment \u2113^(k) = \u2113^(k-1) - \u00bd(y_k^T S_k^{-1} y_k + log|S_k| + m log 2\u03c0). For a fixed S_k, a threshold on d_k^2 is therefore exactly a threshold on the measurement likelihood. This is the quantity the source says is used to score measurement-to-track association hypotheses in multi-target tracking.",
+      "invokes": [
+        "gaussian_distribution",
+        "probability_density_function"
+      ],
+      "cites": [
+        "wikipedia:Mahalanobis_distance",
+        "wikipedia:Kalman_filter#update"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "Reference distribution of the statistic: because y_k ~ N(0, S_k) is m-dimensional normal, d_k^2 = y_k^T S_k^{-1} y_k follows the chi-squared distribution with m degrees of freedom. Equivalently, e_k has m uncorrelated unit-variance components and d_k^2 = ||e_k||^2.",
+      "invokes": [
+        "chi_squared_distribution"
+      ],
+      "cites": [
+        "wikipedia:Mahalanobis_distance"
+      ]
+    },
+    {
+      "n": 8,
+      "text": "Set the gate. Accept z_k as consistent with the prediction if d_k^2 <= \u03b3, choosing \u03b3 so that P(\u03c7\u00b2_m <= \u03b3) = p; a consistent measurement is then rejected with probability 1 - p. For m = 2 the source gives P(d_k < t) = 1 - e^{-t^2/2}. Setting this equal to p and solving gives t^2 = -2 ln(1 - p), so \u03b3 = -2 ln(1 - p). Example: p = 0.99 gives \u03b3 \u2248 9.21. For other m, \u03b3 is the chi-squared quantile at p. The source's general threshold formula is cut off in the supplied text, so it is not restated here.",
+      "invokes": [
+        "chi_squared_distribution",
+        "mahalanobis_distance"
+      ],
+      "cites": [
+        "wikipedia:Mahalanobis_distance"
+      ]
+    }
+  ],
+  "properties": [],
+  "assumptions": [
+    {
+      "assumption": "The model is accurate, and x\u0302_{0|0}, P_{0|0} reflect the true initial distribution, so that E[y_k] = 0 and cov(y_k) = S_k.",
+      "breaks_when": "Q or R are mistuned, or the dynamics or observation model are wrong. S_k then no longer describes the real spread of y_k, and the chi-squared threshold no longer gives the stated acceptance probability p."
+    },
+    {
+      "assumption": "The innovation is Gaussian, so d_k^2 follows \u03c7\u00b2_m.",
+      "breaks_when": "Noise is heavy-tailed or multimodal, or H is a Jacobian of a strongly nonlinear observation evaluated at a poor estimate. The tail probability of d_k^2 is then not chi-squared, and \u03b3 rejects too much or too little."
+    },
+    {
+      "assumption": "S_k is positive definite, so S_k^{-1} and its square root exist.",
+      "breaks_when": "R_k is singular or near-zero in some direction, and H_k P_{k|k-1} H_k^T does not cover that direction. S_k is then rank-deficient, and d_k^2 is undefined or numerically huge."
+    },
+    {
+      "assumption": "m in \u03c7\u00b2_m is the dimension of the measurement actually being gated.",
+      "breaks_when": "A measurement is gated on a subset of components, or the components are stacked, but \u03b3 is taken for the wrong degrees of freedom. The acceptance probability is then not p."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Gate too tight: valid measurements rejected",
+      "signature": "Many d_k^2 values far above \u03b3; the filter stops accepting updates on a stream of plausible measurements.",
+      "cause": "S_k is too small because P_{k|k-1} is overconfident or R_k is understated. The ellipsoid y^T S_k^{-1} y = \u03b3 shrinks below the real spread of the innovations."
+    },
+    {
+      "mode": "Gate too loose: outliers or wrong associations accepted",
+      "signature": "d_k^2 values sit well below their expected mean m; clutter or another target's measurements pass and pull the estimate.",
+      "cause": "S_k is inflated (Q or R overstated), or p is set very close to 1 so \u03b3 is large. The likelihood threshold in step 6 then admits low-likelihood measurements."
+    },
+    {
+      "mode": "Directional mis-gating",
+      "signature": "Measurements are rejected along one axis and accepted along another, even though the Euclidean sizes of the offsets are similar.",
+      "cause": "Expected behaviour of the Mahalanobis metric (step 5), not a bug. It becomes a bug when the shape of S_k is wrong, for example missing cross-covariance terms in R_k or a wrong H_k."
+    },
+    {
+      "mode": "Numerical breakdown of S_k^{-1}",
+      "signature": "d_k^2 is NaN, negative, or very large for ordinary measurements.",
+      "cause": "S_k is ill-conditioned or has lost symmetry or positive-definiteness, for example because P_{k|k-1} has degraded numerically. Using the Joseph form for P_{k|k} is the numerically more stable update the Kalman source mentions."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Kalman_filter#update",
+    "wikipedia:Mahalanobis_distance"
+  ],
+  "check": {
+    "node_id": "innovation_gating",
+    "kind": "derivation",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  },
+  "instantiation": {
+    "node_id": "innovation_gating",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Both ekf_global and ekf_local run robot_localization's Ekf::correct, which gates every measurement before using it (src/ekf.cpp:190-193). It calls checkMahalanobisThreshold with innovation_subset, hphr_inverse and measurement.mahalanobis_thresh_. That function computes innovation\u00b7(hphr_inverse\u00b7innovation) and rejects the measurement when the result is >= n_sigmas*n_sigmas (src/filter_base.cpp:429-449). So this project does not compute the gate itself. The gate runs inside the library on every fused odom, IMU, GPS and heading measurement, and the only gate-specific parameter this project sets is imu0_twist_rejection_threshold in ekf_local.",
+    "concrete": [
+      {
+        "symbol": "y_k",
+        "in_your_project": "innovation_subset in Ekf::correct (src/ekf.cpp:190-193): the innovation restricted to the state entries the measurement updates."
+      },
+      {
+        "symbol": "S_k",
+        "in_your_project": "Passed to the gate already inverted, as hphr_inverse. In checkMahalanobisThreshold that is the argument innovation_covariance, which multiplies the innovation directly, so it plays the role of S_k^{-1}. S_k itself is not shown."
+      },
+      {
+        "symbol": "d_k^2",
+        "in_your_project": "squared_mahalanobis = innovation.dot(innovation_covariance * innovation) in FilterBase::checkMahalanobisThreshold (src/filter_base.cpp:429-449), a scalar."
+      },
+      {
+        "symbol": "\u03b3",
+        "in_your_project": "threshold = n_sigmas * n_sigmas, where n_sigmas is measurement.mahalanobis_thresh_. The measurement is rejected when d_k^2 >= \u03b3. \u03b3 is the square of a sigma count, not a chi-squared quantile chosen from p and m."
+      },
+      {
+        "symbol": "p",
+        "in_your_project": "Nothing shown sets a pass probability. The library sets \u03b3 from n_sigmas alone, so p is only implied by whatever m a given measurement has."
+      },
+      {
+        "symbol": "m",
+        "in_your_project": "The number of entries in the measurement subset. From the configs: odom0 fuses Vx, Vy, Vyaw (3); odom1 in ekf_global fuses X, Y (2); imu0 fuses Vyaw (1); imu1 in ekf_global fuses Yaw (1). RosFilter::forceTwoD (src/ros_filter.cpp:656-672) also sets update_vector to 1 for Z, Roll, Pitch, Vz, Vroll, Vpitch and Az. That can make m larger than the config alone suggests, but the shown lines do not show which measurements this applies to."
+      },
+      {
+        "symbol": "R_k",
+        "in_your_project": "For /odom_cov, odom_cov_relay.py:12-16 sets a 6x6 twist covariance, zero except c[0]=0.05 (vx), c[7]=0.05 (vy) and c[35]=0.02 (vyaw). For the RTK sources, rtk_sim.py:79-84 sets fix.position_covariance (DIAGONAL_KNOWN) and rtk_sim.py:99 sets hdg.orientation_covariance, but their values are not shown. The forceTwoD lines set measurement_covariance to 1e-6 for Z, Roll, Pitch, Vz, Vroll, Vpitch and Az."
+      },
+      {
+        "symbol": "P_{k|k-1}",
+        "in_your_project": "estimate_error_covariance_ after prediction (src/ekf.cpp:436): transfer_function_jacobian_ * P * transfer_function_jacobian_^T + delta_sec * process_noise_covariance. A 15x15 matrix."
+      },
+      {
+        "symbol": "z_k",
+        "in_your_project": "The incoming message on /odom_cov, /imu, /odometry/gps or /rtk/heading, reduced to the entries its *_config fuses."
+      }
+    ],
+    "knobs": [
+      {
+        "parameter": "imu0_twist_rejection_threshold",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Set to 1.0. This is the only rejection-threshold parameter the project sets. The shown lines do not show it being assigned to measurement.mahalanobis_thresh_. If it is that n_sigmas, then \u03b3 = 1.0 * 1.0 = 1 and imu0 twist measurements in ekf_local with d_k^2 >= 1 are rejected. The shown lines do not show what threshold the other sensors get."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Scaled by delta_sec and added to F P F^T to form P_{k|k-1} (src/ekf.cpp:436). The diagonal entries on fused states matter for the gate here: X=0.05 and Y=0.05 for odom1, Yaw=0.06 for imu1, and Vx=0.025, Vy=0.025, Vyaw=0.02 for odom0 and imu0."
+      },
+      {
+        "parameter": "process_noise_covariance",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Applied the same way (delta_sec * Q added in prediction, src/ekf.cpp:436). The relevant entries are Vx=0.025, Vy=0.025 and Vyaw=0.02, the states odom0 and imu0 fuse."
+      },
+      {
+        "parameter": "odom0_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Selects Vx, Vy, Vyaw as the entries of y_k for /odom_cov, so m = 3 before any forceTwoD additions."
+      },
+      {
+        "parameter": "odom1_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Selects X, Y as the entries of y_k for /odometry/gps, so m = 2 before any forceTwoD additions."
+      },
+      {
+        "parameter": "imu0_config",
+        "file": "src/agrios_bringup/config/ekf_local.yaml",
+        "means": "Selects Vyaw as the entry of y_k for /imu, so m = 1 before any forceTwoD additions. This is the measurement imu0_twist_rejection_threshold sits beside."
+      },
+      {
+        "parameter": "imu1_config",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Selects Yaw as the entry of y_k for /rtk/heading, so m = 1 before any forceTwoD additions."
+      },
+      {
+        "parameter": "two_d_mode",
+        "file": "src/agrios_bringup/config/ekf_global.yaml",
+        "means": "Set to true. The shown forceTwoD lines add Z, Roll, Pitch, Vz, Vroll, Vpitch and Az to the update vector with measurement covariance 1e-6, which would add entries to y_k and R_k. The shown lines do not connect this parameter to forceTwoD."
+      }
+    ],
+    "notation": "The library has no \u03b3: it takes a sigma count n_sigmas (measurement.mahalanobis_thresh_) and squares it, so \u03b3 = n_sigmas\u00b2, and it passes S_k^{-1} rather than S_k (as hphr_inverse, named innovation_covariance inside checkMahalanobisThreshold). It also rejects at equality (d_k^2 >= \u03b3), where the sheet accepts at d_k^2 <= \u03b3.",
+    "invented": {},
+    "thin": "",
+    "unsupported": []
+  }
+}

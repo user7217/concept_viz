@@ -124,5 +124,20 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "null_space",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws computes a null space. No file shown here row-reduces a matrix, and no line builds the stacked [A; I] matrix or reads off a kernel basis. The only connection is that ekf_local and ekf_global run robot_localization's EKF, which does linear algebra on the 15x15 matrices these configs set. Without the library's source, nothing here shows that algorithm computing, or depending on, the kernel of any matrix.",
+    "concrete": [],
+    "knobs": [],
+    "notation": "",
+    "invented": {},
+    "thin": "names no parameter and maps none of the 7 symbols the sheet defines",
+    "unsupported": []
   }
 }

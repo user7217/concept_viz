@@ -84,8 +84,6 @@ Only use symbols listed above. Only use parameters and files listed above.
 Leave "knobs" empty if none of the listed parameters relate to this concept."""
 
 
-PLAIN_PARAM_BUDGET = 4
-
 
 @dataclass
 class Instantiation:
@@ -205,11 +203,28 @@ def _covariance_lines(code: list[str], path: str) -> list[str]:
 
 
 def library_excerpts(spans: list[dict], parameters: list[str],
-                     budget: int = LIBRARY_BUDGET) -> str:
-    """Lines of library source that read a parameter this project sets."""
-    names = [re.compile(rf"\b{re.escape(p)}_?\b") for p in parameters]
+                     budget: int = LIBRARY_BUDGET, own: list[dict] = ()) -> str:
+    """Spans filed under this node, whole; elsewhere, lines that read a parameter.
+
+    Filtering every span by parameter name hid the gate. ekf.cpp passes
+    measurement.mahalanobis_thresh_, never the YAML name, so the gating note
+    saw no gating code and said the library has none. A span filed under a
+    node was chosen for that node; the name filter is for the rest.
+    """
     out, used = [], 0
+    for span in own:
+        lines = span.get("lines", [])
+        start = int(span.get("start", 1))
+        block = (f"{span['path']}:{start}-{start + len(lines) - 1}"
+                 f"  ({span.get('term', '')})\n" + "\n".join(lines))
+        if used + len(block) > budget:
+            return "\n\n".join(out)
+        out.append(block)
+        used += len(block)
+    names = [re.compile(rf"\b{re.escape(p)}_?\b") for p in parameters]
     for span in spans:
+        if span in own:
+            continue
         lines = span.get("lines", [])
         start = int(span.get("start", 1))
         hits = [i for i, line in enumerate(lines) if any(n.search(line) for n in names)]
@@ -263,12 +278,14 @@ def _render_components(project: Project, component_ids: list[str],
             # process_noise_covariance and produced a note claiming nothing in
             # the project tunes covariance.
             #
-            # Plain parameters get a small budget instead of filling the rest:
-            # they were 22 of 32 lines and 60% of a prompt that `agy` drops
-            # more often the larger it gets.
+            # Plain parameters too, all of them. A budget of four, taken in
+            # alphabetical order, kept base_link_frame and cut
+            # imu0_twist_rejection_threshold, and the gating note said the
+            # project sets no gate. The budget existed because `agy` dropped
+            # long prompts; that was a denied tool call, not the length.
             matrix = [x for x in component.parameters if x.is_matrix]
             plain = sorted((x for x in component.parameters if not x.is_matrix),
-                           key=lambda x: x.name)[:PLAIN_PARAM_BUDGET]
+                           key=lambda x: x.name)
             shown = []
             for param in matrix + plain:
                 view = (matrix_view(param.value, labels or [])
@@ -288,7 +305,7 @@ def _render_components(project: Project, component_ids: list[str],
 def build_prompt(project: Project, project_id: str, node_id: str, name: str,
                  sheet: dict, component_ids: list[str],
                  spans: list[dict] | None = None, links: list | None = None,
-                 repo: Path | None = None) -> str:
+                 repo: Path | None = None, own_spans: list[dict] | None = None) -> str:
     symbols = "\n".join(
         f"  {s.get('symbol')} = {s.get('meaning', '')}"
         f"{'  [' + s.get('dimensions', '') + ']' if s.get('dimensions') else ''}"
@@ -304,7 +321,8 @@ def build_prompt(project: Project, project_id: str, node_id: str, name: str,
         symbols=symbols,
         components=_render_components(project, component_ids, project_id,
                                       state_order(spans)),
-        library=library_excerpts(spans, parameters) or "(no library source shown)",
+        library=library_excerpts(spans, parameters, own=own_spans or [])
+        or "(no library source shown)",
         upstream=upstream(links or [], repo, names),
     )
 
@@ -358,7 +376,8 @@ def instantiate(provider: Provider, project: Project, project_id: str,
     payload = complete_json(
         provider,
         build_prompt(project, project_id, node_id, name, sheet, components,
-                     spans_for(node_id, is_algorithm), links, repo),
+                     spans_for(node_id, is_algorithm), links, repo,
+                     own_spans=spans_for(node_id, False)),
         system=SYSTEM,
     )
     return Instantiation(

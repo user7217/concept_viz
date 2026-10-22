@@ -131,5 +131,20 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "gaussian_elimination",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws computes Gaussian elimination itself, and no robot_localization source is shown, so the material here does not show where or whether row reduction runs inside ekf_local or ekf_global. The only link is that both components run an extended Kalman filter, and that algorithm needs linear systems solved or matrices inverted. Gaussian elimination is the standard procedure for that, and the sheet's [A | I] construction is how it inverts a matrix. The project's configuration only supplies matrices; it does not choose or show how they are reduced.",
+    "concrete": [],
+    "knobs": [],
+    "notation": "",
+    "invented": {},
+    "thin": "names no parameter and maps none of the 6 symbols the sheet defines",
+    "unsupported": []
   }
 }

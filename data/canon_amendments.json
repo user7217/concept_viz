@@ -664,6 +664,36 @@
       "to": "bayes_filter",
       "rel": "requires",
       "why": "the Kalman filter is the Bayes filter with linear models and Gaussian beliefs: its predict step is the prediction integral and its update is Bayes' rule, both evaluated in closed form. All four acceptance readers asked where the recursion comes from, and the sheet that answers it was off the path"
+    },
+    {
+      "from": "innovation_gating",
+      "to": "linear_kalman_filter",
+      "rel": "requires",
+      "why": "the gate tests the filter's innovation z - Hx against its own predicted covariance S = H P H^T + R, both defined by the Kalman update"
+    },
+    {
+      "from": "chi_squared_distribution",
+      "to": "gaussian_distribution",
+      "rel": "requires",
+      "why": "chi-squared with k degrees of freedom is the distribution of a sum of k squared standard normals"
+    },
+    {
+      "from": "chi_squared_distribution",
+      "to": "random_variable",
+      "rel": "requires",
+      "why": "it is the distribution of a function of random variables"
+    },
+    {
+      "from": "matrix_exponential",
+      "to": "taylor_expansion",
+      "rel": "requires",
+      "why": "e^{A} is defined by the power series sum A^k / k!, and the first-order truncation I + A T is the approximation discretization uses"
+    },
+    {
+      "from": "matrix_exponential",
+      "to": "matrix",
+      "rel": "requires",
+      "why": "the series is built from matrix powers"
     }
   ]
 }

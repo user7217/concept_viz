@@ -112,5 +112,20 @@
     "shape": [],
     "vacuous_invocations": false,
     "ok": true
+  },
+  "instantiation": {
+    "node_id": "linear_model",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws fits or evaluates a linear model itself: no shown file builds a design matrix X, a parameter vector \\vec{\\beta} or a response vector Y. The link is indirect. ekf_local and ekf_global run robot_localization's EKF, and that algorithm requires this result, because an EKF predicts and updates using linear models of the form Y \u2248 X\\vec{\\beta}. No library source is shown here, so how the EKF builds those models from these parameters cannot be traced in this project.",
+    "concrete": [],
+    "knobs": [],
+    "notation": "",
+    "invented": {},
+    "thin": "names no parameter and maps none of the 7 symbols the sheet defines",
+    "unsupported": []
   }
 }

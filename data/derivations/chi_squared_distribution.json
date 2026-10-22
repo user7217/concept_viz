@@ -1,0 +1,198 @@
+{
+  "node_id": "chi_squared_distribution",
+  "grounded": true,
+  "kind": "definition",
+  "statement": "Let Z_1, ..., Z_k be independent standard normal random variables, Z_i ~ N(0,1). The chi-squared distribution with k degrees of freedom is the distribution of the sum of their squares: X = ||Z||^2 = Z_1^2 + ... + Z_k^2 ~ chi^2_k. In other words, it is the squared Euclidean length of a k-dimensional standard Gaussian vector Z ~ N(0,1)^k. The parameter k is the number of independent squared standard normals in the sum. (The source also writes F for the CDF and for the F-distribution. Here F is kept for the state transition matrix, so neither is written as F below. The density formula falls in the part of the supplied source that was cut off, so it is not restated here.)",
+  "symbols": [
+    {
+      "symbol": "Z_i",
+      "meaning": "independent standard normal random variable, N(0,1)",
+      "dimensions": "scalar"
+    },
+    {
+      "symbol": "Z",
+      "meaning": "vector of k independent standard normals, Z ~ N(0,1)^k",
+      "dimensions": "k x 1"
+    },
+    {
+      "symbol": "X",
+      "meaning": "chi-squared random variable, X = ||Z||^2",
+      "dimensions": "scalar, X >= 0"
+    },
+    {
+      "symbol": "k",
+      "meaning": "degrees of freedom: the number of independent squared standard normals summed",
+      "dimensions": "positive integer"
+    },
+    {
+      "symbol": "t",
+      "meaning": "argument of the cumulant generating function",
+      "dimensions": "scalar, t < 1/2"
+    },
+    {
+      "symbol": "psi",
+      "meaning": "digamma function",
+      "dimensions": "scalar function"
+    },
+    {
+      "symbol": "Gamma(alpha, theta)",
+      "meaning": "gamma distribution with shape alpha and scale theta",
+      "dimensions": "distribution"
+    }
+  ],
+  "steps": [],
+  "properties": [
+    {
+      "property": "Mean E[X] = k and variance Var(X) = 2k.",
+      "why": "These are the per-variable mean and variance the source uses in its central-limit argument for the sample mean.",
+      "cites": [
+        "wikipedia:Chi-squared_distribution"
+      ]
+    },
+    {
+      "property": "Cumulant generating function: ln E[e^{tX}] = -(k/2) ln(1 - 2t). The cumulants are kappa_n = 2^{n-1} (n-1)! k.",
+      "why": "Expanding the CGF as a power series gives every cumulant, and each one is linear in k.",
+      "cites": [
+        "wikipedia:Chi-squared_distribution"
+      ]
+    },
+    {
+      "property": "Raw moments: E[X^m] = k(k+2)(k+4)...(k+2m-2) = 2^m Gamma(m + k/2) / Gamma(k/2).",
+      "why": "This gives closed-form moments of any order.",
+      "cites": [
+        "wikipedia:Chi-squared_distribution"
+      ]
+    },
+    {
+      "property": "Additivity: if X_i ~ chi^2_{k_i} are independent, then X_1 + ... + X_n ~ chi^2_{k_1 + ... + k_n}.",
+      "why": "Follows directly from the definition: concatenating independent sums of squared normals gives one longer sum.",
+      "cites": [
+        "wikipedia:Chi-squared_distribution"
+      ]
+    },
+    {
+      "property": "It is a special case of the gamma distribution: if X ~ chi^2_nu and c > 0, then cX ~ Gamma(shape = nu/2, scale = 2c). Setting c = 1 gives chi^2_nu = Gamma(nu/2, 2).",
+      "why": "A rescaled chi-squared variable is gamma-distributed but is no longer chi-squared.",
+      "cites": [
+        "wikipedia:Chi-squared_distribution"
+      ]
+    },
+    {
+      "property": "Estimating the mean costs one degree of freedom: for i.i.d. Z_t ~ N(0,1), sum_{t=1}^n (Z_t - Zbar)^2 ~ chi^2_{n-1}, where Zbar = (1/n) sum Z_t.",
+      "why": "This is the special case of Cochran's theorem given in the source. Centring on the sample mean leaves n-1 degrees of freedom, not n.",
+      "cites": [
+        "wikipedia:Chi-squared_distribution"
+      ]
+    },
+    {
+      "property": "Large-k normal approximation: (X - k)/sqrt(2k) -> N(0,1) as k -> infinity. The source calls this close enough for many purposes when k > 50.",
+      "why": "X is a sum of k independent terms with finite mean and variance, so the central limit theorem applies.",
+      "cites": [
+        "wikipedia:Chi-squared_distribution"
+      ]
+    },
+    {
+      "property": "Faster normalising transforms: sqrt(2X) is approximately N(sqrt(2k-1), 1) (Fisher). (X/k)^{1/3} is approximately N(1 - 2/(9k), 2/(9k)) (Wilson-Hilferty), which gives the median approximation k(1 - 2/(9k))^3. ln(X) also approaches normality faster than X does.",
+      "why": "These transforms remove most of the skew, so they are accurate at much smaller k than the plain normal approximation.",
+      "cites": [
+        "wikipedia:Chi-squared_distribution"
+      ]
+    },
+    {
+      "property": "Concentration (Laurent-Massart): Pr(X - k >= 2 sqrt(kx) + 2x) <= e^{-x} and Pr(k - X >= 2 sqrt(kx)) <= e^{-x}. So ||Z||^2 stays within about k +/- 2k^{1/2+alpha} with probability at least 1 - e^{-k^alpha}.",
+      "why": "The squared length of a high-dimensional Gaussian vector clusters tightly around k.",
+      "cites": [
+        "wikipedia:Chi-squared_distribution"
+      ]
+    },
+    {
+      "property": "Special cases: chi^2_2 is exponential with rate 1/2; chi^2_{2k} is Erlang(k, 1/2); sqrt(X) follows the chi distribution with k degrees of freedom; chi^2_k is the noncentral chi-squared with noncentrality lambda = 0.",
+      "why": "These identify the chi-squared distribution with distributions a reader may meet under other names.",
+      "cites": [
+        "wikipedia:Chi-squared_distribution"
+      ]
+    },
+    {
+      "property": "Differential entropy: h = k/2 + ln[2 Gamma(k/2)] + (1 - k/2) psi(k/2). It is the maximum-entropy distribution given E[X] = k and E[ln X] = psi(k/2) + ln 2.",
+      "why": "This gives its information-theoretic characterisation.",
+      "cites": [
+        "wikipedia:Chi-squared_distribution"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "assumption": "Each Z_i has zero mean.",
+      "breaks_when": "The components have a nonzero mean. The sum of squares is then noncentral chi-squared (lambda > 0), and chi^2_k is only its lambda = 0 case."
+    },
+    {
+      "assumption": "Each Z_i has unit variance.",
+      "breaks_when": "The components have variance other than 1. The sum of squares is then a scaled variable cX, which is Gamma(k/2, 2c) and not chi^2_k."
+    },
+    {
+      "assumption": "The Z_i are independent.",
+      "breaks_when": "The components are correlated. The sum of squares is then not chi^2_k, and the additivity rule, which needs independent summands, does not apply."
+    },
+    {
+      "assumption": "The Z_i are normally distributed.",
+      "breaks_when": "The components are non-Gaussian. The sum of squares follows a different law; for example, Laplace variables give a chi^2_{2n} only for a specific transform of |X_i - mu|, not for their squares."
+    },
+    {
+      "assumption": "k counts the independent terms that remain after anything is estimated from the data.",
+      "breaks_when": "The terms are centred on a sample mean computed from the same data. The degrees of freedom then drop to n-1, as in Cochran's theorem."
+    }
+  ],
+  "failure_modes": [
+    {
+      "mode": "Using the normal approximation at small k",
+      "signature": "Tail probabilities and thresholds from N(k, 2k) are wrong, mostly in the right tail, and the error is worst at low degrees of freedom.",
+      "cause": "Convergence is slow: skewness is sqrt(8/k) and excess kurtosis is 12/k. Below roughly k = 50, use the exact distribution or the Wilson-Hilferty transform."
+    },
+    {
+      "mode": "Wrong degrees of freedom",
+      "signature": "The observed mean of the statistic is consistently below k. For example, it sits near n-1 when n was assumed.",
+      "cause": "Centring on the sample mean removes a degree of freedom, as in Cochran's theorem."
+    },
+    {
+      "mode": "Unnormalised components",
+      "signature": "The statistic's mean is c\u00b7k instead of k, and its variance is c^2 \u00b7 2k instead of 2k.",
+      "cause": "The components were not scaled to unit variance, so the statistic is Gamma(k/2, 2c) rather than chi^2_k."
+    },
+    {
+      "mode": "Nonzero-mean components",
+      "signature": "The statistic's mean is above k, and the excess does not shrink as more data is collected.",
+      "cause": "The components have a systematic offset, so the statistic is noncentral chi-squared with lambda > 0."
+    }
+  ],
+  "source_ids": [
+    "wikipedia:Chi-squared_distribution"
+  ],
+  "check": {
+    "node_id": "chi_squared_distribution",
+    "kind": "definition",
+    "grounded": true,
+    "ungrounded_citations": [],
+    "uncited_steps": [],
+    "unknown_invocations": [],
+    "closure_holes": [],
+    "canon_notes": [],
+    "shape": [],
+    "vacuous_invocations": false,
+    "ok": true
+  },
+  "instantiation": {
+    "node_id": "chi_squared_distribution",
+    "project": "agrios_ws",
+    "components": [
+      "ekf_global",
+      "ekf_local"
+    ],
+    "why_here": "Nothing in agrios_ws computes a chi-squared quantity itself. The components that use this concept, ekf_global and ekf_local, are robot_localization EKF nodes. Their listed parameters only choose which state variables each sensor feeds (odom0_config, odom1_config, imu0_config, imu1_config), set the process and initial covariances, and set frame and rate. No library source is shown, so these lines do not show where, or whether, the library sums squared standardized quantities or compares one against a chi^2_k distribution. The connection rests only on the dependency itself: the EKF components depend on this result, and nothing shown says how.",
+    "concrete": [],
+    "knobs": [],
+    "notation": "",
+    "invented": {},
+    "thin": "names no parameter and maps none of the 7 symbols the sheet defines",
+    "unsupported": []
+  }
+}
