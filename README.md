@@ -152,6 +152,15 @@ Atlas uses [Graphify](https://github.com/Graphify-Labs/graphify) (Apache-2.0)
 as a separate tool, shows excerpts of
 [robot_localization](https://github.com/cra-ros-pkg/robot_localization)
 (BSD-3-Clause) with each file's full notice, and restates mathematics from
-Wikipedia (CC BY-SA 4.0) with every source named and linked. What each
-licence asks, and how it is met, is in `THIRD_PARTY_NOTICES.md`.
+Wikipedia (CC BY-SA 4.0) and from an openly licensed arXiv paper (CC BY 4.0),
+with every source named and linked. What each licence asks, and how it is
+met, is in `THIRD_PARTY_NOTICES.md`.
+
+## Licence
+
+- **Code** -- `atlas/`, `scripts/`, `tests/`, `viz/`: MIT. See `LICENSE`.
+- **Content** -- everything in `data/`: CC BY-SA 4.0. See `data/LICENSE`.
+  The sheets restate Wikipedia, whose ShareAlike term requires it.
+  `data/library_code.json` is the exception: its robot_localization excerpts
+  stay under BSD 3-Clause, with their notices.
 

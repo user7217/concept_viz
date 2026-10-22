@@ -1,0 +1,28 @@
+Copyright (c) 2026 user7217
+
+The content in this directory is licensed under the Creative Commons
+Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0).
+
+  Summary:     https://creativecommons.org/licenses/by-sa/4.0/
+  Legal code:  https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+You may share and adapt it for any purpose, provided you give appropriate
+credit, link to the licence, indicate if changes were made, and distribute
+your contributions under the same licence.
+
+Why this licence: the sheets in derivations/ restate text from Wikipedia,
+which is CC BY-SA 4.0, and its ShareAlike term requires adaptations to carry
+the same licence. Some sheets also restate Gyubeom Im, "Notes on Kalman
+Filter (KF, EKF, ESKF, IEKF, IESKF)" (arXiv:2406.06427, CC BY 4.0), which
+permits this. Every sheet names its sources; see ../THIRD_PARTY_NOTICES.md.
+The rest of this directory -- the canon, its edges, seeds and notation -- is
+original and is placed under the same licence so that one rule covers all
+the content.
+
+Exception: library_code.json holds excerpts of robot_localization, which
+remain under that project's BSD 3-Clause licence. Each excerpted file's full
+copyright notice, conditions and disclaimer are kept in the file's "notices"
+field and must travel with the excerpts.
+
+The code that produces and reads this content is licensed under MIT; see
+../LICENSE.

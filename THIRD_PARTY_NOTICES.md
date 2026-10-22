@@ -1,8 +1,13 @@
 # Third-party notices
 
 Derivation Atlas has no runtime dependencies beyond the Python standard
-library. It does use other people's work in four ways, listed here with what
+library. It does use other people's work in five ways, listed here with what
 each licence asks and how this repository meets it.
+
+This repository's own licences: the code is MIT (`LICENSE`); the content in
+`data/` is CC BY-SA 4.0 (`data/LICENSE`), as Wikipedia's ShareAlike term
+requires of the restated sheets. The robot_localization excerpts in
+`data/library_code.json` stay BSD 3-Clause.
 
 ## Graphify
 
@@ -127,7 +132,29 @@ POSSIBILITY OF SUCH DAMAGE.
 - **What that means:** attribution. The published map names and links every
   article a statement was restated from, states the licence, and says the
   text was paraphrased. CC BY-SA also asks that adaptations be shared under
-  the same or a compatible licence; see the note in the README.
+  the same or a compatible licence, which is why `data/` is CC BY-SA 4.0
+  (`data/LICENSE`).
+
+## Pinned papers
+
+- **Work:** Gyubeom Im, "Notes on Kalman Filter (KF, EKF, ESKF, IEKF,
+  IESKF)", 2024, arXiv:2406.06427 (https://arxiv.org/abs/2406.06427).
+- **Licence:** CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/),
+  read from the paper's own arXiv page on 2026-10-22 and recorded in
+  `data/source_documents.json`.
+- **How it is used:** the `extended_kalman_filter` sheet restates section 4,
+  and `linear_kalman_filter` restates sections 8.1 and 8.2: paraphrased,
+  condensed and, for the linear Kalman filter, renamed to this project's
+  notation (the source writes R for process noise and Q for measurement
+  noise; the sheet says so).
+- **What that means:** attribution, a link to the licence, and an indication
+  of changes. The published map credits the paper by title, author, year and
+  link beside each sheet that restates it, names the licence, and says the
+  text was paraphrased; the copied study prompt names it too. CC BY places
+  no condition on the licence of the adaptation.
+
+Only openly licensed documents are pinned; each entry in
+`data/source_documents.json` records its licence and the date it was read.
 
 ## Other retrieved sources
 
