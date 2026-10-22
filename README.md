@@ -155,7 +155,3 @@ as a separate tool, shows excerpts of
 Wikipedia (CC BY-SA 4.0) with every source named and linked. What each
 licence asks, and how it is met, is in `THIRD_PARTY_NOTICES.md`.
 
-This repository does not yet declare a licence of its own. Until it does, no
-one else has permission to reuse it. If you add one, note that CC BY-SA asks
-for the restated sheets in `data/derivations/` to be shared under CC BY-SA 4.0
-or a compatible licence, whatever licence the code takes.
