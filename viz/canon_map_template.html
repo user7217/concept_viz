@@ -1527,6 +1527,12 @@ function sourceLines(n) {
              'https://en.wikipedia.org/wiki/' + encodeURI(title) +
              ' (the statement above is restated from this)');
   }
+  for (const s of (n.statement ? n.sources || [] : [])) {
+    const d = (DATA.documents || {})[s];
+    if (d) out.push(`- "${d.title}", ${d.authors} ${d.year}, section ` +
+                    `"${d.section}" — ${d.page || d.url} (the derivation above ` +
+                    'is restated from this)');
+  }
   for (const r of n.reading || []) {
     const name = r.via === 'url' ? '(untitled link)' : `"${r.title}"`;
     out.push(`- ${name}${r.byline ? ', ' + r.byline : ''} [${r.kind}] — ${r.url}`);
@@ -1839,6 +1845,22 @@ function select(id) {
     lic.target = '_blank'; lic.rel = 'noopener';
     lic.textContent = 'CC BY-SA 4.0';
     attr.append(lic, '. Paraphrased and condensed; errors are ours.');
+  }
+  // A pinned paper is credited as its own licence asks: title, author, link,
+  // licence, and that the text was changed.
+  const docs = (n.statement ? (n.sources || []) : [])
+    .map(s => (DATA.documents || {})[s]).filter(Boolean);
+  for (const d of docs) {
+    if (attr.childNodes.length) attr.append(' ');
+    attr.append('Derivation restated from ');
+    const a = document.createElement('a');
+    a.href = d.page || d.url; a.target = '_blank'; a.rel = 'noopener';
+    a.textContent = d.title;
+    const lic = document.createElement('a');
+    lic.href = d.licence_url; lic.target = '_blank'; lic.rel = 'noopener';
+    lic.textContent = d.licence;
+    attr.append(a, ` by ${d.authors} (${d.year}), licensed `, lic,
+                '. Paraphrased and condensed; errors are ours.');
   }
   frame();
 }

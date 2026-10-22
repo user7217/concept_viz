@@ -17,6 +17,7 @@ rather than quietly falling back to recall.
 from __future__ import annotations
 
 import json
+import re
 import os
 import urllib.error
 import urllib.parse
@@ -24,6 +25,7 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from html.parser import HTMLParser
 import time
 from typing import Callable
 
@@ -232,6 +234,107 @@ def fetch_wikipedia(title: str, transport: Transport | None = None) -> Source | 
     return None
 
 
+# ---------- pinned documents ----------
+# Wikipedia states some results without deriving them -- the Extended Kalman
+# filter article gives the equations and stops. A pinned document is an openly
+# licensed text chosen by hand for the derivation Wikipedia lacks, named by id
+# in source_aliases.json like any title.
+
+DOCUMENTS: dict[str, dict] | None = None
+
+
+def load_documents() -> dict[str, dict]:
+    global DOCUMENTS
+    if DOCUMENTS is None:
+        from pathlib import Path
+
+        path = Path(__file__).resolve().parent.parent / "data" / "source_documents.json"
+        DOCUMENTS = json.loads(path.read_text())["documents"] if path.exists() else {}
+    return DOCUMENTS
+
+
+class _PlainText(HTMLParser):
+    """HTML to the plaintext shape Wikipedia's extracts use.
+
+    Headings become "== title ==" with one "=" per level, so the section
+    readers written for Wikipedia read these too. Maths is kept as its TeX:
+    arXiv's HTML carries it in each <math> element's alttext, and the
+    rendered MathML beneath would otherwise arrive as a soup of glyphs.
+    """
+
+    BLOCK = {"p", "div", "br", "li", "tr", "table", "figure"}
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.out: list[str] = []
+        self.skip = 0
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ("script", "style", "nav", "header", "footer"):
+            self.skip += 1
+        elif tag == "math":
+            alt = dict(attrs).get("alttext")
+            if alt and not self.skip:
+                self.out.append(f" ${alt}$ ")
+            self.skip += 1
+        elif tag in ("h1", "h2", "h3", "h4", "h5") and not self.skip:
+            self.out.append("\n" + "=" * int(tag[1]) + " ")
+        elif tag in self.BLOCK and not self.skip:
+            self.out.append("\n")
+
+    def handle_endtag(self, tag):
+        if tag in ("script", "style", "nav", "header", "footer", "math"):
+            self.skip = max(0, self.skip - 1)
+        elif tag in ("h1", "h2", "h3", "h4", "h5") and not self.skip:
+            self.out.append(" " + "=" * int(tag[1]) + "\n")
+
+    def handle_data(self, data):
+        if not self.skip:
+            self.out.append(data)
+
+    def text(self) -> str:
+        joined = re.sub(r"[ \t]+", " ", "".join(self.out))
+        return re.sub(r"\n\s*\n+", "\n\n", joined).strip()
+
+
+def html_text(markup: str) -> str:
+    parser = _PlainText()
+    parser.feed(markup)
+    return parser.text()
+
+
+def section_of(text: str, heading: str) -> str:
+    """The section whose heading starts with `heading`, with its subsections.
+
+    Raises rather than falling back to the whole document: a pinned section
+    that is not there means the document changed under its pin, and quietly
+    feeding the model 140,000 characters instead would hide that.
+    """
+    marks = list(re.finditer(r"(?m)^(=+) (.+?) =+$", text))
+    for i, mark in enumerate(marks):
+        if not mark.group(2).strip().startswith(heading):
+            continue
+        level, end = len(mark.group(1)), len(text)
+        for later in marks[i + 1:]:
+            if len(later.group(1)) <= level:
+                end = later.start()
+                break
+        return text[mark.start():end].strip()
+    raise RetrievalError(f"section {heading!r} not found; the pinned document changed")
+
+
+def fetch_document(doc_id: str, transport: Transport | None = None) -> Source:
+    meta = load_documents()[doc_id]
+    markup = _fetch(meta["url"], transport)
+    if isinstance(markup, bytes):
+        markup = markup.decode("utf-8", "replace")
+    text = html_text(markup)
+    if meta.get("section"):
+        text = section_of(text, meta["section"])
+    return Source(id=doc_id, title=meta["title"], url=meta.get("page", meta["url"]),
+                  kind="paper", text=text)
+
+
 def load_aliases() -> dict[str, list[str]]:
     """Search titles per node id, loaded once."""
     global ALIASES
@@ -258,6 +361,9 @@ def retrieve(name: str, aliases: tuple[str, ...] = (), transport: Transport | No
     """Gather grounded sources for one concept, best first."""
     sources: list[Source] = []
     for base in (name, *aliases):
+        if base in load_documents():
+            sources.append(fetch_document(base, transport))
+            continue
         for candidate in title_variants(base):
             page = fetch_wikipedia(candidate, transport)
             if page is not None:

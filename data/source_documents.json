@@ -1,0 +1,17 @@
+{
+  "_note": "Sources that are not Wikipedia articles, pinned by hand. An alias in source_aliases.json that names one of these ids fetches this document instead of a Wikipedia title. Each entry records the licence as read from the document's own page on the date given, because sheets restate their source on a public page and the licence decides what that page must say. Only openly licensed documents belong here.",
+  "documents": {
+    "arxiv:2406.06427": {
+      "url": "https://arxiv.org/html/2406.06427v3",
+      "page": "https://arxiv.org/abs/2406.06427",
+      "title": "Notes on Kalman Filter (KF, EKF, ESKF, IEKF, IESKF)",
+      "authors": "Gyubeom Im",
+      "year": 2024,
+      "section": "4 Extended Kalman Filter (EKF)",
+      "licence": "CC BY 4.0",
+      "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+      "checked": "2026-10-22",
+      "why": "Wikipedia's Extended Kalman filter article states the predict and update equations without deriving them, and the EKF sheet said so. Section 4 here linearises f and h by first-order Taylor expansion, defines the Jacobians, and carries the linear model through the Kalman prediction and correction steps."
+    }
+  }
+}

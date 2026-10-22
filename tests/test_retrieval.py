@@ -338,3 +338,52 @@ class DisambiguationIsNotASource(unittest.TestCase):
         # say it, and throwing one away costs a node its only source.
         long_article = "The term may refer to several related ideas. " + "x" * 9000
         self.assertFalse(is_disambiguation({}, long_article))
+
+
+class TestPinnedDocuments(unittest.TestCase):
+    """Wikipedia's EKF article states the equations without deriving them."""
+
+    PAGE = (b"<html><body><nav>contents</nav>"
+            b"<h2>3 Kalman Filter (KF)</h2><p>The gain.</p>"
+            b"<h2>4 Extended Kalman Filter (EKF)</h2>"
+            b"<p>Linearise <math alttext='\\mathbf{f}'><mi>f</mi></math> about the estimate.</p>"
+            b"<h3>4.1 Prediction step</h3><p>Substituting gives the prior.</p>"
+            b"<h2>5 Error-state Kalman Filter (ESKF)</h2><p>Not this.</p></body></html>")
+
+    def setUp(self) -> None:
+        import atlas.retrieval as r
+        self.r = r
+        self.saved = r.DOCUMENTS
+        r.DOCUMENTS = {"arxiv:1": {"url": "https://arxiv.org/html/1", "page": "https://arxiv.org/abs/1",
+                                   "title": "Notes", "section": "4 Extended Kalman Filter (EKF)"}}
+
+    def tearDown(self) -> None:
+        self.r.DOCUMENTS = self.saved
+
+    def test_maths_survives_as_its_tex(self) -> None:
+        text = self.r.html_text(self.PAGE.decode())
+        self.assertIn("$\\mathbf{f}$", text)
+        self.assertNotIn("contents", text)
+
+    def test_only_the_pinned_section_and_its_subsections_are_kept(self) -> None:
+        source = self.r.fetch_document("arxiv:1", transport=lambda url: self.PAGE)
+        self.assertIn("Substituting gives the prior", source.text)
+        self.assertNotIn("The gain", source.text)
+        self.assertNotIn("Not this", source.text)
+        self.assertEqual((source.id, source.kind), ("arxiv:1", "paper"))
+
+    def test_a_missing_section_is_an_error_not_the_whole_document(self) -> None:
+        moved = self.PAGE.replace(b"4 Extended", b"5 Extended")
+        with self.assertRaises(RetrievalError):
+            self.r.fetch_document("arxiv:1", transport=lambda url: moved)
+
+    def test_an_alias_naming_a_document_fetches_it_instead_of_wikipedia(self) -> None:
+        asked = []
+
+        def transport(url):
+            asked.append(url)
+            return self.PAGE if "arxiv" in url else json.dumps({"query": {"pages": {}}}).encode()
+
+        sources = self.r.retrieve("arxiv:1", (), transport, include_papers=False)
+        self.assertEqual([s.id for s in sources], ["arxiv:1"])
+        self.assertEqual(asked, ["https://arxiv.org/html/1"])

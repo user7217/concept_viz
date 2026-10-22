@@ -1,174 +1,282 @@
 {
   "node_id": "extended_kalman_filter",
   "grounded": true,
-  "kind": "definition",
-  "statement": "The supplied sources do not contain a derivation of the Extended Kalman Filter (they state the filter definitions and recursion equations without deriving them). By definition, the Extended Kalman Filter (EKF) is the nonlinear version of the Kalman filter which linearizes about an estimate of the current mean and covariance. For a continuous-time system model with discrete-time measurements given by \\dot{\\mathbf{x}}(t) = f(\\mathbf{x}(t), \\mathbf{u}(t)) + \\mathbf{w}(t) with \\mathbf{w}(t) \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{Q}(t)) and \\mathbf{z}_k = h(\\mathbf{x}_k) + \\mathbf{v}_k with \\mathbf{v}_k \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{R}_k) where \\mathbf{x}_k = \\mathbf{x}(t_k), the first-order EKF is defined by the following equations: (1) Initialization: \\hat{\\mathbf{x}}_{0|0} = E[\\mathbf{x}(t_0)], \\mathbf{P}_{0|0} = E[(\\mathbf{x}(t_0) - \\hat{\\mathbf{x}}(t_0))(\\mathbf{x}(t_0) - \\hat{\\mathbf{x}}(t_0))^T]; (2) Prediction: solve \\dot{\\hat{\\mathbf{x}}}(t) = f(\\hat{\\mathbf{x}}(t), \\mathbf{u}(t)) and \\dot{\\mathbf{P}}(t) = \\mathbf{F}(t)\\mathbf{P}(t) + \\mathbf{P}(t)\\mathbf{F}(t)^T + \\mathbf{Q}(t) with \\hat{\\mathbf{x}}(t_{k-1}) = \\hat{\\mathbf{x}}_{k-1|k-1}, \\mathbf{P}(t_{k-1}) = \\mathbf{P}_{k-1|k-1} \\Rightarrow \\hat{\\mathbf{x}}_{k|k-1} = \\hat{\\mathbf{x}}(t_k), \\mathbf{P}_{k|k-1} = \\mathbf{P}(t_k), where \\mathbf{F}(t) = \\left.\\frac{\\partial f}{\\partial \\mathbf{x}}\\right|_{\\hat{\\mathbf{x}}(t), \\mathbf{u}(t)}; (3) Update: \\mathbf{K}_k = \\mathbf{P}_{k|k-1}\\mathbf{H}_k^T(\\mathbf{H}_k\\mathbf{P}_{k|k-1}\\mathbf{H}_k^T + \\mathbf{R}_k)^{-1}, \\hat{\\mathbf{x}}_{k|k} = \\hat{\\mathbf{x}}_{k|k-1} + \\mathbf{K}_k(\\mathbf{z}_k - h(\\hat{\\mathbf{x}}_{k|k-1})), \\mathbf{P}_{k|k} = (\\mathbf{I} - \\mathbf{K}_k\\mathbf{H}_k)\\mathbf{P}_{k|k-1}, where \\mathbf{H}_k = \\left.\\frac{\\partial h}{\\partial \\mathbf{x}}\\right|_{\\hat{\\mathbf{x}}_{k|k-1}}.",
+  "kind": "derivation",
+  "statement": "For a discrete-time nonlinear state-space model with motion model $\\mathbf{x}_t = \\mathbf{f}(\\mathbf{x}_{t-1}, \\mathbf{u}_t, \\mathbf{w}_t)$ where $\\mathbf{w}_t \\sim \\mathcal{N}(0, \\mathbf{Q}_t)$ and observation model $\\mathbf{z}_t = \\mathbf{h}(\\mathbf{x}_t, \\mathbf{v}_t)$ where $\\mathbf{v}_t \\sim \\mathcal{N}(0, \\mathbf{R}_t)$, the Extended Kalman Filter (EKF) linearizes $\\mathbf{f}$ and $\\mathbf{h}$ via first-order Taylor expansion around the current state estimates $\\hat{\\mathbf{x}}_{t-1|t-1}$ and $\\hat{\\mathbf{x}}_{t|t-1}$ (with $\\mathbf{w}_t=0, \\mathbf{v}_t=0$) to propagate and update a Gaussian belief $\\text{bel}(\\mathbf{x}_t) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t}, \\mathbf{P}_{t|t})$. Its prediction step is $\\hat{\\mathbf{x}}_{t|t-1} = \\mathbf{f}(\\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{u}_t, 0)$, $\\mathbf{P}_{t|t-1} = \\mathbf{F}_t \\mathbf{P}_{t-1|t-1} \\mathbf{F}_t^{\\intercal} + \\mathbf{F}_{\\mathbf{w}} \\mathbf{Q}_t \\mathbf{F}_{\\mathbf{w}}^{\\intercal}$, and its correction step is $\\mathbf{K}_t = \\mathbf{P}_{t|t-1} \\mathbf{H}_t^{\\intercal}(\\mathbf{H}_t \\mathbf{P}_{t|t-1} \\mathbf{H}_t^{\\intercal} + \\mathbf{H}_{\\mathbf{v}} \\mathbf{R}_t \\mathbf{H}_{\\mathbf{v}}^{\\intercal})^{-1}$, $\\hat{\\mathbf{x}}_{t|t} = \\hat{\\mathbf{x}}_{t|t-1} + \\mathbf{K}_t(\\mathbf{z}_t - \\mathbf{h}(\\hat{\\mathbf{x}}_{t|t-1}, 0))$, $\\mathbf{P}_{t|t} = (\\mathbf{I} - \\mathbf{K}_t \\mathbf{H}_t)\\mathbf{P}_{t|t-1}$. (Note: the supplied excerpt of [arxiv:2406.06427] derives the linearization and Gaussian transition/observation densities in full, while referring the closed-form evaluation of the resulting linear-Gaussian integral and product in Eq. 38 to Section 8, which is not included in the excerpt.)",
   "symbols": [
     {
-      "symbol": "\\mathbf{x}(t)",
-      "meaning": "continuous-time state vector",
-      "dimensions": "n x 1"
+      "symbol": "\\mathbf{x}_t",
+      "meaning": "state variable of the model at time step t",
+      "dimensions": "n \\times 1"
     },
     {
-      "symbol": "\\mathbf{x}_k",
-      "meaning": "discrete state vector at time t_k, equal to \\mathbf{x}(t_k)",
-      "dimensions": "n x 1"
+      "symbol": "\\mathbf{u}_t",
+      "meaning": "control input of the model at time step t",
+      "dimensions": "p \\times 1"
     },
     {
-      "symbol": "\\mathbf{u}(t)",
-      "meaning": "control input vector",
-      "dimensions": "l x 1"
+      "symbol": "\\mathbf{z}_t",
+      "meaning": "measurement (observation) of the model at time step t",
+      "dimensions": "m \\times 1"
     },
     {
-      "symbol": "\\mathbf{z}_k",
-      "meaning": "discrete measurement vector at step k",
-      "dimensions": "m x 1"
+      "symbol": "\\mathbf{f}(\\cdot)",
+      "meaning": "non-linear motion model function",
+      "dimensions": "\\mathbb{R}^n \\times \\mathbb{R}^p \\times \\mathbb{R}^q \\to \\mathbb{R}^n"
     },
     {
-      "symbol": "\\mathbf{w}(t)",
-      "meaning": "process noise vector with covariance Q(t)",
-      "dimensions": "n x 1"
+      "symbol": "\\mathbf{h}(\\cdot)",
+      "meaning": "non-linear observation model function",
+      "dimensions": "\\mathbb{R}^n \\times \\mathbb{R}^r \\to \\mathbb{R}^m"
     },
     {
-      "symbol": "\\mathbf{v}_k",
-      "meaning": "measurement noise vector with covariance R_k",
-      "dimensions": "m x 1"
+      "symbol": "\\mathbf{w}_t",
+      "meaning": "zero-mean Gaussian process noise in the motion model, \\mathbf{w}_t \\sim \\mathcal{N}(0, \\mathbf{Q}_t)",
+      "dimensions": "q \\times 1"
     },
     {
-      "symbol": "\\hat{\\mathbf{x}}_{k|k-1}",
-      "meaning": "predicted (a priori) state estimate at step k",
-      "dimensions": "n x 1"
+      "symbol": "\\mathbf{Q}_t",
+      "meaning": "covariance matrix of the motion noise \\mathbf{w}_t",
+      "dimensions": "q \\times q"
     },
     {
-      "symbol": "\\hat{\\mathbf{x}}_{k|k}",
-      "meaning": "updated (a posteriori) state estimate at step k",
-      "dimensions": "n x 1"
+      "symbol": "\\mathbf{v}_t",
+      "meaning": "zero-mean Gaussian observation noise, \\mathbf{v}_t \\sim \\mathcal{N}(0, \\mathbf{R}_t)",
+      "dimensions": "r \\times 1"
     },
     {
-      "symbol": "\\mathbf{P}(t)",
-      "meaning": "continuous-time error covariance matrix",
-      "dimensions": "n x n"
+      "symbol": "\\mathbf{R}_t",
+      "meaning": "covariance matrix of the observation noise \\mathbf{v}_t",
+      "dimensions": "r \\times r"
     },
     {
-      "symbol": "\\mathbf{P}_{k|k-1}",
-      "meaning": "predicted (a priori) error covariance matrix at step k",
-      "dimensions": "n x n"
+      "symbol": "\\hat{\\mathbf{x}}_{t-1|t-1}",
+      "meaning": "posterior state mean estimate at step t-1",
+      "dimensions": "n \\times 1"
     },
     {
-      "symbol": "\\mathbf{P}_{k|k}",
-      "meaning": "updated (a posteriori) error covariance matrix at step k",
-      "dimensions": "n x n"
+      "symbol": "\\mathbf{P}_{t-1|t-1}",
+      "meaning": "posterior state error covariance matrix at step t-1",
+      "dimensions": "n \\times n"
     },
     {
-      "symbol": "\\mathbf{Q}(t)",
-      "meaning": "process noise covariance matrix",
-      "dimensions": "n x n"
+      "symbol": "\\hat{\\mathbf{x}}_{t|t-1}",
+      "meaning": "predicted (prior) state mean estimate at step t",
+      "dimensions": "n \\times 1"
     },
     {
-      "symbol": "\\mathbf{R}_k",
-      "meaning": "measurement noise covariance matrix at step k",
-      "dimensions": "m x m"
+      "symbol": "\\mathbf{P}_{t|t-1}",
+      "meaning": "predicted (prior) state error covariance matrix at step t",
+      "dimensions": "n \\times n"
     },
     {
-      "symbol": "\\mathbf{K}_k",
-      "meaning": "Kalman gain matrix at step k",
-      "dimensions": "n x m"
+      "symbol": "\\hat{\\mathbf{x}}_{t|t}",
+      "meaning": "corrected (posterior) state mean estimate at step t",
+      "dimensions": "n \\times 1"
     },
     {
-      "symbol": "\\mathbf{F}(t)",
-      "meaning": "Jacobian matrix of system dynamics f with respect to state x evaluated at (\\hat{\\mathbf{x}}(t), \\mathbf{u}(t))",
-      "dimensions": "n x n"
+      "symbol": "\\mathbf{P}_{t|t}",
+      "meaning": "corrected (posterior) state error covariance matrix at step t",
+      "dimensions": "n \\times n"
     },
     {
-      "symbol": "\\mathbf{H}_k",
-      "meaning": "Jacobian matrix of measurement function h with respect to state x evaluated at \\hat{\\mathbf{x}}_{k|k-1}",
-      "dimensions": "m x n"
+      "symbol": "\\mathbf{F}_t",
+      "meaning": "Jacobian matrix of the motion model \\mathbf{f} with respect to \\mathbf{x}_{t-1} evaluated at \\hat{\\mathbf{x}}_{t-1|t-1}",
+      "dimensions": "n \\times n"
     },
     {
-      "symbol": "\\mathbf{I}",
-      "meaning": "identity matrix",
-      "dimensions": "n x n"
+      "symbol": "\\mathbf{F}_{\\mathbf{w}}",
+      "meaning": "Jacobian matrix of the motion model \\mathbf{f} with respect to \\mathbf{w}_t evaluated at \\hat{\\mathbf{x}}_{t-1|t-1} and \\mathbf{w}_t = 0",
+      "dimensions": "n \\times q"
+    },
+    {
+      "symbol": "\\mathbf{H}_t",
+      "meaning": "Jacobian matrix of the observation model \\mathbf{h} with respect to \\mathbf{x}_t evaluated at \\hat{\\mathbf{x}}_{t|t-1}",
+      "dimensions": "m \\times n"
+    },
+    {
+      "symbol": "\\mathbf{H}_{\\mathbf{v}}",
+      "meaning": "Jacobian matrix of the observation model \\mathbf{h} with respect to \\mathbf{v}_t evaluated at \\hat{\\mathbf{x}}_{t|t-1} and \\mathbf{v}_t = 0",
+      "dimensions": "m \\times r"
+    },
+    {
+      "symbol": "\\mathbf{K}_t",
+      "meaning": "Kalman gain matrix at step t",
+      "dimensions": "n \\times m"
+    },
+    {
+      "symbol": "\\overline{\\text{bel}}(\\mathbf{x}_t)",
+      "meaning": "predicted belief distribution over \\mathbf{x}_t before incorporating measurement \\mathbf{z}_t",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "\\text{bel}(\\mathbf{x}_t)",
+      "meaning": "corrected posterior belief distribution over \\mathbf{x}_t after incorporating measurement \\mathbf{z}_t",
+      "dimensions": "scalar density"
+    },
+    {
+      "symbol": "\\eta",
+      "meaning": "Bayes rule normalization constant",
+      "dimensions": "scalar"
     }
   ],
-  "steps": [],
-  "properties": [
+  "steps": [
     {
-      "property": "Continuous-time prediction and update coupling",
-      "why": "In the continuous-time extended Kalman filter, the prediction and update steps are coupled rather than separated into distinct stages",
+      "n": 1,
+      "text": "Define the discrete-time non-linear motion model and non-linear observation model with Gaussian process and measurement noises: $$\\mathbf{x}_t = \\mathbf{f}(\\mathbf{x}_{t-1}, \\mathbf{u}_t, \\mathbf{w}_t), \\quad \\mathbf{w}_t \\sim \\mathcal{N}(0, \\mathbf{Q}_t)$$ $$\\mathbf{z}_t = \\mathbf{h}(\\mathbf{x}_t, \\mathbf{v}_t), \\quad \\mathbf{v}_t \\sim \\mathcal{N}(0, \\mathbf{R}_t)$$ with initial belief $\\text{bel}(\\mathbf{x}_0) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_0, \\mathbf{P}_0)$.",
+      "invokes": [
+        "state_space_model",
+        "gaussian_distribution",
+        "covariance_matrix",
+        "belief_distribution"
+      ],
       "cites": [
+        "arxiv:2406.06427",
         "wikipedia:Extended_Kalman_filter"
       ]
     },
     {
-      "property": "Equivalence of discrete-time update equations",
-      "why": "The update equations for continuous-time models with discrete-time measurements are identical to those of the discrete-time extended Kalman filter",
+      "n": 2,
+      "text": "Perform a first-order Taylor approximation of $\\mathbf{f}(\\mathbf{x}_{t-1}, \\mathbf{u}_t, \\mathbf{w}_t)$ around $(\\mathbf{x}_{t-1} = \\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{w}_t = 0)$ and of $\\mathbf{h}(\\mathbf{x}_t, \\mathbf{v}_t)$ around $(\\mathbf{x}_t = \\hat{\\mathbf{x}}_{t|t-1}, \\mathbf{v}_t = 0)$: $$\\mathbf{x}_t \\approx \\mathbf{f}(\\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{u}_t, 0) + \\mathbf{F}_t(\\mathbf{x}_{t-1} - \\hat{\\mathbf{x}}_{t-1|t-1}) + \\mathbf{F}_{\\mathbf{w}}\\mathbf{w}_t$$ $$\\mathbf{z}_t \\approx \\mathbf{h}(\\hat{\\mathbf{x}}_{t|t-1}, 0) + \\mathbf{H}_t(\\mathbf{x}_t - \\hat{\\mathbf{x}}_{t|t-1}) + \\mathbf{H}_{\\mathbf{v}}\\mathbf{v}_t$$ where the Jacobian matrices are defined by partial derivatives evaluated at the operating points: $$\\mathbf{F}_t = \\frac{\\partial \\mathbf{f}}{\\partial \\mathbf{x}_{t-1}}\\bigg|_{\\mathbf{x}_{t-1}=\\hat{\\mathbf{x}}_{t-1|t-1}}, \\quad \\mathbf{F}_{\\mathbf{w}} = \\frac{\\partial \\mathbf{f}}{\\partial \\mathbf{w}_t}\\bigg|_{\\mathbf{x}_{t-1}=\\hat{\\mathbf{x}}_{t-1|t-1},\\, \\mathbf{w}_t=0}$$ $$\\mathbf{H}_t = \\frac{\\partial \\mathbf{h}}{\\partial \\mathbf{x}_t}\\bigg|_{\\mathbf{x}_t=\\hat{\\mathbf{x}}_{t|t-1}}, \\quad \\mathbf{H}_{\\mathbf{v}} = \\frac{\\partial \\mathbf{h}}{\\partial \\mathbf{v}_t}\\bigg|_{\\mathbf{x}_t=\\hat{\\mathbf{x}}_{t|t-1},\\, \\mathbf{v}_t=0}$$",
+      "invokes": [
+        "linearization",
+        "multivariate_taylor_expansion",
+        "jacobian_matrix",
+        "partial_derivative"
+      ],
       "cites": [
+        "arxiv:2406.06427",
         "wikipedia:Extended_Kalman_filter"
       ]
     },
     {
-      "property": "Extendability to higher orders via Taylor series",
-      "why": "Higher order EKFs (such as second and third order) are obtained by retaining more terms of the Taylor series expansions beyond the first-order Jacobians",
+      "n": 3,
+      "text": "Expand and group terms in the linearized models into linear state terms, known deterministic offsets, and transformed zero-mean Gaussian noise terms: $$\\mathbf{x}_t = \\mathbf{F}_t \\mathbf{x}_{t-1} + \\tilde{\\mathbf{u}}_t + \\tilde{\\mathbf{w}}_t$$ where $\\tilde{\\mathbf{u}}_t = \\mathbf{f}(\\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{u}_t, 0) - \\mathbf{F}_t \\hat{\\mathbf{x}}_{t-1|t-1}$ and $\\tilde{\\mathbf{w}}_t = \\mathbf{F}_{\\mathbf{w}}\\mathbf{w}_t \\sim \\mathcal{N}(0, \\mathbf{F}_{\\mathbf{w}}\\mathbf{Q}_t\\mathbf{F}_{\\mathbf{w}}^{\\intercal})$, and $$\\mathbf{z}_t = \\mathbf{H}_t \\mathbf{x}_t + \\tilde{\\mathbf{z}}_t + \\tilde{\\mathbf{v}}_t$$ where $\\tilde{\\mathbf{z}}_t = \\mathbf{h}(\\hat{\\mathbf{x}}_{t|t-1}, 0) - \\mathbf{H}_t \\hat{\\mathbf{x}}_{t|t-1}$ and $\\tilde{\\mathbf{v}}_t = \\mathbf{H}_{\\mathbf{v}}\\mathbf{v}_t \\sim \\mathcal{N}(0, \\mathbf{H}_{\\mathbf{v}}\\mathbf{R}_t\\mathbf{H}_{\\mathbf{v}}^{\\intercal})$.",
+      "invokes": [
+        "linear_transformation_of_gaussian",
+        "covariance_matrix",
+        "matrix_transpose"
+      ],
       "cites": [
+        "arxiv:2406.06427"
+      ]
+    },
+    {
+      "n": 4,
+      "text": "Write the resulting conditional Gaussian probability density functions for state transition and observation under the linearized models: $$p(\\mathbf{x}_t | \\mathbf{x}_{t-1}, \\mathbf{u}_t) \\sim \\mathcal{N}(\\mathbf{F}_t \\mathbf{x}_{t-1} + \\tilde{\\mathbf{u}}_t, \\mathbf{F}_{\\mathbf{w}}\\mathbf{Q}_t\\mathbf{F}_{\\mathbf{w}}^{\\intercal}) = \\frac{1}{\\sqrt{\\det(2\\pi \\mathbf{F}_{\\mathbf{w}}\\mathbf{Q}_t\\mathbf{F}_{\\mathbf{w}}^{\\intercal})}} \\exp\\!\\left(-\\frac{1}{2}(\\mathbf{x}_t - \\mathbf{F}_t \\mathbf{x}_{t-1} - \\tilde{\\mathbf{u}}_t)^{\\intercal}(\\mathbf{F}_{\\mathbf{w}}\\mathbf{Q}_t\\mathbf{F}_{\\mathbf{w}}^{\\intercal})^{-1}(\\mathbf{x}_t - \\mathbf{F}_t \\mathbf{x}_{t-1} - \\tilde{\\mathbf{u}}_t)\\right)$$ $$p(\\mathbf{z}_t | \\mathbf{x}_t) \\sim \\mathcal{N}(\\mathbf{H}_t \\mathbf{x}_t + \\tilde{\\mathbf{z}}_t, \\mathbf{H}_{\\mathbf{v}}\\mathbf{R}_t\\mathbf{H}_{\\mathbf{v}}^{\\intercal}) = \\frac{1}{\\sqrt{\\det(2\\pi \\mathbf{H}_{\\mathbf{v}}\\mathbf{R}_t\\mathbf{H}_{\\mathbf{v}}^{\\intercal})}} \\exp\\!\\left(-\\frac{1}{2}(\\mathbf{z}_t - \\mathbf{H}_t \\mathbf{x}_t - \\tilde{\\mathbf{z}}_t)^{\\intercal}(\\mathbf{H}_{\\mathbf{v}}\\mathbf{R}_t\\mathbf{H}_{\\mathbf{v}}^{\\intercal})^{-1}(\\mathbf{z}_t - \\mathbf{H}_t \\mathbf{x}_t - \\tilde{\\mathbf{z}}_t)\\right)$$",
+      "invokes": [
+        "conditional_probability",
+        "probability_density_function",
+        "gaussian_distribution",
+        "determinant",
+        "quadratic_form",
+        "matrix_inverse"
+      ],
+      "cites": [
+        "arxiv:2406.06427"
+      ]
+    },
+    {
+      "n": 5,
+      "text": "Formulate the recursive Bayesian belief propagation equations for the predicted belief $\\overline{\\text{bel}}(\\mathbf{x}_t)$ via marginalization over $\\mathbf{x}_{t-1}$ and the corrected belief $\\text{bel}(\\mathbf{x}_t)$ via Bayes' rule: $$\\overline{\\text{bel}}(\\mathbf{x}_t) = \\int p(\\mathbf{x}_t | \\mathbf{x}_{t-1}, \\mathbf{u}_t)\\,\\text{bel}(\\mathbf{x}_{t-1})\\,d\\mathbf{x}_{t-1} \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t-1}, \\mathbf{P}_{t|t-1})$$ $$\\text{bel}(\\mathbf{x}_t) = \\eta \\cdot p(\\mathbf{z}_t | \\mathbf{x}_t)\\,\\overline{\\text{bel}}(\\mathbf{x}_t) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t}, \\mathbf{P}_{t|t})$$",
+      "invokes": [
+        "belief_distribution",
+        "total_probability",
+        "marginalization",
+        "gaussian_marginalization",
+        "bayes_rule",
+        "normalization",
+        "gaussian_conditioning"
+      ],
+      "cites": [
+        "arxiv:2406.06427"
+      ]
+    },
+    {
+      "n": 6,
+      "text": "Substitute the linearized Gaussian transition density $p(\\mathbf{x}_t | \\mathbf{x}_{t-1}, \\mathbf{u}_t)$ and prior belief $\\text{bel}(\\mathbf{x}_{t-1}) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{P}_{t-1|t-1})$ into the prediction integral (noting that $\\mathbf{F}_t \\hat{\\mathbf{x}}_{t-1|t-1} + \\tilde{\\mathbf{u}}_t = \\mathbf{f}(\\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{u}_t, 0)$) to obtain the EKF prediction step equations (where the detailed Gaussian integral algebra is cross-referenced to Section 8 in [arxiv:2406.06427]): $$\\hat{\\mathbf{x}}_{t|t-1} = \\mathbf{f}(\\hat{\\mathbf{x}}_{t-1|t-1}, \\mathbf{u}_t, 0)$$ $$\\mathbf{P}_{t|t-1} = \\mathbf{F}_t \\mathbf{P}_{t-1|t-1} \\mathbf{F}_t^{\\intercal} + \\mathbf{F}_{\\mathbf{w}} \\mathbf{Q}_t \\mathbf{F}_{\\mathbf{w}}^{\\intercal}$$",
+      "invokes": [
+        "linear_kalman_filter",
+        "gaussian_marginalization",
+        "expectation",
+        "covariance_matrix"
+      ],
+      "cites": [
+        "arxiv:2406.06427"
+      ]
+    },
+    {
+      "n": 7,
+      "text": "Substitute the linearized Gaussian observation density $p(\\mathbf{z}_t | \\mathbf{x}_t)$ and predicted belief $\\overline{\\text{bel}}(\\mathbf{x}_t) \\sim \\mathcal{N}(\\hat{\\mathbf{x}}_{t|t-1}, \\mathbf{P}_{t|t-1})$ into the Bayes update equation (noting that $\\mathbf{H}_t \\hat{\\mathbf{x}}_{t|t-1} + \\tilde{\\mathbf{z}}_t = \\mathbf{h}(\\hat{\\mathbf{x}}_{t|t-1}, 0)$) to obtain the EKF correction step equations (where the detailed Gaussian product and matrix inversion algebra is cross-referenced to Section 8 in [arxiv:2406.06427]): $$\\mathbf{K}_t = \\mathbf{P}_{t|t-1} \\mathbf{H}_t^{\\intercal}\\left(\\mathbf{H}_t \\mathbf{P}_{t|t-1} \\mathbf{H}_t^{\\intercal} + \\mathbf{H}_{\\mathbf{v}} \\mathbf{R}_t \\mathbf{H}_{\\mathbf{v}}^{\\intercal}\\right)^{-1}$$ $$\\hat{\\mathbf{x}}_{t|t} = \\hat{\\mathbf{x}}_{t|t-1} + \\mathbf{K}_t\\left(\\mathbf{z}_t - \\mathbf{h}(\\hat{\\mathbf{x}}_{t|t-1}, 0)\\right)$$ $$\\mathbf{P}_{t|t} = (\\mathbf{I} - \\mathbf{K}_t \\mathbf{H}_t)\\mathbf{P}_{t|t-1}$$ (When measurement noise is additive so $\\mathbf{H}_{\\mathbf{v}} = \\mathbf{I}$, the innovation covariance reduces to $\\mathbf{H}_t \\mathbf{P}_{t|t-1} \\mathbf{H}_t^{\\intercal} + \\mathbf{R}_t$.)",
+      "invokes": [
+        "linear_kalman_filter",
+        "gaussian_conditioning",
+        "matrix_inverse"
+      ],
+      "cites": [
+        "arxiv:2406.06427",
         "wikipedia:Extended_Kalman_filter"
       ]
     },
     {
-      "property": "Applicability to non-additive noise systems",
-      "why": "The assumption of additive process and measurement noise is not necessary, allowing generalization to systems of the form \\mathbf{x}_k = f(\\mathbf{x}_{k-1}, \\mathbf{u}_{k-1}, \\mathbf{w}_{k-1}) and \\mathbf{z}_k = h(\\mathbf{x}_k, \\mathbf{v}_k)",
+      "n": 8,
+      "text": "For continuous-time dynamics $\\dot{\\mathbf{x}}(t) = f(\\mathbf{x}(t), \\mathbf{u}(t)) + \\mathbf{w}(t)$ with $\\mathbf{w}(t) \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{Q}(t))$ and discrete-time measurements $\\mathbf{z}_k = h(\\mathbf{x}_k) + \\mathbf{v}_k$ with $\\mathbf{v}_k \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{R}_k)$ at $\\mathbf{x}_k = \\mathbf{x}(t_k)$, the prediction step solves the coupled differential equations from $t_{k-1}$ to $t_k$ with $\\mathbf{F}(t) = \\left.\\frac{\\partial f}{\\partial \\mathbf{x}}\\right|_{\\hat{\\mathbf{x}}(t), \\mathbf{u}(t)}$: $$\\begin{cases} \\dot{\\hat{\\mathbf{x}}}(t) = f(\\hat{\\mathbf{x}}(t), \\mathbf{u}(t)) \\\\ \\dot{\\mathbf{P}}(t) = \\mathbf{F}(t)\\mathbf{P}(t) + \\mathbf{P}(t)\\mathbf{F}(t)^T + \\mathbf{Q}(t) \\end{cases} \\quad \\text{with } \\begin{cases} \\hat{\\mathbf{x}}(t_{k-1}) = \\hat{\\mathbf{x}}_{k-1|k-1} \\\\ \\mathbf{P}(t_{k-1}) = \\mathbf{P}_{k-1|k-1} \\end{cases} \\implies \\begin{cases} \\hat{\\mathbf{x}}_{k|k-1} = \\hat{\\mathbf{x}}(t_k) \\\\ \\mathbf{P}_{k|k-1} = \\mathbf{P}(t_k) \\end{cases}$$ followed by the identical discrete-time update equations at $t_k$, or in purely continuous time by the coupled filter equations $\\dot{\\hat{\\mathbf{x}}}(t) = f(\\hat{\\mathbf{x}}(t), \\mathbf{u}(t)) + \\mathbf{K}(t)(\\mathbf{z}(t) - h(\\hat{\\mathbf{x}}(t)))$ and $\\dot{\\mathbf{P}}(t) = \\mathbf{F}(t)\\mathbf{P}(t) + \\mathbf{P}(t)\\mathbf{F}(t)^T - \\mathbf{K}(t)\\mathbf{H}(t)\\mathbf{P}(t) + \\mathbf{Q}(t)$.",
+      "invokes": [
+        "derivative",
+        "jacobian_matrix",
+        "linearization"
+      ],
       "cites": [
         "wikipedia:Extended_Kalman_filter"
       ]
     }
   ],
+  "properties": [],
   "assumptions": [
     {
-      "assumption": "Process noise w(t) and measurement noise v_k are zero-mean Gaussian distributed with covariances Q(t) and R_k",
-      "breaks_when": "The noise processes follow non-Gaussian distributions, multimodal distributions, or have nonzero unmodeled biases"
+      "assumption": "First-order Taylor approximation accuracy: the nonlinear motion model f and observation model h are well-approximated by linear Taylor expansions around the current estimates (x_hat_{t-1|t-1}, w_t=0) and (x_hat_{t|t-1}, v_t=0).",
+      "breaks_when": "The system or measurement functions are highly nonlinear over the scale of the estimation uncertainty or noise, making higher-order Taylor terms significant."
     },
     {
-      "assumption": "System dynamics f and measurement function h are sufficiently smooth and differentiable to permit first-order Taylor series linearization",
-      "breaks_when": "The dynamics or measurement models have severe non-differentiabilities, step discontinuities, or extreme local curvature"
+      "assumption": "Well-defined differentiable transition and observation models: the Jacobians F_t, F_w, H_t, and H_v exist at the current state estimates.",
+      "breaks_when": "The motion model f or observation model h is non-differentiable or discontinuous at the linearization point."
     },
     {
-      "assumption": "The physical system has well-defined transition and measurement models",
-      "breaks_when": "The mathematical formulation of f or h is unknown or suffers from severe model structural errors"
+      "assumption": "Gaussian distribution of random variables and beliefs: process noise w_t ~ N(0, Q_t), measurement noise v_t ~ N(0, R_t), and the state beliefs bel(x_t) are unimodal Gaussian distributions.",
+      "breaks_when": "Noise or state distributions are non-Gaussian or multimodal, or nonlinear transformations severely distort the Gaussian shape."
+    },
+    {
+      "assumption": "Invertibility of the linearized noise and innovation covariance matrices: (F_w Q_t F_w^T), (H_v R_t H_v^T), and (H_t P_{t|t-1} H_t^T + H_v R_t H_v^T) are non-singular.",
+      "breaks_when": "The innovation covariance H_t P_{t|t-1} H_t^T + H_v R_t H_v^T (or the linearized noise covariance in the density expression) is singular or ill-conditioned."
     }
   ],
   "failure_modes": [
     {
-      "mode": "Linearization divergence under strong nonlinearities",
-      "signature": "State estimate diverges significantly from the ground truth while predicted error covariance remains unrealistically small",
-      "cause": "First-order Taylor series truncation error becomes dominant when system nonlinearities are severe or the estimation error is large"
+      "mode": "First-order linearization error in strongly nonlinear regimes",
+      "signature": "Degraded state estimation accuracy or filter divergence when higher-order terms of the Taylor series expansion cannot be neglected.",
+      "cause": "Linearizing f and h about the current mean estimate drops second- and higher-order Taylor terms (which higher-order EKFs retain)."
     },
     {
-      "mode": "Lack of performance gain for higher-order EKFs under large measurement noise",
-      "signature": "Second- or third-order filter implementations yield no improvement over the first-order EKF despite higher computational cost",
-      "cause": "Higher order EKFs tend to only provide performance benefits when the measurement noise is small"
-    },
-    {
-      "mode": "Numerical ill-conditioning of the innovation covariance matrix",
-      "signature": "Matrix inversion (\\mathbf{H}_k \\mathbf{P}_{k|k-1} \\mathbf{H}_k^T + \\mathbf{R}_k)^{-1} fails or produces indefinite updated covariance \\mathbf{P}_{k|k}",
-      "cause": "Singular or near-singular measurement covariance \\mathbf{R}_k, or loss of positive-definiteness due to floating-point rounding in the update subtraction"
+      "mode": "Singular innovation covariance in Kalman gain computation",
+      "signature": "Matrix inversion (H_t P_{t|t-1} H_t^T + H_v R_t H_v^T)^{-1} fails or becomes numerically unstable.",
+      "cause": "Deficient projected measurement noise covariance H_v R_t H_v^T combined with rank-deficient H_t P_{t|t-1} H_t^T."
     }
   ],
   "source_ids": [
-    "wikipedia:Extended_Kalman_filter",
-    "wikipedia:Kalman_filter"
+    "arxiv:2406.06427",
+    "wikipedia:Extended_Kalman_filter"
   ],
   "check": {
     "node_id": "extended_kalman_filter",
-    "kind": "definition",
+    "kind": "derivation",
     "grounded": true,
     "ungrounded_citations": [],
     "uncited_steps": [],
     "unknown_invocations": [],
     "closure_holes": [],
     "canon_notes": [],
-    "shape": [
-      "expected a derivation, produced a definition"
-    ],
+    "shape": [],
     "vacuous_invocations": false,
-    "ok": false
+    "ok": true
   }
 }

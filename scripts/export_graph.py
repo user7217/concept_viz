@@ -273,7 +273,12 @@ def main() -> None:
         if node["id"] in supporting:
             node["level"] = component_level
     edges += lateral
-    json.dump({"nodes": nodes, "edges": edges,
+    # A pinned document a sheet restates is credited the way its licence asks:
+    # title, author, link, licence. Only the ones some node actually cites.
+    from atlas.retrieval import load_documents
+    cited = {s for n in nodes for s in n.get("sources", [])}
+    documents = {k: v for k, v in load_documents().items() if k in cited}
+    json.dump({"nodes": nodes, "edges": edges, "documents": documents,
                "maxDepth": max(n["depth"] for n in nodes) if nodes else 0,
                "maxLevel": deepest + 1,
                "root": root,

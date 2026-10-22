@@ -150,11 +150,16 @@ class TheMapFormatsMaths(unittest.TestCase):
 class ThePromptNamesItsSources(unittest.TestCase):
     """Runs the template's own sourceLines() on a node."""
 
+    DOCS = {"arxiv:2406.06427": {"title": "Notes on Kalman Filter", "authors": "Gyubeom Im",
+                                 "year": 2024, "section": "4 Extended Kalman Filter (EKF)",
+                                 "page": "https://arxiv.org/abs/2406.06427"}}
+
     def lines(self, node: dict) -> list[str]:
         page = (ROOT / "viz" / "canon_map_template.html").read_text()
         start = page.index("const hostOf")
         end = page.index("function studyPrompt")
-        script = (page[start:end] + "\nconsole.log(JSON.stringify(sourceLines("
+        script = ("const DATA = " + json.dumps({"documents": self.DOCS}) + ";\n"
+                  + page[start:end] + "\nconsole.log(JSON.stringify(sourceLines("
                   + json.dumps(node) + ")));")
         out = subprocess.run(["node", "-e", script], capture_output=True,
                              text=True, check=True)
@@ -171,6 +176,12 @@ class ThePromptNamesItsSources(unittest.TestCase):
         self.assertIn("Multivariate normal distribution", got[0])
         self.assertIn('"Kalman Filtering", Hartley · 2016 [preprint]', got[1])
         self.assertTrue(got[2].startswith("- (untitled link) [course notes]"))
+
+    def test_a_pinned_paper_is_named_with_its_section(self):
+        got = self.lines({"statement": "x", "sources": ["arxiv:2406.06427"], "reading": []})
+        self.assertEqual(len(got), 1)
+        self.assertIn('"Notes on Kalman Filter", Gyubeom Im 2024', got[0])
+        self.assertIn('section "4 Extended Kalman Filter (EKF)"', got[0])
 
     def test_no_sheet_means_no_claimed_source(self):
         """Without a statement nothing was restated, so Wikipedia is not
