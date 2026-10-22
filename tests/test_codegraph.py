@@ -164,6 +164,61 @@ class CodeGraphTest(unittest.TestCase):
         self.assertEqual(load_graph(self.repo).nodes["abs"].source_file, "README.md")
 
 
+class MatchingThroughTheLaunchFile(unittest.TestCase):
+    """The README calls robot_state_publisher "RSP" and rviz2 "RViz", so no
+    name meets. The launch file that starts them is a fact both sides hold."""
+
+    DISPLAY = "src/desc/launch/display.launch.py"
+    PARAMS = "src/bringup/config/nav2_params.yaml"
+
+    def setUp(self) -> None:
+        self.tmp = tempfile.TemporaryDirectory()
+        repo = Path(self.tmp.name)
+        (repo / "graphify-out").mkdir()
+        (repo / "graphify-out" / "graph.json").write_text(json.dumps({"nodes": [
+            node("disp", "display.launch.py", source_file=self.DISPLAY, location="L1"),
+            node("disp_doc", "display.launch.py (RSP + RViz + joint_state_publisher_gui)",
+                 origin="semantic", file_type="concept", source_file="README.md"),
+            node("ctrl", "controller_server", origin="semantic", file_type="concept",
+                 source_file=self.PARAMS),
+            node("lc", "lifecycle_manager", origin="semantic", file_type="concept",
+                 source_file="README.md"),
+        ], "links": []}))
+        graph = load_graph(repo)
+        self.result = join(Project(name="d", origin="repo", components=[
+            Component(name="robot_state_publisher", executable="robot_state_publisher",
+                      sources=[self.DISPLAY]),
+            Component(name="SimpleGoalChecker", sources=[self.PARAMS]),
+            Component(name="lifecycle_manager", executable="lifecycle_manager",
+                      sources=[self.DISPLAY]),
+        ]), graph)
+        self.by = {m.component: m for m in self.result.matches}
+
+    def tearDown(self) -> None:
+        self.tmp.cleanup()
+
+    def test_an_unnamed_component_is_placed_by_its_launch_file(self) -> None:
+        rsp = self.by["robot_state_publisher"]
+        self.assertFalse(rsp.found)
+        self.assertTrue(rsp.located)
+        self.assertEqual({n.label for n in rsp.launched_by},
+                         {"display.launch.py",
+                          "display.launch.py (RSP + RViz + joint_state_publisher_gui)"})
+        self.assertEqual(self.result.launch_file_only, ["robot_state_publisher"])
+
+    def test_a_config_file_places_nothing(self) -> None:
+        """nav2_params.yaml describes eleven nodes. Matching through it would
+        hang all of them on each checker."""
+        self.assertEqual(self.by["SimpleGoalChecker"].launched_by, [])
+        self.assertIn("SimpleGoalChecker", self.result.unmatched_components)
+
+    def test_a_component_found_by_name_does_not_also_take_its_launch_file(self) -> None:
+        """Every node a file starts shares the file, so it is only a fallback."""
+        lc = self.by["lifecycle_manager"]
+        self.assertTrue(lc.found)
+        self.assertEqual(lc.launched_by, [])
+
+
 class AtlasStaysStdlibOnly(unittest.TestCase):
     """Graphify is a file Atlas reads, never a package it imports."""
 

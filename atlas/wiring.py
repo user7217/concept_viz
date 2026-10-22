@@ -97,12 +97,16 @@ def graphify_panels(project: Project, repo: Path, root: str) -> dict[str, dict]:
         return {}
     panels: dict[str, dict] = {}
     for match in join(project, graph).matches:
-        if not match.found:
+        if not match.located:
             continue
         panels[component_id(root, match.component)] = {
             "codeRefs": [{"file": n.source_file, "line": n.location or "",
                           "label": n.label} for n in match.code],
             "described": [{"label": n.label, "rationale": n.rationale}
                           for n in match.described_by],
+            # Nothing in the graph names it; these are the files that start it.
+            "launchedBy": [{"file": n.source_file if n.deterministic else "",
+                            "label": n.label, "rationale": n.rationale}
+                           for n in match.launched_by],
         }
     return panels

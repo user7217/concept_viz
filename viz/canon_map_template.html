@@ -549,6 +549,13 @@ body.resizing{cursor:col-resize;user-select:none}
         <span class="eyebrow">Its own code</span>
         <div id="d-gfcode" class="gfcode"></div>
       </div>
+      <div class="sec" id="d-gflaunchwrap" hidden>
+        <span class="eyebrow">Started by</span>
+        <div id="d-gflaunch" class="gfcode"></div>
+        <p class="credit">Nothing in the code graph names this component, so
+        this is the launch file that starts it, and what your docs say about
+        that file. Every node the file starts shares it.</p>
+      </div>
       <div class="sec" id="d-gfdescwrap" hidden>
         <span class="eyebrow">What your docs say</span>
         <div id="d-gfdesc"></div>
@@ -1626,6 +1633,20 @@ function renderGraphify(n) {
     const el = document.createElement('div'); el.className = 'where';
     el.textContent = r.file + (r.line ? ':' + r.line.replace(/^L/, '') : '') + '  ' + r.label;
     code.appendChild(el);
+  }
+  const launch = n.launchedBy || [];
+  document.getElementById('d-gflaunchwrap').hidden = !launch.length;
+  const lw = document.getElementById('d-gflaunch'); lw.innerHTML = '';
+  for (const x of launch) {
+    const el = document.createElement('div');
+    if (x.file) { el.className = 'where'; el.textContent = x.file; }
+    else {
+      el.className = 'meta';
+      const b = document.createElement('b'); b.textContent = x.label;
+      el.append(b);
+      if (x.rationale) el.append(' — ' + x.rationale);
+    }
+    lw.appendChild(el);
   }
   document.getElementById('d-gfdescwrap').hidden = !desc.length;
   const d = document.getElementById('d-gfdesc'); d.innerHTML = '';

@@ -45,6 +45,10 @@ EXTRACTED = "EXTRACTED"
 # opposed to imports and containment, which the AST already implies.
 FLOW_RELATIONS = frozenset({"shares_data_with", "rationale_for", "calls"})
 
+# Files that start nodes. Only these say "this process runs here"; a config
+# file such as nav2_params.yaml describes many nodes at once.
+LAUNCH_FILE = re.compile(r"\.launch\.(py|xml|ya?ml)$")
+
 # Lint and packaging scaffolding. Real files, but no component runs them.
 SCAFFOLDING = re.compile(r"(^|/)(test|tests)/|(^|/)setup\.py$|__init__\.py$")
 
@@ -99,10 +103,18 @@ class Match:
     sources_seen: list[str] = field(default_factory=list)
     sources_missing: list[str] = field(default_factory=list)
     flows: list[GraphEdge] = field(default_factory=list)
+    # Only for a component nothing names: the launch files that start it.
+    launched_by: list[GraphNode] = field(default_factory=list)
 
     @property
     def found(self) -> bool:
+        """Named in the graph, by its own code or a description of it."""
         return bool(self.code or self.described_by)
+
+    @property
+    def located(self) -> bool:
+        """Found, or at least placed by the launch file that starts it."""
+        return self.found or bool(self.launched_by)
 
 
 @dataclass
@@ -112,7 +124,11 @@ class Join:
 
     @property
     def unmatched_components(self) -> list[str]:
-        return [m.component for m in self.matches if not m.found]
+        return [m.component for m in self.matches if not m.located]
+
+    @property
+    def launch_file_only(self) -> list[str]:
+        return [m.component for m in self.matches if m.located and not m.found]
 
 
 # ---------- loading ----------
@@ -232,6 +248,34 @@ def _described_by(component, graph: CodeGraph,
     return sorted(found, key=lambda n: n.label)
 
 
+def _launched_by(component, graph: CodeGraph) -> list[GraphNode]:
+    """Graph nodes for the launch files that start a component.
+
+    The names often do not meet. Graphify read the README, which calls
+    robot_state_publisher "RSP" and rviz2 "RViz", and calls ros_gz_sim's
+    `create` "spawn". Matching names by similarity would fix those and break
+    the ekf_local / ekf_global case, which similarity rates as one thing.
+    The launch file is a fact both sides hold: ingest knows which file starts
+    the component, and the graph has that file as a node, or a description
+    naming it.
+
+    It is weaker than a match by name, since every node a file starts shares
+    the file. So it is a fallback, and kept apart from `described_by`.
+    """
+    files = [f for f in component.sources if LAUNCH_FILE.search(f)]
+    found = []
+    for node in graph.nodes.values():
+        if node.external:
+            continue
+        for path in files:
+            name = Path(path).name
+            if (node.source_file == path and node.label == name) if node.deterministic \
+                    else name in node.label:
+                found.append(node)
+                break
+    return sorted(found, key=lambda n: (n.origin, n.label))
+
+
 def _flows(ids: set[str], graph: CodeGraph) -> list[GraphEdge]:
     """Edges that leave the component for another part of this system.
 
@@ -279,7 +323,9 @@ def join(project: Project, graph: CodeGraph) -> Join:
              else match.sources_missing).append(source)
         ids = {n.id for n in match.code + match.described_by}
         match.flows = _flows(ids, graph)
-        claimed |= ids
+        if not match.found:
+            match.launched_by = _launched_by(component, graph)
+        claimed |= ids | {n.id for n in match.launched_by}
         matches.append(match)
 
     unclaimed = sorted(
@@ -295,7 +341,9 @@ def join(project: Project, graph: CodeGraph) -> Join:
 def report(result: Join, graph: CodeGraph) -> str:
     lines: list[str] = []
     found = [m for m in result.matches if m.found]
-    lines.append(f"components: {len(found)}/{len(result.matches)} found in the graph")
+    lines.append(f"components: {len(found)}/{len(result.matches)} found in the graph"
+                 + (f", {len(result.launch_file_only)} more only through the launch "
+                    f"file that starts them" if result.launch_file_only else ""))
     lines.append("")
 
     for m in result.matches:
@@ -313,6 +361,14 @@ def report(result: Join, graph: CodeGraph) -> str:
             label = graph.nodes[other].label if other in graph.nodes else other
             tag = "" if edge.is_fact else f"  [{edge.confidence.lower()}]"
             lines.append(f"    {edge.relation:<18} {label}{tag}")
+
+    for m in result.matches:
+        if not m.launched_by:
+            continue
+        lines.append(f"  {m.component}  (not named in the graph)")
+        for node in m.launched_by:
+            where = node.source_file if node.deterministic else node.label
+            lines.append(f"    launched by  {where}")
 
     lines.append("")
     lines.append(f"not in the graph ({len(result.unmatched_components)}): "

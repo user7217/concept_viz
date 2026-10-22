@@ -88,6 +88,7 @@ class GraphifyPanels(unittest.TestCase):
             panels = graphify_panels(project(), repo, "demo_ws")
         relay = panels[component_id("demo_ws", "odom_cov_relay")]
         self.assertEqual(relay["codeRefs"][0]["file"], "pkg/odom_cov_relay.py")
+        self.assertEqual(relay["launchedBy"], [])
         ekf = panels[component_id("demo_ws", "ekf_local")]
         self.assertEqual(ekf["codeRefs"], [])
         self.assertEqual(ekf["described"][0]["rationale"], "50 Hz, odom frame")
