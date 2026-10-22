@@ -47,6 +47,7 @@ Zero dependencies. stdlib only: `urllib`, `subprocess`, `ast`, `json`.
 | `derivation.py` | Stage 6. `expected_kind` decides derivation-vs-definition from canon shape *and* the retrieved source; `select_text` keeps the window most likely to carry a derivation; `check` runs the mechanical guards. |
 | `instantiate.py` | Stage 7. What a canon node means in one repo: which components reach it, which parameters it governs. `invented()` and `thin()` guard it from opposite sides. |
 | `code.py` | Where a concept is visibly at work in the source. Mechanical matching only, so it cannot fabricate evidence. |
+| `codegraph.py` | Joins a Graphify `graph.json` to the ingested project: code locations, model-written descriptions and data flow per component, with misses reported on both sides. Reads the file; never imports Graphify. |
 | `exercise.py` | Stage 8. Masks a step or a symbol and checks the answer is not readable off the surrounding page. |
 | `profile.py` | What the reader knows: declared / read / demonstrated. **The one artifact that cannot be regenerated** — the canon rebuilds from seeds, this does not. |
 | `worksheet.py` | Renders a path as paper: why each node is on it, what it does in the project, then the drills. |
@@ -62,6 +63,7 @@ Zero dependencies. stdlib only: `urllib`, `subprocess`, `ast`, `json`.
 | `generate_all.py` | The whole canon. Prefer `generate_path.py`. |
 | `instantiate_path.py <repo> <subsystem>` | Attach project meaning to each sheet on a path. |
 | `drill.py [<repo> <subsystem>]` | The masked-exercise drill. `--worksheet` writes paper; `--dry-run` leaves the profile alone. |
+| `graphify_join.py <repo>` | Report what a repo's Graphify graph adds to Atlas's ingest, and what neither side matched. Run graphify on the repo first. |
 
 **Inspecting what exists**
 
