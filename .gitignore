@@ -13,3 +13,7 @@ docs/
 localization_drill.md
 viz/canon_map.html
 data/briefs/
+
+# Graphify graph of this repo: a navigation reference for Claude Code,
+# not part of how Atlas runs
+graphify-out/
