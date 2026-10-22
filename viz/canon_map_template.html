@@ -220,6 +220,17 @@ body.resizing{cursor:col-resize;user-select:none}
 .snippet .row{display:block;padding:0 9px 0 0}
 .snippet .row.mark{background:color-mix(in srgb,var(--technique) 14%,transparent)}
 .snippet .row.mark .ln{color:var(--technique)}
+.talk{display:flex;flex-direction:column;gap:8px}
+.talkrow{font-size:12.5px;color:var(--ink);border-left:2px dashed var(--component);
+  padding:1px 0 1px 10px}
+.talkrow code{font-family:var(--mono);font-size:12px}
+.talkrow a{color:var(--component)}
+.talkrow .where,.gfcode .where{font-family:var(--mono);font-size:11px;color:var(--faint);
+  word-break:break-all}
+.gfcode{display:flex;flex-direction:column;gap:3px}
+.evidence{display:flex;flex-direction:column;gap:1px;margin-top:6px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);word-break:break-all}
+.evidence b{color:var(--ink);font-weight:500}
 .knob{border-left:2px solid var(--technique);padding:2px 0 2px 10px;
   display:flex;flex-direction:column;gap:2px}
 .knob code{font-family:var(--mono);font-size:12px;color:var(--ink)}
@@ -336,6 +347,11 @@ body.resizing{cursor:col-resize;user-select:none}
           rather than an object you know.</li>
           <li><b>A ring</b> means the node is on your current learning path.</li>
           <li><b>Lines</b> point from a result down to something it needs.</li>
+          <li><b>Dashed arrows</b> between components are data: a topic one
+          sends and the other reads. Click one to see where both ends are
+          written in your code and config.</li>
+          <li><b>Faint components</b> run in your program but have no
+          mathematics of their own here; data passes through them.</li>
         </ul>
       </section>
 
@@ -422,6 +438,20 @@ body.resizing{cursor:col-resize;user-select:none}
       <div id="d-whywrap">
         <span class="eyebrow">In agrios_ws</span>
         <p class="meta" id="d-why"></p>
+      </div>
+      <div id="d-talkwrap" hidden>
+        <span class="eyebrow">Talks to</span>
+        <div id="d-talk" class="talk"></div>
+      </div>
+      <div id="d-gfwrap" hidden>
+        <span class="eyebrow">Its own code</span>
+        <div id="d-gfcode" class="gfcode"></div>
+      </div>
+      <div id="d-gfdescwrap" hidden>
+        <span class="eyebrow">What your docs say</span>
+        <div id="d-gfdesc"></div>
+        <p class="credit">Written by Graphify's model from your README and
+        configs. Context to read, not something the map relies on.</p>
       </div>
       <div id="d-knobwrap">
         <span class="eyebrow">Config it reaches</span>
@@ -510,8 +540,17 @@ for (const n of nodes) {
   needs.set(n.id, []); neededBy.set(n.id, []);
   under.set(n.id, []); over.set(n.id, []);
 }
+// Who sends data to whom. Kept out of `under`: a topic is a link between two
+// parts of the program, not a step down into what one of them is made of.
+const sends = new Map(), receives = new Map();
 for (const e of edges) {
   if (!under.has(e.from) || !under.has(e.to)) continue;
+  if (e.rel === 'topic') {
+    if (!sends.has(e.from)) sends.set(e.from, []);
+    if (!receives.has(e.to)) receives.set(e.to, []);
+    sends.get(e.from).push(e); receives.get(e.to).push(e);
+    continue;
+  }
   // The walkthrough descends CONTAINS into USES into REQUIRES, which is how
   // a program actually decomposes into the mathematics underneath it.
   under.get(e.from).push(e.to);
@@ -909,6 +948,8 @@ function draw(now) {
     related.add(selected);
     for (const n of needs.get(selected) || []) related.add(n);
     for (const n of neededBy.get(selected) || []) related.add(n);
+    for (const e of sends.get(selected) || []) related.add(e.to);
+    for (const e of receives.get(selected) || []) related.add(e.from);
   }
   const edgeLabels = [];
   ctx.lineWidth = 1.4;
@@ -921,7 +962,23 @@ function draw(now) {
       : 0.34 * Math.min(1, Math.max(0.12, 34 / Math.max(ids.length, 1))));
     ctx.lineWidth = hot ? 2 : 1.4;
     ctx.strokeStyle = hot ? css('--ring') : css('--edge');
-    ctx.beginPath(); ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy); ctx.stroke();
+    if (e.rel === 'topic') {
+      // A topic is data moving between running parts, not a prerequisite:
+      // dashed, in the components' colour, pointing from sender to reader.
+      ctx.strokeStyle = hot ? css('--ring') : css('--component');
+      ctx.globalAlpha = Math.max(ctx.globalAlpha, age * (selected ? (hot ? 1 : 0.1) : 0.55));
+      ctx.setLineDash([5, 4]);
+      ctx.beginPath(); ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy); ctx.stroke();
+      ctx.setLineDash([]);
+      const ang = Math.atan2(b.sy - a.sy, b.sx - a.sx);
+      const tip = { x: b.sx - Math.cos(ang) * 20, y: b.sy - Math.sin(ang) * 20 };
+      ctx.beginPath(); ctx.moveTo(tip.x, tip.y);
+      ctx.lineTo(tip.x - Math.cos(ang - 0.42) * 8, tip.y - Math.sin(ang - 0.42) * 8);
+      ctx.lineTo(tip.x - Math.cos(ang + 0.42) * 8, tip.y - Math.sin(ang + 0.42) * 8);
+      ctx.closePath(); ctx.fillStyle = ctx.strokeStyle; ctx.fill();
+    } else {
+      ctx.beginPath(); ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy); ctx.stroke();
+    }
     if (e === selectedEdge && e.why)
       edgeLabels.push([e, (a.sx + b.sx) / 2, (a.sy + b.sy) / 2]);
     if (e === selectedEdge) {
@@ -939,9 +996,10 @@ function draw(now) {
     if (selected && !related.has(id)) age *= 0.18;
     const base = radiusFor(n) * (n.onPath ? 1.15 : 1);
     const r = base * (0.5 + 0.5 * age) * Math.max(0.55, Math.min(1.7, p.s * view.zoom));
-    ctx.globalAlpha = age;
+    ctx.globalAlpha = age * (n.role === 'supporting' ? 0.6 : 1);
     ctx.fillStyle = colorFor(n);
     ctx.beginPath(); ctx.arc(p.sx, p.sy, r, 0, 6.2832); ctx.fill();
+    ctx.globalAlpha = age;
 
     if (id === selected || id === hovered) {
       ctx.strokeStyle = css('--ring');
@@ -1131,12 +1189,31 @@ function pickEdge(e) {
   return best;
 }
 
+const nameOf = id => (byId.get(id) || {}).name || id;
 function showEdge(edge) {
   const panel = document.getElementById('edgepanel');
   panel.hidden = false;
+  const why = document.getElementById('e-why');
+  if (edge.rel === 'topic') {
+    panel.querySelector('.eyebrow').textContent = 'Data on this link';
+    document.getElementById('e-pair').textContent =
+      nameOf(edge.from) + '  →  ' + nameOf(edge.to);
+    why.textContent = '';
+    for (const ev of edge.evidence || []) {
+      const row = document.createElement('div');
+      row.className = 'evidence';
+      row.innerHTML = '<b></b><span></span><span></span>';
+      row.children[0].textContent = ev.topic;
+      row.children[1].textContent = 'sent: ' + ev.published;
+      row.children[2].textContent = 'read: ' + ev.read;
+      why.appendChild(row);
+    }
+    return;
+  }
+  panel.querySelector('.eyebrow').textContent = 'Why this edge exists';
   document.getElementById('e-pair').textContent =
     edge.from + '  needs  ' + edge.to;
-  document.getElementById('e-why').textContent =
+  why.textContent =
     edge.why || 'This edge came from a seed algorithm, so it carries no written rationale.';
 }
 document.getElementById('e-close').onclick = () => {
@@ -1297,6 +1374,52 @@ function studyPrompt(n) {
   return lines.join('\n');
 }
 
+/* Every topic this component sends or reads, with where each end is stated.
+   Clicking a neighbour travels to it and reveals it if it was hidden. */
+function renderTalk(n) {
+  const box = document.getElementById('d-talk'); box.innerHTML = '';
+  const out = sends.get(n.id) || [], inc = receives.get(n.id) || [];
+  document.getElementById('d-talkwrap').hidden = !(out.length || inc.length);
+  const row = (verb, e, other) => {
+    for (const ev of e.evidence || []) {
+      const el = document.createElement('div'); el.className = 'talkrow';
+      const head = document.createElement('div');
+      const link = document.createElement('a');
+      link.href = '#'; link.textContent = nameOf(other);
+      link.onclick = ev2 => { ev2.preventDefault(); reveal(other); select(other); flyTo(other); };
+      head.append(verb + ' ', Object.assign(document.createElement('code'),
+        { textContent: ev.topic }), verb === 'reads' ? ' from ' : ' to ', link);
+      const where = document.createElement('div'); where.className = 'where';
+      where.textContent = verb === 'reads' ? ev.read : ev.published;
+      el.append(head, where); box.appendChild(el);
+    }
+  };
+  for (const e of inc) row('reads', e, e.from);
+  for (const e of out) row('sends', e, e.to);
+}
+
+/* Graphify's findings. Code locations come from its parser; descriptions
+   from its model, and the panel says which is which. */
+function renderGraphify(n) {
+  const refs = n.codeRefs || [], desc = n.described || [];
+  document.getElementById('d-gfwrap').hidden = !refs.length;
+  const code = document.getElementById('d-gfcode'); code.innerHTML = '';
+  for (const r of refs) {
+    const el = document.createElement('div'); el.className = 'where';
+    el.textContent = r.file + (r.line ? ':' + r.line.replace(/^L/, '') : '') + '  ' + r.label;
+    code.appendChild(el);
+  }
+  document.getElementById('d-gfdescwrap').hidden = !desc.length;
+  const d = document.getElementById('d-gfdesc'); d.innerHTML = '';
+  for (const x of desc) {
+    const p = document.createElement('p'); p.className = 'meta';
+    const b = document.createElement('b'); b.textContent = x.label;
+    p.append(b);
+    if (x.rationale) p.append(' — ' + x.rationale);
+    d.appendChild(p);
+  }
+}
+
 function select(id) {
   selected = id;
   drawCrumbs(id);
@@ -1338,6 +1461,9 @@ function select(id) {
 
   document.getElementById('d-whywrap').hidden = !n.whyHere;
   document.getElementById('d-why').innerHTML = tex(n.whyHere);
+  if (n.role === 'supporting') add('supporting');
+  renderTalk(n);
+  renderGraphify(n);
 
   const kw = document.getElementById('d-knobs'); kw.innerHTML = '';
   document.getElementById('d-knobwrap').hidden = !n.knobs.length;

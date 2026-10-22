@@ -204,7 +204,13 @@ def _code_for(component, graph: CodeGraph,
         (n for n in graph.nodes.values()
          if n.deterministic and not n.external and n.source_file
          and _compact(Path(n.source_file).stem) in wanted),
-        key=lambda n: (n.source_file, n.location or ""))
+        key=lambda n: (n.source_file, _line(n.location)))
+
+
+def _line(location: str | None) -> int:
+    """'L19' -> 19. Sorted as text, L11 and L19 landed before L5."""
+    digits = "".join(c for c in (location or "") if c.isdigit())
+    return int(digits) if digits else 0
 
 
 def _described_by(component, graph: CodeGraph,

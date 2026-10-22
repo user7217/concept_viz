@@ -50,6 +50,7 @@ Zero dependencies. stdlib only: `urllib`, `subprocess`, `ast`, `json`.
 | `codegraph.py` | Joins a Graphify `graph.json` to the ingested project: code locations, model-written descriptions and data flow per component, with misses reported on both sides. Reads the file; never imports Graphify. |
 | `graphify_build.py` | Runs Graphify's CLI on a repo as a subprocess, picking a model backend from the Atlas provider and saying why. Never imports Graphify. |
 | `topics.py` | Which components talk to which, over what topic, from where ROS states it: code, topic-valued parameters, Gazebo bridge arguments, and library default names (`data/library_topics.json`). No model. |
+| `wiring.py` | What the map adds about a project's components: topic links as lateral edges, the supporting components those links pass through, and Graphify's code locations and descriptions per component. |
 | `exercise.py` | Stage 8. Masks a step or a symbol and checks the answer is not readable off the surrounding page. |
 | `profile.py` | What the reader knows: declared / read / demonstrated. **The one artifact that cannot be regenerated** — the canon rebuilds from seeds, this does not. |
 | `worksheet.py` | Renders a path as paper: why each node is on it, what it does in the project, then the drills. |

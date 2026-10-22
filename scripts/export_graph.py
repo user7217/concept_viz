@@ -229,6 +229,27 @@ def main() -> None:
             edges.append({"from": edge.src, "to": edge.dst,
                           "rel": edge.rel.value, "why": ""})
 
+    # Who talks to whom, from what the code and config state, and what the
+    # repo's Graphify graph says about each component. Topic links are
+    # lateral, so they join the edge list only after the walkthrough levels
+    # below are computed from the hierarchy alone.
+    lateral: list[dict] = []
+    supporting: set[str] = set()
+    if pgraph is not None:
+        from atlas.wiring import (component_id, graphify_panels,
+                                  supporting_nodes, topic_edges)
+
+        lateral = topic_edges(project, repo, root)
+        names = {component_id(root, c.name): c.name for c in project.components}
+        extra, placed = supporting_nodes(lateral, {n["id"] for n in nodes},
+                                         root, names)
+        nodes += extra
+        edges += placed
+        supporting = {n["id"] for n in extra}
+        panels = graphify_panels(project, repo, root)
+        for node in nodes:
+            node.update(panels.get(node["id"], {}))
+
     # Walkthrough level: how many hops from the project root, following
     # CONTAINS, then USES, then REQUIRES. It is what lets the view start at
     # the whole program and descend into the mathematics.
@@ -246,6 +267,14 @@ def main() -> None:
     deepest = max(level.values(), default=0)
     for node in nodes:
         node["level"] = level.get(node["id"], deepest + 1)
+    # A supporting component hangs off the program, one hop down, but it is a
+    # component: drawn at the components' level, not beside the subsystems.
+    component_level = min((n["level"] for n in nodes if n["type"] == "component"
+                           and n["id"] not in supporting), default=2)
+    for node in nodes:
+        if node["id"] in supporting:
+            node["level"] = component_level
+    edges += lateral
     json.dump({"nodes": nodes, "edges": edges,
                "maxDepth": max(n["depth"] for n in nodes) if nodes else 0,
                "maxLevel": deepest + 1,

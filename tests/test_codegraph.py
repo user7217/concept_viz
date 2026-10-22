@@ -99,6 +99,11 @@ class CodeGraphTest(unittest.TestCase):
         labels = {n.label for n in self.by_name["odom_cov_relay"].code}
         self.assertEqual(labels, {"odom_cov_relay.py", "OdomCovRelay", "main()"})
 
+    def test_code_is_listed_in_line_order(self) -> None:
+        """Sorted as text, L19 came before L5."""
+        lines = [n.location for n in self.by_name["odom_cov_relay"].code]
+        self.assertEqual(lines, ["L1", "L5", "L19"])
+
     def test_a_library_component_has_no_code_in_this_repo(self) -> None:
         """ekf_node lives in robot_localization, not here."""
         self.assertEqual(self.by_name["ekf_local"].code, [])
