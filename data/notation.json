@@ -1,0 +1,46 @@
+{
+  "_note": "One notation per family of sheets. Sources disagree: Probabilistic Robotics and the Kalman filter derivation pinned from arXiv:2406.06427 section 8 write R for process noise and Q for measurement noise; that paper's own section 4, Wikipedia and robot_localization write the reverse. All four acceptance-test readers named the swap their main stumbling block. A sheet restates its source in the family's symbols and says once where the source differs. `roots` are the nodes the convention is for; it applies to them and everything they require. `recognise` is a pattern a symbol's meaning must match to count as that quantity: covariance, noise and its kind together. Words alone flagged F as process noise, because its meaning says 'motion model'.",
+  "conventions": [
+    {
+      "family": "state estimation",
+      "roots": [
+        "extended_kalman_filter",
+        "linear_kalman_filter",
+        "bayes_filter"
+      ],
+      "why": "robot_localization's process_noise_covariance is Q, and the measurement covariance arrives in each message as R.",
+      "symbols": [
+        {
+          "symbol": "Q",
+          "means": "process noise covariance",
+          "recognise": "(?=.*covariance)(?=.*noise)(?=.*\\b(process|motion|transition|system)\\b)"
+        },
+        {
+          "symbol": "R",
+          "means": "measurement noise covariance",
+          "recognise": "(?=.*covariance)(?=.*noise)(?=.*\\b(measurement|observation|sensor)\\b)"
+        },
+        {
+          "symbol": "P",
+          "means": "state error covariance",
+          "recognise": ""
+        },
+        {
+          "symbol": "F",
+          "means": "state transition matrix, or its Jacobian",
+          "recognise": ""
+        },
+        {
+          "symbol": "H",
+          "means": "observation matrix, or its Jacobian",
+          "recognise": ""
+        },
+        {
+          "symbol": "K",
+          "means": "Kalman gain",
+          "recognise": ""
+        }
+      ]
+    }
+  ]
+}

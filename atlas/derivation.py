@@ -403,10 +403,11 @@ def build_prompt(node_id: str, name: str, sources: list[Source],
         expectation = EXPECT_DERIVATION.format(moves=", ".join(moves))
     else:
         expectation = EXPECT_DERIVATION_FROM_SOURCE
+    from .notation import convention_for, prompt_block
     return TEMPLATE.format(
         name=name, node_id=node_id, sources="\n\n".join(blocks) or "(none)",
         expectation=expectation,
-    ) + vocab
+    ) + vocab + prompt_block(convention_for(graph, node_id))
 
 
 def candidate_vocabulary(graph: Graph, node_id: str, limit: int = 60) -> list[str]:
@@ -601,6 +602,13 @@ def check(derivation: Derivation, sources: list[Source], graph: Graph,
                 f"proof section was not required")
         else:
             shape.append(f"expected a {expected}, produced a {derivation.kind}")
+
+    # The family's notation, from data/notation.json rather than from the
+    # sheet: a sheet that swaps Q and R is right on its own and wrong beside
+    # every other sheet a reader moves between.
+    from .notation import conflicts, convention_for
+    for clash in conflicts(derivation.symbols, convention_for(graph, derivation.node_id)):
+        shape.append(f"notation: {clash}")
 
     # A closure built only from "this step rearranges something" is vacuously
     # complete. Judged against UNINFORMATIVE, not against the floor: excluding
